@@ -1006,29 +1006,33 @@ form.tabFilter.Tab07.Title = "K doplnění"
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = true
 
-var basicIncompleteFilter = "(CustomsDecisionType eq 'OPO' or CustomsDecisionType eq 'IPO' or CustomsDecisionType eq 'TEA' or CustomsDecisionType eq 'CW1' or CustomsDecisionType eq 'CW2' or CustomsDecisionType eq 'CWP' or CustomsDecisionType eq 'EUS' or CustomsDecisionType eq 'CCL') and (EnhancementCompleteness eq '"
-
 if form.tabFilter.SelectedTab.hasValue() then
 	if form.tabFilter.SelectedTab = 1 then
+		var basicIncompleteFilter = "(CustomsDecisionType eq 'OPO' or CustomsDecisionType eq 'IPO' or CustomsDecisionType eq 'TEA' or CustomsDecisionType eq 'CW1' or CustomsDecisionType eq 'CW2' or CustomsDecisionType eq 'CWP' or CustomsDecisionType eq 'EUS' or CustomsDecisionType eq 'CCL') and (EnhancementCompleteness eq '"
 		form.apiobjects.listCtrl.setInvisibleODataFilter(basicIncompleteFilter + "LastIncomplete')")
 	endif
 	if form.tabFilter.SelectedTab = 2 then
 		form.apiobjects.listCtrl.clearState()
 	endif
 	if form.tabFilter.SelectedTab = 3 then
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatusEx eq 'Active')")
+		//eq 'Active'
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '01')")
 	endif
 	if form.tabFilter.SelectedTab = 4 then
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatusEx eq 'Suspended')")
+		//eq 'Suspended' - dodat kód stavu
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '02')")
 	endif
 	if form.tabFilter.SelectedTab = 5 then
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatusEx eq 'Revoked')")
+		//eq 'Revoked' - dodat kód stavu
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '03')")
 	endif
 	if form.tabFilter.SelectedTab = 6 then
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatusEx eq 'Annulled')")
+		//eq 'Annulled - dodat kód stavu
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '04')")
 	endif
 	if form.tabFilter.SelectedTab = 7 then
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatusEx eq 'Expired')")
+		//eq 'Expired'
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '99')")
 	endif
 endif
 
