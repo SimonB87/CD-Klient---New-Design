@@ -140,6 +140,11 @@
                   <DataType value="string" />
                 </listColumn>
                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn_ItemCount" />
+                  <Caption value="Počet položek" />
+                  <ColumnName value="ItemCount" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                   <Name value="CustomsDecisionIssueDate" />
                   <Caption value="Datum vydání rozhodnutí" />
                   <ColumnName value="CustomsDecisionIssueDate" />
@@ -373,6 +378,15 @@
             <Include>
               <Include reference="+DataEntities.DatasetCustomsDecision" />
             </Include>
+            <Attribute>
+              <Name value="ItemCount" />
+              <Caption value="Item count" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
           </Children>
         </Reference>
         <Complex>
@@ -831,6 +845,7 @@ if globals.listState = defaultString() then
 	form.apiobjects.listCtrl.setSorting("CustomsDecisionIssueDate:desc")
 	form.tabFilter.SelectedTab = (globals.OverenyUzivatel.hasWritePermission and (form.incompleteCounts.last > 0)) ? 1 : 2
 	form.actions.tabFilter(false)
+	
 else
 	// load serialized state saved in some global variable
 	form.actions.tabFilter(false)
