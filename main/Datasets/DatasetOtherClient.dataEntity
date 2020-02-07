@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<DataEntity>
+  <Name value="DatasetOtherClient" />
+  <Caption value="Dataset RHU" />
+  <MtsImportOptions.MTS.ID value="DatasetOtherClient" />
+  <MtsImportOptions.MTS.Type value="client-dataset" />
+  <Children>
+    <Attribute>
+      <Name value="GUID" />
+      <Caption value="GUID" />
+      <IsRequired value="True" />
+      <MetaType reference="+MetaTypes.Guid" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/GUID" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="IssuingCountry" />
+      <Caption value="Země vydání" />
+      <IsRequired value="True" />
+      <MetaType reference="+MetaTypes.Zeme" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/IssuingCountry" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="ASEOID" />
+      <Caption value="Evidenční číslo povolení" />
+      <MetaType reference="+MetaTypes.ReferencniCisloRozhodnuti" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/ASEOID" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="TIN" />
+      <Caption value="EORI/TIN" />
+      <IsRequired value="True" />
+      <MetaType reference="+MetaTypes.TIN" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/TIN" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="State" />
+      <Caption value="Stav" />
+      <IsRequired value="True" />
+      <MetaType reference="+MetaTypes.ASState" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/State" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="AuthorizationType" />
+      <Caption value="Typ povolení" />
+      <IsRequired value="True" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/AuthorizationType" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="4" />
+          <StrMinLength value="2" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="ResponsibleCustomsOffice" />
+      <Caption value="Zodpovědný celní úřad" />
+      <IsRequired value="True" />
+      <MetaType reference="+MetaTypes.CU" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/ResponsibleCustomsOffice" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="OperatorName" />
+      <Caption value="Název držitele povolení" />
+      <MetaType reference="+MetaTypes.OperatorName" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/OperatorName" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="OperatorStreetAndNr" />
+      <Caption value="Ulice a č.p." />
+      <MetaType reference="+MetaTypes.StreetAndNr" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/OperatorStreetAndNr" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="OperatorCity" />
+      <Caption value="Město" />
+      <MetaType reference="+MetaTypes.City" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/OperatorCity" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="OperatorPostCode" />
+      <Caption value="PSČ" />
+      <MetaType reference="+MetaTypes.PostCode" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/OperatorPostCode" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="OperatorCountry" />
+      <Caption value="Země sídla" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/OperatorCountry" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="2" />
+          <StrMinLength value="2" />
+        </AttributeType>
+      </DeclaredType>
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="[A-Z]{2}" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[ValidateAgainstRegularExpression(attr, "^[A-Z]{2}$")]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
+    </Attribute>
+    <Attribute>
+      <Name value="DecisionDate" />
+      <Caption value="Datum vydání rozhodnutí" />
+      <MetaType reference="+MetaTypes.Date_YYYYMMDD" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/DecisionDate" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="ValidityStartDate" />
+      <Caption value="Datum platnosti poslední události" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/ValidityStartDate" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="DateTime" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="EvidenceDate" />
+      <Caption value="Datum zápisu" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/EvidenceDate" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="DateTime" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="DecidingCustomsOffice" />
+      <Caption value="Rozhodnující CÚ" />
+      <MetaType reference="+MetaTypes.CU" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/DecidingCustomsOffice" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="ValidityEndDate" />
+      <Caption value="Konec platnosti události" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/ValidityEndDate" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="DateTime" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="LimitedAuthorizationValidity" />
+      <Caption value="Je délka platnosti omezená?" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/LimitedAuthorizationValidity" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="Bool" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="AuthorizationValidUntil" />
+      <Caption value="Rozhodnutí platné do" />
+      <MetaType reference="+MetaTypes.Date_YYYYMMDD" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/AuthorizationValidUntil" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="EventType" />
+      <Caption value="Typ poslení události" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/EventType" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="2" />
+          <StrMinLength value="2" />
+        </AttributeType>
+      </DeclaredType>
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$")]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
+    </Attribute>
+    <Attribute>
+      <Name value="StateName" />
+      <Caption value="Stav" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/StateName" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="50" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="AuthorizationTypeName" />
+      <Caption value="Typ povolení" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/AuthorizationTypeName" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="100" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="Cancelled" />
+      <Caption value="Zrušeno se zpětnou účinností" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/Cancelled" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="Bool" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="ApplicationSubmissionDate" />
+      <Caption value="Datum podání žádosti" />
+      <MetaType reference="+MetaTypes.Date" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/ApplicationSubmissionDate" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="DecisionStartDate" />
+      <Caption value="Datum platnosti posledního rozhodnutí" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/DecisionStartDate" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="DateTime" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="ASEOCompleteID" />
+      <Caption value="ID včetně kódu země" />
+      <MetaType reference="+MetaTypes.ReferencniCisloRozhodnuti" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/ASEOCompleteID" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="ASEOType" />
+      <Caption value="Typ ASEO povolení" />
+      <MtsImportOptions.MTS.ID value="DatasetOtherClient/ASEOType" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="10" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+  </Children>
+</DataEntity>

@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<DataEntity>
+  <Name value="POVOLTYP_R" />
+  <Caption value="Typ žádosti/rozhodnutí" />
+  <MtsImportOptions.MTS.ID value="POVOLTYP_R" />
+  <MtsImportOptions.MTS.Type value="codelist" />
+  <Children>
+    <Attribute>
+      <Name value="POVOLTYP_R" />
+      <Caption value="Typ žádosti/rozhodnutí" />
+      <MtsImportOptions.MTS.ID value="POVOLTYP_R/POVOLTYP_R" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="4" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="POPIS" />
+      <Caption value="Popis" />
+      <MtsImportOptions.MTS.ID value="POVOLTYP_R/POPIS" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="255" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="OD" />
+      <Caption value="Počátek platnosti" />
+      <MetaType reference="+MetaTypes.DateTime" />
+      <MtsImportOptions.MTS.ID value="POVOLTYP_R/OD" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="_DO" />
+      <Caption value="Konec platnosti" />
+      <MetaType reference="+MetaTypes.DateTime" />
+      <MtsImportOptions.MTS.ID value="POVOLTYP_R/DO" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+    </Attribute>
+    <Computed>
+      <Name value="_description" />
+      <Caption value="_ description" />
+      <Expression IsValid="True">
+        <ExpressionText><![CDATA[functions.codeListDescription(POVOLTYP_R,POPIS)]]></ExpressionText>
+        <ResultType>
+          <BaseType value="String" />
+        </ResultType>
+      </Expression>
+    </Computed>
+  </Children>
+</DataEntity>

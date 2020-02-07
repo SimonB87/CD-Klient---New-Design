@@ -1,0 +1,1134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<Form>
+  <Name value="decllistForm" />
+  <Caption value="Decllist form" />
+  <Content>
+    <Panel>
+      <Name value="pnlForm" />
+      <Orientation value="Vertical" />
+      <Panel.Height value="#" />
+      <Panel.Width value="*" />
+      <Children>
+        <Panel>
+          <Name value="pnlHead" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="globals.IsAuthorized" />
+          </Bindings>
+          <Children>
+            <TabControl identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+              <Name value="tabsFilter" />
+              <Panel.Height value="#" />
+              <Panel.VerticalAlignment value="Middle" />
+              <Panel.Width value="*" />
+              <OnTabClick>
+                <ActionEvent ReferencedAction="~handler_statusTabs_onClick" />
+              </OnTabClick>
+              <Bindings>
+                <Binding SourceProperty="SelectedTab" Expression="tabFilter.SelectedTab" />
+              </Bindings>
+              <Tabs>
+                <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                  <Name value="tabLastIncomplete" />
+                  <Bindings>
+                    <Binding SourceProperty="Title" Expression="form.tabFilter.Tab07.Title" />
+                  </Bindings>
+                </tab>
+                <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                  <Name value="tabAll" />
+                  <Bindings>
+                    <Binding SourceProperty="Title" Expression="form.tabFilter.Tab06.Title" />
+                  </Bindings>
+                </tab>
+                <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                  <Name value="tabActive" />
+                  <Bindings>
+                    <Binding SourceProperty="Title" Expression="form.tabFilter.Tab01.Title" />
+                  </Bindings>
+                </tab>
+                <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                  <Name value="tabSuspended" />
+                  <Bindings>
+                    <Binding SourceProperty="Title" Expression="form.tabFilter.Tab02.Title" />
+                  </Bindings>
+                </tab>
+                <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                  <Name value="tabRevoked" />
+                  <Bindings>
+                    <Binding SourceProperty="Title" Expression="form.tabFilter.Tab03.Title" />
+                  </Bindings>
+                </tab>
+                <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                  <Name value="tabAnnulled" />
+                  <Bindings>
+                    <Binding SourceProperty="Title" Expression="form.tabFilter.Tab04.Title" />
+                  </Bindings>
+                </tab>
+                <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                  <Name value="tabExpired" />
+                  <Bindings>
+                    <Binding SourceProperty="Title" Expression="form.tabFilter.Tab05.Title" />
+                  </Bindings>
+                </tab>
+              </Tabs>
+            </TabControl>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="m8-panel" />
+              <Condition value="False" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="panel-no-padding" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="bottomLine" />
+              <Condition value="False" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="sffww-tabs" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="declList" />
+          <Orientation value="Vertical" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="globals.IsAuthorized" />
+          </Bindings>
+          <Children>
+            <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
+              <Name value="cdList" />
+              <controller reference="~listCtrl" />
+              <listName value="DatasetCustomsDecision" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <OnRowClicked>
+                <ActionEvent ReferencedAction="~handler_cdList_OnRowClicked" />
+              </OnRowClicked>
+              <Bindings>
+                <Binding SourceProperty="selectedRow" Expression="form.selectedCd" />
+              </Bindings>
+              <columns>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="CustomsDecisionReferenceNumber" />
+                  <Caption value="Referenční číslo rozhodnutí" />
+                  <ColumnName value="CustomsDecisionReferenceNumber" />
+                  <DataType value="string" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="HolderEORINumber" />
+                  <Caption value="EORI držitele" />
+                  <ColumnName value="HolderEORINumber" />
+                  <DataType value="string" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="CustomsAuthorityReferenceNumber" />
+                  <Caption value="Číslo celního úřadu" />
+                  <ColumnName value="CustomsAuthorityReferenceNumber" />
+                  <DataType value="string" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="CustomsDecisionType" />
+                  <Caption value="Typ rozhodnutí" />
+                  <ColumnName value="CustomsDecisionType" />
+                  <DataType value="string" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="CustomsDecisionIssueDate" />
+                  <Caption value="Datum vydání rozhodnutí" />
+                  <ColumnName value="CustomsDecisionIssueDate" />
+                  <DataType value="date" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="CustomsDecisionExpiryDate" />
+                  <Caption value="Datum vypršení platnosti rozh." />
+                  <ColumnName value="CustomsDecisionExpiryDate" />
+                  <DataType value="date" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="StartDateOfTheAuthorisation" />
+                  <Caption value="Datum začátku platnosti pov." />
+                  <ColumnName value="StartDateOfTheAuthorisation" />
+                  <DataType value="date" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="CustomsDecisionStatusDate" />
+                  <Caption value="Datum stavu rozhodnutí" />
+                  <ColumnName value="CustomsDecisionStatusDate" />
+                  <DataType value="date" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="CustomsDecisionStatusEndDate" />
+                  <Caption value="Konec platnosti stavu rozh." />
+                  <ColumnName value="CustomsDecisionStatusEndDate" />
+                  <DataType value="date" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="ApplicationReferenceNumber" />
+                  <Caption value="Referenční číslo žádosti" />
+                  <ColumnName value="ApplicationReferenceNumber" />
+                  <DataType value="string" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="CustomsDecisionGUID" />
+                  <Caption value="GUID" />
+                  <ColumnName value="CustomsDecisionGUID" />
+                  <DataType value="string" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="CustomsDecisionStatus" />
+                  <Caption value="Stav rozhodnutí" />
+                  <ColumnName value="CustomsDecisionStatus" />
+                  <DataType value="string" />
+                  <IsVisible value="False" />
+                </listColumn>
+              </columns>
+            </List>
+            <Button>
+              <Name value="btnOpenDetail" />
+              <Caption value="Zobrazit detail" />
+              <Panel.Height value="#" />
+              <Panel.HorizontalAlignment value="Right" />
+              <Panel.Width value="150px" />
+              <OnClick>
+                <ActionEvent ReferencedAction="~zobrazDetail_ALANG" />
+              </OnClick>
+              <Bindings>
+                <Binding SourceProperty="IsEnabled" Expression="form.openDetailButtonActive" />
+              </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-button" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Button>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="m8-panel" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="panel_declist" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="panel1" />
+          <Orientation value="Vertical" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="not globals.IsAuthorized" />
+          </Bindings>
+          <Children>
+            <Label>
+              <Name value="authoriseErrorLabel" />
+              <Panel.Height value="#" />
+              <Panel.HorizontalAlignment value="Center" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="Data" Expression="form.authorizeErrorText" />
+              </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="m8-label" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="font-30" />
+                </CssClassConditional>
+              </CssClass>
+            </Label>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="collapsibleGroupBox1" />
+              <caption value="Detail" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="panel2" />
+                  <Orientation value="Horizontal" />
+                  <Children>
+                    <Label>
+                      <Name value="label1" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="globals.errorMsg" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="testTextSize" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                    <Panel>
+                      <Name value="panel3" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <TextBox>
+                          <Name value="textBox2" />
+                          <CaptionPosition value="Top" />
+                          <IsEnabled value="False" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="150px" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="globals.errorMsgType" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.errorMsgType.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="globals.errorMsgType.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                            </CssClassConditional>
+                            <CssClassConditional>
+                              <ClassName value="testTextSize25" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                        <TextBox>
+                          <Name value="textBox1" />
+                          <CaptionPosition value="Top" />
+                          <IsEnabled value="False" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="150px" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="globals.errorMsg" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.errorMsg.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="globals.errorMsg.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                            </CssClassConditional>
+                            <CssClassConditional>
+                              <ClassName value="testTextSize25" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="isCollapsed" />
+                <Binding SourceProperty="isVisible" Expression="globals.errorMsg.hasValue()" />
+              </Bindings>
+            </CollapsibleGroupBox>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="m8-panel" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="errormsg" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+      </Children>
+      <CssClass>
+        <CssClassConditional>
+          <ClassName value="{theme}-panel" />
+          <Condition value="False" />
+          <IsThemedStyle value="True" />
+        </CssClassConditional>
+      </CssClass>
+    </Panel>
+  </Content>
+  <DataContext>
+    <DataContext>
+      <Children>
+        <Reference>
+          <Name value="selectedCd" />
+          <Caption value="Dataset customs decision" />
+          <Children>
+            <Include>
+              <Include reference="+DataEntities.DatasetCustomsDecision" />
+            </Include>
+          </Children>
+        </Reference>
+        <Complex>
+          <Name value="loginRequestASEO" />
+          <Caption value="Login request ASEO" />
+        </Complex>
+        <Computed>
+          <Name value="openDetailButtonActive" />
+          <Caption value="Computed 1" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[selectedCd.hasValue()]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
+        <Computed>
+          <Name value="filtrDeclList" />
+          <Caption value="Filtr decl list" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA["(CustomsDecisionStatusEx eq '" + aktualniStav.enumValue() + "')"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </Expression>
+        </Computed>
+        <Attribute>
+          <Name value="aktualniStav" />
+          <Caption value="Aktualni stav" />
+          <MetaType reference="+MetaTypes.enumStavy" />
+        </Attribute>
+        <Attribute>
+          <Name value="version" />
+          <Caption value="Version" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="declListQueryColumns" />
+          <Caption value="Decl list query columns" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="resultColumn" />
+          <Caption value="Result column" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="declListQueryFilter" />
+          <Caption value="Decllist query filter" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Complex>
+          <Name value="tabFilter" />
+          <Children>
+            <Attribute>
+              <Name value="SelectedTab" />
+              <Caption value="Selected tab" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                </AttributeType>
+              </DeclaredType>
+              <OnChange>
+                <ActionEvent ReferencedAction="+UiParts.decllistForm.tabFilter_selectedTabOnChange" />
+              </OnChange>
+            </Attribute>
+            <Complex>
+              <Name value="Tab01" />
+              <Caption value="Tab 01" />
+              <Children>
+                <Attribute>
+                  <Name value="Title" />
+                  <Caption value="Title" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Visible" />
+                  <Caption value="Visible" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="CustomCssClass" />
+                  <Caption value="Custom css class" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Computed>
+                  <Name value="IsSelected" />
+                  <Caption value="Is selected" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[this.owner().SelectedTab = 1 ? true : false]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="Tab02" />
+              <Caption value="Tab 02" />
+              <Children>
+                <Attribute>
+                  <Name value="Title" />
+                  <Caption value="Title" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Visible" />
+                  <Caption value="Visible" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="CustomCssClass" />
+                  <Caption value="Custom css class" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Computed>
+                  <Name value="IsSelected" />
+                  <Caption value="Is selected" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[this.owner().SelectedTab = 2 ? true : false]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="Tab03" />
+              <Caption value="Tab 03" />
+              <Children>
+                <Attribute>
+                  <Name value="Title" />
+                  <Caption value="Title" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Visible" />
+                  <Caption value="Visible" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="CustomCssClass" />
+                  <Caption value="Custom css class" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Computed>
+                  <Name value="IsSelected" />
+                  <Caption value="Is selected" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[this.owner().SelectedTab = 3 ? true : false]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="Tab04" />
+              <Caption value="Tab 04" />
+              <Children>
+                <Attribute>
+                  <Name value="Title" />
+                  <Caption value="Title" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Visible" />
+                  <Caption value="Visible" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="CustomCssClass" />
+                  <Caption value="Custom css class" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Computed>
+                  <Name value="IsSelected" />
+                  <Caption value="Is selected" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[this.owner().SelectedTab = 4 ? true : false]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="Tab05" />
+              <Caption value="Tab 05" />
+              <Children>
+                <Attribute>
+                  <Name value="Title" />
+                  <Caption value="Title" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Visible" />
+                  <Caption value="Visible" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="CustomCssClass" />
+                  <Caption value="Custom css class" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Computed>
+                  <Name value="IsSelected" />
+                  <Caption value="Is selected" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[this.owner().SelectedTab = 5 ? true : false]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="Tab06" />
+              <Caption value="Tab 06" />
+              <Children>
+                <Attribute>
+                  <Name value="Title" />
+                  <Caption value="Title" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Visible" />
+                  <Caption value="Visible" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="CustomCssClass" />
+                  <Caption value="Custom css class" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Computed>
+                  <Name value="IsSelected" />
+                  <Caption value="Is selected" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[this.owner().SelectedTab = 6 ? true : false]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="Tab07" />
+              <Caption value="Tab 07" />
+              <Children>
+                <Attribute>
+                  <Name value="Title" />
+                  <Caption value="Title" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Visible" />
+                  <Caption value="Visible" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="CustomCssClass" />
+                  <Caption value="Custom css class" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Computed>
+                  <Name value="IsSelected" />
+                  <Caption value="Is selected" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[this.owner().SelectedTab = 7]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="Tab08" />
+              <Caption value="Tab 08" />
+              <Children>
+                <Attribute>
+                  <Name value="Title" />
+                  <Caption value="Title" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Visible" />
+                  <Caption value="Visible" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="CustomCssClass" />
+                  <Caption value="Custom css class" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Computed>
+                  <Name value="IsSelected" />
+                  <Caption value="Is selected" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[this.owner().SelectedTab = 8]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+          </Children>
+        </Complex>
+        <Attribute>
+          <Name value="authorizeErrorText" />
+          <Caption value="Authorize error text" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Complex>
+          <Name value="incompleteCounts" />
+          <Caption value="Incomplete counts" />
+          <Children>
+            <Attribute>
+              <Name value="last" />
+              <Caption value="Last" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="nonLast" />
+              <Caption value="Non last" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </Complex>
+      </Children>
+    </DataContext>
+  </DataContext>
+  <OnCreate>
+    <ActionEvent ReferencedAction="~decllistOnCreate" />
+  </OnCreate>
+  <Actions>
+    <ActionBlock>
+      <Name value="decllistOnCreate" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[If not globals.IsAuthorized then 
+	var user = globals.OverenyUzivatel
+	
+	
+	if globals.errorMsgType = 1 then 
+		form.authorizeErrorText = "Chyba na straně serveru."
+	endif	
+	if globals.errorMsgType = 2 then 
+		form.authorizeErrorText = "Nastala chyba při komunikaci s centrem."
+	endif
+	if globals.errorMsgType = 3 then 
+		form.authorizeErrorText = "Uživatel "+ user.fullName + " s loginem '" + user.userName + "' nemá příslušná oprávnění pro spuštení aplikace."
+	endif
+	
+	system.console(toString(form.authorizeErrorText))
+	system.console(toString(globals.errorMsgType))
+	
+else 
+
+// Nastavit záložky
+form.actions.initTabFilter()
+
+form.actions.refreshIncompleteCounts()
+
+if globals.listState = defaultString() then
+	// set defaults
+	form.apiobjects.listCtrl.setSorting("CustomsDecisionIssueDate:desc")
+	form.tabFilter.SelectedTab = (globals.OverenyUzivatel.hasWritePermission and (form.incompleteCounts.last > 0)) ? 1 : 2
+	form.actions.tabFilter(false)
+else
+	// load serialized state saved in some global variable
+	form.actions.tabFilter(false)
+	form.tabFilter.SelectedTab = globals.fromTab
+	form.apiobjects.listCtrl.loadState(globals.listState)
+	system.console("Loaded saved state::" + globals.listState)
+endif
+
+form.apiobjects.listCtrl.setReady(true)
+	
+endif
+
+globals.IsBusy = false
+
+
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="zobrazDetail_ALANG" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = true
+globals.mainPage = true
+
+if form.selectedCd.CustomsDecisionStatusEx = "Expired" then
+	globals.selectedCdExpired = true
+else
+	globals.selectedCdExpired = false
+endif
+
+globals.fromTab = form.tabFilter.SelectedTab
+globals.listState = form.apiobjects.listCtrl.saveState(defaultString())
+
+var unSupported = true
+var type = form.selectedCd.CustomsDecisionType
+var guid = form.selectedCd.CustomsDecisionGUID
+
+// switch clause would be better, but ... everyone knows:-) 
+if type = "RSS" then
+  unSupported = false
+  navigation.main.regularShipping.withGUID(guid).go()
+endif
+if type in ["OPO", "IPO", "TEA", "CW1", "CW2", "CWP", "EUS", "TST"] then
+  unSupported = false
+  navigation.main.econImpactRegime.withGUID(guid).go()
+endif
+if type = "SSE" then
+  unSupported = false
+  navigation.main.useOfSealsOfSpecialType.withGUID(guid).go()
+endif
+if type in ["CCL", "EIR"] then
+  unSupported = false
+  navigation.main.centralisedClearance.withGUID(guid).go()
+endif
+if type = "TRD" then
+  unSupported = false
+  navigation.main.transitDeclaration.withGUID(guid).go()
+endif
+if type in ["CGU", "DPO"] then
+  unSupported = false
+  navigation.main.guaranteePayment.withGUID(guid).go()
+endif
+
+if type in ["ACE", "ACT", "ACR"] then
+  navigation.main.simplifiedProcedures.withGUID(guid).go()
+  unSupported = false
+endif
+
+if type = "SDE" then
+  unSupported = false
+  navigation.main.simplifiedDeclaration.withGUID(guid).go()
+endif
+if type = "CVA" then
+  navigation.main.simplificationForCustomsValuation.withGUID(guid).go()
+  unSupported = false
+endif
+if type = "ETD" then
+  unSupported = false
+  navigation.main.electronicTransportDocument.withGUID(guid).go()
+endif
+if type = "AWB" then
+  unSupported = false
+  navigation.main.weigherOfBananas.withGUID(guid).go()
+endif
+if type = "SAS" then
+  unSupported = false
+  navigation.main.selfAssessment.withGUID(guid).go()
+endif
+
+if type = "ACP" then
+  unSupported = false
+  navigation.main.issuerDetail.withGUID(guid).go()
+endif
+
+globals.IsBusy = false
+
+if unSupported then 
+	system.alert("Tento typ rozhodnutí není aplikací podporován.")
+	globals.mainPage = false
+endif
+
+//fill selected CD GUID 
+globals.uiGlobalState.GUID = guid
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="tabFilter_selectedTabOnChange" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.tabFilter.SelectedTab.hasValue() then
+	if form.tabFilter.SelectedTab = 1 then
+		form.aktualniStav = enums.enumStavy.Active
+	endif
+	if form.tabFilter.SelectedTab = 2 then
+		form.aktualniStav = enums.enumStavy.Suspended
+	endif
+	if form.tabFilter.SelectedTab = 3 then
+		form.aktualniStav = enums.enumStavy.Revoked
+	endif
+	if form.tabFilter.SelectedTab = 4 then
+		form.aktualniStav = enums.enumStavy.Annulled
+	endif
+	if form.tabFilter.SelectedTab = 5 then
+		form.aktualniStav = enums.enumStavy.Expired
+	endif
+else
+	form.aktualniStav = enums.enumStavy.Active
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="initTabFilter" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.tabFilter.Tab01.Title = "Platné"
+form.tabFilter.Tab02.Title = "Pozastavené"
+form.tabFilter.Tab03.Title = "Zrušené"
+form.tabFilter.Tab04.Title = "Zneplatněné"
+form.tabFilter.Tab05.Title = "Expirované"
+form.tabFilter.Tab06.Title = "Vše"
+form.tabFilter.Tab07.Title = "K doplnění"
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="tabFilter" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = true
+
+var basicIncompleteFilter = "(CustomsDecisionType eq 'OPO' or CustomsDecisionType eq 'IPO' or CustomsDecisionType eq 'TEA' or CustomsDecisionType eq 'CW1' or CustomsDecisionType eq 'CW2' or CustomsDecisionType eq 'CWP' or CustomsDecisionType eq 'EUS' or CustomsDecisionType eq 'CCL') and (EnhancementCompleteness eq '"
+
+if form.tabFilter.SelectedTab.hasValue() then
+	if form.tabFilter.SelectedTab = 1 then
+		form.apiobjects.listCtrl.setInvisibleODataFilter(basicIncompleteFilter + "LastIncomplete')")
+	endif
+	if form.tabFilter.SelectedTab = 2 then
+		form.apiobjects.listCtrl.clearState()
+	endif
+	if form.tabFilter.SelectedTab = 3 then
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatusEx eq 'Active')")
+	endif
+	if form.tabFilter.SelectedTab = 4 then
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatusEx eq 'Suspended')")
+	endif
+	if form.tabFilter.SelectedTab = 5 then
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatusEx eq 'Revoked')")
+	endif
+	if form.tabFilter.SelectedTab = 6 then
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatusEx eq 'Annulled')")
+	endif
+	if form.tabFilter.SelectedTab = 7 then
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatusEx eq 'Expired')")
+	endif
+endif
+
+if refreshCounts then
+  form.actions.refreshIncompleteCounts()
+endif
+
+form.apiobjects.listCtrl.setSorting("CustomsDecisionIssueDate:desc")
+globals.IsBusy = false]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="refreshCounts" />
+              <Caption value="no-caption" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="refreshIncompleteCounts" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var basicUrl = "datasets/DatasetCustomsDecision/$count/?$filter=(CustomsDecisionType eq 'OPO' or CustomsDecisionType eq 'IPO' or CustomsDecisionType eq 'TEA' or CustomsDecisionType eq 'CW1' or CustomsDecisionType eq 'CW2' or CustomsDecisionType eq 'CWP' or CustomsDecisionType eq 'EUS' or CustomsDecisionType eq 'CCL') and (EnhancementCompleteness eq '"
+
+// LastIncomplete
+var url = basicUrl + "LastIncomplete')"
+var resp = apiobjects.ServerKomunikace.getAsync(url)
+
+var respContent = resp.getJsonString()
+
+if resp.isError() then
+  form.incompleteCounts.last = 0
+  system.consoleError(resp.getErrorMessage())
+  system.consoleError("Response content: " + respContent)
+else
+  form.incompleteCounts.last = toInt(respContent, -1)
+  form.tabFilter.Tab07.Title = "K doplnění (" + toString(form.incompleteCounts.last) + ")"
+endif
+
+// NonLastIncomplete
+url = basicUrl + "NonLastIncomplete')"
+resp = apiobjects.ServerKomunikace.getAsync(url)
+
+respContent = resp.getJsonString()
+
+if resp.isError() then
+  form.incompleteCounts.last = 0
+  system.consoleError(resp.getErrorMessage())
+  system.consoleError("Response content: " + respContent)
+else
+  form.incompleteCounts.nonLast = toInt(respContent, -1)
+  form.tabFilter.Tab08.Title = "Historické k doplnění (" + toString(form.incompleteCounts.nonLast) + ")"
+endif
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_statusTabs_onClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.actions.tabFilter(true)]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handleRowClick" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//empty action]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="name" />
+              <Caption value="no-caption" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_cdList_OnRowClicked" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if isTrueOrDefault(params.columnName = "CustomsDecisionReferenceNumber") then
+  form.actions.zobrazDetail_ALANG()
+endif
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+  </Actions>
+  <ApiObjects>
+    <ListCtrl identity="ListCtrl.459ff3780ab145df985191cfc1336ce1">
+      <Name value="listCtrl" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+    </ListCtrl>
+  </ApiObjects>
+</Form>

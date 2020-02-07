@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<DataEntity>
+  <Name value="KVIDENLOK" />
+  <Caption value="Kvalifikátor identifikátoru lokace" />
+  <MtsImportOptions.MTS.ID value="KVIDENLOK" />
+  <MtsImportOptions.MTS.Type value="codelist" />
+  <Children>
+    <Attribute>
+      <Name value="KVIDENLOK" />
+      <Caption value="Kvalifikátor identifikátoru lokace" />
+      <MtsImportOptions.MTS.ID value="KVIDENLOK/KVIDENLOK" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="1" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="POPIS" />
+      <Caption value="Popis" />
+      <MtsImportOptions.MTS.ID value="KVIDENLOK/POPIS" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="255" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="OD" />
+      <Caption value="Počátek platnosti" />
+      <MetaType reference="+MetaTypes.DateTime" />
+      <MtsImportOptions.MTS.ID value="KVIDENLOK/OD" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="_DO" />
+      <Caption value="Konec platnosti" />
+      <MetaType reference="+MetaTypes.DateTime" />
+      <MtsImportOptions.MTS.ID value="KVIDENLOK/DO" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+    </Attribute>
+    <Computed>
+      <Name value="_description" />
+      <Caption value="_ description" />
+      <Expression IsValid="True">
+        <ExpressionText><![CDATA[functions.codeListDescription(KVIDENLOK,POPIS)]]></ExpressionText>
+        <ResultType>
+          <BaseType value="String" />
+        </ResultType>
+      </Expression>
+    </Computed>
+  </Children>
+</DataEntity>

@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<DataEntity>
+  <Name value="HOSPODM" />
+  <Caption value="Hospodářské podmínky" />
+  <MtsImportOptions.MTS.ID value="HOSPODM" />
+  <MtsImportOptions.MTS.Type value="codelist" />
+  <Children>
+    <Attribute>
+      <Name value="HOSPODM" />
+      <Caption value="Kód hospodářské podmínky" />
+      <MtsImportOptions.MTS.ID value="HOSPODM/HOSPODM" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="2" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="POPIS" />
+      <Caption value="Popis" />
+      <MtsImportOptions.MTS.ID value="HOSPODM/POPIS" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="255" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="OD" />
+      <Caption value="Počátek platnosti" />
+      <MetaType reference="+MetaTypes.DateTime" />
+      <MtsImportOptions.MTS.ID value="HOSPODM/OD" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="_DO" />
+      <Caption value="Konec platnosti" />
+      <MetaType reference="+MetaTypes.DateTime" />
+      <MtsImportOptions.MTS.ID value="HOSPODM/DO" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+    </Attribute>
+    <Computed>
+      <Name value="_description" />
+      <Caption value="_ description" />
+      <Expression IsValid="True">
+        <ExpressionText><![CDATA[functions.codeListDescription(HOSPODM,POPIS)]]></ExpressionText>
+        <ResultType>
+          <BaseType value="String" />
+        </ResultType>
+      </Expression>
+    </Computed>
+  </Children>
+</DataEntity>
