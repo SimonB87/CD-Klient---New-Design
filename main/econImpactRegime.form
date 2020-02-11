@@ -12383,7 +12383,16 @@ system.console(toString( form.CD.customsDecisionAuthorisationData.universalCusto
 //delete after testing
 
 globals.IsBusy = false
-]]></Script>
+
+
+// start testing : if things exist:
+system.console("Does this collection exist??")
+if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.selectFirst().goodsItemCZ.exists(current.hasValue()) then
+	system.console("collection 'goodsItemCZ' exists")
+else
+	system.console("collection 'goodsItemCZ' does NOT exists")
+endif 
+// end testing]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -13507,6 +13516,21 @@ form.apiobjects.goodsItemCZ.setReady(true)]]></Script>
         <Script><![CDATA[//put data froma reference to a lo structure for viewing
 form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())
 
+
+
+//testing - does this work? - filling in the form
+/*
+////a
+var placeholder = form.enhancement.selectedGoodsItemCZ.toJson()
+////b
+var target = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing
+////c
+//target.selectFirst().goodsItemCZ.fromJson(placeholder)
+
+var insertItem = target.selectFirst().goodsItemCZ.addItem()
+insertItem.fromJson(form.enhancement.selectedGoodsItemCZ.toJson())
+*/
+
 //select from "form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureForStorageFacilities.goodsItemCZ" an item, where its "guid" matches choosen item guid of source "form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ"
 
 var selectedItemGuid = form.enhancement.selectedRowGoodsItems.guid
@@ -13517,9 +13541,6 @@ var selectedItemGuid = form.enhancement.selectedRowGoodsItems.guid
 
 //form.enhancement.choosenGoodsItemCZ.fromJson(selectedItemData)
 
-//system.console("target:: " + toString(selectedItemData))
-
-//system.console("source:: " + toString(form.enhancement.choosenGoodsItemCZ.toJson()))
 ]]></Script>
       </ActionLangBody>
       <DataContext>
