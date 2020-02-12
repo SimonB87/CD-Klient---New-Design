@@ -11150,6 +11150,13 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                 </Attribute>
               </Children>
             </Complex>
+            <Attribute>
+              <Name value="goodsItemsCZjson" />
+              <Caption value="Goods items CZ json" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
           </Children>
         </Complex>
       </Children>
@@ -11226,7 +11233,7 @@ and (customsDecisionStatus.STAVROZH in ["01"])]]></ExpressionText>
   <Actions>
     <ActionBlock>
       <Name value="initMain_ALANG" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = true
 
 actions.commonLoadData(form.GUID)
@@ -11274,6 +11281,8 @@ globals.uiGlobalState.annex.addOtherAnnex.isSelectedAnnexForHolder = false
 globals.uiGlobalState.isLastCDversionSelected = True
 
 form.actions.prepareGoodsItemCZlistCtrl()
+
+form.actions.setUpLocalPlainObjectWithGoodsItemsCZ()
 
 form.formBehavior.show_equivalentGoodsProcessingGb1 = False
 
@@ -12459,6 +12468,19 @@ newItem.commodityCode.tARICSecondAdditionalCode = form.enhancement.selectedGoods
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
+    <ActionBlock>
+      <Name value="setUpLocalPlainObjectWithGoodsItemsCZ" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.apiobjects.plainObjectGoodsItemsCZ.init(form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.toJson())
+
+form.enhancement.goodsItemsCZjson = form.apiobjects.plainObjectGoodsItemsCZ.formatJson()
+
+system.console(ToString(form.enhancement.goodsItemsCZjson))]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
   </Actions>
   <ApiObjects>
     <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
@@ -12912,5 +12934,8 @@ newItem.commodityCode.tARICSecondAdditionalCode = form.enhancement.selectedGoods
       <dataProvider reference="~collectionDataProviderGItemCZ" />
       <server reference="+GlobalApiObjects.ServerKomunikace" />
     </ListCtrl>
+    <PlainObject identity="PlainObject.2933617ce1714fe38ef01785a5a6492f">
+      <Name value="plainObjectGoodsItemsCZ" />
+    </PlainObject>
   </ApiObjects>
 </Form>
