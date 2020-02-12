@@ -418,19 +418,6 @@
               <Panel.Height value="#" />
               <Panel.Width value="*" />
               <Children>
-                <Label>
-                  <Name value="label8" />
-                  <Panel.Height value="#" />
-                  <Panel.Width value="150px" />
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="m8-label" />
-                    </CssClassConditional>
-                    <CssClassConditional>
-                      <ClassName value="labelhide" />
-                    </CssClassConditional>
-                  </CssClass>
-                </Label>
                 <DataTable>
                   <Name value="versionTable" />
                   <Panel.Height value="#" />
@@ -12377,22 +12364,8 @@ globals.uiGlobalState.isLastCDversionSelected = True
 
 form.actions.prepareGoodsItemCZlistCtrl()
 
-//just for testing
-system.console("try data:: ")
-system.console(toString( form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.toJson()) )
-//delete after testing
-
 globals.IsBusy = false
-
-
-// start testing : if things exist:
-system.console("Does this collection exist??")
-if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.selectFirst().goodsItemCZ.exists(current.hasValue()) then
-	system.console("collection 'goodsItemCZ' exists")
-else
-	system.console("collection 'goodsItemCZ' does NOT exists")
-endif 
-// end testing]]></Script>
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -13216,7 +13189,7 @@ form.prefillTemplate.versionGuid = versionGuid
     </ActionBlock>
     <ActionBlock>
       <Name value="prefillEnhancementData" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[actions.commonLoadData(form.CD.customsDecisionAuthorisationData.customsDecisionGUID, form.prefillTemplate.versionGuid)
 
 if globals.dataLoadingSpace.success then
@@ -13512,35 +13485,63 @@ form.apiobjects.goodsItemCZ.setReady(true)]]></Script>
     <ActionBlock>
       <Name value="handler_list_goodsItemCZ_OnRowClicked" />
       <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[//put data froma reference to a lo structure for viewing
 form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())
 
-
-
-//testing - does this work? - filling in the form
 /*
-////a
-var placeholder = form.enhancement.selectedGoodsItemCZ.toJson()
-////b
-var target = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing
-////c
-//target.selectFirst().goodsItemCZ.fromJson(placeholder)
+//START TESTING - check if Metelka is using the old collection in collection
+system.console("looking into form.cdAux.g2bpx ::")
+system.console(form.cdAux.g2bpx.toJson())
 
-var insertItem = target.selectFirst().goodsItemCZ.addItem()
-insertItem.fromJson(form.enhancement.selectedGoodsItemCZ.toJson())
+system.console("looking into form.cd * goodsToBePlacedUnderTheSpecialProcedureOfProcessing ::")
+system.console(form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.toJson())
+
+system.console("looking into form.cd * goodsToBePlacedUnderTheSpecialProcedureOfProcessing.goodsItemCZ ::")
+system.console(form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.selectFirst().goodsItemCZ.toJson())
+//END TESTING
 */
 
-//select from "form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureForStorageFacilities.goodsItemCZ" an item, where its "guid" matches choosen item guid of source "form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ"
 
-var selectedItemGuid = form.enhancement.selectedRowGoodsItems.guid
 
-//************************* error ********************
+// "goodsToBePlacedUnderTheSpecialProcedureOfProcessing" exists
+// "goodsItemCZ" does not exist
 
-//var selectedItemData = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureForStorageFacilities.selectFirst().goodsItemCZ.selectFirst().toJson()
 
-//form.enhancement.choosenGoodsItemCZ.fromJson(selectedItemData)
 
+//source1: form.enhancement.selectedGoodsItemCZ.guid 
+
+//target1: CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.goodsItemCZ.guid
+var newItem = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.selectFirst().goodsItemCZ.addItem()
+newItem.guid = form.enhancement.selectedGoodsItemCZ.guid 
+
+
+
+//source2: enhancement.selectedGoodsItemCZ.combinedNomenclatureCode
+
+//target2: CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.goodsItemCZ.commodityCode.combinedNomenclatureCode
+newItem.commodityCode.combinedNomenclatureCode = form.enhancement.selectedGoodsItemCZ.combinedNomenclatureCode
+
+
+
+
+//source3: enhancement.selectedGoodsItemCZ.tARICCode
+
+//target3: CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.goodsItemCZ.commodityCode.tARICCode
+newItem.commodityCode.tARICCode = form.enhancement.selectedGoodsItemCZ.tARICCode
+
+
+
+//source4: enhancement.selectedGoodsItemCZ.tARICFirstAdditionalCode
+
+//target4: CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.goodsItemCZ.commodityCode.tARICFirstAdditionalCode
+newItem.commodityCode.tARICFirstAdditionalCode = form.enhancement.selectedGoodsItemCZ.tARICFirstAdditionalCode
+
+
+//source5: enhancement.selectedGoodsItemCZ.tARICSecondAdditionalCode
+
+//target5: CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.goodsItemCZ.commodityCode.tARICSecondAdditionalCode
+newItem.commodityCode.tARICSecondAdditionalCode = form.enhancement.selectedGoodsItemCZ.tARICSecondAdditionalCode
 ]]></Script>
       </ActionLangBody>
       <DataContext>
