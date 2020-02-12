@@ -5282,7 +5282,7 @@
                                   <columns>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn_itemID" />
-                                      <Caption value="temp: ItemID" />
+                                      <Caption value="temp:: ItemID" />
                                       <ColumnName value="itemID" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
@@ -5324,16 +5324,19 @@
                                       <Name value="listColumn_article863UCC" />
                                       <Caption value="Článek 86(3) UCC" />
                                       <ColumnName value="article863UCC" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn_article864UCC" />
                                       <Caption value="Článek 86(4) UCC" />
                                       <ColumnName value="article864UCC" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn_cnCodeArticle73DA" />
                                       <Caption value="Kód KN při použití čl. 73 DA" />
                                       <ColumnName value="cnCodeArticle73DA.POPIS" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                   </columns>
                                 </List>
@@ -5399,6 +5402,24 @@
                                             </CssClassConditional>
                                           </CssClass>
                                         </TextBox>
+                                        <CheckBox>
+                                          <Name value="checkBox2" />
+                                          <Panel.Height value="#" />
+                                          <Panel.Width value="300px" />
+                                          <Bindings>
+                                            <Binding SourceProperty="Data" Expression="form.formBehavior.show_equivalentGoodsProcessingGb1" />
+                                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.formBehavior.show_equivalentGoodsProcessingGb1.isRequired()" />
+                                            <Binding SourceProperty="Caption" Expression="form.formBehavior.show_equivalentGoodsProcessingGb1.caption()" />
+                                          </Bindings>
+                                          <CssClass>
+                                            <CssClassConditional>
+                                              <ClassName value="{theme}-checkbox" />
+                                            </CssClassConditional>
+                                            <CssClassConditional>
+                                              <ClassName value="lightFontColor" />
+                                            </CssClassConditional>
+                                          </CssClass>
+                                        </CheckBox>
                                         <GroupBox>
                                           <Name value="equivalentGoodsProcessingGb1" />
                                           <Caption value="Rovnocenné zboží" />
@@ -5640,6 +5661,9 @@
                                               </CssClass>
                                             </Panel>
                                           </Content>
+                                          <Bindings>
+                                            <Binding SourceProperty="IsVisible" Expression="form.formBehavior.show_equivalentGoodsProcessingGb1" />
+                                          </Bindings>
                                           <CssClass>
                                             <CssClassConditional>
                                               <ClassName value="{theme}-groupbox" />
@@ -5779,7 +5803,7 @@
                                           <Content>
                                             <Panel>
                                               <Name value="panel16" />
-                                              <Orientation value="Horizontal" />
+                                              <Orientation value="Vertical" />
                                               <Children>
                                                 <TextBox>
                                                   <Name value="textBox142" />
@@ -10181,6 +10205,15 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                 </ResultType>
               </Expression>
             </Computed>
+            <Attribute>
+              <Name value="show_equivalentGoodsProcessingGb1" />
+              <Caption value="Zobraz: Rovnocenné zboží" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
           </Children>
         </Complex>
         <Attribute>
@@ -11235,6 +11268,8 @@ globals.uiGlobalState.isLastCDversionSelected = True
 
 form.actions.prepareGoodsItemCZlistCtrl()
 
+form.formBehavior.show_equivalentGoodsProcessingGb1 = False
+
 globals.IsBusy = false
 ]]></Script>
       </ActionLangBody>
@@ -12060,7 +12095,7 @@ form.prefillTemplate.versionGuid = versionGuid
     </ActionBlock>
     <ActionBlock>
       <Name value="prefillEnhancementData" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[actions.commonLoadData(form.CD.customsDecisionAuthorisationData.customsDecisionGUID, form.prefillTemplate.versionGuid)
 
 if globals.dataLoadingSpace.success then
@@ -12071,7 +12106,7 @@ if globals.dataLoadingSpace.success then
   form.actions.initCdEnhancementCommon()
   
   var ucd = cdDetail.customsDecisionAuthorisationData.universalCustomsDecisionInformation
-  
+  /* -- commented out data prefill 2020
   foreach g2bpxItem in form.cdAux.g2bpx do
     foreach goodsItem in g2bpxItem.goodsItemCZ do
       var guid = goodsItem.guid
@@ -12104,11 +12139,14 @@ if globals.dataLoadingSpace.success then
           var oldItem = oldG2bpx.selectFirst(var group => group.goodsItemCZ.exists(var item => item.guid = guid)).goodsItemCZ.selectFirst(var item => item.guid = guid)
           goodsItem.writeOffMeasureUnit.JMODPIS = oldItem.writeOffMeasureUnit.JMODPIS
         endif
-      endif endif endif endif
+      endif 
+      endif 
+      endif 
+      endif 
       
     endfor
   endfor
-  
+  */
   var msg = "Data obohacení dané verze (poř. č.: " + toString(form.prefillTemplate.versionNum) + ") se podařilo úspěšně načíst a předvyplnit."
   form.actions.showSuccessfullResult(msg)
 else
@@ -12356,7 +12394,7 @@ form.apiobjects.goodsItemCZ.setReady(true)]]></Script>
     <ActionBlock>
       <Name value="handler_list_goodsItemCZ_OnRowClicked" />
       <IsPrivate value="True" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[//put data froma reference to a lo structure for viewing
 form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())
 
@@ -12373,12 +12411,10 @@ system.console(form.CD.customsDecisionAuthorisationData.universalCustomsDecision
 //END TESTING
 */
 
-
+/*
 
 // "goodsToBePlacedUnderTheSpecialProcedureOfProcessing" exists
 // "goodsItemCZ" does not exist
-
-
 
 //source1: form.enhancement.selectedGoodsItemCZ.guid 
 
@@ -12387,20 +12423,16 @@ var newItem = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionI
 newItem.guid = form.enhancement.selectedGoodsItemCZ.guid 
 
 
-
 //source2: enhancement.selectedGoodsItemCZ.combinedNomenclatureCode
 
 //target2: CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.goodsItemCZ.commodityCode.combinedNomenclatureCode
 newItem.commodityCode.combinedNomenclatureCode = form.enhancement.selectedGoodsItemCZ.combinedNomenclatureCode
 
 
-
-
 //source3: enhancement.selectedGoodsItemCZ.tARICCode
 
 //target3: CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.goodsItemCZ.commodityCode.tARICCode
 newItem.commodityCode.tARICCode = form.enhancement.selectedGoodsItemCZ.tARICCode
-
 
 
 //source4: enhancement.selectedGoodsItemCZ.tARICFirstAdditionalCode
@@ -12413,6 +12445,7 @@ newItem.commodityCode.tARICFirstAdditionalCode = form.enhancement.selectedGoodsI
 
 //target5: CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.goodsItemCZ.commodityCode.tARICSecondAdditionalCode
 newItem.commodityCode.tARICSecondAdditionalCode = form.enhancement.selectedGoodsItemCZ.tARICSecondAdditionalCode
+*/
 ]]></Script>
       </ActionLangBody>
       <DataContext>
