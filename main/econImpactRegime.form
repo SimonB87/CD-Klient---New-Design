@@ -8196,7 +8196,12 @@
                           <CssClass>
                             <CssClassConditional>
                               <ClassName value="{theme}-button" />
-                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                            <CssClassConditional>
+                              <ClassName value="disabledButton" />
+                              <Bindings>
+                                <Binding SourceProperty="Condition" Expression="not globals.uiGlobalState.isLastCDversionSelected" />
+                              </Bindings>
                             </CssClassConditional>
                           </CssClass>
                         </Button>
@@ -8351,6 +8356,9 @@
                                   <Caption value="Nahrát novou přílohu" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="150px" />
+                                  <OnClick>
+                                    <ActionEvent ReferencedAction="+GlobalActions.storeNewAnnexCZ" />
+                                  </OnClick>
                                   <CssClass>
                                     <CssClassConditional>
                                       <ClassName value="{theme}-button" />
@@ -8409,7 +8417,12 @@
                                       <CssClass>
                                         <CssClassConditional>
                                           <ClassName value="{theme}-button" />
-                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="disabledButton" />
+                                          <Bindings>
+                                            <Binding SourceProperty="Condition" Expression="not globals.uiGlobalState.isLastCDversionSelected" />
+                                          </Bindings>
                                         </CssClassConditional>
                                       </CssClass>
                                     </Button>
@@ -8440,7 +8453,12 @@
                                       <CssClass>
                                         <CssClassConditional>
                                           <ClassName value="{theme}-button" />
-                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="disabledButton" />
+                                          <Bindings>
+                                            <Binding SourceProperty="Condition" Expression="not globals.uiGlobalState.isLastCDversionSelected" />
+                                          </Bindings>
                                         </CssClassConditional>
                                       </CssClass>
                                     </Button>
@@ -11784,6 +11802,25 @@ if globals.dataLoadingSpace.success then
 else
   form.actions.handleVersionDataLoadError(params.data.orderNumber, params.data.customsDecisionVersionGUID)
 endif
+
+//check if user selected last CD version
+
+//start Testing::
+system.console("params.data.orderNumber:: " + toString(params.data.orderNumber))
+system.console("customsDecisionVersionHistory:: " + toString(form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.hasValue()))
+system.console("customsDecisionVersionHistory.count():: " + toString(form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.count())) //end Testing
+
+if (params.data.orderNumber > 0) and form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.hasValue() then
+	if params.data.orderNumber  = form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.count() then
+		globals.uiGlobalState.isLastCDversionSelected = True
+	else
+		globals.uiGlobalState.isLastCDversionSelected = False
+	endif
+
+endif
+
+//start Testing::
+system.console("isLastCDversionSelected:: " + toString(globals.uiGlobalState.isLastCDversionSelected)) //end Testing::
 
 globals.IsBusy = false
 ]]></Script>
