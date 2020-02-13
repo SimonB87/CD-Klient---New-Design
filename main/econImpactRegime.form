@@ -5300,6 +5300,7 @@
                                       <Name value="listColumn_itemID" />
                                       <Caption value="temp:: ItemID" />
                                       <ColumnName value="itemID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn_groupID" />
@@ -5340,19 +5341,16 @@
                                       <Name value="listColumn_article863UCC" />
                                       <Caption value="Článek 86(3) UCC" />
                                       <ColumnName value="article863UCC" />
-                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn_article864UCC" />
                                       <Caption value="Článek 86(4) UCC" />
                                       <ColumnName value="article864UCC" />
-                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn_cnCodeArticle73DA" />
                                       <Caption value="Kód KN při použití čl. 73 DA" />
                                       <ColumnName value="cnCodeArticle73DA.POPIS" />
-                                      <IsVisible value="False" />
                                     </listColumn>
                                   </columns>
                                 </List>
@@ -8937,234 +8935,80 @@
                       <Panel.Width value="*" />
                       <Content>
                         <Panel>
-                          <Name value="goodsItemsNationalData" />
+                          <Name value="goodsItemsNationalData_listComponent" />
                           <Orientation value="Vertical" />
                           <Children>
-                            <Repeater>
-                              <Name value="natDataG2bpxItems" />
+                            <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                              <Name value="list_goodsItemCZ" />
+                              <controller reference="~goodsItemCZ" />
+                              <listName value="GoodsItemCZ" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
-                              <Content>
-                                <Repeater>
-                                  <Name value="natDataGoodsItems" />
-                                  <Content>
-                                    <Panel>
-                                      <Name value="natDataGoodsItemLine" />
-                                      <Orientation value="Horizontal" />
-                                      <Children>
-                                        <CheckBox>
-                                          <Name value="natDataGoodsItemCompleted" />
-                                          <CaptionPosition value="Top" />
-                                          <Panel.Height value="#" />
-                                          <Panel.Width value="*" />
-                                          <Bindings>
-                                            <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                            <Binding SourceProperty="Data" Expression="completed" />
-                                            <Binding SourceProperty="Caption" Expression="localized.econImpact_goods_common_goodsItem_completed" />
-                                            <Binding SourceProperty="Tooltip" Expression="localized.econImpact_goods_common_goodsItem_completed_tt" />
-                                          </Bindings>
-                                          <CssClass>
-                                            <CssClassConditional>
-                                              <ClassName value="{theme}-checkbox" />
-                                              <IsThemedStyle value="True" />
-                                            </CssClassConditional>
-                                            <CssClassConditional>
-                                              <ClassName value="national-data-goods-item-completed" />
-                                            </CssClassConditional>
-                                          </CssClass>
-                                        </CheckBox>
-                                        <LabeledText identity="labeledText.a92a691d6915448ebf9f0b804ce6a733">
-                                          <Name value="natDataGoodsItemCnCode" />
-                                          <CaptionPosition value="Top" />
-                                          <Panel.Height value="#" />
-                                          <Panel.Width value="*" />
-                                          <Bindings>
-                                            <Binding SourceProperty="Data" Expression="commodityCode.combinedNomenclatureCode" />
-                                            <Binding SourceProperty="Caption" Expression="localized.econImpact_goods_common_goodsItem_commodityCode_cnCode" />
-                                          </Bindings>
-                                          <CssClass>
-                                            <CssClassConditional>
-                                              <ClassName value="{theme}-textbox" />
-                                              <IsThemedStyle value="True" />
-                                            </CssClassConditional>
-                                            <CssClassConditional>
-                                              <ClassName value="common-cn-code" />
-                                            </CssClassConditional>
-                                            <CssClassConditional>
-                                              <ClassName value="national-data-goods-item-cn-code" />
-                                            </CssClassConditional>
-                                          </CssClass>
-                                        </LabeledText>
-                                        <LabeledText identity="labeledText.a92a691d6915448ebf9f0b804ce6a733">
-                                          <Name value="natDataGoodsItemQuantity" />
-                                          <CaptionPosition value="Top" />
-                                          <IsEnabled value="False" />
-                                          <Panel.Height value="#" />
-                                          <Panel.Width value="*" />
-                                          <Bindings>
-                                            <Binding SourceProperty="Data" Expression="quantityOfGoods.goodsQuantity" />
-                                            <Binding SourceProperty="Caption" Expression="localized.econImpact_goods_common_goodsItem_quantityOfGoods_quantity" />
-                                          </Bindings>
-                                          <CssClass>
-                                            <CssClassConditional>
-                                              <ClassName value="{theme}-textbox" />
-                                              <IsThemedStyle value="True" />
-                                            </CssClassConditional>
-                                            <CssClassConditional>
-                                              <ClassName value="national-data-goods-item-quantity" />
-                                            </CssClassConditional>
-                                          </CssClass>
-                                        </LabeledText>
-                                        <ReferenceCombo>
-                                          <Name value="natDataGoodsItemWoMeasureUnit" />
-                                          <CaptionPosition value="Top" />
-                                          <DisplayMember value="JMODPIS" />
-                                          <Panel.Height value="#" />
-                                          <Panel.Width value="*" />
-                                          <ReferenceList reference="+GlobalApiObjects.woMeasureUnitCl" />
-                                          <Bindings>
-                                            <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                            <Binding SourceProperty="Data" Expression="writeOffMeasureUnit" />
-                                            <Binding SourceProperty="Caption" Expression="localized.econImpact_goods_common_goodsItem_writeOffMeasureUnit" />
-                                          </Bindings>
-                                          <CssClass>
-                                            <CssClassConditional>
-                                              <ClassName value="{theme}-referencecombo" />
-                                              <IsThemedStyle value="True" />
-                                            </CssClassConditional>
-                                            <CssClassConditional>
-                                              <ClassName value="national-data-goods-item-womu" />
-                                            </CssClassConditional>
-                                          </CssClass>
-                                        </ReferenceCombo>
-                                        <CheckBox>
-                                          <Name value="natDataGoodsItemArticle863Ucc" />
-                                          <CaptionPosition value="Top" />
-                                          <Panel.Height value="#" />
-                                          <Panel.Width value="*" />
-                                          <Bindings>
-                                            <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                            <Binding SourceProperty="Data" Expression="article863UCC" />
-                                            <Binding SourceProperty="Caption" Expression="localized.econImpact_goods_common_article863Ucc" />
-                                            <Binding SourceProperty="IsVisible" Expression="form.zobrazIPO" />
-                                          </Bindings>
-                                          <CssClass>
-                                            <CssClassConditional>
-                                              <ClassName value="{theme}-checkbox" />
-                                              <IsThemedStyle value="True" />
-                                            </CssClassConditional>
-                                            <CssClassConditional>
-                                              <ClassName value="national-data-goods-item-article86" />
-                                            </CssClassConditional>
-                                          </CssClass>
-                                        </CheckBox>
-                                        <CheckBox>
-                                          <Name value="natDataGoodsItemArticle864Ucc" />
-                                          <CaptionPosition value="Top" />
-                                          <Panel.Height value="#" />
-                                          <Panel.Width value="*" />
-                                          <Bindings>
-                                            <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                            <Binding SourceProperty="Data" Expression="article864UCC" />
-                                            <Binding SourceProperty="Caption" Expression="localized.econImpact_goods_common_article864Ucc" />
-                                            <Binding SourceProperty="IsVisible" Expression="form.zobrazIPO" />
-                                          </Bindings>
-                                          <CssClass>
-                                            <CssClassConditional>
-                                              <ClassName value="{theme}-checkbox" />
-                                              <IsThemedStyle value="True" />
-                                            </CssClassConditional>
-                                            <CssClassConditional>
-                                              <ClassName value="national-data-goods-item-article86" />
-                                            </CssClassConditional>
-                                          </CssClass>
-                                        </CheckBox>
-                                        <TextBox>
-                                          <Name value="natDataGoodsItemCnCodeForSecuring" />
-                                          <CaptionPosition value="Top" />
-                                          <CaptionVAlign value="Middle" />
-                                          <Panel.Height value="#" />
-                                          <Panel.Width value="*" />
-                                          <Bindings>
-                                            <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                            <Binding SourceProperty="Data" Expression="cnCodeForSecuring.ZBOZIKOD" />
-                                            <Binding SourceProperty="Caption" Expression="localized.econImpact_goods_common_goodsItem_cnCodeForSecuring" />
-                                            <Binding SourceProperty="IsVisible" Expression="form.zobrazEUS" />
-                                          </Bindings>
-                                          <CssClass>
-                                            <CssClassConditional>
-                                              <ClassName value="{theme}-textbox" />
-                                              <IsThemedStyle value="True" />
-                                            </CssClassConditional>
-                                            <CssClassConditional>
-                                              <ClassName value="common-cn-code" />
-                                            </CssClassConditional>
-                                            <CssClassConditional>
-                                              <ClassName value="national-data-goods-item-cn-code-securing" />
-                                            </CssClassConditional>
-                                          </CssClass>
-                                        </TextBox>
-                                        <TextBox>
-                                          <Name value="natDataGoodsItemCnCodeArticle73Da" />
-                                          <CaptionPosition value="Top" />
-                                          <CaptionVAlign value="Middle" />
-                                          <Panel.Height value="#" />
-                                          <Panel.Width value="*" />
-                                          <Bindings>
-                                            <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                            <Binding SourceProperty="Data" Expression="cnCodeArticle73DA.ZBOZIKOD" />
-                                            <Binding SourceProperty="Caption" Expression="localized.econImpact_goods_common_goodsItem_cnCodeArticle73Da" />
-                                            <Binding SourceProperty="IsVisible" Expression="form.zobrazIPO" />
-                                          </Bindings>
-                                          <CssClass>
-                                            <CssClassConditional>
-                                              <ClassName value="{theme}-textbox" />
-                                              <IsThemedStyle value="True" />
-                                            </CssClassConditional>
-                                            <CssClassConditional>
-                                              <ClassName value="common-cn-code" />
-                                            </CssClassConditional>
-                                            <CssClassConditional>
-                                              <ClassName value="national-data-goods-item-cn-code-article73da" />
-                                            </CssClassConditional>
-                                          </CssClass>
-                                        </TextBox>
-                                      </Children>
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-panel" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                        <CssClassConditional>
-                                          <ClassName value="enhancement-attention-needed" />
-                                          <Bindings>
-                                            <Binding SourceProperty="Condition" Expression="not completed" />
-                                          </Bindings>
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </Panel>
-                                  </Content>
-                                  <Bindings>
-                                    <Binding SourceProperty="DataItems" Expression="goodsItemCZ" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-repeater" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Repeater>
-                              </Content>
+                              <OnRowClicked>
+                                <ActionEvent ReferencedAction="~handler_list_goodsItemCZ_OnRowClicked" />
+                              </OnRowClicked>
                               <Bindings>
-                                <Binding SourceProperty="DataItems" Expression="form.cdAux.g2bpx" />
+                                <Binding SourceProperty="selectedRow" Expression="form.enhancement.selectedRowGoodsItems" />
                               </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-repeater" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </Repeater>
+                              <columns>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_itemID" />
+                                  <Caption value="temp:: ItemID" />
+                                  <ColumnName value="itemID" />
+                                  <IsVisible value="False" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_groupID" />
+                                  <Caption value="Skupina zboží (se stejnou povahou a identifikací)" />
+                                  <ColumnName value="groupID" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_completed" />
+                                  <Caption value="Doplněno" />
+                                  <ColumnName value="completed" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_combinedNomenclatureCode" />
+                                  <Caption value="Kód KN" />
+                                  <ColumnName value="combinedNomenclatureCode" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_tARICCode" />
+                                  <Caption value="TARIC kód" />
+                                  <ColumnName value="tARICCode" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_goodsQuantity" />
+                                  <Caption value="Množství" />
+                                  <ColumnName value="goodsQuantity" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_measureUnit" />
+                                  <Caption value="Měrná jednotka" />
+                                  <ColumnName value="measureUnit" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_writeOffMeasureUnit" />
+                                  <Caption value="Odpisová měrná jednotka" />
+                                  <ColumnName value="writeOffMeasureUnit.POPIS" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_article863UCC" />
+                                  <Caption value="Článek 86(3) UCC" />
+                                  <ColumnName value="article863UCC" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_article864UCC" />
+                                  <Caption value="Článek 86(4) UCC" />
+                                  <ColumnName value="article864UCC" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_cnCodeArticle73DA" />
+                                  <Caption value="Kód KN při použití čl. 73 DA" />
+                                  <ColumnName value="cnCodeArticle73DA.POPIS" />
+                                </listColumn>
+                              </columns>
+                            </List>
                           </Children>
                           <CssClass>
                             <CssClassConditional>
@@ -12659,6 +12503,67 @@ endif
 else
 	system.alert("Vyberte současnou verzi povolení!")
 endif
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_list_goodsItemCZ_OnRowClicked" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//put data froma reference to a lo structure for viewing
+form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())
+
+/*
+//START TESTING - check if Metelka is using the old collection in collection
+system.console("looking into form.cdAux.g2bpx ::")
+system.console(form.cdAux.g2bpx.toJson())
+
+system.console("looking into form.cd * goodsToBePlacedUnderTheSpecialProcedureOfProcessing ::")
+system.console(form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.toJson())
+
+system.console("looking into form.cd * goodsToBePlacedUnderTheSpecialProcedureOfProcessing.goodsItemCZ ::")
+system.console(form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.selectFirst().goodsItemCZ.toJson())
+//END TESTING
+*/
+
+/*
+
+// "goodsToBePlacedUnderTheSpecialProcedureOfProcessing" exists
+// "goodsItemCZ" does not exist
+
+//source1: form.enhancement.selectedGoodsItemCZ.guid 
+
+//target1: CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.goodsItemCZ.guid
+var newItem = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.selectFirst().goodsItemCZ.addItem()
+newItem.guid = form.enhancement.selectedGoodsItemCZ.guid 
+
+
+//source2: enhancement.selectedGoodsItemCZ.combinedNomenclatureCode
+
+//target2: CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.goodsItemCZ.commodityCode.combinedNomenclatureCode
+newItem.commodityCode.combinedNomenclatureCode = form.enhancement.selectedGoodsItemCZ.combinedNomenclatureCode
+
+
+//source3: enhancement.selectedGoodsItemCZ.tARICCode
+
+//target3: CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.goodsItemCZ.commodityCode.tARICCode
+newItem.commodityCode.tARICCode = form.enhancement.selectedGoodsItemCZ.tARICCode
+
+
+//source4: enhancement.selectedGoodsItemCZ.tARICFirstAdditionalCode
+
+//target4: CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.goodsItemCZ.commodityCode.tARICFirstAdditionalCode
+newItem.commodityCode.tARICFirstAdditionalCode = form.enhancement.selectedGoodsItemCZ.tARICFirstAdditionalCode
+
+
+//source5: enhancement.selectedGoodsItemCZ.tARICSecondAdditionalCode
+
+//target5: CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.goodsItemCZ.commodityCode.tARICSecondAdditionalCode
+newItem.commodityCode.tARICSecondAdditionalCode = form.enhancement.selectedGoodsItemCZ.tARICSecondAdditionalCode
+*/
 ]]></Script>
       </ActionLangBody>
       <DataContext>
