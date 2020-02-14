@@ -9025,6 +9025,21 @@
                         </CssClassConditional>
                       </CssClass>
                     </GroupBox>
+                    <Button>
+                      <Name value="testButton_changeCompleted" />
+                      <Caption value="Test button::  change completed" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="550px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_testButton_changeCompleted_OnClick" />
+                      </OnClick>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
                     <GroupBox>
                       <Name value="goodsItemsWriteOffMeasureUnitEdit" />
                       <Caption value="Zbožová položka - údaje k doplnění" />
@@ -9201,7 +9216,12 @@
                               <CssClass>
                                 <CssClassConditional>
                                   <ClassName value="{theme}-panel" />
-                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                                <CssClassConditional>
+                                  <ClassName value="enhancement-attention-needed" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Condition" Expression="not form.enhancement.selectedGoodsItemCZ.completed" />
+                                  </Bindings>
                                 </CssClassConditional>
                               </CssClass>
                             </Panel>
@@ -12589,6 +12609,7 @@ form.apiobjects.goodsItemCZenhancement.setReady(true)]]></Script>
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[//put data froma reference to a lo structure for viewing
+form.enhancement.selectedGoodsItemCZ.clear()
 form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())
 ]]></Script>
       </ActionLangBody>
@@ -12713,7 +12734,27 @@ endif
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[//put data froma reference to a lo structure for viewing
+form.enhancement.selectedGoodsItemCZ.clear()
 form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_testButton_changeCompleted_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//just for testing
+if form.enhancement.selectedGoodsItemCZ.completed = True then
+
+	form.enhancement.selectedGoodsItemCZ.completed = False
+
+else
+
+	form.enhancement.selectedGoodsItemCZ.completed = True
+
+endif //end testing]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
