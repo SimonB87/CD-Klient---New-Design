@@ -9025,21 +9025,6 @@
                         </CssClassConditional>
                       </CssClass>
                     </GroupBox>
-                    <Button>
-                      <Name value="testButton_changeCompleted" />
-                      <Caption value="Test button::  change completed" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="550px" />
-                      <OnClick>
-                        <ActionEvent ReferencedAction="~handler_testButton_changeCompleted_OnClick" />
-                      </OnClick>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-button" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </Button>
                     <GroupBox>
                       <Name value="goodsItemsWriteOffMeasureUnitEdit" />
                       <Caption value="Zbožová položka - údaje k doplnění" />
@@ -9171,6 +9156,7 @@
                                     <Binding SourceProperty="Data" Expression="enhancement.selectedGoodsItemCZ.article863UCC" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.selectedGoodsItemCZ.article863UCC.isRequired()" />
                                     <Binding SourceProperty="Caption" Expression="enhancement.selectedGoodsItemCZ.article863UCC.caption()" />
+                                    <Binding SourceProperty="IsVisible" Expression="form.zobrazIPO" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -9187,6 +9173,7 @@
                                     <Binding SourceProperty="Data" Expression="enhancement.selectedGoodsItemCZ.article864UCC" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.selectedGoodsItemCZ.article864UCC.isRequired()" />
                                     <Binding SourceProperty="Caption" Expression="enhancement.selectedGoodsItemCZ.article864UCC.caption()" />
+                                    <Binding SourceProperty="IsVisible" Expression="form.zobrazIPO" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -9197,13 +9184,14 @@
                                 </CheckBox>
                                 <TextBox>
                                   <Name value="textBox179" />
-                                  <Caption value="Kód KN při použití čl. 73 DA" />
+                                  <Caption value="Kód KN pro dozajištění" />
                                   <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="250px" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="enhancement.selectedGoodsItemCZ.cnCodeArticle73DA.ZBOZIKOD" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.selectedGoodsItemCZ.cnCodeArticle73DA.ZBOZIKOD.isRequired()" />
+                                    <Binding SourceProperty="IsVisible" Expression="form.zobrazEUS" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -12611,7 +12599,10 @@ form.apiobjects.goodsItemCZenhancement.setReady(true)]]></Script>
         <Script><![CDATA[//put data froma reference to a lo structure for viewing
 form.enhancement.selectedGoodsItemCZ.clear()
 form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())
-]]></Script>
+
+if form.enhancement.selectedGoodsItemCZ.completed.hasValue() = false then
+	form.enhancement.selectedGoodsItemCZ.completed = false
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -12735,26 +12726,11 @@ endif
       <ActionLangBody IsValid="True">
         <Script><![CDATA[//put data froma reference to a lo structure for viewing
 form.enhancement.selectedGoodsItemCZ.clear()
-form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="handler_testButton_changeCompleted_OnClick" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[//just for testing
-if form.enhancement.selectedGoodsItemCZ.completed = True then
+form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())
 
-	form.enhancement.selectedGoodsItemCZ.completed = False
-
-else
-
-	form.enhancement.selectedGoodsItemCZ.completed = True
-
-endif //end testing]]></Script>
+if form.enhancement.selectedGoodsItemCZ.completed.hasValue() = false then
+	form.enhancement.selectedGoodsItemCZ.completed = false
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
