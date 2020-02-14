@@ -5300,6 +5300,7 @@
                                       <Name value="listColumn_itemID" />
                                       <Caption value="temp:: ItemID" />
                                       <ColumnName value="itemID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn_groupID" />
@@ -5334,25 +5335,22 @@
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn_writeOffMeasureUnit" />
                                       <Caption value="Odpisová měrná jednotka" />
-                                      <ColumnName value="writeOffMeasureUnit.POPIS" />
+                                      <ColumnName value="computed_writeOffMeasureUnit" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn_article863UCC" />
                                       <Caption value="Článek 86(3) UCC" />
                                       <ColumnName value="article863UCC" />
-                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn_article864UCC" />
                                       <Caption value="Článek 86(4) UCC" />
                                       <ColumnName value="article864UCC" />
-                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn_cnCodeArticle73DA" />
                                       <Caption value="Kód KN při použití čl. 73 DA" />
-                                      <ColumnName value="cnCodeArticle73DA.POPIS" />
-                                      <IsVisible value="False" />
+                                      <ColumnName value="computed_cnCodeArticle73DA" />
                                     </listColumn>
                                   </columns>
                                 </List>
@@ -8957,6 +8955,7 @@
                                   <Name value="listColumn2_itemID" />
                                   <Caption value="temp:: ItemID" />
                                   <ColumnName value="itemID" />
+                                  <IsVisible value="False" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                   <Name value="listColumn2_groupID" />
@@ -8991,7 +8990,7 @@
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                   <Name value="listColumn2_writeOffMU" />
                                   <Caption value="Odpisová měrná jednotka" />
-                                  <ColumnName value="writeOffMeasureUnit.POPIS" />
+                                  <ColumnName value="computed_writeOffMeasureUnit" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                   <Name value="listColumn2_article863UCC" />
@@ -9006,7 +9005,7 @@
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                   <Name value="listColumn2_cnCodeArticle73DA" />
                                   <Caption value="Kód KN při použití čl. 73 DA" />
-                                  <ColumnName value="cnCodeArticle73DA.ZBOZIKOD" />
+                                  <ColumnName value="computed_cnCodeArticle73DA" />
                                 </listColumn>
                               </columns>
                             </List>
@@ -9188,8 +9187,8 @@
                                   <Panel.Height value="#" />
                                   <Panel.Width value="250px" />
                                   <Bindings>
-                                    <Binding SourceProperty="Data" Expression="enhancement.choosenGoodsItemCZ.cnCodeArticle73DA.POPIS" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.choosenGoodsItemCZ.cnCodeArticle73DA.POPIS.isRequired()" />
+                                    <Binding SourceProperty="Data" Expression="enhancement.selectedGoodsItemCZ.cnCodeArticle73DA.ZBOZIKOD" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.selectedGoodsItemCZ.cnCodeArticle73DA.ZBOZIKOD.isRequired()" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -11032,6 +11031,26 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                     </AttributeType>
                   </DeclaredType>
                 </Attribute>
+                <Computed>
+                  <Name value="computed_writeOffMeasureUnit" />
+                  <Caption value="Odpisová měrná jednotka" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[writeOffMeasureUnit.JMODPIS.hasValue() ? writeOffMeasureUnit.JMODPIS: ""]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="computed_cnCodeArticle73DA" />
+                  <Caption value="Kód KN při použití čl. 73 DA" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[cnCodeArticle73DA.ZBOZIKOD.hasValue() ? cnCodeArticle73DA.ZBOZIKOD : ""]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
               </Children>
             </Complex>
             <Complex>
@@ -11321,6 +11340,32 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
 and (customsDecisionStatus.STAVROZH in ["01"])]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+          </Children>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_7F1171C1_goodsItemCZ" />
+          <SourcePath value="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ" />
+          <Children>
+            <Computed>
+              <Name value="computed_writeOffMeasureUnit" />
+              <Caption value="Odpisová měrná jednotka" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[writeOffMeasureUnit.JMODPIS.hasValue() ? writeOffMeasureUnit.JMODPIS: ""]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="computed_cnCodeArticle73DA" />
+              <Caption value="Kód KN při použití čl. 73 DA" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[cnCodeArticle73DA.ZBOZIKOD.hasValue() ? cnCodeArticle73DA.ZBOZIKOD : ""]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
                 </ResultType>
               </Expression>
             </Computed>
