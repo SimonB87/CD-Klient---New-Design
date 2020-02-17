@@ -5310,7 +5310,7 @@
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn_completed" />
                                       <Caption value="Doplněno" />
-                                      <ColumnName value="computed_completed" />
+                                      <ColumnName value="computed_computedCompleted" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn_combinedNomenclatureCode" />
@@ -5343,7 +5343,7 @@
                                       <ColumnName value="computed_article863UCC" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumn_article864UCC" />
+                                      <Name value="listColumn_computedArticle864UCC" />
                                       <Caption value="Článek 86(4) UCC" />
                                       <ColumnName value="computed_article864UCC" />
                                     </listColumn>
@@ -8963,7 +8963,7 @@
                                   <ColumnName value="groupID" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="listColumn2_completed" />
+                                  <Name value="listColumn2_computedCompleted" />
                                   <Caption value="Doplněno" />
                                   <ColumnName value="computed_completed" />
                                 </listColumn>
@@ -8993,12 +8993,12 @@
                                   <ColumnName value="computed_writeOffMeasureUnit" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="listColumn2_article863UCC" />
+                                  <Name value="listColumn2_computedArticle863UCC" />
                                   <Caption value="Článek 86(3) UCC" />
                                   <ColumnName value="computed_article863UCC" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="listColumn2_article864UCC" />
+                                  <Name value="listColumn2_computedArticle864UCC" />
                                   <Caption value="Článek 86(4) UCC" />
                                   <ColumnName value="computed_article864UCC" />
                                 </listColumn>
@@ -11067,7 +11067,7 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                   <Name value="computed_completed" />
                   <Caption value="Computed _ completed" />
                   <Expression IsValid="True">
-                    <ExpressionText><![CDATA[completed.hasValue() ? "Ano" : "Ne"]]></ExpressionText>
+                    <ExpressionText><![CDATA[completed.hasValue() ? (completed = True ? "Ano" : "Ne") : ""]]></ExpressionText>
                     <ResultType>
                       <BaseType value="String" />
                     </ResultType>
@@ -11077,7 +11077,7 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                   <Name value="computed_article863UCC" />
                   <Caption value="Computed _ article 863 UCC" />
                   <Expression IsValid="True">
-                    <ExpressionText><![CDATA[article863UCC.hasValue() ? "Ano" : "Ne"]]></ExpressionText>
+                    <ExpressionText><![CDATA[article863UCC.hasValue() ? (article863UCC = True ? "Ano" : "Ne") : ""]]></ExpressionText>
                     <ResultType>
                       <BaseType value="String" />
                     </ResultType>
@@ -11087,7 +11087,7 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                   <Name value="computed_article864UCC" />
                   <Caption value="Computed _ article 864 UCC" />
                   <Expression IsValid="True">
-                    <ExpressionText><![CDATA[article864UCC.hasValue() ? "Ano" : "Ne"]]></ExpressionText>
+                    <ExpressionText><![CDATA[article864UCC.hasValue() ? (article864UCC = True ? "Ano" : "Ne") : ""]]></ExpressionText>
                     <ResultType>
                       <BaseType value="String" />
                     </ResultType>
@@ -11476,7 +11476,7 @@ and (customsDecisionStatus.STAVROZH in ["01"])]]></ExpressionText>
               <Name value="computed_completed" />
               <Caption value="Computed _ completed" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA[completed = true ? "Ano" : "Ne"]]></ExpressionText>
+                <ExpressionText><![CDATA[completed.hasValue() ? (completed = True ? "Ano" : "Ne") : ""]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
@@ -11486,7 +11486,7 @@ and (customsDecisionStatus.STAVROZH in ["01"])]]></ExpressionText>
               <Name value="computed_article863UCC" />
               <Caption value="Computed _ article 863 UCC" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA[article863UCC = true ? "Ano" : "Ne"]]></ExpressionText>
+                <ExpressionText><![CDATA[article863UCC.hasValue() ? (article863UCC = True ? "Ano" : "Ne") : ""]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
@@ -11496,7 +11496,7 @@ and (customsDecisionStatus.STAVROZH in ["01"])]]></ExpressionText>
               <Name value="computed_article864UCC" />
               <Caption value="Computed _ article 864 UCC" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA[article864UCC = true ? "Ano" : "Ne"]]></ExpressionText>
+                <ExpressionText><![CDATA[article864UCC.hasValue() ? (article864UCC = True ? "Ano" : "Ne") : ""]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
