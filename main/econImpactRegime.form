@@ -8905,21 +8905,36 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="500px" />
                       <Content>
-                        <CheckBox>
-                          <Name value="natDataGoodsItemsAllCompleted" />
-                          <Bindings>
-                            <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                            <Binding SourceProperty="Data" Expression="form.cdAux.completedAll" />
-                            <Binding SourceProperty="Caption" Expression="localized.econImpact_goods_common_completed_all" />
-                            <Binding SourceProperty="Tooltip" Expression="localized.econImpact_goods_common_completed_all_tt" />
-                          </Bindings>
+                        <Panel>
+                          <Name value="panel13" />
+                          <Orientation value="Horizontal" />
+                          <Children>
+                            <CheckBox>
+                              <Name value="checkBox_completedAll" />
+                              <CaptionPosition value="Top" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="150px" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="enhancement.completedAll" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.completedAll.isRequired()" />
+                                <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
+                                <Binding SourceProperty="Caption" Expression="localized.econImpact_goods_common_completed_all" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-checkbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </CheckBox>
+                          </Children>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-checkbox" />
+                              <ClassName value="{theme}-panel" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </CheckBox>
+                        </Panel>
                       </Content>
                       <CssClass>
                         <CssClassConditional>
@@ -9093,6 +9108,9 @@
                                   <Caption value="Uložit změny do seznamu" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="250px" />
+                                  <OnClick>
+                                    <ActionEvent ReferencedAction="~saveOneItemEnhancementData" />
+                                  </OnClick>
                                   <CssClass>
                                     <CssClassConditional>
                                       <ClassName value="{theme}-button" />
@@ -11379,8 +11397,24 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                     </Include>
                   </Children>
                 </Reference>
+                <Attribute>
+                  <Name value="cnCodeArticle73DA_text" />
+                  <Caption value="Kód KN pro dozajištění" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
               </Children>
             </Complex>
+            <Attribute>
+              <Name value="completedAll" />
+              <Caption value="Označit jako hotovo vše ?" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
           </Children>
         </Complex>
       </Children>
@@ -11476,7 +11510,7 @@ and (customsDecisionStatus.STAVROZH in ["01"])]]></ExpressionText>
               <Name value="computed_completed" />
               <Caption value="Computed _ completed" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA[completed.hasValue() ? (completed = True ? "Ano" : "Ne") : ""]]></ExpressionText>
+                <ExpressionText><![CDATA[form.enhancement.completedAll = true ? "Ano" : ( completed.hasValue() ? (completed = True ? "Ano" : "Ne") : "" )]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
@@ -12859,6 +12893,49 @@ endif
 
 form.enhancement.modelEnhancement.clear()
 form.enhancement.modelEnhancement.fromJson(form.enhancement.selectedGoodsItemCZ.toJson())]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="saveOneItemEnhancementData" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form. enhancement.modelEnhancement.completed then
+
+	form.apiobjects.goodsItemCZenhancement.setReady(false)
+
+	var selectedItem = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.selectFirst(current.itemID = form.enhancement.selectedGoodsItemCZ.itemID)
+	
+	selectedItem.completed = form.enhancement.modelEnhancement.completed
+	selectedItem.writeOffMeasureUnit.JMODPIS = form.enhancement.modelEnhancement.writeOffMeasureUnit.JMODPIS
+	
+	if form.zobrazIPO then
+		if not form.enhancement.modelEnhancement.article863UCC.hasValue() then
+			form.enhancement.modelEnhancement.article863UCC = false
+		endif
+		selectedItem.article863UCC = form.enhancement.modelEnhancement.article863UCC
+	endif
+	
+	if form.zobrazIPO then
+		if not form.enhancement.modelEnhancement.article864UCC.hasValue() then
+			form.enhancement.modelEnhancement.article864UCC = false
+		endif	
+		form.enhancement.modelEnhancement.article864UCC = false
+		selectedItem.article864UCC = form.enhancement.modelEnhancement.article864UCC
+	endif
+	
+	if form.zobrazEUS then
+		selectedItem.cnCodeArticle73DA.ZBOZIKOD = form.enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD
+	endif
+	
+	form.apiobjects.goodsItemCZenhancement.setReady(true)
+
+else
+	system.alert("Vyberte \"Hotovo\" u vybrané položky.")
+endif
+
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
