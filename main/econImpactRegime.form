@@ -12603,12 +12603,12 @@ endfor
     <ActionBlock>
       <Name value="saveEnhancement" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[// Prepare for long run
-globals.IsBusy = true
+        <Script><![CDATA[globals.IsBusy = true
 
 var valid = form.enhancement.goodsCZ.goodsItemCZ.isValid()
   	if not ( form.enhancement.goodsCZ.goodsItemCZ.isValid() ) then
   		form.operationResultMessage = "Položky v kolekci jsou chybné. "
+		form.actions.showEnhancementErrorMessage()
   	endif
 
 var fullyEnh = true
@@ -12616,8 +12616,9 @@ var enh = form.cdeReq.customsDecisionAuthorisationData.enhancementCZ
 
 if valid then
   if form.zobrazIPO or form.zobrazEUS then
-    valid = enh.periodForClearance.isValid()
-  		form.operationResultMessage = form.operationResultMessage + "Lhůta pro zúčtování vykazuje chybu. "
+    valid = enh.periodForClearance.isValid() 
+  	form.operationResultMessage = form.operationResultMessage + "Lhůta pro zúčtování vykazuje chybu. "
+	form.actions.showEnhancementErrorMessage()
     
     // Currently periodForClearance isn't mandatory
     //fullyEnh = valid and enh.periodForClearance.hasValue()
@@ -12632,8 +12633,9 @@ if valid then
     foreach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
       if not goodsItem.writeOffMeasureUnit.isValid() then
         valid = false
-  			form.operationResultMessage = form.operationResultMessage + "Odpisová měrná jednotka vykazuje chybu. "
-  			
+  		form.operationResultMessage = form.operationResultMessage + "Odpisová měrná jednotka vykazuje chybu. "
+  		form.actions.showEnhancementErrorMessage()
+  		
       endif
       if isFalseOrDefault(goodsItem.completed) then
         allCompleted = false
@@ -12645,6 +12647,8 @@ if valid then
   
   if form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced and not (fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid()) then
     valid = false
+      form.operationResultMessage = form.operationResultMessage + "Doplňte poznámku a zkontrolujte, jestli je rozhodnutí plně obohaceno. "
+      form.actions.showEnhancementErrorMessage()
   endif
   
 endif
@@ -12662,9 +12666,8 @@ if valid then
     system.consoleError(errorMsg)
     errorMsg = resp.getJsonString()
     system.consoleError("Response content: " + errorMsg)
+    form.actions.showEnhancementErrorMessage()
     
-    form.formBehavior.operationResultError = true
-    form.formBehavior.visibilities.operationResult = true
   else
     var msg = "Změny byly uloženy."
     if fullyEnh then
@@ -12685,12 +12688,9 @@ if valid then
   
 else
   form.operationResultMessage = form.operationResultMessage + "Tyto údaje nejde uložit. Zkontrolujte správnost dat."
-  form.formBehavior.operationResultError = true
-  form.formBehavior.visibilities.operationResult = true
-  
+  form.actions.showEnhancementErrorMessage()
 endif
 
-// End of heavy operation
 globals.IsBusy = false
 ]]></Script>
       </ActionLangBody>
@@ -13323,6 +13323,16 @@ endif]]></Script>
       <Name value="fillGoodsItemCZcollection" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.enhancement.goodsCZ.fromJson(form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.toJson())]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="showEnhancementErrorMessage" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.formBehavior.operationResultError = true
+form.formBehavior.visibilities.operationResult = true]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
