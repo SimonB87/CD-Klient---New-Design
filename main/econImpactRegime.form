@@ -8796,8 +8796,8 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Bindings>
-                        <Binding SourceProperty="Data" Expression="enhancement.editNoteEnhancement" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.editNoteEnhancement.isRequired()" />
+                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.enhancementCZ.editNote" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="CD.customsDecisionAuthorisationData.enhancementCZ.editNote.isRequired()" />
                         <Binding SourceProperty="IsVisible" Expression="form.formBehavior.visibilities.editNote" />
                       </Bindings>
                       <CssClass>
@@ -11414,13 +11414,6 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                 </AttributeType>
               </DeclaredType>
             </Attribute>
-            <Attribute>
-              <Name value="editNoteEnhancement" />
-              <Caption value="Poznámka k editaci" />
-              <DeclaredType>
-                <AttributeType />
-              </DeclaredType>
-            </Attribute>
             <Complex>
               <Name value="goodsCZ" />
               <Caption value="Sjednocené položky zboží" />
@@ -12613,13 +12606,18 @@ endfor
         <Script><![CDATA[// Prepare for long run
 globals.IsBusy = true
 
-var valid = form.cdAux.g2bpx.isValid()
+var valid = form.enhancement.goodsCZ.goodsItemCZ.isValid()
+  	if not ( form.enhancement.goodsCZ.goodsItemCZ.isValid() ) then
+  		form.operationResultMessage = "Položky v kolekci jsou chybné. "
+  	endif
+
 var fullyEnh = true
 var enh = form.cdeReq.customsDecisionAuthorisationData.enhancementCZ
 
 if valid then
   if form.zobrazIPO or form.zobrazEUS then
     valid = enh.periodForClearance.isValid()
+  		form.operationResultMessage = form.operationResultMessage + "Lhůta pro zúčtování vykazuje chybu. "
     
     // Currently periodForClearance isn't mandatory
     //fullyEnh = valid and enh.periodForClearance.hasValue()
@@ -12631,16 +12629,16 @@ fullyEnh = fullyEnh and form.cdAux.simplifiedEntryProcedureEnum.hasValue() and f
 if valid then
   // let's make check for validity and completness of goods-items data
   var allCompleted = true //form.actions.checkGoodsCompletness()
-  foreach g2bpxItem in form.cdAux.g2bpx do
-    foreach goodsItem in g2bpxItem.goodsItemCZ do
+    foreach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
       if not goodsItem.writeOffMeasureUnit.isValid() then
         valid = false
+  			form.operationResultMessage = form.operationResultMessage + "Odpisová měrná jednotka vykazuje chybu. "
+  			
       endif
       if isFalseOrDefault(goodsItem.completed) then
         allCompleted = false
       endif
     endfor
-  endfor
 
   fullyEnh = fullyEnh and allCompleted
   
@@ -12686,9 +12684,10 @@ if valid then
   endif
   
 else
-  form.operationResultMessage = "Tyto údaje nejde uložit. Zkontrolujte správnost dat."
+  form.operationResultMessage = form.operationResultMessage + "Tyto údaje nejde uložit. Zkontrolujte správnost dat."
   form.formBehavior.operationResultError = true
   form.formBehavior.visibilities.operationResult = true
+  
 endif
 
 // End of heavy operation
@@ -12740,6 +12739,10 @@ cdaData.customsDecisionVersionGUID = form.CD.customsDecisionAuthorisationData.cu
 
 var enh = cdaData.enhancementCZ
 
+if form.CD.customsDecisionAuthorisationData.enhancementCZ.periodForClearance.hasValue() then
+	form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.periodForClearance = form.CD.customsDecisionAuthorisationData.enhancementCZ.periodForClearance
+endif
+
 if form.cdAux.simplifiedEntryProcedureEnum.hasValue() then
   enh.simplifiedEntryProcedure = form.cdAux.simplifiedEntryProcedureEnum = enums.CzechBooleanEnum.YES
 else
@@ -12754,14 +12757,16 @@ else
   enh.simplifiedReleaseProcedure.clear()
 endif
 
+if form.CD.customsDecisionAuthorisationData.enhancementCZ.editNote.hasValue() then
+	enh.editNote = form.CD.customsDecisionAuthorisationData.enhancementCZ.editNote
+endif
+
 var enhItems = enh.goodsItemCZ
 enhItems.clear()
 
-foreach g2bpxItem in form.cdAux.g2bpx do
-  foreach goodsItem in g2bpxItem.goodsItemCZ do
-    var item = enhItems.addItem()
+foreach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
+  var item = enhItems.addItem()
     item.fromJson(goodsItem.toJson())
-  endfor
 endfor
 
 //enh.g2bpx.fromJson(form.cdAux.g2bpx.toJson())
