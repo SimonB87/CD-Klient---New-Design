@@ -12607,8 +12607,7 @@ endfor
 
 var valid = form.enhancement.goodsCZ.goodsItemCZ.isValid()
   	if not ( form.enhancement.goodsCZ.goodsItemCZ.isValid() ) then
-  		form.operationResultMessage = "Položky v kolekci jsou chybné. "
-		form.actions.showEnhancementErrorMessage()
+		form.actions.showEnhancementErrorMessage("Položky v kolekci jsou chybné. ", true)
   	endif
 
 var fullyEnh = true
@@ -12617,8 +12616,7 @@ var enh = form.cdeReq.customsDecisionAuthorisationData.enhancementCZ
 if valid then
   if form.zobrazIPO or form.zobrazEUS then
     valid = enh.periodForClearance.isValid() 
-  	form.operationResultMessage = form.operationResultMessage + "Lhůta pro zúčtování vykazuje chybu. "
-	form.actions.showEnhancementErrorMessage()
+	form.actions.showEnhancementErrorMessage("Lhůta pro zúčtování vykazuje chybu. ", true)
     
     // Currently periodForClearance isn't mandatory
     //fullyEnh = valid and enh.periodForClearance.hasValue()
@@ -12633,8 +12631,7 @@ if valid then
     foreach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
       if not goodsItem.writeOffMeasureUnit.isValid() then
         valid = false
-  		form.operationResultMessage = form.operationResultMessage + "Odpisová měrná jednotka vykazuje chybu. "
-  		form.actions.showEnhancementErrorMessage()
+  		form.actions.showEnhancementErrorMessage("Odpisová měrná jednotka vykazuje chybu. ", true)
   		
       endif
       if isFalseOrDefault(goodsItem.completed) then
@@ -12647,8 +12644,7 @@ if valid then
   
   if form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced and not (fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid()) then
     valid = false
-      form.operationResultMessage = form.operationResultMessage + "Doplňte poznámku a zkontrolujte, jestli je rozhodnutí plně obohaceno. "
-      form.actions.showEnhancementErrorMessage()
+      form.actions.showEnhancementErrorMessage("Doplňte poznámku a zkontrolujte, jestli je rozhodnutí plně obohaceno. ", true)
   endif
   
 endif
@@ -12660,24 +12656,21 @@ if valid then
   var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.cdeReq.toJson())
   
   if resp.isError() or (resp.getMessageType() = "IN906A") then
-    form.operationResultMessage = "Něco se nezdařilo. Změny se nepovedlo uložit."
-    
+        
     var errorMsg = resp.getErrorMessage()
     system.consoleError(errorMsg)
     errorMsg = resp.getJsonString()
     system.consoleError("Response content: " + errorMsg)
-    form.actions.showEnhancementErrorMessage()
+    form.actions.showEnhancementErrorMessage("Něco se nezdařilo. Změny se nepovedlo uložit. ", true)
     
   else
     var msg = "Změny byly uloženy."
     if fullyEnh then
-      msg = msg + " Verze byla uložena s příznakem \"kompletní\"."
+      msg = msg + " Verze byla uložena s příznakem \"kompletní\". \t"
       form.mode = enums.DetailMode.show
     endif
     
-    form.operationResultMessage = msg
-    form.formBehavior.operationResultError = false
-    form.formBehavior.visibilities.operationResult = true
+    form.actions.showEnhancementErrorMessage(msg, false)
     
     var respJson = resp.getJsonString()
     form.CD.clear()
@@ -12687,8 +12680,7 @@ if valid then
   endif
   
 else
-  form.operationResultMessage = form.operationResultMessage + "Tyto údaje nejde uložit. Zkontrolujte správnost dat."
-  form.actions.showEnhancementErrorMessage()
+  form.actions.showEnhancementErrorMessage("Tyto údaje nejde uložit. Zkontrolujte správnost dat. ", true)
 endif
 
 globals.IsBusy = false
@@ -13331,11 +13323,33 @@ endif]]></Script>
     <ActionBlock>
       <Name value="showEnhancementErrorMessage" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.formBehavior.operationResultError = true
+        <Script><![CDATA[form.operationResultMessage = form.operationResultMessage + errorContent
+form.formBehavior.operationResultError = operationResultError
 form.formBehavior.visibilities.operationResult = true]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="errorContent" />
+              <Caption value="Error content" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="operationResultError" />
+              <Caption value="Operation result error" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
   </Actions>
