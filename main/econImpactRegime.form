@@ -914,10 +914,13 @@
                   <ClassName value="m8-panel" />
                 </CssClassConditional>
                 <CssClassConditional>
-                  <ClassName value="lightBlueBackground" />
+                  <ClassName value="midGrayBackground" />
                 </CssClassConditional>
                 <CssClassConditional>
                   <ClassName value="tabs-detail" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="noPaddingBottom" />
                 </CssClassConditional>
               </CssClass>
             </Panel>
@@ -9102,21 +9105,6 @@
                                     </CssClassConditional>
                                   </CssClass>
                                 </Label>
-                                <Button>
-                                  <Name value="button_saveChangesEnhancement" />
-                                  <Caption value="Uložit změny do seznamu" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="250px" />
-                                  <OnClick>
-                                    <ActionEvent ReferencedAction="~saveOneItemEnhancementData" />
-                                  </OnClick>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-button" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Button>
                               </Children>
                               <CssClass>
                                 <CssClassConditional>
@@ -9131,96 +9119,165 @@
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
                               <Children>
-                                <CheckBox>
-                                  <Name value="checkBox3" />
-                                  <Caption value="Hotovo ?" />
+                                <GroupBox>
+                                  <Name value="groupBox4" />
+                                  <Caption value="Úprava dat položky" />
                                   <Panel.Height value="#" />
-                                  <Panel.Width value="150px" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.completed" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.modelEnhancement.completed.isRequired()" />
-                                    <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                  </Bindings>
+                                  <Panel.Width value="*" />
+                                  <Content>
+                                    <Panel>
+                                      <Name value="panel17" />
+                                      <Orientation value="Vertical" />
+                                      <Children>
+                                        <Panel>
+                                          <Name value="panel41" />
+                                          <Orientation value="Horizontal" />
+                                          <Panel.Height value="#" />
+                                          <Panel.Width value="*" />
+                                          <Children>
+                                            <CheckBox>
+                                              <Name value="checkBox3" />
+                                              <Caption value="Hotovo ?" />
+                                              <Panel.Height value="#" />
+                                              <Panel.Width value="150px" />
+                                              <Bindings>
+                                                <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.completed" />
+                                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.modelEnhancement.completed.isRequired()" />
+                                                <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
+                                              </Bindings>
+                                              <CssClass>
+                                                <CssClassConditional>
+                                                  <ClassName value="{theme}-checkbox" />
+                                                  <IsThemedStyle value="True" />
+                                                </CssClassConditional>
+                                              </CssClass>
+                                            </CheckBox>
+                                            <ReferenceCombo>
+                                              <Name value="referenceCombo1" />
+                                              <DisplayMember value="_description" />
+                                              <Panel.Height value="#" />
+                                              <Panel.Width value="250px" />
+                                              <ReferenceList reference="+GlobalApiObjects.woMeasureUnitCl" />
+                                              <Bindings>
+                                                <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.writeOffMeasureUnit" />
+                                                <Binding SourceProperty="Caption" Expression="enhancement.modelEnhancement.writeOffMeasureUnit.caption()" />
+                                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.modelEnhancement.writeOffMeasureUnit.isRequired()" />
+                                                <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
+                                              </Bindings>
+                                              <CssClass>
+                                                <CssClassConditional>
+                                                  <ClassName value="{theme}-referencecombo" />
+                                                  <IsThemedStyle value="True" />
+                                                </CssClassConditional>
+                                              </CssClass>
+                                            </ReferenceCombo>
+                                            <CheckBox>
+                                              <Name value="checkBox4" />
+                                              <Panel.Height value="#" />
+                                              <Panel.Width value="250px" />
+                                              <Bindings>
+                                                <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.article863UCC" />
+                                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.modelEnhancement.article863UCC.isRequired()" />
+                                                <Binding SourceProperty="Caption" Expression="enhancement.modelEnhancement.article863UCC.caption()" />
+                                                <Binding SourceProperty="IsVisible" Expression="form.zobrazIPO" />
+                                                <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
+                                              </Bindings>
+                                              <CssClass>
+                                                <CssClassConditional>
+                                                  <ClassName value="{theme}-checkbox" />
+                                                  <IsThemedStyle value="True" />
+                                                </CssClassConditional>
+                                              </CssClass>
+                                            </CheckBox>
+                                            <CheckBox>
+                                              <Name value="checkBox5" />
+                                              <Panel.Height value="#" />
+                                              <Panel.Width value="250px" />
+                                              <Bindings>
+                                                <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.article864UCC" />
+                                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.modelEnhancement.article864UCC.isRequired()" />
+                                                <Binding SourceProperty="Caption" Expression="enhancement.modelEnhancement.article864UCC.caption()" />
+                                                <Binding SourceProperty="IsVisible" Expression="form.zobrazIPO" />
+                                                <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
+                                              </Bindings>
+                                              <CssClass>
+                                                <CssClassConditional>
+                                                  <ClassName value="{theme}-checkbox" />
+                                                  <IsThemedStyle value="True" />
+                                                </CssClassConditional>
+                                              </CssClass>
+                                            </CheckBox>
+                                            <TextBox>
+                                              <Name value="textBox179" />
+                                              <Caption value="Kód KN pro dozajištění" />
+                                              <Panel.Height value="#" />
+                                              <Panel.Width value="250px" />
+                                              <Bindings>
+                                                <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD" />
+                                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD.isRequired()" />
+                                                <Binding SourceProperty="IsVisible" Expression="form.zobrazEUS" />
+                                                <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
+                                              </Bindings>
+                                              <CssClass>
+                                                <CssClassConditional>
+                                                  <ClassName value="{theme}-textbox" />
+                                                  <IsThemedStyle value="True" />
+                                                </CssClassConditional>
+                                              </CssClass>
+                                            </TextBox>
+                                          </Children>
+                                          <CssClass>
+                                            <CssClassConditional>
+                                              <ClassName value="{theme}-panel" />
+                                              <IsThemedStyle value="True" />
+                                            </CssClassConditional>
+                                          </CssClass>
+                                        </Panel>
+                                        <Panel>
+                                          <Name value="panel43" />
+                                          <Orientation value="Horizontal" />
+                                          <Panel.Height value="#" />
+                                          <Panel.Width value="*" />
+                                          <Children>
+                                            <Button>
+                                              <Name value="button_saveChangesEnhancement" />
+                                              <Caption value="Uložit změny do seznamu" />
+                                              <Panel.Height value="#" />
+                                              <Panel.Width value="250px" />
+                                              <OnClick>
+                                                <ActionEvent ReferencedAction="~saveOneItemEnhancementData" />
+                                              </OnClick>
+                                              <CssClass>
+                                                <CssClassConditional>
+                                                  <ClassName value="{theme}-button" />
+                                                  <IsThemedStyle value="True" />
+                                                </CssClassConditional>
+                                              </CssClass>
+                                            </Button>
+                                          </Children>
+                                          <CssClass>
+                                            <CssClassConditional>
+                                              <ClassName value="{theme}-panel" />
+                                              <IsThemedStyle value="True" />
+                                            </CssClassConditional>
+                                          </CssClass>
+                                        </Panel>
+                                      </Children>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-panel" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Panel>
+                                  </Content>
                                   <CssClass>
                                     <CssClassConditional>
-                                      <ClassName value="{theme}-checkbox" />
+                                      <ClassName value="{theme}-groupbox" />
                                       <IsThemedStyle value="True" />
                                     </CssClassConditional>
                                   </CssClass>
-                                </CheckBox>
-                                <ReferenceCombo>
-                                  <Name value="referenceCombo1" />
-                                  <DisplayMember value="_description" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="250px" />
-                                  <ReferenceList reference="+GlobalApiObjects.woMeasureUnitCl" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.writeOffMeasureUnit" />
-                                    <Binding SourceProperty="Caption" Expression="enhancement.modelEnhancement.writeOffMeasureUnit.caption()" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.modelEnhancement.writeOffMeasureUnit.isRequired()" />
-                                    <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-referencecombo" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </ReferenceCombo>
-                                <CheckBox>
-                                  <Name value="checkBox4" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="250px" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.article863UCC" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.modelEnhancement.article863UCC.isRequired()" />
-                                    <Binding SourceProperty="Caption" Expression="enhancement.modelEnhancement.article863UCC.caption()" />
-                                    <Binding SourceProperty="IsVisible" Expression="form.zobrazIPO" />
-                                    <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-checkbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </CheckBox>
-                                <CheckBox>
-                                  <Name value="checkBox5" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="250px" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.article864UCC" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.modelEnhancement.article864UCC.isRequired()" />
-                                    <Binding SourceProperty="Caption" Expression="enhancement.modelEnhancement.article864UCC.caption()" />
-                                    <Binding SourceProperty="IsVisible" Expression="form.zobrazIPO" />
-                                    <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-checkbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </CheckBox>
-                                <TextBox>
-                                  <Name value="textBox179" />
-                                  <Caption value="Kód KN pro dozajištění" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="250px" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD.isRequired()" />
-                                    <Binding SourceProperty="IsVisible" Expression="form.zobrazEUS" />
-                                    <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
+                                </GroupBox>
                               </Children>
                               <CssClass>
                                 <CssClassConditional>
@@ -11780,6 +11837,15 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                 </Collection>
               </Children>
             </Complex>
+            <Attribute>
+              <Name value="goodsItemCZvalidatation" />
+              <Caption value="Goods item C zvalidatation" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
           </Children>
         </Complex>
       </Children>
@@ -11912,7 +11978,7 @@ and (customsDecisionStatus.STAVROZH in ["01"])]]></ExpressionText>
   <Actions>
     <ActionBlock>
       <Name value="initMain_ALANG" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = true
 
 actions.commonLoadData(form.GUID)
@@ -12605,32 +12671,34 @@ endfor
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = true
 
-var valid = form.enhancement.goodsCZ.goodsItemCZ.isValid()
-  	if not ( form.enhancement.goodsCZ.goodsItemCZ.isValid() ) then
-		form.actions.showEnhancementErrorMessage("Položky v kolekci jsou chybné. ", true)
-  	endif
+//clear error message
+form.operationResultMessage.clear()
+
+//variable set up
+form.enhancement.goodsItemCZvalidatation = true
+form.actions.validateItemsInGoodsItemCZ()
 
 var fullyEnh = true
 var enh = form.cdeReq.customsDecisionAuthorisationData.enhancementCZ
 
-if valid then
+if form.enhancement.goodsItemCZvalidatation then
   if form.zobrazIPO or form.zobrazEUS then
-    valid = enh.periodForClearance.isValid() 
+    form.enhancement.goodsItemCZvalidatation = enh.periodForClearance.isValid() 
 	form.actions.showEnhancementErrorMessage("Lhůta pro zúčtování vykazuje chybu. ", true)
     
     // Currently periodForClearance isn't mandatory
-    //fullyEnh = valid and enh.periodForClearance.hasValue()
+    //fullyEnh = form.enhancement.goodsItemCZvalidatation and enh.periodForClearance.hasValue()
   endif
 endif
 
 fullyEnh = fullyEnh and form.cdAux.simplifiedEntryProcedureEnum.hasValue() and form.cdAux.simplifiedReleaseProcedureEnum.hasValue()
 
-if valid then
+if form.enhancement.goodsItemCZvalidatation then
   // let's make check for validity and completness of goods-items data
   var allCompleted = true //form.actions.checkGoodsCompletness()
     foreach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
       if not goodsItem.writeOffMeasureUnit.isValid() then
-        valid = false
+        form.enhancement.goodsItemCZvalidatation = false
   		form.actions.showEnhancementErrorMessage("Odpisová měrná jednotka vykazuje chybu. ", true)
   		
       endif
@@ -12643,13 +12711,13 @@ if valid then
   
   
   if form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced and not (fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid()) then
-    valid = false
+    form.enhancement.goodsItemCZvalidatation = false
       form.actions.showEnhancementErrorMessage("Doplňte poznámku a zkontrolujte, jestli je rozhodnutí plně obohaceno. ", true)
   endif
   
 endif
 
-if valid then
+if form.enhancement.goodsItemCZvalidatation then
   form.actions.fillCdeReq()
   enh.fullyEnhanced = fullyEnh
   
@@ -13292,8 +13360,7 @@ form.enhancement.modelEnhancement.fromJson(form.enhancement.selectedGoodsItemCZ.
 	if form.zobrazIPO then
 		if not form.enhancement.modelEnhancement.article864UCC.hasValue() then
 			form.enhancement.modelEnhancement.article864UCC = false
-		endif	
-		form.enhancement.modelEnhancement.article864UCC = false
+		endif
 		selectedItem.article864UCC = form.enhancement.modelEnhancement.article864UCC
 	endif
 	
@@ -13334,6 +13401,7 @@ form.formBehavior.visibilities.operationResult = true]]></Script>
               <Name value="errorContent" />
               <Caption value="Error content" />
               <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
               <DeclaredType>
                 <AttributeType />
               </DeclaredType>
@@ -13342,6 +13410,7 @@ form.formBehavior.visibilities.operationResult = true]]></Script>
               <Name value="operationResultError" />
               <Caption value="Operation result error" />
               <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
               <DeclaredType>
                 <AttributeType>
                   <BaseType value="Bool" />
@@ -13350,6 +13419,55 @@ form.formBehavior.visibilities.operationResult = true]]></Script>
             </Attribute>
           </Children>
         </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="validateItemsInGoodsItemCZ" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//validate cetain goods items for selected CD type
+foreach item in form.enhancement.goodsCZ.goodsItemCZ do
+
+	var errorNoticeItemNumber = "Položka s Kódem KN: \"" + toString(item.combinedNomenclatureCode) + "\" vykazuje chybu v údaji: " 
+
+	if not item.cnCodeForSecuring.isValid() then
+		form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Zbožový kód pro dozajištění\" ", true)
+		errorNoticeItemNumber = ","
+	endif
+	
+	if not item.writeOffMeasureUnit.isValid() then
+		form.actions.showEnhancementErrorMessage(errorNoticeItemNumber +" \"Odpisová měrná jednotka\" ", true)
+		errorNoticeItemNumber = ","
+	endif 
+
+	if form.zobrazIPO then
+		if not item.article863UCC.isValid() then
+			form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Článek 86(3) UCC\" ", true)
+			errorNoticeItemNumber = ","
+		endif
+	
+		if not item.article864UCC.isValid() then
+			form.actions.showEnhancementErrorMessage(errorNoticeItemNumber +  " \"Článek 86(4) UCC\" ", true)
+			errorNoticeItemNumber = ","
+		endif
+	endif
+
+	if form.zobrazEUS then
+		if not item.cnCodeArticle73DA.isValid() then
+			form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Kód KN při použití čl. 73 DA\" ", true)
+			errorNoticeItemNumber = ","
+		endif
+	endif
+	
+	if not item.completed.isValid() then
+		form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Stav kompletnosti obohacení položky zboží\" ", true)
+		errorNoticeItemNumber = ","
+	endif
+	
+endFor
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>
