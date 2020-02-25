@@ -8903,49 +8903,6 @@
                       </CssClass>
                     </GroupBox>
                     <GroupBox>
-                      <Name value="goodsItemsNationalAdjustment" />
-                      <Caption value="Hromadné označení zbožových položek za doplněné" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="500px" />
-                      <Content>
-                        <Panel>
-                          <Name value="panel13" />
-                          <Orientation value="Horizontal" />
-                          <Children>
-                            <Button>
-                              <Name value="btnEnhancementCompletedAll" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="150px" />
-                              <OnClick>
-                                <ActionEvent ReferencedAction="~handler_btnEnhancementCompletedAll_OnClick" />
-                              </OnClick>
-                              <Bindings>
-                                <Binding SourceProperty="Caption" Expression="form.enhancement.completedAllSelected.isCompletedAllSelectedButtonCaption" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-button" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </Button>
-                          </Children>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-panel" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </Panel>
-                      </Content>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-groupbox" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </GroupBox>
-                    <GroupBox>
                       <Name value="goodsItemsNationalDataGb" />
                       <Caption value="Seznam zbožových položek" />
                       <Panel.Height value="#" />
@@ -8955,6 +8912,60 @@
                           <Name value="goodsItemsNationalData" />
                           <Orientation value="Vertical" />
                           <Children>
+                            <Panel>
+                              <Name value="panel13" />
+                              <Orientation value="Horizontal" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Children>
+                                <Label>
+                                  <Name value="label1" />
+                                  <Data value="Hromadné označení zbožových položek za doplněné: " />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="350px" />
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-label" />
+                                    </CssClassConditional>
+                                    <CssClassConditional>
+                                      <ClassName value="boldFont" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Label>
+                                <Button>
+                                  <Name value="btnEnhancementCompletedAll" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="250px" />
+                                  <OnClick>
+                                    <ActionEvent ReferencedAction="~handler_btnEnhancementCompletedAll_OnClick" />
+                                  </OnClick>
+                                  <Bindings>
+                                    <Binding SourceProperty="Caption" Expression="form.enhancement.completedAllSelected.isCompletedAllSelectedButtonCaption" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-button" />
+                                    </CssClassConditional>
+                                    <CssClassConditional>
+                                      <ClassName value="disabledButton" />
+                                      <Bindings>
+                                        <Binding SourceProperty="Condition" Expression="not form.enhancement.isEnhancementEditOn" />
+                                      </Bindings>
+                                    </CssClassConditional>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-button" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Button>
+                              </Children>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-panel" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Panel>
                             <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
                               <Name value="list_EnhancementGoodsItemCZ" />
                               <controller reference="~goodsItemCZenhancement" />
@@ -9172,7 +9183,12 @@
                                   <CssClass>
                                     <CssClassConditional>
                                       <ClassName value="{theme}-button" />
-                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                    <CssClassConditional>
+                                      <ClassName value="disabledButton" />
+                                      <Bindings>
+                                        <Binding SourceProperty="Condition" Expression="not form.enhancement.isEnhancementEditOn" />
+                                      </Bindings>
                                     </CssClassConditional>
                                   </CssClass>
                                 </Button>
@@ -11737,7 +11753,7 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
               <Name value="enhancementBoxSelectedItemCaption" />
               <Caption value="Enhancement box selected item caption" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA["Zbožová položka -  Kód KN:  \"" + ( ( form.enhancement.selectedGoodsItemCZ.combinedNomenclatureCode.hasValue() ) ? ToString(form.enhancement.selectedGoodsItemCZ.combinedNomenclatureCode) : "" ) + "\"  Množství zboží:  \"" + ( ( form.enhancement.selectedGoodsItemCZ.goodsQuantity.hasValue() ) ? ToString(form.enhancement.selectedGoodsItemCZ.goodsQuantity) : "" ) + "\""]]></ExpressionText>
+                <ExpressionText><![CDATA["Zbožová položka " + (form.enhancement.selectedGoodsItemCZ.combinedNomenclatureCode.hasValue() ? ("- Kód KN:  \"" + (ToString(form.enhancement.selectedGoodsItemCZ.combinedNomenclatureCode)) + "\"") : "" ) + (  form.enhancement.selectedGoodsItemCZ.goodsQuantity.hasValue() ? ( " - Množství zboží: \"" + ToString(form.enhancement.selectedGoodsItemCZ.goodsQuantity) + "\"") : ""  )]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
@@ -11768,6 +11784,15 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                 </Computed>
               </Children>
             </Complex>
+            <Attribute>
+              <Name value="isEnhancementEditOn" />
+              <Caption value="Is enhancement edit on" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
           </Children>
         </Complex>
       </Children>
@@ -11947,6 +11972,7 @@ endif
 globals.uiGlobalState.annex.addOtherAnnex.isSelectedAnnexForHolder = false
 globals.uiGlobalState.isLastCDversionSelected = True
 form.enhancement.completedAllSelected.isCompletedAllSelected = False
+form.enhancement.isEnhancementEditOn = False
 
 form.actions.fillGoodsItemCZcollection()
 form.actions.prepareGoodsItemCZlistCtrl()
@@ -12583,7 +12609,8 @@ endfor
       <Name value="handler_editButton_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.mode = enums.DetailMode.edit]]></Script>
+        <Script><![CDATA[form.mode = enums.DetailMode.edit
+form.enhancement.isEnhancementEditOn = True]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -13263,7 +13290,7 @@ form.enhancement.modelEnhancement.fromJson(form.enhancement.selectedGoodsItemCZ.
     <ActionBlock>
       <Name value="saveOneItemEnhancementData" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.enhancement.modelEnhancement.completed then
+        <Script><![CDATA[if form.enhancement.modelEnhancement.completed and form.enhancement.isEnhancementEditOn then
 
 	form.apiobjects.goodsItemCZenhancement.setReady(false)
 
@@ -13294,7 +13321,7 @@ form.enhancement.modelEnhancement.fromJson(form.enhancement.selectedGoodsItemCZ.
 	form.apiobjects.goodsItemCZenhancement.setReady(true)
 
 else
-	system.alert("Vyberte \"Hotovo\" u vybrané položky.")
+	form.actions.showEnhancementErrorMessage("Vyberte \"Hotovo\" u vybrané položky a zkontrolujte jestli editujete povolení", true)
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -13404,24 +13431,34 @@ endif
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[//Adjust control variable value
-if form.enhancement.completedAllSelected.isCompletedAllSelected = False then
-	form.enhancement.completedAllSelected.isCompletedAllSelected = True
-else
-	form.enhancement.completedAllSelected.isCompletedAllSelected = False
-endif
+if form.enhancement.isEnhancementEditOn then
 
-//Run edit of items in collection
-if (form.enhancement.goodsCZ.goodsItemCZ.hasValue()) and (form.enhancement.completedAllSelected.isCompletedAllSelected = True) then
+	if form.enhancement.completedAllSelected.isCompletedAllSelected = False then
+		form.enhancement.completedAllSelected.isCompletedAllSelected = True
+	else
+		form.enhancement.completedAllSelected.isCompletedAllSelected = False
+	endif
 	
-	form.apiobjects.goodsItemCZenhancement.setReady(False)
 	
-	forEach item in form.enhancement.goodsCZ.goodsItemCZ do
-		item.completed = True
-	endFor
-	
-	form.apiobjects.goodsItemCZenhancement.setReady(True)
-	
-endif]]></Script>
+	//Run edit of items in collection
+	if (form.enhancement.goodsCZ.goodsItemCZ.hasValue()) and form.enhancement.completedAllSelected.isCompletedAllSelected and form.enhancement.isEnhancementEditOn then
+		
+		form.apiobjects.goodsItemCZenhancement.setReady(False)
+		
+		forEach item in form.enhancement.goodsCZ.goodsItemCZ do
+			item.completed = True
+		endFor
+		
+		form.apiobjects.goodsItemCZenhancement.setReady(True)
+		
+	endif
+
+else
+
+	form.actions.showEnhancementErrorMessage("Nezadali jste \"Editovat\".", true)
+
+endif
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
