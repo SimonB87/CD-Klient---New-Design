@@ -8818,74 +8818,102 @@
                       <Content>
                         <Panel>
                           <Name value="commonNationalData" />
-                          <Orientation value="Horizontal" />
+                          <Orientation value="Vertical" />
                           <Children>
-                            <TextBox>
-                              <Name value="periodForClearance" />
-                              <Caption value="Lhůta pro zúčtování" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="cdeReq.customsDecisionAuthorisationData.enhancementCZ.periodForClearance" />
-                                <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" />
-                                <Binding SourceProperty="IsVisible" Expression="form.formBehavior.visibilities.periodForClearance" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </TextBox>
-                            <EnumRadioGroup>
-                              <Name value="simplifiedEntryProcedureRg" />
-                              <Caption value="Zjednodušený postup při propuštění do režimu" />
+                            <Panel>
+                              <Name value="commonNationalDataPeriodClearance" />
                               <Orientation value="Horizontal" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="cdAux.simplifiedEntryProcedureEnum" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="cdAux.simplifiedEntryProcedureEnum.isRequired()" />
-                                <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                              </Bindings>
+                              <Children>
+                                <TextBox>
+                                  <Name value="periodForClearance" />
+                                  <Caption value="Lhůta pro zúčtování" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="cdeReq.customsDecisionAuthorisationData.enhancementCZ.periodForClearance" />
+                                    <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" />
+                                    <Binding SourceProperty="IsVisible" Expression="form.formBehavior.visibilities.periodForClearance" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-textbox" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </TextBox>
+                              </Children>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-enumradiogroup" />
+                                  <ClassName value="{theme}-panel" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
-                                <CssClassConditional>
-                                  <ClassName value="enhancement-attention-needed" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Condition" Expression="form.formBehavior.enhAttention.simplifiedEntryProcedure" />
-                                  </Bindings>
-                                </CssClassConditional>
                               </CssClass>
-                            </EnumRadioGroup>
-                            <EnumRadioGroup>
-                              <Name value="simplifiedReleaseProcedureRg" />
-                              <Caption value="Zjednodušený postup při vyřízení režimu" />
+                            </Panel>
+                            <Panel>
+                              <Name value="commonNationalDataEnumInfo" />
                               <Orientation value="Horizontal" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="cdAux.simplifiedReleaseProcedureEnum" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="cdAux.simplifiedReleaseProcedureEnum.isRequired()" />
-                                <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                              </Bindings>
+                              <Children>
+                                <EnumRadioGroup>
+                                  <Name value="simplifiedEntryProcedureRg" />
+                                  <Caption value="Zjednodušený postup při propuštění do režimu" />
+                                  <Orientation value="Horizontal" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="cdAux.simplifiedEntryProcedureEnum" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="cdAux.simplifiedEntryProcedureEnum.isRequired()" />
+                                    <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-enumradiogroup" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                    <CssClassConditional>
+                                      <ClassName value="enhancement-attention-needed" />
+                                      <Bindings>
+                                        <Binding SourceProperty="Condition" Expression="form.formBehavior.enhAttention.simplifiedEntryProcedure" />
+                                      </Bindings>
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </EnumRadioGroup>
+                                <EnumRadioGroup>
+                                  <Name value="simplifiedReleaseProcedureRg" />
+                                  <Caption value="Zjednodušený postup při vyřízení režimu" />
+                                  <Orientation value="Horizontal" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="cdAux.simplifiedReleaseProcedureEnum" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="cdAux.simplifiedReleaseProcedureEnum.isRequired()" />
+                                    <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-enumradiogroup" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                    <CssClassConditional>
+                                      <ClassName value="enhancement-attention-needed" />
+                                      <Bindings>
+                                        <Binding SourceProperty="Condition" Expression="form.formBehavior.enhAttention.simplifiedReleaseProcedure" />
+                                      </Bindings>
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </EnumRadioGroup>
+                              </Children>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-enumradiogroup" />
+                                  <ClassName value="{theme}-panel" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
-                                <CssClassConditional>
-                                  <ClassName value="enhancement-attention-needed" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Condition" Expression="form.formBehavior.enhAttention.simplifiedReleaseProcedure" />
-                                  </Bindings>
-                                </CssClassConditional>
                               </CssClass>
-                            </EnumRadioGroup>
+                            </Panel>
                           </Children>
                           <CssClass>
                             <CssClassConditional>
@@ -11793,6 +11821,21 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Complex>
+              <Name value="uiComponentSetting" />
+              <Caption value="Ui component setting" />
+              <Children>
+                <Attribute>
+                  <Name value="listPageSize" />
+                  <Caption value="List page size" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Integer" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
           </Children>
         </Complex>
       </Children>
@@ -13134,6 +13177,9 @@ form.apiobjects.goodsItemCZ.setReady(false)
 
 if form.enhancement.listState = defaultString() then
 
+	form.enhancement.uiComponentSetting.listPageSize = 9
+	form.apiobjects.goodsItemCZ.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
+
 	form.apiobjects.goodsItemCZ.setSorting("groupID:desc")
 
 	form.apiobjects.goodsItemCZ.focusFirstRecord()
@@ -13146,10 +13192,12 @@ form.apiobjects.goodsItemCZ.setReady(true)
 form.apiobjects.goodsItemCZenhancement.setReady(false)
 
 if form.enhancement.listStateEnhancement = defaultString() then
+	
+	form.apiobjects.goodsItemCZenhancement.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
 
 	form.apiobjects.goodsItemCZenhancement.setSorting("groupID:desc")
 
-	form.apiobjects.goodsItemCZenhancement.focusFirstRecord()
+	form.apiobjects.goodsItemCZenhancement.focusFirstRecord()	
 
 endif
 
