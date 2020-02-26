@@ -922,6 +922,9 @@
                 <CssClassConditional>
                   <ClassName value="noPaddingBottom" />
                 </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="noPaddingTop" />
+                </CssClassConditional>
               </CssClass>
             </Panel>
             <Panel>
@@ -8825,6 +8828,9 @@
                               <Orientation value="Horizontal" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="IsVisible" Expression="form.formBehavior.visibilities.periodForClearance" />
+                              </Bindings>
                               <Children>
                                 <TextBox>
                                   <Name value="periodForClearance" />
@@ -8944,48 +8950,129 @@
                               <Name value="panel13" />
                               <Orientation value="Horizontal" />
                               <Panel.Height value="#" />
-                              <Panel.Width value="*" />
+                              <Panel.Width value="100%" />
                               <Children>
-                                <Label>
-                                  <Name value="label1" />
-                                  <Data value="Hromadné označení zbožových položek za doplněné: " />
+                                <Panel>
+                                  <Name value="panel17" />
+                                  <Orientation value="Horizontal" />
                                   <Panel.Height value="#" />
-                                  <Panel.Width value="350px" />
+                                  <Panel.Width value="42%" />
+                                  <Children>
+                                    <Label>
+                                      <Name value="label1" />
+                                      <Data value="Hromadné označení zbožových položek :" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="300px" />
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-label" />
+                                        </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="boldFont" />
+                                        </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="lightFontColor" />
+                                        </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-label" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Label>
+                                    <Button>
+                                      <Name value="btnEnhancementCompletedAll" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="220px" />
+                                      <OnClick>
+                                        <ActionEvent ReferencedAction="~handler_btnEnhancementCompletedAll_OnClick" />
+                                      </OnClick>
+                                      <Bindings>
+                                        <Binding SourceProperty="Caption" Expression="form.enhancement.completedAllSelected.isCompletedAllSelectedButtonCaption" />
+                                      </Bindings>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-button" />
+                                        </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="disabledButton" />
+                                          <Bindings>
+                                            <Binding SourceProperty="Condition" Expression="not form.enhancement.isEnhancementEditOn" />
+                                          </Bindings>
+                                        </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-button" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Button>
+                                  </Children>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-panel" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Panel>
+                                <Label>
+                                  <Name value="placeholder" />
+                                  <Data value="placeholder" />
+                                  <IsVisible value="False" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="15%" />
                                   <CssClass>
                                     <CssClassConditional>
                                       <ClassName value="{theme}-label" />
                                     </CssClassConditional>
                                     <CssClassConditional>
-                                      <ClassName value="boldFont" />
+                                      <ClassName value="visibilityNone" />
                                     </CssClassConditional>
                                   </CssClass>
                                 </Label>
-                                <Button>
-                                  <Name value="btnEnhancementCompletedAll" />
+                                <Panel>
+                                  <Name value="panel41" />
+                                  <Orientation value="Horizontal" />
                                   <Panel.Height value="#" />
-                                  <Panel.Width value="250px" />
-                                  <OnClick>
-                                    <ActionEvent ReferencedAction="~handler_btnEnhancementCompletedAll_OnClick" />
-                                  </OnClick>
-                                  <Bindings>
-                                    <Binding SourceProperty="Caption" Expression="form.enhancement.completedAllSelected.isCompletedAllSelectedButtonCaption" />
-                                  </Bindings>
+                                  <Panel.Width value="42%" />
+                                  <Children>
+                                    <TextBox>
+                                      <Name value="textBox17" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="300px" />
+                                      <Bindings>
+                                        <Binding SourceProperty="Data" Expression="enhancement.uiComponentSetting.listPageSize" />
+                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.uiComponentSetting.listPageSize.isRequired()" />
+                                        <Binding SourceProperty="Caption" Expression="enhancement.uiComponentSetting.listPageSize.caption()" />
+                                      </Bindings>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-textbox" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </TextBox>
+                                    <Button>
+                                      <Name value="btnSaveNumberOfItemsInList" />
+                                      <Caption value="Uložit počet položek na stránku" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="220px" />
+                                      <OnClick>
+                                        <ActionEvent ReferencedAction="~handler_btnSaveNumberOfItemsInList_OnClick" />
+                                      </OnClick>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-button" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Button>
+                                  </Children>
                                   <CssClass>
                                     <CssClassConditional>
-                                      <ClassName value="{theme}-button" />
-                                    </CssClassConditional>
-                                    <CssClassConditional>
-                                      <ClassName value="disabledButton" />
-                                      <Bindings>
-                                        <Binding SourceProperty="Condition" Expression="not form.enhancement.isEnhancementEditOn" />
-                                      </Bindings>
-                                    </CssClassConditional>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-button" />
+                                      <ClassName value="{theme}-panel" />
                                       <IsThemedStyle value="True" />
                                     </CssClassConditional>
                                   </CssClass>
-                                </Button>
+                                </Panel>
                               </Children>
                               <CssClass>
                                 <CssClassConditional>
@@ -9015,7 +9102,7 @@
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                   <Name value="listColumn2_groupID" />
-                                  <Caption value="Skupina zboží (se stejnou povahou a identifikací)" />
+                                  <Caption value="Skupina zboží" />
                                   <ColumnName value="groupID" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
@@ -9040,12 +9127,12 @@
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                   <Name value="listColumn2_measureUnit" />
-                                  <Caption value="Měrná jednotka" />
+                                  <Caption value="Měrná jednotka(MU)" />
                                   <ColumnName value="measureUnit" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                   <Name value="listColumn2_writeOffMU" />
-                                  <Caption value="Odpisová měrná jednotka" />
+                                  <Caption value="Odpisová MU" />
                                   <ColumnName value="computed_writeOffMeasureUnit" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
@@ -9060,7 +9147,7 @@
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                   <Name value="listColumn2_cnCodeArticle73DA" />
-                                  <Caption value="Kód KN při použití čl. 73 DA" />
+                                  <Caption value="Kód KN v případě čl. 73 DA" />
                                   <ColumnName value="computed_cnCodeArticle73DA" />
                                 </listColumn>
                               </columns>
@@ -11827,10 +11914,11 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
               <Children>
                 <Attribute>
                   <Name value="listPageSize" />
-                  <Caption value="List page size" />
+                  <Caption value="Počet položek v seznamu" />
                   <DeclaredType>
                     <AttributeType>
                       <BaseType value="Integer" />
+                      <IntMin value="1" />
                     </AttributeType>
                   </DeclaredType>
                 </Attribute>
@@ -13527,6 +13615,19 @@ else
 
 endif
 ]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btnSaveNumberOfItemsInList_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//set number of displayed items in List in one page
+form.apiobjects.goodsItemCZenhancement.setReady(false)
+	form.apiobjects.goodsItemCZenhancement.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
+form.apiobjects.goodsItemCZenhancement.setReady(true)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
