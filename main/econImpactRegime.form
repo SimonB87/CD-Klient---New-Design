@@ -12663,6 +12663,15 @@ if form.enhancement.goodsItemCZvalidatation then
   if form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced and not (fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid()) then
     form.enhancement.goodsItemCZvalidatation = false
       form.actions.showEnhancementErrorMessage("Doplňte poznámku a zkontrolujte, jestli je rozhodnutí plně obohaceno. ", true)
+      	/*
+      	//testing start
+		if form.zobrazOPO then
+			system.console("Obcházíme Klienta pro IPO...")
+			form.enhancement.goodsItemCZvalidatation = true
+			form.actions.showEnhancementErrorMessage(" * OPO * ", false)
+		endif
+		//testing end
+		*/
   endif
   
 endif
@@ -12670,6 +12679,16 @@ endif
 if form.enhancement.goodsItemCZvalidatation then
   form.actions.fillCdeReq()
   enh.fullyEnhanced = fullyEnh
+  		
+  		/*
+        //testing start
+		if form.zobrazOPO then
+			system.console("Obcházíme Klienta pro IPO...")
+			form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced = False
+			form.actions.showEnhancementErrorMessage(" * OPO * ", false)
+		endif
+		//testing end
+		*/
   
   var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.cdeReq.toJson())
   
@@ -13414,13 +13433,14 @@ foreach item in form.enhancement.goodsCZ.goodsItemCZ do
 	endif
 	
 endFor
-
+/*
 //testing start
-if form.zobrazIPO then
-	system.console("Obcházíme Klienta pro IPO...")
+if form.zobrazOPO then
+	system.console("Obcházíme Klienta pro OPO...")
 	form.enhancement.goodsItemCZvalidatation = true
 endif
-//testing end]]></Script>
+//testing end
+*/]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
