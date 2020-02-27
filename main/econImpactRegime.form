@@ -5281,85 +5281,45 @@
                       <Content>
                         <Panel>
                           <Name value="panel11" />
-                          <Orientation value="Horizontal" />
+                          <Orientation value="Vertical" />
                           <Children>
                             <Panel>
-                              <Name value="panel2" />
+                              <Name value="pnlEditNumberOfItemsInListProces" />
                               <Orientation value="Horizontal" />
                               <Panel.Height value="#" />
-                              <Panel.Width value="*" />
+                              <Panel.HorizontalAlignment value="Right" />
+                              <Panel.Width value="42%" />
                               <Children>
-                                <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="list_ProcessingGoodsItemCZ" />
-                                  <controller reference="~goodsItemCZ" />
-                                  <listName value="processingGoodsItemCZ" />
+                                <TextBox>
+                                  <Name value="textBox17" />
                                   <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <OnRowClicked>
-                                    <ActionEvent ReferencedAction="~handler_list_goodsItemCZ_OnRowClicked" />
-                                  </OnRowClicked>
+                                  <Panel.Width value="300px" />
                                   <Bindings>
-                                    <Binding SourceProperty="selectedRow" Expression="form.enhancement.selectedRowGoodsItems" />
+                                    <Binding SourceProperty="Data" Expression="enhancement.uiComponentSetting.listPageSize" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.uiComponentSetting.listPageSize.isRequired()" />
+                                    <Binding SourceProperty="Caption" Expression="enhancement.uiComponentSetting.listPageSize.caption()" />
                                   </Bindings>
-                                  <columns>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumn_itemID" />
-                                      <Caption value="temp:: ItemID" />
-                                      <ColumnName value="itemID" />
-                                      <IsVisible value="False" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumn_groupID" />
-                                      <Caption value="Skupina zboží (se stejnou povahou a identifikací)" />
-                                      <ColumnName value="groupID" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumn_completed" />
-                                      <Caption value="Doplněno" />
-                                      <ColumnName value="computed_computedCompleted" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumn_combinedNomenclatureCode" />
-                                      <Caption value="Kód KN" />
-                                      <ColumnName value="combinedNomenclatureCode" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumn_tARICCode" />
-                                      <Caption value="TARIC kód" />
-                                      <ColumnName value="tARICCode" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumn_goodsQuantity" />
-                                      <Caption value="Množství" />
-                                      <ColumnName value="goodsQuantity" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumn_measureUnit" />
-                                      <Caption value="Měrná jednotka" />
-                                      <ColumnName value="measureUnit" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumn_writeOffMeasureUnit" />
-                                      <Caption value="Odpisová měrná jednotka" />
-                                      <ColumnName value="computed_writeOffMeasureUnit" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumn_article863UCC" />
-                                      <Caption value="Článek 86(3) UCC" />
-                                      <ColumnName value="computed_article863UCC" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumn_computedArticle864UCC" />
-                                      <Caption value="Článek 86(4) UCC" />
-                                      <ColumnName value="computed_article864UCC" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumn_cnCodeArticle73DA" />
-                                      <Caption value="Kód KN při použití čl. 73 DA" />
-                                      <ColumnName value="computed_cnCodeArticle73DA" />
-                                    </listColumn>
-                                  </columns>
-                                </List>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-textbox" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </TextBox>
+                                <Button>
+                                  <Name value="btnSaveNumberOfItemsInList" />
+                                  <Caption value="Uložit počet položek na stránku" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="220px" />
+                                  <OnClick>
+                                    <ActionEvent ReferencedAction="~saveNumberOfItemsInList" />
+                                  </OnClick>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-button" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Button>
                               </Children>
                               <CssClass>
                                 <CssClassConditional>
@@ -5370,6 +5330,87 @@
                                 </CssClassConditional>
                               </CssClass>
                             </Panel>
+                            <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                              <Name value="list_ProcessingGoodsItemCZ" />
+                              <controller reference="~goodsItemCZ" />
+                              <listName value="processingGoodsItemCZ" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <OnRowClicked>
+                                <ActionEvent ReferencedAction="~handler_list_goodsItemCZ_OnRowClicked" />
+                              </OnRowClicked>
+                              <Bindings>
+                                <Binding SourceProperty="selectedRow" Expression="form.enhancement.selectedRowGoodsItems" />
+                              </Bindings>
+                              <columns>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_itemID" />
+                                  <Caption value="temp:: ItemID" />
+                                  <ColumnName value="itemID" />
+                                  <DataType value="integer" />
+                                  <IsVisible value="False" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_groupID" />
+                                  <Caption value="Skupina zboží (se stejnou povahou a identifikací)" />
+                                  <ColumnName value="groupID" />
+                                  <DataType value="integer" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_computedCompleted" />
+                                  <Caption value="Doplněno" />
+                                  <ColumnName value="computed_completed" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_combinedNomenclatureCode" />
+                                  <Caption value="Kód KN" />
+                                  <ColumnName value="combinedNomenclatureCode" />
+                                  <DataType value="string" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_tARICCode" />
+                                  <Caption value="TARIC kód" />
+                                  <ColumnName value="tARICCode" />
+                                  <DataType value="string" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_goodsQuantity" />
+                                  <Caption value="Množství" />
+                                  <ColumnName value="goodsQuantity" />
+                                  <DataType value="integer" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_measureUnit" />
+                                  <Caption value="Měrná jednotka" />
+                                  <ColumnName value="measureUnit" />
+                                  <DataType value="string" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_writeOffMeasureUnit" />
+                                  <Caption value="Odpisová měrná jednotka" />
+                                  <ColumnName value="computed_writeOffMeasureUnit" />
+                                  <DataType value="string" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_computedArticle863UCC" />
+                                  <Caption value="Článek 86(3) UCC" />
+                                  <ColumnName value="computed_article863UCC" />
+                                  <DataType value="string" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_computedArticle864UCC" />
+                                  <Caption value="Článek 86(4) UCC" />
+                                  <ColumnName value="computed_article864UCC" />
+                                  <DataType value="string" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listColumn_cnCodeArticle73DA" />
+                                  <Caption value="Kód KN při použití čl. 73 DA" />
+                                  <ColumnName value="computed_cnCodeArticle73DA" />
+                                  <DataType value="string" />
+                                </listColumn>
+                              </columns>
+                            </List>
                           </Children>
                           <CssClass>
                             <CssClassConditional>
@@ -8986,7 +9027,7 @@
                                       <Panel.Height value="#" />
                                       <Panel.Width value="220px" />
                                       <OnClick>
-                                        <ActionEvent ReferencedAction="~handler_btnEnhancementCompletedAll_OnClick" />
+                                        <ActionEvent ReferencedAction="~saveNumberOfItemsInList" />
                                       </OnClick>
                                       <Bindings>
                                         <Binding SourceProperty="Caption" Expression="form.enhancement.completedAllSelected.isCompletedAllSelectedButtonCaption" />
@@ -9031,7 +9072,7 @@
                                   </CssClass>
                                 </Label>
                                 <Panel>
-                                  <Name value="pnlEditNumberOfItemsInList" />
+                                  <Name value="pnlEditNumberOfItemsInListEnh" />
                                   <Orientation value="Horizontal" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="42%" />
@@ -9048,7 +9089,6 @@
                                       <CssClass>
                                         <CssClassConditional>
                                           <ClassName value="{theme}-textbox" />
-                                          <IsThemedStyle value="True" />
                                         </CssClassConditional>
                                       </CssClass>
                                     </TextBox>
@@ -9100,12 +9140,14 @@
                                   <Name value="listColumn2_itemID" />
                                   <Caption value="temp:: ItemID" />
                                   <ColumnName value="itemID" />
+                                  <DataType value="integer" />
                                   <IsVisible value="False" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                   <Name value="listColumn2_groupID" />
                                   <Caption value="Skupina zboží" />
                                   <ColumnName value="groupID" />
+                                  <DataType value="integer" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                   <Name value="listColumn2_computedCompleted" />
@@ -9126,6 +9168,7 @@
                                   <Name value="listColumn2_goodsQuantity" />
                                   <Caption value="Množství" />
                                   <ColumnName value="goodsQuantity" />
+                                  <DataType value="decimal" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                   <Name value="listColumn2_measureUnit" />
@@ -13440,7 +13483,20 @@ if form.enhancement.selectedGoodsItemCZ.completed.hasValue() = false then
 endif
 
 form.enhancement.modelEnhancement.clear()
-form.enhancement.modelEnhancement.fromJson(form.enhancement.selectedGoodsItemCZ.toJson())]]></Script>
+form.enhancement.modelEnhancement.fromJson(form.enhancement.selectedGoodsItemCZ.toJson())
+
+
+//insert codelist value into reference combo
+form.enhancement.modelEnhancement.writeOffMeasureUnit.clear()
+
+var item = apiobjects.woMeasureUnitCl.getItemByStringColumnAsync("JMODPIS", form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit, getDateTime(), defaultBool())
+
+if item.isFound() then
+	form.enhancement.modelEnhancement.writeOffMeasureUnit.fromJson(item.getJsonString())
+else
+	form.enhancement.modelEnhancement.writeOffMeasureUnit.JMODPIS = form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit
+endif
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -13587,44 +13643,6 @@ endif
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="handler_btnEnhancementCompletedAll_OnClick" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[//Adjust control variable value
-if form.enhancement.isEnhancementEditOn then
-
-	if form.enhancement.completedAllSelected.isCompletedAllSelected = False then
-		form.enhancement.completedAllSelected.isCompletedAllSelected = True
-	else
-		form.enhancement.completedAllSelected.isCompletedAllSelected = False
-	endif
-	
-	
-	//Run edit of items in collection
-	if (form.enhancement.goodsCZ.goodsItemCZ.hasValue()) and form.enhancement.completedAllSelected.isCompletedAllSelected and form.enhancement.isEnhancementEditOn then
-		
-		form.apiobjects.goodsItemCZenhancement.setReady(False)
-		
-		forEach item in form.enhancement.goodsCZ.goodsItemCZ do
-			item.completed = True
-		endFor
-		
-		form.apiobjects.goodsItemCZenhancement.setReady(True)
-		
-	endif
-
-else
-
-	form.actions.showEnhancementErrorMessage("Nezadali jste \"Editovat\".", true)
-
-endif
-]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="handler_btnSaveNumberOfItemsInList_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
@@ -13632,6 +13650,27 @@ endif
 form.apiobjects.goodsItemCZenhancement.setReady(false)
 	form.apiobjects.goodsItemCZenhancement.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
 form.apiobjects.goodsItemCZenhancement.setReady(true)]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="saveNumberOfItemsInList" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//set number of displayed items in given List in one page
+
+if form.tabsMenu.Tab08Processing.IsSelected then
+	form.apiobjects.goodsItemCZ.setReady(false)
+		form.apiobjects.goodsItemCZ.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
+	form.apiobjects.goodsItemCZ.setReady(true)
+endif
+
+if form.tabsMenu.Tab16NationalData.IsSelected then
+	form.apiobjects.goodsItemCZenhancement.setReady(false)
+		form.apiobjects.goodsItemCZenhancement.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
+	form.apiobjects.goodsItemCZenhancement.setReady(true)
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
