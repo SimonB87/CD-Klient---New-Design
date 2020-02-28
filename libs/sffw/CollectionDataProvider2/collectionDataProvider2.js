@@ -16,7 +16,6 @@ var sffw;
                             case 'text':
                                 var filterVal = colFilter.getValue();
                                 if (filterVal) {
-                                    var filterArray = [];
                                     _.forEach(colFilter.getValue().split(','), function (value) {
                                         switch (column.DataType) {
                                             case 'string':
@@ -35,7 +34,8 @@ var sffw;
                                             case 'integer':
                                             case 'decimal':
                                                 if (!isNaN(+value)) {
-                                                    isValid = isValid === true || item[column.Name].$value() === +value;
+                                                    var numValue = new Big(value);
+                                                    isValid = isValid === true || (numValue.cmp(item[column.Name].$value()) === 0);
                                                 }
                                                 else {
                                                     console.log("ignoring invalid " + column.DataType + " filter value(" + value + ") on column " + colFilter.name);
@@ -135,7 +135,11 @@ var sffw;
                                 switch (orderByColumn.DataType) {
                                     case 'integer':
                                     case 'decimal':
-                                        filteredResults = _.orderBy(filteredResults, function (item) { return +item[sortColumn.name].$value(); }, sortColumn.sortOrder);
+                                        filteredResults = filteredResults.sort(function (item1, item2) {
+                                            var numVal1 = new Big(item1[sortColumn.name].$value());
+                                            var numVal2 = new Big(item2[sortColumn.name].$value());
+                                            return sortColumn.sortOrder === 'desc' ? numVal2.cmp(numVal1) : numVal1.cmp(numVal2);
+                                        });
                                         break;
                                     default:
                                         filteredResults = _.orderBy(filteredResults, function (item) { return item[sortColumn.name].$value(); }, sortColumn.sortOrder);
