@@ -12979,11 +12979,26 @@ endif
 var enhItems = enh.goodsItemCZ
 enhItems.clear()
 
-foreach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
-  var item = enhItems.addItem()
-    item.fromJson(goodsItem.toJson())
-endfor
+//check selected option "isCompletedAllSelected"
+if form.enhancement.completedAllSelected.isCompletedAllSelected = True then
 
+	foreach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
+	  var item = enhItems.addItem()
+	  item.fromJson(goodsItem.toJson())
+	    
+	  if not( item.completed = True ) then
+	    item.completed = form.enhancement.completedAllSelected.isCompletedAllSelected
+	  endif
+	endfor
+	
+else
+
+	foreach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
+	  var item = enhItems.addItem()
+	  item.fromJson(goodsItem.toJson())
+	endfor
+	
+endif
 //enh.g2bpx.fromJson(form.cdAux.g2bpx.toJson())
 ]]></Script>
       </ActionLangBody>
