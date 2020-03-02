@@ -9337,9 +9337,10 @@
                               <Children>
                                 <CheckBox>
                                   <Name value="checkBox3" />
-                                  <Caption value="Hotovo ?" />
+                                  <Caption value="Hotovo:" />
+                                  <CaptionPosition value="Top" />
                                   <Panel.Height value="#" />
-                                  <Panel.Width value="150px" />
+                                  <Panel.Width value="75px" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.completed" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.modelEnhancement.completed.isRequired()" />
@@ -9355,6 +9356,7 @@
                                 </CheckBox>
                                 <ReferenceCombo>
                                   <Name value="referenceCombo1" />
+                                  <CaptionPosition value="Top" />
                                   <DisplayMember value="_description" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="250px" />
@@ -9374,6 +9376,7 @@
                                 </ReferenceCombo>
                                 <CheckBox>
                                   <Name value="checkBox4" />
+                                  <CaptionPosition value="Top" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="250px" />
                                   <Bindings>
@@ -9392,6 +9395,7 @@
                                 </CheckBox>
                                 <CheckBox>
                                   <Name value="checkBox5" />
+                                  <CaptionPosition value="Top" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="250px" />
                                   <Bindings>
@@ -9408,24 +9412,27 @@
                                     </CssClassConditional>
                                   </CssClass>
                                 </CheckBox>
-                                <TextBox>
-                                  <Name value="textBox179" />
+                                <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
+                                  <Name value="refLookUp_cnCodeArticle73DA" />
                                   <Caption value="Kód KN pro dozajištění" />
+                                  <CaptionPosition value="Top" />
+                                  <DataApiObject reference="+GlobalApiObjects.cnCodeCl" />
+                                  <DisplayMember value="_description" />
+                                  <MinChars value="6" />
                                   <Panel.Height value="#" />
-                                  <Panel.Width value="250px" />
+                                  <Panel.Width value="200px" />
                                   <Bindings>
-                                    <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD.isRequired()" />
-                                    <Binding SourceProperty="IsVisible" Expression="form.zobrazEUS" />
+                                    <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.cnCodeArticle73DA" />
                                     <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.zobrazEUS" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
+                                      <ClassName value="{theme}-referencelookup" />
                                       <IsThemedStyle value="True" />
                                     </CssClassConditional>
                                   </CssClass>
-                                </TextBox>
+                                </ReferenceLookup>
                               </Children>
                               <CssClass>
                                 <CssClassConditional>
@@ -13610,7 +13617,7 @@ form.enhancement.modelEnhancement.clear()
 form.enhancement.modelEnhancement.fromJson(form.enhancement.selectedGoodsItemCZ.toJson())
 
 
-//insert codelist value into reference combo
+//insert codelist value into referenceCombo "writeOffMeasureUnit" 
 form.enhancement.modelEnhancement.writeOffMeasureUnit.clear()
 
 var item = apiobjects.woMeasureUnitCl.getItemByStringColumnAsync("JMODPIS", form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit, getDateTime(), defaultBool())
@@ -13620,7 +13627,17 @@ if item.isFound() then
 else
 	form.enhancement.modelEnhancement.writeOffMeasureUnit.JMODPIS = form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit
 endif
-]]></Script>
+
+//inser codelist value to referenceLookup "cnCodeArticle73DA"
+form.enhancement.modelEnhancement.cnCodeArticle73DA.clear()
+
+var itemCn = apiobjects.cnCodeCl.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.selectedGoodsItemCZ.computed_cnCodeArticle73DA , getDateTime(), defaultBool())
+
+if itemCn.isFound() then
+	form.enhancement.modelEnhancement.cnCodeArticle73DA.fromJson(itemCn.getJsonString())
+else
+	form.enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD = form.enhancement.selectedGoodsItemCZ.computed_cnCodeArticle73DA
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
