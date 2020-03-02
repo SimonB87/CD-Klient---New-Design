@@ -9340,7 +9340,7 @@
                                   <Caption value="Hotovo:" />
                                   <CaptionPosition value="Top" />
                                   <Panel.Height value="#" />
-                                  <Panel.Width value="75px" />
+                                  <Panel.Width value="100px" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.completed" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.modelEnhancement.completed.isRequired()" />
@@ -9374,6 +9374,27 @@
                                     </CssClassConditional>
                                   </CssClass>
                                 </ReferenceCombo>
+                                <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
+                                  <Name value="refLookUp_cnCodeArticle73DA" />
+                                  <Caption value="Kód KN pro dozajištění" />
+                                  <CaptionPosition value="Top" />
+                                  <DataApiObject reference="+GlobalApiObjects.cnCodeCl" />
+                                  <DisplayMember value="_description" />
+                                  <MinChars value="5" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="300px" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.cnCodeArticle73DA" />
+                                    <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.zobrazEUS" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-referencelookup" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </ReferenceLookup>
                                 <CheckBox>
                                   <Name value="checkBox4" />
                                   <CaptionPosition value="Top" />
@@ -9412,32 +9433,17 @@
                                     </CssClassConditional>
                                   </CssClass>
                                 </CheckBox>
-                                <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
-                                  <Name value="refLookUp_cnCodeArticle73DA" />
-                                  <Caption value="Kód KN pro dozajištění" />
-                                  <CaptionPosition value="Top" />
-                                  <DataApiObject reference="+GlobalApiObjects.cnCodeCl" />
-                                  <DisplayMember value="_description" />
-                                  <MinChars value="6" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="200px" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.cnCodeArticle73DA" />
-                                    <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.zobrazEUS" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-referencelookup" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </ReferenceLookup>
                               </Children>
                               <CssClass>
                                 <CssClassConditional>
                                   <ClassName value="{theme}-panel" />
                                   <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                                <CssClassConditional>
+                                  <ClassName value="minHeight15vh" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Condition" Expression="form.zobrazEUS" />
+                                  </Bindings>
                                 </CssClassConditional>
                               </CssClass>
                             </Panel>
