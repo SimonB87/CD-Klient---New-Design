@@ -9337,15 +9337,14 @@
                               <Children>
                                 <CheckBox>
                                   <Name value="checkBox3" />
-                                  <Caption value="Hotovo:" />
                                   <CaptionPosition value="Top" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="100px" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.completed" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.modelEnhancement.completed.isRequired()" />
                                     <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
                                     <Binding SourceProperty="Tooltip" Expression="localized.econImpact_goods_common_goodsItem_completed_tt" />
+                                    <Binding SourceProperty="Caption" Expression="localized.econImpact_goods_common_goodsItem_completed" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -9441,9 +9440,15 @@
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                                 <CssClassConditional>
-                                  <ClassName value="minHeight15vh" />
+                                  <ClassName value="minHeight19vh" />
                                   <Bindings>
-                                    <Binding SourceProperty="Condition" Expression="form.zobrazEUS" />
+                                    <Binding SourceProperty="Condition" Expression="form.enhancement.uiComponentSetting.computed_extendedPanelHeightEnhancement" />
+                                  </Bindings>
+                                </CssClassConditional>
+                                <CssClassConditional>
+                                  <ClassName value="enhancement-attention-needed" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Condition" Expression="not form.enhancement.modelEnhancement.completed" />
                                   </Bindings>
                                 </CssClassConditional>
                               </CssClass>
@@ -12092,6 +12097,16 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                     </AttributeType>
                   </DeclaredType>
                 </Attribute>
+                <Computed>
+                  <Name value="computed_extendedPanelHeightEnhancement" />
+                  <Caption value="Computed _ extended panel height enhancement" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[(form.zobrazEUS and form.enhancement.isEnhancementEditOn) ? True : False]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
               </Children>
             </Complex>
           </Children>
