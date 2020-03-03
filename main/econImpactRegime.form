@@ -12000,7 +12000,8 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                       <Name value="computed_completed" />
                       <Caption value="Computed _ completed" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[form.enhancement.completedAllSelected.isCompletedAllSelected = true ? "Ano" : ( completed.hasValue() ? (completed = True ? "Ano" : "Ne") : "" )]]></ExpressionText>
+                        <ExpressionText><![CDATA[this.owner().isValid() ?
+form.enhancement.completedAllSelected.isCompletedAllSelected = true ? "Ano" : ( completed.hasValue() ? (completed = True ? "Ano" : "Ne") : "" ) : "Nevalidní"]]></ExpressionText>
                         <ResultType>
                           <BaseType value="String" />
                         </ResultType>
@@ -13116,9 +13117,15 @@ if form.enhancement.completedAllSelected.isCompletedAllSelected = True then
 	  var item = enhItems.addItem()
 	  item.fromJson(goodsItem.toJson())
 	    
-	  if not( item.completed = True ) then
-	    item.completed = form.enhancement.completedAllSelected.isCompletedAllSelected
+	  //hromadné doplnění pro položky jen pokud jsou validní  
+	  if item.isValid() then 
+	  	if not( item.completed = True ) then
+	    	item.completed = form.enhancement.completedAllSelected.isCompletedAllSelected
+	  	endif
+	  else
+	  	form.actions.showEnhancementErrorMessage("Položka s Kóderm KN: '" + toString(goodsItem.combinedNomenclatureCode) + "' není validní.", true)
 	  endif
+	  
 	endfor
 	
 else
