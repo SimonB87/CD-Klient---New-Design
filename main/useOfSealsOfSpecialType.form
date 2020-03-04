@@ -424,7 +424,7 @@
                   <Panel.Width value="*" />
                   <Children>
                     <Button>
-                      <Name value="button1" />
+                      <Name value="button_closeDetail" />
                       <Caption value="Zavřít detail" />
                       <Panel.Height value="#" />
                       <Panel.HorizontalAlignment value="Right" />
@@ -1807,6 +1807,7 @@
                                                                   <Margin value="0, 0, 0, 12 px" />
                                                                   <Panel.Height value="#" />
                                                                   <Panel.Width value="*" />
+                                                                  <Target value="_self" />
                                                                   <Bindings>
                                                                     <Binding SourceProperty="Href" Expression="_fileUrl" />
                                                                     <Binding SourceProperty="Data" Expression="_fileHrefText" />
@@ -2179,7 +2180,7 @@
                                 </Panel>
                               </Content>
                               <Bindings>
-                                <Binding SourceProperty="DataItems" Expression="globals.dataLoadingSpace.cddResponse.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex" />
+                                <Binding SourceProperty="DataItems" Expression="form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -2266,13 +2267,13 @@
                                 </FileReader>
                                 <TextBox>
                                   <Name value="textBox_newDocumentName" />
+                                  <Caption value="Název vloženého souboru" />
                                   <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="*" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.newDocumentName" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.newDocumentName.isRequired()" />
-                                    <Binding SourceProperty="Caption" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.newDocumentName.caption()" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -2283,13 +2284,13 @@
                                 </TextBox>
                                 <TextBox>
                                   <Name value="textBox_newDocumentType" />
+                                  <Caption value="Typ dokumentu" />
                                   <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="*" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.newDocumentType" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.newDocumentType.isRequired()" />
-                                    <Binding SourceProperty="Caption" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.newDocumentType.caption()" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -2300,12 +2301,12 @@
                                 </TextBox>
                                 <TextBox>
                                   <Name value="textBox_IdentifierContentType" />
+                                  <Caption value="Identifikátor dokumentu" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="*" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.IdentifierContentType" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.IdentifierContentType.isRequired()" />
-                                    <Binding SourceProperty="Caption" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.IdentifierContentType.caption()" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -2316,12 +2317,12 @@
                                 </TextBox>
                                 <DatePicker>
                                   <Name value="datePicker_newDocumentEndOfLifeDate" />
+                                  <Caption value="Datum konce platnosti dokumentu" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="*" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.newDocumentEndOfLifeDate" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.newDocumentEndOfLifeDate.isRequired()" />
-                                    <Binding SourceProperty="Caption" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.newDocumentEndOfLifeDate.caption()" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -2332,12 +2333,12 @@
                                 </DatePicker>
                                 <TextBox>
                                   <Name value="textBox_newDocumentCount" />
+                                  <Caption value="Počet stran dokumentu" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="*" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.newDocumentCount" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.newDocumentCount.isRequired()" />
-                                    <Binding SourceProperty="Caption" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.newDocumentCount.caption()" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -2350,6 +2351,7 @@
                                   <Name value="textBox_newDocumentFileContent" />
                                   <InputType value="Multiline" />
                                   <IsEnabled value="False" />
+                                  <IsVisible value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="*" />
                                   <Rows value="5" />
@@ -2370,8 +2372,9 @@
                                 </TextBox>
                                 <TextBox>
                                   <Name value="textBox_selectedCDversionGUID" />
-                                  <Caption value="Selected CD version GUID" />
+                                  <Caption value="Vybraný GUID verze povolení" />
                                   <IsEnabled value="False" />
+                                  <IsVisible value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="*" />
                                   <Bindings>
@@ -2390,7 +2393,7 @@
                                   <Panel.Height value="#" />
                                   <Panel.Width value="150px" />
                                   <OnClick>
-                                    <ActionEvent ReferencedAction="+GlobalActions.storeNewAnnexCZ" />
+                                    <ActionEvent ReferencedAction="~storeNewAnnexCZtoSSE" />
                                   </OnClick>
                                   <CssClass>
                                     <CssClassConditional>
@@ -2535,7 +2538,6 @@
                                       <Columns>
                                         <DataColumn>
                                           <Name value="dataColumn1" />
-                                          <Panel.Width value="*" />
                                           <Content>
                                             <CheckBox>
                                               <Name value="checkBox_isDocumentSelected" />
@@ -2563,7 +2565,6 @@
                                         </DataColumn>
                                         <DataColumn>
                                           <Name value="dataColumn2" />
-                                          <Panel.Width value="*" />
                                           <Content>
                                             <Label>
                                               <Name value="label_documentType" />
@@ -2590,7 +2591,6 @@
                                         </DataColumn>
                                         <DataColumn>
                                           <Name value="dataColumn3" />
-                                          <Panel.Width value="*" />
                                           <Content>
                                             <Label>
                                               <Name value="label1_documentIdentifier" />
@@ -2617,7 +2617,6 @@
                                         </DataColumn>
                                         <DataColumn>
                                           <Name value="dataColumn4" />
-                                          <Panel.Width value="*" />
                                           <Content>
                                             <Label>
                                               <Name value="label_numberOfDocuments" />
@@ -2645,7 +2644,6 @@
                                         </DataColumn>
                                         <DataColumn>
                                           <Name value="dataColumn5" />
-                                          <Panel.Width value="*" />
                                           <Content>
                                             <Label>
                                               <Name value="label_documentDate" />
@@ -2672,7 +2670,6 @@
                                         </DataColumn>
                                         <DataColumn>
                                           <Name value="dataColumn6" />
-                                          <Panel.Width value="*" />
                                           <Content>
                                             <Label>
                                               <Name value="label_fileReference" />
@@ -2973,7 +2970,33 @@
               <Name value="_fileHrefText" />
               <Caption value="_ file href text" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA["Zobrazit " + documentIdentifier + "." + documentType]]></ExpressionText>
+                <ExpressionText><![CDATA[documentIdentifier + "." + documentType]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </Expression>
+            </Computed>
+          </Children>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_D57661A8_attachedDocumentsCZ" />
+          <SourcePath value="CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ" />
+          <Children>
+            <Computed>
+              <Name value="_fileUrl" />
+              <Caption value="_ file url" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[globals.serviceUrl + "CustomsDecisionAttachedDocumentRequest?customsDecisionGUID={" + this.owner().owner().owner().customsDecisionGUID + "}&customsDecisionVersionGUID={" + this.owner().owner().owner().customsDecisionVersionGUID + "}&documentGUID={" + this.documentGUID + "}&version=" + globals.version]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="_fileHrefText" />
+              <Caption value="_ file href text" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[documentIdentifier + "." + documentType]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
@@ -3008,12 +3031,14 @@ else
 endif
 
 //set up variables
-globals.uiGlobalState.annex.isVisibleAddAnnexPanel = False
+actions.prepareFormAnnexPannel()
+globals.uiGlobalState.annex.addOtherAnnex.isSelectedAnnexForHolder = false
+
 // ********* check correctness of next three lines:
 if form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.hasValue() then
 	globals.uiGlobalState.CDversionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.selectFirst(current.index() = 1).customsDecisionVersionGUID
 endif
-globals.uiGlobalState.annex.addOtherAnnex.isSelectedAnnexForHolder = false
+
 globals.uiGlobalState.isLastCDversionSelected = True
 
 form.actions.initTabMenu_ALANG()
@@ -3273,10 +3298,54 @@ endif
 
 form.actions.setUpData_CDAnnexDetailRequest()
 
+/*
 //just for testing
 system.console("customsDecisionGUID:: " + toString(globals.uiGlobalState.annex.annexDetail.request.customsDecisionAuthorisationData.customsDecisionGUID) )
 system.console("customsDecisionVersionGUID:: " + toString(globals.uiGlobalState.annex.annexDetail.request.customsDecisionAuthorisationData.customsDecisionVersionGUID))
-//delete after testing]]></Script>
+//delete after testing
+*/]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="storeNewAnnexCZtoSSE" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//call global action
+actions.storeNewAnnexCZ()
+
+globals.IsBusy = True
+
+if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
+
+	var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionAnnexDetailRequest", globals.uiGlobalState.annex.annexDetail.request.toJson())
+	
+	if response.isError() then
+		system.console(response.getErrorMessage())
+	else
+		
+		//clear old annexCZ data
+		if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().isEmpty() = false then
+		
+			var targetCollection = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst()
+			
+			targetCollection.attachedDocuments.clear()
+			
+		endif
+				
+		// fill data with newly uploaded annexCZ data
+		form.CD.fromJson(response.getJsonString())
+		
+		if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().attachedDocumentsCZ.isEmpty() then
+			system.alert("Zpráva neobsahuje žádná data")
+		endif
+		
+	endif
+
+endif
+
+globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
