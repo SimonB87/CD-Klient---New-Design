@@ -3134,6 +3134,15 @@ globals.IsBusy = False]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.VersionGUID = params.data.customsDecisionVersionGUID
 form.actions.loadData()
+
+if (params.data.orderNumber > 0) and form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.hasValue() then
+	if params.data.orderNumber  = form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.count() then
+		globals.uiGlobalState.isLastCDversionSelected = True
+	else
+		globals.uiGlobalState.isLastCDversionSelected = False
+	endif
+
+endif
 ]]></Script>
       </ActionLangBody>
       <DataContext>
