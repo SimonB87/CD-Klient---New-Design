@@ -6107,7 +6107,7 @@
                                         </Panel>
                                       </Content>
                                       <Bindings>
-                                        <Binding SourceProperty="DataItems" Expression="globals.dataLoadingSpace.cddResponse.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex" />
+                                        <Binding SourceProperty="DataItems" Expression="form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex" />
                                       </Bindings>
                                       <CssClass>
                                         <CssClassConditional>
@@ -7599,6 +7599,32 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                 <ExpressionText><![CDATA[(enhancementStatus.Key in ["None", "Partial"]) and (customsDecisionStatus.STAVROZH in ["01"])]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+          </Children>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_D57661A8_attachedDocumentsCZ" />
+          <SourcePath value="CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ" />
+          <Children>
+            <Computed>
+              <Name value="_fileUrl" />
+              <Caption value="_ file url" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[globals.serviceUrl + "CustomsDecisionAttachedDocumentRequest?customsDecisionGUID={" + this.owner().owner().owner().customsDecisionGUID + "}&customsDecisionVersionGUID={" + this.owner().owner().owner().customsDecisionVersionGUID + "}&documentGUID={" + this.documentGUID + "}&version=" + globals.version]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="_fileHrefText" />
+              <Caption value="_ file href text" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA["Zobrazit " + documentIdentifier + "." + documentType]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
                 </ResultType>
               </Expression>
             </Computed>
