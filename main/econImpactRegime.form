@@ -12652,8 +12652,6 @@ form.enhancement.isEnhancementEditOn = False
 form.actions.fillGoodsItemCZcollection()
 form.actions.prepareGoodsItemCZlistCtrl()
 
-form.actions.setUpLocalPlainObjectWithGoodsItemsCZ()
-
 form.formBehavior.show_equivalentGoodsProcessingGb1 = False
 
 globals.IsBusy = false
@@ -13877,19 +13875,6 @@ endif]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="setUpLocalPlainObjectWithGoodsItemsCZ" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.apiobjects.plainObjectGoodsItemsCZ.init(form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.toJson())
-
-//put json data into single string variable
-form.enhancement.goodsItemsCZjson = form.apiobjects.plainObjectGoodsItemsCZ.formatJson()
-]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="fillStoreAttachedDocumentsCZaction1" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if globals.uiGlobalState.isLastCDversionSelected then
@@ -14658,9 +14643,6 @@ form.apiobjects.goodsItemCZenhancement.setReady(True)]]></Script>
       <dataProvider reference="~collectionDataProviderGItemCZ" />
       <server reference="+GlobalApiObjects.ServerKomunikace" />
     </ListCtrl>
-    <PlainObject identity="PlainObject.2933617ce1714fe38ef01785a5a6492f">
-      <Name value="plainObjectGoodsItemsCZ" />
-    </PlainObject>
     <ListCtrl identity="ListCtrl.459ff3780ab145df985191cfc1336ce1">
       <Name value="goodsItemCZenhancement" />
       <dataProvider reference="~collectionDataProviderGItemCZ" />
