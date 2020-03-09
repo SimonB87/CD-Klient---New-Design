@@ -109,6 +109,23 @@
             <Binding SourceProperty="IsVisible" Expression="globals.IsAuthorized" />
           </Bindings>
           <Children>
+            <Button>
+              <Name value="btn_isSelectedMyOffice" />
+              <Panel.Height value="#" />
+              <Panel.Width value="150px" />
+              <OnClick>
+                <ActionEvent ReferencedAction="~handler_btn_isSelectedMyOffice_OnClick" />
+              </OnClick>
+              <Bindings>
+                <Binding SourceProperty="Caption" Expression="form.uiState.btnTitle_myCUoffice" />
+              </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-button" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Button>
             <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
               <Name value="cdList" />
               <controller reference="~listCtrl" />
@@ -203,6 +220,102 @@
                   <Caption value="Stav rozhodnutí" />
                   <ColumnName value="CustomsDecisionStatusDescription" />
                   <DataType value="string" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn1" />
+                  <Caption value="LinkCZ50" />
+                  <ColumnName value="LinkCZ50" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn2" />
+                  <Caption value="LinkCZ51" />
+                  <ColumnName value="LinkCZ51" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn3" />
+                  <Caption value="LinkCZ52" />
+                  <ColumnName value="LinkCZ52" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn4" />
+                  <Caption value="LinkCZ53" />
+                  <ColumnName value="LinkCZ53" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn5" />
+                  <Caption value="LinkCZ54" />
+                  <ColumnName value="LinkCZ54" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn6" />
+                  <Caption value="LinkCZ55" />
+                  <ColumnName value="LinkCZ55" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn7" />
+                  <Caption value="LinkCZ56" />
+                  <ColumnName value="LinkCZ56" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn8" />
+                  <Caption value="LinkCZ57" />
+                  <ColumnName value="LinkCZ57" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn9" />
+                  <Caption value="LinkCZ58" />
+                  <ColumnName value="LinkCZ58" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn10" />
+                  <Caption value="LinkCZ59" />
+                  <ColumnName value="LinkCZ59" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn11" />
+                  <Caption value="LinkCZ60" />
+                  <ColumnName value="LinkCZ60" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn12" />
+                  <Caption value="LinkCZ61" />
+                  <ColumnName value="LinkCZ61" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn13" />
+                  <Caption value="LinkCZ62" />
+                  <ColumnName value="LinkCZ62" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn14" />
+                  <Caption value="LinkCZ63" />
+                  <ColumnName value="LinkCZ63" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn15" />
+                  <Caption value="LinkCZ64" />
+                  <ColumnName value="LinkCZ64" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn16" />
+                  <Caption value="LinkCZ65" />
+                  <ColumnName value="LinkCZ65" />
+                  <IsVisible value="False" />
                 </listColumn>
               </columns>
             </List>
@@ -822,6 +935,51 @@
             </Attribute>
           </Children>
         </Complex>
+        <Complex>
+          <Name value="uiState" />
+          <Caption value="Ui state" />
+          <Children>
+            <Computed>
+              <Name value="btnTitle_myCUoffice" />
+              <Caption value="Btn title _ my C uoffice" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[form.uiState.isSelectedMyCUoffice = True ? "Týká se mého CU: Ano" : "Týká se mého CU: Ne"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Attribute>
+              <Name value="isSelectedMyCUoffice" />
+              <Caption value="Is selected my C uoffice" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Collection>
+              <Name value="userCUorganisations" />
+              <Caption value="code" />
+              <Children>
+                <Attribute>
+                  <Name value="code" />
+                  <Caption value="code" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="description" />
+                  <Caption value="description" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Collection>
+          </Children>
+        </Complex>
       </Children>
     </DataContext>
   </DataContext>
@@ -831,7 +989,7 @@
   <Actions>
     <ActionBlock>
       <Name value="decllistOnCreate" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[If not globals.IsAuthorized then 
 	var user = globals.OverenyUzivatel
 	
@@ -873,6 +1031,8 @@ endif
 form.apiobjects.listCtrl.setReady(true)
 	
 endif
+
+form.actions.loadUserCUorganisations()
 
 globals.IsBusy = false
 
@@ -1155,6 +1315,35 @@ endif
   form.actions.zobrazDetail_ALANG()
 endif
 ]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btn_isSelectedMyOffice_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.uiState.isSelectedMyCUoffice = False then
+	form.uiState.isSelectedMyCUoffice = True
+else
+	form.uiState.isSelectedMyCUoffice = False
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="loadUserCUorganisations" />
+      <ActionLangBody>
+        <Script><![CDATA[forEach user in form.LoginResult.user do
+	forEach organisation in user.organisation do
+	
+		system.console("results")
+		
+	endFor
+endFor]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
