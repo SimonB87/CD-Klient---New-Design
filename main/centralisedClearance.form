@@ -6895,6 +6895,9 @@
                           </CssClass>
                         </Panel>
                       </Content>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="form.uiState.visibilities.visibilityOfSaspAccountsGb" />
+                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-groupbox" />
@@ -7459,6 +7462,15 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                     </AttributeType>
                   </DeclaredType>
                 </Attribute>
+                <Attribute>
+                  <Name value="visibilityOfSaspAccountsGb" />
+                  <Caption value="Visibility of sasp accounts gb" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
               </Children>
             </Complex>
             <Computed>
@@ -7664,6 +7676,8 @@ globals.uiGlobalState.CDversionGUID = form.CD.customsDecisionAuthorisationData.c
 globals.uiGlobalState.annex.addOtherAnnex.isSelectedAnnexForHolder = false
 
 globals.uiGlobalState.isLastCDversionSelected = True
+
+form.actions.adjustVisibilityOfSaspAccountsGb()
 
 globals.IsBusy = false
 ]]></Script>
@@ -8291,6 +8305,30 @@ endif]]></Script>
 else
 	system.alert("Vyberte současnou verzi povolení!")
 endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="adjustVisibilityOfSaspAccountsGb" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsProcedureConcerned.exists(current.procedureCode.CEL_UR.hasValue()) = True then
+
+	var customsProcedure = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsProcedureConcerned.where(current.procedureCode.CEL_UR = "40")
+		
+	var customsProcedureCount = customsProcedure.count()
+	
+	if customsProcedureCount > 0  then
+		form.uiState.visibilities.visibilityOfSaspAccountsGb = True
+	else
+		form.uiState.visibilities.visibilityOfSaspAccountsGb = False
+	endIf
+	
+else
+	form.uiState.visibilities.visibilityOfSaspAccountsGb = False
+endif
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
