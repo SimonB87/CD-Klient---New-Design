@@ -976,6 +976,13 @@
                     <AttributeType />
                   </DeclaredType>
                 </Attribute>
+                <Attribute>
+                  <Name value="linkCZvalue" />
+                  <Caption value="The " />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
               </Children>
             </Collection>
           </Children>
@@ -989,7 +996,7 @@
   <Actions>
     <ActionBlock>
       <Name value="decllistOnCreate" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[If not globals.IsAuthorized then 
 	var user = globals.OverenyUzivatel
 	
@@ -1336,14 +1343,30 @@ endIf]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="loadUserCUorganisations" />
-      <ActionLangBody>
-        <Script><![CDATA[forEach user in form.LoginResult.user do
-	forEach organisation in user.organisation do
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if globals.LoginResult.user.exists(current.hasValue()) = True then
+
+	forEach userCollection in globals.LoginResult.user do
 	
-		system.console("results")
+		forEach organisationCollection in userCollection.organisation do
 		
+				forEach codeItem in organisationCollection.code do
+		
+					var addItem = form.uiState.userCUorganisations.addItem()
+					
+					addItem.code = codeItem.code
+					addItem.description = codeItem.description
+					addItem.linkCZvalue = "Link" + SubString(codeItem.code,1,4)
+			
+				endFor
+			
+		endFor
 	endFor
-endFor]]></Script>
+
+endIf
+
+system.console("userCUorganisations::")
+system.console(form.uiState.userCUorganisations.toJson())]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
