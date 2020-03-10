@@ -13134,12 +13134,6 @@ else
 endif
 
 //check if user selected last CD version
-
-//start Testing::
-system.console("params.data.orderNumber:: " + toString(params.data.orderNumber))
-system.console("customsDecisionVersionHistory:: " + toString(form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.hasValue()))
-system.console("customsDecisionVersionHistory.count():: " + toString(form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.count())) //end Testing
-
 if (params.data.orderNumber > 0) and form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.hasValue() then
 	if params.data.orderNumber  = form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.count() then
 		globals.uiGlobalState.isLastCDversionSelected = True
@@ -13148,9 +13142,6 @@ if (params.data.orderNumber > 0) and form.CD.customsDecisionAuthorisationData.cu
 	endif
 
 endif
-
-//start Testing::
-system.console("isLastCDversionSelected:: " + toString(globals.uiGlobalState.isLastCDversionSelected)) //end Testing::
 
 globals.IsBusy = false
 ]]></Script>
