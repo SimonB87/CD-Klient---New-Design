@@ -118,6 +118,7 @@
               </OnClick>
               <Bindings>
                 <Binding SourceProperty="Caption" Expression="form.uiState.btnTitle_myCUoffice" />
+                <Binding SourceProperty="IsVisible" Expression="form.tabFilter.Tab01.IsSelected" />
               </Bindings>
               <CssClass>
                 <CssClassConditional>
@@ -225,13 +226,11 @@
                   <Name value="listColumn1" />
                   <Caption value="LinkCZ50" />
                   <ColumnName value="LinkCZ50" />
-                  <IsVisible value="False" />
                 </listColumn>
                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                   <Name value="listColumn2" />
                   <Caption value="LinkCZ51" />
                   <ColumnName value="LinkCZ51" />
-                  <IsVisible value="False" />
                 </listColumn>
                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                   <Name value="listColumn3" />
@@ -1455,11 +1454,29 @@ endif
       <Name value="handler_btn_isSelectedMyOffice_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.uiState.isSelectedMyCUoffice = False then
-	form.uiState.isSelectedMyCUoffice = True
-else
+        <Script><![CDATA[//testing
+//system.console("userAllCUorganisations:: " + toString ( form.uiState.userAllCUorganisations.toJson() ) )
+
+form.apiobjects.listCtrl.setReady(False)
+
+if form.uiState.isSelectedMyCUoffice = True then
+
 	form.uiState.isSelectedMyCUoffice = False
-endIf]]></Script>
+	
+	//see only CDs linked to User's CU organisations
+	var basicIncompleteFilter = "(CustomsDecisionType eq 'OPO' or CustomsDecisionType eq 'IPO' or CustomsDecisionType eq 'TEA' or CustomsDecisionType eq 'CW1' or CustomsDecisionType eq 'CW2' or CustomsDecisionType eq 'CWP' or CustomsDecisionType eq 'EUS' or CustomsDecisionType eq 'CCL') and (EnhancementCompleteness eq '"
+	form.apiobjects.listCtrl.setInvisibleODataFilter(basicIncompleteFilter + "LastIncomplete')")
+	
+else
+
+	form.uiState.isSelectedMyCUoffice = True
+	
+	//see all CDs
+	form.apiobjects.listCtrl.setInvisibleODataFilter("(LinkCZ51 eq true) and (EnhancementCompleteness eq 'LastIncomplete')")
+	
+endIf
+
+form.apiobjects.listCtrl.setReady(True)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
