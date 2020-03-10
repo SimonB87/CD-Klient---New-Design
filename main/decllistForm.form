@@ -958,33 +958,156 @@
                 </AttributeType>
               </DeclaredType>
             </Attribute>
-            <Collection>
-              <Name value="userCUorganisations" />
-              <Caption value="code" />
+            <Complex>
+              <Name value="userAllCUorganisations" />
+              <Caption value="User all C uorganisations" />
               <Children>
                 <Attribute>
-                  <Name value="code" />
-                  <Caption value="code" />
+                  <Name value="LinkCZ50" />
+                  <Caption value="Link CZ 50" />
                   <DeclaredType>
-                    <AttributeType />
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
                   </DeclaredType>
                 </Attribute>
                 <Attribute>
-                  <Name value="description" />
-                  <Caption value="description" />
+                  <Name value="LinkCZ51" />
+                  <Caption value="Link CZ 51" />
                   <DeclaredType>
-                    <AttributeType />
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
                   </DeclaredType>
                 </Attribute>
                 <Attribute>
-                  <Name value="linkCZvalue" />
-                  <Caption value="The " />
+                  <Name value="LinkCZ52" />
+                  <Caption value="Link CZ 52" />
                   <DeclaredType>
-                    <AttributeType />
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="LinkCZ53" />
+                  <Caption value="Link CZ 53" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="LinkCZ54" />
+                  <Caption value="Link CZ 54" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="LinkCZ55" />
+                  <Caption value="Link CZ 55" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="LinkCZ56" />
+                  <Caption value="Link CZ 56" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="LinkCZ57" />
+                  <Caption value="Link CZ 57" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="LinkCZ58" />
+                  <Caption value="Link CZ 58" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="LinkCZ59" />
+                  <Caption value="Link CZ 59" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="LinkCZ60" />
+                  <Caption value="Link CZ 60" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="LinkCZ61" />
+                  <Caption value="Link CZ 61" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="LinkCZ62" />
+                  <Caption value="Link CZ 62" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="LinkCZ63" />
+                  <Caption value="Link CZ 63" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="LinkCZ64" />
+                  <Caption value="Link CZ 64" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="LinkCZ65" />
+                  <Caption value="Link CZ 65" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
                   </DeclaredType>
                 </Attribute>
               </Children>
-            </Collection>
+            </Complex>
           </Children>
         </Complex>
       </Children>
@@ -996,7 +1119,7 @@
   <Actions>
     <ActionBlock>
       <Name value="decllistOnCreate" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[If not globals.IsAuthorized then 
 	var user = globals.OverenyUzivatel
 	
@@ -1039,6 +1162,7 @@ form.apiobjects.listCtrl.setReady(true)
 	
 endif
 
+form.actions.setUpLoadUserCUorganisationsValues()
 form.actions.loadUserCUorganisations()
 
 globals.IsBusy = false
@@ -1346,27 +1470,66 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if globals.LoginResult.user.exists(current.hasValue()) = True then
 
-	forEach userCollection in globals.LoginResult.user do
+  forEach userCollection in globals.LoginResult.user do
 	
-		forEach organisationCollection in userCollection.organisation do
+    forEach organisationCollection in userCollection.organisation do
 		
-				forEach codeItem in organisationCollection.code do
-		
-					var addItem = form.uiState.userCUorganisations.addItem()
-					
-					addItem.code = codeItem.code
-					addItem.description = codeItem.description
-					addItem.linkCZvalue = "Link" + SubString(codeItem.code,1,4)
+      forEach codeItem in organisationCollection.code do
+        
+        if codeItem.code = "CZ500000" then form.uiState.userAllCUorganisations.LinkCZ50 = True	endIf
+        if codeItem.code = "CZ510000" then form.uiState.userAllCUorganisations.LinkCZ51 = True	endIf
+        if codeItem.code = "CZ520000" then form.uiState.userAllCUorganisations.LinkCZ52 = True	endIf
+        if codeItem.code = "CZ530000" then form.uiState.userAllCUorganisations.LinkCZ53 = True	endIf
+                    	
+        if codeItem.code = "CZ540000" then form.uiState.userAllCUorganisations.LinkCZ54 = True	endIf
+        if codeItem.code = "CZ550000" then form.uiState.userAllCUorganisations.LinkCZ55 = True	endIf
+        if codeItem.code = "CZ560000" then form.uiState.userAllCUorganisations.LinkCZ56 = True	endIf
+        if codeItem.code = "CZ570000" then form.uiState.userAllCUorganisations.LinkCZ57 = True	endIf
+                    	
+        if codeItem.code = "CZ580000" then form.uiState.userAllCUorganisations.LinkCZ58 = True	endIf
+        if codeItem.code = "CZ590000" then form.uiState.userAllCUorganisations.LinkCZ59 = True	endIf
+        if codeItem.code = "CZ600000" then form.uiState.userAllCUorganisations.LinkCZ60 = True	endIf
+        if codeItem.code = "CZ610000" then form.uiState.userAllCUorganisations.LinkCZ61 = True	endIf
+	
+        if codeItem.code = "CZ620000" then form.uiState.userAllCUorganisations.LinkCZ62 = True	endIf
+        if codeItem.code = "CZ630000" then form.uiState.userAllCUorganisations.LinkCZ63 = True	endIf
+        if codeItem.code = "CZ640000" then form.uiState.userAllCUorganisations.LinkCZ64 = True	endIf
+        if codeItem.code = "CZ650000" then form.uiState.userAllCUorganisations.LinkCZ65 = True	endIf
 			
-				endFor
+      endFor
 			
-		endFor
-	endFor
+    endFor
+  endFor
 
-endIf
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setUpLoadUserCUorganisationsValues" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[// Set Up Load User CU organisations Values for finding out, which organisations are linked to User
+form.uiState.userAllCUorganisations.LinkCZ50 = False
+form.uiState.userAllCUorganisations.LinkCZ51 = False
+form.uiState.userAllCUorganisations.LinkCZ52 = False
+form.uiState.userAllCUorganisations.LinkCZ53 = False
 
-system.console("userCUorganisations::")
-system.console(form.uiState.userCUorganisations.toJson())]]></Script>
+form.uiState.userAllCUorganisations.LinkCZ54 = False
+form.uiState.userAllCUorganisations.LinkCZ55 = False
+form.uiState.userAllCUorganisations.LinkCZ56 = False
+form.uiState.userAllCUorganisations.LinkCZ57 = False
+
+form.uiState.userAllCUorganisations.LinkCZ58 = False
+form.uiState.userAllCUorganisations.LinkCZ59 = False
+form.uiState.userAllCUorganisations.LinkCZ60 = False
+form.uiState.userAllCUorganisations.LinkCZ61 = False
+
+form.uiState.userAllCUorganisations.LinkCZ62 = False
+form.uiState.userAllCUorganisations.LinkCZ63 = False
+form.uiState.userAllCUorganisations.LinkCZ64 = False
+form.uiState.userAllCUorganisations.LinkCZ65 = False]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
