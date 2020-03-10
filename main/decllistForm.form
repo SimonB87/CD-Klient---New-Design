@@ -109,24 +109,23 @@
             <Binding SourceProperty="IsVisible" Expression="globals.IsAuthorized" />
           </Bindings>
           <Children>
-            <Button>
-              <Name value="btn_isSelectedMyOffice" />
+            <CheckBox>
+              <Name value="checkBox_isSelectedMyOffice" />
+              <Caption value="Pouze moje CÚ" />
               <Panel.Height value="#" />
               <Panel.Width value="150px" />
-              <OnClick>
-                <ActionEvent ReferencedAction="~handler_btn_isSelectedMyOffice_OnClick" />
-              </OnClick>
               <Bindings>
-                <Binding SourceProperty="Caption" Expression="form.uiState.btnTitle_myCUoffice" />
+                <Binding SourceProperty="Data" Expression="uiState.isSelectedMyCUoffice" />
+                <Binding SourceProperty="IsRequiredMarkVisible" Expression="uiState.isSelectedMyCUoffice.isRequired()" />
                 <Binding SourceProperty="IsVisible" Expression="form.tabFilter.Tab01.IsSelected" />
               </Bindings>
               <CssClass>
                 <CssClassConditional>
-                  <ClassName value="{theme}-button" />
+                  <ClassName value="{theme}-checkbox" />
                   <IsThemedStyle value="True" />
                 </CssClassConditional>
               </CssClass>
-            </Button>
+            </CheckBox>
             <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
               <Name value="cdList" />
               <controller reference="~listCtrl" />
@@ -226,11 +225,13 @@
                   <Name value="listColumn1" />
                   <Caption value="LinkCZ50" />
                   <ColumnName value="LinkCZ50" />
+                  <IsVisible value="False" />
                 </listColumn>
                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                   <Name value="listColumn2" />
                   <Caption value="LinkCZ51" />
                   <ColumnName value="LinkCZ51" />
+                  <IsVisible value="False" />
                 </listColumn>
                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                   <Name value="listColumn3" />
@@ -956,157 +957,10 @@
                   <BaseType value="Bool" />
                 </AttributeType>
               </DeclaredType>
+              <OnUserChange>
+                <ActionEvent ReferencedAction="+UiParts.decllistForm.switchInvisibleFilterByUserCUorganisation" />
+              </OnUserChange>
             </Attribute>
-            <Complex>
-              <Name value="userAllCUorganisations" />
-              <Caption value="User all C uorganisations" />
-              <Children>
-                <Attribute>
-                  <Name value="LinkCZ50" />
-                  <Caption value="Link CZ 50" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="LinkCZ51" />
-                  <Caption value="Link CZ 51" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="LinkCZ52" />
-                  <Caption value="Link CZ 52" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="LinkCZ53" />
-                  <Caption value="Link CZ 53" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="LinkCZ54" />
-                  <Caption value="Link CZ 54" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="LinkCZ55" />
-                  <Caption value="Link CZ 55" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="LinkCZ56" />
-                  <Caption value="Link CZ 56" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="LinkCZ57" />
-                  <Caption value="Link CZ 57" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="LinkCZ58" />
-                  <Caption value="Link CZ 58" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="LinkCZ59" />
-                  <Caption value="Link CZ 59" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="LinkCZ60" />
-                  <Caption value="Link CZ 60" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="LinkCZ61" />
-                  <Caption value="Link CZ 61" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="LinkCZ62" />
-                  <Caption value="Link CZ 62" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="LinkCZ63" />
-                  <Caption value="Link CZ 63" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="LinkCZ64" />
-                  <Caption value="Link CZ 64" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="LinkCZ65" />
-                  <Caption value="Link CZ 65" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-              </Children>
-            </Complex>
           </Children>
         </Complex>
       </Children>
@@ -1118,7 +972,7 @@
   <Actions>
     <ActionBlock>
       <Name value="decllistOnCreate" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[If not globals.IsAuthorized then 
 	var user = globals.OverenyUzivatel
 	
@@ -1158,11 +1012,11 @@ else
 endif
 
 form.apiobjects.listCtrl.setReady(true)
+
+//set up form variables
+form.uiState.isSelectedMyCUoffice = False
 	
 endif
-
-form.actions.setUpLoadUserCUorganisationsValues()
-form.actions.loadUserCUorganisations()
 
 globals.IsBusy = false
 
@@ -1451,102 +1305,26 @@ endif
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="handler_btn_isSelectedMyOffice_OnClick" />
-      <IsPrivate value="True" />
+      <Name value="switchInvisibleFilterByUserCUorganisation" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[//testing
-//system.console("userAllCUorganisations:: " + toString ( form.uiState.userAllCUorganisations.toJson() ) )
-
+        <Script><![CDATA[// Switch invisible filter to CDs according to code of User's CU organisations
 form.apiobjects.listCtrl.setReady(False)
 
-if form.uiState.isSelectedMyCUoffice = True then
+var basicIncompleteFilter = "(CustomsDecisionType eq 'OPO' or CustomsDecisionType eq 'IPO' or CustomsDecisionType eq 'TEA' or CustomsDecisionType eq 'CW1' or CustomsDecisionType eq 'CW2' or CustomsDecisionType eq 'CWP' or CustomsDecisionType eq 'EUS' or CustomsDecisionType eq 'CCL') and (EnhancementCompleteness eq '"
 
-	form.uiState.isSelectedMyCUoffice = False
-	
-	//see only CDs linked to User's CU organisations
-	var basicIncompleteFilter = "(CustomsDecisionType eq 'OPO' or CustomsDecisionType eq 'IPO' or CustomsDecisionType eq 'TEA' or CustomsDecisionType eq 'CW1' or CustomsDecisionType eq 'CW2' or CustomsDecisionType eq 'CWP' or CustomsDecisionType eq 'EUS' or CustomsDecisionType eq 'CCL') and (EnhancementCompleteness eq '"
+if form.uiState.isSelectedMyCUoffice = False then
+	// See only CDs linked to User's CU organisations
 	form.apiobjects.listCtrl.setInvisibleODataFilter(basicIncompleteFilter + "LastIncomplete')")
 	
 else
-
-	form.uiState.isSelectedMyCUoffice = True
+	// See all CDs
+	var startOfUsersCUorganisationCode = SubString( globals.OverenyUzivatel.CuCode,1,4) 
 	
-	//see all CDs
-	form.apiobjects.listCtrl.setInvisibleODataFilter("(LinkCZ51 eq true) and (EnhancementCompleteness eq 'LastIncomplete')")
+	form.apiobjects.listCtrl.setInvisibleODataFilter("(Link" + startOfUsersCUorganisationCode + " eq true) and" + basicIncompleteFilter + "LastIncomplete')")
 	
 endIf
 
 form.apiobjects.listCtrl.setReady(True)]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="loadUserCUorganisations" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[if globals.LoginResult.user.exists(current.hasValue()) = True then
-
-  forEach userCollection in globals.LoginResult.user do
-	
-    forEach organisationCollection in userCollection.organisation do
-		
-      forEach codeItem in organisationCollection.code do
-        
-        if codeItem.code = "CZ500000" then form.uiState.userAllCUorganisations.LinkCZ50 = True	endIf
-        if codeItem.code = "CZ510000" then form.uiState.userAllCUorganisations.LinkCZ51 = True	endIf
-        if codeItem.code = "CZ520000" then form.uiState.userAllCUorganisations.LinkCZ52 = True	endIf
-        if codeItem.code = "CZ530000" then form.uiState.userAllCUorganisations.LinkCZ53 = True	endIf
-                    	
-        if codeItem.code = "CZ540000" then form.uiState.userAllCUorganisations.LinkCZ54 = True	endIf
-        if codeItem.code = "CZ550000" then form.uiState.userAllCUorganisations.LinkCZ55 = True	endIf
-        if codeItem.code = "CZ560000" then form.uiState.userAllCUorganisations.LinkCZ56 = True	endIf
-        if codeItem.code = "CZ570000" then form.uiState.userAllCUorganisations.LinkCZ57 = True	endIf
-                    	
-        if codeItem.code = "CZ580000" then form.uiState.userAllCUorganisations.LinkCZ58 = True	endIf
-        if codeItem.code = "CZ590000" then form.uiState.userAllCUorganisations.LinkCZ59 = True	endIf
-        if codeItem.code = "CZ600000" then form.uiState.userAllCUorganisations.LinkCZ60 = True	endIf
-        if codeItem.code = "CZ610000" then form.uiState.userAllCUorganisations.LinkCZ61 = True	endIf
-	
-        if codeItem.code = "CZ620000" then form.uiState.userAllCUorganisations.LinkCZ62 = True	endIf
-        if codeItem.code = "CZ630000" then form.uiState.userAllCUorganisations.LinkCZ63 = True	endIf
-        if codeItem.code = "CZ640000" then form.uiState.userAllCUorganisations.LinkCZ64 = True	endIf
-        if codeItem.code = "CZ650000" then form.uiState.userAllCUorganisations.LinkCZ65 = True	endIf
-			
-      endFor
-			
-    endFor
-  endFor
-
-endIf]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="setUpLoadUserCUorganisationsValues" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[// Set Up Load User CU organisations Values for finding out, which organisations are linked to User
-form.uiState.userAllCUorganisations.LinkCZ50 = False
-form.uiState.userAllCUorganisations.LinkCZ51 = False
-form.uiState.userAllCUorganisations.LinkCZ52 = False
-form.uiState.userAllCUorganisations.LinkCZ53 = False
-
-form.uiState.userAllCUorganisations.LinkCZ54 = False
-form.uiState.userAllCUorganisations.LinkCZ55 = False
-form.uiState.userAllCUorganisations.LinkCZ56 = False
-form.uiState.userAllCUorganisations.LinkCZ57 = False
-
-form.uiState.userAllCUorganisations.LinkCZ58 = False
-form.uiState.userAllCUorganisations.LinkCZ59 = False
-form.uiState.userAllCUorganisations.LinkCZ60 = False
-form.uiState.userAllCUorganisations.LinkCZ61 = False
-
-form.uiState.userAllCUorganisations.LinkCZ62 = False
-form.uiState.userAllCUorganisations.LinkCZ63 = False
-form.uiState.userAllCUorganisations.LinkCZ64 = False
-form.uiState.userAllCUorganisations.LinkCZ65 = False]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
