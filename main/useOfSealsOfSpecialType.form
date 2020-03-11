@@ -3066,16 +3066,9 @@ else
 	endif
 endif
 
-//set up variables
+//set up for Annex
 actions.prepareFormAnnexPannel()
-globals.uiGlobalState.annex.addOtherAnnex.isSelectedAnnexForHolder = false
-
-// ********* check correctness of next three lines:
-if form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.hasValue() then
-	globals.uiGlobalState.CDversionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.selectFirst(current.index() = 1).customsDecisionVersionGUID
-endif
-
-globals.uiGlobalState.isLastCDversionSelected = True
+form.actions.prepareFormForAnnexInteraction()
 
 form.actions.initTabMenu_ALANG()
 form.Tabs.SelectedTab = 1
@@ -3391,6 +3384,19 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 endif
 
 globals.IsBusy = False]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="prepareFormForAnnexInteraction" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.uiGlobalState.annex.addOtherAnnex.isSelectedAnnexForHolder = false
+globals.uiGlobalState.isLastCDversionSelected = True
+if form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.hasValue() then
+	globals.uiGlobalState.CDversionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.selectFirst(current.index() = 1).customsDecisionVersionGUID
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
