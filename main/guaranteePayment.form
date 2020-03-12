@@ -478,7 +478,6 @@
                       <Name value="tabPrilohy" />
                       <Bindings>
                         <Binding SourceProperty="Title" Expression="tabsMenu.Tab05Prilohy.Title" />
-                        <Binding SourceProperty="Visible" Expression="form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.hasValue()" />
                       </Bindings>
                     </tab>
                   </Tabs>
@@ -2793,6 +2792,9 @@
                                                                   <Margin value="16, 6, 6, 6 px" />
                                                                   <Panel.Height value="#" />
                                                                   <Panel.Width value="33%" />
+                                                                  <OnClick>
+                                                                    <ActionEvent ReferencedAction="~handler_button_deleteAnnexCZ_OnClick" />
+                                                                  </OnClick>
                                                                   <CssClass>
                                                                     <CssClassConditional>
                                                                       <ClassName value="{theme}-button" />
@@ -3096,6 +3098,9 @@
                                   <Caption value="Nahrát novou přílohu" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="150px" />
+                                  <OnClick>
+                                    <ActionEvent ReferencedAction="~storeNewAnnexCZtoCD" />
+                                  </OnClick>
                                   <CssClass>
                                     <CssClassConditional>
                                       <ClassName value="{theme}-button" />
@@ -3149,6 +3154,9 @@
                                       <Caption value="Načíst seznam existujících příloh" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="150px" />
+                                      <OnClick>
+                                        <ActionEvent ReferencedAction="~fillStoreAttachedDocumentsCZ" />
+                                      </OnClick>
                                       <CssClass>
                                         <CssClassConditional>
                                           <ClassName value="{theme}-button" />
@@ -3183,6 +3191,9 @@
                                       <Caption value="Připojit následující přílohy" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="150px" />
+                                      <OnClick>
+                                        <ActionEvent ReferencedAction="~linkOtherAnnexToCurrentCD" />
+                                      </OnClick>
                                       <CssClass>
                                         <CssClassConditional>
                                           <ClassName value="{theme}-button" />
@@ -3836,7 +3847,9 @@ form.actions.initTabMenu_ALANG()
 form.actions.zjistitTyp_ALANG()
 form.tabsMenu.SelectedTab = 1
 globals.IsBusy = false
-]]></Script>
+
+actions.prepareFormAnnexPannel()
+form.actions.prepareFormForAnnexInteraction()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -3932,10 +3945,23 @@ globals.IsBusy = False]]></Script>
       <Name value="handler_dataTable1_OnRowActivate" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[// form.actions.loadData(params.data.customsDecisionVersionGUID)
+        <Script><![CDATA[globals.IsBusy = true
+// form.actions.loadData(params.data.customsDecisionVersionGUID)
 
 form.VersionGUID = params.data.customsDecisionVersionGUID
-form.actions.loadData()]]></Script>
+form.actions.loadData()
+
+//check if user selected last CD version
+if (params.data.orderNumber > 0) and form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.hasValue() then
+	if params.data.orderNumber  = form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.count() then
+		globals.uiGlobalState.isLastCDversionSelected = True
+	else
+		globals.uiGlobalState.isLastCDversionSelected = False
+	endif
+
+endif
+
+globals.IsBusy = false]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -3956,6 +3982,210 @@ else
 endif
 
 form.actions.setUpData_CDAnnexDetailRequest()
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="prepareFormForAnnexInteraction" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.uiGlobalState.annex.addOtherAnnex.isSelectedAnnexForHolder = false
+globals.uiGlobalState.isLastCDversionSelected = True
+if form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.hasValue() then
+	globals.uiGlobalState.CDversionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.selectFirst(current.index() = 1).customsDecisionVersionGUID
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setUpData_CDAnnexDetailRequest" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.uiGlobalState.annex.annexDetail.request.customsDecisionAuthorisationData.customsDecisionGUID = form.GUID
+globals.uiGlobalState.annex.annexDetail.request.customsDecisionAuthorisationData.customsDecisionVersionGUID = form.VersionGUID]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_button_deleteAnnexCZ_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//Get index of item in collection
+var getAnnexNumber = params.data.index()
+globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.selectedDocumentGUID = params.data.documentGUID
+
+//Ask user for event confirmation (delete CZ Annex)
+if (globals.uiGlobalState.isLastCDversionSelected = true) then
+	
+	globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.confirmFileDelete = 
+	apiobjects.pageAPI.confirm("Chcete skutečně CZ přílohu č. " + toString(getAnnexNumber) + " smazat ?")
+	
+else
+	system.alert("CZ příloha č." + toString(getAnnexNumber) +  " nebyla smazána. Nelze mazat přílohy historických verzí!")
+endif
+
+globals.IsBusy = True
+
+if globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.confirmFileDelete and globals.uiGlobalState.isLastCDversionSelected then
+	actions.deleteSelectedAnnexCZ()
+	// Delete selected CZ Annex from collection
+	params.data.removeMe()
+	
+	globals.IsBusy = False
+	system.alert("Vybraná CZ příloha byla smazána!")
+	globals.uiGlobalState.annex.addOtherAnnex.annexTableToSelect.clear() //clear annex table
+	
+else
+	globals.IsBusy = False
+	system.alert("Vybraná CZ příloha nemohla být smazána!")
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="storeNewAnnexCZtoCD" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//call global action
+actions.storeNewAnnexCZ()
+
+globals.IsBusy = True
+
+if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
+
+	var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionAnnexDetailRequest", globals.uiGlobalState.annex.annexDetail.request.toJson())
+	
+	if response.isError() then
+		system.console(response.getErrorMessage())
+	else
+		
+		//clear old annexCZ data
+		if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.isEmpty()) = true then
+		
+			var targetCollection = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst()
+			
+			targetCollection.attachedDocuments.clear()
+			
+		endif
+				
+		// fill data with newly uploaded annexCZ data
+		form.CD.fromJson(response.getJsonString())
+		
+		if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.isEmpty()) then
+			if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().attachedDocumentsCZ.count() = 0 then
+				system.alert("Zpráva neobsahuje žádná data")
+			endIf
+		endIf
+		
+	endif
+
+endif
+
+globals.IsBusy = False]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="fillStoreAttachedDocumentsCZ" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if globals.uiGlobalState.isLastCDversionSelected then
+
+	if globals.uiGlobalState.GUID.hasValue() then
+		
+		globals.IsBusy = True
+		
+		//clear target table with Annex data
+		globals.uiGlobalState.annex.addOtherAnnex.annexTableToSelect.attachedDocumentsCZ.clear()
+		
+		//user choosed in UI message "CustomsDecisionCZAnnexesForAuthorizationRequest" or "CustomsDecisionCZAnnexesForHolderRequest"
+		if globals.uiGlobalState.annex.addOtherAnnex.isSelectedAnnexForHolder then
+			//fire request "CustomsDecisionCZAnnexesForHolderRequest"
+			actions.getAnnexCZdataForHolder()
+		else
+			//fire request "CustomsDecisionCZAnnexesForAuthorizationRequest"
+			actions.getAnnexCZdataFromPreviousCDversions()
+		endif
+		
+		globals.IsBusy = False
+				
+		//alert to user, if there were no annex found
+		if globals.uiGlobalState.annex.addOtherAnnex.annexTableToSelect.attachedDocumentsCZ.count() < 1 then
+			system.alert("Nebyly nalezeny žádné přílohy!")
+		endif
+		
+	else
+		system.console("Není vybrána verze povolení!")
+	endif
+
+else
+	system.alert("Vyberte současnou verzi povolení!")
+endif
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="linkOtherAnnexToCurrentCD" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if globals.uiGlobalState.isLastCDversionSelected then
+	globals.IsBusy = True
+	
+	//fill in request message with annex data
+	globals.uiGlobalState.annex.addOtherAnnex.linkAnnexToCurrentCD.customsDecisionAuthorisationData.customsDecisionGUID = globals.uiGlobalState.GUID
+	if globals.uiGlobalState.CDversionGUID.hasValue() then
+		globals.uiGlobalState.annex.addOtherAnnex.linkAnnexToCurrentCD.customsDecisionAuthorisationData.customsDecisionVersionGUID = globals.uiGlobalState.CDversionGUID
+	endif
+	
+	//clear data from last round of sending request
+	globals.uiGlobalState.annex.addOtherAnnex.linkAnnexToCurrentCD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.clear()
+	
+	var placeHolderAnnex = globals.uiGlobalState.annex.addOtherAnnex.annexTableToSelect.attachedDocumentsCZ.where(current.isDocumentSelected = True)
+	var numberOfAddedAnnex = 0
+	
+	forEach selectedAnnex in placeHolderAnnex do
+		//fill data for request message
+				globals.uiGlobalState.annex.addOtherAnnex.linkAnnexToCurrentCD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.documentType = selectedAnnex.documentType
+		globals.uiGlobalState.annex.addOtherAnnex.linkAnnexToCurrentCD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.documentIdentifier = selectedAnnex.documentIdentifier
+		globals.uiGlobalState.annex.addOtherAnnex.linkAnnexToCurrentCD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.numberOfDocuments = selectedAnnex.numberOfDocuments
+		globals.uiGlobalState.annex.addOtherAnnex.linkAnnexToCurrentCD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.fileReference = selectedAnnex.fileReference
+		//Do the request call to link individual selected CZ annex
+		var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionAnnexLink", globals.uiGlobalState.annex.addOtherAnnex.linkAnnexToCurrentCD.toJson())
+		//check server reply
+		if response.isError() then
+			system.console(response.getErrorMessage())
+			system.console("Příloha - Identifikátor dokumentu: [" + ToString(selectedAnnex.documentIdentifier) + "] nemohla být nahrána!")
+		else
+			//system.alert("Příloha - Identifikátor dokumentu: [" + ToString(selectedCZannex.documentIdentifier) + "] byla úspěšně přidána!")
+			numberOfAddedAnnex = numberOfAddedAnnex + 1
+		endif
+		
+	endFor
+	
+	//clear data from request message
+	globals.uiGlobalState.annex.addOtherAnnex.linkAnnexToCurrentCD.customsDecisionAuthorisationData.customsDecisionParticulars.clear()
+	
+	//dodělat update seznamu příloh nahraných k poslední verzi povolení
+	actions.getNewAnnexData()//get updated data for the annex information
+	globals.uiGlobalState.annex.addOtherAnnex.annexTableToSelect.clear() //clear annex table	
+	
+	
+	globals.IsBusy = False
+	
+	system.alert("Přidali jste k poslední verzi povolení přílohy v počtu: " + toString(numberOfAddedAnnex))
+	
+else
+	system.alert("Vyberte současnou verzi povolení!")
+endif
 ]]></Script>
       </ActionLangBody>
       <DataContext>
