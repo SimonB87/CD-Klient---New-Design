@@ -3386,13 +3386,8 @@ else
 	system.alert("Vyberte současnou verzi povolení!")
 endif
 
-
 form.actions.setUpData_CDAnnexDetailRequest()
-
-//just for testing
-system.console("customsDecisionGUID:: " + toString(globals.uiGlobalState.annex.annexDetail.request.customsDecisionAuthorisationData.customsDecisionGUID) )
-system.console("customsDecisionVersionGUID:: " + toString(globals.uiGlobalState.annex.annexDetail.request.customsDecisionAuthorisationData.customsDecisionVersionGUID))
-//delete after testing]]></Script>
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -3526,9 +3521,9 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 	if response.isError() then
 		system.console(response.getErrorMessage())
 	else
-		
+				
 		//clear old annexCZ data
-		if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().isEmpty() = false then
+		if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) = false then
 		
 			var targetCollection = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst()
 			
@@ -3539,9 +3534,17 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 		// fill data with newly uploaded annexCZ data
 		form.CD.fromJson(response.getJsonString())
 		
-		if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().attachedDocumentsCZ.isEmpty() then
-			system.alert("Zpráva neobsahuje žádná data")
-		endif
+		var placeHolderCondition = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue())
+		
+		if placeHolderCondition = false then
+			var placeHolderCollections = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst()
+			
+			var placeHolderCount = placeHolderCollections.attachedDocumentsCZ.count()
+	
+			if placeHolderCount = 0 then
+				system.alert("Zpráva neobsahuje žádná data")
+			endIf
+		endIf
 		
 	endif
 
