@@ -9430,6 +9430,7 @@
                                       <Name value="listColumnEnhancement_computedCompleted" />
                                       <Caption value="Doplněno" />
                                       <ColumnName value="computed_completed" />
+                                      <DataType value="bool" />
                                       <filterOptions>
                                         <filterOption identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                           <text value="Ano" />
@@ -9513,6 +9514,7 @@
                                       <Name value="listColumnEnhIpo_computedCompleted" />
                                       <Caption value="Doplněno" />
                                       <ColumnName value="computed_completed" />
+                                      <DataType value="bool" />
                                       <filterOptions>
                                         <filterOption identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                           <text value="Ano" />
@@ -9551,14 +9553,16 @@
                                       <ColumnName value="computed_writeOffMeasureUnit" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhIpo_article863UCCxCZlang" />
+                                      <Name value="listColumnEnhIpo_article863UCC" />
                                       <Caption value="Článek 86(3) UCC" />
-                                      <ColumnName value="computed_article863UCC" />
+                                      <ColumnName value="article863UCC" />
+                                      <DataType value="bool" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhIpo_article864UCCxCZlang" />
+                                      <Name value="listColumnEnhIpo_article864UCC" />
                                       <Caption value="Článek 86(4) UCC" />
-                                      <ColumnName value="computed_article864UCC" />
+                                      <ColumnName value="article864UCC" />
+                                      <DataType value="bool" />
                                     </listColumn>
                                   </columns>
                                 </List>
@@ -9604,6 +9608,7 @@
                                       <Name value="listColumnEnhEus_computedCompleted" />
                                       <Caption value="Doplněno" />
                                       <ColumnName value="computed_completed" />
+                                      <DataType value="bool" />
                                       <filterOptions>
                                         <filterOption identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                           <text value="Ano" />
@@ -12373,29 +12378,9 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                       <Caption value="Computed _ completed" />
                       <Expression IsValid="True">
                         <ExpressionText><![CDATA[this.owner().isValid() ?
-form.enhancement.completedAllSelected.isCompletedAllSelected = true ? "Ano" : ( completed.hasValue() ? (completed = True ? "Ano" : "Ne") : "" ) : "Ne"]]></ExpressionText>
+form.enhancement.completedAllSelected.isCompletedAllSelected = true ? true : ( completed.hasValue() ? (completed = True ? true : false) : defaultBool() ) : false]]></ExpressionText>
                         <ResultType>
-                          <BaseType value="String" />
-                        </ResultType>
-                      </Expression>
-                    </Computed>
-                    <Computed>
-                      <Name value="computed_article863UCC" />
-                      <Caption value="Computed _ article 863 UCC" />
-                      <Expression IsValid="True">
-                        <ExpressionText><![CDATA[article863UCC.hasValue() ? (article863UCC = True ? "Ano" : "Ne") : ""]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="String" />
-                        </ResultType>
-                      </Expression>
-                    </Computed>
-                    <Computed>
-                      <Name value="computed_article864UCC" />
-                      <Caption value="Computed _ article 864 UCC" />
-                      <Expression IsValid="True">
-                        <ExpressionText><![CDATA[article864UCC.hasValue() ? (article864UCC = True ? "Ano" : "Ne") : ""]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="String" />
+                          <BaseType value="Bool" />
                         </ResultType>
                       </Expression>
                     </Computed>
