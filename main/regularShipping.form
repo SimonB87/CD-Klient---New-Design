@@ -3512,18 +3512,14 @@ globals.IsBusy = True
 
 if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 
-	if globals.uiGlobalState.isLastCDversionSelected = True then
-		globals.uiGlobalState.annex.annexDetail.request.customsDecisionAuthorisationData.customsDecisionVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
-	endIf
-	
 	var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionAnnexDetailRequest", globals.uiGlobalState.annex.annexDetail.request.toJson())
 	
 	if response.isError() then
 		system.console(response.getErrorMessage())
 	else
-				
+		
 		//clear old annexCZ data
-		if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) = false then
+		if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.isEmpty()) = true then
 		
 			var targetCollection = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst()
 			
@@ -3534,14 +3530,8 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 		// fill data with newly uploaded annexCZ data
 		form.CD.fromJson(response.getJsonString())
 		
-		var placeHolderCondition = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue())
-		
-		if placeHolderCondition = false then
-			var placeHolderCollections = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst()
-			
-			var placeHolderCount = placeHolderCollections.attachedDocumentsCZ.count()
-	
-			if placeHolderCount = 0 then
+		if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.isEmpty()) then
+			if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().attachedDocumentsCZ.count() = 0 then
 				system.alert("Zpráva neobsahuje žádná data")
 			endIf
 		endIf
