@@ -14203,12 +14203,38 @@ endif]]></Script>
     <ActionBlock>
       <Name value="switch_isCompletedAllSelected" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.apiobjects.goodsItemCZenhancement.setReady(False)
+        <Script><![CDATA[var proceed = True
 
-//switch value of boolean variable
-form.enhancement.completedAllSelected.isCompletedAllSelected = not(form.enhancement.completedAllSelected.isCompletedAllSelected)
+if form.zobrazEUS then
+	
+	if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.exists(current.hasValue()) then
+	
+		forEach item in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
+			if item.cnCodeArticle73DA.isValid() = false then
+				proceed = false
+				form.actions.showEnhancementErrorMessage("Položka s kódem KN: " + item.combinedNomenclatureCode + "není správně obohacena", true)
+			endIf
+		endFor
+	
+	endIf
+	
+endif		
+	
 
-form.apiobjects.goodsItemCZenhancement.setReady(True)]]></Script>
+if proceed = true then
+
+	form.apiobjects.goodsItemCZenhancement.setReady(False)
+	
+	//switch value of boolean variable
+	form.enhancement.completedAllSelected.isCompletedAllSelected = not(form.enhancement.completedAllSelected.isCompletedAllSelected)
+	
+	form.apiobjects.goodsItemCZenhancement.setReady(True)
+
+else
+
+	form.actions.showEnhancementErrorMessage("Vyplňte všechny údaje pro všechny položky.", true)
+
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
