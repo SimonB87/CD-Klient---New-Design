@@ -8457,7 +8457,7 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 	else
 		
 		//clear old annexCZ data
-		if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().isEmpty() = false then
+		if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) then
 		
 			var targetCollection = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst()
 			
@@ -8468,7 +8468,7 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 		// fill data with newly uploaded annexCZ data
 		form.CD.fromJson(response.getJsonString())
 		
-		if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().attachedDocumentsCZ.count() = 0 then
+		if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) = false then
 			system.alert("Zpráva neobsahuje žádná data")
 		endif
 		
