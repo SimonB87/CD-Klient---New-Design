@@ -463,7 +463,7 @@
                           </Bindings>
                         </tab>
                         <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
-                          <Name value="tab3" />
+                          <Name value="tab3Annex" />
                           <Bindings>
                             <Binding SourceProperty="Title" Expression="form.Tabs.Tab03Prilohy.Title" />
                           </Bindings>
@@ -3010,6 +3010,21 @@
                     </ResultType>
                   </Expression>
                 </Computed>
+                <Complex>
+                  <Name value="annexCountInTab" />
+                  <Caption value="Annex count in tab" />
+                  <Children>
+                    <Attribute>
+                      <Name value="annexCountNumber" />
+                      <Caption value="Annex count number" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Integer" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
             <Attribute>
@@ -3116,6 +3131,7 @@ form.actions.prepareFormForAnnexInteraction()
 
 form.actions.initTabMenu_ALANG()
 form.Tabs.SelectedTab = 1
+form.actions.setAnnexTabLabel() 
 globals.IsBusy = false
 ]]></Script>
       </ActionLangBody>
@@ -3128,7 +3144,7 @@ globals.IsBusy = false
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.Tabs.Tab01.Title = "Základní info"
 form.Tabs.Tab02.Title = "Typ závěry"
-form.Tabs.Tab03Prilohy.Title = "Přílohy"
+form.Tabs.Tab03Prilohy.Title = "Přílohy: " toString(form.Tabs.Tab03Prilohy.annexCountInTab.annexCountNumber)
 
 form.Tabs.Tab01.Visible = true
 form.Tabs.Tab03Prilohy.Visible = true
@@ -3248,7 +3264,9 @@ if globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.confirmFileD
 else
 	globals.IsBusy = False
 	system.alert("Vybraná CZ příloha nemohla být smazána!")
-endif]]></Script>
+endif
+
+form.actions.setAnnexTabLabel() ]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -3307,7 +3325,7 @@ endif
     </ActionBlock>
     <ActionBlock>
       <Name value="linkOtherAnnexToCurrentCD" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[if globals.uiGlobalState.isLastCDversionSelected then
 	globals.IsBusy = True
 	
@@ -3338,6 +3356,7 @@ endif
 		else
 			//system.alert("Příloha - Identifikátor dokumentu: [" + ToString(selectedCZannex.documentIdentifier) + "] byla úspěšně přidána!")
 			numberOfAddedAnnex = numberOfAddedAnnex + 1
+			form.actions.setAnnexTabLabel()
 		endif
 		
 	endFor
@@ -3420,6 +3439,8 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 
 endif
 
+form.actions.setAnnexTabLabel() 
+
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -3434,6 +3455,27 @@ globals.uiGlobalState.isLastCDversionSelected = True
 if form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.hasValue() then
 	globals.uiGlobalState.CDversionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.selectFirst(current.index() = 1).customsDecisionVersionGUID
 endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setAnnexTabLabel" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var countOfAnnexEU = 0
+var countOfAnnexCZ = 0
+
+if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) = true then
+
+countOfAnnexEU = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().attachedDocuments.count()
+countOfAnnexCZ = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().attachedDocumentsCZ.count()
+
+endIf
+
+form.Tabs.Tab03Prilohy.annexCountInTab.annexCountNumber = countOfAnnexEU + countOfAnnexCZ
+
+form.Tabs.Tab03Prilohy.Title = "Přílohy: " + toString(form.Tabs.Tab03Prilohy.annexCountInTab.annexCountNumber)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

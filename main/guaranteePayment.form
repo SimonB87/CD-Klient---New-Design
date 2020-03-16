@@ -3757,6 +3757,21 @@
                     </ResultType>
                   </Expression>
                 </Computed>
+                <Complex>
+                  <Name value="annexCountInTab" />
+                  <Caption value="Annex count in tab" />
+                  <Children>
+                    <Attribute>
+                      <Name value="annexCountNumber" />
+                      <Caption value="Annex count number" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Integer" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
           </Children>
@@ -3873,13 +3888,16 @@ endif
     </ActionBlock>
     <ActionBlock>
       <Name value="initTabMenu_ALANG" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.tabsMenu.Tab01Zakladni.Title = "Základní info"
+      <ActionLangBody>
+        <Script><![CDATA[form.actions.setAnnexTabLabel()
+
+form.tabsMenu.Tab01Zakladni.Title = "Základní info"
 form.tabsMenu.Tab02ApplCustomsProc.Title = "Příslušné celní režimy"
 form.tabsMenu.Tab03Zaruka.Title = "Záruka"
 form.tabsMenu.Tab04PopisZbozi.Title = "Popis zboží"
 form.tabsMenu.Tab05Prilohy.Title = "Přílohy"
-]]></Script>
+
+form.tabsMenu.Tab05Prilohy.Title = "Přílohy: " + toString(form.tabsMenu.Tab05Prilohy.annexCountInTab.annexCountNumber)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -3970,7 +3988,7 @@ globals.IsBusy = false]]></Script>
     <ActionBlock>
       <Name value="handler_button_addNewAnnexCZ_OnClick" />
       <IsPrivate value="True" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[if globals.uiGlobalState.isLastCDversionSelected then
 	if globals.uiGlobalState.annex.isVisibleAddAnnexPanel then
 		globals.uiGlobalState.annex.isVisibleAddAnnexPanel = False
@@ -4043,7 +4061,9 @@ if globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.confirmFileD
 else
 	globals.IsBusy = False
 	system.alert("Vybraná CZ příloha nemohla být smazána!")
-endif]]></Script>
+endif
+
+form.actions.setAnnexTabLabel()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -4086,6 +4106,8 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 	endif
 
 endif
+
+form.actions.setAnnexTabLabel()
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
@@ -4167,6 +4189,7 @@ endif
 		else
 			//system.alert("Příloha - Identifikátor dokumentu: [" + ToString(selectedCZannex.documentIdentifier) + "] byla úspěšně přidána!")
 			numberOfAddedAnnex = numberOfAddedAnnex + 1
+			form.actions.setAnnexTabLabel()
 		endif
 		
 	endFor
@@ -4187,6 +4210,27 @@ else
 	system.alert("Vyberte současnou verzi povolení!")
 endif
 ]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setAnnexTabLabel" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var countOfAnnexEU = 0
+var countOfAnnexCZ = 0
+
+if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) = true then
+
+countOfAnnexEU = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().attachedDocuments.count()
+countOfAnnexCZ = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().attachedDocumentsCZ.count()
+
+endIf
+
+form.tabsMenu.Tab05Prilohy.annexCountInTab.annexCountNumber = countOfAnnexEU + countOfAnnexCZ
+
+form.tabsMenu.Tab05Prilohy.Title = "Přílohy: " + toString(form.tabsMenu.Tab05Prilohy.annexCountInTab.annexCountNumber)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

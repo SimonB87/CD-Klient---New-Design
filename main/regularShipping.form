@@ -163,6 +163,18 @@
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
                   <Children>
+                    <Label>
+                      <Name value="label1" />
+                      <Data value="Label 1" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
                     <TextBox>
                       <Name value="textBox92" />
                       <Caption value="Výsledek kontroly na duplicitu s ASEO-povolením a validační preference" />
@@ -2520,12 +2532,12 @@
                                 </DatePicker>
                                 <TextBox>
                                   <Name value="textBox_newDocumentCount" />
+                                  <Caption value="Počet stran dokumentu" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="*" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.newDocumentCount" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.newDocumentCount.isRequired()" />
-                                    <Binding SourceProperty="Caption" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.newDocumentCount.caption()" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -3107,6 +3119,21 @@
                     </ResultType>
                   </Expression>
                 </Computed>
+                <Complex>
+                  <Name value="annexCountInTab" />
+                  <Caption value="Annex count in tab" />
+                  <Children>
+                    <Attribute>
+                      <Name value="annexCountNumber" />
+                      <Caption value="Annex count number" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Integer" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
           </Children>
@@ -3241,9 +3268,12 @@ globals.IsBusy = false
     <ActionBlock>
       <Name value="initTabMenu_ALANG" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.tabsMenu.Tab01Zakladni.Title = "Základní informace"
+        <Script><![CDATA[form.actions.setAnnexTabLabel()
+
+form.tabsMenu.Tab01Zakladni.Title = "Základní informace"
 form.tabsMenu.Tab02Podrobnosti.Title = "Podrobnosti"
-form.tabsMenu.Tab03Prilohy.Title = "Přílohy"]]></Script>
+form.tabsMenu.Tab03Prilohy.Title = "Přílohy: " + toString(form.tabsMenu.Tab03Prilohy.annexCountInTab.annexCountNumber)
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -3366,7 +3396,10 @@ if globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.confirmFileD
 else
 	globals.IsBusy = False
 	system.alert("Vybraná CZ příloha nemohla být smazána!")
-endif]]></Script>
+endif
+
+form.actions.setAnnexTabLabel()
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -3477,6 +3510,7 @@ endif
 		else
 			//system.alert("Příloha - Identifikátor dokumentu: [" + ToString(selectedCZannex.documentIdentifier) + "] byla úspěšně přidána!")
 			numberOfAddedAnnex = numberOfAddedAnnex + 1
+			form.actions.setAnnexTabLabel()
 		endif
 		
 	endFor
@@ -3540,7 +3574,30 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 
 endif
 
+form.actions.setAnnexTabLabel()
+
 globals.IsBusy = False]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setAnnexTabLabel" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var countOfAnnexEU = 0
+var countOfAnnexCZ = 0
+
+if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) = true then
+
+countOfAnnexEU = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().attachedDocuments.count()
+countOfAnnexCZ = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().attachedDocumentsCZ.count()
+
+endIf
+
+form.tabsMenu.Tab03Prilohy.annexCountInTab.annexCountNumber = countOfAnnexEU + countOfAnnexCZ
+
+form.tabsMenu.Tab03Prilohy.Title = "Přílohy: " + toString(form.tabsMenu.Tab03Prilohy.annexCountInTab.annexCountNumber)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

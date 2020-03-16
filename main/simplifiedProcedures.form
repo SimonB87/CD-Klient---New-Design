@@ -3537,6 +3537,21 @@
                     </ResultType>
                   </Expression>
                 </Computed>
+                <Complex>
+                  <Name value="annexCountInTab" />
+                  <Caption value="Annex count in tab" />
+                  <Children>
+                    <Attribute>
+                      <Name value="annexCountNumber" />
+                      <Caption value="Annex count number" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Integer" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
           </Children>
@@ -3678,11 +3693,13 @@ globals.IsBusy = false
     </ActionBlock>
     <ActionBlock>
       <Name value="initTabMenu_ALANG" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.tabsMenu.Tab01Zakladni.Title = "Základní informace"
+      <ActionLangBody>
+        <Script><![CDATA[form.actions.setAnnexTabLabel()
+
+form.tabsMenu.Tab01Zakladni.Title = "Základní informace"
 form.tabsMenu.Tab02Podrobnosti.Title = "Podrobnosti"
 form.tabsMenu.Tab03UmisteniZbozi.Title = "Umístění zboží"
-form.tabsMenu.Tab04Prilohy.Title = "Přílohy"
+form.tabsMenu.Tab04Prilohy.Title = "Přílohy: " + toString(form.tabsMenu.Tab04Prilohy.annexCountInTab.annexCountNumber)
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -3815,7 +3832,9 @@ if globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.confirmFileD
 else
 	globals.IsBusy = False
 	system.alert("Vybraná CZ příloha nemohla být smazána!")
-endif]]></Script>
+endif
+
+form.actions.setAnnexTabLabel()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -3883,14 +3902,12 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 				
 		// fill data with newly uploaded annexCZ data
 		form.CD.fromJson(response.getJsonString())
-		/*
-		if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().attachedDocumentsCZ.exists(current.hasValue()) then
-			system.alert("Zpráva neobsahuje žádná data")
-		endif
-		*/
+		
 	endif
 
 endif
+
+form.actions.setAnnexTabLabel()
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
@@ -3971,6 +3988,7 @@ endif
 			system.console("Příloha - Identifikátor dokumentu: [" + ToString(selectedAnnex.documentIdentifier) + "] nemohla být nahrána!")
 		else
 			//system.alert("Příloha - Identifikátor dokumentu: [" + ToString(selectedCZannex.documentIdentifier) + "] byla úspěšně přidána!")
+			form.actions.setAnnexTabLabel()
 			numberOfAddedAnnex = numberOfAddedAnnex + 1
 		endif
 		
@@ -4002,6 +4020,27 @@ endif
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.uiGlobalState.annex.annexDetail.request.customsDecisionAuthorisationData.customsDecisionGUID = form.GUID
 globals.uiGlobalState.annex.annexDetail.request.customsDecisionAuthorisationData.customsDecisionVersionGUID = form.VersionGUID]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setAnnexTabLabel" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var countOfAnnexEU = 0
+var countOfAnnexCZ = 0
+
+if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) = true then
+
+countOfAnnexEU = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().attachedDocuments.count()
+countOfAnnexCZ = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().attachedDocumentsCZ.count()
+
+endIf
+
+form.tabsMenu.Tab04Prilohy.annexCountInTab.annexCountNumber = countOfAnnexEU + countOfAnnexCZ
+
+form.tabsMenu.Tab04Prilohy.Title = "Přílohy: " + toString(form.tabsMenu.Tab04Prilohy.annexCountInTab.annexCountNumber)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
