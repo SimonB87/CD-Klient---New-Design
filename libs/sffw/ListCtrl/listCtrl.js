@@ -119,6 +119,7 @@ var sffw;
                 function ListCtrlApi(datacontext, args) {
                     this.listCtrlCore = new listCtrl.ListCtrlCore(datacontext, args);
                     this.ctrlCore.onDataRowsChangedCallback = sffw.extractEventHandlerFromApiArgs(datacontext, args, 'OnDataRowsChanged');
+                    this.ctrlCore.onColumnsChangedHandler = sffw.extractEventHandlerFromApiArgs(datacontext, args, 'OnColumnsChanged');
                 }
                 ListCtrlApi.prototype.setReady = function (args) {
                     this.listCtrlCore.setReady(args.isReady);
@@ -207,6 +208,9 @@ var sffw;
                 };
                 ListCtrlApi.prototype.getColumnVisibility = function (args) {
                     return this.ctrlCore.getColumnVisibility(args.columnName);
+                };
+                ListCtrlApi.prototype.clearInvisibleColumnsFilters = function () {
+                    this.ctrlCore.clearInvisibleColumnsFilters();
                 };
                 ListCtrlApi.prototype.clearState = function () {
                     this.listCtrlCore.clearState();
@@ -633,6 +637,16 @@ var sffw;
                         this.onDataRowsChangedCallback();
                     }
                 };
+                ListCtrlCore.prototype.onColumnsChanged = function () {
+                    var _this = this;
+                    var promiseChain = Promise.resolve();
+                    promiseChain = promiseChain.then(function () {
+                        if (_this.onColumnsChangedHandler && _.isFunction(_this.onColumnsChangedHandler)) {
+                            return _this.onColumnsChangedHandler();
+                        }
+                    });
+                    return promiseChain;
+                };
                 //#region public methods for ListCtrlApi wrapper methods
                 ListCtrlCore.prototype.setReady = function (isReady) {
                     this.isReady(!!isReady);
@@ -938,6 +952,7 @@ var sffw;
                 };
                 ListCtrlCore.prototype.setVisibleColumns = function (columnName) {
                     var _this = this;
+                    var promiseChain = Promise.resolve();
                     var oldIsReady = this.isReady() === true ? true : false;
                     if (oldIsReady) {
                         this.isReady(false);
@@ -975,9 +990,15 @@ var sffw;
                     });
                     // first ordered visible columns and then hidden columns
                     this.columns = visibleColumns.concat(this.columns);
-                    if (oldIsReady) {
-                        this.isReady(true);
-                    }
+                    promiseChain = promiseChain.then(function () {
+                        return _this.onColumnsChanged();
+                    });
+                    promiseChain = promiseChain.then(function () {
+                        if (oldIsReady) {
+                            _this.isReady(true);
+                        }
+                    });
+                    return promiseChain;
                 };
                 ListCtrlCore.prototype.getVisibleColumns = function () {
                     var result = [];
@@ -994,18 +1015,28 @@ var sffw;
                     return result;
                 };
                 ListCtrlCore.prototype.resetColumns = function () {
+                    var _this = this;
+                    var promiseChain = Promise.resolve();
                     var oldIsReady = this.isReady() === true ? true : false;
                     if (oldIsReady) {
                         this.isReady(false);
                     }
                     this.columns = _.cloneDeep(this.originalColumns);
                     this.reservedColumns = _.cloneDeep(this.originalReservedColumns);
-                    if (oldIsReady) {
-                        this.isReady(true);
-                    }
+                    promiseChain = promiseChain.then(function () {
+                        return _this.onColumnsChanged();
+                    });
+                    promiseChain = promiseChain.then(function () {
+                        if (oldIsReady) {
+                            _this.isReady(true);
+                        }
+                    });
+                    return promiseChain;
                 };
                 // cannot be used on reserved column
                 ListCtrlCore.prototype.setColumnVisibility = function (columnName, isVisible, order) {
+                    var _this = this;
+                    var promiseChain = Promise.resolve();
                     var oldIsReady = this.isReady() === true ? true : false;
                     if (oldIsReady) {
                         this.isReady(false);
@@ -1031,10 +1062,16 @@ var sffw;
                         }
                         // first ordered visible columns and then hidden columns
                         this.columns = visibleColumns.concat(hiddenColumns);
+                        promiseChain = promiseChain.then(function () {
+                            return _this.onColumnsChanged();
+                        });
                     }
-                    if (oldIsReady) {
-                        this.isReady(true);
-                    }
+                    promiseChain = promiseChain.then(function () {
+                        if (oldIsReady) {
+                            _this.isReady(true);
+                        }
+                    });
+                    return promiseChain;
                 };
                 // cannot be used on reserved column
                 ListCtrlCore.prototype.getColumnVisibility = function (columnName) {
@@ -1051,6 +1088,17 @@ var sffw;
                 };
                 ListCtrlCore.prototype.setViewSettingsComponentEnabled = function (isViewSettingsComponentEnabled) {
                     this.isViewSettingsComponentEnabled(!!isViewSettingsComponentEnabled);
+                };
+                ListCtrlCore.prototype.clearInvisibleColumnsFilters = function () {
+                    var _this = this;
+                    _.each(this.columns, function (col) {
+                        if (col.IsVisible === false) {
+                            var existingFlt = _.find(_this.columnFilters(), function (item) { return item.name === col.Name; });
+                            if (existingFlt) {
+                                _this.columnFilters.remove(existingFlt);
+                            }
+                        }
+                    });
                 };
                 // #endregion
                 ListCtrlCore.prototype.getVisibleColumnsCore = function (allUnremovableFirst) {

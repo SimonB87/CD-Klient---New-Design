@@ -1082,51 +1082,48 @@ var sffw;
                 ListGridViewModel.prototype.setColumnFilters = function () {
                     var _this = this;
                     _.each(this.columns, function (col) {
-                        col.isFilterActive(false);
-                    });
-                    if (this.ctrlCore.columnFilters().length > 0) {
-                        _.each(this.ctrlCore.columnFilters(), function (colFilter) {
-                            var filteredColumn = _.find(_this.columns, function (col) { return col.name === colFilter.name; });
-                            if (filteredColumn) {
-                                if (colFilter.type === 'text') {
-                                    if (filteredColumn.hasEnumFilter() === true) {
-                                        if (colFilter.getValue().length > 0) {
-                                            filteredColumn.filterEnumSelectedValue(colFilter.getValue().split(','));
-                                            filteredColumn.isFilterActive(colFilter.hasValue());
-                                        }
-                                    }
-                                    else {
-                                        switch (filteredColumn.dataType) {
-                                            case 'string':
-                                            case 'integer':
-                                            case 'decimal':
-                                                filteredColumn.filterText(colFilter.getValue());
-                                                filteredColumn.isFilterActive(colFilter.hasValue());
-                                                break;
-                                        }
+                        var colFilter = _.find(_this.ctrlCore.columnFilters(), function (cf) { return cf.name === col.name; });
+                        if (colFilter) {
+                            if (colFilter.type === 'text') {
+                                if (col.hasEnumFilter() === true) {
+                                    if (colFilter.getValue().length > 0) {
+                                        col.filterEnumSelectedValue(colFilter.getValue().split(','));
+                                        col.isFilterActive(colFilter.hasValue());
                                     }
                                 }
-                                if (colFilter.type === 'boolean') {
-                                    switch (filteredColumn.dataType) {
-                                        case 'bool':
-                                            var culture = window.sf.localization.currentCulture();
-                                            filteredColumn.filterBoolSelectedValue(colFilter.getValue());
-                                            filteredColumn.isFilterActive(colFilter.hasValue());
-                                            break;
-                                    }
-                                }
-                                if (colFilter.type === 'date') {
-                                    switch (filteredColumn.dataType) {
-                                        case 'date':
-                                            filteredColumn.filterDateRangeFrom(colFilter.getStart());
-                                            filteredColumn.filterDateRangeTo(colFilter.getEnd());
-                                            filteredColumn.isFilterActive(colFilter.hasValue());
+                                else {
+                                    switch (col.dataType) {
+                                        case 'string':
+                                        case 'integer':
+                                        case 'decimal':
+                                            col.filterText(colFilter.getValue());
+                                            col.isFilterActive(colFilter.hasValue());
                                             break;
                                     }
                                 }
                             }
-                        });
-                    }
+                            if (colFilter.type === 'boolean') {
+                                switch (col.dataType) {
+                                    case 'bool':
+                                        col.filterBoolSelectedValue(colFilter.getValue());
+                                        col.isFilterActive(colFilter.hasValue());
+                                        break;
+                                }
+                            }
+                            if (colFilter.type === 'date') {
+                                switch (col.dataType) {
+                                    case 'date':
+                                        col.filterDateRangeFrom(colFilter.getStart());
+                                        col.filterDateRangeTo(colFilter.getEnd());
+                                        col.isFilterActive(colFilter.hasValue());
+                                        break;
+                                }
+                            }
+                        }
+                        else {
+                            col.clearFilterValue();
+                        }
+                    });
                 };
                 ListGridViewModel.prototype.clearSelection = function () {
                     var _this = this;
@@ -1380,7 +1377,7 @@ var sffw;
 })(sffw || (sffw = {}));
 var sffw;
 (function (sffw) {
-    function formatAsAmountOrCurrency(strValue, formatAsAmount, formatAsCurrency) {
+    function formatAsAmountOrCurrency(strValue, formatAsAmount, formatAsCurrency, minDecPlaces) {
         if (!strValue) {
             return '';
         }
@@ -1406,7 +1403,17 @@ var sffw;
         var sign = numValue.lt(0) ? '-' : '';
         var integralPart = numValue.abs().round(0, 0).toString(); // absolutní hodnota celočíselné části
         var leftover = integralPart.length > 3 ? (integralPart.length) % 3 : 0;
-        var decimalPart = numberParts.length > 1 ? "" + decimalSign + numberParts[1].substr(0, places) : '';
+        var decimalPart = '';
+        if (numberParts.length > 1) {
+            var decPlacesStr = numberParts[1].substr(0, places);
+            if (minDecPlaces && minDecPlaces > 0 && decPlacesStr.length < minDecPlaces) {
+                decPlacesStr = decPlacesStr.concat(Array(minDecPlaces - decPlacesStr.length + 1).join("0"));
+            }
+            decimalPart = "" + decimalSign + decPlacesStr;
+        }
+        else if (minDecPlaces && minDecPlaces > 0) {
+            decimalPart = "" + decimalSign + Array(minDecPlaces + 1).join("0");
+        }
         return sign + (leftover ? integralPart.substr(0, leftover) + thousandSign : '') + integralPart.substr(leftover).replace(/(\d{3})(?=\d)/g, '$1' + thousandSign)
             + decimalPart
             + (formatAsCurrency ? " " + symbol : '');
