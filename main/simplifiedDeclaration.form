@@ -3810,7 +3810,7 @@ form.actions.setUpData_CDAnnexDetailRequest()
     </ActionBlock>
     <ActionBlock>
       <Name value="storeNewAnnexCZtoCD" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[//call global action
 actions.storeNewAnnexCZ()
 
@@ -3824,23 +3824,21 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 		system.console(response.getErrorMessage())
 	else
 		
-		//clear old annexCZ data
-		if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.isEmpty()) = true then
+		//clear old annexCZ data 
+		var checkExistence = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue())
+		
+		if (checkExistence = True) and (form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.isEmpty() = False) then
 		
 			var targetCollection = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst()
 			
-			targetCollection.attachedDocuments.clear()
+			targetCollection.clear()
 			
 		endif
 				
 		// fill data with newly uploaded annexCZ data
 		form.CD.fromJson(response.getJsonString())
 		
-		if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.isEmpty()) then
-			if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().attachedDocumentsCZ.count() = 0 then
-				system.alert("Zpráva neobsahuje žádná data")
-			endIf
-		endIf
+		form.actions.alertIfMessageHasNoData()
 		
 	endif
 
@@ -3980,6 +3978,30 @@ endIf
 form.tabsMenu.Tab04Prilohy.annexCountInTab.annexCountNumber = countOfAnnexEU + countOfAnnexCZ
 
 form.tabsMenu.Tab04Prilohy.Title = "Přílohy: " + toString(form.tabsMenu.Tab04Prilohy.annexCountInTab.annexCountNumber)]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="alertIfMessageHasNoData" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var checkExistAnnexAll = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue())
+
+if checkExistAnnexAll then
+		
+	var checkExistAnnexCZ = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().attachedDocumentsCZ.exists(current.hasValue())
+			
+	if checkExistAnnexCZ = True then
+		var checkExistAnnexCZcount = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst().attachedDocumentsCZ.count()
+			if checkExistAnnexCZcount = 0 then
+				system.alert("Zpráva neobsahuje žádná data původem z ČR.")
+			endIf
+		endIf
+			
+	else
+			system.alert("Zpráva neobsahuje žádná příloh data.")
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
