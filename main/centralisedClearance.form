@@ -7737,7 +7737,11 @@ actions.prepareFormAnnexPannel()
 globals.uiGlobalState.annex.addOtherAnnex.annexTableToSelect.attachedDocumentsCZ.clear()
 
 //set up variables
+
+if form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.exists(current.hasValue()) then
 globals.uiGlobalState.CDversionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.selectFirst(current.index() = 1).customsDecisionVersionGUID
+endIf
+
 globals.uiGlobalState.annex.addOtherAnnex.isSelectedAnnexForHolder = false
 
 globals.uiGlobalState.isLastCDversionSelected = True
