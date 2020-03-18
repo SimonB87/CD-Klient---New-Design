@@ -12005,9 +12005,50 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                   <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponse/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsCZ/goodsItemCZ/cnCodeArticle73DA" />
                   <MtsImportOptions.MTS.Type value="element" />
                   <Children>
-                    <Include>
-                      <Include reference="+DataEntities.ZBOZIKOD" />
-                    </Include>
+                    <Attribute>
+                      <Name value="ZBOZIKOD" />
+                      <Caption value="ZBOZIKOD" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <StrMaxLength value="10" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="POPIS" />
+                      <Caption value="POPIS" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="OD" />
+                      <Caption value="OD" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="DateTime" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="_DO" />
+                      <Caption value="_ DO" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="DateTime" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Computed>
+                      <Name value="_description" />
+                      <Caption value="_ description" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[functions.codeListDescription(ZBOZIKOD,POPIS)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
                   </Children>
                 </Reference>
                 <Attribute>
