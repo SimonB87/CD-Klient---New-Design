@@ -9626,9 +9626,9 @@
                                       <ColumnName value="computed_writeOffMeasureUnit" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhEus_computedCnCodeArticle73DA" />
-                                      <Caption value="Kód KN v případě čl. 73 DA" />
-                                      <ColumnName value="computed_cnCodeArticle73DA" />
+                                      <Name value="listColumnEnhEus_cnCodeForSecuring" />
+                                      <Caption value="Kód KN pro dozajištění" />
+                                      <ColumnName value="computed_cnCodeForSecuring" />
                                     </listColumn>
                                   </columns>
                                 </List>
@@ -9714,7 +9714,7 @@
                                   </CssClass>
                                 </ReferenceCombo>
                                 <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
-                                  <Name value="refLookUp_cnCodeArticle73DA" />
+                                  <Name value="refLookUp_cnCodeForSecuring" />
                                   <Caption value="Kód KN pro dozajištění" />
                                   <CaptionPosition value="Top" />
                                   <DataApiObject reference="+GlobalApiObjects.cnCodeCl" />
@@ -9723,7 +9723,7 @@
                                   <Panel.Height value="#" />
                                   <Panel.Width value="300px" />
                                   <Bindings>
-                                    <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.cnCodeArticle73DA" />
+                                    <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.cnCodeForSecuring" />
                                     <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.zobrazEUS" />
                                     <Binding SourceProperty="IsVisible" Expression="form.zobrazEUS" />
@@ -11691,10 +11691,10 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                   </Expression>
                 </Computed>
                 <Computed>
-                  <Name value="computed_cnCodeArticle73DA" />
+                  <Name value="computed_cnCodeForSecuring" />
                   <Caption value="Kód KN při použití čl. 73 DA" />
                   <Expression IsValid="True">
-                    <ExpressionText><![CDATA[cnCodeArticle73DA.ZBOZIKOD.hasValue() ? cnCodeArticle73DA.ZBOZIKOD : ""]]></ExpressionText>
+                    <ExpressionText><![CDATA[cnCodeForSecuring.ZBOZIKOD.hasValue() ? cnCodeForSecuring.ZBOZIKOD : ""]]></ExpressionText>
                     <ResultType>
                       <BaseType value="String" />
                     </ResultType>
@@ -12012,6 +12012,17 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                     <AttributeType />
                   </DeclaredType>
                 </Attribute>
+                <Reference>
+                  <Name value="cnCodeForSecuring" />
+                  <Caption value="Zbožový kód pro dozajištění" />
+                  <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponse/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsCZ/goodsItemCZ/cnCodeForSecuring" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ZBOZIKOD" />
+                    </Include>
+                  </Children>
+                </Reference>
                 <Computed>
                   <Name value="computed_completed" />
                   <Caption value="Computed _ completed" />
@@ -12022,17 +12033,6 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                     </ResultType>
                   </Expression>
                 </Computed>
-                <Reference>
-                  <Name value="cnCodeArticle73DA" />
-                  <Caption value="Kód KN při použití čl. 73 DA" />
-                  <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponse/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsCZ/goodsItemCZ/cnCodeArticle73DA" />
-                  <MtsImportOptions.MTS.Type value="element" />
-                  <Children>
-                    <Include>
-                      <Include reference="+DataEntities.ZBOZIKOD" />
-                    </Include>
-                  </Children>
-                </Reference>
               </Children>
             </Complex>
             <Complex>
@@ -12358,10 +12358,10 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                       </Expression>
                     </Computed>
                     <Computed>
-                      <Name value="computed_cnCodeArticle73DA" />
+                      <Name value="computed_cnCodeForSecuring" />
                       <Caption value="Kód KN při použití čl. 73 DA" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[cnCodeArticle73DA.ZBOZIKOD.hasValue() ? cnCodeArticle73DA.ZBOZIKOD : ""]]></ExpressionText>
+                        <ExpressionText><![CDATA[cnCodeForSecuring.ZBOZIKOD.hasValue() ? cnCodeForSecuring.ZBOZIKOD : ""]]></ExpressionText>
                         <ResultType>
                           <BaseType value="String" />
                         </ResultType>
@@ -14005,14 +14005,14 @@ else
 endif
 
 //inser codelist value to referenceLookup "cnCodeArticle73DA"
-form.enhancement.modelEnhancement.cnCodeArticle73DA.clear()
+form.enhancement.modelEnhancement.cnCodeForSecuring.clear()
 
-var itemCn = apiobjects.cnCodeCl.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.selectedGoodsItemCZ.computed_cnCodeArticle73DA , getDateTime(), defaultBool())
+var itemCn = apiobjects.cnCodeCl.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.selectedGoodsItemCZ.computed_cnCodeForSecuring , getDateTime(), defaultBool())
 
 if itemCn.isFound() then
-	form.enhancement.modelEnhancement.cnCodeArticle73DA.fromJson(itemCn.getJsonString())
+	form.enhancement.modelEnhancement.cnCodeForSecuring.fromJson(itemCn.getJsonString())
 else
-	form.enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD = form.enhancement.selectedGoodsItemCZ.computed_cnCodeArticle73DA
+	form.enhancement.modelEnhancement.cnCodeForSecuring.ZBOZIKOD = form.enhancement.selectedGoodsItemCZ.computed_cnCodeForSecuring
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -14050,7 +14050,7 @@ endif]]></Script>
 		endif
 		
 		if form.zobrazEUS then
-			selectedItem.cnCodeArticle73DA.ZBOZIKOD = form.enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD
+			selectedItem.cnCodeForSecuring.ZBOZIKOD = form.enhancement.modelEnhancement.cnCodeForSecuring.ZBOZIKOD
 		endif
 	
 	else
@@ -14123,11 +14123,6 @@ foreach item in form.enhancement.goodsCZ.goodsItemCZ do
 		form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Zbožový kód pro dozajištění\" ", true)
 		errorNoticeItemNumber = ","
 	endif
-	
-	if not item.writeOffMeasureUnit.isValid() then
-		form.actions.showEnhancementErrorMessage(errorNoticeItemNumber +" \"Odpisová měrná jednotka\" ", true)
-		errorNoticeItemNumber = ","
-	endif 
 
 	if form.zobrazIPO then
 		if not item.article863UCC.isValid() then
@@ -14347,14 +14342,14 @@ else
 endif
 
 //inser codelist value to referenceLookup "cnCodeArticle73DA"
-form.enhancement.modelEnhancement.cnCodeArticle73DA.clear()
+form.enhancement.modelEnhancement.cnCodeForSecuring.clear()
 
-var itemCn = apiobjects.cnCodeCl.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.selectedGoodsItemCZ.computed_cnCodeArticle73DA , getDateTime(), defaultBool())
+var itemCn = apiobjects.cnCodeCl.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.selectedGoodsItemCZ.computed_cnCodeForSecuring , getDateTime(), defaultBool())
 
 if itemCn.isFound() then
-	form.enhancement.modelEnhancement.cnCodeArticle73DA.fromJson(itemCn.getJsonString())
+	form.enhancement.modelEnhancement.cnCodeForSecuring.fromJson(itemCn.getJsonString())
 else
-	form.enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD = form.enhancement.selectedGoodsItemCZ.computed_cnCodeArticle73DA
+	form.enhancement.modelEnhancement.cnCodeForSecuring.ZBOZIKOD = form.enhancement.selectedGoodsItemCZ.computed_cnCodeForSecuring
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -14389,14 +14384,14 @@ else
 endif
 
 //inser codelist value to referenceLookup "cnCodeArticle73DA"
-form.enhancement.modelEnhancement.cnCodeArticle73DA.clear()
+form.enhancement.modelEnhancement.cnCodeForSecuring.clear()
 
-var itemCn = apiobjects.cnCodeCl.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.selectedGoodsItemCZ.computed_cnCodeArticle73DA , getDateTime(), defaultBool())
+var itemCn = apiobjects.cnCodeCl.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.selectedGoodsItemCZ.computed_cnCodeForSecuring , getDateTime(), defaultBool())
 
 if itemCn.isFound() then
-	form.enhancement.modelEnhancement.cnCodeArticle73DA.fromJson(itemCn.getJsonString())
+	form.enhancement.modelEnhancement.cnCodeForSecuring.fromJson(itemCn.getJsonString())
 else
-	form.enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD = form.enhancement.selectedGoodsItemCZ.computed_cnCodeArticle73DA
+	form.enhancement.modelEnhancement.cnCodeForSecuring.ZBOZIKOD = form.enhancement.selectedGoodsItemCZ.computed_cnCodeForSecuring
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
