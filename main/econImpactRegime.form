@@ -13360,15 +13360,7 @@ if form.enhancement.goodsItemCZvalidatation then
   if form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced and not (fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid()) then
     form.enhancement.goodsItemCZvalidatation = false
       form.actions.showEnhancementErrorMessage("Doplňte poznámku a zkontrolujte, jestli je rozhodnutí plně obohaceno. ", true)
-      	/*
-      	//testing start
-		if form.zobrazOPO then
-			system.console("Obcházíme Klienta pro IPO...")
-			form.enhancement.goodsItemCZvalidatation = true
-			form.actions.showEnhancementErrorMessage(" * OPO * ", false)
-		endif
-		//testing end
-		*/
+
   endif
   
 endif
@@ -13377,16 +13369,6 @@ if form.enhancement.goodsItemCZvalidatation then
   form.actions.fillCdeReq()
   enh.fullyEnhanced = fullyEnh
   		
-  		/*
-        //testing start
-		if form.zobrazOPO then
-			system.console("Obcházíme Klienta pro IPO...")
-			form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced = False
-			form.actions.showEnhancementErrorMessage(" * OPO * ", false)
-		endif
-		//testing end
-		*/
-  
   var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.cdeReq.toJson())
   
   if resp.isError() or (resp.getMessageType() = "IN906A") then
@@ -14045,14 +14027,13 @@ endif]]></Script>
 	form.apiobjects.goodsItemCZenhancement.setReady(false)
 	
 	if form.enhancement.goodsCZ.goodsItemCZ.exists(current.itemID = form.enhancement.selectedGoodsItemCZ.itemID) then
+	
 		var selectedItem = form.enhancement.goodsCZ.goodsItemCZ.selectFirst(current.itemID = form.enhancement.selectedGoodsItemCZ.itemID)
 				
-		selectedItem.completed = form.enhancement.modelEnhancement.completed //
+		selectedItem.completed = form.enhancement.modelEnhancement.completed
 		
 		selectedItem.writeOffMeasureUnit.JMODPIS = form.enhancement.modelEnhancement.writeOffMeasureUnit.JMODPIS
 		selectedItem.writeOffMeasureUnit.POPIS = form.enhancement.modelEnhancement.writeOffMeasureUnit.POPIS
-		
-		
 		
 		if form.zobrazIPO then
 			if not form.enhancement.modelEnhancement.article863UCC.hasValue() then
