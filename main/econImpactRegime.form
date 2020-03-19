@@ -9486,8 +9486,11 @@
                                   <listName value="enhancementGoodsItemCZ" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="*" />
+                                  <OnRowClicked>
+                                    <ActionEvent ReferencedAction="~handler_enhancementList_ipo_OnRowClicked" />
+                                  </OnRowClicked>
                                   <Bindings>
-                                    <Binding SourceProperty="selectedRow" Expression="" />
+                                    <Binding SourceProperty="selectedRow" Expression="form.enhancement.selectedRowGoodsItems" />
                                   </Bindings>
                                   <columns>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
@@ -9572,8 +9575,11 @@
                                   <listName value="enhancementGoodsItemCZ" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="*" />
+                                  <OnRowClicked>
+                                    <ActionEvent ReferencedAction="~handler_enhancementList_eus_OnRowClicked" />
+                                  </OnRowClicked>
                                   <Bindings>
-                                    <Binding SourceProperty="selectedRow" Expression="" />
+                                    <Binding SourceProperty="selectedRow" Expression="form.enhancement.selectedRowGoodsItems" />
                                   </Bindings>
                                   <columns>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
@@ -11999,58 +12005,6 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                     </AttributeType>
                   </DeclaredType>
                 </Attribute>
-                <Reference>
-                  <Name value="cnCodeArticle73DA" />
-                  <Caption value="Kód KN při použití čl. 73 DA" />
-                  <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponse/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsCZ/goodsItemCZ/cnCodeArticle73DA" />
-                  <MtsImportOptions.MTS.Type value="element" />
-                  <Children>
-                    <Attribute>
-                      <Name value="ZBOZIKOD" />
-                      <Caption value="ZBOZIKOD" />
-                      <DeclaredType>
-                        <AttributeType>
-                          <StrMaxLength value="10" />
-                        </AttributeType>
-                      </DeclaredType>
-                    </Attribute>
-                    <Attribute>
-                      <Name value="POPIS" />
-                      <Caption value="POPIS" />
-                      <DeclaredType>
-                        <AttributeType />
-                      </DeclaredType>
-                    </Attribute>
-                    <Attribute>
-                      <Name value="OD" />
-                      <Caption value="OD" />
-                      <DeclaredType>
-                        <AttributeType>
-                          <BaseType value="DateTime" />
-                        </AttributeType>
-                      </DeclaredType>
-                    </Attribute>
-                    <Attribute>
-                      <Name value="_DO" />
-                      <Caption value="_ DO" />
-                      <DeclaredType>
-                        <AttributeType>
-                          <BaseType value="DateTime" />
-                        </AttributeType>
-                      </DeclaredType>
-                    </Attribute>
-                    <Computed>
-                      <Name value="_description" />
-                      <Caption value="_ description" />
-                      <Expression IsValid="True">
-                        <ExpressionText><![CDATA[functions.codeListDescription(ZBOZIKOD,POPIS)]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="String" />
-                        </ResultType>
-                      </Expression>
-                    </Computed>
-                  </Children>
-                </Reference>
                 <Attribute>
                   <Name value="cnCodeArticle73DA_text" />
                   <Caption value="Kód KN pro dozajištění" />
@@ -12068,6 +12022,17 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                     </ResultType>
                   </Expression>
                 </Computed>
+                <Reference>
+                  <Name value="cnCodeArticle73DA" />
+                  <Caption value="Kód KN při použití čl. 73 DA" />
+                  <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponse/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsCZ/goodsItemCZ/cnCodeArticle73DA" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ZBOZIKOD" />
+                    </Include>
+                  </Children>
+                </Reference>
               </Children>
             </Complex>
             <Complex>
@@ -14078,30 +14043,39 @@ endif]]></Script>
         <Script><![CDATA[if form.enhancement.modelEnhancement.completed and form.enhancement.isEnhancementEditOn then
 
 	form.apiobjects.goodsItemCZenhancement.setReady(false)
-
-	var selectedItem = form.enhancement.goodsCZ.goodsItemCZ.selectFirst(current.itemID = form.enhancement.selectedGoodsItemCZ.itemID)
 	
-	selectedItem.completed = form.enhancement.modelEnhancement.completed
-	selectedItem.writeOffMeasureUnit.JMODPIS = form.enhancement.modelEnhancement.writeOffMeasureUnit.JMODPIS
-	selectedItem.writeOffMeasureUnit.POPIS = form.enhancement.modelEnhancement.writeOffMeasureUnit.POPIS
-	
-	if form.zobrazIPO then
-		if not form.enhancement.modelEnhancement.article863UCC.hasValue() then
-			form.enhancement.modelEnhancement.article863UCC = false
+	if form.enhancement.goodsCZ.goodsItemCZ.exists(current.itemID = form.enhancement.selectedGoodsItemCZ.itemID) then
+		var selectedItem = form.enhancement.goodsCZ.goodsItemCZ.selectFirst(current.itemID = form.enhancement.selectedGoodsItemCZ.itemID)
+				
+		selectedItem.completed = form.enhancement.modelEnhancement.completed //
+		
+		selectedItem.writeOffMeasureUnit.JMODPIS = form.enhancement.modelEnhancement.writeOffMeasureUnit.JMODPIS
+		selectedItem.writeOffMeasureUnit.POPIS = form.enhancement.modelEnhancement.writeOffMeasureUnit.POPIS
+		
+		
+		
+		if form.zobrazIPO then
+			if not form.enhancement.modelEnhancement.article863UCC.hasValue() then
+				form.enhancement.modelEnhancement.article863UCC = false
+			endif
+			selectedItem.article863UCC = form.enhancement.modelEnhancement.article863UCC
 		endif
-		selectedItem.article863UCC = form.enhancement.modelEnhancement.article863UCC
-	endif
-	
-	if form.zobrazIPO then
-		if not form.enhancement.modelEnhancement.article864UCC.hasValue() then
-			form.enhancement.modelEnhancement.article864UCC = false
+		
+		if form.zobrazIPO then
+			if not form.enhancement.modelEnhancement.article864UCC.hasValue() then
+				form.enhancement.modelEnhancement.article864UCC = false
+			endif
+			selectedItem.article864UCC = form.enhancement.modelEnhancement.article864UCC
 		endif
-		selectedItem.article864UCC = form.enhancement.modelEnhancement.article864UCC
-	endif
+		
+		if form.zobrazEUS then
+			selectedItem.cnCodeArticle73DA.ZBOZIKOD = form.enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD
+		endif
 	
-	if form.zobrazEUS then
-		selectedItem.cnCodeArticle73DA.ZBOZIKOD = form.enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD
-	endif
+	else
+		form.actions.showEnhancementErrorMessage("Datová struktura je poškozena.", true)
+				
+	endIf
 	
 	form.apiobjects.goodsItemCZenhancement.setReady(true)
 
@@ -14366,6 +14340,90 @@ if checkExistAnnexAll then
 	else
 		system.alert("Zpráva neobsahuje žádná příloh data.")
 endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_enhancementList_ipo_OnRowClicked" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//put data froma reference to a lo structure for viewing
+form.enhancement.selectedGoodsItemCZ.clear()
+form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())
+
+if form.enhancement.selectedGoodsItemCZ.completed.hasValue() = false then
+	form.enhancement.selectedGoodsItemCZ.completed = false
+endif
+
+form.enhancement.modelEnhancement.clear()
+form.enhancement.modelEnhancement.fromJson(form.enhancement.selectedGoodsItemCZ.toJson())
+
+
+//insert codelist value into referenceCombo "writeOffMeasureUnit" 
+form.enhancement.modelEnhancement.writeOffMeasureUnit.clear()
+
+var item = apiobjects.woMeasureUnitCl.getItemByStringColumnAsync("JMODPIS", form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit, getDateTime(), defaultBool())
+
+if item.isFound() then
+	form.enhancement.modelEnhancement.writeOffMeasureUnit.fromJson(item.getJsonString())
+else
+	form.enhancement.modelEnhancement.writeOffMeasureUnit.JMODPIS = form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit
+endif
+
+//inser codelist value to referenceLookup "cnCodeArticle73DA"
+form.enhancement.modelEnhancement.cnCodeArticle73DA.clear()
+
+var itemCn = apiobjects.cnCodeCl.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.selectedGoodsItemCZ.computed_cnCodeArticle73DA , getDateTime(), defaultBool())
+
+if itemCn.isFound() then
+	form.enhancement.modelEnhancement.cnCodeArticle73DA.fromJson(itemCn.getJsonString())
+else
+	form.enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD = form.enhancement.selectedGoodsItemCZ.computed_cnCodeArticle73DA
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_enhancementList_eus_OnRowClicked" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//put data froma reference to a lo structure for viewing
+form.enhancement.selectedGoodsItemCZ.clear()
+form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())
+
+if form.enhancement.selectedGoodsItemCZ.completed.hasValue() = false then
+	form.enhancement.selectedGoodsItemCZ.completed = false
+endif
+
+form.enhancement.modelEnhancement.clear()
+form.enhancement.modelEnhancement.fromJson(form.enhancement.selectedGoodsItemCZ.toJson())
+
+
+//insert codelist value into referenceCombo "writeOffMeasureUnit" 
+form.enhancement.modelEnhancement.writeOffMeasureUnit.clear()
+
+var item = apiobjects.woMeasureUnitCl.getItemByStringColumnAsync("JMODPIS", form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit, getDateTime(), defaultBool())
+
+if item.isFound() then
+	form.enhancement.modelEnhancement.writeOffMeasureUnit.fromJson(item.getJsonString())
+else
+	form.enhancement.modelEnhancement.writeOffMeasureUnit.JMODPIS = form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit
+endif
+
+//inser codelist value to referenceLookup "cnCodeArticle73DA"
+form.enhancement.modelEnhancement.cnCodeArticle73DA.clear()
+
+var itemCn = apiobjects.cnCodeCl.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.selectedGoodsItemCZ.computed_cnCodeArticle73DA , getDateTime(), defaultBool())
+
+if itemCn.isFound() then
+	form.enhancement.modelEnhancement.cnCodeArticle73DA.fromJson(itemCn.getJsonString())
+else
+	form.enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD = form.enhancement.selectedGoodsItemCZ.computed_cnCodeArticle73DA
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
