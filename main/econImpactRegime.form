@@ -14119,11 +14119,6 @@ foreach item in form.enhancement.goodsCZ.goodsItemCZ do
 
 	var errorNoticeItemNumber = "Položka s Kódem KN: \"" + toString(item.combinedNomenclatureCode) + "\" vykazuje chybu v údaji: " 
 
-	if not item.cnCodeForSecuring.isValid() then
-		form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Zbožový kód pro dozajištění\" ", true)
-		errorNoticeItemNumber = ","
-	endif
-
 	if form.zobrazIPO then
 		if not item.article863UCC.isValid() then
 			form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Článek 86(3) UCC\" ", true)
@@ -14137,8 +14132,8 @@ foreach item in form.enhancement.goodsCZ.goodsItemCZ do
 	endif
 
 	if form.zobrazEUS then
-		if not item.cnCodeArticle73DA.isValid() then
-			form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Kód KN při použití čl. 73 DA\" ", true)
+		if not item.cnCodeForSecuring.isValid() then
+			form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Zbožový kód pro dozajištění\" ", true)
 			errorNoticeItemNumber = ","
 		endif
 	endif
