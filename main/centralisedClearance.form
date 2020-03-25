@@ -972,6 +972,12 @@
                           <ClassName value="{theme}-button" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="disabledButton" />
+                          <Bindings>
+                            <Binding SourceProperty="Condition" Expression="not globals.uiGlobalState.isLastCDversionSelected" />
+                          </Bindings>
+                        </CssClassConditional>
                       </CssClass>
                     </Button>
                     <Button>
@@ -989,6 +995,54 @@
                         </CssClassConditional>
                       </CssClass>
                     </Button>
+                    <ImageButton identity="ImageButton.d5705fac3ef94ff185b0260525af877a">
+                      <Name value="imgButton_prefil" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="200px" />
+                      <Tooltip value="Akce předvyplní data z poslední validní verze povolení." />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~prefillEnhancementData" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="Caption" Expression="form.modelEnhancement.prefillButtonCaption" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-imagebutton" />
+                          <Condition value="False" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="disabledButton" />
+                          <Bindings>
+                            <Binding SourceProperty="Condition" Expression="not globals.uiGlobalState.isLastCDversionSelected" />
+                          </Bindings>
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="buttonDefNoBorder" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </ImageButton>
+                    <ImageButton identity="ImageButton.d5705fac3ef94ff185b0260525af877a">
+                      <Name value="imgButton_reset" />
+                      <Caption value="Smazat" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <Tooltip value="Smažte data ve formuláři" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~resetEnhancementData" />
+                      </OnClick>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-imagebutton" />
+                          <Condition value="False" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="buttonDefNoBorder" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </ImageButton>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
@@ -6942,9 +6996,6 @@
                           </CssClass>
                         </Panel>
                       </Content>
-                      <Bindings>
-                        <Binding SourceProperty="IsVisible" Expression="form.uiState.visibilities.visibilityOfSaspAccountsGb" />
-                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-groupbox" />
