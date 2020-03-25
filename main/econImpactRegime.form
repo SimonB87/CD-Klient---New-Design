@@ -976,39 +976,54 @@
                     <Binding SourceProperty="IsVisible" Expression="form.formBehavior.visibilities.editButtons" />
                   </Bindings>
                   <Children>
-                    <Button>
-                      <Name value="prefillButton" />
+                    <ImageButton identity="ImageButton.d5705fac3ef94ff185b0260525af877a">
+                      <Name value="imgButton_prefil" />
                       <Panel.Height value="#" />
                       <Panel.Width value="200px" />
+                      <Tooltip value="Akce předvyplní data z poslední validní verze povolení." />
                       <OnClick>
                         <ActionEvent ReferencedAction="~prefillEnhancementData" />
                       </OnClick>
                       <Bindings>
                         <Binding SourceProperty="Caption" Expression="form.prefillButtonCaption" />
-                        <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.prefillVersionExists" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
-                          <ClassName value="{theme}-button" />
+                          <ClassName value="{theme}-imagebutton" />
+                          <Condition value="False" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="disabledButton" />
+                          <Bindings>
+                            <Binding SourceProperty="Condition" Expression="not globals.uiGlobalState.isLastCDversionSelected" />
+                          </Bindings>
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="buttonDefNoBorder" />
+                        </CssClassConditional>
                       </CssClass>
-                    </Button>
-                    <Button>
-                      <Name value="resetButton" />
+                    </ImageButton>
+                    <ImageButton identity="ImageButton.d5705fac3ef94ff185b0260525af877a">
+                      <Name value="imgButton_reset" />
                       <Caption value="Smazat" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
+                      <Tooltip value="Smažte data ve formuláři" />
                       <OnClick>
                         <ActionEvent ReferencedAction="~resetEnhancementData" />
                       </OnClick>
                       <CssClass>
                         <CssClassConditional>
-                          <ClassName value="{theme}-button" />
+                          <ClassName value="{theme}-imagebutton" />
+                          <Condition value="False" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="buttonDefNoBorder" />
+                        </CssClassConditional>
                       </CssClass>
-                    </Button>
+                    </ImageButton>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
