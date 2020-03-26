@@ -13587,6 +13587,9 @@ if globals.dataLoadingSpace.success then
   
   var ucd = cdDetail.customsDecisionAuthorisationData.universalCustomsDecisionInformation
   
+  form.apiobjects.goodsItemCZ.setReady(false)
+  form.apiobjects.goodsItemCZenhancement.setReady(false)
+  
   foreach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
       var guid = goodsItem.guid
       
@@ -13644,6 +13647,9 @@ if globals.dataLoadingSpace.success then
   
   var msg = "Data obohacení dané verze (poř. č.: " + toString(form.prefillTemplate.versionNum) + ") se podařilo úspěšně načíst a předvyplnit."
   form.actions.showSuccessfullResult(msg)
+  
+  form.apiobjects.goodsItemCZ.setReady(true)
+  form.apiobjects.goodsItemCZenhancement.setReady(true)
 else
   form.actions.handleVersionDataLoadError(form.prefillTemplate.versionNum, form.prefillTemplate.versionGuid)
 endif
