@@ -985,7 +985,7 @@
                         <ActionEvent ReferencedAction="~prefillEnhancementData" />
                       </OnClick>
                       <Bindings>
-                        <Binding SourceProperty="Caption" Expression="form.prefillButtonCaption" />
+                        <Binding SourceProperty="Caption" Expression="form.formBehavior.imgButton_prefilCaption" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -996,7 +996,7 @@
                         <CssClassConditional>
                           <ClassName value="disabledButton" />
                           <Bindings>
-                            <Binding SourceProperty="Condition" Expression="not globals.uiGlobalState.isLastCDversionSelected" />
+                            <Binding SourceProperty="Condition" Expression="form.formBehavior.imgButton_prefilDisabledClass" />
                           </Bindings>
                         </CssClassConditional>
                         <CssClassConditional>
@@ -10976,6 +10976,28 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Computed>
+              <Name value="imgButton_prefilCaption" />
+              <Caption value="Img button _ prefil caption" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[form.formBehavior.prefillVersionExists ?
+"Předvyplnit (z verze " + toString(form.prefillTemplate.versionNum) + ")"
+: "Nelze předvyplnit"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="imgButton_prefilDisabledClass" />
+              <Caption value="Img button _ prefil disabled class" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[(form.formBehavior.prefillVersionExists = false) or (globals.uiGlobalState.isLastCDversionSelected = false) ? true : false]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
           </Children>
         </Complex>
         <Attribute>
@@ -11062,18 +11084,6 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
             </Attribute>
           </Children>
         </Complex>
-        <Computed>
-          <Name value="prefillButtonCaption" />
-          <Caption value="Prefill button caption" />
-          <Expression IsValid="True">
-            <ExpressionText><![CDATA[form.formBehavior.prefillVersionExists ?
-"Předvyplnit (z verze " + toString(form.prefillTemplate.versionNum) + ")"
-: "Nelze předvyplnit"]]></ExpressionText>
-            <ResultType>
-              <BaseType value="String" />
-            </ResultType>
-          </Expression>
-        </Computed>
         <Complex>
           <Name value="enhancement" />
           <Caption value="Enhancement" />
@@ -13576,49 +13586,64 @@ if globals.dataLoadingSpace.success then
   form.actions.initCdEnhancementCommon()
   
   var ucd = cdDetail.customsDecisionAuthorisationData.universalCustomsDecisionInformation
-  /* -- commented out data prefill 2020
-  foreach g2bpxItem in form.cdAux.g2bpx do
-    foreach goodsItem in g2bpxItem.goodsItemCZ do
+  
+  foreach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
       var guid = goodsItem.guid
       
       if packages.utils.functions.classicOr(form.zobrazIPO, form.zobrazOPO) then
-        var oldG2bpx = ucd.goodsToBePlacedUnderTheSpecialProcedureOfProcessing
-        if oldG2bpx.exists(var group => group.goodsItemCZ.exists(var item => item.guid = guid)) then
-          var oldItem = oldG2bpx.selectFirst(var group => group.goodsItemCZ.exists(var item => item.guid = guid)).goodsItemCZ.selectFirst(var item => item.guid = guid)
+        var oldG2bpx = cdDetail.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ
+        
+        if oldG2bpx.exists(goodsItem.guid = guid) then
+        
+          var oldItem = oldG2bpx.selectFirst(goodsItem.guid = guid)
           goodsItem.writeOffMeasureUnit.JMODPIS = oldItem.writeOffMeasureUnit.JMODPIS
           goodsItem.article863UCC = oldItem.article863UCC
           goodsItem.article864UCC = oldItem.article864UCC
           goodsItem.cnCodeArticle73DA = oldItem.cnCodeArticle73DA
+          
         endif
+        
       else if form.zobrazEUS then
-        var oldG2bpx = ucd.goodsToBePlacedUnderTheSpecialProcedureOfEndUse
-        if oldG2bpx.exists(var group => group.goodsItemCZ.exists(var item => item.guid = guid)) then
-          var oldItem = oldG2bpx.selectFirst(var group => group.goodsItemCZ.exists(var item => item.guid = guid)).goodsItemCZ.selectFirst(var item => item.guid = guid)
+      
+        var oldG2bpx = cdDetail.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ
+        
+        if oldG2bpx.exists(goodsItem.guid = guid) then
+        
+          var oldItem = oldG2bpx.selectFirst(goodsItem.guid = guid)
           goodsItem.writeOffMeasureUnit.JMODPIS = oldItem.writeOffMeasureUnit.JMODPIS
           goodsItem.cnCodeForSecuring = oldItem.cnCodeForSecuring
+          
         endif
+        
       else if form.zobrazTEA then
-        var oldG2bpx = ucd.goodsToBePlacedUnderTheSpecialProcedureOfTemporaryAdmission
-        if oldG2bpx.exists(var group => group.goodsItemCZ.exists(var item => item.guid = guid)) then
-          var oldItem = oldG2bpx.selectFirst(var group => group.goodsItemCZ.exists(var item => item.guid = guid)).goodsItemCZ.selectFirst(var item => item.guid = guid)
-          goodsItem.writeOffMeasureUnit.JMODPIS = oldItem.writeOffMeasureUnit.JMODPIS
-        endif
-      else if packages.utils.functions.classicOr(form.zobrazCW, form.zobrazTST) then
-        var oldG2bpx = ucd.goodsToBePlacedUnderTheSpecialProcedureForStorageFacilities
-        if oldG2bpx.exists(var group => group.goodsItemCZ.exists(var item => item.guid = guid)) then
-          var oldItem = oldG2bpx.selectFirst(var group => group.goodsItemCZ.exists(var item => item.guid = guid)).goodsItemCZ.selectFirst(var item => item.guid = guid)
-          goodsItem.writeOffMeasureUnit.JMODPIS = oldItem.writeOffMeasureUnit.JMODPIS
-        endif
-      endif 
-      endif 
-      endif 
-      endif 
       
-    endfor
+        var oldG2bpx = cdDetail.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ
+        
+        if oldG2bpx.exists(goodsItem.guid = guid) then
+        
+          var oldItem = oldG2bpx.selectFirst(goodsItem.guid = guid)
+          goodsItem.writeOffMeasureUnit.JMODPIS = oldItem.writeOffMeasureUnit.JMODPIS
+          
+        endif
+        
+      else if packages.utils.functions.classicOr(form.zobrazCW, form.zobrazTST) then
+      
+        var oldG2bpx = cdDetail.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ
+        
+        if oldG2bpx.exists(goodsItem.guid = guid) then
+        
+          var oldItem = oldG2bpx.selectFirst(goodsItem.guid = guid)
+          goodsItem.writeOffMeasureUnit.JMODPIS = oldItem.writeOffMeasureUnit.JMODPIS
+          
+        endif
+        
+      endif  endif  endif endif 
+      
   endfor
   
+  
   var msg = "Data obohacení dané verze (poř. č.: " + toString(form.prefillTemplate.versionNum) + ") se podařilo úspěšně načíst a předvyplnit."
-  form.actions.showSuccessfullResult(msg)*/
+  form.actions.showSuccessfullResult(msg)
 else
   form.actions.handleVersionDataLoadError(form.prefillTemplate.versionNum, form.prefillTemplate.versionGuid)
 endif
@@ -13646,8 +13671,11 @@ endif
         <Script><![CDATA[// currently only periodForClearance is supported
 form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.periodForClearance.clear()
 
-foreach g2bpxItem in form.cdAux.g2bpx do
-  foreach goodsItem in g2bpxItem.goodsItemCZ do
+form.apiobjects.goodsItemCZ.setReady(false)
+form.apiobjects.goodsItemCZenhancement.setReady(false)
+
+foreach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
+
     goodsItem.cnCodeForSecuring.clear()
     goodsItem.writeOffMeasureUnit.JMODPIS = "###" // this is ugly but we don't have the comfort of named constants
     goodsItem.article863UCC.clear()
@@ -13655,9 +13683,10 @@ foreach g2bpxItem in form.cdAux.g2bpx do
     goodsItem.cnCodeArticle73DA.clear()
     goodsItem.completed = false
     
-  endfor
 endfor
-]]></Script>
+
+form.apiobjects.goodsItemCZ.setReady(true)
+form.apiobjects.goodsItemCZenhancement.setReady(true)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
