@@ -152,6 +152,12 @@
                   <DataType value="string" />
                 </listColumn>
                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="HolderName" />
+                  <Caption value="Název držitele" />
+                  <ColumnName value="HolderName" />
+                  <DataType value="string" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                   <Name value="CustomsAuthorityReferenceNumber" />
                   <Caption value="Číslo celního úřadu" />
                   <ColumnName value="CustomsAuthorityReferenceNumber" />
@@ -1015,7 +1021,8 @@ form.apiobjects.listCtrl.setReady(true)
 
 //set up form variables
 form.uiState.isSelectedMyCUoffice = False
-	
+globals.selectedCdExpired = False
+
 endif
 
 globals.IsBusy = false
@@ -1295,6 +1302,10 @@ endif
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if isTrueOrDefault(params.columnName = "CustomsDecisionReferenceNumber") then
   form.actions.zobrazDetail_ALANG()
+endif
+
+if form.selectedCd.CustomsDecisionStatusDescription = "Expirováno" then
+	globals.selectedCdExpired = True
 endif
 ]]></Script>
       </ActionLangBody>
