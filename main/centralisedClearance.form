@@ -7432,6 +7432,30 @@
                 </ResultType>
               </Expression>
             </Computed>
+            <Complex>
+              <Name value="clientMsg" />
+              <Caption value="Client msg" />
+              <Children>
+                <Complex>
+                  <Name value="request" />
+                  <Caption value="Request" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ClientMsg" />
+                    </Include>
+                  </Children>
+                </Complex>
+                <Attribute>
+                  <Name value="sendRequest" />
+                  <Caption value="Send request" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
           </Children>
         </Complex>
         <Complex>
@@ -7949,7 +7973,9 @@ if valid then
       if not acc.AccountNumber.isValid() then
         valid = false
         fullyEnh = false
-
+        form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + "\"Číslo účtu IBAN\" není správné. "
+		form.modelEnhancement.clientMsg.sendRequest = True
+		
       endif
     else
       fullyEnh = false
@@ -7958,7 +7984,9 @@ if valid then
       if not acc.BankCode.isValid() then
         valid = false
         fullyEnh = false
-
+        form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " \"Kód banky BIC\" není správný. "
+		form.modelEnhancement.clientMsg.sendRequest = True
+		
       endif
     else
       fullyEnh = false
@@ -7967,13 +7995,8 @@ if valid then
   
   if form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced and not (fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid()) then
     valid = false
-	
-	//test
-	system.console("form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced :: " + toString(form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced))
-	system.console("fullyEnh :: " + toString(fullyEnh))
-	system.console("enh.editNote.hasValue() :: " + toString(enh.editNote.hasValue()))
-	system.console("enh.editNote.isValid() :: " + toString(enh.editNote.isValid()))
-	system.console("valid :: " + toString(valid))//test
+    form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Povolení vykazuje stav 'Neúplné obohacení' nebo údaj \"Poznámka k editaci\" nemá správnou hodnotu. "
+	form.modelEnhancement.clientMsg.sendRequest = True
 	
   endif
 endif
@@ -7987,7 +8010,8 @@ if valid then
   var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.model.cdeReq.toJson(true))
   
   if resp.isError() or (resp.getMessageType() = "IN906A") then
-    form.modelEnhancement.operationResultMessage = "Něco se nezdařilo. Změny se nepovedlo uložit."
+    form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Odesílání zprávy selhalo. Změny se nepovedlo uložit. "
+    form.modelEnhancement.clientMsg.sendRequest = True
     
     var errorMsg = resp.getErrorMessage()
     system.consoleError(errorMsg)
@@ -7995,29 +8019,39 @@ if valid then
     system.consoleError("Response content: " + errorMsg)
     
     form.uiState.operationResultError = true
+    // Show user message - fail - on message sending
     form.uiState.visibilities.operationResult = true
   else
     var respJson = resp.getJsonString()
     form.CD.clear()
     form.CD.fromJson(respJson)
     
-    var msg = "Změny byly uloženy."
+    var msg = " Změny byly uloženy."
     if form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced then
       msg = msg + " Verze byla v centru označena jako \"kompletní\"."
       form.uiState.mode = enums.DetailMode.show
     endif
     
-    form.modelEnhancement.operationResultMessage = msg
+    form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + msg
     form.uiState.operationResultError = false
+    // Show user message - success
     form.uiState.visibilities.operationResult = true
     
     form.actions.afterVersionLoad()
   endif
   
 else
-  form.modelEnhancement.operationResultMessage = "Tyto údaje nejde uložit. Zkontrolujte správnost dat."
+  form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Tyto údaje nejde uložit. Zkontrolujte správnost dat."
+  form.modelEnhancement.clientMsg.sendRequest = True
+  
   form.uiState.operationResultError = true
+  // Show user message - fail - on form validation
   form.uiState.visibilities.operationResult = true
+  
+endif
+
+if form.modelEnhancement.clientMsg.sendRequest = True then
+  form.actions.sendErrorAsClientMsgCcl()
 endif
 
 // End of heavy operation
@@ -8530,6 +8564,44 @@ if checkExistAnnexAll then
 	else
 			system.alert("Zpráva neobsahuje žádná příloh data.")
 endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="sendErrorAsClientMsgCcl" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.CD.customsDecisionAuthorisationData.customsDecisionGUID.hasValue() then
+	form.modelEnhancement.clientMsg.request.Message = "'customsDecisionGUID': " + form.CD.customsDecisionAuthorisationData.customsDecisionGUID + " ; "
+else
+	form.modelEnhancement.clientMsg.request.Message = "'customsDecisionGUID': (no data) ; "
+endIf
+
+if form.CD.customsDecisionAuthorisationData.customsDecisionReferenceNumber.hasValue() then
+	form.modelEnhancement.clientMsg.request.Message = form.modelEnhancement.clientMsg.request.Message +  "'customsDecisionReferenceNumber': " + form.CD.customsDecisionAuthorisationData.customsDecisionReferenceNumber + " ; "
+else
+	form.modelEnhancement.clientMsg.request.Message = form.modelEnhancement.clientMsg.request.Message + "'customsDecisionReferenceNumber': (no data) ; "
+endif
+
+if form.modelEnhancement.operationResultMessage.hasValue() then
+	form.modelEnhancement.clientMsg.request.Message = form.modelEnhancement.clientMsg.request.Message + "'client message': " + form.modelEnhancement.operationResultMessage + " ; "
+else
+	form.modelEnhancement.clientMsg.request.Message = form.modelEnhancement.clientMsg.request.Message + "'client message': (no data) ; "
+endif
+
+
+//Send a message to Center
+var responseReq = apiobjects.ServerKomunikace.postAsync("ClientMsg", form.modelEnhancement.clientMsg.request.toJson())
+
+if responseReq.isError() then
+  system.console(responseReq.getErrorMessage())
+  // Tell user that the error message sending failed.
+  form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Odeslání tohoto chybového hlášení se nezdařilo. "
+else
+  // Tell user that the error message sending has succeeded.
+  form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Toto chybové hlášení bylo úspěšně odesláno. "
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

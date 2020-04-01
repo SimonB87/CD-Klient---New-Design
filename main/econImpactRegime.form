@@ -12394,8 +12394,7 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                       <Name value="computed_completed" />
                       <Caption value="Computed _ completed" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[this.owner().isValid() ?
-form.enhancement.completedAllSelected.isCompletedAllSelected = true ? true : ( completed.hasValue() ? (completed = True ? true : false) : defaultBool() ) : false]]></ExpressionText>
+                        <ExpressionText><![CDATA[form.enhancement.completedAllSelected.isCompletedAllSelected = true ? true : ( completed.hasValue() ? (completed = True ? true : false) : defaultBool() )]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -12492,6 +12491,30 @@ form.enhancement.completedAllSelected.isCompletedAllSelected = true ? true : ( c
                     </ResultType>
                   </Expression>
                 </Computed>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="clientMsg" />
+              <Caption value="send error operation result message as client message" />
+              <Children>
+                <Attribute>
+                  <Name value="sendRequest" />
+                  <Caption value="Send request" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Complex>
+                  <Name value="request" />
+                  <Caption value="Request" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ClientMsg" />
+                    </Include>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
           </Children>
@@ -13355,6 +13378,7 @@ if form.enhancement.goodsItemCZvalidatation then
   if form.zobrazIPO or form.zobrazEUS then
     form.enhancement.goodsItemCZvalidatation = enh.periodForClearance.isValid() 
 	form.actions.showEnhancementErrorMessage("Lhůta pro zúčtování vykazuje chybu. ", true)
+	form.enhancement.clientMsg.sendRequest = true
     
     // Currently periodForClearance isn't mandatory
     //fullyEnh = form.enhancement.goodsItemCZvalidatation and enh.periodForClearance.hasValue()
@@ -13370,6 +13394,7 @@ if form.enhancement.goodsItemCZvalidatation then
       if not goodsItem.writeOffMeasureUnit.isValid() then
         form.enhancement.goodsItemCZvalidatation = false
   		form.actions.showEnhancementErrorMessage("Odpisová měrná jednotka vykazuje chybu. ", true)
+  		form.enhancement.clientMsg.sendRequest = true
   		
       endif
       if isFalseOrDefault(goodsItem.completed) then
@@ -13383,6 +13408,7 @@ if form.enhancement.goodsItemCZvalidatation then
   if form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced and not (fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid()) then
     form.enhancement.goodsItemCZvalidatation = false
       form.actions.showEnhancementErrorMessage("Doplňte poznámku a zkontrolujte, jestli je rozhodnutí plně obohaceno. ", true)
+      form.enhancement.clientMsg.sendRequest = true
 
   endif
   
@@ -13401,6 +13427,7 @@ if form.enhancement.goodsItemCZvalidatation then
     errorMsg = resp.getJsonString()
     system.consoleError("Response content: " + errorMsg)
     form.actions.showEnhancementErrorMessage("Něco se nezdařilo. Změny se nepovedlo uložit. ", true)
+    form.enhancement.clientMsg.sendRequest = true
     
   else
     var msg = "Změny byly uloženy."
@@ -13410,6 +13437,7 @@ if form.enhancement.goodsItemCZvalidatation then
     endif
     
     form.actions.showEnhancementErrorMessage(msg, false)
+    form.enhancement.clientMsg.sendRequest = true
     
     var respJson = resp.getJsonString()
     form.CD.clear()
@@ -13420,7 +13448,12 @@ if form.enhancement.goodsItemCZvalidatation then
   
 else
   form.actions.showEnhancementErrorMessage("Tyto údaje nejde uložit. Zkontrolujte správnost dat. ", true)
+  form.enhancement.clientMsg.sendRequest = true
 endif
+
+if form.enhancement.clientMsg.sendRequest = True then
+	form.actions.sendErrorAsClientMsg()
+endIf
 
 globals.IsBusy = false
 ]]></Script>
@@ -14171,11 +14204,13 @@ foreach item in form.enhancement.goodsCZ.goodsItemCZ do
 		if not item.article863UCC.isValid() then
 			form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Článek 86(3) UCC\" ", true)
 			errorNoticeItemNumber = ","
+			form.enhancement.clientMsg.sendRequest = true
 		endif
 	
 		if not item.article864UCC.isValid() then
 			form.actions.showEnhancementErrorMessage(errorNoticeItemNumber +  " \"Článek 86(4) UCC\" ", true)
 			errorNoticeItemNumber = ","
+			form.enhancement.clientMsg.sendRequest = true
 		endif
 	endif
 
@@ -14183,12 +14218,14 @@ foreach item in form.enhancement.goodsCZ.goodsItemCZ do
 		if not item.cnCodeForSecuring.isValid() then
 			form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Zbožový kód pro dozajištění\" ", true)
 			errorNoticeItemNumber = ","
+			form.enhancement.clientMsg.sendRequest = true
 		endif
 	endif
 	
 	if not item.completed.isValid() then
 		form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Stav kompletnosti obohacení položky zboží\" ", true)
 		errorNoticeItemNumber = ","
+		form.enhancement.clientMsg.sendRequest = true
 	endif
 	
 endFor
@@ -14435,6 +14472,45 @@ if itemCn.isFound() then
 	form.enhancement.modelEnhancement.cnCodeForSecuring.fromJson(itemCn.getJsonString())
 else
 	form.enhancement.modelEnhancement.cnCodeForSecuring.ZBOZIKOD = form.enhancement.selectedGoodsItemCZ.computed_cnCodeForSecuring
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="sendErrorAsClientMsg" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.CD.customsDecisionAuthorisationData.customsDecisionGUID.hasValue() then
+	form.enhancement.clientMsg.request.Message = "'customsDecisionGUID': " + form.CD.customsDecisionAuthorisationData.customsDecisionGUID + " ; "
+else
+	form.enhancement.clientMsg.request.Message = "'customsDecisionGUID': (no data) ; "
+endIf
+
+if form.CD.customsDecisionAuthorisationData.customsDecisionReferenceNumber.hasValue() then
+	form.enhancement.clientMsg.request.Message = form.enhancement.clientMsg.request.Message +  "'customsDecisionReferenceNumber': " + form.CD.customsDecisionAuthorisationData.customsDecisionReferenceNumber + " ; "
+else
+	form.enhancement.clientMsg.request.Message = form.enhancement.clientMsg.request.Message + "'customsDecisionReferenceNumber': (no data) ; "
+endif
+
+if form.operationResultMessage.hasValue() then
+	form.enhancement.clientMsg.request.Message = form.enhancement.clientMsg.request.Message + "'client message': " + form.operationResultMessage + " ; "
+else
+	form.enhancement.clientMsg.request.Message = form.enhancement.clientMsg.request.Message + "'client message': (no data) ; "
+endif
+
+
+//Send a message to Center
+var responseReq = apiobjects.ServerKomunikace.postAsync("ClientMsg", form.enhancement.clientMsg.request.toJson())
+
+if responseReq.isError() then
+  system.console(responseReq.getErrorMessage())
+  // Tell user that the error message sending failed.
+  form.actions.showEnhancementErrorMessage(" Odeslání tohoto hlášení o chybě se nezdařilo. ", true)
+else
+  // Tell user that the error message sending has succeeded.
+  form.actions.showEnhancementErrorMessage(" Toto hlášení o chybě bylo úspěšně odesláno. ", true)
+  
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
