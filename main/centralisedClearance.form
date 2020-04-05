@@ -6698,6 +6698,31 @@
                                             </CssClassConditional>
                                           </HeaderCssClass>
                                         </DataColumn>
+                                        <DataColumn>
+                                          <Name value="dataColumn7" />
+                                          <Caption value="Odkaz  na soubor" />
+                                          <Content>
+                                            <HyperLink>
+                                              <Name value="hyperLinkCZannex" />
+                                              <Bindings>
+                                                <Binding SourceProperty="Href" Expression="_fileUrl" />
+                                                <Binding SourceProperty="Data" Expression="_fileHrefText" />
+                                              </Bindings>
+                                              <CssClass>
+                                                <CssClassConditional>
+                                                  <ClassName value="{theme}-hyperlink" />
+                                                  <IsThemedStyle value="True" />
+                                                </CssClassConditional>
+                                              </CssClass>
+                                            </HyperLink>
+                                          </Content>
+                                          <HeaderCssClass>
+                                            <CssClassConditional>
+                                              <ClassName value="{theme}-datacolumn" />
+                                              <IsThemedStyle value="True" />
+                                            </CssClassConditional>
+                                          </HeaderCssClass>
+                                        </DataColumn>
                                       </Columns>
                                       <CssClass>
                                         <CssClassConditional>
@@ -8264,16 +8289,6 @@ form.actions.findLastCompleteVersion()
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="initDc" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.tabsMenu.SelectedTab = 1
-]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="handler_button_addNewAnnexCZ_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
@@ -8351,6 +8366,8 @@ globals.uiGlobalState.annex.annexDetail.request.customsDecisionAuthorisationData
       <Name value="fillStoreAttachedDocumentsCZ" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if globals.uiGlobalState.isLastCDversionSelected then
+
+    form.actions.refreshCDgUIDversion()
 
 	if globals.uiGlobalState.GUID.hasValue() then
 		
@@ -8602,6 +8619,16 @@ else
   // Tell user that the error message sending has succeeded.
   form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Toto chybové hlášení bylo úspěšně odesláno. "
 endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="refreshCDgUIDversion" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.uiGlobalState.GUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+globals.uiGlobalState.CDversionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

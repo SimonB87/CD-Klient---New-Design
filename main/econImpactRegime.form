@@ -8969,6 +8969,31 @@
                                             </CssClassConditional>
                                           </HeaderCssClass>
                                         </DataColumn>
+                                        <DataColumn>
+                                          <Name value="dataColumn7" />
+                                          <Caption value="Odkaz  na soubor" />
+                                          <Content>
+                                            <HyperLink>
+                                              <Name value="hyperLinkCZannex" />
+                                              <Bindings>
+                                                <Binding SourceProperty="Href" Expression="_fileUrl" />
+                                                <Binding SourceProperty="Data" Expression="_fileHrefText" />
+                                              </Bindings>
+                                              <CssClass>
+                                                <CssClassConditional>
+                                                  <ClassName value="{theme}-hyperlink" />
+                                                  <IsThemedStyle value="True" />
+                                                </CssClassConditional>
+                                              </CssClass>
+                                            </HyperLink>
+                                          </Content>
+                                          <HeaderCssClass>
+                                            <CssClassConditional>
+                                              <ClassName value="{theme}-datacolumn" />
+                                              <IsThemedStyle value="True" />
+                                            </CssClassConditional>
+                                          </HeaderCssClass>
+                                        </DataColumn>
                                       </Columns>
                                       <CssClass>
                                         <CssClassConditional>
@@ -9735,6 +9760,7 @@
                                   <MinChars value="5" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="300px" />
+                                  <Tooltip value="Minimální počet znaků pro vyhledávání je 5" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.cnCodeForSecuring" />
                                     <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
@@ -13960,8 +13986,10 @@ endif]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="fillStoreAttachedDocumentsCZaction1" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[if globals.uiGlobalState.isLastCDversionSelected then
+
+   form.actions.refreshCDgUIDversion()
 
 	if globals.uiGlobalState.GUID.hasValue() then
 		
@@ -14512,6 +14540,16 @@ else
   form.actions.showEnhancementErrorMessage(" Toto hlášení o chybě bylo úspěšně odesláno. ", true)
   
 endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="refreshCDgUIDversion" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.uiGlobalState.GUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+globals.uiGlobalState.CDversionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

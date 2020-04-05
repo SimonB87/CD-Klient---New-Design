@@ -2617,6 +2617,31 @@
                                         </CssClassConditional>
                                       </HeaderCssClass>
                                     </DataColumn>
+                                    <DataColumn>
+                                      <Name value="dataColumn7" />
+                                      <Caption value="Odkaz  na soubor" />
+                                      <Content>
+                                        <HyperLink>
+                                          <Name value="hyperLinkAnnexCZ" />
+                                          <Bindings>
+                                            <Binding SourceProperty="Href" Expression="_fileUrl" />
+                                            <Binding SourceProperty="Data" Expression="_fileHrefText" />
+                                          </Bindings>
+                                          <CssClass>
+                                            <CssClassConditional>
+                                              <ClassName value="{theme}-hyperlink" />
+                                              <IsThemedStyle value="True" />
+                                            </CssClassConditional>
+                                          </CssClass>
+                                        </HyperLink>
+                                      </Content>
+                                      <HeaderCssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-datacolumn" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </HeaderCssClass>
+                                    </DataColumn>
                                   </Columns>
                                   <CssClass>
                                     <CssClassConditional>
@@ -3184,8 +3209,10 @@ endIf]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="fillStoreAttachedDocumentsCZ" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[if globals.uiGlobalState.isLastCDversionSelected then
+
+    form.actions.refreshCDgUIDversion()
 
 	if globals.uiGlobalState.GUID.hasValue() then
 		
@@ -3298,6 +3325,16 @@ endIf
 form.Tabs.Tab02.annexCountInTab.annexCountNumber = countOfAnnexEU + countOfAnnexCZ
 
 form.Tabs.Tab02.Title = "Přílohy: " + toString(form.Tabs.Tab02.annexCountInTab.annexCountNumber)]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="refreshCDgUIDversion" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.uiGlobalState.GUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+globals.uiGlobalState.CDversionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

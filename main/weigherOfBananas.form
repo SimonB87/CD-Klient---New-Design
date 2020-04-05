@@ -2990,6 +2990,27 @@
                                             </CssClassConditional>
                                           </HeaderCssClass>
                                         </DataColumn>
+                                        <DataColumn>
+                                          <Name value="dataColumn7" />
+                                          <Caption value="Odkaz  na soubor" />
+                                          <Content>
+                                            <HyperLink>
+                                              <Name value="hyperLinkAnnexCZ" />
+                                              <CssClass>
+                                                <CssClassConditional>
+                                                  <ClassName value="{theme}-hyperlink" />
+                                                  <IsThemedStyle value="True" />
+                                                </CssClassConditional>
+                                              </CssClass>
+                                            </HyperLink>
+                                          </Content>
+                                          <HeaderCssClass>
+                                            <CssClassConditional>
+                                              <ClassName value="{theme}-datacolumn" />
+                                              <IsThemedStyle value="True" />
+                                            </CssClassConditional>
+                                          </HeaderCssClass>
+                                        </DataColumn>
                                       </Columns>
                                       <CssClass>
                                         <CssClassConditional>
@@ -3614,8 +3635,10 @@ endIf]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="fillStoreAttachedDocumentsCZ" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[if globals.uiGlobalState.isLastCDversionSelected then
+
+    form.actions.refreshCDgUIDversion()
 
 	if globals.uiGlobalState.GUID.hasValue() then
 		
@@ -3728,6 +3751,16 @@ endIf
 form.tabsMenu.Tab04Prilohy.annexCountInTab.annexCountNumber = countOfAnnexEU + countOfAnnexCZ
 
 form.tabsMenu.Tab04Prilohy.Title = "Přílohy: " + toString(form.tabsMenu.Tab04Prilohy.annexCountInTab.annexCountNumber)]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="refreshCDgUIDversion" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.uiGlobalState.GUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+globals.uiGlobalState.CDversionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
