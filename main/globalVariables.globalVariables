@@ -131,29 +131,8 @@
       </DeclaredType>
     </Attribute>
     <Attribute>
-      <Name value="verzeCislo" />
-      <Caption value="Verze cislo" />
-      <DeclaredType>
-        <AttributeType />
-      </DeclaredType>
-    </Attribute>
-    <Attribute>
-      <Name value="verzeSestaveni" />
-      <Caption value="Verze sestaveni" />
-      <DeclaredType>
-        <AttributeType />
-      </DeclaredType>
-    </Attribute>
-    <Attribute>
       <Name value="appTitle" />
       <Caption value="App title" />
-      <DeclaredType>
-        <AttributeType />
-      </DeclaredType>
-    </Attribute>
-    <Attribute>
-      <Name value="verzeAplikace" />
-      <Caption value="Verze aplikace" />
       <DeclaredType>
         <AttributeType />
       </DeclaredType>
@@ -865,6 +844,40 @@
                           <Caption value="Reference" />
                           <MetaType reference="+MetaTypes.FileReferenceContentType" />
                         </Attribute>
+                        <Attribute>
+                          <Name value="customsDecisionGUID" />
+                          <Caption value="customsDecisionGUID" />
+                          <MetaType reference="+MetaTypes.Guid" />
+                          <MtsImportOptions.MTS.ID value="/CentralisedClearanceDetailResponse/customsDecisionAuthorisationData/customsDecisionGUID" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Attribute>
+                          <Name value="customsDecisionVersionGUID" />
+                          <Caption value="customsDecisionVersionGUID" />
+                          <MetaType reference="+MetaTypes.Guid" />
+                          <MtsImportOptions.MTS.ID value="/CentralisedClearanceDetailResponse/customsDecisionAuthorisationData/customsDecisionVersionGUID" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Computed>
+                          <Name value="_fileHrefText" />
+                          <Caption value="_ file href text" />
+                          <Expression IsValid="True">
+                            <ExpressionText><![CDATA[documentIdentifier]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </Expression>
+                        </Computed>
+                        <Computed>
+                          <Name value="_fileUrl" />
+                          <Caption value="_ file url" />
+                          <Expression IsValid="True">
+                            <ExpressionText><![CDATA[globals.serviceUrl + "CustomsDecisionAttachedDocumentRequest?customsDecisionGUID={" + customsDecisionGUID + "}&customsDecisionVersionGUID={" + customsDecisionVersionGUID + "}&documentGUID={" + documentGUID + "}&version=" + globals.version]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </Expression>
+                        </Computed>
                       </Children>
                     </Collection>
                   </Children>
@@ -922,6 +935,13 @@
         </Complex>
       </Children>
     </Complex>
+    <Attribute>
+      <Name value="verzeCislo" />
+      <Caption value="Verze cislo" />
+      <DeclaredType>
+        <AttributeType />
+      </DeclaredType>
+    </Attribute>
   </Children>
   <Modifiers>
     <Modifier>
