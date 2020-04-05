@@ -237,15 +237,17 @@ endif
       <ActionLangBody IsValid="True">
         <Script><![CDATA[//prefil requrest data:: globals.uiGlobalState.annex.addOtherAnnex.otherAnnexForHolder.request
 
-globals.uiGlobalState.annex.addOtherAnnex.otherAnnexForHolder.request.customsDecisionAuthorisationData.holderInformation.holder.actorIdentification.eORINumber = globals.dataLoadingSpace.cddResponse.customsDecisionAuthorisationData.holderInformation.holder.actorIdentification.eORINumber
-globals.uiGlobalState.annex.addOtherAnnex.otherAnnexForHolder.request.customsDecisionAuthorisationData.customsDecisionGUID = globals.uiGlobalState.GUID
+var requestObject = globals.uiGlobalState.annex.addOtherAnnex.otherAnnexForHolder.request
+
+requestObject.customsDecisionAuthorisationData.holderInformation.holder.actorIdentification.eORINumber = globals.dataLoadingSpace.cddResponse.customsDecisionAuthorisationData.holderInformation.holder.actorIdentification.eORINumber
+requestObject.customsDecisionAuthorisationData.customsDecisionGUID = globals.uiGlobalState.GUID
 
 if globals.uiGlobalState.CDversionGUID.hasValue() then
-	globals.uiGlobalState.annex.addOtherAnnex.otherAnnexForHolder.request.customsDecisionAuthorisationData.customsDecisionVersionGUID = globals.uiGlobalState.CDversionGUID
+	requestObject.customsDecisionAuthorisationData.customsDecisionVersionGUID = globals.uiGlobalState.CDversionGUID
 endif
 
 //send request
-var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionCZAnnexesForHolderRequest", globals.uiGlobalState.annex.addOtherAnnex.otherAnnexForHolder.request.toJson())
+var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionCZAnnexesForHolderRequest", requestObject.toJson())
 
 if response.isError() then
 	system.console("Error message - CustomsDecisionCZAnnexesForHolderRequest")
@@ -296,7 +298,6 @@ var pathPlaceHolder = globals.uiGlobalState.annex.addOtherAnnex.otherAnnexForHol
 if selectedMessage = "CustomsDecisionCZAnnexesForAuthorizationRequest" then
 	
  	pathPlaceHolder = globals.uiGlobalState.annex.addOtherAnnex.annexFromOtherCDverions.response.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ
- 	//system.console("Variable changed.")
  	
 endif
 
@@ -311,6 +312,9 @@ forEach annexCZdata in pathPlaceHolder do
 	addAnnexCZdata.numberOfDocuments = annexCZdata.numberOfDocuments
 	addAnnexCZdata.documentDate = annexCZdata.documentDate
 	addAnnexCZdata.fileReference = annexCZdata.fileReference
+	
+	addAnnexCZdata.customsDecisionGUID = globals.uiGlobalState.GUID
+	addAnnexCZdata.customsDecisionVersionGUID = globals.uiGlobalState.CDversionGUID
 	
 endFor]]></Script>
       </ActionLangBody>
