@@ -2625,29 +2625,11 @@
                                                           <Panel.Height value="#" />
                                                           <Panel.Width value="*" />
                                                           <Children>
-                                                            <TextBox>
-                                                              <Name value="textBox372" />
-                                                              <CaptionPosition value="Top" />
-                                                              <CaptionVAlign value="Middle" />
-                                                              <IsEnabled value="False" />
-                                                              <Panel.Height value="#" />
-                                                              <Panel.Width value="33%" />
-                                                              <Bindings>
-                                                                <Binding SourceProperty="Data" Expression="documentDate" />
-                                                                <Binding SourceProperty="Caption" Expression="documentDate.caption()" />
-                                                              </Bindings>
-                                                              <CssClass>
-                                                                <CssClassConditional>
-                                                                  <ClassName value="{theme}-textbox" />
-                                                                  <IsThemedStyle value="True" />
-                                                                </CssClassConditional>
-                                                              </CssClass>
-                                                            </TextBox>
                                                             <Panel>
                                                               <Name value="pnlAnnexOneFileCZ_sectionLinkFile" />
                                                               <Orientation value="Vertical" />
                                                               <Panel.Height value="#" />
-                                                              <Panel.Width value="33%" />
+                                                              <Panel.Width value="66%" />
                                                               <Children>
                                                                 <Label>
                                                                   <Name value="label32" />
@@ -2920,22 +2902,6 @@
                                     </CssClassConditional>
                                   </CssClass>
                                 </TextBox>
-                                <DatePicker>
-                                  <Name value="datePicker2" />
-                                  <Caption value="Datum konce platnosti" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.endOfLifeDateTime" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.endOfLifeDateTime.isRequired()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-datepicker" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </DatePicker>
                                 <TextBox>
                                   <Name value="textBox51" />
                                   <Caption value="Počet stran dokumentu" />
@@ -3034,7 +3000,7 @@
                         </GroupBox>
                         <GroupBox>
                           <Name value="prilohy_addAnnex_includeFromOlderVersion" />
-                          <Caption value="Přidání existující přílohy" />
+                          <Caption value="Přidat přílohu ze starších verzí povolení nebo z dalších povolení daného držitele" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Content>
@@ -3988,7 +3954,7 @@ endif
     </ActionBlock>
     <ActionBlock>
       <Name value="linkOtherAnnexToCurrentCD" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[if globals.uiGlobalState.isLastCDversionSelected then
 	globals.IsBusy = True
 	
@@ -4029,6 +3995,7 @@ endif
 	
 	//dodělat update seznamu příloh nahraných k poslední verzi povolení
 	actions.getNewAnnexData()//get updated data for the annex information
+	form.actions.getNewDataToForm()
 	globals.uiGlobalState.annex.addOtherAnnex.annexTableToSelect.clear() //clear annex table	
 	
 	
@@ -4105,6 +4072,27 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.uiGlobalState.GUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
 globals.uiGlobalState.CDversionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="getNewDataToForm" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//get linked annex data from global structure
+if globals.uiGlobalState.annex.annexDetail.response.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) then
+
+	if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) then
+	
+		var sourcePath = globals.uiGlobalState.annex.annexDetail.response.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex
+		var targetPath = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex
+		
+		targetPath.fromJson(sourcePath.toJson())
+		
+	endIf
+	
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
