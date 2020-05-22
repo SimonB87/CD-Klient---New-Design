@@ -8285,11 +8285,29 @@
                                                               <Panel.Height value="#" />
                                                               <Panel.Width value="*" />
                                                               <Children>
+                                                                <TextBox>
+                                                                  <Name value="textBox372" />
+                                                                  <CaptionPosition value="Top" />
+                                                                  <CaptionVAlign value="Middle" />
+                                                                  <IsEnabled value="False" />
+                                                                  <Panel.Height value="#" />
+                                                                  <Panel.Width value="33%" />
+                                                                  <Bindings>
+                                                                    <Binding SourceProperty="Data" Expression="documentDate" />
+                                                                    <Binding SourceProperty="Caption" Expression="documentDate.caption()" />
+                                                                  </Bindings>
+                                                                  <CssClass>
+                                                                    <CssClassConditional>
+                                                                      <ClassName value="{theme}-textbox" />
+                                                                      <IsThemedStyle value="True" />
+                                                                    </CssClassConditional>
+                                                                  </CssClass>
+                                                                </TextBox>
                                                                 <Panel>
                                                                   <Name value="pnlAnnexOneFileCZ_sectionLinkFile" />
                                                                   <Orientation value="Vertical" />
                                                                   <Panel.Height value="#" />
-                                                                  <Panel.Width value="66%" />
+                                                                  <Panel.Width value="33%" />
                                                                   <Children>
                                                                     <Label>
                                                                       <Name value="label32" />
@@ -13393,10 +13411,13 @@ if form.enhancement.goodsItemCZvalidatation then
   
   
   if form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced and not (fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid()) then
+    //  vyhazujeme nutnost poznámku u editace
+    system.console("edit note not filled")
+    /*
     form.enhancement.goodsItemCZvalidatation = false
       form.actions.showEnhancementErrorMessage("Doplňte poznámku a zkontrolujte, jestli je rozhodnutí plně obohaceno. ", true)
       form.enhancement.clientMsg.sendRequest = true
-
+    */
   endif
   
 endif
@@ -13404,7 +13425,8 @@ endif
 if form.enhancement.goodsItemCZvalidatation then
   form.actions.fillCdeReq()
   enh.fullyEnhanced = fullyEnh
-  		
+  
+  // send enhacement to server
   var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.cdeReq.toJson())
   
   if resp.isError() or (resp.getMessageType() = "IN906A") then
@@ -13415,9 +13437,9 @@ if form.enhancement.goodsItemCZvalidatation then
     system.consoleError("Response content: " + errorMsg)
     form.actions.showEnhancementErrorMessage("Něco se nezdařilo. Změny se nepovedlo uložit. ", true)
     form.enhancement.clientMsg.sendRequest = true
-    
+   
   else
-    var msg = "Změny byly uloženy."
+    var msg = "Změny byly odeslány a uloženy na server."
     if fullyEnh then
       msg = msg + " Verze byla uložena s příznakem \"kompletní\". \t"
       form.mode = enums.DetailMode.show
@@ -13432,6 +13454,7 @@ if form.enhancement.goodsItemCZvalidatation then
     
     form.actions.afterVersionLoad()
   endif
+
   
 else
   form.actions.showEnhancementErrorMessage("Tyto údaje nejde uložit. Zkontrolujte správnost dat. ", true)
@@ -13513,6 +13536,7 @@ if form.CD.customsDecisionAuthorisationData.enhancementCZ.editNote.hasValue() th
 endif
 
 var enhItems = enh.goodsItemCZ
+//teď chci naplnit akualizovat data pro poslání pomocí kolekce prezentované v Listu
 enhItems.clear()
 
 //check selected option "isCompletedAllSelected"
@@ -13522,7 +13546,8 @@ if form.enhancement.completedAllSelected.isCompletedAllSelected = True then
 	  var item = enhItems.addItem()
 	  item.fromJson(goodsItem.toJson())
 	    
-	  //hromadné doplnění pro položky jen pokud jsou validní  
+	  //hromadné doplnění pro položky jen pokud jsou validní 
+	  /*
 	  if item.isValid() then 
 	  	if not( item.completed = True ) then
 	    	item.completed = form.enhancement.completedAllSelected.isCompletedAllSelected
@@ -13530,7 +13555,9 @@ if form.enhancement.completedAllSelected.isCompletedAllSelected = True then
 	  else
 	  	form.actions.showEnhancementErrorMessage("Položka s Kóderm KN: '" + toString(goodsItem.combinedNomenclatureCode) + "' není validní.", true)
 	  endif
+	  */
 	  
+	  item.completed = form.enhancement.completedAllSelected.isCompletedAllSelected
 	endfor
 	
 else
@@ -13991,7 +14018,7 @@ endif
     </ActionBlock>
     <ActionBlock>
       <Name value="linkOtherAnnexToCurrentCD" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[if globals.uiGlobalState.isLastCDversionSelected then
 	globals.IsBusy = True
 	
@@ -14133,7 +14160,7 @@ endif]]></Script>
 	form.apiobjects.goodsItemCZenhancement.setReady(true)
 
 else
-	form.actions.showEnhancementErrorMessage("Vyberte \"Hotovo\" u vybrané položky a zkontrolujte jestli editujete povolení", true)
+	form.actions.showEnhancementErrorMessage("Vyberte \"Hotovo\" u vybrané položky a zkontrolujte jestli editujete povolení ", true)
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -14152,8 +14179,11 @@ endif]]></Script>
     <ActionBlock>
       <Name value="showEnhancementErrorMessage" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.operationResultMessage = form.operationResultMessage + errorContent
+        <Script><![CDATA[//add string with error description to other error messages
+form.operationResultMessage = form.operationResultMessage + errorContent
+//if true - the message for user imn operationResult will have red border; if false - we have only a good anoucement in operationResult with blue border
 form.formBehavior.operationResultError = operationResultError
+//make panel with operationResult visible
 form.formBehavior.visibilities.operationResult = true]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -14274,6 +14304,14 @@ if proceed = true then
 	
 	//switch value of boolean variable
 	form.enhancement.completedAllSelected.isCompletedAllSelected = not(form.enhancement.completedAllSelected.isCompletedAllSelected)
+		
+	//fill all items in presented collection as "completed" = true
+	if form.enhancement.goodsCZ.goodsItemCZ.exists(current.hasValue()) then
+	   forEach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
+	   	 goodsItem.completed = True
+	   endFor
+	endIf
+	
 	
 	form.apiobjects.goodsItemCZenhancement.setReady(True)
 
@@ -14497,10 +14535,10 @@ var responseReq = apiobjects.ServerKomunikace.postAsync("ClientMsg", form.enhanc
 if responseReq.isError() then
   system.console(responseReq.getErrorMessage())
   // Tell user that the error message sending failed.
-  form.actions.showEnhancementErrorMessage(" Odeslání tohoto hlášení o chybě se nezdařilo. ", true)
+  form.actions.showEnhancementErrorMessage(" Dle kontroly není obohacení úplné (další kontroly obohacení mohou být provedeny ještě v Centru). ", true)
 else
   // Tell user that the error message sending has succeeded.
-  form.actions.showEnhancementErrorMessage(" Toto hlášení o chybě bylo úspěšně odesláno. ", true)
+  //form.actions.showEnhancementErrorMessage(" Obohacení není kompletní, informace o tomto stavu bylo úspěšně odesláno. ", true)
   
 endif]]></Script>
       </ActionLangBody>
