@@ -9566,6 +9566,11 @@
                                       <ColumnName value="article864UCC" />
                                       <DataType value="bool" />
                                     </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listColumn_computedCnCodeArticle73DA" />
+                                      <Caption value="Kód KN při použití čl. 73 DA" />
+                                      <ColumnName value="computed_cnCodeArticle73DA" />
+                                    </listColumn>
                                   </columns>
                                 </List>
                               </Children>
@@ -9744,6 +9749,27 @@
                                     <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.zobrazEUS" />
                                     <Binding SourceProperty="IsVisible" Expression="form.zobrazEUS" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-referencelookup" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </ReferenceLookup>
+                                <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
+                                  <Name value="referenceLookup_cCode73DA" />
+                                  <Caption value="Kód KN při použití čl. 73 DA" />
+                                  <CaptionPosition value="Top" />
+                                  <DataApiObject reference="+GlobalApiObjects.cnCodeCl" />
+                                  <DisplayMember value="_description" />
+                                  <MinChars value="5" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="200px" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.cnCodeArticle73DA" />
+                                    <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
+                                    <Binding SourceProperty="IsVisible" Expression="form.zobrazIPO" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -11757,6 +11783,16 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                     </ResultType>
                   </Expression>
                 </Computed>
+                <Computed>
+                  <Name value="computedCnCodeArt73da" />
+                  <Caption value="Computed cn code art 73 da" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[cnCodeArticle73DA.ZBOZIKOD.hasValue() ? cnCodeArticle73DA.ZBOZIKOD : ""]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
               </Children>
             </Complex>
             <Complex>
@@ -12060,6 +12096,17 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                     </ResultType>
                   </Expression>
                 </Computed>
+                <Reference>
+                  <Name value="cnCodeArticle73DA" />
+                  <Caption value="Kód KN při použití čl. 73 DA" />
+                  <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponse/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsCZ/goodsItemCZ/cnCodeArticle73DA" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ZBOZIKOD" />
+                    </Include>
+                  </Children>
+                </Reference>
               </Children>
             </Complex>
             <Complex>
@@ -12401,6 +12448,16 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                         <ExpressionText><![CDATA[form.enhancement.completedAllSelected.isCompletedAllSelected = true ? true : ( completed.hasValue() ? (completed = True ? true : false) : defaultBool() )]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Computed>
+                      <Name value="computed_cnCodeArticle73DA" />
+                      <Caption value="Computed _ cn code article 73 DA" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[cnCodeArticle73DA.ZBOZIKOD.hasValue() ? cnCodeArticle73DA.ZBOZIKOD: ""]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
                         </ResultType>
                       </Expression>
                     </Computed>
@@ -13434,18 +13491,17 @@ if form.enhancement.goodsItemCZvalidatation then
       endif
     endfor
     
-
   fullyEnh = fullyEnh and allCompleted
   
-  
+  //fill in edit note strinf from GUI
+  enh.editNote = form.CD.customsDecisionAuthorisationData.enhancementCZ.editNote
+    
   if form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced and not (fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid()) then
-    //  vyhazujeme nutnost poznámku u editace
-    system.console("edit note not filled")
-    /*
+       
     form.enhancement.goodsItemCZvalidatation = false
       form.actions.showEnhancementErrorMessage("Doplňte poznámku a zkontrolujte, jestli je rozhodnutí plně obohaceno. ", true)
       form.enhancement.clientMsg.sendRequest = true
-    */
+    
   endif
   
 endif
@@ -13572,10 +13628,9 @@ if form.enhancement.completedAllSelected.isCompletedAllSelected = True then
 
 	foreach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
 	  var item = enhItems.addItem()
-	  item.fromJson(goodsItem.toJson())
-	    
-	  //hromadné doplnění pro položky jen pokud jsou validní 
-	  /*
+	  item.fromJson(goodsItem.toJson(True))
+	  	    
+	  //hromadné doplnění pro položky jen pokud jsou validní 	  
 	  if item.isValid() then 
 	  	if not( item.completed = True ) then
 	    	item.completed = form.enhancement.completedAllSelected.isCompletedAllSelected
@@ -13583,16 +13638,14 @@ if form.enhancement.completedAllSelected.isCompletedAllSelected = True then
 	  else
 	  	form.actions.showEnhancementErrorMessage("Položka s Kóderm KN: '" + toString(goodsItem.combinedNomenclatureCode) + "' není validní.", true)
 	  endif
-	  */
 	  
-	  item.completed = form.enhancement.completedAllSelected.isCompletedAllSelected
 	endfor
 	
 else
 
 	foreach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
 	  var item = enhItems.addItem()
-	  item.fromJson(goodsItem.toJson())
+	  item.fromJson(goodsItem.toJson(true))
 	endfor
 	
 endif
@@ -14135,6 +14188,15 @@ endif
 
 //inser codelist value to referenceLookup "cnCodeArticle73DA"
 form.enhancement.modelEnhancement.cnCodeForSecuring.clear()
+form.enhancement.modelEnhancement.cnCodeArticle73DA.clear()
+
+var itemCn73da = apiobjects.cnCodeCl.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.selectedGoodsItemCZ.computedCnCodeArt73da , getDateTime(), defaultBool())
+
+if itemCn73da.isFound() then
+	form.enhancement.modelEnhancement.cnCodeArticle73DA.fromJson(itemCn73da.getJsonString())
+else
+	form.enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD = form.enhancement.selectedGoodsItemCZ.computedCnCodeArt73da
+endif
 
 var itemCn = apiobjects.cnCodeCl.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.selectedGoodsItemCZ.computed_cnCodeForSecuring , getDateTime(), defaultBool())
 
@@ -14154,6 +14216,9 @@ endif]]></Script>
         <Script><![CDATA[if form.enhancement.modelEnhancement.completed and form.enhancement.isEnhancementEditOn then
 
 	form.apiobjects.goodsItemCZenhancement.setReady(false)
+	
+	//clear all previous error messages
+	form.operationResultMessage.clear()
 	
 	if form.enhancement.goodsCZ.goodsItemCZ.exists(current.itemID = form.enhancement.selectedGoodsItemCZ.itemID) then
 	
@@ -14178,8 +14243,36 @@ endif]]></Script>
 			selectedItem.article864UCC = form.enhancement.modelEnhancement.article864UCC
 		endif
 		
-		if form.zobrazEUS then
-			selectedItem.cnCodeForSecuring.ZBOZIKOD = form.enhancement.modelEnhancement.cnCodeForSecuring.ZBOZIKOD
+		if form.zobrazIPO and form.enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD.hasValue() then
+												
+			var itemCn73da = apiobjects.cnCodeCl.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD , getDateTime(), defaultBool())
+
+			if itemCn73da.isFound() then
+				selectedItem.cnCodeArticle73DA.fromJson(itemCn73da.getJsonString())
+			else
+				form.actions.showEnhancementErrorMessage("Nejedná se o platný kód číselníku. ", true)
+				//test
+				system.console("item not found")
+				//test
+				selectedItem.cnCodeArticle73DA.ZBOZIKOD = form.enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD
+			endif
+			
+		endIf
+		
+		if form.zobrazEUS and form.enhancement.modelEnhancement.cnCodeForSecuring.ZBOZIKOD.hasValue() then
+			
+			var itemCn = apiobjects.cnCodeCl.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.modelEnhancement.cnCodeForSecuring.ZBOZIKOD , getDateTime(), defaultBool())
+
+			if itemCn.isFound() then
+				selectedItem.cnCodeForSecuring.fromJson(itemCn.getJsonString())				
+			else
+				//test
+				system.console("item not found")
+				//test
+				form.actions.showEnhancementErrorMessage("Nejedná se o platný kód číselníku. ", true)
+				selectedItem.cnCodeForSecuring.ZBOZIKOD = form.enhancement.modelEnhancement.cnCodeForSecuring.ZBOZIKOD
+			endif
+			
 		endif
 	
 	else
@@ -14194,11 +14287,12 @@ else
 		form.actions.showEnhancementErrorMessage("Vyberte \"Hotovo\" u vybrané položky a zkontrolujte jestli editujete povolení ", true)
 		form.uiState.messageCounter = form.uiState.messageCounter + 1
 	endIf
-	
+		
 	if form.uiState.messageCounter = 7 then
 		form.operationResultMessage.clear()
 		form.uiState.messageCounter = 0
 	endif
+
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
