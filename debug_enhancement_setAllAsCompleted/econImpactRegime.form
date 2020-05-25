@@ -12523,6 +12523,21 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
             </Complex>
           </Children>
         </Complex>
+        <Complex>
+          <Name value="uiState" />
+          <Caption value="Ui state" />
+          <Children>
+            <Attribute>
+              <Name value="messageCounter" />
+              <Caption value="Message counter" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </Complex>
       </Children>
       <Modifiers>
         <Modifier>
@@ -12722,7 +12737,7 @@ form.mode = enums.DetailMode.show
 //set up variables
 actions.prepareFormAnnexPannel()
 globals.uiGlobalState.annex.isEconImpactSelected = True
-
+form.uiState.messageCounter = 0
 // ********* check correctness of next three lines:
 if form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.exists(current.hasValue()) then
 	globals.uiGlobalState.CDversionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.selectFirst(current.index() = 1).customsDecisionVersionGUID
@@ -13395,10 +13410,22 @@ fullyEnh = fullyEnh and form.cdAux.simplifiedEntryProcedureEnum.hasValue() and f
 if form.enhancement.goodsItemCZvalidatation then
   // let's make check for validity and completness of goods-items data
   var allCompleted = true //form.actions.checkGoodsCompletness()
+  var messageCounter = 0
+   
     foreach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
       if not goodsItem.writeOffMeasureUnit.isValid() then
         form.enhancement.goodsItemCZvalidatation = false
-  		form.actions.showEnhancementErrorMessage("Odpisová měrná jednotka vykazuje chybu. ", true)
+        
+        if messageCounter < 7 then
+  		 form.actions.showEnhancementErrorMessage("Odpisová měrná jednotka vykazuje chybu. ", true)
+  		 messageCounter = messageCounter + 1
+  		endIf
+  		
+  		if messageCounter = 7 then
+  		  form.actions.showEnhancementErrorMessage("Další položky v kolekci také vykazují chybu u odpisové měrné jednotky. ", true)
+  		 messageCounter = messageCounter + 1
+  		endIf
+  		
   		form.enhancement.clientMsg.sendRequest = true
   		
       endif
@@ -13406,15 +13433,15 @@ if form.enhancement.goodsItemCZvalidatation then
         allCompleted = false
       endif
     endfor
-
+    
   fullyEnh = fullyEnh and allCompleted
   
-  
   if form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced and not (fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid()) then
+    //  vyhazujeme nutnost poznámku u editace    
     form.enhancement.goodsItemCZvalidatation = false
       form.actions.showEnhancementErrorMessage("Doplňte poznámku a zkontrolujte, jestli je rozhodnutí plně obohaceno. ", true)
       form.enhancement.clientMsg.sendRequest = true
-
+    
   endif
   
 endif
@@ -13422,7 +13449,8 @@ endif
 if form.enhancement.goodsItemCZvalidatation then
   form.actions.fillCdeReq()
   enh.fullyEnhanced = fullyEnh
-  		
+  
+  // send enhacement to server
   var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.cdeReq.toJson())
   
   if resp.isError() or (resp.getMessageType() = "IN906A") then
@@ -13433,9 +13461,9 @@ if form.enhancement.goodsItemCZvalidatation then
     system.consoleError("Response content: " + errorMsg)
     form.actions.showEnhancementErrorMessage("Něco se nezdařilo. Změny se nepovedlo uložit. ", true)
     form.enhancement.clientMsg.sendRequest = true
-    
+   
   else
-    var msg = "Změny byly uloženy."
+    var msg = "Změny byly odeslány a uloženy na server."
     if fullyEnh then
       msg = msg + " Verze byla uložena s příznakem \"kompletní\". \t"
       form.mode = enums.DetailMode.show
@@ -13450,6 +13478,7 @@ if form.enhancement.goodsItemCZvalidatation then
     
     form.actions.afterVersionLoad()
   endif
+
   
 else
   form.actions.showEnhancementErrorMessage("Tyto údaje nejde uložit. Zkontrolujte správnost dat. ", true)
@@ -13531,6 +13560,7 @@ if form.CD.customsDecisionAuthorisationData.enhancementCZ.editNote.hasValue() th
 endif
 
 var enhItems = enh.goodsItemCZ
+//teď chci naplnit akualizovat data pro poslání pomocí kolekce prezentované v Listu
 enhItems.clear()
 
 //check selected option "isCompletedAllSelected"
@@ -13540,7 +13570,7 @@ if form.enhancement.completedAllSelected.isCompletedAllSelected = True then
 	  var item = enhItems.addItem()
 	  item.fromJson(goodsItem.toJson())
 	    
-	  //hromadné doplnění pro položky jen pokud jsou validní  
+	  //hromadné doplnění pro položky jen pokud jsou validní 	  
 	  if item.isValid() then 
 	  	if not( item.completed = True ) then
 	    	item.completed = form.enhancement.completedAllSelected.isCompletedAllSelected
@@ -13559,6 +13589,8 @@ else
 	endfor
 	
 endif
+
+
 //enh.g2bpx.fromJson(form.cdAux.g2bpx.toJson())
 ]]></Script>
       </ActionLangBody>
@@ -14151,7 +14183,15 @@ endif]]></Script>
 	form.apiobjects.goodsItemCZenhancement.setReady(true)
 
 else
-	form.actions.showEnhancementErrorMessage("Vyberte \"Hotovo\" u vybrané položky a zkontrolujte jestli editujete povolení", true)
+	if form.uiState.messageCounter < 7 then
+		form.actions.showEnhancementErrorMessage("Vyberte \"Hotovo\" u vybrané položky a zkontrolujte jestli editujete povolení ", true)
+		form.uiState.messageCounter = form.uiState.messageCounter + 1
+	endIf
+	
+	if form.uiState.messageCounter = 7 then
+		form.operationResultMessage.clear()
+		form.uiState.messageCounter = 0
+	endif
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -14170,8 +14210,11 @@ endif]]></Script>
     <ActionBlock>
       <Name value="showEnhancementErrorMessage" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.operationResultMessage = form.operationResultMessage + errorContent
+        <Script><![CDATA[//add string with error description to other error messages
+form.operationResultMessage = form.operationResultMessage + errorContent
+//if true - the message for user imn operationResult will have red border; if false - we have only a good anoucement in operationResult with blue border
 form.formBehavior.operationResultError = operationResultError
+//make panel with operationResult visible
 form.formBehavior.visibilities.operationResult = true]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -14204,20 +14247,44 @@ form.formBehavior.visibilities.operationResult = true]]></Script>
     <ActionBlock>
       <Name value="validateEachGoodsItemCZ" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[//validate cetain goods items for selected CD type
+        <Script><![CDATA[//established message counter, so user will not see too many notices
+var messageCounter = 0
+
+//validate certain goods items for selected CD type
 foreach item in form.enhancement.goodsCZ.goodsItemCZ do
 
 	var errorNoticeItemNumber = "Položka s Kódem KN: \"" + toString(item.combinedNomenclatureCode) + "\" vykazuje chybu v údaji: " 
 
 	if form.zobrazIPO then
 		if not item.article863UCC.isValid() then
-			form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Článek 86(3) UCC\" ", true)
+		
+			if messageCounter < 7 then
+				form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Článek 86(3) UCC\" ", true)
+				messageCounter = messageCounter + 1
+			endIf
+			
+			if messageCounter = 7 then
+				form.actions.showEnhancementErrorMessage(" Další položky v kolekci také vykazují chyby. ", true)
+				messageCounter = messageCounter + 1
+			endIf
+			
 			errorNoticeItemNumber = ","
 			form.enhancement.clientMsg.sendRequest = true
+			
 		endif
 	
 		if not item.article864UCC.isValid() then
-			form.actions.showEnhancementErrorMessage(errorNoticeItemNumber +  " \"Článek 86(4) UCC\" ", true)
+		
+			if messageCounter < 7 then
+				form.actions.showEnhancementErrorMessage(errorNoticeItemNumber +  " \"Článek 86(4) UCC\" ", true)
+				messageCounter = messageCounter + 1
+			endIf
+			
+			if messageCounter = 7 then
+				form.actions.showEnhancementErrorMessage(" Další položky v kolekci také vykazují chyby. ", true)
+				messageCounter = messageCounter + 1
+			endIf
+			
 			errorNoticeItemNumber = ","
 			form.enhancement.clientMsg.sendRequest = true
 		endif
@@ -14225,14 +14292,34 @@ foreach item in form.enhancement.goodsCZ.goodsItemCZ do
 
 	if form.zobrazEUS then
 		if not item.cnCodeForSecuring.isValid() then
-			form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Zbožový kód pro dozajištění\" ", true)
+		
+			if messageCounter < 7 then
+			  form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Zbožový kód pro dozajištění\" ", true)
+			  messageCounter = messageCounter + 1
+			endIf
+			
+			if messageCounter = 7 then
+				form.actions.showEnhancementErrorMessage(" Další položky v kolekci také vykazují chyby. ", true)
+				messageCounter = messageCounter + 1
+			endIf
+			
 			errorNoticeItemNumber = ","
 			form.enhancement.clientMsg.sendRequest = true
 		endif
 	endif
 	
 	if not item.completed.isValid() then
-		form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Stav kompletnosti obohacení položky zboží\" ", true)
+	
+		if messageCounter < 9 then
+			form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Stav kompletnosti obohacení položky zboží\" ", true)
+			messageCounter = messageCounter + 1
+		endIf
+		
+		if messageCounter = 9 then
+			form.actions.showEnhancementErrorMessage(" Další položky v kolekci také vykazují chyby. ", true)
+			messageCounter = messageCounter + 1
+		endIf
+		
 		errorNoticeItemNumber = ","
 		form.enhancement.clientMsg.sendRequest = true
 	endif
@@ -14274,10 +14361,23 @@ if form.zobrazEUS then
 	
 	if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.exists(current.hasValue()) then
 	
+		var messageCounter = 0
+	
 		forEach item in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
 			if (item.cnCodeArticle73DA.hasValue() = false) or (item.cnCodeArticle73DA.isValid() = false) then
 				proceed = false
-				form.actions.showEnhancementErrorMessage("Položka s kódem KN: " + item.combinedNomenclatureCode + "není správně obohacena. ", true)
+				
+				if messageCounter < 6 then
+				  form.actions.showEnhancementErrorMessage("Položka s kódem KN: " + item.combinedNomenclatureCode + "není správně obohacena. ", true)
+				  messageCounter = messageCounter + 1
+				endIf
+				
+				if messageCounter = 7 then
+				   form.actions.showEnhancementErrorMessage(" U položek existují další chyby. ", true)
+				   messageCounter = messageCounter + 1
+				endIf
+				
+				
 			endIf
 		endFor
 	
@@ -14292,6 +14392,14 @@ if proceed = true then
 	
 	//switch value of boolean variable
 	form.enhancement.completedAllSelected.isCompletedAllSelected = not(form.enhancement.completedAllSelected.isCompletedAllSelected)
+		
+	//fill all items in presented collection as "completed" = true
+	if form.enhancement.goodsCZ.goodsItemCZ.exists(current.hasValue()) then
+	   forEach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
+	   	 goodsItem.completed = True
+	   endFor
+	endIf
+	
 	
 	form.apiobjects.goodsItemCZenhancement.setReady(True)
 
@@ -14515,10 +14623,10 @@ var responseReq = apiobjects.ServerKomunikace.postAsync("ClientMsg", form.enhanc
 if responseReq.isError() then
   system.console(responseReq.getErrorMessage())
   // Tell user that the error message sending failed.
-  form.actions.showEnhancementErrorMessage(" Odeslání tohoto hlášení o chybě se nezdařilo. ", true)
+  form.actions.showEnhancementErrorMessage(" Dle kontroly není obohacení úplné (další kontroly obohacení mohou být provedeny ještě v Centru). ", true)
 else
   // Tell user that the error message sending has succeeded.
-  form.actions.showEnhancementErrorMessage(" Toto hlášení o chybě bylo úspěšně odesláno. ", true)
+  //form.actions.showEnhancementErrorMessage(" Obohacení není kompletní, informace o tomto stavu bylo úspěšně odesláno. ", true)
   
 endif]]></Script>
       </ActionLangBody>
