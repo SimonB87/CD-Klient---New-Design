@@ -9305,10 +9305,44 @@
                                         </CssClassConditional>
                                       </CssClass>
                                     </Label>
+                                    <ImageButton identity="ImageButton.d5705fac3ef94ff185b0260525af877a">
+                                      <Name value="imgBtn_allArticles86True" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="190px" />
+                                      <Tooltip value="U všech položek zboží dojde u článků 86(3) a 86(4) UCC k zadání hodnoty &quot;ANO&quot;" />
+                                      <OnClick>
+                                        <ActionEvent ReferencedAction="~switch_allItemArticles86toTrue" />
+                                      </OnClick>
+                                      <Bindings>
+                                        <Binding SourceProperty="Caption" Expression="enhancement.completedAllSelected.ipoAllArticled86Fill.allArticles86TrueCaption" />
+                                        <Binding SourceProperty="IsVisible" Expression="form.zobrazIPO" />
+                                      </Bindings>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-imagebutton" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="disabledButton" />
+                                          <Bindings>
+                                            <Binding SourceProperty="Condition" Expression="not form.enhancement.isEnhancementEditOn" />
+                                          </Bindings>
+                                        </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="noClickButton" />
+                                          <Bindings>
+                                            <Binding SourceProperty="Condition" Expression="form.enhancement.completedAllSelected.ipoAllArticled86Fill.allArticles86True" />
+                                          </Bindings>
+                                        </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="imgButtonstyle" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </ImageButton>
                                     <Button>
                                       <Name value="btnEnhancementCompletedAll" />
                                       <Panel.Height value="#" />
-                                      <Panel.Width value="220px" />
+                                      <Panel.Width value="190px" />
                                       <OnClick>
                                         <ActionEvent ReferencedAction="~switch_isCompletedAllSelected" />
                                       </OnClick>
@@ -9327,8 +9361,10 @@
                                           </Bindings>
                                         </CssClassConditional>
                                         <CssClassConditional>
-                                          <ClassName value="{theme}-button" />
-                                          <IsThemedStyle value="True" />
+                                          <ClassName value="noClickButton" />
+                                          <Bindings>
+                                            <Binding SourceProperty="Condition" Expression="form.enhancement.completedAllSelected.isCompletedAllSelected" />
+                                          </Bindings>
                                         </CssClassConditional>
                                       </CssClass>
                                     </Button>
@@ -12507,6 +12543,28 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                     </ResultType>
                   </Expression>
                 </Computed>
+                <Complex>
+                  <Name value="ipoAllArticled86Fill" />
+                  <Caption value="Ipo all articled 86 fill" />
+                  <Children>
+                    <Attribute>
+                      <Name value="allArticles86True" />
+                      <Caption value="All articles 86 true" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Computed>
+                      <Name value="allArticles86TrueCaption" />
+                      <Caption value="All articles 86 true caption" />
+                      <Expression>
+                        <ExpressionText><![CDATA[allArticles86True = true ? ("Označit u všech položek čl. 86 na ANO: povoleno") : ("Označit u všech položek čl. 86 na ANO: zamítnuto")]]></ExpressionText>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
             <Attribute>
@@ -12771,6 +12829,7 @@ else
   form.actions.handleVersionDataLoadError(-1, form.GUID)
 endif
 
+form.actions.codeListZboziKodInit()
 
 //form.actions.initTabMenu_ALANG()
 form.actions.initTabOstatni_ALANG()
@@ -12795,6 +12854,7 @@ form.mode = enums.DetailMode.show
 actions.prepareFormAnnexPannel()
 globals.uiGlobalState.annex.isEconImpactSelected = True
 form.uiState.messageCounter = 0
+
 // ********* check correctness of next three lines:
 if form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.exists(current.hasValue()) then
 	globals.uiGlobalState.CDversionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.selectFirst(current.index() = 1).customsDecisionVersionGUID
@@ -14251,9 +14311,7 @@ endif]]></Script>
 				selectedItem.cnCodeArticle73DA.fromJson(itemCn73da.getJsonString())
 			else
 				form.actions.showEnhancementErrorMessage("Nejedná se o platný kód číselníku. ", true)
-				//test
-				system.console("item not found")
-				//test
+				
 				selectedItem.cnCodeArticle73DA.ZBOZIKOD = form.enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD
 			endif
 			
@@ -14266,9 +14324,7 @@ endif]]></Script>
 			if itemCn.isFound() then
 				selectedItem.cnCodeForSecuring.fromJson(itemCn.getJsonString())				
 			else
-				//test
-				system.console("item not found")
-				//test
+				
 				form.actions.showEnhancementErrorMessage("Nejedná se o platný kód číselníku. ", true)
 				selectedItem.cnCodeForSecuring.ZBOZIKOD = form.enhancement.modelEnhancement.cnCodeForSecuring.ZBOZIKOD
 			endif
@@ -14760,6 +14816,50 @@ if globals.uiGlobalState.annex.annexDetail.response.customsDecisionAuthorisation
 		
 	endIf
 	
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="codeListZboziKodInit" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.exists(current.hasValue()) then
+  var firstItem = form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.selectFirst()
+  var firstDate = toDateTime(firstItem.customsDecisionStatusDate)
+  apiobjects.cnCodeCl.setDateTime(firstDate)
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="switch_allItemArticles86toTrue" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.enhancement.completedAllSelected.ipoAllArticled86Fill.allArticles86True = True
+
+if form.enhancement.goodsCZ.goodsItemCZ.exists(current.hasValue()) and form.zobrazIPO then
+
+  globals.IsBusy = True
+  form.apiobjects.goodsItemCZenhancement.setReady(False)
+  
+   forEach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
+      
+   	if goodsItem.article863UCC.isEmpty() then
+	  goodsItem.article863UCC = True
+	endIf
+
+	if goodsItem.article864UCC.isEmpty() then
+	  goodsItem.article864UCC = True
+	endIf
+
+   endFor
+   
+   form.apiobjects.goodsItemCZenhancement.setReady(True)
+   globals.IsBusy = False
+   
 endIf]]></Script>
       </ActionLangBody>
       <DataContext>
