@@ -14535,9 +14535,11 @@ if form.zobrazEUS then
 	
 	if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.exists(current.hasValue()) then
 	
+		globals.IsBusy = True
 		var messageCounter = 0
 	
 		forEach item in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
+			
 			if (item.cnCodeArticle73DA.hasValue() = false) or (item.cnCodeArticle73DA.isValid() = false) then
 				proceed = false
 				
@@ -14553,7 +14555,10 @@ if form.zobrazEUS then
 				
 				
 			endIf
+			
 		endFor
+		
+		globals.IsBusy = False
 	
 	endIf
 	
@@ -14569,9 +14574,11 @@ if proceed = true then
 		
 	//fill all items in presented collection as "completed" = true
 	if form.enhancement.goodsCZ.goodsItemCZ.exists(current.hasValue()) then
+	   globals.IsBusy = True
 	   forEach goodsItem in form.enhancement.goodsCZ.goodsItemCZ do
 	   	 goodsItem.completed = True
 	   endFor
+	   globals.IsBusy = False
 	endIf
 	
 	
