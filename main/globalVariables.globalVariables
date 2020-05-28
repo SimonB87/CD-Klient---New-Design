@@ -426,12 +426,158 @@
           </DeclaredType>
         </Attribute>
         <Complex>
-          <Name value="cddResponse" />
-          <Caption value="Cdd response" />
+          <Name value="annexLoadedData" />
+          <Caption value="Annex loaded data" />
           <Children>
-            <Include>
-              <Include reference="+DataEntities.CustomsDecisionDetailResponse" />
-            </Include>
+            <Complex>
+              <Name value="customsDecisionAuthorisationData" />
+              <Caption value="Customs decision authorisation data" />
+              <Children>
+                <Attribute>
+                  <Name value="customsDecisionGUID" />
+                  <Caption value="Customs decision GUID" />
+                  <MetaType reference="+MetaTypes.Guid" />
+                </Attribute>
+                <Attribute>
+                  <Name value="customsDecisionVersionGUID" />
+                  <Caption value="Customs decision version GUID" />
+                  <MetaType reference="+MetaTypes.Guid" />
+                </Attribute>
+                <Complex>
+                  <Name value="customsDecisionParticulars" />
+                  <Caption value="Customs decision particulars" />
+                  <Children>
+                    <Collection>
+                      <Name value="customsDecisionAnnex" />
+                      <Caption value="Příloha rozhodnutí" />
+                      <MaxCount value="2147483647" />
+                      <MtsImportOptions.MTS.ID value="/CustomsDecisionDetailResponse/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex" />
+                      <MtsImportOptions.MTS.Type value="group" />
+                      <Children>
+                        <Collection>
+                          <Name value="attachedDocuments" />
+                          <Caption value="Přiložené dokumenty" />
+                          <MaxCount value="2147483647" />
+                          <MtsImportOptions.MTS.ID value="/CustomsDecisionDetailResponse/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocuments" />
+                          <MtsImportOptions.MTS.Type value="group" />
+                          <Children>
+                            <Attribute>
+                              <Name value="documentGUID" />
+                              <Caption value="documentGUID" />
+                              <MetaType reference="+MetaTypes.Guid" />
+                              <MtsImportOptions.MTS.ID value="/CustomsDecisionDetailResponse/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocuments/documentGUID" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                            </Attribute>
+                            <Attribute>
+                              <Name value="documentType" />
+                              <Caption value="Typ dokumentu" />
+                              <IsRequired value="True" />
+                              <MetaType reference="+MetaTypes.DocumentTypeContentType" />
+                              <MtsImportOptions.MTS.ID value="/CustomsDecisionDetailResponse/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocuments/documentType" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                            </Attribute>
+                            <Attribute>
+                              <Name value="documentIdentifier" />
+                              <Caption value="Identifikátor dokumentu" />
+                              <IsRequired value="True" />
+                              <MetaType reference="+MetaTypes.DocumentIdentifierContentType" />
+                              <MtsImportOptions.MTS.ID value="/CustomsDecisionDetailResponse/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocuments/documentIdentifier" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                            </Attribute>
+                            <Attribute>
+                              <Name value="numberOfDocuments" />
+                              <Caption value="Počet dokumentů" />
+                              <IsRequired value="True" />
+                              <MetaType reference="+MetaTypes.NumberOfDocumentsContentType" />
+                              <MtsImportOptions.MTS.ID value="/CustomsDecisionDetailResponse/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocuments/numberOfDocuments" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                            </Attribute>
+                            <Attribute>
+                              <Name value="documentDate" />
+                              <Caption value="Datum dokumentu" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/CustomsDecisionDetailResponse/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocuments/documentDate" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType>
+                                  <BaseType value="Date" />
+                                </AttributeType>
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="fileReference" />
+                              <Caption value="Reference" />
+                              <MetaType reference="+MetaTypes.FileReferenceContentType" />
+                              <MtsImportOptions.MTS.ID value="/CustomsDecisionDetailResponse/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocuments/fileReference" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                            </Attribute>
+                          </Children>
+                        </Collection>
+                        <Collection>
+                          <Name value="attachedDocumentsCZ" />
+                          <Caption value="Přiložené CZ dokumenty" />
+                          <MaxCount value="2147483647" />
+                          <MtsImportOptions.MTS.ID value="/CustomsDecisionDetailResponse/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocumentsCZ" />
+                          <MtsImportOptions.MTS.Type value="group" />
+                          <Children>
+                            <Attribute>
+                              <Name value="documentGUID" />
+                              <Caption value="documentGUID" />
+                              <MetaType reference="+MetaTypes.Guid" />
+                              <MtsImportOptions.MTS.ID value="/CustomsDecisionDetailResponse/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocumentsCZ/documentGUID" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                            </Attribute>
+                            <Attribute>
+                              <Name value="documentType" />
+                              <Caption value="Typ dokumentu" />
+                              <IsRequired value="True" />
+                              <MetaType reference="+MetaTypes.DocumentTypeContentType" />
+                              <MtsImportOptions.MTS.ID value="/CustomsDecisionDetailResponse/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocumentsCZ/documentType" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                            </Attribute>
+                            <Attribute>
+                              <Name value="documentIdentifier" />
+                              <Caption value="Identifikátor dokumentu" />
+                              <IsRequired value="True" />
+                              <MetaType reference="+MetaTypes.DocumentIdentifierContentType" />
+                              <MtsImportOptions.MTS.ID value="/CustomsDecisionDetailResponse/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocumentsCZ/documentIdentifier" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                            </Attribute>
+                            <Attribute>
+                              <Name value="numberOfDocuments" />
+                              <Caption value="Počet dokumentů" />
+                              <IsRequired value="True" />
+                              <MetaType reference="+MetaTypes.NumberOfDocumentsContentType" />
+                              <MtsImportOptions.MTS.ID value="/CustomsDecisionDetailResponse/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocumentsCZ/numberOfDocuments" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                            </Attribute>
+                            <Attribute>
+                              <Name value="documentDate" />
+                              <Caption value="Datum dokumentu" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/CustomsDecisionDetailResponse/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocumentsCZ/documentDate" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType>
+                                  <BaseType value="Date" />
+                                </AttributeType>
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="fileReference" />
+                              <Caption value="Reference" />
+                              <MetaType reference="+MetaTypes.FileReferenceContentType" />
+                              <MtsImportOptions.MTS.ID value="/CustomsDecisionDetailResponse/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocumentsCZ/fileReference" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                            </Attribute>
+                          </Children>
+                        </Collection>
+                      </Children>
+                    </Collection>
+                  </Children>
+                </Complex>
+              </Children>
+            </Complex>
           </Children>
         </Complex>
       </Children>
@@ -935,16 +1081,13 @@
   <Modifiers>
     <Modifier>
       <Name value="modifier_C5B9D242_attachedDocuments" />
-      <SourcePath value="dataLoadingSpace.cddResponse.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocuments" />
+      <SourcePath value="dataLoadingSpace.annexLoadedData.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocuments" />
       <Children>
         <Computed>
           <Name value="_fileUrl" />
           <Caption value="_ file url" />
-          <Expression IsValid="True">
+          <Expression>
             <ExpressionText><![CDATA[globals.serviceUrl + "CustomsDecisionAttachedDocumentRequest?customsDecisionGUID={" + this.owner().owner().owner().customsDecisionGUID + "}&customsDecisionVersionGUID={" + this.owner().owner().owner().customsDecisionVersionGUID + "}&documentGUID={" + this.documentGUID + "}&version=" + globals.version]]></ExpressionText>
-            <ResultType>
-              <BaseType value="String" />
-            </ResultType>
           </Expression>
         </Computed>
         <Computed>
@@ -961,26 +1104,20 @@
     </Modifier>
     <Modifier>
       <Name value="modifier_BB0D5139_attachedDocumentsCZ" />
-      <SourcePath value="dataLoadingSpace.cddResponse.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ" />
+      <SourcePath value="dataLoadingSpace.annexLoadedData.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ" />
       <Children>
         <Computed>
           <Name value="_fileUrl" />
           <Caption value="_ file url" />
-          <Expression IsValid="True">
+          <Expression>
             <ExpressionText><![CDATA[globals.serviceUrl + "CustomsDecisionAttachedDocumentRequest?customsDecisionGUID={" + this.owner().owner().owner().customsDecisionGUID + "}&customsDecisionVersionGUID={" + this.owner().owner().owner().customsDecisionVersionGUID + "}&documentGUID={" + this.documentGUID + "}&version=" + globals.version]]></ExpressionText>
-            <ResultType>
-              <BaseType value="String" />
-            </ResultType>
           </Expression>
         </Computed>
         <Computed>
           <Name value="_fileHrefText" />
           <Caption value="_ file href text" />
-          <Expression IsValid="True">
+          <Expression>
             <ExpressionText><![CDATA[documentIdentifier + "." + documentType]]></ExpressionText>
-            <ResultType>
-              <BaseType value="String" />
-            </ResultType>
           </Expression>
         </Computed>
       </Children>
