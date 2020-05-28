@@ -55,10 +55,10 @@ if resp.isError() or (resp.getMessageType() = "IN906A") then
 else
   globals.dataLoadingSpace.cdDetailJson = resp.getJsonString()
   globals.dataLoadingSpace.success = true
-  
-  //Store data into response entity
-  globals.dataLoadingSpace.cddResponse.clear()
-  globals.dataLoadingSpace.cddResponse.fromJson(resp.getJsonString())
+    
+    //Store data into response entity - just load data for annexes
+  globals.dataLoadingSpace.annexLoadedData.clear()
+  globals.dataLoadingSpace.annexLoadedData.fromJson(resp.getJsonString())
   
 endif]]></Script>
       </ActionLangBody>
@@ -202,10 +202,10 @@ else
 	globals.uiGlobalState.annex.annexDetail.response.fromJson(response.getJsonString())
 	
 	//kontrolovat jestli to nebude zbytečně padat, když se uživatel rozhodne smazat všechny přílohy	
-	if globals.uiGlobalState.annex.annexDetail.response.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) and globals.dataLoadingSpace.cddResponse.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) then
+	if globals.uiGlobalState.annex.annexDetail.response.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) and globals.dataLoadingSpace.annexLoadedData.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) then
 	
 		var collectionPlaceHolder = globals.uiGlobalState.annex.annexDetail.response.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst()
-		var sourceTarget = globals.dataLoadingSpace.cddResponse.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst()
+		var sourceTarget = globals.dataLoadingSpace.annexLoadedData.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst()
 	
 		sourceTarget.attachedDocumentsCZ.fromJson(collectionPlaceHolder.attachedDocumentsCZ.toJson())
 	else
@@ -228,7 +228,7 @@ endif
 
 var requestObject = globals.uiGlobalState.annex.addOtherAnnex.otherAnnexForHolder.request
 
-requestObject.customsDecisionAuthorisationData.holderInformation.holder.actorIdentification.eORINumber = globals.dataLoadingSpace.cddResponse.customsDecisionAuthorisationData.holderInformation.holder.actorIdentification.eORINumber
+requestObject.customsDecisionAuthorisationData.holderInformation.holder.actorIdentification.eORINumber = eORINumber
 requestObject.customsDecisionAuthorisationData.customsDecisionGUID = globals.uiGlobalState.GUID
 
 if globals.uiGlobalState.CDversionGUID.hasValue() then
@@ -250,7 +250,19 @@ else
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="eORINumber" />
+              <Caption value="E ORI number" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
