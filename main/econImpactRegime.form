@@ -5338,10 +5338,26 @@
                               <Panel.HorizontalAlignment value="Right" />
                               <Panel.Width value="42%" />
                               <Children>
+                                <Button>
+                                  <Name value="originalSrotingBtn1" />
+                                  <Caption value="Použít původní řazení položek" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="200px" />
+                                  <OnClick>
+                                    <ActionEvent ReferencedAction="~useOriginalSorting" />
+                                  </OnClick>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-button" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Button>
                                 <TextBox>
                                   <Name value="textBox178" />
+                                  <CaptionPosition value="Top" />
                                   <Panel.Height value="#" />
-                                  <Panel.Width value="300px" />
+                                  <Panel.Width value="150px" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="enhancement.uiComponentSetting.listPageSize" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.uiComponentSetting.listPageSize.isRequired()" />
@@ -9366,10 +9382,26 @@
                                   <Panel.Height value="#" />
                                   <Panel.Width value="42%" />
                                   <Children>
+                                    <Button>
+                                      <Name value="originalSrotingBtn2" />
+                                      <Caption value="Použít původní řazení položek" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="200px" />
+                                      <OnClick>
+                                        <ActionEvent ReferencedAction="~useOriginalSorting" />
+                                      </OnClick>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-button" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Button>
                                     <TextBox>
                                       <Name value="textBox1712" />
+                                      <CaptionPosition value="Top" />
                                       <Panel.Height value="#" />
-                                      <Panel.Width value="300px" />
+                                      <Panel.Width value="150px" />
                                       <Bindings>
                                         <Binding SourceProperty="Data" Expression="enhancement.uiComponentSetting.listPageSize" />
                                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.uiComponentSetting.listPageSize.isRequired()" />
@@ -14651,6 +14683,26 @@ if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.
 	form.guiPresentedDataGoodsItem.goodsCZ.goodsItemCZ.fromJson(itemData)
 
 endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="useOriginalSorting" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//use original sorting
+if form.tabsMenu.Tab08Processing.IsSelected then
+	form.apiobjects.goodsItemCZ.setReady(false)
+		form.apiobjects.goodsItemCZ.clearSorting()
+	form.apiobjects.goodsItemCZ.setReady(true)
+endif
+
+if form.tabsMenu.Tab16NationalData.IsSelected then
+	form.apiobjects.goodsItemCZenhancement.setReady(false)
+		form.apiobjects.goodsItemCZenhancement.clearSorting()
+	form.apiobjects.goodsItemCZenhancement.setReady(true)
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
