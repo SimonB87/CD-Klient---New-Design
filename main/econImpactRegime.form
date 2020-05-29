@@ -13260,20 +13260,33 @@ form.cdAux.completedAll.clear()
       <Name value="initCdEnhancementGoods" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var ucd = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation
-var goodsStr = ""
+var goodsStr = defaultString()
+var proceeed = defaultBool()
 
 // emulate switch statement
 if packages.utils.functions.classicOr(form.zobrazIPO, form.zobrazOPO) then
   goodsStr = ucd.goodsToBePlacedUnderTheSpecialProcedureOfProcessing.toJson()
-else if form.zobrazEUS then
-  goodsStr = ucd.goodsToBePlacedUnderTheSpecialProcedureOfEndUse.toJson()
-else if form.zobrazTEA then
-  goodsStr = ucd.goodsToBePlacedUnderTheSpecialProcedureOfTemporaryAdmission.toJson()
-else if packages.utils.functions.classicOr(form.zobrazCW, form.zobrazTST) then
-  goodsStr = ucd.goodsToBePlacedUnderTheSpecialProcedureForStorageFacilities.toJson()
-endif endif endif endif
+  proceeed = True
+else 
+	if form.zobrazEUS then
+  		goodsStr = ucd.goodsToBePlacedUnderTheSpecialProcedureOfEndUse.toJson()
+  		proceeed = True
+	else 
+		if form.zobrazTEA then
+  			goodsStr = ucd.goodsToBePlacedUnderTheSpecialProcedureOfTemporaryAdmission.toJson()
+  			proceeed = True
+		else 
+			if packages.utils.functions.classicOr(form.zobrazCW, form.zobrazTST) then
+  				goodsStr = ucd.goodsToBePlacedUnderTheSpecialProcedureForStorageFacilities.toJson()
+  				proceeed = True
+			endif 
+		endif 
+	endif
+endif
 
-form.cdAux.g2bpx.fromJson(goodsStr)
+if proceeed and not (goodsStr = "") then
+	form.cdAux.g2bpx.fromJson(goodsStr)
+endIf
 
 // normalize completed's values
 foreach g2bpxItem in form.cdAux.g2bpx do
