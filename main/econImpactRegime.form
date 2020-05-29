@@ -13988,13 +13988,19 @@ if form.enhancement.selectedGoodsItemCZ.completed.hasValue() = false then
 	form.enhancement.selectedGoodsItemCZ.completed = false
 endif
 
-var choosenGoodsItemID = form.enhancement.selectedRowGoodsItems.itemID
+if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.exists(current.hasValue()) then
 
-var pathToChoosenGoodsItem = "customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsCZ/goodsItemCZ[" + toString(choosenGoodsItemID) + "]"
+	var choosenGoodsItem = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.selectFirst(current.guid = form.enhancement.selectedRowGoodsItems.guid)
+	
+	var choosenGoodsItemOderNumber = choosenGoodsItem.index()
+	
+	var pathToChoosenGoodsItem = "customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsCZ/goodsItemCZ[" + toString(choosenGoodsItemOderNumber) + "]"
+	
+	var itemData = form.apiobjects.econImpactPlainObject.get(pathToChoosenGoodsItem)
+	
+	form.guiPresentedDataGoodsItem.goodsCZ.goodsItemCZ.fromJson(itemData)
 
-var itemData = form.apiobjects.econImpactPlainObject.get(pathToChoosenGoodsItem)
-
-form.guiPresentedDataGoodsItem.goodsCZ.goodsItemCZ.fromJson(itemData)]]></Script>
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -14150,9 +14156,9 @@ if form.enhancement.modelEnhancement.completed and form.enhancement.isEnhancemen
 	//clear all previous error messages
 	form.operationResultMessage.clear()
 	
-	if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.exists(current.itemID = form.enhancement.selectedGoodsItemCZ.itemID) then
+	if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.exists(current.guid = form.enhancement.selectedGoodsItemCZ.guid) then
 		
-		var selectedItem = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.selectFirst(current.itemID = form.enhancement.selectedGoodsItemCZ.itemID)
+		var selectedItem = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.selectFirst(current.guid = form.enhancement.selectedGoodsItemCZ.guid)
 				
 		//init of helping variable
 		var proceed = True
@@ -14234,11 +14240,6 @@ if form.enhancement.modelEnhancement.completed and form.enhancement.isEnhancemen
 	
 	
 		endIf
-		
-		//test
-		system.console("selectedItem:: " + selectedItem.toJson())
-		system.console("target collection:: " +form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.toJson())
-		//test
 			
 	else
 		form.actions.showEnhancementErrorMessage("Datová struktura je poškozena.", true)
@@ -14778,13 +14779,19 @@ if form.enhancement.selectedGoodsItemCZ.completed.hasValue() = false then
 	form.enhancement.selectedGoodsItemCZ.completed = false
 endif
 
-var choosenGoodsItemID = form.enhancement.selectedRowGoodsItems.itemID
+if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.exists(current.hasValue()) then
 
-var pathToChoosenGoodsItem = "customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsCZ/goodsItemCZ[" + toString(choosenGoodsItemID) + "]"
+	var choosenGoodsItem = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.selectFirst(current.guid = form.enhancement.selectedRowGoodsItems.guid)
+	
+	var choosenGoodsItemOderNumber = choosenGoodsItem.index()
+	
+	var pathToChoosenGoodsItem = "customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsCZ/goodsItemCZ[" + toString(choosenGoodsItemOderNumber) + "]"
+	
+	var itemData = form.apiobjects.econImpactPlainObject.get(pathToChoosenGoodsItem)
+	
+	form.guiPresentedDataGoodsItem.goodsCZ.goodsItemCZ.fromJson(itemData)
 
-var itemData = form.apiobjects.econImpactPlainObject.get(pathToChoosenGoodsItem)
-
-form.guiPresentedDataGoodsItem.goodsCZ.goodsItemCZ.fromJson(itemData)]]></Script>
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
