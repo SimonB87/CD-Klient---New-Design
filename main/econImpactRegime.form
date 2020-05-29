@@ -5419,19 +5419,10 @@
                                   </Bindings>
                                   <columns>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingIpo_computedCompleted" />
+                                      <Name value="listColumnProccesingIpo_completed" />
                                       <Caption value="Doplněno" />
-                                      <ColumnName value="computed_completed" />
-                                      <filterOptions>
-                                        <filterOption identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                          <text value="Ano" />
-                                          <value value="Ano" />
-                                        </filterOption>
-                                        <filterOption identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                          <text value="Ne" />
-                                          <value value="Ne" />
-                                        </filterOption>
-                                      </filterOptions>
+                                      <ColumnName value="completed" />
+                                      <DataType value="bool" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumnProccesingIpo_combinedNomenclatureCode" />
@@ -5496,19 +5487,10 @@
                                   </Bindings>
                                   <columns>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingOpo_computedCompleted" />
+                                      <Name value="listColumnProccesingOpo_completed" />
                                       <Caption value="Doplněno" />
-                                      <ColumnName value="computed_completed" />
-                                      <filterOptions>
-                                        <filterOption identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                          <text value="Ano" />
-                                          <value value="Ano" />
-                                        </filterOption>
-                                        <filterOption identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                          <text value="Ne" />
-                                          <value value="Ne" />
-                                        </filterOption>
-                                      </filterOptions>
+                                      <ColumnName value="completed" />
+                                      <DataType value="bool" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumnProccesingOpo_combinedNomenclatureCode" />
@@ -9468,9 +9450,9 @@
                                   </Bindings>
                                   <columns>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhancement_computedCompleted" />
+                                      <Name value="listColumnEnhancement_completed" />
                                       <Caption value="Doplněno" />
-                                      <ColumnName value="computed_completed" />
+                                      <ColumnName value="completed" />
                                       <DataType value="bool" />
                                       <FilterOperatorType value="startswith" />
                                     </listColumn>
@@ -9533,9 +9515,9 @@
                                   </Bindings>
                                   <columns>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhIpo_computedCompleted" />
+                                      <Name value="listColumnEnhIpo_completed" />
                                       <Caption value="Doplněno" />
-                                      <ColumnName value="computed_completed" />
+                                      <ColumnName value="completed" />
                                       <DataType value="bool" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
@@ -9614,9 +9596,9 @@
                                   </Bindings>
                                   <columns>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhEus_computedCompleted" />
+                                      <Name value="listColumnEnhEus_completed" />
                                       <Caption value="Doplněno" />
-                                      <ColumnName value="computed_completed" />
+                                      <ColumnName value="completed" />
                                       <DataType value="bool" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
@@ -11702,16 +11684,6 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                   </Expression>
                 </Computed>
                 <Computed>
-                  <Name value="computed_completed" />
-                  <Caption value="Computed _ completed" />
-                  <Expression IsValid="True">
-                    <ExpressionText><![CDATA[completed.hasValue() ? (completed = True ? "Ano" : "Ne") : ""]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="String" />
-                    </ResultType>
-                  </Expression>
-                </Computed>
-                <Computed>
                   <Name value="computed_article863UCC" />
                   <Caption value="Computed _ article 863 UCC" />
                   <Expression IsValid="True">
@@ -12475,17 +12447,6 @@ and (customsDecisionStatus.STAVROZH in ["01"])]]></ExpressionText>
               <Caption value="Kód KN při použití čl. 73 DA" />
               <Expression IsValid="True">
                 <ExpressionText><![CDATA[cnCodeArticle73DA.ZBOZIKOD.hasValue() ? cnCodeArticle73DA.ZBOZIKOD : ""]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </Expression>
-            </Computed>
-            <Computed>
-              <Name value="computed_completed" />
-              <Caption value="Computed _ completed" />
-              <Expression IsValid="True">
-                <ExpressionText><![CDATA[this.owner().isValid() ?
-form.enhancement.completedAllSelected.isCompletedAllSelected = true ? "Ano" : ( completed.hasValue() ? (completed = True ? "Ano" : "Ne") : "" ) : "Ne"]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
