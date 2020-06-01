@@ -195,6 +195,7 @@ var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionAnnexDetail
 if response.isError() then
 	system.console(response.getErrorMessage())
 else
+
 	//clear old annex data
 	globals.uiGlobalState.annex.annexDetail.response.clear()
 	
@@ -209,8 +210,16 @@ else
 	
 		sourceTarget.attachedDocumentsCZ.fromJson(collectionPlaceHolder.attachedDocumentsCZ.toJson())
 	else
+	
+		var pathToAnnex = globals.dataLoadingSpace.annexLoadedData.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex
+		
+		var pathToAnnexNewItem = pathToAnnex.addItem()
+		var pathToAnnexNewItemCZannex = pathToAnnexNewItem.attachedDocumentsCZ.addItem()
+	
+		globals.dataLoadingSpace.annexLoadedData.fromJson(response.getJsonString())
+
 		if globals.uiGlobalState.annex.isEconImpactSelected = True then
-			system.alert("Ve zprávě nebyla nalezena žádná data.")
+			system.console("isEconImpactSelected - true")
 		endIf
 	endif
 	
