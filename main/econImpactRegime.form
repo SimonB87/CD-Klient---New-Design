@@ -12339,6 +12339,13 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                 </Complex>
               </Children>
             </Complex>
+            <Attribute>
+              <Name value="goodsItemsStorageCollectionToJson" />
+              <Caption value="Goods items storage collection to json" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
           </Children>
         </Complex>
         <Complex>
@@ -13319,6 +13326,10 @@ if form.enhancement.clientMsg.sendRequest = True then
 	form.actions.sendErrorAsClientMsg()
 endIf
 
+//test 01062020
+form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.goodsItemCZ.clear()
+form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.fromJson(form.enhancement.goodsItemsStorageCollectionToJson)
+
 globals.IsBusy = false
 ]]></Script>
       </ActionLangBody>
@@ -13360,7 +13371,9 @@ endfor
     <ActionBlock>
       <Name value="fillCdeReq" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var cdaData = form.cdeReq.customsDecisionAuthorisationData
+        <Script><![CDATA[//TEST 01062020 - 
+form.enhancement.goodsItemsStorageCollectionToJson  = defaultString()
+var cdaData = form.cdeReq.customsDecisionAuthorisationData
 
 cdaData.customsDecisionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
 cdaData.customsDecisionVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
@@ -13393,40 +13406,17 @@ var enhItems = enh.goodsItemCZ
 //teď chci naplnit akualizovat data pro poslání pomocí kolekce prezentované v Listu
 enhItems.clear()
 
+//TEST 01062020 - 
+form.enhancement.goodsItemsStorageCollectionToJson = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.toJson()
+
 //fill enhancement collection
 foreach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
   var item = enhItems.addItem()
   item.fromJson(goodsItem.toJson(true))
+  
+  //TEST 01062020 - temporarly clear usused item
+  goodsItem.clear()
 endfor
-
-/*
-//check selected option "isCompletedAllSelected"
-if form.enhancement.completedAllSelected.isCompletedAllSelected = True then
-
-	foreach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
-	  var item = enhItems.addItem()
-	  item.fromJson(goodsItem.toJson(True))
-	      
-	  //hromadné doplnění pro položky jen pokud jsou validní 	  
-	  if item.isValid() then 
-	  	if not( item.completed = True ) then
-	    	item.completed = form.enhancement.completedAllSelected.isCompletedAllSelected
-	  	endif
-	  else
-	  	form.actions.showEnhancementErrorMessage("Položka s Kóderm KN: '" + toString(goodsItem.combinedNomenclatureCode) + "' není validní.", true)
-	  endif
-	  
-	endfor
-	
-else
-
-	foreach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
-	  var item = enhItems.addItem()
-	  item.fromJson(goodsItem.toJson(true))
-	endfor
-	
-endif
-*/
 
 //enh.g2bpx.fromJson(form.cdAux.g2bpx.toJson())
 ]]></Script>
