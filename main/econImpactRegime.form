@@ -5519,14 +5519,16 @@
                                       <ColumnName value="computed_writeOffMeasureUnit" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingOpo_computedArticle863UCC" />
+                                      <Name value="listColumnProccesingOpo_Article863UCC" />
                                       <Caption value="Článek 86(3) UCC" />
-                                      <ColumnName value="computed_article863UCC" />
+                                      <ColumnName value="article863UCC" />
+                                      <DataType value="bool" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingOpo_computedArticle864UCC" />
+                                      <Name value="listColumnProccesingOpo_Article864UCC" />
                                       <Caption value="Článek 86(4) UCC" />
-                                      <ColumnName value="computed_article864UCC" />
+                                      <ColumnName value="article864UCC" />
+                                      <DataType value="bool" />
                                     </listColumn>
                                   </columns>
                                 </List>
@@ -12453,26 +12455,6 @@ and (customsDecisionStatus.STAVROZH in ["01"])]]></ExpressionText>
               </Expression>
             </Computed>
             <Computed>
-              <Name value="computed_article863UCC" />
-              <Caption value="Computed _ article 863 UCC" />
-              <Expression IsValid="True">
-                <ExpressionText><![CDATA[article863UCC.hasValue() ? (article863UCC = True ? "Ano" : "Ne") : ""]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </Expression>
-            </Computed>
-            <Computed>
-              <Name value="computed_article864UCC" />
-              <Caption value="Computed _ article 864 UCC" />
-              <Expression IsValid="True">
-                <ExpressionText><![CDATA[article864UCC.hasValue() ? (article864UCC = True ? "Ano" : "Ne") : ""]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </Expression>
-            </Computed>
-            <Computed>
               <Name value="computed_cnCodeForSecuring" />
               <Caption value="Computed _ cn code for securing" />
               <Expression IsValid="True">
@@ -13411,13 +13393,20 @@ var enhItems = enh.goodsItemCZ
 //teď chci naplnit akualizovat data pro poslání pomocí kolekce prezentované v Listu
 enhItems.clear()
 
+//fill enhancement collection
+foreach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
+  var item = enhItems.addItem()
+  item.fromJson(goodsItem.toJson(true))
+endfor
+
+/*
 //check selected option "isCompletedAllSelected"
 if form.enhancement.completedAllSelected.isCompletedAllSelected = True then
 
 	foreach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
 	  var item = enhItems.addItem()
 	  item.fromJson(goodsItem.toJson(True))
-	  	    
+	      
 	  //hromadné doplnění pro položky jen pokud jsou validní 	  
 	  if item.isValid() then 
 	  	if not( item.completed = True ) then
@@ -13437,7 +13426,7 @@ else
 	endfor
 	
 endif
-
+*/
 
 //enh.g2bpx.fromJson(form.cdAux.g2bpx.toJson())
 ]]></Script>
@@ -13774,7 +13763,9 @@ endif
 
 form.actions.setUpData_CDAnnexDetailRequest()
 
-globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.clear()]]></Script>
+globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.clear()
+//set number of pages of annex to upload to : 1
+globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.numberOfDocuments = 1]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -14367,6 +14358,9 @@ endif
 
 form.actions.setAnnexTabLabel()
 
+//set by defaul number of pages in annex to : 1
+globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.numberOfDocuments = 1
+
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -14571,17 +14565,31 @@ globals.uiGlobalState.CDversionGUID = form.CD.customsDecisionAuthorisationData.c
       <Name value="getNewDataToForm" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[//get linked annex data from global structure
-if globals.uiGlobalState.annex.annexDetail.response.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) then
+var pathToGlobalAnnex = globals.uiGlobalState.annex.annexDetail.response.customsDecisionAuthorisationData.customsDecisionParticulars
+var localAnnexes = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars
 
-	if form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) then
+if pathToGlobalAnnex.customsDecisionAnnex.exists(current.hasValue()) then
+
+	if localAnnexes.customsDecisionAnnex.exists(current.hasValue()) then
 	
 		var sourcePath = globals.uiGlobalState.annex.annexDetail.response.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex
 		var targetPath = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex
 		
 		targetPath.fromJson(sourcePath.toJson())
 		
+	else
+	
+		var newAnnexItem = localAnnexes.customsDecisionAnnex.addItem()
+		var newAnnexItemCZannexes = newAnnexItem.attachedDocumentsCZ.addItem()
+		
+		var sourcePath = globals.uiGlobalState.annex.annexDetail.response.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex
+		var targetPath = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex
+			
+		targetPath.fromJson(sourcePath.toJson())
+	
 	endIf
 	
+
 endIf]]></Script>
       </ActionLangBody>
       <DataContext>
