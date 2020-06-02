@@ -425,7 +425,7 @@
                   <Panel.HorizontalAlignment value="Right" />
                   <Panel.Width value="150px" />
                   <OnClick>
-                    <ActionEvent ReferencedAction="+GlobalActions.closeDetail_G" />
+                    <ActionEvent ReferencedAction="~closeDetail_local" />
                   </OnClick>
                   <CssClass>
                     <CssClassConditional>
@@ -13287,8 +13287,19 @@ if form.enhancement.goodsItemCZvalidatation then
   form.actions.fillCdeReq()
   enh.fullyEnhanced = fullyEnh
   
+  //Option X
+  
+  if fullyEnh then
+  	form.apiobjects.econImpactCdeReq.set("customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced", "true")
+  else
+    form.apiobjects.econImpactCdeReq.set("customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced", "false")
+  endIf
+  
   // send enhacement to server
-  var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.cdeReq.toJson())
+  //var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.cdeReq.toJson())
+  
+  //Option X instead of previous line make this call
+  var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.apiobjects.econImpactCdeReq.toJson())
   
   if resp.isError() or (resp.getMessageType() = "IN906A") then
         
@@ -13408,9 +13419,42 @@ var enhItems = enh.goodsItemCZ
 //teď chci naplnit akualizovat data pro poslání pomocí kolekce prezentované v Listu
 enhItems.clear()
 
-// clear and refill
-form.uiState.cdGoodsItemCollectionJson = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.toJson()
+//OPTION 1 - FROM JSON 
+/*
+form.uiState.cdGoodsItemCollectionJson = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.toJson(true)
 
+form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.clear()
+form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.goodsItemCZ.fromJson(form.uiState.cdGoodsItemCollectionJson )
+*/
+
+//option X - fill plain object cdeReq
+
+form.uiState.cdGoodsItemCollectionJson = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.toJson(true)
+
+form.apiobjects.econImpactCdeReq.init(form.cdeReq.toJson(true))
+form.apiobjects.econImpactCdeReq.set("customsDecisionAuthorisationData/enhancementCZ/goodsItemCZ", form.uiState.cdGoodsItemCollectionJson)
+
+var goodsItemCount = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.count()
+var fillingCounter = 0
+
+forEach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
+
+	var itemPath = "customsDecisionAuthorisationData/enhancementCZ/goodsItemCZ[" + toString(fillingCounter) + "l" 
+	
+	form.apiobjects.econImpactCdeReq.remove(itemPath + ".combinedNomenclatureCode")
+	form.apiobjects.econImpactCdeReq.remove(itemPath + ".tARICCode")
+	form.apiobjects.econImpactCdeReq.remove(itemPath + ".goodsQuantity")
+	form.apiobjects.econImpactCdeReq.remove(itemPath + ".measureUnit")
+	form.apiobjects.econImpactCdeReq.remove(itemPath + ".computed_writeOffMeasureUnit")
+	form.apiobjects.econImpactCdeReq.remove(itemPath + ".computed_cnCodeArticle73DA")
+	form.apiobjects.econImpactCdeReq.remove(itemPath + ".computed_cnCodeForSecuring")
+	
+	fillingCounter = fillingCounter + 1
+endFor
+
+
+//OPTION 2 - foreach
+/*
 //fill enhancement collection
 foreach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
   var item = enhItems.addItem()
@@ -13419,6 +13463,7 @@ foreach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDe
   // temporarly clear usused item
   goodsItem.removeMe()
 endfor
+*/
 
 //clear from memory goodsItems collection
 form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.clear()
@@ -14672,6 +14717,20 @@ endif]]></Script>
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
+    <ActionBlock>
+      <Name value="closeDetail_local" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.mainPage = false
+globals.IsBusy = true
+globals.selectedCdExpired = false
+form.CD.clear()
+form.cdeReq.clear()
+navigation.main.decllistForm.go()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
   </Actions>
   <ApiObjects>
     <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
@@ -15132,6 +15191,9 @@ endif]]></Script>
     </ListCtrl>
     <PlainObject identity="PlainObject.2933617ce1714fe38ef01785a5a6492f">
       <Name value="econImpactPlainObject" />
+    </PlainObject>
+    <PlainObject identity="PlainObject.2933617ce1714fe38ef01785a5a6492f">
+      <Name value="econImpactCdeReq" />
     </PlainObject>
   </ApiObjects>
 </Form>
