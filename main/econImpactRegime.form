@@ -12339,13 +12339,6 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                 </Complex>
               </Children>
             </Complex>
-            <Attribute>
-              <Name value="goodsItemsStorageCollectionToJson" />
-              <Caption value="Goods items storage collection to json" />
-              <DeclaredType>
-                <AttributeType />
-              </DeclaredType>
-            </Attribute>
           </Children>
         </Complex>
         <Complex>
@@ -12359,6 +12352,13 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                 <AttributeType>
                   <BaseType value="Integer" />
                 </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="cdGoodsItemCollectionJson" />
+              <Caption value="CD GoodsItem Collection Json" />
+              <DeclaredType>
+                <AttributeType />
               </DeclaredType>
             </Attribute>
           </Children>
@@ -13298,8 +13298,16 @@ if form.enhancement.goodsItemCZvalidatation then
     system.consoleError("Response content: " + errorMsg)
     form.actions.showEnhancementErrorMessage("Něco se nezdařilo. Změny se nepovedlo uložit. ", true)
     form.enhancement.clientMsg.sendRequest = true
+    //load last state data from Json
+    form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.fromJson(form.uiState.cdGoodsItemCollectionJson)
+    //clear temporarly JSON storage
+    form.uiState.cdGoodsItemCollectionJson.clear()
    
   else
+    
+    //clear data that were sent
+    form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.goodsItemCZ.clear()
+        
     var msg = "Změny byly odeslány a uloženy na server."
     if fullyEnh then
       msg = msg + " Verze byla uložena s příznakem \"kompletní\". \t"
@@ -13310,13 +13318,13 @@ if form.enhancement.goodsItemCZvalidatation then
     form.enhancement.clientMsg.sendRequest = true
     
     var respJson = resp.getJsonString()
+    
     form.CD.clear()
     form.CD.fromJson(respJson)
     
     form.actions.afterVersionLoad()
   endif
 
-  
 else
   form.actions.showEnhancementErrorMessage("Tyto údaje nejde uložit. Zkontrolujte správnost dat. ", true)
   form.enhancement.clientMsg.sendRequest = true
@@ -13325,10 +13333,6 @@ endif
 if form.enhancement.clientMsg.sendRequest = True then
 	form.actions.sendErrorAsClientMsg()
 endIf
-
-//test 01062020
-form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.goodsItemCZ.clear()
-form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.fromJson(form.enhancement.goodsItemsStorageCollectionToJson)
 
 globals.IsBusy = false
 ]]></Script>
@@ -13371,9 +13375,7 @@ endfor
     <ActionBlock>
       <Name value="fillCdeReq" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[//TEST 01062020 - 
-form.enhancement.goodsItemsStorageCollectionToJson  = defaultString()
-var cdaData = form.cdeReq.customsDecisionAuthorisationData
+        <Script><![CDATA[var cdaData = form.cdeReq.customsDecisionAuthorisationData
 
 cdaData.customsDecisionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
 cdaData.customsDecisionVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
@@ -13406,17 +13408,20 @@ var enhItems = enh.goodsItemCZ
 //teď chci naplnit akualizovat data pro poslání pomocí kolekce prezentované v Listu
 enhItems.clear()
 
-//TEST 01062020 - 
-form.enhancement.goodsItemsStorageCollectionToJson = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.toJson()
+// clear and refill
+form.uiState.cdGoodsItemCollectionJson = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.toJson()
 
 //fill enhancement collection
 foreach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
   var item = enhItems.addItem()
   item.fromJson(goodsItem.toJson(true))
   
-  //TEST 01062020 - temporarly clear usused item
-  goodsItem.clear()
+  // temporarly clear usused item
+  goodsItem.removeMe()
 endfor
+
+//clear from memory goodsItems collection
+form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.clear()
 
 //enh.g2bpx.fromJson(form.cdAux.g2bpx.toJson())
 ]]></Script>
