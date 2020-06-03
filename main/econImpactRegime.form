@@ -13288,17 +13288,13 @@ if form.enhancement.goodsItemCZvalidatation then
   enh.fullyEnhanced = fullyEnh
   
   //Option X
-  
   if fullyEnh then
   	form.apiobjects.econImpactCdeReq.set("customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced", "true")
   else
     form.apiobjects.econImpactCdeReq.set("customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced", "false")
   endIf
-  
-  // send enhacement to server
-  //var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.cdeReq.toJson())
-  
-  //Option X instead of previous line make this call
+    
+  //Option X - sending data from plain objects as JSON to CIC
   var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.apiobjects.econImpactCdeReq.toJson())
   
   if resp.isError() or (resp.getMessageType() = "IN906A") then
@@ -13332,6 +13328,9 @@ if form.enhancement.goodsItemCZvalidatation then
     
     form.CD.clear()
     form.CD.fromJson(respJson)
+    
+    //reload new data into plain object with goodsItems
+    form.apiobjects.econImpactPlainObject.init(respJson)   
     
     form.actions.afterVersionLoad()
   endif
@@ -13419,22 +13418,12 @@ var enhItems = enh.goodsItemCZ
 //teď chci naplnit akualizovat data pro poslání pomocí kolekce prezentované v Listu
 enhItems.clear()
 
-//OPTION 1 - FROM JSON 
-/*
-form.uiState.cdGoodsItemCollectionJson = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.toJson(true)
-
-form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.clear()
-form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.goodsItemCZ.fromJson(form.uiState.cdGoodsItemCollectionJson )
-*/
-
 //option X - fill plain object cdeReq
-
 form.uiState.cdGoodsItemCollectionJson = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.toJson(true)
 
 form.apiobjects.econImpactCdeReq.init(form.cdeReq.toJson(true))
 form.apiobjects.econImpactCdeReq.set("customsDecisionAuthorisationData/enhancementCZ/goodsItemCZ", form.uiState.cdGoodsItemCollectionJson)
 
-var goodsItemCount = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.count()
 var fillingCounter = 0
 
 forEach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
@@ -13452,23 +13441,9 @@ forEach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDe
 	fillingCounter = fillingCounter + 1
 endFor
 
-
-//OPTION 2 - foreach
-/*
-//fill enhancement collection
-foreach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
-  var item = enhItems.addItem()
-  item.fromJson(goodsItem.toJson(true))
-  
-  // temporarly clear usused item
-  goodsItem.removeMe()
-endfor
-*/
-
 //clear from memory goodsItems collection
 form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.clear()
 
-//enh.g2bpx.fromJson(form.cdAux.g2bpx.toJson())
 ]]></Script>
       </ActionLangBody>
       <DataContext>
