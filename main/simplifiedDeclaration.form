@@ -1362,7 +1362,7 @@
                               </CssClass>
                             </GroupBox>
                             <Label>
-                              <Name value="label6" />
+                              <Name value="label1" />
                               <Data value="Velikost záruky" />
                               <Heading value="h5" />
                               <Panel.Height value="#" />
@@ -2201,7 +2201,7 @@
                                           <Panel.Width value="50%" />
                                           <Children>
                                             <Label>
-                                              <Name value="label12" />
+                                              <Name value="label4" />
                                               <Heading value="h2" />
                                               <Panel.Height value="#" />
                                               <Panel.Width value="*" />
@@ -2977,6 +2977,80 @@
                                     </CssClassConditional>
                                   </CssClass>
                                 </Button>
+                                <Panel>
+                                  <Name value="validationErrorMessage_pnl" />
+                                  <Orientation value="Horizontal" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <Bindings>
+                                    <Binding SourceProperty="IsVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.isThereErrorToDisplay" />
+                                  </Bindings>
+                                  <Children>
+                                    <Label>
+                                      <Name value="label3" />
+                                      <Data value="Upozornění:" />
+                                      <Heading value="h5" />
+                                      <Panel.Height value="#" />
+                                      <Panel.HorizontalAlignment value="Center" />
+                                      <Panel.Width value="*" />
+                                      <Bindings>
+                                        <Binding SourceProperty="IsVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.isThereErrorToDisplay" />
+                                      </Bindings>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-label" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="liveFontColor" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Label>
+                                    <Label>
+                                      <Name value="label11" />
+                                      <Data value="Velikost přílohy je víc jak 5 MB. " />
+                                      <Heading value="h5" />
+                                      <Panel.Height value="#" />
+                                      <Panel.HorizontalAlignment value="Center" />
+                                      <Panel.Width value="*" />
+                                      <Bindings>
+                                        <Binding SourceProperty="IsVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.isSelectedFileToLarge" />
+                                      </Bindings>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-label" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Label>
+                                    <Label>
+                                      <Name value="label6" />
+                                      <Data value=" Vyplňte identifikátor dokumentu." />
+                                      <Heading value="h5" />
+                                      <Panel.Height value="#" />
+                                      <Panel.HorizontalAlignment value="Center" />
+                                      <Panel.Width value="*" />
+                                      <Bindings>
+                                        <Binding SourceProperty="IsVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.isDocumentIdentifierMissing" />
+                                      </Bindings>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-label" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Label>
+                                  </Children>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-panel" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                    <CssClassConditional>
+                                      <ClassName value="warningBox" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Panel>
                               </Children>
                               <CssClass>
                                 <CssClassConditional>
@@ -3807,7 +3881,7 @@ endif
 
 form.actions.setUpData_CDAnnexDetailRequest()
 
-globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.clear()]]></Script>
+actions.prepareVariablesForNewAnnexUpload()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -3846,6 +3920,8 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 		form.actions.alertIfMessageHasNoData()
 		
 	endif
+	
+	globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.numberOfDocuments = 1
 
 endif
 

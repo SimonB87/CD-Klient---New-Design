@@ -96,10 +96,10 @@ endif]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.uiGlobalState.annex.isVisibleAddAnnexPanel = false
 globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.confirmFileDelete = false
-globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.numberOfDocuments = 1
 
 //set up state
-globals.uiGlobalState.annex.addOtherAnnex.annexTableToSelect.attachedDocumentsCZ.clear()]]></Script>
+globals.uiGlobalState.annex.addOtherAnnex.annexTableToSelect.attachedDocumentsCZ.clear()
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -138,7 +138,9 @@ endif
     <ActionBlock>
       <Name value="storeNewAnnexCZ" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.fileContent.hasValue() and globals.uiGlobalState.isLastCDversionSelected then
+        <Script><![CDATA[var path = globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData
+
+if globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.fileContent.hasValue() and globals.uiGlobalState.isLastCDversionSelected then
 
 	globals.IsBusy = True
 	
@@ -146,34 +148,41 @@ endif
 	
 	if globals.uiGlobalState.GUID.hasValue() then
 		
-		globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionGUID = globals.uiGlobalState.GUID
+		path.customsDecisionGUID = globals.uiGlobalState.GUID
 		
 			if globals.uiGlobalState.CDversionGUID.hasValue() then
-				globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionVersionGUID = globals.uiGlobalState.CDversionGUID
+				path.customsDecisionVersionGUID = globals.uiGlobalState.CDversionGUID
 			endif
-
-		var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionAnnexStore", globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.toJson())
 		
-		//check server reply
-		if response.isError() then
-			system.console(response.getErrorMessage())
-		else
-			//clear old annex data
-			globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.clear()
+		actions.validateAnnexInput()
 		
-			//set value for fill data with data on newly uploaded annex
-			globals.uiGlobalState.annex.annexCZuploadSuccess.clear()
-			globals.uiGlobalState.annex.annexCZuploadSuccess = True
-									
-			//clear form
-			var placeHolderStore = globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.selectedDocumentGUID
-			globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.clear()
-			//prepare form
-			globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.selectedDocumentGUID = placeHolderStore
+		if globals.uiGlobalState.annex.annexCZaddNewFile.isThereErrorToDisplay = false then		
+		
+			var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionAnnexStore", globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.toJson())
+		
+			//check server reply
+			if response.isError() then
+				system.console(response.getErrorMessage())
+				system.alert("Příloha nahrána nebyla.")
+			else
+				//clear old annex data
+				globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.clear()
 			
-			system.alert("Příloha byla nahrána!")
-			
-		endif
+				//set value for fill data with data on newly uploaded annex
+				globals.uiGlobalState.annex.annexCZuploadSuccess.clear()
+				globals.uiGlobalState.annex.annexCZuploadSuccess = True
+										
+				//clear form
+				var placeHolderStore = globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.selectedDocumentGUID
+				globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.clear()
+				//prepare form
+				globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.selectedDocumentGUID = placeHolderStore
+				
+				system.alert("Příloha byla nahrána!")
+				
+			endif
+		
+		endIf
 	
 	endif
 	
@@ -341,6 +350,56 @@ endFor]]></Script>
             </Attribute>
           </Children>
         </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="validateAnnexInput" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var pathToFile = globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile
+var pathToBooleans = globals.uiGlobalState.annex.annexCZaddNewFile
+
+pathToBooleans.isDocumentIdentifierMissing = False
+pathToBooleans.isSelectedFileToLarge = False
+pathToBooleans.isThereErrorToDisplay = False
+
+if pathToFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.documentIdentifier.isEmpty() then
+	pathToBooleans.isDocumentIdentifierMissing = True
+endIf
+
+if pathToFile.fileData.fileContent.isValid() then
+	//test
+	system.console("OK - Přiloha je v pořádku malá")
+	//test
+else
+	//test
+	system.console("OK - Přiloha je moc velká")
+	//test
+	pathToBooleans.isSelectedFileToLarge = True
+
+endIf
+
+if pathToBooleans.isDocumentIdentifierMissing or pathToBooleans.isSelectedFileToLarge then
+	pathToBooleans.isThereErrorToDisplay = True
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="prepareVariablesForNewAnnexUpload" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.clear()
+
+globals.uiGlobalState.annex.annexCZaddNewFile.isSelectedFileToLarge = False
+globals.uiGlobalState.annex.annexCZaddNewFile.isDocumentIdentifierMissing = False
+globals.uiGlobalState.annex.annexCZaddNewFile.isThereErrorToDisplay = False
+
+globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.setTouched(False)
+globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.numberOfDocuments = 1]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>
