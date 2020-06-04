@@ -776,6 +776,33 @@
                     </Complex>
                   </Children>
                 </Complex>
+                <Attribute>
+                  <Name value="isSelectedFileToLarge" />
+                  <Caption value="Is selected file to large" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="isDocumentIdentifierMissing" />
+                  <Caption value="Is document identifier missing" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="isThereErrorToDisplay" />
+                  <Caption value="Is there error to display" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
               </Children>
             </Complex>
             <Complex>
@@ -1086,8 +1113,11 @@
         <Computed>
           <Name value="_fileUrl" />
           <Caption value="_ file url" />
-          <Expression>
+          <Expression IsValid="True">
             <ExpressionText><![CDATA[globals.serviceUrl + "CustomsDecisionAttachedDocumentRequest?customsDecisionGUID={" + this.owner().owner().owner().customsDecisionGUID + "}&customsDecisionVersionGUID={" + this.owner().owner().owner().customsDecisionVersionGUID + "}&documentGUID={" + this.documentGUID + "}&version=" + globals.version]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
           </Expression>
         </Computed>
         <Computed>
@@ -1109,15 +1139,21 @@
         <Computed>
           <Name value="_fileUrl" />
           <Caption value="_ file url" />
-          <Expression>
+          <Expression IsValid="True">
             <ExpressionText><![CDATA[globals.serviceUrl + "CustomsDecisionAttachedDocumentRequest?customsDecisionGUID={" + this.owner().owner().owner().customsDecisionGUID + "}&customsDecisionVersionGUID={" + this.owner().owner().owner().customsDecisionVersionGUID + "}&documentGUID={" + this.documentGUID + "}&version=" + globals.version]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
           </Expression>
         </Computed>
         <Computed>
           <Name value="_fileHrefText" />
           <Caption value="_ file href text" />
-          <Expression>
+          <Expression IsValid="True">
             <ExpressionText><![CDATA[documentIdentifier + "." + documentType]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
           </Expression>
         </Computed>
       </Children>
@@ -1130,7 +1166,9 @@
           <Name value="fileContent" />
           <Caption value="File content" />
           <DeclaredType>
-            <AttributeType />
+            <AttributeType>
+              <StrMaxLength value="5000000" />
+            </AttributeType>
           </DeclaredType>
         </Attribute>
       </Children>
