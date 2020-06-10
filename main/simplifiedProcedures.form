@@ -2695,7 +2695,7 @@
                                                             </Panel>
                                                             <Button>
                                                               <Name value="button_deleteAnnexCZ" />
-                                                              <Caption value="Smazat CZ přílohu" />
+                                                              <Caption value="Smazat" />
                                                               <Margin value="16, 6, 6, 6 px" />
                                                               <Panel.Height value="#" />
                                                               <Panel.Width value="33%" />
@@ -2913,22 +2913,6 @@
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.documentIdentifier" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.documentIdentifier.isRequired()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox51" />
-                                  <Caption value="Počet stran dokumentu" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.numberOfDocuments.isRequired()" />
-                                    <Binding SourceProperty="Data" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.numberOfDocuments" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -3992,7 +3976,7 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 		
 	endif
 	
-	globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.numberOfDocuments = 1
+	actions.prepareVariablesForNewAnnexUpload()
 
 endif
 
@@ -4184,7 +4168,16 @@ if globals.uiGlobalState.annex.annexDetail.response.customsDecisionAuthorisation
 		var targetPath = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex
 		
 		targetPath.fromJson(sourcePath.toJson())
+	
+	else
+	
+		form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.addItem()
 		
+		var sourcePath2 = globals.uiGlobalState.annex.annexDetail.response.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex
+		var targetPath2 = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex
+		
+		targetPath2.fromJson(sourcePath2.toJson())
+	
 	endIf
 	
 endIf]]></Script>

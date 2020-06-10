@@ -8570,6 +8570,8 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 		form.actions.alertIfMessageHasNoData()
 		
 	endif
+	
+	actions.prepareVariablesForNewAnnexUpload()
 
 endif
 
@@ -8664,6 +8666,15 @@ if globals.uiGlobalState.annex.annexDetail.response.customsDecisionAuthorisation
 		
 		targetPath.fromJson(sourcePath.toJson())
 		
+	else
+	
+		form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.addItem()
+		
+		var sourcePath2 = globals.uiGlobalState.annex.annexDetail.response.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex
+		var targetPath2 = form.CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex
+		
+		targetPath2.fromJson(sourcePath2.toJson())		
+	
 	endIf
 	
 endIf]]></Script>
