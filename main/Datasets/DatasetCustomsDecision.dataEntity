@@ -10,9 +10,11 @@
       <Name value="CustomsDecisionGUID" />
       <Caption value="CustomsDecisionGUID" />
       <IsRequired value="True" />
-      <MetaType reference="+MetaTypes.Guid" />
       <MtsImportOptions.MTS.ID value="DatasetCustomsDecision/CustomsDecisionGUID" />
       <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType />
+      </DeclaredType>
     </Attribute>
     <Attribute>
       <Name value="CustomsDecisionReferenceNumber" />
@@ -28,6 +30,24 @@
       <MetaType reference="+MetaTypes.CustomsAuthorityCodeContentType" />
       <MtsImportOptions.MTS.ID value="DatasetCustomsDecision/CustomsAuthorityReferenceNumber" />
       <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="[\x00-\x7F]*\S[\x00-\x7F]*" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[\\x00-\\x7F]*\\S[\\x00-\\x7F]*$") : true)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
     </Attribute>
     <Attribute>
       <Name value="CustomsDecisionType" />
@@ -36,6 +56,24 @@
       <MetaType reference="+MetaTypes.AuthorisationTypeContentType" />
       <MtsImportOptions.MTS.ID value="DatasetCustomsDecision/CustomsDecisionType" />
       <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="[\x00-\x7F]*\S[\x00-\x7F]*" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[\\x00-\\x7F]*\\S[\\x00-\\x7F]*$") : true)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
     </Attribute>
     <Attribute>
       <Name value="CustomsDecisionIssueDate" />
@@ -79,7 +117,7 @@
       <MtsImportOptions.MTS.Type value="client-dataset-item" />
       <DeclaredType>
         <AttributeType>
-          <StrMaxLength value="255" />
+          <StrMaxLength value="2" />
         </AttributeType>
       </DeclaredType>
     </Attribute>
@@ -339,6 +377,14 @@
           <BaseType value="Bool" />
         </AttributeType>
       </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="attribute1" />
+      <Caption value="EORI držitele" />
+      <IsRequired value="True" />
+      <MetaType reference="+MetaTypes.EORINumberContentType" />
+      <MtsImportOptions.MTS.ID value="DatasetCustomsDecision/HolderEORINumber" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
     </Attribute>
   </Children>
 </DataEntity>

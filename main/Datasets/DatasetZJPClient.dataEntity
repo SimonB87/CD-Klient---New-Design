@@ -10,9 +10,11 @@
       <Name value="GUID" />
       <Caption value="GUID" />
       <IsRequired value="True" />
-      <MetaType reference="+MetaTypes.Guid" />
       <MtsImportOptions.MTS.ID value="DatasetZJPClient/GUID" />
       <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType />
+      </DeclaredType>
     </Attribute>
     <Attribute>
       <Name value="IssuingCountry" />
@@ -21,6 +23,24 @@
       <MetaType reference="+MetaTypes.Zeme" />
       <MtsImportOptions.MTS.ID value="DatasetZJPClient/IssuingCountry" />
       <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="[A-Z]{2}" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}$") : true)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
     </Attribute>
     <Attribute>
       <Name value="ASEOID" />
@@ -28,6 +48,24 @@
       <MetaType reference="+MetaTypes.ReferencniCisloRozhodnuti" />
       <MtsImportOptions.MTS.ID value="DatasetZJPClient/ASEOID" />
       <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="(?s)^\S(.*\S)?$" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\S(.*\\S)?$") : true)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
     </Attribute>
     <Attribute>
       <Name value="TIN" />
@@ -65,6 +103,24 @@
       <MetaType reference="+MetaTypes.CU" />
       <MtsImportOptions.MTS.ID value="DatasetZJPClient/ResponsibleCustomsOffice" />
       <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
     </Attribute>
     <Attribute>
       <Name value="OperatorName" />
@@ -159,6 +215,24 @@
       <MetaType reference="+MetaTypes.CU" />
       <MtsImportOptions.MTS.ID value="DatasetZJPClient/DecidingCustomsOffice" />
       <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
     </Attribute>
     <Attribute>
       <Name value="ValidityEndDate" />
@@ -255,9 +329,13 @@
     <Attribute>
       <Name value="ApplicationSubmissionDate" />
       <Caption value="Datum podání žádosti" />
-      <MetaType reference="+MetaTypes.Date" />
       <MtsImportOptions.MTS.ID value="DatasetZJPClient/ApplicationSubmissionDate" />
       <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="Date" />
+        </AttributeType>
+      </DeclaredType>
     </Attribute>
     <Attribute>
       <Name value="DecisionStartDate" />
@@ -276,6 +354,24 @@
       <MetaType reference="+MetaTypes.ReferencniCisloRozhodnuti" />
       <MtsImportOptions.MTS.ID value="DatasetZJPClient/ASEOCompleteID" />
       <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="(?s)^\S(.*\S)?$" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\S(.*\\S)?$") : true)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
     </Attribute>
     <Attribute>
       <Name value="ASEOType" />

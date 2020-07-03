@@ -16,16 +16,20 @@
         <Attribute>
           <Name value="customsDecisionGUID" />
           <Caption value="customsDecisionGUID" />
-          <MetaType reference="+MetaTypes.Guid" />
           <MtsImportOptions.MTS.ID value="/RegularShippingServiceDetailResponse/customsDecisionAuthorisationData/customsDecisionGUID" />
           <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
         </Attribute>
         <Attribute>
           <Name value="customsDecisionVersionGUID" />
           <Caption value="customsDecisionVersionGUID" />
-          <MetaType reference="+MetaTypes.Guid" />
           <MtsImportOptions.MTS.ID value="/RegularShippingServiceDetailResponse/customsDecisionAuthorisationData/customsDecisionVersionGUID" />
           <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
         </Attribute>
         <Attribute>
           <Name value="customsDecisionReferenceNumber" />
@@ -352,9 +356,11 @@
                     <Attribute>
                       <Name value="documentGUID" />
                       <Caption value="documentGUID" />
-                      <MetaType reference="+MetaTypes.Guid" />
                       <MtsImportOptions.MTS.ID value="/RegularShippingServiceDetailResponse/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocuments/documentGUID" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
                     </Attribute>
                     <Attribute>
                       <Name value="documentType" />
@@ -411,9 +417,11 @@
                     <Attribute>
                       <Name value="documentGUID" />
                       <Caption value="documentGUID" />
-                      <MetaType reference="+MetaTypes.Guid" />
                       <MtsImportOptions.MTS.ID value="/RegularShippingServiceDetailResponse/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocumentsCZ/documentGUID" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
                     </Attribute>
                     <Attribute>
                       <Name value="documentType" />
@@ -495,6 +503,24 @@
               <MetaType reference="+MetaTypes.LanguageCodeContentType" />
               <MtsImportOptions.MTS.ID value="/RegularShippingServiceDetailResponse/customsDecisionAuthorisationData/customsDecisionComment/language" />
               <MtsImportOptions.MTS.Type value="element" />
+              <Validators>
+                <Validator Name="regex">
+                  <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                  <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
             </Attribute>
           </Children>
         </Complex>
@@ -597,6 +623,24 @@
                       <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                       <MtsImportOptions.MTS.ID value="/RegularShippingServiceDetailResponse/customsDecisionAuthorisationData/levelOfReduction/levelOfGuarantee/guaranteeDescription/language" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                   </Children>
                 </Complex>
@@ -666,9 +710,11 @@
             <Attribute>
               <Name value="customsDecisionVersionGUID" />
               <Caption value="customsDecisionVersionGUID" />
-              <MetaType reference="+MetaTypes.Guid" />
               <MtsImportOptions.MTS.ID value="/RegularShippingServiceDetailResponse/customsDecisionAuthorisationData/customsDecisionVersionHistory/customsDecisionVersionGUID" />
               <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
             </Attribute>
             <Reference>
               <Name value="customsDecisionStatus" />
@@ -767,16 +813,24 @@
             <Attribute>
               <Name value="firstCompletionDateTime" />
               <Caption value="Datum a čas prvního kompletního obohacení" />
-              <MetaType reference="+MetaTypes.DateTime" />
               <MtsImportOptions.MTS.ID value="/RegularShippingServiceDetailResponse/customsDecisionAuthorisationData/customsDecisionVersionHistory/firstCompletionDateTime" />
               <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="DateTime" />
+                </AttributeType>
+              </DeclaredType>
             </Attribute>
             <Attribute>
               <Name value="lastEditDateTime" />
               <Caption value="Poslední update obohacení" />
-              <MetaType reference="+MetaTypes.DateTime" />
               <MtsImportOptions.MTS.ID value="/RegularShippingServiceDetailResponse/customsDecisionAuthorisationData/customsDecisionVersionHistory/lastEditDateTime" />
               <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="DateTime" />
+                </AttributeType>
+              </DeclaredType>
             </Attribute>
           </Children>
         </Collection>
@@ -790,9 +844,11 @@
               <Name value="enhancementGUID" />
               <Caption value="GUID obohacení" />
               <IsRequired value="True" />
-              <MetaType reference="+MetaTypes.Guid" />
               <MtsImportOptions.MTS.ID value="/RegularShippingServiceDetailResponse/customsDecisionAuthorisationData/enhancementCZ/enhancementGUID" />
               <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
             </Attribute>
             <Attribute>
               <Name value="periodForClearance" />
@@ -856,9 +912,13 @@
               <Name value="creationDateTime" />
               <Caption value="Datum a čas vytvoření" />
               <IsRequired value="True" />
-              <MetaType reference="+MetaTypes.DateTime" />
               <MtsImportOptions.MTS.ID value="/RegularShippingServiceDetailResponse/customsDecisionAuthorisationData/enhancementCZ/creationDateTime" />
               <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="DateTime" />
+                </AttributeType>
+              </DeclaredType>
             </Attribute>
             <Attribute>
               <Name value="createdBy" />
@@ -903,6 +963,24 @@
                       <MetaType reference="+MetaTypes.CU" />
                       <MtsImportOptions.MTS.ID value="/RegularShippingServiceDetailResponse/customsDecisionAuthorisationData/enhancementCZ/SASP/Account/CustomsOffice" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                     <Attribute>
                       <Name value="AccountNumber" />
@@ -928,9 +1006,11 @@
           <Name value="enhancementStatusCZ" />
           <Caption value="Stav obohacení" />
           <IsRequired value="True" />
-          <MetaType reference="+MetaTypes.String" />
           <MtsImportOptions.MTS.ID value="/RegularShippingServiceDetailResponse/customsDecisionAuthorisationData/enhancementStatusCZ" />
           <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
         </Attribute>
         <Attribute>
           <Name value="enhancementRequiredCZ" />
@@ -1039,6 +1119,24 @@
                       <MetaType reference="+MetaTypes.PortContentType" />
                       <MtsImportOptions.MTS.ID value="/RegularShippingServiceDetailResponse/customsDecisionAuthorisationData/universalCustomsDecisionInformation/rSSVesselsAndPortsOfCall/firstPort/portOfCall" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[\x00-\x7F]*\S[\x00-\x7F]*" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[\\x00-\\x7F]*\\S[\\x00-\\x7F]*$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                   </Children>
                 </Complex>
@@ -1056,6 +1154,24 @@
                       <MetaType reference="+MetaTypes.PortContentType" />
                       <MtsImportOptions.MTS.ID value="/RegularShippingServiceDetailResponse/customsDecisionAuthorisationData/universalCustomsDecisionInformation/rSSVesselsAndPortsOfCall/portsOfCall/portOfCall" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[\x00-\x7F]*\S[\x00-\x7F]*" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[\\x00-\\x7F]*\\S[\\x00-\\x7F]*$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                   </Children>
                 </Collection>

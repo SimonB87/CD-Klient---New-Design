@@ -17,16 +17,20 @@
         <Attribute>
           <Name value="customsDecisionGUID" />
           <Caption value="customsDecisionGUID" />
-          <MetaType reference="+MetaTypes.Guid" />
           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/customsDecisionGUID" />
           <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
         </Attribute>
         <Attribute>
           <Name value="customsDecisionVersionGUID" />
           <Caption value="customsDecisionVersionGUID" />
-          <MetaType reference="+MetaTypes.Guid" />
           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/customsDecisionVersionGUID" />
           <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
         </Attribute>
         <Attribute>
           <Name value="customsDecisionReferenceNumber" />
@@ -60,7 +64,7 @@
                       <Name value="name" />
                       <Caption value="Název" />
                       <IsRequired value="True" />
-                      <MetaType reference="+MetaTypes.ShortNameContentType" />
+                      <MetaType reference="+MetaTypes.ShortNameContentType1" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/holderInformation/holder/nameAndAddress/name" />
                       <MtsImportOptions.MTS.Type value="element" />
                     </Attribute>
@@ -139,7 +143,7 @@
                       <Name value="name" />
                       <Caption value="Jméno" />
                       <IsRequired value="True" />
-                      <MetaType reference="+MetaTypes.ShortNameContentType" />
+                      <MetaType reference="+MetaTypes.ShortNameContentType1" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/holderInformation/representative/nameAndAddress/name" />
                       <MtsImportOptions.MTS.Type value="element" />
                     </Attribute>
@@ -230,7 +234,7 @@
                   <Name value="name" />
                   <Caption value="Název" />
                   <IsRequired value="True" />
-                  <MetaType reference="+MetaTypes.ShortNameContentType" />
+                  <MetaType reference="+MetaTypes.ShortNameContentType1" />
                   <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/decisionTakingCustomsAuthority/decisionTakingCustomsAuthorityNameAndAddress/name" />
                   <MtsImportOptions.MTS.Type value="element" />
                 </Attribute>
@@ -353,9 +357,11 @@
                     <Attribute>
                       <Name value="documentGUID" />
                       <Caption value="documentGUID" />
-                      <MetaType reference="+MetaTypes.Guid" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocuments/documentGUID" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
                     </Attribute>
                     <Attribute>
                       <Name value="documentType" />
@@ -412,9 +418,11 @@
                     <Attribute>
                       <Name value="documentGUID" />
                       <Caption value="documentGUID" />
-                      <MetaType reference="+MetaTypes.Guid" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/customsDecisionParticulars/customsDecisionAnnex/attachedDocumentsCZ/documentGUID" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
                     </Attribute>
                     <Attribute>
                       <Name value="documentType" />
@@ -486,6 +494,24 @@
               <MetaType reference="+MetaTypes.LanguageCodeContentType" />
               <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/customsDecisionComment/language" />
               <MtsImportOptions.MTS.Type value="element" />
+              <Validators>
+                <Validator Name="regex">
+                  <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                  <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
             </Attribute>
           </Children>
         </Complex>
@@ -588,6 +614,24 @@
                       <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/levelOfReduction/levelOfGuarantee/guaranteeDescription/language" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                   </Children>
                 </Complex>
@@ -657,9 +701,11 @@
             <Attribute>
               <Name value="customsDecisionVersionGUID" />
               <Caption value="customsDecisionVersionGUID" />
-              <MetaType reference="+MetaTypes.Guid" />
               <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/customsDecisionVersionHistory/customsDecisionVersionGUID" />
               <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
             </Attribute>
             <Reference>
               <Name value="customsDecisionStatus" />
@@ -758,16 +804,24 @@
             <Attribute>
               <Name value="firstCompletionDateTime" />
               <Caption value="Datum a čas prvního kompletního obohacení" />
-              <MetaType reference="+MetaTypes.DateTime" />
               <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/customsDecisionVersionHistory/firstCompletionDateTime" />
               <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="DateTime" />
+                </AttributeType>
+              </DeclaredType>
             </Attribute>
             <Attribute>
               <Name value="lastEditDateTime" />
               <Caption value="Poslední update obohacení" />
-              <MetaType reference="+MetaTypes.DateTime" />
               <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/customsDecisionVersionHistory/lastEditDateTime" />
               <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="DateTime" />
+                </AttributeType>
+              </DeclaredType>
             </Attribute>
           </Children>
         </Collection>
@@ -781,9 +835,11 @@
               <Name value="enhancementGUID" />
               <Caption value="GUID obohacení" />
               <IsRequired value="True" />
-              <MetaType reference="+MetaTypes.Guid" />
               <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/enhancementCZ/enhancementGUID" />
               <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
             </Attribute>
             <Attribute>
               <Name value="periodForClearance" />
@@ -847,9 +903,13 @@
               <Name value="creationDateTime" />
               <Caption value="Datum a čas vytvoření" />
               <IsRequired value="True" />
-              <MetaType reference="+MetaTypes.DateTime" />
               <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/enhancementCZ/creationDateTime" />
               <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="DateTime" />
+                </AttributeType>
+              </DeclaredType>
             </Attribute>
             <Attribute>
               <Name value="createdBy" />
@@ -894,6 +954,24 @@
                       <MetaType reference="+MetaTypes.CU" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/enhancementCZ/SASP/Account/CustomsOffice" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                     <Attribute>
                       <Name value="AccountNumber" />
@@ -919,9 +997,11 @@
           <Name value="enhancementStatusCZ" />
           <Caption value="Stav obohacení" />
           <IsRequired value="True" />
-          <MetaType reference="+MetaTypes.String" />
           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/enhancementStatusCZ" />
           <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
         </Attribute>
         <Attribute>
           <Name value="enhancementRequiredCZ" />
@@ -980,6 +1060,24 @@
                       <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/plannedActivitiesUse/plannedActivitiesUseDescription/language" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                   </Children>
                 </Complex>
@@ -1053,7 +1151,7 @@
                           <Name value="name" />
                           <Caption value="Jméno" />
                           <IsRequired value="True" />
-                          <MetaType reference="+MetaTypes.ShortNameContentType" />
+                          <MetaType reference="+MetaTypes.ShortNameContentType1" />
                           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/plannedActivitiesUse/plannedActivitiesUsePersonInvolved/involvedPersonName/name" />
                           <MtsImportOptions.MTS.Type value="element" />
                         </Attribute>
@@ -1081,6 +1179,24 @@
                           <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/plannedActivitiesUse/plannedActivitiesUsePersonInvolved/_function/language" />
                           <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
                         </Attribute>
                       </Children>
                     </Complex>
@@ -1198,15 +1314,35 @@
                           <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/plannedActivitiesUse/estimatedRateOfYield/determinationMethodRateOfYield/language" />
                           <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
                         </Attribute>
                       </Children>
                     </Complex>
                     <Attribute>
                       <Name value="goodsItemGUIDCZ" />
                       <Caption value="GUID sjednoceného záznamu o zboží" />
-                      <MetaType reference="+MetaTypes.Guid" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/plannedActivitiesUse/estimatedRateOfYield/goodsItemGUIDCZ" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
                     </Attribute>
                   </Children>
                 </Complex>
@@ -1274,6 +1410,24 @@
                                   <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                                   <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/plannedActivitiesUse/reliefFromImportDuties/producedGoods/descriptionOfGoods/goodsDescription/language" />
                                   <MtsImportOptions.MTS.Type value="element" />
+                                  <Validators>
+                                    <Validator Name="regex">
+                                      <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                                      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                                      <ErrorMessage IsValid="True">
+                                        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                        <ResultType>
+                                          <BaseType value="String" />
+                                        </ResultType>
+                                      </ErrorMessage>
+                                      <IsValid IsValid="True">
+                                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                                        <ResultType>
+                                          <BaseType value="Bool" />
+                                        </ResultType>
+                                      </IsValid>
+                                    </Validator>
+                                  </Validators>
                                 </Attribute>
                               </Children>
                             </Complex>
@@ -1302,9 +1456,11 @@
                             <Attribute>
                               <Name value="goodsItemGUIDCZ" />
                               <Caption value="GUID sjednoceného záznamu o zboží" />
-                              <MetaType reference="+MetaTypes.Guid" />
                               <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/plannedActivitiesUse/reliefFromImportDuties/producedGoods/descriptionOfGoods/goodsItemGUIDCZ" />
                               <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType />
+                              </DeclaredType>
                             </Attribute>
                           </Children>
                         </Collection>
@@ -1339,9 +1495,11 @@
                             <Attribute>
                               <Name value="goodsItemGUIDCZ" />
                               <Caption value="GUID sjednoceného záznamu o zboží" />
-                              <MetaType reference="+MetaTypes.Guid" />
                               <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/plannedActivitiesUse/reliefFromImportDuties/producedGoods/quantityOfGoods/goodsItemGUIDCZ" />
                               <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType />
+                              </DeclaredType>
                             </Attribute>
                           </Children>
                         </Collection>
@@ -1358,7 +1516,7 @@
                           <Name value="name" />
                           <Caption value="Název" />
                           <IsRequired value="True" />
-                          <MetaType reference="+MetaTypes.ShortNameContentType" />
+                          <MetaType reference="+MetaTypes.ShortNameContentType1" />
                           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/plannedActivitiesUse/reliefFromImportDuties/goodsOwner/name" />
                           <MtsImportOptions.MTS.Type value="element" />
                         </Attribute>
@@ -1470,6 +1628,24 @@
                           <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/guarantee/levelOfGuarantee/guaranteeDescription/language" />
                           <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
                         </Attribute>
                       </Children>
                     </Complex>
@@ -1623,6 +1799,24 @@
                       <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/periodOfDischarge/estimatedPeriodOfDischargeDescription/language" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                   </Children>
                 </Complex>
@@ -1694,6 +1888,24 @@
                       <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/transferOfRightsAndObligations/suggestedTransferFormalities/language" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                   </Children>
                 </Complex>
@@ -1707,7 +1919,7 @@
                       <Name value="name" />
                       <Caption value="Jméno" />
                       <IsRequired value="True" />
-                      <MetaType reference="+MetaTypes.ShortNameContentType" />
+                      <MetaType reference="+MetaTypes.ShortNameContentType1" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/transferOfRightsAndObligations/transferee/name" />
                       <MtsImportOptions.MTS.Type value="element" />
                     </Attribute>
@@ -1814,6 +2026,24 @@
                           <MetaType reference="+MetaTypes.CommodityCodeContentType" />
                           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsToBePlacedUnderTheSpecialProcedureForStorageFacilities/equivalentGoods/commodityCodeTypeOfGoods/commodityCodeTypeOfGoods_Value" />
                           <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[\x00-\x7F]*\S[\x00-\x7F]*" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[\\x00-\\x7F]*\\S[\\x00-\\x7F]*$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
                         </Attribute>
                       </Children>
                     </Collection>
@@ -1840,6 +2070,24 @@
                           <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsToBePlacedUnderTheSpecialProcedureForStorageFacilities/equivalentGoods/commercialQualityAndTechnicalCharacteristicsOfEquivalentGoods/language" />
                           <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
                         </Attribute>
                       </Children>
                     </Collection>
@@ -1897,6 +2145,24 @@
                               <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                               <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsToBePlacedUnderTheSpecialProcedureForStorageFacilities/equivalentGoods/identificationOfGoods/identificationOfGoodsDescription/language" />
                               <MtsImportOptions.MTS.Type value="element" />
+                              <Validators>
+                                <Validator Name="regex">
+                                  <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                                  <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                                  <ErrorMessage IsValid="True">
+                                    <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                    <ResultType>
+                                      <BaseType value="String" />
+                                    </ResultType>
+                                  </ErrorMessage>
+                                  <IsValid IsValid="True">
+                                    <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                                    <ResultType>
+                                      <BaseType value="Bool" />
+                                    </ResultType>
+                                  </IsValid>
+                                </Validator>
+                              </Validators>
                             </Attribute>
                           </Children>
                         </Complex>
@@ -1945,6 +2211,24 @@
                           <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsToBePlacedUnderTheSpecialProcedureForStorageFacilities/identificationOfGoods/identificationOfGoodsDescription/language" />
                           <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
                         </Attribute>
                       </Children>
                     </Complex>
@@ -1994,6 +2278,24 @@
                       <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/storageFacilityDetails/storageFacilityDescription/language" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                   </Children>
                 </Complex>
@@ -2035,6 +2337,24 @@
                       <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/storageOfUnionGoods/storageOfCommunityGoodsDescription/language" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                   </Children>
                 </Complex>
@@ -2076,6 +2396,24 @@
                       <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/temporaryRemoval/temporaryRemovalDescription/language" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                   </Children>
                 </Complex>
@@ -2134,6 +2472,24 @@
                       <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsToBePlacedUnderTheSpecialProcedureOfEndUse/specialProvisionsDescription/language" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                   </Children>
                 </Complex>
@@ -2179,6 +2535,24 @@
                           <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsToBePlacedUnderTheSpecialProcedureOfEndUse/identificationOfGoods/identificationOfGoodsDescription/language" />
                           <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
                         </Attribute>
                       </Children>
                     </Complex>
@@ -2200,6 +2574,24 @@
                   <MetaType reference="+MetaTypes.CommodityCodeContentType" />
                   <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/processedProducts/commodityCode" />
                   <MtsImportOptions.MTS.Type value="element" />
+                  <Validators>
+                    <Validator Name="regex">
+                      <MtsImportOptions.MTS.Regex value="[\x00-\x7F]*\S[\x00-\x7F]*" />
+                      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[\\x00-\\x7F]*\\S[\\x00-\\x7F]*$") : true)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
                 </Attribute>
                 <Complex>
                   <Name value="descriptionOfGoods" />
@@ -2230,6 +2622,24 @@
                           <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/processedProducts/descriptionOfGoods/goodsDescription/language" />
                           <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
                         </Attribute>
                       </Children>
                     </Complex>
@@ -2258,9 +2668,11 @@
                     <Attribute>
                       <Name value="goodsItemGUIDCZ" />
                       <Caption value="GUID sjednoceného záznamu o zboží" />
-                      <MetaType reference="+MetaTypes.Guid" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/processedProducts/descriptionOfGoods/goodsItemGUIDCZ" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
                     </Attribute>
                   </Children>
                 </Complex>
@@ -2313,6 +2725,24 @@
                       <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/billOfDischarge/billOfDischargeDescription/language" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                   </Children>
                 </Complex>
@@ -2395,7 +2825,7 @@
                       <Name value="name" />
                       <Caption value="Název" />
                       <IsRequired value="True" />
-                      <MetaType reference="+MetaTypes.ShortNameContentType" />
+                      <MetaType reference="+MetaTypes.ShortNameContentType1" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/placeSOfProcessingOrUse/freeTextDescription/name" />
                       <MtsImportOptions.MTS.Type value="element" />
                     </Attribute>
@@ -2480,6 +2910,24 @@
                           <MetaType reference="+MetaTypes.CommodityCodeContentType" />
                           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsToBePlacedUnderTheSpecialProcedureOfProcessing/equivalentGoods/commodityCodeTypeOfGoods/commodityCodeTypeOfGoods_Value" />
                           <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[\x00-\x7F]*\S[\x00-\x7F]*" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[\\x00-\\x7F]*\\S[\\x00-\\x7F]*$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
                         </Attribute>
                       </Children>
                     </Collection>
@@ -2506,6 +2954,24 @@
                           <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsToBePlacedUnderTheSpecialProcedureOfProcessing/equivalentGoods/commercialQualityAndTechnicalCharacteristicsOfEquivalentGoods/language" />
                           <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
                         </Attribute>
                       </Children>
                     </Collection>
@@ -2563,6 +3029,24 @@
                               <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                               <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsToBePlacedUnderTheSpecialProcedureOfProcessing/equivalentGoods/identificationOfGoods/identificationOfGoodsDescription/language" />
                               <MtsImportOptions.MTS.Type value="element" />
+                              <Validators>
+                                <Validator Name="regex">
+                                  <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                                  <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                                  <ErrorMessage IsValid="True">
+                                    <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                    <ResultType>
+                                      <BaseType value="String" />
+                                    </ResultType>
+                                  </ErrorMessage>
+                                  <IsValid IsValid="True">
+                                    <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                                    <ResultType>
+                                      <BaseType value="Bool" />
+                                    </ResultType>
+                                  </IsValid>
+                                </Validator>
+                              </Validators>
                             </Attribute>
                           </Children>
                         </Complex>
@@ -2611,6 +3095,24 @@
                           <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsToBePlacedUnderTheSpecialProcedureOfProcessing/identificationOfGoods/identificationOfGoodsDescription/language" />
                           <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
                         </Attribute>
                       </Children>
                     </Complex>
@@ -2659,6 +3161,24 @@
                       <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/economicConditionsInformation/economicConditionsDescription/language" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                   </Children>
                 </Complex>
@@ -2801,6 +3321,24 @@
                           <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/standardExchangeSystem/replacementProducts/replacementProductsDescription/language" />
                           <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
                         </Attribute>
                       </Children>
                     </Complex>
@@ -2933,6 +3471,24 @@
                           <MetaType reference="+MetaTypes.CommodityCodeContentType" />
                           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsToBePlacedUnderTheSpecialProcedureOfTemporaryAdmission/equivalentGoods/commodityCodeTypeOfGoods/commodityCodeTypeOfGoods_Value" />
                           <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[\x00-\x7F]*\S[\x00-\x7F]*" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[\\x00-\\x7F]*\\S[\\x00-\\x7F]*$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
                         </Attribute>
                       </Children>
                     </Collection>
@@ -2959,6 +3515,24 @@
                           <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsToBePlacedUnderTheSpecialProcedureOfTemporaryAdmission/equivalentGoods/commercialQualityAndTechnicalCharacteristicsOfEquivalentGoods/language" />
                           <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
                         </Attribute>
                       </Children>
                     </Collection>
@@ -3016,6 +3590,24 @@
                               <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                               <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsToBePlacedUnderTheSpecialProcedureOfTemporaryAdmission/equivalentGoods/identificationOfGoods/identificationOfGoodsDescription/language" />
                               <MtsImportOptions.MTS.Type value="element" />
+                              <Validators>
+                                <Validator Name="regex">
+                                  <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                                  <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                                  <ErrorMessage IsValid="True">
+                                    <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                    <ResultType>
+                                      <BaseType value="String" />
+                                    </ResultType>
+                                  </ErrorMessage>
+                                  <IsValid IsValid="True">
+                                    <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                                    <ResultType>
+                                      <BaseType value="Bool" />
+                                    </ResultType>
+                                  </IsValid>
+                                </Validator>
+                              </Validators>
                             </Attribute>
                           </Children>
                         </Complex>
@@ -3064,6 +3656,24 @@
                           <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                           <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsToBePlacedUnderTheSpecialProcedureOfTemporaryAdmission/identificationOfGoods/identificationOfGoodsDescription/language" />
                           <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
                         </Attribute>
                       </Children>
                     </Complex>
@@ -3177,7 +3787,7 @@
                       <Name value="name" />
                       <Caption value="Název" />
                       <IsRequired value="True" />
-                      <MetaType reference="+MetaTypes.ShortNameContentType" />
+                      <MetaType reference="+MetaTypes.ShortNameContentType1" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/movementOfGoods/freeTextDescription/name" />
                       <MtsImportOptions.MTS.Type value="element" />
                     </Attribute>
@@ -3256,9 +3866,11 @@
                       <Name value="guid" />
                       <Caption value="GUID sjednoceného záznamu" />
                       <IsRequired value="True" />
-                      <MetaType reference="+MetaTypes.Guid" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsCZ/goodsItemCZ/guid" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
                     </Attribute>
                     <Attribute>
                       <Name value="combinedNomenclatureCode" />
@@ -3287,6 +3899,24 @@
                       <MetaType reference="+MetaTypes.UnitContentType" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsCZ/goodsItemCZ/measureUnit" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[\x00-\x7F]*\S[\x00-\x7F]*" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[\\x00-\\x7F]*\\S[\\x00-\\x7F]*$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                     <Reference>
                       <Name value="cnCodeForSecuring" />
@@ -3351,6 +3981,32 @@
                       <DeclaredType>
                         <AttributeType>
                           <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="groupID" />
+                      <Caption value="Pořadové číslo skupiny" />
+                      <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsCZ/goodsItemCZ/groupID" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Integer" />
+                          <IntMax value="999999999" />
+                          <IntMin value="0" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="itemID" />
+                      <Caption value="ID sjednocené položky zboží" />
+                      <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZBasic/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsCZ/goodsItemCZ/itemID" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Integer" />
+                          <IntMax value="999999999" />
+                          <IntMin value="0" />
                         </AttributeType>
                       </DeclaredType>
                     </Attribute>

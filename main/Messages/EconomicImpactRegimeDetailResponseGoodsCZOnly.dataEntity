@@ -23,9 +23,11 @@
               <Name value="guid" />
               <Caption value="GUID sjednoceného záznamu" />
               <IsRequired value="True" />
-              <MetaType reference="+MetaTypes.Guid" />
               <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZOnly/goodsCZ/goodsItemCZ/guid" />
               <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
             </Attribute>
             <Attribute>
               <Name value="combinedNomenclatureCode" />
@@ -68,6 +70,24 @@
               <MetaType reference="+MetaTypes.UnitContentType" />
               <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZOnly/goodsCZ/goodsItemCZ/measureUnit" />
               <MtsImportOptions.MTS.Type value="element" />
+              <Validators>
+                <Validator Name="regex">
+                  <MtsImportOptions.MTS.Regex value="[\x00-\x7F]*\S[\x00-\x7F]*" />
+                  <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[\\x00-\\x7F]*\\S[\\x00-\\x7F]*$") : true)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
             </Attribute>
             <Complex>
               <Name value="descriptionOfGoods" />
@@ -97,6 +117,24 @@
                       <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZOnly/goodsCZ/goodsItemCZ/descriptionOfGoods/goodsDescription/language" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                   </Children>
                 </Complex>
@@ -210,6 +248,24 @@
                       <MetaType reference="+MetaTypes.LanguageCodeContentType" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZOnly/goodsCZ/goodsItemCZ/estimatedRateOfYield/determinationMethodRateOfYield/language" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                   </Children>
                 </Complex>
@@ -289,6 +345,32 @@
               <DeclaredType>
                 <AttributeType>
                   <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="groupID" />
+              <Caption value="Pořadové číslo skupiny" />
+              <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZOnly/goodsCZ/goodsItemCZ/groupID" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                  <IntMax value="999999999" />
+                  <IntMin value="0" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="itemID" />
+              <Caption value="ID sjednocené položky zboží" />
+              <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseGoodsCZOnly/goodsCZ/goodsItemCZ/itemID" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                  <IntMax value="999999999" />
+                  <IntMin value="0" />
                 </AttributeType>
               </DeclaredType>
             </Attribute>

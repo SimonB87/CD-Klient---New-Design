@@ -17,16 +17,20 @@
           <Name value="customsDecisionGUID" />
           <Caption value="customsDecisionGUID" />
           <IsRequired value="True" />
-          <MetaType reference="+MetaTypes.Guid" />
           <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/customsDecisionGUID" />
           <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
         </Attribute>
         <Attribute>
           <Name value="customsDecisionVersionGUID" />
           <Caption value="customsDecisionVersionGUID" />
-          <MetaType reference="+MetaTypes.Guid" />
           <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/customsDecisionVersionGUID" />
           <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
         </Attribute>
         <Complex>
           <Name value="enhancementCZ" />
@@ -187,9 +191,11 @@
                   <Name value="guid" />
                   <Caption value="GUID sjednoceného záznamu" />
                   <IsRequired value="True" />
-                  <MetaType reference="+MetaTypes.Guid" />
                   <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/goodsItemCZ/guid" />
                   <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
                 </Attribute>
                 <Reference>
                   <Name value="cnCodeForSecuring" />
@@ -298,6 +304,24 @@
                       <MetaType reference="+MetaTypes.CU" />
                       <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/SASP/Account/CustomsOffice" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                     <Attribute>
                       <Name value="AccountNumber" />
