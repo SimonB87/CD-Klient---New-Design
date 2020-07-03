@@ -9545,13 +9545,26 @@
                             </Panel>
                             <Panel>
                               <Name value="pnlEnhancementList_basic" />
-                              <Orientation value="Horizontal" />
+                              <Orientation value="Vertical" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
                               <Bindings>
                                 <Binding SourceProperty="IsVisible" Expression="enhancement.uiComponentSetting.computed_showEnhancementListBasic" />
                               </Bindings>
                               <Children>
+                                <Label>
+                                  <Name value="label_2" />
+                                  <Data value="List - Collection" />
+                                  <Heading value="h2" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-label" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Label>
                                 <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                   <Name value="enhancementList_basic" />
                                   <controller reference="~goodsItemCZenhancement" />
@@ -9600,6 +9613,80 @@
                                     </listColumn>
                                   </columns>
                                 </List>
+                                <Label>
+                                  <Name value="label_3" />
+                                  <Data value="Dec List - goodsQuantity was missing from declist on 03-07-2020 - waiting for Diddy to set it back to dataSet" />
+                                  <Heading value="h2" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-label" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Label>
+                                <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="enhancementGoodsItmes_basicList" />
+                                  <controller reference="~enhancementDeclistGoodsItems" />
+                                  <listName value="DatasetGoodsCZ" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <OnRowClicked>
+                                    <ActionEvent ReferencedAction="~handler_enhancementGoodsItmes_basicList_OnRowClicked" />
+                                  </OnRowClicked>
+                                  <Bindings>
+                                    <Binding SourceProperty="selectedRow" Expression="form.enhancement.selectedRowGoodsItems" />
+                                  </Bindings>
+                                  <columns>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listCol_cdGUID" />
+                                      <Caption value="GUID povolení*" />
+                                      <ColumnName value="customsDecisionGUID" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listCol_cdVersionGUID" />
+                                      <Caption value="GUID verze povolení*" />
+                                      <ColumnName value="customsDecisionVersionGUID" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listCol_goodsCZGUID" />
+                                      <Caption value="GUID Goods Itemu*" />
+                                      <ColumnName value="goodsCZGUID" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listCol_completed" />
+                                      <Caption value="Doplněno" />
+                                      <ColumnName value="completed" />
+                                      <DataType value="bool" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listCol_combinedNomenclatureCode" />
+                                      <Caption value="Kód KN" />
+                                      <ColumnName value="combinedNomenclatureCode" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listCol_tARICCode" />
+                                      <Caption value="TARIC kód" />
+                                      <ColumnName value="tARICCode" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listCol_goodsQuantity" />
+                                      <Caption value="Množství" />
+                                      <ColumnName value="goodsQuantity" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listCol_measureUnit" />
+                                      <Caption value="Měrná jednotka (MU)" />
+                                      <ColumnName value="measureUnit" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listCol_writeOffMeasureUnit" />
+                                      <Caption value="Odpisová MJ" />
+                                      <ColumnName value="writeOffMeasureUnit" />
+                                    </listColumn>
+                                  </columns>
+                                </List>
                               </Children>
                               <CssClass>
                                 <CssClassConditional>
@@ -9617,6 +9704,19 @@
                                 <Binding SourceProperty="IsVisible" Expression="form.zobrazIPO" />
                               </Bindings>
                               <Children>
+                                <Label>
+                                  <Name value="label_4" />
+                                  <Data value="List - Collection" />
+                                  <Heading value="h2" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-label" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Label>
                                 <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                   <Name value="enhancementList_ipo" />
                                   <controller reference="~goodsItemCZenhancement" />
@@ -9681,6 +9781,18 @@
                                     </listColumn>
                                   </columns>
                                 </List>
+                                <Label>
+                                  <Name value="label_5" />
+                                  <Data value="TODO - include DecList for IPO" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="150px" />
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-label" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Label>
                               </Children>
                               <CssClass>
                                 <CssClassConditional>
@@ -9698,6 +9810,19 @@
                                 <Binding SourceProperty="IsVisible" Expression="form.zobrazEUS" />
                               </Bindings>
                               <Children>
+                                <Label>
+                                  <Name value="label_6" />
+                                  <Data value="List - Collection" />
+                                  <Heading value="h2" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-label" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Label>
                                 <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                   <Name value="enhancementList_eus" />
                                   <controller reference="~goodsItemCZenhancement" />
@@ -9750,6 +9875,18 @@
                                     </listColumn>
                                   </columns>
                                 </List>
+                                <Label>
+                                  <Name value="label_7" />
+                                  <Data value="TODO - include DecList - for EUS" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="150px" />
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-label" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Label>
                               </Children>
                               <CssClass>
                                 <CssClassConditional>
@@ -13932,7 +14069,8 @@ if form.enhancement.listState = defaultString() then
 	form.enhancement.uiComponentSetting.listPageSize = 9
 	form.apiobjects.goodsItemCZ.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
 
-	form.apiobjects.goodsItemCZ.clearSorting()
+	//form.apiobjects.goodsItemCZ.clearSorting()
+	form.apiobjects.goodsItemCZ.setSorting("combinedNomenclatureCode:asc")
 
 	form.apiobjects.goodsItemCZ.focusFirstRecord()
 
@@ -13947,13 +14085,28 @@ if form.enhancement.listStateEnhancement = defaultString() then
 	
 	form.apiobjects.goodsItemCZenhancement.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
 
-	form.apiobjects.goodsItemCZenhancement.clearSorting()
+	//form.apiobjects.goodsItemCZenhancement.clearSorting()
+	form.apiobjects.goodsItemCZenhancement.setSorting("combinedNomenclatureCode:asc")
 
 	form.apiobjects.goodsItemCZenhancement.focusFirstRecord()	
 
 endif
 
-form.apiobjects.goodsItemCZenhancement.setReady(true)]]></Script>
+form.apiobjects.goodsItemCZenhancement.setReady(true)
+
+//Declist - enhancement
+if form.enhancement.listStateEnhancement = defaultString() then
+
+	var cdGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+	var cdVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
+	form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
+	form.apiobjects.enhancementDeclistGoodsItems.setInvisibleODataFilter("(customsDecisionGUID eq '" + cdGUID + "' and customsDecisionVersionGUID eq '" + cdVersionGUID +"')")
+	form.apiobjects.enhancementDeclistGoodsItems.setSorting("combinedNomenclatureCode:asc")
+	form.apiobjects.enhancementDeclistGoodsItems.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
+	form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
+
+endIf
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -14385,12 +14538,18 @@ if form.tabsMenu.Tab08Processing.IsSelected then
 	form.apiobjects.goodsItemCZ.setReady(false)
 		form.apiobjects.goodsItemCZ.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
 	form.apiobjects.goodsItemCZ.setReady(true)
+	
 endif
 
 if form.tabsMenu.Tab16NationalData.IsSelected then
 	form.apiobjects.goodsItemCZenhancement.setReady(false)
 		form.apiobjects.goodsItemCZenhancement.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
 	form.apiobjects.goodsItemCZenhancement.setReady(true)
+	
+	//in development - enhancementDeclistGoodsItems
+	form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
+		form.apiobjects.enhancementDeclistGoodsItems.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
+	form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -14781,7 +14940,7 @@ endIf]]></Script>
     <ActionBlock>
       <Name value="handler_processingList_ipo_OnRowClicked" />
       <IsPrivate value="True" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[//put data froma reference to a lo structure for viewing
 form.enhancement.selectedGoodsItemCZ.clear()
 form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())
@@ -14905,6 +15064,43 @@ system.console(toString(form.uiState.index_goodsToBePlacedUnderTheSpecialProcedu
             </Attribute>
           </Children>
         </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_enhancementGoodsItmes_basicList_OnRowClicked" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//put data froma reference to a lo structure for viewing
+form.enhancement.selectedGoodsItemCZ.clear()
+form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())
+
+form.enhancement.modelEnhancement.clear()
+
+if form.enhancement.selectedGoodsItemCZ.completed.hasValue() = false then
+	form.enhancement.selectedGoodsItemCZ.completed = false
+endif
+
+form.enhancement.modelEnhancement.clear()
+form.enhancement.modelEnhancement.fromJson(form.enhancement.selectedGoodsItemCZ.toJson())
+
+
+//insert codelist value into referenceCombo "writeOffMeasureUnit" 
+form.enhancement.modelEnhancement.writeOffMeasureUnit.clear()
+
+if form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit.hasValue() then
+
+	var item = apiobjects.woMeasureUnitCl.getItemByStringColumnAsync("JMODPIS", form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit, getDateTime(), defaultBool())
+
+	if item.isFound() then
+		form.enhancement.modelEnhancement.writeOffMeasureUnit.fromJson(item.getJsonString())
+	else
+		form.enhancement.modelEnhancement.writeOffMeasureUnit.JMODPIS = form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit
+	endif
+
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>
@@ -15371,5 +15567,9 @@ system.console(toString(form.uiState.index_goodsToBePlacedUnderTheSpecialProcedu
     <PlainObject identity="PlainObject.2933617ce1714fe38ef01785a5a6492f">
       <Name value="econImpactCdeReq" />
     </PlainObject>
+    <ListCtrl identity="ListCtrl.459ff3780ab145df985191cfc1336ce1">
+      <Name value="enhancementDeclistGoodsItems" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+    </ListCtrl>
   </ApiObjects>
 </Form>
