@@ -5488,7 +5488,7 @@
                                   <Panel.Height value="#" />
                                   <Panel.Width value="*" />
                                   <OnRowClicked>
-                                    <ActionEvent ReferencedAction="~handler_enhancementGoodsItmes_basicList_OnRowClicked" />
+                                    <ActionEvent ReferencedAction="~action2" />
                                   </OnRowClicked>
                                   <Bindings>
                                     <Binding SourceProperty="selectedRow" Expression="form.enhancement.selectedRowDataSetGoodsItem" />
@@ -5644,7 +5644,7 @@
                                   <Panel.Height value="#" />
                                   <Panel.Width value="*" />
                                   <OnRowClicked>
-                                    <ActionEvent ReferencedAction="~handler_enhancementGoodsItmes_basicList_OnRowClicked" />
+                                    <ActionEvent ReferencedAction="~action3" />
                                   </OnRowClicked>
                                   <Bindings>
                                     <Binding SourceProperty="selectedRow" Expression="form.enhancement.selectedRowDataSetGoodsItem" />
@@ -6222,328 +6222,368 @@
                               <Panel.Height value="100%" />
                               <Panel.Width value="*" />
                               <Children>
-                                <Panel>
-                                  <Name value="pnl_goodsProcessing_pagingCtrl" />
-                                  <IsVisible value="False" />
-                                  <Orientation value="Vertical" />
+                                <Repeater>
+                                  <Name value="oneItem_pgRepeater_goodsProcessing" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="*" />
-                                  <Children>
-                                    <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
-                                      <Name value="pgRepeaterCtrl_goodsProcessing" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="*" />
-                                      <Bindings>
-                                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing" />
-                                        <Binding SourceProperty="Index" Expression="uiState.index_goodsToBePlacedUnderTheSpecialProcedureOfProcessing" />
-                                      </Bindings>
-                                    </PagingRepeaterCtrl>
-                                  </Children>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-panel" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Panel>
-                                <Panel>
-                                  <Name value="pnl_goodsProcessing_pagingRepeater" />
-                                  <Orientation value="Vertical" />
-                                  <Panel.Height value="100%" />
-                                  <Panel.Width value="*" />
-                                  <Children>
-                                    <PagingRepeater identity="pagingRepeater.36d02d015fb0460b9372e4a46959c4bf">
-                                      <Name value="pgRepeater_goodsProcessing" />
-                                      <Panel.Height value="100%" />
-                                      <Panel.Width value="*" />
-                                      <Content>
-                                        <Panel>
-                                          <Name value="panel13" />
-                                          <Orientation value="Horizontal" />
-                                          <Children>
-                                            <GroupBox>
-                                              <Name value="groupBox4" />
-                                              <Panel.Height value="100%" />
-                                              <Panel.Width value="*" />
-                                              <Content>
-                                                <Panel>
-                                                  <Name value="panel17" />
-                                                  <Orientation value="Vertical" />
-                                                  <Children>
-                                                    <TextBox>
-                                                      <Name value="textBox17" />
-                                                      <IsEnabled value="False" />
-                                                      <Panel.Height value="#" />
-                                                      <Panel.Width value="*" />
-                                                      <Bindings>
-                                                        <Binding SourceProperty="Data" Expression="equivalentGoodsIndication.POPIS" />
-                                                        <Binding SourceProperty="Caption" Expression="localized.econImpact_goods_common_equivalentGoodsIndication" />
-                                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="equivalentGoodsIndication.POPIS.isRequired()" />
-                                                      </Bindings>
-                                                      <CssClass>
-                                                        <CssClassConditional>
-                                                          <ClassName value="{theme}-textbox" />
-                                                          <IsThemedStyle value="True" />
-                                                        </CssClassConditional>
-                                                      </CssClass>
-                                                    </TextBox>
-                                                    <CheckBox>
-                                                      <Name value="checkBox6" />
-                                                      <Panel.Height value="#" />
-                                                      <Panel.Width value="300px" />
-                                                      <Bindings>
-                                                        <Binding SourceProperty="Data" Expression="form.formBehavior.show_equivalentGoodsProcessingGb1" />
-                                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.formBehavior.show_equivalentGoodsProcessingGb1.isRequired()" />
-                                                        <Binding SourceProperty="Caption" Expression="form.formBehavior.show_equivalentGoodsProcessingGb1.caption()" />
-                                                      </Bindings>
-                                                      <CssClass>
-                                                        <CssClassConditional>
-                                                          <ClassName value="{theme}-checkbox" />
-                                                          <IsThemedStyle value="True" />
-                                                        </CssClassConditional>
-                                                        <CssClassConditional>
-                                                          <ClassName value="lightFontColor" />
-                                                        </CssClassConditional>
-                                                      </CssClass>
-                                                    </CheckBox>
-                                                    <GroupBox>
-                                                      <Name value="groupBox6" />
-                                                      <Caption value="Rovnocenné zboží" />
-                                                      <Panel.Height value="#" />
-                                                      <Panel.Width value="*" />
-                                                      <Content>
+                                  <Content>
+                                    <Panel>
+                                      <Name value="panel13" />
+                                      <Orientation value="Horizontal" />
+                                      <Children>
+                                        <GroupBox>
+                                          <Name value="groupBox4" />
+                                          <Panel.Height value="100%" />
+                                          <Panel.Width value="*" />
+                                          <Content>
+                                            <Panel>
+                                              <Name value="panel17" />
+                                              <Orientation value="Vertical" />
+                                              <Children>
+                                                <TextBox>
+                                                  <Name value="textBox17" />
+                                                  <IsEnabled value="False" />
+                                                  <Panel.Height value="#" />
+                                                  <Panel.Width value="*" />
+                                                  <Bindings>
+                                                    <Binding SourceProperty="Data" Expression="equivalentGoodsIndication.POPIS" />
+                                                    <Binding SourceProperty="Caption" Expression="localized.econImpact_goods_common_equivalentGoodsIndication" />
+                                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="equivalentGoodsIndication.POPIS.isRequired()" />
+                                                  </Bindings>
+                                                  <CssClass>
+                                                    <CssClassConditional>
+                                                      <ClassName value="{theme}-textbox" />
+                                                      <IsThemedStyle value="True" />
+                                                    </CssClassConditional>
+                                                  </CssClass>
+                                                </TextBox>
+                                                <CheckBox>
+                                                  <Name value="checkBox6" />
+                                                  <Panel.Height value="#" />
+                                                  <Panel.Width value="300px" />
+                                                  <Bindings>
+                                                    <Binding SourceProperty="Data" Expression="form.formBehavior.show_equivalentGoodsProcessingGb1" />
+                                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.formBehavior.show_equivalentGoodsProcessingGb1.isRequired()" />
+                                                    <Binding SourceProperty="Caption" Expression="form.formBehavior.show_equivalentGoodsProcessingGb1.caption()" />
+                                                  </Bindings>
+                                                  <CssClass>
+                                                    <CssClassConditional>
+                                                      <ClassName value="{theme}-checkbox" />
+                                                      <IsThemedStyle value="True" />
+                                                    </CssClassConditional>
+                                                    <CssClassConditional>
+                                                      <ClassName value="lightFontColor" />
+                                                    </CssClassConditional>
+                                                  </CssClass>
+                                                </CheckBox>
+                                                <GroupBox>
+                                                  <Name value="groupBox6" />
+                                                  <Caption value="Rovnocenné zboží" />
+                                                  <Panel.Height value="#" />
+                                                  <Panel.Width value="*" />
+                                                  <Content>
+                                                    <Panel>
+                                                      <Name value="panel42" />
+                                                      <Orientation value="Horizontal" />
+                                                      <Children>
                                                         <Panel>
-                                                          <Name value="panel42" />
-                                                          <Orientation value="Horizontal" />
+                                                          <Name value="panel9" />
+                                                          <Orientation value="Vertical" />
+                                                          <Panel.Height value="#" />
+                                                          <Panel.Width value="*" />
                                                           <Children>
-                                                            <Panel>
-                                                              <Name value="panel9" />
-                                                              <Orientation value="Vertical" />
+                                                            <GroupBox>
+                                                              <Name value="groupBox23" />
                                                               <Panel.Height value="#" />
                                                               <Panel.Width value="*" />
-                                                              <Children>
-                                                                <GroupBox>
-                                                                  <Name value="groupBox23" />
-                                                                  <Panel.Height value="#" />
-                                                                  <Panel.Width value="*" />
+                                                              <Content>
+                                                                <Repeater>
+                                                                  <Name value="repeater1" />
                                                                   <Content>
-                                                                    <Repeater>
-                                                                      <Name value="repeater1" />
-                                                                      <Content>
-                                                                        <Panel>
-                                                                          <Name value="panel49" />
-                                                                          <Orientation value="Vertical" />
-                                                                          <Children>
-                                                                            <TextBox>
-                                                                              <Name value="textBox23" />
-                                                                              <IsEnabled value="False" />
-                                                                              <Panel.Height value="#" />
-                                                                              <Panel.Width value="*" />
-                                                                              <Bindings>
-                                                                                <Binding SourceProperty="Data" Expression="commodityCodeTypeOfGoods_Value" />
-                                                                                <Binding SourceProperty="Caption" Expression="commodityCodeTypeOfGoods_Value.caption()" />
-                                                                              </Bindings>
-                                                                              <CssClass>
-                                                                                <CssClassConditional>
-                                                                                  <ClassName value="{theme}-textbox" />
-                                                                                  <IsThemedStyle value="True" />
-                                                                                </CssClassConditional>
-                                                                              </CssClass>
-                                                                            </TextBox>
-                                                                          </Children>
+                                                                    <Panel>
+                                                                      <Name value="panel49" />
+                                                                      <Orientation value="Vertical" />
+                                                                      <Children>
+                                                                        <TextBox>
+                                                                          <Name value="textBox23" />
+                                                                          <IsEnabled value="False" />
+                                                                          <Panel.Height value="#" />
+                                                                          <Panel.Width value="*" />
+                                                                          <Bindings>
+                                                                            <Binding SourceProperty="Data" Expression="commodityCodeTypeOfGoods_Value" />
+                                                                            <Binding SourceProperty="Caption" Expression="commodityCodeTypeOfGoods_Value.caption()" />
+                                                                          </Bindings>
                                                                           <CssClass>
                                                                             <CssClassConditional>
-                                                                              <ClassName value="{theme}-panel" />
+                                                                              <ClassName value="{theme}-textbox" />
                                                                               <IsThemedStyle value="True" />
                                                                             </CssClassConditional>
                                                                           </CssClass>
-                                                                        </Panel>
-                                                                      </Content>
-                                                                      <Bindings>
-                                                                        <Binding SourceProperty="DataItems" Expression="equivalentGoods.commodityCodeTypeOfGoods" />
-                                                                      </Bindings>
+                                                                        </TextBox>
+                                                                      </Children>
                                                                       <CssClass>
                                                                         <CssClassConditional>
-                                                                          <ClassName value="{theme}-repeater" />
+                                                                          <ClassName value="{theme}-panel" />
                                                                           <IsThemedStyle value="True" />
                                                                         </CssClassConditional>
                                                                       </CssClass>
-                                                                    </Repeater>
+                                                                    </Panel>
                                                                   </Content>
                                                                   <Bindings>
-                                                                    <Binding SourceProperty="Caption" Expression="equivalentGoods.commodityCodeTypeOfGoods.caption()" />
+                                                                    <Binding SourceProperty="DataItems" Expression="equivalentGoods.commodityCodeTypeOfGoods" />
                                                                   </Bindings>
                                                                   <CssClass>
                                                                     <CssClassConditional>
-                                                                      <ClassName value="{theme}-groupbox" />
+                                                                      <ClassName value="{theme}-repeater" />
                                                                       <IsThemedStyle value="True" />
                                                                     </CssClassConditional>
                                                                   </CssClass>
-                                                                </GroupBox>
-                                                                <GroupBox>
-                                                                  <Name value="groupBox28" />
-                                                                  <Panel.Height value="#" />
-                                                                  <Panel.Width value="*" />
-                                                                  <Content>
-                                                                    <Repeater>
-                                                                      <Name value="repeater16" />
-                                                                      <Content>
-                                                                        <Panel>
-                                                                          <Name value="panel51" />
-                                                                          <Orientation value="Vertical" />
-                                                                          <Children>
-                                                                            <TextBox>
-                                                                              <Name value="textBox25" />
-                                                                              <IsEnabled value="False" />
-                                                                              <Panel.Height value="#" />
-                                                                              <Panel.Width value="*" />
-                                                                              <Bindings>
-                                                                                <Binding SourceProperty="Data" Expression="text" />
-                                                                                <Binding SourceProperty="Caption" Expression="text.caption()" />
-                                                                              </Bindings>
-                                                                              <CssClass>
-                                                                                <CssClassConditional>
-                                                                                  <ClassName value="{theme}-textbox" />
-                                                                                  <IsThemedStyle value="True" />
-                                                                                </CssClassConditional>
-                                                                              </CssClass>
-                                                                            </TextBox>
-                                                                          </Children>
-                                                                          <CssClass>
-                                                                            <CssClassConditional>
-                                                                              <ClassName value="{theme}-panel" />
-                                                                              <IsThemedStyle value="True" />
-                                                                            </CssClassConditional>
-                                                                          </CssClass>
-                                                                        </Panel>
-                                                                      </Content>
-                                                                      <Bindings>
-                                                                        <Binding SourceProperty="DataItems" Expression="equivalentGoods.commercialQualityAndTechnicalCharacteristicsOfEquivalentGoods" />
-                                                                      </Bindings>
-                                                                      <CssClass>
-                                                                        <CssClassConditional>
-                                                                          <ClassName value="{theme}-repeater" />
-                                                                          <IsThemedStyle value="True" />
-                                                                        </CssClassConditional>
-                                                                      </CssClass>
-                                                                    </Repeater>
-                                                                  </Content>
-                                                                  <Bindings>
-                                                                    <Binding SourceProperty="Caption" Expression="equivalentGoods.commercialQualityAndTechnicalCharacteristicsOfEquivalentGoods.caption()" />
-                                                                  </Bindings>
-                                                                  <CssClass>
-                                                                    <CssClassConditional>
-                                                                      <ClassName value="{theme}-groupbox" />
-                                                                      <IsThemedStyle value="True" />
-                                                                    </CssClassConditional>
-                                                                  </CssClass>
-                                                                </GroupBox>
-                                                                <TextBox>
-                                                                  <Name value="textBox29" />
-                                                                  <Caption value="Neunijní zboží je předmětem antidumpingového opatření nebo jiné povinnosti vyplývající z pozastavení úlevy" />
-                                                                  <CaptionPosition value="Top" />
-                                                                  <IsEnabled value="False" />
-                                                                  <Panel.Height value="#" />
-                                                                  <Panel.Width value="*" />
-                                                                  <Bindings>
-                                                                    <Binding SourceProperty="Data" Expression="equivalentGoods.nonUnionGoodsAreSubjectToAntiDumpingCountervailingSafeguardDutyOrAnyAdditionalDutyResultingFromASuspensionOfConcessions.POPIS" />
-                                                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="equivalentGoods.nonUnionGoodsAreSubjectToAntiDumpingCountervailingSafeguardDutyOrAnyAdditionalDutyResultingFromASuspensionOfConcessions.POPIS.isRequired()" />
-                                                                  </Bindings>
-                                                                  <CssClass>
-                                                                    <CssClassConditional>
-                                                                      <ClassName value="{theme}-textbox" />
-                                                                      <IsThemedStyle value="True" />
-                                                                    </CssClassConditional>
-                                                                  </CssClass>
-                                                                </TextBox>
-                                                                <GroupBox>
-                                                                  <Name value="groupBox33" />
-                                                                  <Panel.Height value="#" />
-                                                                  <Panel.Width value="*" />
-                                                                  <Content>
-                                                                    <Repeater>
-                                                                      <Name value="repeater22" />
-                                                                      <Content>
-                                                                        <Panel>
-                                                                          <Name value="panel59" />
-                                                                          <Orientation value="Vertical" />
-                                                                          <Children>
-                                                                            <TextBox>
-                                                                              <Name value="textBox31" />
-                                                                              <CaptionPosition value="Top" />
-                                                                              <InputType value="Multiline" />
-                                                                              <IsEnabled value="False" />
-                                                                              <Panel.Height value="#" />
-                                                                              <Panel.Width value="*" />
-                                                                              <Rows value="2" />
-                                                                              <Bindings>
-                                                                                <Binding SourceProperty="Data" Expression="identificationOfGoodsCode.POPIS" />
-                                                                                <Binding SourceProperty="Caption" Expression="identificationOfGoodsCode.caption()" />
-                                                                              </Bindings>
-                                                                              <CssClass>
-                                                                                <CssClassConditional>
-                                                                                  <ClassName value="{theme}-textbox" />
-                                                                                  <IsThemedStyle value="True" />
-                                                                                </CssClassConditional>
-                                                                              </CssClass>
-                                                                            </TextBox>
-                                                                            <TextBox>
-                                                                              <Name value="textBox34" />
-                                                                              <CaptionPosition value="Top" />
-                                                                              <InputType value="Multiline" />
-                                                                              <IsEnabled value="False" />
-                                                                              <Panel.Height value="#" />
-                                                                              <Panel.Width value="*" />
-                                                                              <Rows value="2" />
-                                                                              <Bindings>
-                                                                                <Binding SourceProperty="Data" Expression="identificationOfGoodsDescription.text" />
-                                                                                <Binding SourceProperty="Caption" Expression="identificationOfGoodsDescription.text.caption()" />
-                                                                              </Bindings>
-                                                                              <CssClass>
-                                                                                <CssClassConditional>
-                                                                                  <ClassName value="{theme}-textbox" />
-                                                                                  <IsThemedStyle value="True" />
-                                                                                </CssClassConditional>
-                                                                              </CssClass>
-                                                                            </TextBox>
-                                                                          </Children>
-                                                                          <CssClass>
-                                                                            <CssClassConditional>
-                                                                              <ClassName value="{theme}-panel" />
-                                                                              <IsThemedStyle value="True" />
-                                                                            </CssClassConditional>
-                                                                          </CssClass>
-                                                                        </Panel>
-                                                                      </Content>
-                                                                      <Bindings>
-                                                                        <Binding SourceProperty="DataItems" Expression="equivalentGoods.identificationOfGoods" />
-                                                                      </Bindings>
-                                                                      <CssClass>
-                                                                        <CssClassConditional>
-                                                                          <ClassName value="{theme}-repeater" />
-                                                                          <IsThemedStyle value="True" />
-                                                                        </CssClassConditional>
-                                                                      </CssClass>
-                                                                    </Repeater>
-                                                                  </Content>
-                                                                  <Bindings>
-                                                                    <Binding SourceProperty="Caption" Expression="equivalentGoods.identificationOfGoods.caption()" />
-                                                                  </Bindings>
-                                                                  <CssClass>
-                                                                    <CssClassConditional>
-                                                                      <ClassName value="{theme}-groupbox" />
-                                                                      <IsThemedStyle value="True" />
-                                                                    </CssClassConditional>
-                                                                  </CssClass>
-                                                                </GroupBox>
-                                                              </Children>
+                                                                </Repeater>
+                                                              </Content>
+                                                              <Bindings>
+                                                                <Binding SourceProperty="Caption" Expression="equivalentGoods.commodityCodeTypeOfGoods.caption()" />
+                                                              </Bindings>
                                                               <CssClass>
                                                                 <CssClassConditional>
-                                                                  <ClassName value="{theme}-panel" />
+                                                                  <ClassName value="{theme}-groupbox" />
                                                                   <IsThemedStyle value="True" />
                                                                 </CssClassConditional>
                                                               </CssClass>
-                                                            </Panel>
+                                                            </GroupBox>
+                                                            <GroupBox>
+                                                              <Name value="groupBox28" />
+                                                              <Panel.Height value="#" />
+                                                              <Panel.Width value="*" />
+                                                              <Content>
+                                                                <Repeater>
+                                                                  <Name value="repeater16" />
+                                                                  <Content>
+                                                                    <Panel>
+                                                                      <Name value="panel51" />
+                                                                      <Orientation value="Vertical" />
+                                                                      <Children>
+                                                                        <TextBox>
+                                                                          <Name value="textBox25" />
+                                                                          <IsEnabled value="False" />
+                                                                          <Panel.Height value="#" />
+                                                                          <Panel.Width value="*" />
+                                                                          <Bindings>
+                                                                            <Binding SourceProperty="Data" Expression="text" />
+                                                                            <Binding SourceProperty="Caption" Expression="text.caption()" />
+                                                                          </Bindings>
+                                                                          <CssClass>
+                                                                            <CssClassConditional>
+                                                                              <ClassName value="{theme}-textbox" />
+                                                                              <IsThemedStyle value="True" />
+                                                                            </CssClassConditional>
+                                                                          </CssClass>
+                                                                        </TextBox>
+                                                                      </Children>
+                                                                      <CssClass>
+                                                                        <CssClassConditional>
+                                                                          <ClassName value="{theme}-panel" />
+                                                                          <IsThemedStyle value="True" />
+                                                                        </CssClassConditional>
+                                                                      </CssClass>
+                                                                    </Panel>
+                                                                  </Content>
+                                                                  <Bindings>
+                                                                    <Binding SourceProperty="DataItems" Expression="equivalentGoods.commercialQualityAndTechnicalCharacteristicsOfEquivalentGoods" />
+                                                                  </Bindings>
+                                                                  <CssClass>
+                                                                    <CssClassConditional>
+                                                                      <ClassName value="{theme}-repeater" />
+                                                                      <IsThemedStyle value="True" />
+                                                                    </CssClassConditional>
+                                                                  </CssClass>
+                                                                </Repeater>
+                                                              </Content>
+                                                              <Bindings>
+                                                                <Binding SourceProperty="Caption" Expression="equivalentGoods.commercialQualityAndTechnicalCharacteristicsOfEquivalentGoods.caption()" />
+                                                              </Bindings>
+                                                              <CssClass>
+                                                                <CssClassConditional>
+                                                                  <ClassName value="{theme}-groupbox" />
+                                                                  <IsThemedStyle value="True" />
+                                                                </CssClassConditional>
+                                                              </CssClass>
+                                                            </GroupBox>
+                                                            <TextBox>
+                                                              <Name value="textBox29" />
+                                                              <Caption value="Neunijní zboží je předmětem antidumpingového opatření nebo jiné povinnosti vyplývající z pozastavení úlevy" />
+                                                              <CaptionPosition value="Top" />
+                                                              <IsEnabled value="False" />
+                                                              <Panel.Height value="#" />
+                                                              <Panel.Width value="*" />
+                                                              <Bindings>
+                                                                <Binding SourceProperty="Data" Expression="equivalentGoods.nonUnionGoodsAreSubjectToAntiDumpingCountervailingSafeguardDutyOrAnyAdditionalDutyResultingFromASuspensionOfConcessions.POPIS" />
+                                                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="equivalentGoods.nonUnionGoodsAreSubjectToAntiDumpingCountervailingSafeguardDutyOrAnyAdditionalDutyResultingFromASuspensionOfConcessions.POPIS.isRequired()" />
+                                                              </Bindings>
+                                                              <CssClass>
+                                                                <CssClassConditional>
+                                                                  <ClassName value="{theme}-textbox" />
+                                                                  <IsThemedStyle value="True" />
+                                                                </CssClassConditional>
+                                                              </CssClass>
+                                                            </TextBox>
+                                                            <GroupBox>
+                                                              <Name value="groupBox33" />
+                                                              <Panel.Height value="#" />
+                                                              <Panel.Width value="*" />
+                                                              <Content>
+                                                                <Repeater>
+                                                                  <Name value="repeater22" />
+                                                                  <Content>
+                                                                    <Panel>
+                                                                      <Name value="panel59" />
+                                                                      <Orientation value="Vertical" />
+                                                                      <Children>
+                                                                        <TextBox>
+                                                                          <Name value="textBox31" />
+                                                                          <CaptionPosition value="Top" />
+                                                                          <InputType value="Multiline" />
+                                                                          <IsEnabled value="False" />
+                                                                          <Panel.Height value="#" />
+                                                                          <Panel.Width value="*" />
+                                                                          <Rows value="2" />
+                                                                          <Bindings>
+                                                                            <Binding SourceProperty="Data" Expression="identificationOfGoodsCode.POPIS" />
+                                                                            <Binding SourceProperty="Caption" Expression="identificationOfGoodsCode.caption()" />
+                                                                          </Bindings>
+                                                                          <CssClass>
+                                                                            <CssClassConditional>
+                                                                              <ClassName value="{theme}-textbox" />
+                                                                              <IsThemedStyle value="True" />
+                                                                            </CssClassConditional>
+                                                                          </CssClass>
+                                                                        </TextBox>
+                                                                        <TextBox>
+                                                                          <Name value="textBox34" />
+                                                                          <CaptionPosition value="Top" />
+                                                                          <InputType value="Multiline" />
+                                                                          <IsEnabled value="False" />
+                                                                          <Panel.Height value="#" />
+                                                                          <Panel.Width value="*" />
+                                                                          <Rows value="2" />
+                                                                          <Bindings>
+                                                                            <Binding SourceProperty="Data" Expression="identificationOfGoodsDescription.text" />
+                                                                            <Binding SourceProperty="Caption" Expression="identificationOfGoodsDescription.text.caption()" />
+                                                                          </Bindings>
+                                                                          <CssClass>
+                                                                            <CssClassConditional>
+                                                                              <ClassName value="{theme}-textbox" />
+                                                                              <IsThemedStyle value="True" />
+                                                                            </CssClassConditional>
+                                                                          </CssClass>
+                                                                        </TextBox>
+                                                                      </Children>
+                                                                      <CssClass>
+                                                                        <CssClassConditional>
+                                                                          <ClassName value="{theme}-panel" />
+                                                                          <IsThemedStyle value="True" />
+                                                                        </CssClassConditional>
+                                                                      </CssClass>
+                                                                    </Panel>
+                                                                  </Content>
+                                                                  <Bindings>
+                                                                    <Binding SourceProperty="DataItems" Expression="equivalentGoods.identificationOfGoods" />
+                                                                  </Bindings>
+                                                                  <CssClass>
+                                                                    <CssClassConditional>
+                                                                      <ClassName value="{theme}-repeater" />
+                                                                      <IsThemedStyle value="True" />
+                                                                    </CssClassConditional>
+                                                                  </CssClass>
+                                                                </Repeater>
+                                                              </Content>
+                                                              <Bindings>
+                                                                <Binding SourceProperty="Caption" Expression="equivalentGoods.identificationOfGoods.caption()" />
+                                                              </Bindings>
+                                                              <CssClass>
+                                                                <CssClassConditional>
+                                                                  <ClassName value="{theme}-groupbox" />
+                                                                  <IsThemedStyle value="True" />
+                                                                </CssClassConditional>
+                                                              </CssClass>
+                                                            </GroupBox>
+                                                          </Children>
+                                                          <CssClass>
+                                                            <CssClassConditional>
+                                                              <ClassName value="{theme}-panel" />
+                                                              <IsThemedStyle value="True" />
+                                                            </CssClassConditional>
+                                                          </CssClass>
+                                                        </Panel>
+                                                      </Children>
+                                                      <CssClass>
+                                                        <CssClassConditional>
+                                                          <ClassName value="{theme}-panel" />
+                                                          <IsThemedStyle value="True" />
+                                                        </CssClassConditional>
+                                                      </CssClass>
+                                                    </Panel>
+                                                  </Content>
+                                                  <Bindings>
+                                                    <Binding SourceProperty="IsVisible" Expression="form.formBehavior.show_equivalentGoodsProcessingGb1" />
+                                                  </Bindings>
+                                                  <CssClass>
+                                                    <CssClassConditional>
+                                                      <ClassName value="{theme}-groupbox" />
+                                                      <IsThemedStyle value="True" />
+                                                    </CssClassConditional>
+                                                  </CssClass>
+                                                </GroupBox>
+                                                <GroupBox>
+                                                  <Name value="groupBox35" />
+                                                  <Caption value="Identifikace zboží" />
+                                                  <Panel.Height value="#" />
+                                                  <Panel.Width value="*" />
+                                                  <Content>
+                                                    <Repeater>
+                                                      <Name value="repeater26" />
+                                                      <Content>
+                                                        <Panel>
+                                                          <Name value="panel61" />
+                                                          <Orientation value="Vertical" />
+                                                          <Children>
+                                                            <TextBox>
+                                                              <Name value="textBox36" />
+                                                              <CaptionPosition value="Top" />
+                                                              <InputType value="Multiline" />
+                                                              <IsEnabled value="False" />
+                                                              <Panel.Height value="#" />
+                                                              <Panel.Width value="*" />
+                                                              <Rows value="2" />
+                                                              <Bindings>
+                                                                <Binding SourceProperty="Data" Expression="identificationOfGoodsCode.POPIS" />
+                                                                <Binding SourceProperty="Caption" Expression="identificationOfGoodsCode.POPIS.caption()" />
+                                                              </Bindings>
+                                                              <CssClass>
+                                                                <CssClassConditional>
+                                                                  <ClassName value="{theme}-textbox" />
+                                                                  <IsThemedStyle value="True" />
+                                                                </CssClassConditional>
+                                                              </CssClass>
+                                                            </TextBox>
+                                                            <TextBox>
+                                                              <Name value="textBox58" />
+                                                              <CaptionPosition value="Top" />
+                                                              <InputType value="Multiline" />
+                                                              <IsEnabled value="False" />
+                                                              <Panel.Height value="#" />
+                                                              <Panel.Width value="*" />
+                                                              <Rows value="2" />
+                                                              <Bindings>
+                                                                <Binding SourceProperty="Data" Expression="identificationOfGoodsDescription.text" />
+                                                                <Binding SourceProperty="Caption" Expression="identificationOfGoodsDescription.text.caption()" />
+                                                              </Bindings>
+                                                              <CssClass>
+                                                                <CssClassConditional>
+                                                                  <ClassName value="{theme}-textbox" />
+                                                                  <IsThemedStyle value="True" />
+                                                                </CssClassConditional>
+                                                              </CssClass>
+                                                            </TextBox>
                                                           </Children>
                                                           <CssClass>
                                                             <CssClassConditional>
@@ -6554,128 +6594,55 @@
                                                         </Panel>
                                                       </Content>
                                                       <Bindings>
-                                                        <Binding SourceProperty="IsVisible" Expression="form.formBehavior.show_equivalentGoodsProcessingGb1" />
+                                                        <Binding SourceProperty="DataItems" Expression="identificationOfGoods" />
                                                       </Bindings>
                                                       <CssClass>
                                                         <CssClassConditional>
-                                                          <ClassName value="{theme}-groupbox" />
+                                                          <ClassName value="{theme}-repeater" />
                                                           <IsThemedStyle value="True" />
                                                         </CssClassConditional>
                                                       </CssClass>
-                                                    </GroupBox>
-                                                    <GroupBox>
-                                                      <Name value="groupBox35" />
-                                                      <Caption value="Identifikace zboží" />
-                                                      <Panel.Height value="#" />
-                                                      <Panel.Width value="*" />
-                                                      <Content>
-                                                        <Repeater>
-                                                          <Name value="repeater26" />
-                                                          <Content>
-                                                            <Panel>
-                                                              <Name value="panel61" />
-                                                              <Orientation value="Vertical" />
-                                                              <Children>
-                                                                <TextBox>
-                                                                  <Name value="textBox36" />
-                                                                  <CaptionPosition value="Top" />
-                                                                  <InputType value="Multiline" />
-                                                                  <IsEnabled value="False" />
-                                                                  <Panel.Height value="#" />
-                                                                  <Panel.Width value="*" />
-                                                                  <Rows value="2" />
-                                                                  <Bindings>
-                                                                    <Binding SourceProperty="Data" Expression="identificationOfGoodsCode.POPIS" />
-                                                                    <Binding SourceProperty="Caption" Expression="identificationOfGoodsCode.POPIS.caption()" />
-                                                                  </Bindings>
-                                                                  <CssClass>
-                                                                    <CssClassConditional>
-                                                                      <ClassName value="{theme}-textbox" />
-                                                                      <IsThemedStyle value="True" />
-                                                                    </CssClassConditional>
-                                                                  </CssClass>
-                                                                </TextBox>
-                                                                <TextBox>
-                                                                  <Name value="textBox58" />
-                                                                  <CaptionPosition value="Top" />
-                                                                  <InputType value="Multiline" />
-                                                                  <IsEnabled value="False" />
-                                                                  <Panel.Height value="#" />
-                                                                  <Panel.Width value="*" />
-                                                                  <Rows value="2" />
-                                                                  <Bindings>
-                                                                    <Binding SourceProperty="Data" Expression="identificationOfGoodsDescription.text" />
-                                                                    <Binding SourceProperty="Caption" Expression="identificationOfGoodsDescription.text.caption()" />
-                                                                  </Bindings>
-                                                                  <CssClass>
-                                                                    <CssClassConditional>
-                                                                      <ClassName value="{theme}-textbox" />
-                                                                      <IsThemedStyle value="True" />
-                                                                    </CssClassConditional>
-                                                                  </CssClass>
-                                                                </TextBox>
-                                                              </Children>
-                                                              <CssClass>
-                                                                <CssClassConditional>
-                                                                  <ClassName value="{theme}-panel" />
-                                                                  <IsThemedStyle value="True" />
-                                                                </CssClassConditional>
-                                                              </CssClass>
-                                                            </Panel>
-                                                          </Content>
-                                                          <Bindings>
-                                                            <Binding SourceProperty="DataItems" Expression="identificationOfGoods" />
-                                                          </Bindings>
-                                                          <CssClass>
-                                                            <CssClassConditional>
-                                                              <ClassName value="{theme}-repeater" />
-                                                              <IsThemedStyle value="True" />
-                                                            </CssClassConditional>
-                                                          </CssClass>
-                                                        </Repeater>
-                                                      </Content>
-                                                      <CssClass>
-                                                        <CssClassConditional>
-                                                          <ClassName value="{theme}-groupbox" />
-                                                          <IsThemedStyle value="True" />
-                                                        </CssClassConditional>
-                                                      </CssClass>
-                                                    </GroupBox>
-                                                  </Children>
+                                                    </Repeater>
+                                                  </Content>
                                                   <CssClass>
                                                     <CssClassConditional>
-                                                      <ClassName value="{theme}-panel" />
+                                                      <ClassName value="{theme}-groupbox" />
                                                       <IsThemedStyle value="True" />
                                                     </CssClassConditional>
                                                   </CssClass>
-                                                </Panel>
-                                              </Content>
-                                              <Bindings>
-                                                <Binding SourceProperty="Caption" Expression="localized.econImpact_goods_common_g2bpItem" />
-                                              </Bindings>
-                                            </GroupBox>
-                                          </Children>
-                                          <CssClass>
-                                            <CssClassConditional>
-                                              <ClassName value="{theme}-panel" />
-                                              <IsThemedStyle value="True" />
-                                            </CssClassConditional>
-                                          </CssClass>
-                                        </Panel>
-                                      </Content>
-                                      <Bindings>
-                                        <Binding SourceProperty="Data" Expression="form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing" />
-                                        <Binding SourceProperty="Index" Expression="form.uiState.index_goodsToBePlacedUnderTheSpecialProcedureOfProcessing" />
-                                      </Bindings>
-                                    </PagingRepeater>
-                                  </Children>
+                                                </GroupBox>
+                                              </Children>
+                                              <CssClass>
+                                                <CssClassConditional>
+                                                  <ClassName value="{theme}-panel" />
+                                                  <IsThemedStyle value="True" />
+                                                </CssClassConditional>
+                                              </CssClass>
+                                            </Panel>
+                                          </Content>
+                                          <Bindings>
+                                            <Binding SourceProperty="Caption" Expression="localized.econImpact_goods_common_g2bpItem" />
+                                          </Bindings>
+                                        </GroupBox>
+                                      </Children>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-panel" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Panel>
+                                  </Content>
+                                  <Bindings>
+                                    <Binding SourceProperty="DataItems" Expression="form.dataSetGoodsItems.response.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing" />
+                                  </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
-                                      <ClassName value="{theme}-panel" />
+                                      <ClassName value="{theme}-repeater" />
                                       <IsThemedStyle value="True" />
                                     </CssClassConditional>
                                   </CssClass>
-                                </Panel>
+                                </Repeater>
                               </Children>
                               <CssClass>
                                 <CssClassConditional>
@@ -9805,7 +9772,7 @@
                                   <Panel.Height value="#" />
                                   <Panel.Width value="*" />
                                   <OnRowClicked>
-                                    <ActionEvent ReferencedAction="~handler_enhancementGoodsItmes_basicList_OnRowClicked" />
+                                    <ActionEvent ReferencedAction="~action1" />
                                   </OnRowClicked>
                                   <Bindings>
                                     <Binding SourceProperty="selectedRow" Expression="form.enhancement.selectedRowDataSetGoodsItem" />
@@ -12812,15 +12779,6 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                 <AttributeType />
               </DeclaredType>
             </Attribute>
-            <Attribute>
-              <Name value="index_goodsToBePlacedUnderTheSpecialProcedureOfProcessing" />
-              <Caption value="Index _ goods to be placed under the special procedure of processing" />
-              <DeclaredType>
-                <AttributeType>
-                  <BaseType value="Integer" />
-                </AttributeType>
-              </DeclaredType>
-            </Attribute>
           </Children>
         </Complex>
         <Complex>
@@ -14334,8 +14292,7 @@ if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.
 	var itemData = form.apiobjects.econImpactPlainObject.get(pathToChoosenGoodsItem)
 	
 	form.guiPresentedDataGoodsItem.goodsCZ.goodsItemCZ.fromJson(itemData)
-	
-	form.actions.setIndex_goodsProcessing(choosenGoodsItemOderNumber)
+
 
 endIf]]></Script>
       </ActionLangBody>
@@ -15159,9 +15116,7 @@ if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.
 	var itemData = form.apiobjects.econImpactPlainObject.get(pathToChoosenGoodsItem)
 	
 	form.guiPresentedDataGoodsItem.goodsCZ.goodsItemCZ.fromJson(itemData)
-	
-	//adjust index for paging repeater
-	form.actions.setIndex_goodsProcessing(choosenGoodsItemOderNumber)
+
 
 endIf]]></Script>
       </ActionLangBody>
@@ -15223,44 +15178,7 @@ endIf]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="setIndex_goodsProcessing" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[//adjust index for paging repeater
-
-var goodsProcessingCollection = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsToBePlacedUnderTheSpecialProcedureOfProcessing
-
-if goodsProcessingCollection.count() > 2 then
-
-	form.uiState.index_goodsToBePlacedUnderTheSpecialProcedureOfProcessing = choosenIndexOfGood
-
-else
-	if goodsProcessingCollection.count() = 1 then
-	
-		form.uiState.index_goodsToBePlacedUnderTheSpecialProcedureOfProcessing = 1
-	
-	endIf
-endIf]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext>
-          <Children>
-            <Attribute>
-              <Name value="choosenIndexOfGood" />
-              <Caption value="Choosen index of good" />
-              <DataContextParameter.IsInput value="True" />
-              <DataContextParameter.IsInputRequired value="True" />
-              <DeclaredType>
-                <AttributeType>
-                  <BaseType value="Integer" />
-                </AttributeType>
-              </DeclaredType>
-            </Attribute>
-          </Children>
-        </ActionDataContext>
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="handler_enhancementGoodsItmes_basicList_OnRowClicked" />
+      <Name value="action1" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[//put data froma reference to a lo structure for viewing
@@ -15297,7 +15215,7 @@ endIf]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="handler_enhancementGoodsItmes_basicList_OnRowClicked" />
+      <Name value="action2" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var pathRequest = form.dataSetGoodsItems.request.customsDecisionAuthorisationData
@@ -15308,59 +15226,56 @@ pathRequest.customsDecisionVersionGUID = pathSource.customsDecisionVersionGUID
 pathRequest.goodsItemCZGUID = pathSource.goodsCZGUID
 
 
+form.dataSetGoodsItems.response.clear()
+
 var response = apiobjects.ServerKomunikace.postAsync("EconomicImpactRegimeSingleGoodsItemDetailRequest", form.dataSetGoodsItems.request.toJson())
 	
 if response.isError() then
 	system.console(response.getErrorMessage())
 	
 	//test
-	system.console("Failed to load data.")
+	system.console("Failed to load data.")//test
 else
 	var dataReceived = response.getJsonString()
 	
 	//test
-	system.console("Successfuly received data.")
+	system.console("Successfuly received data.")//test
 		
 	form.dataSetGoodsItems.response.fromJson(dataReceived)
-endIf
-
-]]></Script>
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="handler_enhancementGoodsItmes_basicList_OnRowClicked" />
+      <Name value="action3" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[//put data froma reference to a lo structure for viewing
-form.enhancement.selectedGoodsItemCZ.clear()
-form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowDataSetGoodsItem.toJson())
+        <Script><![CDATA[var pathRequest = form.dataSetGoodsItems.request.customsDecisionAuthorisationData
+var pathSource = form.enhancement.selectedRowDataSetGoodsItem 
 
-form.enhancement.modelEnhancement.clear()
-
-if form.enhancement.selectedRowDataSetGoodsItem.completed.hasValue() = false then
-	form.enhancement.selectedRowDataSetGoodsItem.completed = false
-endif
-
-//form.enhancement.modelEnhancement.clear()
-form.enhancement.modelEnhancement.fromJson(form.enhancement.selectedRowDataSetGoodsItem.toJson())
+pathRequest.customsDecisionGUID = pathSource.customsDecisionGUID
+pathRequest.customsDecisionVersionGUID = pathSource.customsDecisionVersionGUID
+pathRequest.goodsItemCZGUID = pathSource.goodsCZGUID
 
 
-//insert codelist value into referenceCombo "writeOffMeasureUnit" 
-form.enhancement.modelEnhancement.writeOffMeasureUnit.clear()
+form.dataSetGoodsItems.response.clear()
 
-if form.enhancement.selectedRowDataSetGoodsItem.writeOffMeasureUnit.hasValue() then
-
-	var item = apiobjects.woMeasureUnitCl.getItemByStringColumnAsync("JMODPIS", form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit, getDateTime(), defaultBool())
-
-	if item.isFound() then
-		form.enhancement.modelEnhancement.writeOffMeasureUnit.fromJson(item.getJsonString())
-	else
-		form.enhancement.modelEnhancement.writeOffMeasureUnit.JMODPIS = form.enhancement.selectedRowDataSetGoodsItem.writeOffMeasureUnit
-	endif
-
+var response = apiobjects.ServerKomunikace.postAsync("EconomicImpactRegimeSingleGoodsItemDetailRequest", form.dataSetGoodsItems.request.toJson())
+	
+if response.isError() then
+	system.console(response.getErrorMessage())
+	
+	//test
+	system.console("Failed to load data.")//test
+else
+	var dataReceived = response.getJsonString()
+	
+	//test
+	system.console("Successfuly received data.")//test
+		
+	form.dataSetGoodsItems.response.fromJson(dataReceived)
 endIf]]></Script>
       </ActionLangBody>
       <DataContext>
