@@ -80,6 +80,21 @@
                     <Binding SourceProperty="Title" Expression="form.tabFilter.Tab05.Title" />
                   </Bindings>
                 </tab>
+                <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                  <Name value="tabNews" />
+                  <CustomCssClass value="tabItemStyle" />
+                  <Bindings>
+                    <Binding SourceProperty="Title" Expression="form.tabFilter.Tab09.Title" />
+                  </Bindings>
+                </tab>
+                <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                  <Name value="tabAdminNews" />
+                  <CustomCssClass value="tabItemStyle" />
+                  <Bindings>
+                    <Binding SourceProperty="Visible" Expression="globals.OverenyUzivatel.hasRoleAdmin" />
+                    <Binding SourceProperty="Title" Expression="form.tabFilter.Tab10.Title" />
+                  </Bindings>
+                </tab>
               </Tabs>
             </TabControl>
           </Children>
@@ -106,7 +121,7 @@
           <Panel.Height value="#" />
           <Panel.Width value="*" />
           <Bindings>
-            <Binding SourceProperty="IsVisible" Expression="globals.IsAuthorized" />
+            <Binding SourceProperty="IsVisible" Expression="form.uiState.visibility_decList" />
           </Bindings>
           <Children>
             <CheckBox>
@@ -366,6 +381,268 @@
             </CssClassConditional>
             <CssClassConditional>
               <ClassName value="minimalListRowHeight" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="newsSection" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="form.uiState.visibility_news" />
+          </Bindings>
+          <Children>
+            <Panel>
+              <Name value="newsList" />
+              <Orientation value="Vertical" />
+              <Panel.Height value="#" />
+              <Panel.Width value="50%" />
+              <Children>
+                <Label>
+                  <Name value="label2" />
+                  <Data value="Seznam novinek" />
+                  <Heading value="h3" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-label" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Label>
+                <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listNoticesFull" />
+                  <controller reference="~DatasetNoticesFull" />
+                  <listName value="DatasetNoticesFull" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Bindings>
+                    <Binding SourceProperty="selectedRow" Expression="form.selectedNews" />
+                  </Bindings>
+                  <columns>
+                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                      <Name value="GUID" />
+                      <Caption value="GUID*" />
+                      <ColumnName value="GUID" />
+                    </listColumn>
+                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                      <Name value="Checked" />
+                      <Caption value="Přečteno" />
+                      <ColumnName value="Checked" />
+                      <DataType value="string" />
+                    </listColumn>
+                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                      <Name value="Caption" />
+                      <Caption value="Popis" />
+                      <ColumnName value="Caption" />
+                    </listColumn>
+                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                      <Name value="ValidFrom" />
+                      <Caption value="Platný Od" />
+                      <ColumnName value="ValidFrom" />
+                      <DataType value="date" />
+                    </listColumn>
+                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                      <Name value="ValidTo" />
+                      <Caption value="Platný do" />
+                      <ColumnName value="ValidTo" />
+                      <DataType value="date" />
+                    </listColumn>
+                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                      <Name value="Text" />
+                      <Caption value="Text" />
+                      <ColumnName value="Text" />
+                      <IsVisible value="False" />
+                    </listColumn>
+                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                      <Name value="State" />
+                      <Caption value="State" />
+                      <ColumnName value="State" />
+                      <IsVisible value="False" />
+                    </listColumn>
+                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                      <Name value="UserName" />
+                      <Caption value="UserName" />
+                      <ColumnName value="UserName" />
+                      <IsVisible value="False" />
+                    </listColumn>
+                  </columns>
+                </List>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="minimalListHeight" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="minimalListRowHeight" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+            <Panel>
+              <Name value="newsDetail" />
+              <Orientation value="Vertical" />
+              <Panel.Height value="#" />
+              <Panel.Width value="50%" />
+              <Children>
+                <Label>
+                  <Name value="label3" />
+                  <Data value="Detail" />
+                  <Heading value="h3" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-label" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Label>
+                <Panel>
+                  <Name value="panel4" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Children>
+                    <TextBox>
+                      <Name value="textBox5" />
+                      <Caption value="Popis" />
+                      <CaptionPosition value="Top" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="selectedNews.Caption" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="selectedNews.Caption.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+                <Panel>
+                  <Name value="panel5" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Children>
+                    <TextBox>
+                      <Name value="textBox3" />
+                      <Caption value="Platný od" />
+                      <CaptionPosition value="Top" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="selectedNews.ValidFrom" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="selectedNews.ValidFrom.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <TextBox>
+                      <Name value="textBox4" />
+                      <Caption value="Platný do" />
+                      <CaptionPosition value="Top" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="selectedNews.ValidTo" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="selectedNews.ValidTo.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+                <Panel>
+                  <Name value="panel6" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Children>
+                    <TextBox>
+                      <Name value="textBox6" />
+                      <Caption value="Text novinky" />
+                      <CaptionPosition value="Top" />
+                      <InputType value="Multiline" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Rows value="7" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="selectedNews.Text" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="selectedNews.Text.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="m8-panel" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="panel_declist" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="lightBlueSideBorder" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="lightBlueBottomBorder" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="paddingAllSides" />
             </CssClassConditional>
           </CssClass>
         </Panel>
@@ -908,6 +1185,84 @@
                 </Computed>
               </Children>
             </Complex>
+            <Complex>
+              <Name value="Tab09" />
+              <Caption value="Tab 09" />
+              <Children>
+                <Attribute>
+                  <Name value="Title" />
+                  <Caption value="Title" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Visible" />
+                  <Caption value="Visible" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="CustomCssClass" />
+                  <Caption value="Custom css class" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Computed>
+                  <Name value="IsSelected" />
+                  <Caption value="Is selected" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[this.owner().SelectedTab = 9]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="tab10" />
+              <Caption value="Tab 10" />
+              <Children>
+                <Attribute>
+                  <Name value="Title" />
+                  <Caption value="Title" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Visible" />
+                  <Caption value="Visible" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="CustomCssClass" />
+                  <Caption value="Custom css class" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Computed>
+                  <Name value="IsSelected" />
+                  <Caption value="Is selected" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[this.owner().SelectedTab = 10]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
           </Children>
         </Complex>
         <Attribute>
@@ -967,8 +1322,117 @@
                 <ActionEvent ReferencedAction="+UiParts.decllistForm.switchInvisibleFilterByUserCUorganisation" />
               </OnUserChange>
             </Attribute>
+            <Computed>
+              <Name value="visibility_news" />
+              <Caption value="Visibility _ news" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[visibility_newsForUser = true ? true : 
+	(visibility_newsForAdmin = true ? true : false)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="visibility_newsForUser" />
+              <Caption value="Visibility _ news for user" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[form.tabFilter.SelectedTab = 8 ? true : false]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="visibility_newsForAdmin" />
+              <Caption value="Visibility _ news for admin" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[form.tabFilter.SelectedTab = 9 ? true : false]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="visibility_decList" />
+              <Caption value="Visibility _ dec list" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[globals.IsAuthorized = false ? false : 
+	(form.uiState.visibility_newsForUser = true ? false : 
+		(form.uiState.visibility_newsForAdmin = true ? false : true))]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
           </Children>
         </Complex>
+        <Reference>
+          <Name value="selectedNews" />
+          <Caption value="Selected news" />
+          <Children>
+            <Attribute>
+              <Name value="GUID" />
+              <Caption value="GUID" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="Checked" />
+              <Caption value="Checked" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="Caption" />
+              <Caption value="Caption" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="ValidFrom" />
+              <Caption value="Valid from" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="DateTime" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="ValidTo" />
+              <Caption value="Valid to" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="DateTime" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="Text" />
+              <Caption value="Text" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="State" />
+              <Caption value="State" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="UserName" />
+              <Caption value="User name" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </Reference>
       </Children>
     </DataContext>
   </DataContext>
@@ -1018,6 +1482,8 @@ else
 endif
 
 form.apiobjects.listCtrl.setReady(true)
+form.apiobjects.DatasetNoticesFull.setReady(true)
+form.apiobjects.DatasetNoticesFull.focusFirstRecord()
 
 //set up form variables
 form.uiState.isSelectedMyCUoffice = False
@@ -1160,7 +1626,8 @@ form.tabFilter.Tab04.Title = "Zneplatněné"
 form.tabFilter.Tab05.Title = "Expirované"
 form.tabFilter.Tab06.Title = "Vše"
 form.tabFilter.Tab07.Title = "K doplnění"
-]]></Script>
+form.tabFilter.Tab09.Title = "Novinky"
+form.tabFilter.Tab10.Title = "Správa novinek"]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -1199,6 +1666,16 @@ if form.tabFilter.SelectedTab.hasValue() then
 		//eq 'Expired'
 		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '99')")
 	endif
+	/*if form.tabFilter.SelectedTab = 8 then
+		//test
+		system.console("SelectedTab " + toString(form.tabFilter.SelectedTab))
+		system.console("Tab09:: " + toString(form.tabFilter.Tab09.Visible))//test
+	endIf
+	if form.tabFilter.SelectedTab = 9 then
+		//test
+		system.console("SelectedTab " + toString(form.tabFilter.SelectedTab))
+		system.console("Tab10:: " + toString(form.tabFilter.Tab10.Visible))//test
+	endIf*/
 endif
 
 if refreshCounts then
@@ -1206,6 +1683,9 @@ if refreshCounts then
 endif
 
 form.apiobjects.listCtrl.setSorting("CustomsDecisionIssueDate:desc")
+
+//test
+system.console("SelectedTab " + toString(form.tabFilter.SelectedTab))//test
 
 globals.IsBusy = false]]></Script>
       </ActionLangBody>
@@ -1323,6 +1803,10 @@ form.apiobjects.listCtrl.setReady(True)]]></Script>
   <ApiObjects>
     <ListCtrl identity="ListCtrl.459ff3780ab145df985191cfc1336ce1">
       <Name value="listCtrl" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+    </ListCtrl>
+    <ListCtrl identity="ListCtrl.459ff3780ab145df985191cfc1336ce1">
+      <Name value="DatasetNoticesFull" />
       <server reference="+GlobalApiObjects.ServerKomunikace" />
     </ListCtrl>
   </ApiObjects>
