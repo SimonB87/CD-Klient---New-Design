@@ -82,14 +82,14 @@
                 </tab>
                 <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
                   <Name value="tabNews" />
-                  <CustomCssClass value="tabItemStyle" />
+                  <CustomCssClass value="tabItemStyle newsItem" />
                   <Bindings>
                     <Binding SourceProperty="Title" Expression="form.tabFilter.Tab09.Title" />
                   </Bindings>
                 </tab>
                 <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
                   <Name value="tabAdminNews" />
-                  <CustomCssClass value="tabItemStyle" />
+                  <CustomCssClass value="tabItemStyle newsItem" />
                   <Bindings>
                     <Binding SourceProperty="Visible" Expression="globals.OverenyUzivatel.hasRoleAdmin" />
                     <Binding SourceProperty="Title" Expression="form.tabFilter.Tab10.Title" />
@@ -399,19 +399,50 @@
               <Panel.Height value="#" />
               <Panel.Width value="50%" />
               <Children>
-                <Label>
-                  <Name value="label2" />
-                  <Data value="Seznam novinek" />
-                  <Heading value="h3" />
+                <Panel>
+                  <Name value="panel4" />
+                  <Orientation value="Horizontal" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
+                  <Children>
+                    <Label>
+                      <Name value="label2" />
+                      <Data value="Seznam novinek" />
+                      <Heading value="h3" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                    <CheckBox>
+                      <Name value="seeNewNews" />
+                      <CaptionPosition value="Top" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="newsGroup.seeNewNews" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="newsGroup.seeNewNews.isRequired()" />
+                        <Binding SourceProperty="Caption" Expression="newsGroup.seeNewNews.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-checkbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </CheckBox>
+                  </Children>
                   <CssClass>
                     <CssClassConditional>
-                      <ClassName value="{theme}-label" />
+                      <ClassName value="{theme}-panel" />
                       <IsThemedStyle value="True" />
                     </CssClassConditional>
                   </CssClass>
-                </Label>
+                </Panel>
                 <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
                   <Name value="listNoticesFull" />
                   <controller reference="~DatasetNoticesFull" />
@@ -435,6 +466,16 @@
                       <Caption value="Přečteno" />
                       <ColumnName value="Checked" />
                       <DataType value="string" />
+                      <filterOptions>
+                        <filterOption identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                          <text value="Ano" />
+                          <value value="Ano" />
+                        </filterOption>
+                        <filterOption identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                          <text value="Ne" />
+                          <value value="Ne" />
+                        </filterOption>
+                      </filterOptions>
                     </listColumn>
                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                       <Name value="Caption" />
@@ -517,6 +558,9 @@
                       <Caption value="Přečteno" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~newsSetAsChecked" />
+                      </OnClick>
                       <CssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-button" />
@@ -547,6 +591,9 @@
                       <Caption value="Upravit novinku" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~newsEditNewsItem" />
+                      </OnClick>
                       <Bindings>
                         <Binding SourceProperty="IsVisible" Expression="form.uiState.visibility_newsForAdmin" />
                       </Bindings>
@@ -562,6 +609,9 @@
                       <Caption value="Smazat novinku" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~newsDeleteItem" />
+                      </OnClick>
                       <Bindings>
                         <Binding SourceProperty="IsVisible" Expression="form.uiState.visibility_newsForAdmin" />
                       </Bindings>
@@ -590,15 +640,16 @@
                   </Bindings>
                   <Children>
                     <Panel>
-                      <Name value="panelCaption" />
+                      <Name value="panelCaption1" />
                       <Orientation value="Horizontal" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Children>
                         <TextBox>
-                          <Name value="textBox5" />
+                          <Name value="textBox51" />
                           <Caption value="Popis" />
                           <CaptionPosition value="Top" />
+                          <IsEnabled value="False" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
@@ -621,15 +672,16 @@
                       </CssClass>
                     </Panel>
                     <Panel>
-                      <Name value="panelNewsValidity" />
+                      <Name value="panelNewsValidity1" />
                       <Orientation value="Horizontal" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Children>
                         <TextBox>
-                          <Name value="textBox3" />
+                          <Name value="textBox31" />
                           <Caption value="Platný od" />
                           <CaptionPosition value="Top" />
+                          <IsEnabled value="False" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
@@ -644,9 +696,10 @@
                           </CssClass>
                         </TextBox>
                         <TextBox>
-                          <Name value="textBox4" />
+                          <Name value="textBox41" />
                           <Caption value="Platný do" />
                           <CaptionPosition value="Top" />
+                          <IsEnabled value="False" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
@@ -669,16 +722,17 @@
                       </CssClass>
                     </Panel>
                     <Panel>
-                      <Name value="panelText" />
+                      <Name value="panelText1" />
                       <Orientation value="Horizontal" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Children>
                         <TextBox>
-                          <Name value="textBox6" />
+                          <Name value="textBox61" />
                           <Caption value="Text novinky" />
                           <CaptionPosition value="Top" />
                           <InputType value="Multiline" />
+                          <IsEnabled value="False" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Rows value="7" />
@@ -710,29 +764,29 @@
                   </CssClass>
                 </Panel>
                 <Panel>
-                  <Name value="addNews" />
+                  <Name value="addOrEditNews" />
                   <Orientation value="Vertical" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
                   <Bindings>
-                    <Binding SourceProperty="IsVisible" Expression="newsGroup.visibility_saveNewNews" />
+                    <Binding SourceProperty="IsVisible" Expression="newsGroup.visibility_addNewNews" />
                   </Bindings>
                   <Children>
                     <Panel>
-                      <Name value="panelCaption" />
+                      <Name value="panelCaption2" />
                       <Orientation value="Horizontal" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Children>
                         <TextBox>
-                          <Name value="textBox5" />
+                          <Name value="textBox52" />
                           <Caption value="Popis" />
                           <CaptionPosition value="Top" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="newsGroup.newMessage.Notice.Caption" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="newsGroup.newMessage.Notice.Caption.isRequired()" />
+                            <Binding SourceProperty="Data" Expression="newsGroup.newNewsItem.Notice.Caption" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="newsGroup.newNewsItem.Notice.Caption.isRequired()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -750,45 +804,45 @@
                       </CssClass>
                     </Panel>
                     <Panel>
-                      <Name value="panelNewsValidity" />
+                      <Name value="panelNewsValidity2" />
                       <Orientation value="Horizontal" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Children>
-                        <TextBox>
-                          <Name value="textBox3" />
+                        <DatePicker>
+                          <Name value="dateValidFrom" />
                           <Caption value="Platný od" />
                           <CaptionPosition value="Top" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="newsGroup.newMessage.Notice.ValidFrom" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="newsGroup.newMessage.Notice.ValidFrom.isRequired()" />
+                            <Binding SourceProperty="Data" Expression="newsGroup.newNewsItem.Notice.ValidFrom" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="newsGroup.newNewsItem.Notice.ValidFrom.isRequired()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
+                              <ClassName value="{theme}-datepicker" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </TextBox>
-                        <TextBox>
-                          <Name value="textBox4" />
+                        </DatePicker>
+                        <DatePicker>
+                          <Name value="dateValidTo" />
                           <Caption value="Platný do" />
                           <CaptionPosition value="Top" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="newsGroup.newMessage.Notice.ValidTo" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="newsGroup.newMessage.Notice.ValidTo.isRequired()" />
+                            <Binding SourceProperty="Data" Expression="newsGroup.newNewsItem.Notice.ValidTo" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="newsGroup.newNewsItem.Notice.ValidTo.isRequired()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
+                              <ClassName value="{theme}-datepicker" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </TextBox>
+                        </DatePicker>
                       </Children>
                       <CssClass>
                         <CssClassConditional>
@@ -798,13 +852,13 @@
                       </CssClass>
                     </Panel>
                     <Panel>
-                      <Name value="panelText" />
+                      <Name value="panelText2" />
                       <Orientation value="Horizontal" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Children>
                         <TextBox>
-                          <Name value="textBox6" />
+                          <Name value="textBox62" />
                           <Caption value="Text novinky" />
                           <CaptionPosition value="Top" />
                           <InputType value="Multiline" />
@@ -812,8 +866,8 @@
                           <Panel.Width value="*" />
                           <Rows value="7" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="newsGroup.newMessage.Notice.Text" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="newsGroup.newMessage.Notice.Text.isRequired()" />
+                            <Binding SourceProperty="Data" Expression="newsGroup.newNewsItem.Notice.Text" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="newsGroup.newNewsItem.Notice.Text.isRequired()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -830,21 +884,56 @@
                         </CssClassConditional>
                       </CssClass>
                     </Panel>
-                    <Button>
-                      <Name value="buttonAddNewNews" />
-                      <Caption value="Odelsat novinku" />
+                    <Panel>
+                      <Name value="panelButtonNewsCreate" />
+                      <Orientation value="Vertical" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="150px" />
-                      <Bindings>
-                        <Binding SourceProperty="IsVisible" Expression="form.uiState.visibility_newsForAdmin" />
-                      </Bindings>
+                      <Panel.Width value="*" />
+                      <Children>
+                        <Button>
+                          <Name value="buttonSaveNewNews2" />
+                          <Caption value="Odeslat novinku" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="150px" />
+                          <OnClick>
+                            <ActionEvent ReferencedAction="~saveNewNews" />
+                          </OnClick>
+                          <Bindings>
+                            <Binding SourceProperty="IsVisible" Expression="not form.newsGroup.visibility_editNewsItem" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-button" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Button>
+                        <Button>
+                          <Name value="buttonEditNews" />
+                          <Caption value="Upravit novinku" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="150px" />
+                          <OnClick>
+                            <ActionEvent ReferencedAction="~editNewsItem" />
+                          </OnClick>
+                          <Bindings>
+                            <Binding SourceProperty="IsVisible" Expression="form.newsGroup.visibility_editNewsItem" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-button" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Button>
+                      </Children>
                       <CssClass>
                         <CssClassConditional>
-                          <ClassName value="{theme}-button" />
+                          <ClassName value="{theme}-panel" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
                       </CssClass>
-                    </Button>
+                    </Panel>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
@@ -1676,17 +1765,26 @@
               </Children>
             </Reference>
             <Complex>
-              <Name value="newMessage" />
-              <Caption value="New message" />
+              <Name value="newNewsItem" />
+              <Caption value="New news item" />
               <Children>
                 <Include>
                   <Include reference="+DataEntities.KN001A" />
                 </Include>
               </Children>
             </Complex>
+            <Complex>
+              <Name value="newsEdit" />
+              <Caption value="News edit" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.KN005A" />
+                </Include>
+              </Children>
+            </Complex>
             <Attribute>
-              <Name value="visibility_saveNewNews" />
-              <Caption value="Visibility _ save new news" />
+              <Name value="visibility_addNewNews" />
+              <Caption value="Visibility _ add new news" />
               <DeclaredType>
                 <AttributeType>
                   <BaseType value="Bool" />
@@ -1701,6 +1799,27 @@
                   <BaseType value="Bool" />
                 </AttributeType>
               </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="visibility_editNewsItem" />
+              <Caption value="Visibility _ edit news item" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="seeNewNews" />
+              <Caption value="See new news" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+              <OnChange>
+                <ActionEvent ReferencedAction="+UiParts.decllistForm.newsChangeSeeNew" />
+              </OnChange>
             </Attribute>
           </Children>
         </Complex>
@@ -1759,6 +1878,7 @@ form.apiobjects.DatasetNoticesFull.focusFirstRecord()
 //set up form variables
 form.uiState.isSelectedMyCUoffice = False
 globals.selectedCdExpired = False
+form.newsGroup.seeNewNews = True
 
 endif
 
@@ -1937,6 +2057,25 @@ if form.tabFilter.SelectedTab.hasValue() then
 		//eq 'Expired'
 		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '99')")
 	endif
+	if form.tabFilter.SelectedTab = 8 then
+		form.newsGroup.seeNewNews = True
+		
+		/*form.apiobjects.DatasetNoticesFull.setReady(false)
+		form.apiobjects.DatasetNoticesFull.setTextFilter("Checked", "Ne")
+		form.apiobjects.DatasetNoticesFull.setSorting("Checked:desc")
+		form.apiobjects.DatasetNoticesFull.setReady(true)
+		form.apiobjects.DatasetNoticesFull.focusFirstRecord()*/
+	endIf
+	if form.tabFilter.SelectedTab = 9 then
+		form.newsGroup.visibility_seeNewsDetail = True
+		form.newsGroup.visibility_addNewNews = False
+		form.newsGroup.seeNewNews = False
+		
+		/*form.apiobjects.DatasetNoticesFull.setReady(false)
+		form.apiobjects.DatasetNoticesFull.clearVisibleFilters()
+		form.apiobjects.DatasetNoticesFull.setReady(true)
+		form.apiobjects.DatasetNoticesFull.focusFirstRecord()*/
+	endIf
 endif
 
 if refreshCounts then
@@ -2061,7 +2200,10 @@ form.apiobjects.listCtrl.setReady(True)]]></Script>
       <Name value="newsAddNew" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.newsGroup.visibility_seeNewsDetail = false
-form.newsGroup.visibility_saveNewNews = true
+form.newsGroup.visibility_addNewNews = true
+form.newsGroup.visibility_editNewsItem = false
+
+form.newsGroup.newNewsItem.clear()
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -2076,7 +2218,7 @@ form.newsGroup.visibility_saveNewNews = true
 //form.newsGroup.newMessage.Notice.Caption = form.newsGroup.selectedNews.Caption
 //form.newsGroup.newMessage.Notice.Text = form.newsGroup.selectedNews.Text
 	
-var response = apiobjects.ServerKomunikace.postAsync("KN001A", form.newsGroup.newMessage.Notice.toJson())
+var response = apiobjects.ServerKomunikace.postAsync("KN001A", form.newsGroup.newNewsItem.Notice.toJson())
 			
 //check server reply
 if response.isError() then
@@ -2100,7 +2242,170 @@ endIf
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.newsGroup.visibility_seeNewsDetail = True
-form.newsGroup.visibility_saveNewNews = False]]></Script>
+form.newsGroup.visibility_addNewNews = False
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="saveNewNews" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.newsGroup.newNewsItem.Notice.isValid() then
+	
+	globals.IsBusy = True
+	
+	var response = apiobjects.ServerKomunikace.postAsync("KN001A", form.newsGroup.newNewsItem.toJson())
+			
+	if response.isError() then
+		system.console(response.getErrorMessage())
+		system.alert("Zprávy nebyla nahrána.")
+	else
+		system.console("Zpráva uložena")
+		form.newsGroup.newNewsItem.Notice.clear()
+		form.apiobjects.DatasetNoticesFull.setReady(false)
+		form.apiobjects.DatasetNoticesFull.setReady(True)
+	endIf
+
+	globals.IsBusy = False
+
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="newsSetAsChecked" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.newsGroup.visibility_seeNewsDetail then
+
+	globals.IsBusy = True
+
+	var data = "{\"Notice\": { \"GUID\": \"" + form.newsGroup.selectedNews.GUID + "\" }}"
+
+	var response = apiobjects.ServerKomunikace.postAsync("KN002A", data)
+
+	if response.isError() then
+		system.console(response.getErrorMessage())
+		system.alert("Zprávy nebyla změněna na přečtenou.")
+	else
+		system.console("Zprávy byla změněna na přečtenou.")
+		form.newsGroup.newNewsItem.Notice.clear()
+		form.apiobjects.DatasetNoticesFull.setReady(false)
+		form.apiobjects.DatasetNoticesFull.setReady(True)
+	endIf
+
+	globals.IsBusy = False
+
+else
+
+	system.alert("Zprávu lze označit za přečtenou v jen sekci: \"Novinky\". ")
+
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="newsDeleteItem" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var userInput = system.confirm("Chcete skutečně smazat novinku?")
+
+if userInput then
+	globals.IsBusy = True
+
+	var data = "{\"Notice\": { \"GUID\": \"" + form.newsGroup.selectedNews.GUID + "\" }}"
+
+	var response = apiobjects.ServerKomunikace.postAsync("KN004A", data)
+
+	if response.isError() then
+		system.console(response.getErrorMessage())
+		system.alert("Novinka nemohla být smazána.")
+	else
+		system.console("Novinka byla smazána.")
+		form.apiobjects.DatasetNoticesFull.setReady(false)
+		form.apiobjects.DatasetNoticesFull.setReady(True)
+	endIf
+
+	globals.IsBusy = False
+endIf
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="newsEditNewsItem" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.newsGroup.visibility_seeNewsDetail then
+	form.newsGroup.visibility_addNewNews = true
+	form.newsGroup.visibility_seeNewsDetail = false
+	form.newsGroup.visibility_editNewsItem = true
+	
+	//load data from list to form
+	form.newsGroup.newNewsItem.Notice.fromJson(form.newsGroup.selectedNews.toJson())
+	form.newsGroup.newsEdit.Notice.GUID = form.newsGroup.selectedNews.GUID
+else
+	system.alert("Nejprve vyberte novinku ze seznamu, kterou chcete upravit.")
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="editNewsItem" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.newsGroup.newNewsItem.Notice.isValid() then
+	
+	globals.IsBusy = True
+	
+	form.newsGroup.newsEdit.fromJson(form.newsGroup.newNewsItem.toJson())
+	form.newsGroup.newsEdit.Notice.GUID = form.newsGroup.selectedNews.GUID
+	
+	var response = apiobjects.ServerKomunikace.postAsync("KN005A", form.newsGroup.newsEdit.toJson())
+			
+	if response.isError() then
+		system.console(response.getErrorMessage())
+		system.alert("Zprávy nebyla upravena.")
+	else
+		system.console("Zpráva byla úspěšně upravena.")
+		form.newsGroup.newNewsItem.clear()
+		form.newsGroup.newsEdit.clear()
+		form.apiobjects.DatasetNoticesFull.setReady(false)
+		form.apiobjects.DatasetNoticesFull.setReady(True)
+	endIf
+
+	globals.IsBusy = False
+
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="newsChangeSeeNew" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[system.console("<<<")
+system.console("newsChangeSeeNew")
+
+if form.newsGroup.seeNewNews then
+	form.apiobjects.DatasetNoticesFull.setSorting("Checked:desc")
+	system.console("1 newsChangeSeeNew - switch on")
+else
+	form.apiobjects.DatasetNoticesFull.setReady(false)
+	form.apiobjects.DatasetNoticesFull.clearVisibleFilters()
+	form.apiobjects.DatasetNoticesFull.setReady(true)
+	system.console("0 newsChangeSeeNew - switch off")
+endIf
+
+system.console(">>>")
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
