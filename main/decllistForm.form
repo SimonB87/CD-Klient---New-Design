@@ -420,13 +420,13 @@
                     </Label>
                     <CheckBox>
                       <Name value="seeNewNews" />
-                      <CaptionPosition value="Top" />
+                      <Caption value="Zobrazit aktuální" />
+                      <CaptionPosition value="Right" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="150px" />
+                      <Panel.Width value="200px" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="newsGroup.seeNewNews" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="newsGroup.seeNewNews.isRequired()" />
-                        <Binding SourceProperty="Caption" Expression="newsGroup.seeNewNews.caption()" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -1836,7 +1836,6 @@
         <Script><![CDATA[If not globals.IsAuthorized then 
 	var user = globals.OverenyUzivatel
 	
-	
 	if globals.errorMsgType = 1 then 
 		form.authorizeErrorText = "Chyba na straně serveru."
 	endif	
@@ -1878,7 +1877,7 @@ form.apiobjects.DatasetNoticesFull.focusFirstRecord()
 //set up form variables
 form.uiState.isSelectedMyCUoffice = False
 globals.selectedCdExpired = False
-form.newsGroup.seeNewNews = True
+form.newsGroup.seeNewNews = defaultBool()
 
 endif
 
@@ -2059,22 +2058,11 @@ if form.tabFilter.SelectedTab.hasValue() then
 	endif
 	if form.tabFilter.SelectedTab = 8 then
 		form.newsGroup.seeNewNews = True
-		
-		/*form.apiobjects.DatasetNoticesFull.setReady(false)
-		form.apiobjects.DatasetNoticesFull.setTextFilter("Checked", "Ne")
-		form.apiobjects.DatasetNoticesFull.setSorting("Checked:desc")
-		form.apiobjects.DatasetNoticesFull.setReady(true)
-		form.apiobjects.DatasetNoticesFull.focusFirstRecord()*/
 	endIf
 	if form.tabFilter.SelectedTab = 9 then
 		form.newsGroup.visibility_seeNewsDetail = True
 		form.newsGroup.visibility_addNewNews = False
-		form.newsGroup.seeNewNews = False
-		
-		/*form.apiobjects.DatasetNoticesFull.setReady(false)
-		form.apiobjects.DatasetNoticesFull.clearVisibleFilters()
-		form.apiobjects.DatasetNoticesFull.setReady(true)
-		form.apiobjects.DatasetNoticesFull.focusFirstRecord()*/
+		form.newsGroup.seeNewNews = false
 	endIf
 endif
 
@@ -2391,21 +2379,15 @@ endIf]]></Script>
     <ActionBlock>
       <Name value="newsChangeSeeNew" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[system.console("<<<")
-system.console("newsChangeSeeNew")
-
-if form.newsGroup.seeNewNews then
-	form.apiobjects.DatasetNoticesFull.setSorting("Checked:desc")
-	system.console("1 newsChangeSeeNew - switch on")
-else
+        <Script><![CDATA[if form.newsGroup.seeNewNews then
 	form.apiobjects.DatasetNoticesFull.setReady(false)
-	form.apiobjects.DatasetNoticesFull.clearVisibleFilters()
+	form.apiobjects.DatasetNoticesFull.setTextFilter("Checked","Ne")
 	form.apiobjects.DatasetNoticesFull.setReady(true)
-	system.console("0 newsChangeSeeNew - switch off")
-endIf
-
-system.console(">>>")
-]]></Script>
+else if not form.newsGroup.seeNewNews then
+	form.apiobjects.DatasetNoticesFull.setReady(false)
+	form.apiobjects.DatasetNoticesFull.setTextFilter("Checked","Ano,Ne")
+	form.apiobjects.DatasetNoticesFull.setReady(true)
+endIf endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
