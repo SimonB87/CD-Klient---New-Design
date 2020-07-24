@@ -879,7 +879,7 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="150px" />
                           <OnClick>
-                            <ActionEvent ReferencedAction="~saveNewNews" />
+                            <ActionEvent ReferencedAction="~newsSaveNew" />
                           </OnClick>
                           <Bindings>
                             <Binding SourceProperty="IsVisible" Expression="not form.newsGroup.visibility_editNewsItem" />
@@ -2167,33 +2167,6 @@ form.newsGroup.newNewsItem.clear()
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="newsSendNew" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[//form.newsGroup.newMessage.Notice.ValidFrom = form.newsGroup.selectedNews.ValidFrom
-//form.newsGroup.newMessage.Notice.ValidTo = form.newsGroup.selectedNews.ValidTo
-//form.newsGroup.newMessage.Notice.Caption = form.newsGroup.selectedNews.Caption
-//form.newsGroup.newMessage.Notice.Text = form.newsGroup.selectedNews.Text
-	
-var response = apiobjects.ServerKomunikace.postAsync("KN001A", form.newsGroup.newNewsItem.Notice.toJson())
-			
-//check server reply
-if response.isError() then
-	system.console(response.getErrorMessage())
-	system.alert("Zpráva nahrána nebyla.")
-else
-	//test
-	system.console("Zpráva byla úspěšně nahrána")
-	form.apiobjects.DatasetNoticesFull.setReady(false)
-	form.apiobjects.DatasetNoticesFull.setReady(true)
-	//test
-endIf
-]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="handler_listNoticesFull_OnRowClicked" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
@@ -2206,7 +2179,7 @@ form.newsGroup.visibility_addNewNews = False
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="saveNewNews" />
+      <Name value="newsSaveNew" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.newsGroup.newNewsItem.Notice.isValid() then
 	
