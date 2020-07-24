@@ -418,23 +418,6 @@
                         </CssClassConditional>
                       </CssClass>
                     </Label>
-                    <CheckBox>
-                      <Name value="seeNewNews" />
-                      <Caption value="Zobrazit aktuální" />
-                      <CaptionPosition value="Right" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="200px" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="newsGroup.seeNewNews" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="newsGroup.seeNewNews.isRequired()" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-checkbox" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </CheckBox>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
@@ -1809,18 +1792,6 @@
                 </AttributeType>
               </DeclaredType>
             </Attribute>
-            <Attribute>
-              <Name value="seeNewNews" />
-              <Caption value="See new news" />
-              <DeclaredType>
-                <AttributeType>
-                  <BaseType value="Bool" />
-                </AttributeType>
-              </DeclaredType>
-              <OnChange>
-                <ActionEvent ReferencedAction="+UiParts.decllistForm.newsChangeSeeNew" />
-              </OnChange>
-            </Attribute>
           </Children>
         </Complex>
       </Children>
@@ -1871,13 +1842,10 @@ else
 endif
 
 form.apiobjects.listCtrl.setReady(true)
-form.apiobjects.DatasetNoticesFull.setReady(true)
-form.apiobjects.DatasetNoticesFull.focusFirstRecord()
 
 //set up form variables
 form.uiState.isSelectedMyCUoffice = False
 globals.selectedCdExpired = False
-form.newsGroup.seeNewNews = defaultBool()
 
 endif
 
@@ -2057,20 +2025,20 @@ if form.tabFilter.SelectedTab.hasValue() then
 		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '99')")
 	endif
 	if form.tabFilter.SelectedTab = 8 then
-		form.newsGroup.seeNewNews = True
+		form.actions.newsChangeSeeNew(form.tabFilter.SelectedTab)
 	endIf
 	if form.tabFilter.SelectedTab = 9 then
-		form.newsGroup.visibility_seeNewsDetail = True
-		form.newsGroup.visibility_addNewNews = False
-		form.newsGroup.seeNewNews = false
+		form.actions.newsChangeSeeNew(form.tabFilter.SelectedTab)
 	endIf
 endif
 
-if refreshCounts then
-  form.actions.refreshIncompleteCounts()
-endif
-
-form.apiobjects.listCtrl.setSorting("CustomsDecisionIssueDate:desc")
+if (not (form.tabFilter.SelectedTab in [8, 9])) then 
+	if refreshCounts then
+	  form.actions.refreshIncompleteCounts()
+	endif
+	
+	form.apiobjects.listCtrl.setSorting("CustomsDecisionIssueDate:desc")
+endIf
 
 globals.IsBusy = false]]></Script>
       </ActionLangBody>
@@ -2379,18 +2347,34 @@ endIf]]></Script>
     <ActionBlock>
       <Name value="newsChangeSeeNew" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.newsGroup.seeNewNews then
-	form.apiobjects.DatasetNoticesFull.setReady(false)
+        <Script><![CDATA[form.apiobjects.DatasetNoticesFull.setReady(false)
+form.apiobjects.DatasetNoticesFull.clearVisibleFilters()
+
+if tabNumber = 8 then
 	form.apiobjects.DatasetNoticesFull.setTextFilter("Checked","Ne")
-	form.apiobjects.DatasetNoticesFull.setReady(true)
-else if not form.newsGroup.seeNewNews then
-	form.apiobjects.DatasetNoticesFull.setReady(false)
+else if tabNumber = 9 then
 	form.apiobjects.DatasetNoticesFull.setTextFilter("Checked","Ano,Ne")
-	form.apiobjects.DatasetNoticesFull.setReady(true)
-endIf endIf]]></Script>
+endIf endIf
+
+form.apiobjects.DatasetNoticesFull.focusFirstRecord()
+form.apiobjects.DatasetNoticesFull.setReady(true)]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="tabNumber" />
+              <Caption value="Tab number" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
   </Actions>
