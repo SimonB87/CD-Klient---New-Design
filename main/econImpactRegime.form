@@ -3889,43 +3889,48 @@
                               </Bindings>
                               <columns>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="listColumn18" />
+                                  <Name value="listC_storage1" />
                                   <Caption value="GUID povolení*" />
                                   <ColumnName value="customsDecisionGUID" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="listColumn1" />
+                                  <Name value="listC_storage2" />
                                   <Caption value="GUID verze povolení*" />
                                   <ColumnName value="customsDecisionVersionGUID" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="listColumn3" />
+                                  <Name value="listC_storage3" />
                                   <Caption value="GUID Goods Itemu*" />
                                   <ColumnName value="goodsCZGUID" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="listColumn5" />
+                                  <Name value="listC_storage4" />
                                   <Caption value="Doplněno" />
                                   <ColumnName value="completed" />
                                   <DataType value="bool" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="listColumn7" />
+                                  <Name value="listC_storage5" />
                                   <Caption value="Kód KN" />
                                   <ColumnName value="combinedNomenclatureCode" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="listColumn9" />
+                                  <Name value="listC_storage6" />
                                   <Caption value="TARIC kód" />
                                   <ColumnName value="tARICCode" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="listColumn11" />
+                                  <Name value="listC_storage7" />
+                                  <Caption value="Množství zboží" />
+                                  <ColumnName value="goodsQuantity" />
+                                </listColumn>
+                                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="listC_storage8" />
                                   <Caption value="Měrná jednotka (MU)" />
                                   <ColumnName value="measureUnit" />
                                 </listColumn>
                                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="listColumn13" />
+                                  <Name value="listC_storage9" />
                                   <Caption value="Odpisová MJ" />
                                   <ColumnName value="writeOffMeasureUnit" />
                                 </listColumn>
@@ -3951,7 +3956,7 @@
                                           <Children>
                                             <Panel>
                                               <Name value="panel67" />
-                                              <Orientation value="Horizontal" />
+                                              <Orientation value="Vertical" />
                                               <Panel.Height value="#" />
                                               <Panel.Width value="*" />
                                               <Children>
@@ -4028,7 +4033,7 @@
                                           <Content>
                                             <Panel>
                                               <Name value="panel53" />
-                                              <Orientation value="Horizontal" />
+                                              <Orientation value="Vertical" />
                                               <Children>
                                                 <GroupBox>
                                                   <Name value="groupBox24" />
@@ -4258,7 +4263,7 @@
                                               <Content>
                                                 <Panel>
                                                   <Name value="panel63" />
-                                                  <Orientation value="Horizontal" />
+                                                  <Orientation value="Vertical" />
                                                   <Children>
                                                     <TextBox>
                                                       <Name value="textBox83" />
@@ -5564,9 +5569,6 @@
                               <Orientation value="Vertical" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="IsVisible" Expression="form.zobrazOPO" />
-                              </Bindings>
                               <Children>
                                 <Label>
                                   <Name value="label10" />
@@ -5582,7 +5584,7 @@
                                   </CssClass>
                                 </Label>
                                 <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="processingList_opo" />
+                                  <Name value="processingList_all" />
                                   <controller reference="~goodsItemCZ" />
                                   <listName value="processingGoodsItemCZ" />
                                   <Panel.Height value="#" />
@@ -5646,7 +5648,7 @@
                                   </CssClass>
                                 </Label>
                                 <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="processingListDataSet_OPO" />
+                                  <Name value="processingListDataSet_all" />
                                   <controller reference="~enhancementDeclistGoodsItems" />
                                   <listName value="DatasetGoodsCZ" />
                                   <Panel.Height value="#" />
@@ -5685,6 +5687,11 @@
                                       <ColumnName value="combinedNomenclatureCode" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listColumn15" />
+                                      <Caption value="Množství zboží" />
+                                      <ColumnName value="goodsQuantity" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn12" />
                                       <Caption value="TARIC kód" />
                                       <ColumnName value="tARICCode" />
@@ -5698,176 +5705,6 @@
                                       <Name value="listColumn16" />
                                       <Caption value="Odpisová MJ" />
                                       <ColumnName value="writeOffMeasureUnit" />
-                                    </listColumn>
-                                  </columns>
-                                </List>
-                              </Children>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-panel" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </Panel>
-                            <Panel>
-                              <Name value="pnlProcessingList_ipo" />
-                              <Orientation value="Vertical" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="IsVisible" Expression="form.zobrazIPO" />
-                              </Bindings>
-                              <Children>
-                                <Label>
-                                  <Name value="label11" />
-                                  <Data value="CollectionList" />
-                                  <Heading value="h3" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="300px" />
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-label" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Label>
-                                <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="processingList_ipo" />
-                                  <controller reference="~goodsItemCZ" />
-                                  <listName value="processingGoodsItemCZ" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <OnRowClicked>
-                                    <ActionEvent ReferencedAction="~handler_processingList_ipo_OnRowClicked" />
-                                  </OnRowClicked>
-                                  <Bindings>
-                                    <Binding SourceProperty="selectedRow" Expression="form.enhancement.selectedRowGoodsItems" />
-                                  </Bindings>
-                                  <columns>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingOpo_completed" />
-                                      <Caption value="Doplněno" />
-                                      <ColumnName value="completed" />
-                                      <DataType value="bool" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingOpo_combinedNomenclatureCode" />
-                                      <Caption value="Kód KN" />
-                                      <ColumnName value="combinedNomenclatureCode" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingOpo_tARICCode" />
-                                      <Caption value="TARIC kód" />
-                                      <ColumnName value="tARICCode" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingOpo_goodsQuantity" />
-                                      <Caption value="Množství" />
-                                      <ColumnName value="goodsQuantity" />
-                                      <DataType value="integer" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingOpo_measureUnit" />
-                                      <Caption value="Měrná jednotka" />
-                                      <ColumnName value="measureUnit" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingOpo_computedWriteOffMeasureUnit" />
-                                      <Caption value="Odpisová měrná jednotka" />
-                                      <ColumnName value="computed_writeOffMeasureUnit" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingOpo_Article863UCC" />
-                                      <Caption value="Článek 86(3) UCC" />
-                                      <ColumnName value="article863UCC" />
-                                      <DataType value="bool" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingOpo_Article864UCC" />
-                                      <Caption value="Článek 86(4) UCC" />
-                                      <ColumnName value="article864UCC" />
-                                      <DataType value="bool" />
-                                    </listColumn>
-                                  </columns>
-                                </List>
-                                <Label>
-                                  <Name value="label13" />
-                                  <Data value="Dataset List" />
-                                  <Heading value="h3" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="300px" />
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-label" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Label>
-                                <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="processingListDataSet_IPO" />
-                                  <controller reference="~enhancementDeclistGoodsItems" />
-                                  <listName value="DatasetGoodsCZ" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <OnRowClicked>
-                                    <ActionEvent ReferencedAction="~action3" />
-                                  </OnRowClicked>
-                                  <Bindings>
-                                    <Binding SourceProperty="selectedRow" Expression="form.enhancement.selectedRowDataSetGoodsItem" />
-                                  </Bindings>
-                                  <columns>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="alistCol_cdGUID" />
-                                      <Caption value="GUID povolení*" />
-                                      <ColumnName value="customsDecisionGUID" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="alistCol_cdVersionGUID" />
-                                      <Caption value="GUID verze povolení*" />
-                                      <ColumnName value="customsDecisionVersionGUID" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="alistCol_goodsCZGUID" />
-                                      <Caption value="GUID Goods Itemu*" />
-                                      <ColumnName value="goodsCZGUID" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="alistCol_completed" />
-                                      <Caption value="Doplněno" />
-                                      <ColumnName value="completed" />
-                                      <DataType value="bool" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="alistCol_combinedNomenclatureCode" />
-                                      <Caption value="Kód KN" />
-                                      <ColumnName value="combinedNomenclatureCode" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="alistCol_tARICCode" />
-                                      <Caption value="TARIC kód" />
-                                      <ColumnName value="tARICCode" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="alistCol_measureUnit" />
-                                      <Caption value="Měrná jednotka (MU)" />
-                                      <ColumnName value="measureUnit" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="alistCol_writeOffMeasureUnit" />
-                                      <Caption value="Odpisová MJ" />
-                                      <ColumnName value="writeOffMeasureUnit" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="alistCol_article863UCC" />
-                                      <Caption value="Článek 86(3) UCC" />
-                                      <ColumnName value="article863UCC" />
-                                      <DataType value="bool" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="alistCol_article864UCC" />
-                                      <Caption value="Článek 86(4) UCC" />
-                                      <ColumnName value="article864UCC" />
-                                      <DataType value="bool" />
                                     </listColumn>
                                   </columns>
                                 </List>
@@ -10168,6 +10005,75 @@
                                     </CssClassConditional>
                                   </CssClass>
                                 </Label>
+                                <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                  <Name value="enhancementServerList_ipo" />
+                                  <controller reference="~enhancementDeclistGoodsItems" />
+                                  <listName value="DatasetGoodsCZ" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <Bindings>
+                                    <Binding SourceProperty="selectedRow" Expression="form.enhancement.selectedRowDataSetGoodsItem" />
+                                  </Bindings>
+                                  <columns>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listC2_customsDecisionGUID" />
+                                      <Caption value="customsDecisionGUID*" />
+                                      <ColumnName value="customsDecisionGUID" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listC2_customsDecisionVersionGUID" />
+                                      <Caption value="CDVersionGUID*" />
+                                      <ColumnName value="customsDecisionVersionGUID" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listC2_goodsCZGUID" />
+                                      <Caption value="goodsCZGUID*" />
+                                      <ColumnName value="goodsCZGUID" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listC2_completed" />
+                                      <Caption value="completed" />
+                                      <ColumnName value="completed" />
+                                      <DataType value="bool" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listC2_combinedNomenclatureCode" />
+                                      <Caption value="combinedNomenclatureCode" />
+                                      <ColumnName value="combinedNomenclatureCode" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listC2_tARICCode" />
+                                      <Caption value="TARIC kód" />
+                                      <ColumnName value="tARICCode" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listC2_measureUnit" />
+                                      <Caption value="Měrná jednotka" />
+                                      <ColumnName value="measureUnit" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listC2_writeOffMeasureUnit" />
+                                      <Caption value="Odpisová měrná jednotka" />
+                                      <ColumnName value="writeOffMeasureUnit" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listC2_article863UCC" />
+                                      <Caption value="Použití článku 86/3 UCC" />
+                                      <ColumnName value="article863UCC" />
+                                      <DataType value="bool" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listC2_article864UCC" />
+                                      <Caption value="Použití článku 86/4 UCC" />
+                                      <ColumnName value="article864UCC" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listC2_cnCodeArticle73DA" />
+                                      <Caption value="Kód KN při použití čl. 73 DA" />
+                                      <ColumnName value="cnCodeArticle73DA" />
+                                    </listColumn>
+                                  </columns>
+                                </List>
                               </Children>
                               <CssClass>
                                 <CssClassConditional>
@@ -15335,37 +15241,6 @@ endIf]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="handler_processingList_ipo_OnRowClicked" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[//put data froma reference to a lo structure for viewing
-form.enhancement.selectedGoodsItemCZ.clear()
-form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())
-
-if form.enhancement.selectedGoodsItemCZ.completed.hasValue() = false then
-	form.enhancement.selectedGoodsItemCZ.completed = false
-endif
-
-if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.exists(current.hasValue()) then
-
-	var choosenGoodsItem = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.selectFirst(current.guid = form.enhancement.selectedRowGoodsItems.guid)
-	
-	var choosenGoodsItemOderNumber = choosenGoodsItem.index()
-	
-	var pathToChoosenGoodsItem = "customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsCZ/goodsItemCZ[" + toString(choosenGoodsItemOderNumber) + "]"
-	
-	var itemData = form.apiobjects.econImpactPlainObject.get(pathToChoosenGoodsItem)
-	
-	form.guiPresentedDataGoodsItem.goodsCZ.goodsItemCZ.fromJson(itemData)
-
-
-endIf]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="useOriginalSorting" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[//use original sorting
@@ -15457,44 +15332,6 @@ endIf]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="action4" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[globals.IsBusy = true
-
-var pathRequest = form.dataSetGoodsItems.request.customsDecisionAuthorisationData
-var pathSource = form.enhancement.selectedRowDataSetGoodsItem 
-
-pathRequest.customsDecisionGUID = pathSource.customsDecisionGUID
-pathRequest.customsDecisionVersionGUID = pathSource.customsDecisionVersionGUID
-pathRequest.goodsItemCZGUID = pathSource.goodsCZGUID
-
-
-form.dataSetGoodsItems.response.clear()
-
-var response = apiobjects.ServerKomunikace.postAsync("EconomicImpactRegimeSingleGoodsItemDetailRequest", form.dataSetGoodsItems.request.toJson())
-	
-if response.isError() then
-	system.console(response.getErrorMessage())
-	
-	//test
-	system.console("Failed to load data.")//test
-else
-	var dataReceived = response.getJsonString()
-	
-	//test
-	system.console("Successfuly received data.")//test
-		
-	form.dataSetGoodsItems.response.fromJson(dataReceived)
-endIf
-
-globals.IsBusy = false]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="action3" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = true
