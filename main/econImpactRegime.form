@@ -10146,6 +10146,12 @@
                                       <ColumnName value="combinedNomenclatureCode" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listC02_goodsQuantity" />
+                                      <Caption value="Množství zboží" />
+                                      <ColumnName value="goodsQuantity" />
+                                      <DataType value="decimal" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listC2_tARICCode1" />
                                       <Caption value="TARIC kód" />
                                       <ColumnName value="tARICCode" />
@@ -10311,6 +10317,12 @@
                                       <Name value="listC2_combinedNomenclatureCode2" />
                                       <Caption value="combinedNomenclatureCode" />
                                       <ColumnName value="combinedNomenclatureCode" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listC2_goodsQuantity" />
+                                      <Caption value="Množství" />
+                                      <ColumnName value="goodsQuantity" />
+                                      <DataType value="decimal" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listC2_tARICCode2" />
@@ -13812,11 +13824,8 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
             <Computed>
               <Name value="enhancementBoxSelectedItemCaption" />
               <Caption value="Enhancement box selected item caption" />
-              <Expression IsValid="True">
-                <ExpressionText><![CDATA["Zbožová položka " + (form.enhancement.selectedGoodsItemCZ.combinedNomenclatureCode.hasValue() ? ("- Kód KN:  \"" + (ToString(form.enhancement.selectedGoodsItemCZ.combinedNomenclatureCode)) + "\"") : "" ) + (  form.enhancement.selectedGoodsItemCZ.goodsQuantity.hasValue() ? ( " - Množství zboží: \"" + ToString(form.enhancement.selectedGoodsItemCZ.goodsQuantity) + "\"") : ""  )]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
+              <Expression>
+                <ExpressionText><![CDATA["Zbožová položka " + (form.enhancement.selectedRowDataSetGoodsItem.combinedNomenclatureCode.hasValue() ? ("- Kód KN:  \"" + (ToString(form.enhancement.selectedRowDataSetGoodsItem.combinedNomenclatureCode)) + "\"") : "" ) + (  form.enhancement.selectedRowDataSetGoodsItem.goodsQuantity.hasValue() ? ( " - Množství zboží: \"" + ToString(form.enhancement.selectedRowDataSetGoodsItem.goodsQuantity) + "\"") : ""  )]]></ExpressionText>
               </Expression>
             </Computed>
             <Complex>
@@ -16634,7 +16643,7 @@ form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
 form.apiobjects.enhancementDeclistGoodsItems.clearVisibleFilters()
 
 form.apiobjects.enhancementDeclistGoodsItems.setTextFilter("completed", "")
-form.apiobjects.enhancementDeclistGoodsItems.setTextFilter("cnCodeForSecuring", "")
+form.apiobjects.enhancementDeclistGoodsItems.setTextFilter("cnCodeForSecuring", defaultString())
 
 var numberOfIncomplete = form.apiobjects.enhancementDeclistGoodsItems.getRowCount()
 system.console("numberOfIncomplete is::" + toString(numberOfIncomplete))
