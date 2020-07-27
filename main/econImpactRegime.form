@@ -9748,6 +9748,21 @@
                                         </CssClassConditional>
                                       </CssClass>
                                     </Button>
+                                    <Button>
+                                      <Name value="buttonValidateGoodsItems" />
+                                      <Caption value="Validovat položky" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="120px" />
+                                      <OnClick>
+                                        <ActionEvent ReferencedAction="~handler_buttonValidateGoodsItems_OnClick" />
+                                      </OnClick>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-button" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Button>
                                   </Children>
                                   <CssClass>
                                     <CssClassConditional>
@@ -9761,7 +9776,7 @@
                                   <Data value="placeholder" />
                                   <IsVisible value="False" />
                                   <Panel.Height value="#" />
-                                  <Panel.Width value="15%" />
+                                  <Panel.Width value="5%" />
                                   <CssClass>
                                     <CssClassConditional>
                                       <ClassName value="{theme}-label" />
@@ -15773,12 +15788,21 @@ globals.IsBusy = False]]></Script>
     <ActionBlock>
       <Name value="showEnhancementErrorMessage" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[//add string with error description to other error messages
+        <Script><![CDATA[//show error string in GUI
+
+//add string with error description to other error messages
 form.operationResultMessage = form.operationResultMessage + errorContent
 //if true - the message for user imn operationResult will have red border; if false - we have only a good anoucement in operationResult with blue border
 form.formBehavior.operationResultError = operationResultError
 //make panel with operationResult visible
-form.formBehavior.visibilities.operationResult = true]]></Script>
+form.formBehavior.visibilities.operationResult = true
+
+//show error in new notifications window
+if operationResultError then
+	apiobjects.notificationsCtrl.addWarning(errorContent)
+else
+	apiobjects.notificationsCtrl.addInfo(errorContent)
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -15813,7 +15837,7 @@ form.formBehavior.visibilities.operationResult = true]]></Script>
         <Script><![CDATA[//established message counter, so user will not see too many notices
 var messageCounter = 0
 
-//validate certain goods items for selected CD type
+//validate certain goods items for selected CD type   
 foreach item in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
 
 	var errorNoticeItemNumber = "Položka s Kódem KN: \"" + toString(item.combinedNomenclatureCode) + "\" vykazuje chybu v údaji: " 
@@ -16594,6 +16618,28 @@ else
 	form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
 	form.apiobjects.enhancementDeclistGoodsItems.setReady(True)
 endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_buttonValidateGoodsItems_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var def = defaultString()
+
+form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
+
+form.apiobjects.enhancementDeclistGoodsItems.clearVisibleFilters()
+
+form.apiobjects.enhancementDeclistGoodsItems.setTextFilter("completed", "")
+form.apiobjects.enhancementDeclistGoodsItems.setTextFilter("cnCodeForSecuring", "")
+
+var numberOfIncomplete = form.apiobjects.enhancementDeclistGoodsItems.getRowCount()
+system.console("numberOfIncomplete is::" + toString(numberOfIncomplete))
+
+form.apiobjects.enhancementDeclistGoodsItems.setReady(true)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
