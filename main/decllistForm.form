@@ -340,25 +340,69 @@
                 </listColumn>
               </columns>
             </List>
-            <Button>
-              <Name value="btnOpenDetail" />
-              <Caption value="Zobrazit detail" />
+            <Panel>
+              <Name value="panel5" />
+              <Orientation value="Vertical" />
               <Panel.Height value="#" />
-              <Panel.HorizontalAlignment value="Right" />
-              <Panel.Width value="150px" />
-              <OnClick>
-                <ActionEvent ReferencedAction="~zobrazDetail_ALANG" />
-              </OnClick>
-              <Bindings>
-                <Binding SourceProperty="IsEnabled" Expression="form.openDetailButtonActive" />
-              </Bindings>
+              <Panel.Width value="*" />
+              <Children>
+                <Panel>
+                  <Name value="panel6" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.HorizontalAlignment value="Right" />
+                  <Panel.Width value="310px" />
+                  <Children>
+                    <Button>
+                      <Name value="btnOpenDetail" />
+                      <Caption value="Zobrazit detail" />
+                      <Panel.Height value="#" />
+                      <Panel.HorizontalAlignment value="Right" />
+                      <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~zobrazDetail_ALANG" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsEnabled" Expression="form.openDetailButtonActive" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
+                      <Name value="btnNewApplication" />
+                      <Caption value="Přidat nové" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_btnNewApplication_OnClick" />
+                      </OnClick>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Children>
               <CssClass>
                 <CssClassConditional>
-                  <ClassName value="{theme}-button" />
+                  <ClassName value="{theme}-panel" />
                   <IsThemedStyle value="True" />
                 </CssClassConditional>
               </CssClass>
-            </Button>
+            </Panel>
           </Children>
           <CssClass>
             <CssClassConditional>
@@ -2355,6 +2399,16 @@ form.apiobjects.DatasetNoticesFull.setReady(true)]]></Script>
             </Attribute>
           </Children>
         </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btnNewApplication_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[navigation.main.AseoNewApp.go()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>

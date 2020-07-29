@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<DataEntity>
+  <Name value="CELUPLAT_R" />
+  <Caption value="Celní útvary platnosti pro ASEO" />
+  <MtsImportOptions.MTS.ID value="CELUPLAT_R" />
+  <MtsImportOptions.MTS.Type value="codelist" />
+  <Children>
+    <Attribute>
+      <Name value="CELUPLAT_R" />
+      <Caption value="Kód CÚ" />
+      <MetaType reference="+MetaTypes.CU" />
+      <MtsImportOptions.MTS.ID value="CELUPLAT_R/CELUPLAT_R" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="POPIS" />
+      <Caption value="Název CÚ" />
+      <MtsImportOptions.MTS.ID value="CELUPLAT_R/POPIS" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="55" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="OD" />
+      <Caption value="Platnost od" />
+      <MtsImportOptions.MTS.ID value="CELUPLAT_R/OD" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="DateTime" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="_DO" />
+      <Caption value="Platnost do" />
+      <MtsImportOptions.MTS.ID value="CELUPLAT_R/DO" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="DateTime" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="NADU" />
+      <Caption value="Nadřízený celní útvar" />
+      <MetaType reference="+MetaTypes.CU" />
+      <MtsImportOptions.MTS.ID value="CELUPLAT_R/NADU" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="CELURAD" />
+      <Caption value="Nadřízený celní úřad" />
+      <MetaType reference="+MetaTypes.CU" />
+      <MtsImportOptions.MTS.ID value="CELUPLAT_R/CELURAD" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+    </Attribute>
+    <Computed>
+      <Name value="_description" />
+      <Caption value="_ description" />
+      <Expression IsValid="True">
+        <ExpressionText><![CDATA[functions.codeListDescription(CELUPLAT_R,POPIS)]]></ExpressionText>
+        <ResultType>
+          <BaseType value="String" />
+        </ResultType>
+      </Expression>
+    </Computed>
+  </Children>
+</DataEntity>

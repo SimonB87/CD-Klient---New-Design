@@ -1,0 +1,935 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<Form>
+  <Name value="AseoNewApp" />
+  <Caption value="Aseo new app" />
+  <Content>
+    <Panel>
+      <Name value="pnlMain" />
+      <Orientation value="Vertical" />
+      <Panel.Height value="#" />
+      <Panel.Width value="*" />
+      <Children>
+        <Panel>
+          <Name value="panel3" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <Label>
+              <Name value="label1" />
+              <Data value="Založení nového povolení" />
+              <Heading value="h2" />
+              <Panel.Height value="#" />
+              <Panel.HorizontalAlignment value="Center" />
+              <Panel.Width value="400px" />
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-label" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Label>
+            <Button>
+              <Name value="button_storno" />
+              <Caption value="Storno" />
+              <Panel.Height value="#" />
+              <Panel.Width value="150px" />
+              <OnClick>
+                <ActionEvent ReferencedAction="~handler_button_storno_OnClick" />
+              </OnClick>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-button" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Button>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <GroupBox>
+          <Name value="groupBox_header" />
+          <Caption value="Hlavička" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Content>
+            <Panel>
+              <Name value="box1" />
+              <Orientation value="Horizontal" />
+              <Children>
+                <TextBox>
+                  <Name value="textBox_EORI_TIN" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Bindings>
+                    <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.TIN" />
+                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.TIN.isRequired()" />
+                    <Binding SourceProperty="Caption" Expression="aseoApplication.ASEO.TIN.caption()" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-textbox" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </TextBox>
+                <ReferenceCombo>
+                  <Name value="referenceCombo1" />
+                  <DisplayMember value="_description" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <ReferenceList reference="~povolTyp" />
+                  <Bindings>
+                    <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.AuthorizationType" />
+                    <Binding SourceProperty="Caption" Expression="aseoApplication.ASEO.AuthorizationType.caption()" />
+                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.AuthorizationType.isRequired()" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-referencecombo" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </ReferenceCombo>
+                <ReferenceCombo>
+                  <Name value="selectedCustomsOffice" />
+                  <Caption value="Zodpovědný CÚ" />
+                  <DisplayMember value="_description" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <ReferenceList reference="~userCustomsOffice" />
+                  <Bindings>
+                    <Binding SourceProperty="Data" Expression="form.uiState.selectedCustomsOffice" />
+                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.uiState.selectedCustomsOffice.isRequired()" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-referencecombo" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </ReferenceCombo>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+          </Content>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-groupbox" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </GroupBox>
+        <GroupBox>
+          <Name value="groupBox_subject" />
+          <Caption value="Group box _ subject" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Content>
+            <Panel>
+              <Name value="box2" />
+              <Orientation value="Vertical" />
+              <Children>
+                <Panel>
+                  <Name value="panel2" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Children>
+                    <TextBox>
+                      <Name value="textBox1" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="66%" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.OperatorName" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.OperatorName.isRequired()" />
+                        <Binding SourceProperty="Caption" Expression="aseoApplication.ASEO.Event.OperatorName.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <TextBox>
+                      <Name value="textBox2" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="33%" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.OperatorStreetAndNr" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.OperatorStreetAndNr.isRequired()" />
+                        <Binding SourceProperty="Caption" Expression="aseoApplication.ASEO.Event.OperatorStreetAndNr.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+                <Panel>
+                  <Name value="panel5" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Children>
+                    <TextBox>
+                      <Name value="textBox3" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.OperatorCity" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.OperatorCity.isRequired()" />
+                        <Binding SourceProperty="Caption" Expression="aseoApplication.ASEO.Event.OperatorCity.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <TextBox>
+                      <Name value="textBox4" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.OperatorPostCode" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.OperatorPostCode.isRequired()" />
+                        <Binding SourceProperty="Caption" Expression="aseoApplication.ASEO.Event.OperatorPostCode.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <ReferenceCombo>
+                      <Name value="referenceCombo2" />
+                      <DisplayMember value="_ description" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <ReferenceList reference="~zeme_o" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.OperatorCountry" />
+                        <Binding SourceProperty="Caption" Expression="aseoApplication.ASEO.Event.OperatorCountry.caption()" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.OperatorCountry.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-referencecombo" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </ReferenceCombo>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+          </Content>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-groupbox" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </GroupBox>
+        <Panel>
+          <Name value="panel4" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <GroupBox>
+              <Name value="groupBox_applications" />
+              <Caption value="Žádost" />
+              <Panel.Height value="#" />
+              <Panel.Width value="50%" />
+              <Content>
+                <Panel>
+                  <Name value="box3" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <Panel>
+                      <Name value="panel7" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <TextBox>
+                          <Name value="ReferenceNumber" />
+                          <CaptionPosition value="Top" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.ReferenceNumber" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.ReferenceNumber.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="aseoApplication.ASEO.Event.ReferenceNumber.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                        <TextBox>
+                          <Name value="DecisionDate" />
+                          <CaptionPosition value="Top" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.DecisionDate" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.DecisionDate.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="aseoApplication.ASEO.Event.DecisionDate.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                    <Panel>
+                      <Name value="panel8" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <TextBox>
+                          <Name value="YourMark" />
+                          <CaptionPosition value="Top" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.YourMark" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.YourMark.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="aseoApplication.ASEO.Event.YourMark.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                        <TextBox>
+                          <Name value="ValidityStartDate" />
+                          <CaptionPosition value="Top" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.ValidityStartDate" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.ValidityStartDate.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="aseoApplication.ASEO.Event.ValidityStartDate.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                    <Panel>
+                      <Name value="panel9" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <TextBox>
+                          <Name value="HandledBy" />
+                          <CaptionPosition value="Top" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.HandledBy" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.HandledBy.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="aseoApplication.ASEO.Event.HandledBy.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                        <TextBox>
+                          <Name value="DecidingPerson" />
+                          <CaptionPosition value="Top" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.DecidingPerson" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.DecidingPerson.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="aseoApplication.ASEO.Event.DecidingPerson.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                    <Panel>
+                      <Name value="panel1" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <TextBox>
+                          <Name value="textBox5" />
+                          <CaptionPosition value="Top" />
+                          <InputType value="Multiline" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.Note" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.Note.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="aseoApplication.ASEO.Event.Note.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-groupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </GroupBox>
+            <GroupBox>
+              <Name value="groupBox_file" />
+              <Caption value="Příloha" />
+              <Panel.Height value="#" />
+              <Panel.Width value="50%" />
+              <Content>
+                <Panel>
+                  <Name value="panel6" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <FileReader identity="FileReader.f457f0445b7e44b7a3a1134647eff385">
+                      <Name value="fileReader2" />
+                      <Caption value="Vyberte soubor přílohy" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="FileContent" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.fileContent" />
+                        <Binding SourceProperty="FileName" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.fileName" />
+                        <Binding SourceProperty="FileType" Expression="" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-filereader" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </FileReader>
+                    <TextBox>
+                      <Name value="textBox36" />
+                      <Caption value="Název vloženého souboru" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.fileName" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.fileName.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <TextBox>
+                      <Name value="textBox51" />
+                      <Caption value="Typ dokumentu" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.documentType" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.documentType.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <TextBox>
+                      <Name value="textBox53" />
+                      <Caption value="Identifikátor dokumentu" />
+                      <ImmediateUpdate value="True" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.documentIdentifier" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.documentIdentifier.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <TextBox>
+                      <Name value="textBox62" />
+                      <InputType value="Multiline" />
+                      <IsEnabled value="False" />
+                      <IsVisible value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Rows value="5" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.fileContent" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.fileContent.isRequired()" />
+                        <Binding SourceProperty="Caption" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.fileContent.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="noResize" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <TextBox>
+                      <Name value="textBox64" />
+                      <Caption value="Selected CD version GUID" />
+                      <IsEnabled value="False" />
+                      <IsVisible value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="globals.uiGlobalState.CDversionGUID" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <Button>
+                      <Name value="button2" />
+                      <Caption value="Nahrát novou přílohu" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="210px" />
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="disabledButton" />
+                          <Bindings>
+                            <Binding SourceProperty="Condition" Expression="not globals.uiGlobalState.isLastCDversionSelected" />
+                          </Bindings>
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Panel>
+                      <Name value="validationErrorMessage_pnl" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.isThereErrorToDisplay" />
+                      </Bindings>
+                      <Children>
+                        <Label>
+                          <Name value="label3" />
+                          <Data value="Upozornění:" />
+                          <Heading value="h5" />
+                          <Panel.Height value="#" />
+                          <Panel.HorizontalAlignment value="Center" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="IsVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.isThereErrorToDisplay" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                            <CssClassConditional>
+                              <ClassName value="liveFontColor" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                        <Label>
+                          <Name value="label11" />
+                          <Data value="Velikost přílohy je víc jak 5 MB. " />
+                          <Heading value="h5" />
+                          <Panel.Height value="#" />
+                          <Panel.HorizontalAlignment value="Center" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="IsVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.isSelectedFileToLarge" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                        <Label>
+                          <Name value="label6" />
+                          <Data value=" Vyplňte identifikátor dokumentu." />
+                          <Heading value="h5" />
+                          <Panel.Height value="#" />
+                          <Panel.HorizontalAlignment value="Center" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="IsVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.isDocumentIdentifierMissing" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="warningBox" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-groupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </GroupBox>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+      </Children>
+      <CssClass>
+        <CssClassConditional>
+          <ClassName value="{theme}-panel" />
+          <IsThemedStyle value="True" />
+        </CssClassConditional>
+        <CssClassConditional>
+          <ClassName value="lightBlueAllRoundBorder" />
+        </CssClassConditional>
+        <CssClassConditional>
+          <ClassName value="paddingAllSides" />
+        </CssClassConditional>
+      </CssClass>
+    </Panel>
+  </Content>
+  <DataContext>
+    <DataContext>
+      <Children>
+        <Complex>
+          <Name value="aseoApplication" />
+          <Caption value="Aseo application" />
+          <Children>
+            <Include>
+              <Include reference="+DataEntities.ASEOSPApplication" />
+            </Include>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="uiState" />
+          <Caption value="Ui state" />
+          <Children>
+            <Collection>
+              <Name value="userCustomsOffice" />
+              <Caption value="User customs office" />
+              <Children>
+                <Attribute>
+                  <Name value="Key" />
+                  <Caption value="Key" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                  <Validators>
+                    <Validator Name="val1">
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Hodnota není validní!"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Attribute>
+                <Attribute>
+                  <Name value="Description" />
+                  <Caption value="Description" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Collection>
+            <Reference>
+              <Name value="selectedCustomsOffice" />
+              <Caption value="Selected customs office" />
+              <Children>
+                <Attribute>
+                  <Name value="Key" />
+                  <Caption value="Key" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                  <Validators>
+                    <Validator Name="val1">
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Hodnota není validní"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Attribute>
+                <Attribute>
+                  <Name value="Description" />
+                  <Caption value="Description" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Computed>
+                  <Name value="_description" />
+                  <Caption value="_ description" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[this.Key + " - " + this.Description]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Reference>
+          </Children>
+        </Complex>
+      </Children>
+    </DataContext>
+  </DataContext>
+  <OnActivate>
+    <ActionEvent ReferencedAction="~initForm" />
+  </OnActivate>
+  <Actions>
+    <ActionBlock>
+      <Name value="initForm" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.apiobjects.povolTyp.startLoadingData( getDateTime() )
+form.apiobjects.povolTyp.setFilter("IDZALOZKY eq 'CD'")
+
+form.apiobjects.zeme_o.startLoadingData( getDateTime() )
+
+form.actions.setUserCustomsOffice()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_button_storno_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[navigation.main.decllistForm.go()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setUserCustomsOffice" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var userData = globals.LoginResult.user.selectFirst()
+
+forEach organisation in userData.organisation do
+	
+	forEach office in organisation.code do
+		var storeData = form.uiState.userCustomsOffice.addItem()
+		storeData.Key = office.code
+		storeData.Description = office.description
+	endFor
+	
+endFor
+
+var jsonString = form.uiState.userCustomsOffice.toJson()
+form.apiobjects.userCustomsOffice.fillFromJson(jsonString)
+
+//form.apiobjects.userCustomsOffice.fillFromJson("[{\"Key\": \"NO\", \"Description\": \"NO\"},{\"Key\": \"NP\", \"Description\": \"NP\"},{\"Key\": \"PT\", \"Description\": \"PT\"},{\"Key\": \"PP\", \"Description\": \"PP\"}]")]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+  </Actions>
+  <ApiObjects>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="povolTyp" />
+      <filterByDate value="False" />
+      <name value="POVOLTYP" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POVOLTYP" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POPIS" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="IDZALOZKY" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="userCustomsOffice" />
+      <autoLoad value="False" />
+      <filterByDate value="False" />
+      <name value="userCustomsOffice" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="Key" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="Description" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="zeme_o" />
+      <name value="ZEME_O" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="Code" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="Description" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
+  </ApiObjects>
+</Form>

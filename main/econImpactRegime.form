@@ -9825,6 +9825,36 @@
                                         </CssClassConditional>
                                       </CssClass>
                                     </Button>
+                                    <Button>
+                                      <Name value="button_validateGoods" />
+                                      <Caption value="Validate Goods" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="100px" />
+                                      <OnClick>
+                                        <ActionEvent ReferencedAction="~validateGoods" />
+                                      </OnClick>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-button" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Button>
+                                    <Button>
+                                      <Name value="button_count" />
+                                      <Caption value="Count" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="150px" />
+                                      <OnClick>
+                                        <ActionEvent ReferencedAction="~handler_button_count_OnClick" />
+                                      </OnClick>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-button" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Button>
                                   </Children>
                                   <CssClass>
                                     <CssClassConditional>
@@ -9967,6 +9997,7 @@
                                       <Name value="listCol_goodsQuantity" />
                                       <Caption value="Množství zboží" />
                                       <ColumnName value="goodsQuantity" />
+                                      <DataType value="decimal" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listCol_tARICCode" />
@@ -10217,7 +10248,7 @@
                                       <Name value="listColumnEnhEus_completed" />
                                       <Caption value="Doplněno" />
                                       <ColumnName value="completed" />
-                                      <DataType value="bool" />
+                                      <DataType value="string" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumnEnhEus_combinedNomenclatureCode" />
@@ -10333,6 +10364,12 @@
                                       <Name value="listC2_cnCodeForSecuring" />
                                       <Caption value="Kód KN pro dozajištění" />
                                       <ColumnName value="cnCodeForSecuring" />
+                                    </listColumn>
+                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                                      <Name value="listC2_cnCodeForSecuringExists" />
+                                      <Caption value="Existuje Kód KN pro dozajištění" />
+                                      <ColumnName value="cnCodeForSecuringExists" />
+                                      <DataType value="bool" />
                                     </listColumn>
                                   </columns>
                                 </List>
@@ -10823,7 +10860,7 @@
                     </GroupBox>
                     <GroupBox>
                       <Name value="groupBoxSelectedGoodsItemDetail" />
-                      <Caption value="Detail vybrané zbožové položky" />
+                      <Caption value="Podrobnosti vybrané zbožové položky" />
                       <Panel.Height value="100%" />
                       <Panel.Width value="*" />
                       <Content>
@@ -10833,7 +10870,7 @@
                           <Children>
                             <CheckBox>
                               <Name value="seeGoodsItemDetailInfromation" />
-                              <Caption value="Podrobnosti ke zbožové položce" />
+                              <Caption value="Zobrazit" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
                               <Bindings>
@@ -13809,8 +13846,11 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
             <Computed>
               <Name value="enhancementBoxSelectedItemCaption" />
               <Caption value="Enhancement box selected item caption" />
-              <Expression>
+              <Expression IsValid="True">
                 <ExpressionText><![CDATA["Zbožová položka " + (form.enhancement.selectedRowDataSetGoodsItem.combinedNomenclatureCode.hasValue() ? ("- Kód KN:  \"" + (ToString(form.enhancement.selectedRowDataSetGoodsItem.combinedNomenclatureCode)) + "\"") : "" ) + (  form.enhancement.selectedRowDataSetGoodsItem.goodsQuantity.hasValue() ? ( " - Množství zboží: \"" + ToString(form.enhancement.selectedRowDataSetGoodsItem.goodsQuantity) + "\"") : ""  )]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
               </Expression>
             </Computed>
             <Complex>
@@ -14859,6 +14899,7 @@ form.formBehavior.visibilities.operationResult = False
 
 //variable set up
 form.enhancement.goodsItemCZvalidatation = true
+
 form.actions.validateEachGoodsItemCZ()
 
 var fullyEnh = true
@@ -15303,6 +15344,9 @@ form.formBehavior.visibilities.operationResult = true
         <Script><![CDATA[form.operationResultMessage = msg
 form.formBehavior.operationResultError = false
 form.formBehavior.visibilities.operationResult = true
+
+//show error in new notifications window
+apiobjects.notificationsCtrl.addInfo(msg)
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -16461,7 +16505,7 @@ else
 	var goodsItemData = form.dataSetGoodsItems.response.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.selectFirst()
 	var targetData = form.enhancement.modelServerEnhacement
 	
-	targetData.clear() 
+	targetData.clear()
 	targetData.fromJson(goodsItemData.toJson())
 	
 endIf
@@ -16478,8 +16522,8 @@ globals.IsBusy = false
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
-if form.enhancement.modelServerEnhacement.completed and form.enhancement.isEnhancementEditOn then
-	
+//if form.enhancement.modelServerEnhacement.completed and form.enhancement.isEnhancementEditOn then
+if form.enhancement.isEnhancementEditOn then	
 	//clear all previous error messages
 	form.operationResultMessage.clear()
 	form.formBehavior.visibilities.operationResult = False
@@ -16570,11 +16614,9 @@ if form.enhancement.modelServerEnhacement.completed and form.enhancement.isEnhan
 	
 		endIf
 			
-
-	
 else
 	if form.uiState.messageCounter < 7 then
-		form.actions.showEnhancementErrorMessage("Vyberte \"Hotovo\" u vybrané položky a zkontrolujte jestli editujete povolení. ", true)
+		form.actions.showEnhancementErrorMessage("Zkontrolujte jestli jste zmáčkli tlačítko \"Editovat\". ", true)
 		form.uiState.messageCounter = form.uiState.messageCounter + 1
 	endIf
 		
@@ -16610,8 +16652,57 @@ else
 	//test
 	system.console("GoodsItem uložen úspěšně.")//test
 	form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
+	form.apiobjects.enhancementDeclistGoodsItems.focusFirstRecord()
 	form.apiobjects.enhancementDeclistGoodsItems.setReady(True)
 endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="validateGoods" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
+
+var faltyGoodsCount = defaultInt()
+
+var cdGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+var cdVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
+var basicFilterString = "(customsDecisionGUID eq '" + cdGUID + "' and customsDecisionVersionGUID eq '" + cdVersionGUID + "'"
+var acceptHeaderValue = "application/json;odata=verbose,text/plain"
+
+if form.zobrazEUS then
+
+	var filterValue = basicFilterString + " and (cnCodeForSecuringExists eq 'false' or completed eq 'false'))"
+	faltyGoodsCount = form.apiobjects.declListQuery.getCountAsync(filterValue, acceptHeaderValue)
+else
+
+	var filterValue = basicFilterString + " and completed eq 'false')"
+	faltyGoodsCount = form.apiobjects.declListQuery.getCountAsync(filterValue, acceptHeaderValue)
+endIf
+
+var faltyGoodsNotification = "Falty Goods Count: " + toString(faltyGoodsCount)
+apiobjects.notificationsCtrl.addInfo(faltyGoodsNotification)
+
+//form.apiobjects.enhancementDeclistGoodsItems.setInvisibleODataFilter("(customsDecisionGUID eq '" + cdGUID + "' and customsDecisionVersionGUID eq '" + cdVersionGUID +"')")
+
+form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
+
+globals.IsBusy = False]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_button_count_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var faltyGoodsCount = form.apiobjects.enhancementDeclistGoodsItems.getRowCount()
+apiobjects.notificationsCtrl.addInfo("Falty Goods Count" + toString(faltyGoodsCount))]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -17085,5 +17176,10 @@ endIf]]></Script>
       <Name value="enhancementDeclistGoodsItems" />
       <server reference="+GlobalApiObjects.ServerKomunikace" />
     </ListCtrl>
+    <DeclListQuery identity="DeclListQuery.f41d2c211a8f43618588763e63b56065">
+      <Name value="declListQuery" />
+      <listName value="DatasetGoodsCZ" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+    </DeclListQuery>
   </ApiObjects>
 </Form>
