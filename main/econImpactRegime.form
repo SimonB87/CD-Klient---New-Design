@@ -335,10 +335,40 @@
                       </Bindings>
                       <Children>
                         <Button>
-                          <Name value="saveButton" />
+                          <Name value="btnSave" />
                           <Caption value="Uložit" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="*" />
+                          <Panel.Width value="100px" />
+                          <OnClick>
+                            <ActionEvent ReferencedAction="~storeEnhacement" />
+                          </OnClick>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-button" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Button>
+                        <Button>
+                          <Name value="btnCloseAndSave" />
+                          <Caption value="Uložit a zavřít" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="100px" />
+                          <OnClick>
+                            <ActionEvent ReferencedAction="~storeAndClose" />
+                          </OnClick>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-button" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Button>
+                        <Button>
+                          <Name value="saveButton" />
+                          <Caption value="Uložit (old)" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="100px" />
                           <OnClick>
                             <ActionEvent ReferencedAction="~saveEnhancement" />
                           </OnClick>
@@ -354,9 +384,9 @@
                         </Button>
                         <Button>
                           <Name value="saveCloseButton" />
-                          <Caption value="Uložit a zavřít" />
+                          <Caption value="Uložit a zavřít (old)" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="*" />
+                          <Panel.Width value="100px" />
                           <OnClick>
                             <ActionEvent ReferencedAction="~saveAndClose" />
                           </OnClick>
@@ -10152,13 +10182,13 @@
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listC2_completed1" />
-                                      <Caption value="completed" />
+                                      <Caption value="Doplňěno" />
                                       <ColumnName value="completed" />
                                       <DataType value="bool" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listC2_combinedNomenclatureCode1" />
-                                      <Caption value="combinedNomenclatureCode" />
+                                      <Caption value="Kód KN" />
                                       <ColumnName value="combinedNomenclatureCode" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
@@ -10325,13 +10355,13 @@
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listC2_completed2" />
-                                      <Caption value="completed" />
+                                      <Caption value="Doplněno" />
                                       <ColumnName value="completed" />
                                       <DataType value="bool" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listC2_combinedNomenclatureCode2" />
-                                      <Caption value="combinedNomenclatureCode" />
+                                      <Caption value="Kód KN" />
                                       <ColumnName value="combinedNomenclatureCode" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
@@ -14190,7 +14220,6 @@ actions.commonLoadData(form.GUID)
 
 if globals.dataLoadingSpace.success then
 
-  //stage out - 28.05.2020 - 13:00
   form.CD.fromJson(globals.dataLoadingSpace.cdDetailJson)
   
   //load plain object 
@@ -15027,37 +15056,6 @@ globals.IsBusy = false
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="checkGoodsCompletness" />
-      <IsDisabled value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[result = true
-foreach g2bpxItem in form.cdAux.g2bpx do
-  foreach goodsItem in g2bpxItem.goodsItemCZ do
-    if packages.utils.functions.isFalseOrNull(goodsItem.completed) then
-      result = false
-    endif
-  endfor
-endfor
-]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext>
-          <Children>
-            <Attribute>
-              <Name value="result" />
-              <Caption value="Result" />
-              <DataContextParameter.IsResult value="True" />
-              <DeclaredType>
-                <AttributeType>
-                  <BaseType value="Bool" />
-                </AttributeType>
-              </DeclaredType>
-            </Attribute>
-          </Children>
-        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
@@ -16667,34 +16665,90 @@ endIf]]></Script>
 
 form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
 
-var faltyGoodsCount = defaultInt()
-
 var cdGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
 var cdVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
 var basicFilterString = "(customsDecisionGUID eq '" + cdGUID + "' and customsDecisionVersionGUID eq '" + cdVersionGUID + "'"
+var filterValue = defaultString()
 var acceptHeaderValue = "application/json;odata=verbose,text/plain"
+result = defaultBool()
+
+form.operationResultMessage.clear()
 
 if form.zobrazEUS then
-
-	var filterValue = basicFilterString + " and (cnCodeForSecuringExists eq 'false' or completed eq 'false'))"
-	faltyGoodsCount = form.apiobjects.declListQuery.getCountAsync(filterValue, acceptHeaderValue)
+	var noticeToUser = defaultString()
+	filterValue = basicFilterString + " and cnCodeForSecuringExists eq 'false')"
+	var miggingCnCodeGoodsItems = form.apiobjects.declListQuery.getCountAsync(filterValue, acceptHeaderValue)
+	
+	if miggingCnCodeGoodsItems > 0 then
+		var missingCnCode = form.actions.askForMissingCnCodeGoodsItemsID()
+		noticeToUser = "U některých položek zboží (celkem počet: '"+ toString(miggingCnCodeGoodsItems)  
+						+ "') doplňte údaj 'Kód KN pro dozajištění' (např.: položka s kód KN :'" 
+						+ missingCnCode + "').  *  "	 
+	endIf
+	
+	filterValue = basicFilterString + " and completed eq 'false')"
+	var miggingCompletedGoodsItems = form.apiobjects.declListQuery.getCountAsync(filterValue, acceptHeaderValue)
+	
+	if miggingCompletedGoodsItems > 0 then
+		var missingCompleted = form.actions.askForMissingCompleted()
+		noticeToUser = noticeToUser
+						+ "U některých položek zboží (celkem počet: '"+ toString(miggingCompletedGoodsItems)
+						+ "') doplňte údaj 'Doplněno' (např.: položka s kód KN :'" 
+						+ missingCompleted + "')."
+	endIf
+	
+	if (miggingCnCodeGoodsItems > 0) or (miggingCompletedGoodsItems > 0) then
+		form.actions.showEnhancementErrorMessage(noticeToUser, true)
+		result = false
+	else
+		result = true
+		apiobjects.notificationsCtrl.addSuccess("Seznam zbožových položek je správně vyplněn.")
+	endIf
+	
 else
-
-	var filterValue = basicFilterString + " and completed eq 'false')"
-	faltyGoodsCount = form.apiobjects.declListQuery.getCountAsync(filterValue, acceptHeaderValue)
+	
+	var noticeToUser = defaultString()
+	
+	filterValue = basicFilterString + " and completed eq 'false')"
+	var miggingCompletedGoodsItems = form.apiobjects.declListQuery.getCountAsync(filterValue, acceptHeaderValue)
+	
+	if miggingCompletedGoodsItems > 0 then
+		var missingCompleted = form.actions.askForMissingCompleted()
+		noticeToUser = noticeToUser
+						+ "U některých položek zboží (celkem počet: '"+ toString(miggingCompletedGoodsItems)
+						+ "') doplňte údaj 'Doplněno' (např.: položka s kód KN :'" 
+						+ missingCompleted + "')."
+	endIf
+	
+	if (miggingCompletedGoodsItems > 0) then
+		form.actions.showEnhancementErrorMessage(noticeToUser, true)
+		result = false
+	else
+		result = true
+		apiobjects.notificationsCtrl.addSuccess("Seznam zbožových položek je správně vyplněn.")
+	endIf
 endIf
-
-var faltyGoodsNotification = "Falty Goods Count: " + toString(faltyGoodsCount)
-apiobjects.notificationsCtrl.addInfo(faltyGoodsNotification)
-
-//form.apiobjects.enhancementDeclistGoodsItems.setInvisibleODataFilter("(customsDecisionGUID eq '" + cdGUID + "' and customsDecisionVersionGUID eq '" + cdVersionGUID +"')")
 
 form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <Description value="is Goods Item Collection valid - boolean" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
@@ -16706,6 +16760,265 @@ apiobjects.notificationsCtrl.addInfo("Falty Goods Count" + toString(faltyGoodsCo
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="storeEnhacement" />
+      <ActionLangBody>
+        <Script><![CDATA[globals.IsBusy = true
+
+//clear error message
+form.operationResultMessage.clear()
+form.formBehavior.visibilities.operationResult = False
+form.formBehavior.operationResultError = defaultBool()
+
+//variable set up
+form.enhancement.goodsItemCZvalidatation = true
+
+var fullyEnh = defaultBool()
+var enh = form.cdeReq.customsDecisionAuthorisationData.enhancementCZ
+
+//Currently periodForClearance isn't mandatory
+//if form.enhancement.goodsItemCZvalidatation then
+//  if form.zobrazIPO or form.zobrazEUS then
+//      form.enhancement.goodsItemCZvalidatation = enh.periodForClearance.isValid() 
+//	    form.actions.showEnhancementErrorMessage("Lhůta pro zúčtování vykazuje chybu. ", true)
+//	    form.enhancement.clientMsg.sendRequest = true
+
+//      Currently periodForClearance isn't mandatory
+//      fullyEnh = form.enhancement.goodsItemCZvalidatation and enh.periodForClearance.hasValue()
+//  endif
+//endif
+
+fullyEnh = form.actions.checkSimplifiedProcesures()
+
+if form.enhancement.goodsItemCZvalidatation then
+  // let's make check for validity and completness of goods-items data   	
+  var allCompleted = form.actions.validateGoods()
+  
+  fullyEnh = fullyEnh and allCompleted
+  
+  //fill in edit note strinf from GUI
+  enh.editNote = form.CD.customsDecisionAuthorisationData.enhancementCZ.editNote
+    
+  if form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced and not (fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid()) then
+       
+    form.enhancement.goodsItemCZvalidatation = false
+      form.actions.showEnhancementErrorMessage("Doplňte poznámku a zkontrolujte, jestli je rozhodnutí plně obohaceno. ", true)
+      form.enhancement.clientMsg.sendRequest = true
+    
+  endif
+  
+endif
+
+if form.enhancement.goodsItemCZvalidatation then
+  form.actions.fillenhancementMessage()
+  enh.fullyEnhanced = fullyEnh
+  
+  var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.cdeReq.toJson())
+  
+  if resp.isError() or (resp.getMessageType() = "IN906A") then
+        
+    var errorMsg = resp.getErrorMessage()
+    system.consoleError(errorMsg)
+    errorMsg = resp.getJsonString()
+    system.consoleError("Response content: " + errorMsg)
+    form.actions.showEnhancementErrorMessage("Něco se nezdařilo. Změny se nepovedlo uložit. ", true)
+    form.enhancement.clientMsg.sendRequest = true
+
+    form.uiState.cdGoodsItemCollectionJson.clear()
+    form.formBehavior.operationResultError = false
+   
+  else
+        
+    var msg = "Změny byly odeslány a uloženy na server."
+    if fullyEnh then
+      msg = msg + " Verze byla uložena s příznakem \"kompletní\". \t"
+      form.mode = enums.DetailMode.show
+    endif
+    
+    form.actions.showEnhancementErrorMessage(msg, false)
+    form.enhancement.clientMsg.sendRequest = true
+    
+    
+    actions.commonLoadData(form.GUID)
+    if globals.dataLoadingSpace.success then
+    	form.CD.clear()
+    	form.CD.fromJson(globals.dataLoadingSpace.cdDetailJson)
+    	form.actions.afterVersionLoad()
+    endIF
+    
+  endif
+
+else
+  form.actions.showEnhancementErrorMessage("Tyto údaje nejde uložit. Zkontrolujte správnost dat. ", true)
+  form.enhancement.clientMsg.sendRequest = true
+endif
+
+if form.enhancement.clientMsg.sendRequest = True then
+	form.actions.sendErrorAsClientMsg()
+endIf
+
+globals.IsBusy = false
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="storeAndClose" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.actions.storeEnhacement()
+
+if form.formBehavior.operationResultSuccess then
+  actions.closeDetail_G()
+endif
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="askForMissingCnCodeGoodsItemsID" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var cdGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+var cdVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
+var basicFilterString = "(customsDecisionGUID eq '" + cdGUID + "' and customsDecisionVersionGUID eq '" + cdVersionGUID + "'"
+var filter = basicFilterString + " and cnCodeForSecuringExists eq 'false')"
+var columnNames = "completed, combinedNomenclatureCode, cnCodeForSecuringExists"
+
+var response = form.apiobjects.declListQuery.getResultAsync(columnNames, filter)
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+else
+	var output = response.getStringValue("combinedNomenclatureCode")
+	if output = defaultString() then
+		result = "'neznámé'"
+	else
+		result = output
+	endIf	
+	system.console(result)
+endif
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="askForMissingCompleted" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var cdGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+var cdVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
+var basicFilterString = "(customsDecisionGUID eq '" + cdGUID + "' and customsDecisionVersionGUID eq '" + cdVersionGUID + "'"
+var filter = basicFilterString + " and completed eq 'false')"
+var columnNames = "completed, combinedNomenclatureCode"
+
+var response = form.apiobjects.declListQuery.getResultAsync(columnNames, filter)
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+else
+	var output = response.getStringValue("combinedNomenclatureCode")
+	if output = defaultString() then
+		result = "'neznámé'"
+	else
+		result = output
+	endIf	
+	system.console(result)
+endif
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="fillenhancementMessage" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var cdaData = form.cdeReq.customsDecisionAuthorisationData
+
+cdaData.customsDecisionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+cdaData.customsDecisionVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
+
+var enh = cdaData.enhancementCZ
+
+if form.CD.customsDecisionAuthorisationData.enhancementCZ.periodForClearance.hasValue() then
+	form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.periodForClearance = form.CD.customsDecisionAuthorisationData.enhancementCZ.periodForClearance
+endif
+
+if form.cdAux.simplifiedEntryProcedureEnum.hasValue() then
+  enh.simplifiedEntryProcedure = form.cdAux.simplifiedEntryProcedureEnum = enums.CzechBooleanEnum.YES
+else
+  // just for safety
+  enh.simplifiedEntryProcedure.clear()
+endif
+
+if form.cdAux.simplifiedReleaseProcedureEnum.hasValue() then
+  enh.simplifiedReleaseProcedure = form.cdAux.simplifiedReleaseProcedureEnum = enums.CzechBooleanEnum.YES
+else
+  // just for safety
+  enh.simplifiedReleaseProcedure.clear()
+endif
+
+if form.CD.customsDecisionAuthorisationData.enhancementCZ.editNote.hasValue() then
+	enh.editNote = form.CD.customsDecisionAuthorisationData.enhancementCZ.editNote
+endif
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="checkSimplifiedProcesures" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.cdAux.simplifiedEntryProcedureEnum.hasValue() and form.cdAux.simplifiedReleaseProcedureEnum.hasValue() then
+  result = True
+else
+  result = False
+endIf  ]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
   </Actions>
