@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?data-format version="0.400"?>
 <Form>
-  <Name value="AseoNewApp" />
-  <Caption value="Aseo new app" />
+  <Name value="AseoNewApplication" />
+  <Caption value="Aseo new application" />
   <Content>
     <Panel>
       <Name value="pnlMain" />
@@ -72,7 +72,7 @@
                     <TextBox>
                       <Name value="textBox_EORI_TIN" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="33%" />
+                      <Panel.Width value="33.33%" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.TIN" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.TIN.isRequired()" />
@@ -89,7 +89,7 @@
                       <Name value="referenceCombo1" />
                       <DisplayMember value="_description" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="33%" />
+                      <Panel.Width value="33.33%" />
                       <ReferenceList reference="~povolTyp" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.AuthorizationType" />
@@ -108,7 +108,7 @@
                       <Caption value="Zodpovědný CÚ" />
                       <DisplayMember value="_description" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="33%" />
+                      <Panel.Width value="33.33%" />
                       <ReferenceList reference="~userCustomsOffice" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="form.uiState.selectedCustomsOffice" />
@@ -139,23 +139,6 @@
                     <Binding SourceProperty="IsVisible" Expression="globals.OverenyUzivatel.hasRoleAdmin" />
                   </Bindings>
                   <Children>
-                    <CheckBox>
-                      <Name value="isCustomsCUused" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="33%" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="uiState.customCU.isCustomsCUused" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="uiState.customCU.isCustomsCUused.isRequired()" />
-                        <Binding SourceProperty="Caption" Expression="uiState.customCU.isCustomsCUused.caption()" />
-                        <Binding SourceProperty="IsVisible" Expression="globals.OverenyUzivatel.hasRoleAdmin" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-checkbox" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </CheckBox>
                     <TextBox>
                       <Name value="textCustomCU" />
                       <Panel.Height value="#" />
@@ -174,11 +157,34 @@
                         </CssClassConditional>
                       </CssClass>
                     </TextBox>
+                    <CheckBox>
+                      <Name value="isCustomsCUused" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="33%" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="uiState.customCU.isCustomsCUused" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="uiState.customCU.isCustomsCUused.isRequired()" />
+                        <Binding SourceProperty="Caption" Expression="uiState.customCU.isCustomsCUused.caption()" />
+                        <Binding SourceProperty="IsVisible" Expression="globals.OverenyUzivatel.hasRoleAdmin" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-checkbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </CheckBox>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
                       <ClassName value="{theme}-panel" />
                       <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="childsFloatRight" />
+                      <Bindings>
+                        <Binding SourceProperty="Condition" Expression="globals.OverenyUzivatel.hasRoleAdmin" />
+                      </Bindings>
                     </CssClassConditional>
                   </CssClass>
                 </Panel>
@@ -200,7 +206,7 @@
         </GroupBox>
         <GroupBox>
           <Name value="groupBox_subject" />
-          <Caption value="Group box _ subject" />
+          <Caption value="Údaje o subjektu" />
           <Panel.Height value="#" />
           <Panel.Width value="*" />
           <Content>
@@ -217,7 +223,7 @@
                     <TextBox>
                       <Name value="textBox1" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="66%" />
+                      <Panel.Width value="66.66%" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.OperatorName" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.OperatorName.isRequired()" />
@@ -233,7 +239,7 @@
                     <TextBox>
                       <Name value="textBox2" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="33%" />
+                      <Panel.Width value="33.33%" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.OperatorStreetAndNr" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.OperatorStreetAndNr.isRequired()" />
@@ -263,7 +269,7 @@
                     <TextBox>
                       <Name value="textBox3" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="*" />
+                      <Panel.Width value="33.33%" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.OperatorCity" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.OperatorCity.isRequired()" />
@@ -279,7 +285,7 @@
                     <TextBox>
                       <Name value="textBox4" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="*" />
+                      <Panel.Width value="33.33%" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.OperatorPostCode" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.OperatorPostCode.isRequired()" />
@@ -296,7 +302,7 @@
                       <Name value="referenceCombo2" />
                       <DisplayMember value="_description" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="*" />
+                      <Panel.Width value="33.33%" />
                       <ReferenceList reference="~zeme_o" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.OperatorCountry" />
@@ -343,7 +349,7 @@
             <GroupBox>
               <Name value="groupBox_applications" />
               <Caption value="Žádost" />
-              <Panel.Height value="#" />
+              <Panel.Height value="100%" />
               <Panel.Width value="50%" />
               <Content>
                 <Panel>
@@ -351,7 +357,7 @@
                   <Orientation value="Vertical" />
                   <Children>
                     <Panel>
-                      <Name value="panel7" />
+                      <Name value="box3_panel1" />
                       <Orientation value="Horizontal" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
@@ -360,7 +366,7 @@
                           <Name value="ReferenceNumber" />
                           <CaptionPosition value="Top" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="*" />
+                          <Panel.Width value="50%" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.ReferenceNumber" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.ReferenceNumber.isRequired()" />
@@ -377,7 +383,7 @@
                           <Name value="DecisionDate" />
                           <CaptionPosition value="Top" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="*" />
+                          <Panel.Width value="50%" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.DecisionDate" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.DecisionDate.isRequired()" />
@@ -399,7 +405,7 @@
                       </CssClass>
                     </Panel>
                     <Panel>
-                      <Name value="panel8" />
+                      <Name value="box3_panel2" />
                       <Orientation value="Horizontal" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
@@ -408,7 +414,7 @@
                           <Name value="YourMark" />
                           <CaptionPosition value="Top" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="*" />
+                          <Panel.Width value="50%" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.YourMark" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.YourMark.isRequired()" />
@@ -425,7 +431,7 @@
                           <Name value="ValidityStartDate" />
                           <CaptionPosition value="Top" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="*" />
+                          <Panel.Width value="50%" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.ValidityStartDate" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.ValidityStartDate.isRequired()" />
@@ -447,7 +453,7 @@
                       </CssClass>
                     </Panel>
                     <Panel>
-                      <Name value="panel9" />
+                      <Name value="box3_panel3" />
                       <Orientation value="Horizontal" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
@@ -456,7 +462,7 @@
                           <Name value="HandledBy" />
                           <CaptionPosition value="Top" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="*" />
+                          <Panel.Width value="50%" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.HandledBy" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.HandledBy.isRequired()" />
@@ -473,7 +479,7 @@
                           <Name value="DecidingPerson" />
                           <CaptionPosition value="Top" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="*" />
+                          <Panel.Width value="50%" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.DecidingPerson" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.DecidingPerson.isRequired()" />
@@ -495,7 +501,7 @@
                       </CssClass>
                     </Panel>
                     <Panel>
-                      <Name value="panel1" />
+                      <Name value="box3_panel4" />
                       <Orientation value="Horizontal" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
@@ -545,7 +551,7 @@
             <GroupBox>
               <Name value="groupBox_file" />
               <Caption value="Příloha" />
-              <Panel.Height value="#" />
+              <Panel.Height value="100%" />
               <Panel.Width value="50%" />
               <Content>
                 <Panel>
@@ -901,7 +907,7 @@
                     </AttributeType>
                   </DeclaredType>
                   <OnUserChange>
-                    <ActionEvent ReferencedAction="+UiParts.AseoNewApp.clearCustomCU" />
+                    <ActionEvent ReferencedAction="+UiParts.AseoNewApplication.clearCustomCU" />
                   </OnUserChange>
                 </Attribute>
                 <Computed>
@@ -921,8 +927,24 @@
                     <AttributeType />
                   </DeclaredType>
                   <OnUserChange>
-                    <ActionEvent ReferencedAction="+UiParts.AseoNewApp.clearGenericUserCU" />
+                    <ActionEvent ReferencedAction="+UiParts.AseoNewApplication.clearGenericUserCU" />
                   </OnUserChange>
+                  <Validators>
+                    <Validator Name="val1">
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Hodnota není validní (příklad správné hodnoty CZ510000)"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
                 </Attribute>
                 <Computed>
                   <Name value="hasValue_textCustomCU" />
