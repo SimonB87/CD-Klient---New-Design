@@ -553,13 +553,120 @@
           <Children>
             <GroupBox>
               <Name value="groupBox_collection" />
-              <Caption value="Group box _ collection" />
+              <Caption value="Přidané přílohy" />
               <Panel.Height value="#" />
-              <Panel.Width value="*" />
+              <Panel.Width value="50%" />
               <Content>
                 <Panel>
                   <Name value="panel8" />
                   <Orientation value="Horizontal" />
+                  <Children>
+                    <GroupBox>
+                      <Name value="groupBox_filesCollection" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Content>
+                        <DataTable>
+                          <Name value="dataTable_filesCollection" />
+                          <Bindings>
+                            <Binding SourceProperty="DataItems" Expression="form.aseoApplication.ASEO.Event.File" />
+                          </Bindings>
+                          <Columns>
+                            <DataColumn>
+                              <Name value="dataColumn1" />
+                              <Caption value="Fulltextový soubor" />
+                              <Content>
+                                <CheckBox>
+                                  <Name value="checkBox_IsFulltext" />
+                                  <Caption value="Fulltextový soubor" />
+                                  <CaptionPosition value="Hide" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="IsFulltext" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="IsFulltext.isRequired()" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-checkbox" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </CheckBox>
+                              </Content>
+                              <HeaderCssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-datacolumn" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </HeaderCssClass>
+                            </DataColumn>
+                            <DataColumn>
+                              <Name value="dataColumn2" />
+                              <Caption value="Název souboru" />
+                              <Content>
+                                <Label>
+                                  <Name value="label_FileName" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="FileName" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-label" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Label>
+                              </Content>
+                              <HeaderCssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-datacolumn" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </HeaderCssClass>
+                            </DataColumn>
+                            <DataColumn>
+                              <Name value="dataColumn3" />
+                              <Caption value="Typ souboru" />
+                              <Content>
+                                <Label>
+                                  <Name value="label_FileType" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="FileType" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-label" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Label>
+                              </Content>
+                              <HeaderCssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-datacolumn" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </HeaderCssClass>
+                            </DataColumn>
+                          </Columns>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-datatable" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </DataTable>
+                      </Content>
+                      <Bindings>
+                        <Binding SourceProperty="Caption" Expression="aseoApplication.ASEO.Event.File.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-groupbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </GroupBox>
+                  </Children>
                   <CssClass>
                     <CssClassConditional>
                       <ClassName value="{theme}-panel" />
@@ -579,7 +686,7 @@
               <Name value="groupBox_file" />
               <Caption value="Příloha" />
               <Panel.Height value="#" />
-              <Panel.Width value="*" />
+              <Panel.Width value="50%" />
               <Content>
                 <Panel>
                   <Name value="panel6" />
@@ -596,10 +703,10 @@
                           <Caption value="Vyberte soubor přílohy" />
                           <CaptionPosition value="Top" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="50%" />
+                          <Panel.Width value="33.33%" />
                           <Bindings>
-                            <Binding SourceProperty="FileContent" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.fileContent" />
-                            <Binding SourceProperty="FileName" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.fileName" />
+                            <Binding SourceProperty="FileContent" Expression="form.uiState.annexModel.FileContent" />
+                            <Binding SourceProperty="FileName" Expression="form.uiState.annexModel.FileName" />
                             <Binding SourceProperty="FileType" Expression="" />
                           </Bindings>
                           <CssClass>
@@ -615,10 +722,27 @@
                           <CaptionPosition value="Top" />
                           <IsEnabled value="False" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="50%" />
+                          <Panel.Width value="33.33%" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.fileName" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.fileName.isRequired()" />
+                            <Binding SourceProperty="Data" Expression="form.uiState.annexModel.FileName" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.uiState.annexModel.FileName.isRequired()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                        <TextBox>
+                          <Name value="textBox51" />
+                          <Caption value="Typ dokumentu" />
+                          <CaptionPosition value="Top" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33.33%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="form.uiState.annexModel.FileType" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.uiState.annexModel.FileType.isRequired()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -641,41 +765,23 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Children>
-                        <TextBox>
-                          <Name value="textBox51" />
-                          <Caption value="Typ dokumentu" />
+                        <CheckBox>
+                          <Name value="IsFulltext" />
                           <CaptionPosition value="Top" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="50%" />
+                          <Panel.Width value="33.33%" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.documentType" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.documentType.isRequired()" />
+                            <Binding SourceProperty="Data" Expression="uiState.annexModel.IsFulltext" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="uiState.annexModel.IsFulltext.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="uiState.annexModel.IsFulltext.caption()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
+                              <ClassName value="{theme}-checkbox" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </TextBox>
-                        <TextBox>
-                          <Name value="textBox53" />
-                          <Caption value="Identifikátor dokumentu" />
-                          <CaptionPosition value="Top" />
-                          <ImmediateUpdate value="True" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="50%" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.documentIdentifier" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.documentIdentifier.isRequired()" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </TextBox>
+                        </CheckBox>
                       </Children>
                       <CssClass>
                         <CssClassConditional>
@@ -691,10 +797,13 @@
                       <Panel.Width value="*" />
                       <Children>
                         <Button>
-                          <Name value="button2" />
+                          <Name value="buttonSaveAnnex" />
                           <Caption value="Nahrát novou přílohu" />
                           <Panel.Height value="#" />
                           <Panel.Width value="200px" />
+                          <OnClick>
+                            <ActionEvent ReferencedAction="~addFileToCollection" />
+                          </OnClick>
                           <CssClass>
                             <CssClassConditional>
                               <ClassName value="{theme}-button" />
@@ -718,9 +827,9 @@
                           <Panel.Width value="1%" />
                           <Rows value="5" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.fileContent" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.fileContent.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.fileContent.caption()" />
+                            <Binding SourceProperty="Data" Expression="form.uiState.annexModel.FileContent" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.uiState.annexModel.FileContent.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="form.uiState.annexModel.FileContent.caption()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -729,24 +838,6 @@
                             </CssClassConditional>
                             <CssClassConditional>
                               <ClassName value="noResize" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </TextBox>
-                        <TextBox>
-                          <Name value="textBox64" />
-                          <Caption value="Selected CD version GUID" />
-                          <CaptionPosition value="Top" />
-                          <IsEnabled value="False" />
-                          <IsVisible value="False" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="1%" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="globals.uiGlobalState.CDversionGUID" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
-                              <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
                         </TextBox>
@@ -1095,6 +1186,54 @@
             <Complex>
               <Name value="annexModel" />
               <Caption value="Annex model" />
+              <Children>
+                <Attribute>
+                  <Name value="FileContent" />
+                  <Caption value="Obsah souboru" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileContent" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="FileName" />
+                  <Caption value="Název souboru" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileName" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="255" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="FileType" />
+                  <Caption value="Typ souboru" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileType" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="255" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="IsFulltext" />
+                  <Caption value="Je plný text či jen doplněk plného textu?" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/IsFulltext" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
             </Complex>
           </Children>
         </Complex>
@@ -1112,6 +1251,8 @@
 
 form.actions.setUserCustomsOffice()
 form.actions.setCodelistPovolTyp()
+
+form.uiState.annexModel.isFulltext = false
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -1252,6 +1393,18 @@ form.aseoApplication.Aseo.fromJson(data)]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var data = form.aseoApplication.ASEO.toJson()
 system.console(data)]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="addFileToCollection" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var newFile = form.aseoApplication.ASEO.Event.File.addItem()
+newFile.fromJson(form.uiState.annexModel.toJson())
+form.uiState.annexModel.clear()
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
