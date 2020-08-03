@@ -243,6 +243,11 @@
                   <DataType value="string" />
                 </listColumn>
                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="CustomsDecisionOrigin" />
+                  <Caption value="Původ povolení" />
+                  <ColumnName value="CustomsDecisionOrigin" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                   <Name value="LinkCZ50" />
                   <Caption value="LinkCZ50" />
                   <ColumnName value="LinkCZ50" />
@@ -1925,28 +1930,35 @@ globals.listState = form.apiobjects.listCtrl.saveState(defaultString())
 var unSupported = true
 var type = form.selectedCd.CustomsDecisionType
 var guid = form.selectedCd.CustomsDecisionGUID
+var customsDecisionOrigin = form.selectedCd.CustomsDecisionOrigin
+var isAseoDetail = type in ["TIR", "ACP"]
 
 // switch clause would be better, but ... everyone knows:-) 
 if type = "RSS" then
   unSupported = false
   navigation.main.regularShipping.withGUID(guid).go()
 endif
+
 if type in ["OPO", "IPO", "TEA", "CW1", "CW2", "CWP", "EUS", "TST"] then
   unSupported = false
   navigation.main.econImpactRegime.withGUID(guid).go()
 endif
+
 if type = "SSE" then
   unSupported = false
   navigation.main.useOfSealsOfSpecialType.withGUID(guid).go()
 endif
+
 if type in ["CCL", "EIR"] then
   unSupported = false
   navigation.main.centralisedClearance.withGUID(guid).go()
 endif
+
 if type = "TRD" then
   unSupported = false
   navigation.main.transitDeclaration.withGUID(guid).go()
 endif
+
 if type in ["CGU", "DPO"] then
   unSupported = false
   navigation.main.guaranteePayment.withGUID(guid).go()
@@ -1961,26 +1973,35 @@ if type = "SDE" then
   unSupported = false
   navigation.main.simplifiedDeclaration.withGUID(guid).go()
 endif
+
 if type = "CVA" then
   navigation.main.simplificationForCustomsValuation.withGUID(guid).go()
   unSupported = false
 endif
+
 if type = "ETD" then
   unSupported = false
   navigation.main.electronicTransportDocument.withGUID(guid).go()
 endif
+
 if type = "AWB" then
   unSupported = false
   navigation.main.weigherOfBananas.withGUID(guid).go()
 endif
+
 if type = "SAS" then
   unSupported = false
   navigation.main.selfAssessment.withGUID(guid).go()
 endif
 
-if type = "ACP" then
+if ((type = "ACP") and (customsDecisionOrigin = "CD")) then
   unSupported = false
   navigation.main.issuerDetail.withGUID(guid).go()
+endif
+
+if (isAseoDetail and (customsDecisionOrigin = "SP")) then
+  unSupported = false
+  navigation.main.AseoDetail.withGUID(guid).go()
 endif
 
 globals.IsBusy = false
