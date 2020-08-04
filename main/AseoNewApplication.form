@@ -22,7 +22,7 @@
               <Heading value="h2" />
               <Panel.Height value="#" />
               <Panel.HorizontalAlignment value="Center" />
-              <Panel.Width value="400px" />
+              <Panel.Width value="80%" />
               <CssClass>
                 <CssClassConditional>
                   <ClassName value="{theme}-label" />
@@ -30,21 +30,38 @@
                 </CssClassConditional>
               </CssClass>
             </Label>
-            <Button>
-              <Name value="button_storno" />
-              <Caption value="Storno" />
+            <Panel>
+              <Name value="panelButtonBack" />
+              <Orientation value="Horizontal" />
               <Panel.Height value="#" />
-              <Panel.Width value="150px" />
-              <OnClick>
-                <ActionEvent ReferencedAction="~handler_button_storno_OnClick" />
-              </OnClick>
+              <Panel.Width value="20%" />
+              <Children>
+                <Button>
+                  <Name value="buttonBack" />
+                  <Caption value="Zpět" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="120px" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~navigateHome" />
+                  </OnClick>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-button" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="floatRigth" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Button>
+              </Children>
               <CssClass>
                 <CssClassConditional>
-                  <ClassName value="{theme}-button" />
+                  <ClassName value="{theme}-panel" />
                   <IsThemedStyle value="True" />
                 </CssClassConditional>
               </CssClass>
-            </Button>
+            </Panel>
           </Children>
           <CssClass>
             <CssClassConditional>
@@ -569,28 +586,25 @@
                         <DataTable>
                           <Name value="dataTable_filesCollection" />
                           <Bindings>
-                            <Binding SourceProperty="DataItems" Expression="form.aseoApplication.ASEO.Event.File" />
+                            <Binding SourceProperty="DataItems" Expression="form.uiState.annexModelCollection" />
                           </Bindings>
                           <Columns>
                             <DataColumn>
                               <Name value="dataColumn1" />
                               <Caption value="Fulltextový soubor" />
                               <Content>
-                                <CheckBox>
-                                  <Name value="checkBox_IsFulltext" />
-                                  <Caption value="Fulltextový soubor" />
-                                  <CaptionPosition value="Hide" />
+                                <Label>
+                                  <Name value="label_isFullText" />
                                   <Bindings>
-                                    <Binding SourceProperty="Data" Expression="IsFulltext" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="IsFulltext.isRequired()" />
+                                    <Binding SourceProperty="Data" Expression="isFullTextComputed" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
-                                      <ClassName value="{theme}-checkbox" />
+                                      <ClassName value="{theme}-label" />
                                       <IsThemedStyle value="True" />
                                     </CssClassConditional>
                                   </CssClass>
-                                </CheckBox>
+                                </Label>
                               </Content>
                               <HeaderCssClass>
                                 <CssClassConditional>
@@ -600,7 +614,7 @@
                               </HeaderCssClass>
                             </DataColumn>
                             <DataColumn>
-                              <Name value="dataColumn2" />
+                              <Name value="FileName" />
                               <Caption value="Název souboru" />
                               <Content>
                                 <Label>
@@ -624,7 +638,7 @@
                               </HeaderCssClass>
                             </DataColumn>
                             <DataColumn>
-                              <Name value="dataColumn3" />
+                              <Name value="FileType" />
                               <Caption value="Typ souboru" />
                               <Content>
                                 <Label>
@@ -639,6 +653,31 @@
                                     </CssClassConditional>
                                   </CssClass>
                                 </Label>
+                              </Content>
+                              <HeaderCssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-datacolumn" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </HeaderCssClass>
+                            </DataColumn>
+                            <DataColumn>
+                              <Name value="deleteAnnex" />
+                              <Caption value="Smazat" />
+                              <Content>
+                                <Button>
+                                  <Name value="buttonDelete" />
+                                  <Caption value="Vymazat" />
+                                  <OnClick>
+                                    <ActionEvent ReferencedAction="~action1" />
+                                  </OnClick>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-button" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Button>
                               </Content>
                               <HeaderCssClass>
                                 <CssClassConditional>
@@ -771,9 +810,9 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="33.33%" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="uiState.annexModel.IsFulltext" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="uiState.annexModel.IsFulltext.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="uiState.annexModel.IsFulltext.caption()" />
+                            <Binding SourceProperty="Data" Expression="form.uiState.annexModel.IsFulltext" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.uiState.annexModel.IsFulltext.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="form.uiState.annexModel.IsFulltext.caption()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -824,7 +863,7 @@
                           <IsEnabled value="False" />
                           <IsVisible value="False" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="1%" />
+                          <Panel.Width value="*" />
                           <Rows value="5" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="form.uiState.annexModel.FileContent" />
@@ -851,12 +890,10 @@
                     </Panel>
                     <Panel>
                       <Name value="validationErrorMessage_pnl" />
+                      <IsVisible value="False" />
                       <Orientation value="Horizontal" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
-                      <Bindings>
-                        <Binding SourceProperty="IsVisible" Expression="globals.uiGlobalState.annex.annexCZaddNewFile.isThereErrorToDisplay" />
-                      </Bindings>
                       <Children>
                         <Label>
                           <Name value="label3" />
@@ -970,7 +1007,7 @@
             </Button>
             <Button>
               <Name value="button_loadData" />
-              <Caption value="Button load data" />
+              <Caption value="* Load data *" />
               <Panel.Height value="#" />
               <Panel.Width value="150px" />
               <OnClick>
@@ -981,11 +1018,14 @@
                   <ClassName value="{theme}-button" />
                   <IsThemedStyle value="True" />
                 </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="btnSecondary" />
+                </CssClassConditional>
               </CssClass>
             </Button>
             <Button>
               <Name value="button_consolePrint" />
-              <Caption value="Console print" />
+              <Caption value="* Console print *" />
               <Panel.Height value="#" />
               <Panel.Width value="150px" />
               <OnClick>
@@ -995,6 +1035,27 @@
                 <CssClassConditional>
                   <ClassName value="{theme}-button" />
                   <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="btnSecondary" />
+                </CssClassConditional>
+              </CssClass>
+            </Button>
+            <Button>
+              <Name value="button_validate" />
+              <Caption value="* Validovat *" />
+              <Panel.Height value="#" />
+              <Panel.Width value="150px" />
+              <OnClick>
+                <ActionEvent ReferencedAction="~validovat" />
+              </OnClick>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-button" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="btnSecondary" />
                 </CssClassConditional>
               </CssClass>
             </Button>
@@ -1235,6 +1296,68 @@
                 </Attribute>
               </Children>
             </Complex>
+            <Collection>
+              <Name value="annexModelCollection" />
+              <Caption value="Annex model collection" />
+              <Children>
+                <Attribute>
+                  <Name value="IsFulltext" />
+                  <Caption value="Je plný text či jen doplněk plného textu?" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/IsFulltext" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="FileContent" />
+                  <Caption value="Obsah souboru" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileContent" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="FileName" />
+                  <Caption value="Název souboru" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileName" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="255" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="FileType" />
+                  <Caption value="Typ souboru" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileType" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="255" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Computed>
+                  <Name value="isFullTextComputed" />
+                  <Caption value="Is full text computed" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[this.IsFulltext = True ? "Ano" : "Ne"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Collection>
           </Children>
         </Complex>
       </Children>
@@ -1252,18 +1375,9 @@
 form.actions.setUserCustomsOffice()
 form.actions.setCodelistPovolTyp()
 
-form.uiState.annexModel.isFulltext = false
+//vaibales et up
+form.uiState.annexModel.IsFulltext = false
 ]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="handler_button_storno_OnClick" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[navigation.main.decllistForm.go()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -1343,11 +1457,8 @@ system.console(output)//test]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = true
 
-if form.uiState.customCU.textCustomCU.hasValue() then
-	form.aseoApplication.ASEO.ResponsibleCustomsOffice = form.uiState.customCU.textCustomCU
-else
-	form.aseoApplication.ASEO.ResponsibleCustomsOffice = form.uiState.selectedCustomsOffice.Key
-endIf
+form.actions.sendApplication_fillCU()
+form.actions.sendApplication_fillAnnexCollection()
 
 if form.aseoApplication.isValid() then
 
@@ -1401,10 +1512,97 @@ system.console(data)]]></Script>
     <ActionBlock>
       <Name value="addFileToCollection" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var newFile = form.aseoApplication.ASEO.Event.File.addItem()
-newFile.fromJson(form.uiState.annexModel.toJson())
-form.uiState.annexModel.clear()
+        <Script><![CDATA[globals.IsBusy = True
+
+if form.uiState.annexModel.IsFulltext = defaultBool() then
+	form.uiState.annexModel.IsFulltext = false
+endIf
+
+if form.uiState.annexModel.isValid() then
+
+	var data = form.uiState.annexModel.toJson()
+	
+	var newFileToModel = form.aseoApplication.ASEO.Event.File.addItem()
+	newFileToModel.fromJson(data)
+	
+	var newFileToMesage = form.uiState.annexModelCollection.addItem()
+	newFileToMesage.fromJson(data)
+	
+	form.uiState.annexModel.setTouched(false)
+	form.uiState.annexModel.clear()
+	form.uiState.annexModel.IsFulltext = false
+
+else
+	form.uiState.annexModel.FileType.setTouched(true)
+	form.uiState.annexModel.FileName.setTouched(true)
+	apiobjects.notificationsCtrl.addWarning("Nejsou vyplněny všechny položky k příloze.")
+endIf
+
+globals.IsBusy = False]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="action1" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var index = params.data.index()
+var indexString = toString(index)
+var result = system.confirm("Chcete smazat přílohu číslo: " + indexString)
+
+if result then
+	params.data.removeMe()
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="sendApplication_fillCU" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.uiState.customCU.textCustomCU.hasValue() then
+	form.aseoApplication.ASEO.ResponsibleCustomsOffice = form.uiState.customCU.textCustomCU
+else
+	form.aseoApplication.ASEO.ResponsibleCustomsOffice = form.uiState.selectedCustomsOffice.Key
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="sendApplication_fillAnnexCollection" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var annexData = form.uiState.annexModelCollection.toJson()
+form.aseoApplication.ASEO.Event.File.fromJson(annexData)
 ]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="validovat" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var ASEO = "ASEO: " + toString(form.aseoApplication.ASEO.isValid()) + ". * "
+var Event = "Event: " + toString(form.aseoApplication.ASEO.Event.isValid()) + ". * "
+var fileCollection = "FileCollection: " + toString(form.aseoApplication.ASEO.Event.File.isValid()) + ". * "
+var annexModelCollection = "annexModelCollection: " + toString(form.uiState.annexModelCollection.isValid()) + ". * "
+
+var wholeString = ASEO + Event + fileCollection + annexModelCollection
+system.console(wholeString)]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="navigateHome" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[navigation.main.decllistForm.go()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
