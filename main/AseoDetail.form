@@ -63,7 +63,156 @@
             <AttributeType />
           </DeclaredType>
         </Attribute>
+        <Complex>
+          <Name value="model" />
+          <Caption value="Model" />
+          <Children>
+            <Include>
+              <Include reference="+DataEntities.ASEOSPDataResponseEx" />
+            </Include>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="requests" />
+          <Caption value="Requests" />
+          <Children>
+            <Complex>
+              <Name value="initReq" />
+              <Caption value="Init req" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOSPDataRequestEx" />
+                </Include>
+              </Children>
+            </Complex>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="formState" />
+          <Caption value="Form state" />
+          <Children>
+            <Complex>
+              <Name value="notifications" />
+              <Caption value="Notifications" />
+              <Children>
+                <Attribute>
+                  <Name value="operationResultMessage" />
+                  <Caption value="Operation result message" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="operationResultError" />
+                  <Caption value="Operation result error" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="visibleNoticeWindow" />
+                  <Caption value="Visible notice window" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+          </Children>
+        </Complex>
       </Children>
     </DataContext>
   </DataContext>
+  <OnActivate>
+    <ActionEvent ReferencedAction="~init" />
+  </OnActivate>
+  <Actions>
+    <ActionBlock>
+      <Name value="init" />
+      <ActionLangBody>
+        <Script><![CDATA[globals.IsBusy = true
+
+form.actions.loadAseoData()
+
+globals.IsBusy = false]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="loadAseoData" />
+      <ActionLangBody>
+        <Script><![CDATA[form.requests.initReq.ASEO.GUID = form.GUID
+  
+var resp = apiobjects.ServerKomunikace.postAsync("ASEOSPDataRequestEx", form.requests.initReq.ASEO.toJson(true))
+  
+if resp.isError() or (resp.getMessageType() = "IN906A") then
+    apiobjects.notificationsCtrl.addError("Data povolení nebyla načtena.")
+    form.actions.showEnhancementErrorMessage("Data povolení nebyla načtena. ", true)
+    
+    var errorMsg = resp.getErrorMessage()
+    system.consoleError("Response content: " + errorMsg)
+else
+	form.actions.showEnhancementErrorMessage("Data povolení byla úspěšně načtena. ", true)
+	
+    var respJson = resp.getJsonString()
+    form.model.ASEO.clear()
+    form.model.ASEO.fromJson(respJson)
+endIf
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="showEnhancementErrorMessage" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//add string with error description to other error messages
+form.formState.notifications.operationResultMessage = form.formState.notifications.operationResultMessage + errorContent
+//if true - the message for user imn operationResult will have red border; if false - we have only a good anoucement in operationResult with blue border
+form.formState.notifications.operationResultError = operationResultError
+//make panel with operationResult visible
+form.formState.notifications.visibleNoticeWindow = true
+
+//show error in new notifications window
+if operationResultError then
+	apiobjects.notificationsCtrl.addWarning(errorContent)
+else
+	apiobjects.notificationsCtrl.addInfo(errorContent)
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="errorContent" />
+              <Caption value="Error content" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="operationResultError" />
+              <Caption value="Operation result error" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+  </Actions>
 </Form>
