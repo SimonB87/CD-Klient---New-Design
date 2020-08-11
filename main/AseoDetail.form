@@ -1422,9 +1422,10 @@
                               <Caption value="Kód KN" />
                               <DataApiObject reference="+GlobalApiObjects.cnCodeCl" />
                               <DisplayMember value="_description" />
-                              <MinChars value="4" />
+                              <MinChars value="2" />
                               <Panel.Height value="#" />
                               <Panel.Width value="300px" />
+                              <useContains value="False" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="form.formState.sekce3zbozi.CNCode" />
                               </Bindings>
@@ -1497,7 +1498,7 @@
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
                   <OnClick>
-                    <ActionEvent ReferencedAction="~addPeriod" />
+                    <ActionEvent ReferencedAction="~handler_button1_addPeriod_OnClick" />
                   </OnClick>
                   <CssClass>
                     <CssClassConditional>
@@ -1613,7 +1614,7 @@
                           <Name value="box_periodItem" />
                           <Caption value="Lhůta" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="*" />
+                          <Panel.Width value="98.5%" />
                           <Content>
                             <Panel>
                               <Name value="panel29" />
@@ -1695,6 +1696,9 @@
                               <ClassName value="{theme}-groupbox" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
+                            <CssClassConditional>
+                              <ClassName value="counter-child" />
+                            </CssClassConditional>
                           </CssClass>
                         </GroupBox>
                       </Children>
@@ -1714,6 +1718,9 @@
                       <ClassName value="{theme}-repeater" />
                       <IsThemedStyle value="True" />
                     </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="counter-parent" />
+                    </CssClassConditional>
                   </CssClass>
                 </Repeater>
                 <Label>
@@ -1721,7 +1728,7 @@
                   <Data value="Povolení druhu vydávaných dokladů" />
                   <Heading value="h2" />
                   <Panel.Height value="#" />
-                  <Panel.Width value="300px" />
+                  <Panel.Width value="*" />
                   <CssClass>
                     <CssClassConditional>
                       <ClassName value="{theme}-label" />
@@ -1734,7 +1741,7 @@
                   <Data value="Kód schváleného vydavatele" />
                   <Heading value="h2" />
                   <Panel.Height value="#" />
-                  <Panel.Width value="300px" />
+                  <Panel.Width value="*" />
                   <CssClass>
                     <CssClassConditional>
                       <ClassName value="{theme}-label" />
@@ -1791,6 +1798,7 @@
                       <Children>
                         <FileReader identity="FileReader.f457f0445b7e44b7a3a1134647eff385">
                           <Name value="fileReader_addNewAnnex" />
+                          <CaptionPosition value="Hide" />
                           <Panel.Height value="#" />
                           <Panel.Width value="25%" />
                           <Bindings>
@@ -1807,7 +1815,6 @@
                         </FileReader>
                         <TextBox>
                           <Name value="textBox29" />
-                          <CaptionPosition value="Top" />
                           <Panel.Height value="#" />
                           <Panel.Width value="25%" />
                           <Bindings>
@@ -1843,6 +1850,9 @@
                           <Caption value="Přidej přílohu" />
                           <Panel.Height value="#" />
                           <Panel.Width value="150px" />
+                          <OnClick>
+                            <ActionEvent ReferencedAction="~insertNewFile" />
+                          </OnClick>
                           <CssClass>
                             <CssClassConditional>
                               <ClassName value="{theme}-button" />
@@ -2805,6 +2815,15 @@
                     </AttributeType>
                   </DeclaredType>
                 </Attribute>
+                <Complex>
+                  <Name value="request" />
+                  <Caption value="Request" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ASEOFileAdd" />
+                    </Include>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
           </Children>
@@ -3525,7 +3544,11 @@ else
 	form.formState.sekce3zbozi.switchInsertNewGoodsItem = not form.formState.sekce3zbozi.switchInsertNewGoodsItem
 endIf
 
-apiobjects.cnCodeCl.setDateTime(getDateTime())]]></Script>
+if form.model.ASEO.Event.ValidityStartDate.hasValue() then
+	apiobjects.cnCodeCl.setDateTime(form.model.ASEO.Event.ValidityStartDate)
+else
+	apiobjects.cnCodeCl.setDateTime(getDateTime())
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -3554,15 +3577,6 @@ globals.IsBusy = False
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="addPeriod" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.model.ASEO.Event.Period.addItem()]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="handler_button_addNewAnnex_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
@@ -3570,6 +3584,56 @@ globals.IsBusy = False
 	form.formState.sekce5prilohy.switchAddNewAnnex = true
 else
 	form.formState.sekce5prilohy.switchAddNewAnnex = not form.formState.sekce5prilohy.switchAddNewAnnex
+endIf
+
+form.formState.sekce5prilohy.addNewAnnex.IsFulltext = false]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="insertNewFile" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+form.formState.sekce5prilohy.request.ASEO.GUID = form.GUID
+form.formState.sekce5prilohy.request.ASEO.Event.GUID = form.VersionGUID
+var fileData = form.formState.sekce5prilohy.addNewAnnex.toJson()
+form.formState.sekce5prilohy.request.ASEO.Event.File.fromJson(fileData)
+
+var response = apiobjects.ServerKomunikace.postAsync("ASEOFileAdd", form.formState.sekce5prilohy.request.toJson())
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+	form.actions.showEnhancementErrorMessage("Příloha nebyla nahrána", true)
+else
+	form.formState.sekce5prilohy.addNewAnnex.clear()
+	form.actions.showEnhancementErrorMessage("Příloha úspěšně nahrána", false)
+	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+endIf
+
+globals.IsBusy = False
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_button1_addPeriod_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.formState.sekce4rozsirene.switchAddNewPeriod = defaultBool() then
+	form.formState.sekce4rozsirene.switchAddNewPeriod = true
+else
+ 	form.formState.sekce4rozsirene.switchAddNewPeriod = not form.formState.sekce4rozsirene.switchAddNewPeriod
+endIf
+
+if form.model.ASEO.Event.ValidityStartDate.hasValue() then
+	form.apiobjects.ZJPLHUTA.loadDataAsync(form.model.ASEO.Event.ValidityStartDate)
+else
+	form.apiobjects.ZJPLHUTA.loadDataAsync(getDateTime())
 endIf
 ]]></Script>
       </ActionLangBody>
