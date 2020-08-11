@@ -159,9 +159,15 @@
           <Children>
             <Button>
               <Name value="autorisation" />
-              <Caption value="Autorizovat" />
+              <Caption value="Autorizovat (upravit)" />
               <Panel.Height value="#" />
               <Panel.Width value="150px" />
+              <OnClick>
+                <ActionEvent ReferencedAction="~liveCycle_authorisation" />
+              </OnClick>
+              <Bindings>
+                <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+              </Bindings>
               <CssClass>
                 <CssClassConditional>
                   <ClassName value="{theme}-button" />
@@ -171,9 +177,12 @@
             </Button>
             <Button>
               <Name value="modification" />
-              <Caption value="Modifikovat" />
+              <Caption value="Modifikovat přijatou žádost" />
               <Panel.Height value="#" />
               <Panel.Width value="150px" />
+              <Bindings>
+                <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+              </Bindings>
               <CssClass>
                 <CssClassConditional>
                   <ClassName value="{theme}-button" />
@@ -183,9 +192,12 @@
             </Button>
             <Button>
               <Name value="cancelation" />
-              <Caption value="Zamítnout" />
+              <Caption value="Znovu načíst data" />
               <Panel.Height value="#" />
               <Panel.Width value="150px" />
+              <OnClick>
+                <ActionEvent ReferencedAction="~refreshData" />
+              </OnClick>
               <CssClass>
                 <CssClassConditional>
                   <ClassName value="{theme}-button" />
@@ -860,13 +872,13 @@
                             </TextBox>
                             <TextBox>
                               <Name value="textBox14" />
+                              <Caption value="Email osoby" />
                               <CaptionVAlign value="Middle" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.ResponsiblePersonEMail" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.ResponsiblePersonEMail.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.ResponsiblePersonEMail.caption()" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -875,8 +887,8 @@
                                 </CssClassConditional>
                               </CssClass>
                             </TextBox>
-                            <TextBox>
-                              <Name value="textBox22" />
+                            <CheckBox>
+                              <Name value="checkBox_ResponsiblePersonWantsToBeNotified" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
                               <Bindings>
@@ -886,11 +898,11 @@
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
+                                  <ClassName value="{theme}-checkbox" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </TextBox>
+                            </CheckBox>
                           </Children>
                           <CssClass>
                             <CssClassConditional>
@@ -915,6 +927,64 @@
                     </CssClassConditional>
                   </CssClass>
                 </Panel>
+                <GroupBox>
+                  <Name value="box_authorisation" />
+                  <Caption value="Autorizace" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Content>
+                    <Panel>
+                      <Name value="panel24" />
+                      <Orientation value="Horizontal" />
+                      <Children>
+                        <CheckBox>
+                          <Name value="checkBox3" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.LimitedAuthorizationValidity" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.LimitedAuthorizationValidity.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.LimitedAuthorizationValidity.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                        <DatePicker>
+                          <Name value="datePicker_AuthorizationValidUntil" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.AuthorizationValidUntil" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.AuthorizationValidUntil.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.AuthorizationValidUntil.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-datepicker" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </DatePicker>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Content>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-groupbox" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </GroupBox>
                 <GroupBox>
                   <Name value="box_detail" />
                   <Caption value="Podrobnosti rozhodnutí" />
@@ -1173,6 +1243,9 @@
                       <OnClick>
                         <ActionEvent ReferencedAction="~handler_buttonAddCO_OnClick" />
                       </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-button" />
@@ -1236,7 +1309,7 @@
                       <Content>
                         <Panel>
                           <Name value="panel15" />
-                          <Orientation value="Vertical" />
+                          <Orientation value="Horizontal" />
                           <Children>
                             <TextBox>
                               <Name value="textBox26" />
@@ -1255,6 +1328,24 @@
                                 </CssClassConditional>
                               </CssClass>
                             </TextBox>
+                            <Button>
+                              <Name value="buttonDeleteCO" />
+                              <Caption value="Smaž" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="150px" />
+                              <OnClick>
+                                <ActionEvent ReferencedAction="~handler_button1_OnClick" />
+                              </OnClick>
+                              <Bindings>
+                                <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-button" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Button>
                           </Children>
                           <CssClass>
                             <CssClassConditional>
@@ -1379,6 +1470,34 @@
                             </CssClassConditional>
                           </HeaderCssClass>
                         </DataColumn>
+                        <DataColumn>
+                          <Name value="dataColumn1" />
+                          <Caption value="Data column 1" />
+                          <Content>
+                            <Button>
+                              <Name value="buttonDeteleGood" />
+                              <Caption value="Smaž" />
+                              <OnClick>
+                                <ActionEvent ReferencedAction="~handler_buttonDeteleGood_OnClick" />
+                              </OnClick>
+                              <Bindings>
+                                <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-button" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Button>
+                          </Content>
+                          <HeaderCssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-datacolumn" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </HeaderCssClass>
+                        </DataColumn>
                       </Columns>
                       <CssClass>
                         <CssClassConditional>
@@ -1444,6 +1563,9 @@
                               <OnClick>
                                 <ActionEvent ReferencedAction="~insertNewGoodsItem" />
                               </OnClick>
+                              <Bindings>
+                                <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                              </Bindings>
                               <CssClass>
                                 <CssClassConditional>
                                   <ClassName value="{theme}-button" />
@@ -1517,30 +1639,12 @@
                   </Bindings>
                   <Children>
                     <ReferenceCombo>
-                      <Name value="referenceC_addTypeOfPeriod" />
-                      <DisplayMember value="_description" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="25%" />
-                      <ReferenceList reference="~eventTypeEnum" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="formState.sekce4rozsirene.newPeriod.TypeOfPeriod" />
-                        <Binding SourceProperty="Caption" Expression="formState.sekce4rozsirene.newPeriod.TypeOfPeriod.caption()" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.sekce4rozsirene.newPeriod.TypeOfPeriod.isRequired()" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-referencecombo" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </ReferenceCombo>
-                    <ReferenceCombo>
                       <Name value="referenceC_addZJPLHUTYP" />
                       <Caption value="Typ ZJP lhůty" />
                       <DisplayMember value="_description" />
                       <Panel.Height value="#" />
                       <Panel.Width value="25%" />
-                      <ReferenceList reference="~ZJPLHUTA" />
+                      <ReferenceList reference="~filtered_ZJPLHUTA" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="formState.sekce4rozsirene.newPeriod._ZJPLHUTYP" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.sekce4rozsirene.newPeriod._ZJPLHUTYP.isRequired()" />
@@ -1552,6 +1656,23 @@
                         </CssClassConditional>
                       </CssClass>
                     </ReferenceCombo>
+                    <TextBox>
+                      <Name value="textBox_TimeUnit" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="25%" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="formState.sekce4rozsirene.newPeriod.Unit" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.sekce4rozsirene.newPeriod.Unit.isRequired()" />
+                        <Binding SourceProperty="Caption" Expression="formState.sekce4rozsirene.newPeriod.Unit.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
                     <TextBox>
                       <Name value="textBox_addPeriodDuration" />
                       <Panel.Height value="#" />
@@ -1573,6 +1694,12 @@
                       <Caption value="Přidat lhůtu" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~insertPeriod" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-button" />
@@ -1608,38 +1735,38 @@
                   <Content>
                     <Panel>
                       <Name value="panel23" />
-                      <Orientation value="Horizontal" />
+                      <Orientation value="Vertical" />
                       <Children>
                         <GroupBox>
                           <Name value="box_periodItem" />
                           <Caption value="Lhůta" />
                           <Panel.Height value="#" />
+                          <Panel.HorizontalAlignment value="Right" />
                           <Panel.Width value="98.5%" />
                           <Content>
                             <Panel>
                               <Name value="panel29" />
                               <Orientation value="Horizontal" />
                               <Children>
-                                <ReferenceCombo>
-                                  <Name value="referenceCombo_TypeOfPeriod" />
-                                  <DisplayMember value="_description" />
+                                <TextBox>
+                                  <Name value="textBox_TypeOfPeriod" />
+                                  <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="25%" />
-                                  <ReferenceList reference="~eventTypeEnum" />
                                   <Bindings>
-                                    <Binding SourceProperty="Data" Expression="TypeOfPeriod" />
-                                    <Binding SourceProperty="Caption" Expression="TypeOfPeriod.caption()" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="TypeOfPeriod.isRequired()" />
+                                    <Binding SourceProperty="Data" Expression="TypeOfPeriod._description" />
+                                    <Binding SourceProperty="Caption" Expression="TypeOfPeriod.Description.caption()" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
-                                      <ClassName value="{theme}-referencecombo" />
+                                      <ClassName value="{theme}-textbox" />
                                       <IsThemedStyle value="True" />
                                     </CssClassConditional>
                                   </CssClass>
-                                </ReferenceCombo>
+                                </TextBox>
                                 <TextBox>
                                   <Name value="textBox_Unit" />
+                                  <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="25%" />
                                   <Bindings>
@@ -1656,6 +1783,7 @@
                                 </TextBox>
                                 <TextBox>
                                   <Name value="textBox_PeriodDuration" />
+                                  <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="25%" />
                                   <Bindings>
@@ -1675,6 +1803,12 @@
                                   <Caption value="Smazat lhůtu" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="150px" />
+                                  <OnClick>
+                                    <ActionEvent ReferencedAction="~handler_button_deletePeriod_OnClick" />
+                                  </OnClick>
+                                  <Bindings>
+                                    <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                                  </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
                                       <ClassName value="{theme}-button" />
@@ -1853,6 +1987,9 @@
                           <OnClick>
                             <ActionEvent ReferencedAction="~insertNewFile" />
                           </OnClick>
+                          <Bindings>
+                            <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                          </Bindings>
                           <CssClass>
                             <CssClassConditional>
                               <ClassName value="{theme}-button" />
@@ -2013,6 +2150,12 @@
                                   <Caption value="Smazat" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="100px" />
+                                  <OnClick>
+                                    <ActionEvent ReferencedAction="~handler_button_deleteAnnex_OnClick" />
+                                  </OnClick>
+                                  <Bindings>
+                                    <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                                  </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
                                       <ClassName value="{theme}-button" />
@@ -2487,6 +2630,15 @@
                 </Include>
               </Children>
             </Complex>
+            <Complex>
+              <Name value="modifyNewSub" />
+              <Caption value="Modify new sub" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOSPApplication" />
+                </Include>
+              </Children>
+            </Complex>
           </Children>
         </Complex>
         <Complex>
@@ -2668,27 +2820,26 @@
                   <Name value="newPeriod" />
                   <Caption value="New period" />
                   <Children>
-                    <Reference>
+                    <Complex>
                       <Name value="TypeOfPeriod" />
-                      <Caption value="Typ lhůty" />
-                      <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/Period/TypeOfPeriod" />
-                      <MtsImportOptions.MTS.Type value="element" />
+                      <Caption value="Type of period" />
                       <Children>
-                        <Include>
-                          <Include reference="+DataEntities.TypeOfTimerEnum" />
-                        </Include>
-                        <Computed>
-                          <Name value="_description" />
-                          <Caption value="_description" />
-                          <Expression IsValid="True">
-                            <ExpressionText><![CDATA[functions.codeListDescription(Key,Description)]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="String" />
-                            </ResultType>
-                          </Expression>
-                        </Computed>
+                        <Attribute>
+                          <Name value="Key" />
+                          <Caption value="Key" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="Description" />
+                          <Caption value="Description" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
                       </Children>
-                    </Reference>
+                    </Complex>
                     <Attribute>
                       <Name value="Unit" />
                       <Caption value="MJ" />
@@ -2710,6 +2861,9 @@
                     <Reference>
                       <Name value="_ZJPLHUTYP" />
                       <Caption value="_ ZJPLHUTYP" />
+                      <OnChange>
+                        <ActionEvent ReferencedAction="+UiParts.AseoDetail.setNewPeriod" />
+                      </OnChange>
                       <Children>
                         <Attribute>
                           <Name value="ZJPLHUTYP" />
@@ -2723,6 +2877,29 @@
                           <Caption value="POPIS" />
                           <DeclaredType>
                             <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="MJCAS" />
+                          <Caption value="MJCAS" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="POVOLTYP" />
+                          <Caption value="POVOLTYP" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="DOPDELKA" />
+                          <Caption value="DOPDELKA" />
+                          <DeclaredType>
+                            <AttributeType>
+                              <BaseType value="Integer" />
+                            </AttributeType>
                           </DeclaredType>
                         </Attribute>
                         <Computed>
@@ -3247,7 +3424,9 @@ if form.authorizationType in ["TIR", "ACP"] then
 	form.formState.sekce3zbozi.negativeCollectionView = false
 endIf
 
-form.actions.demoDataSetUp()
+//form.actions.demoDataSetUp()
+//globals.OverenyUzivatel.hasRoleWrite = false
+//globals.OverenyUzivatel.hasRoleAdmin = false
 
 globals.IsBusy = false]]></Script>
       </ActionLangBody>
@@ -3258,8 +3437,9 @@ globals.IsBusy = false]]></Script>
     <ActionBlock>
       <Name value="loadAseoData" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.requests.initReq.ASEO.GUID = form.GUID
-  
+        <Script><![CDATA[form.requests.initReq.ASEO.GUID = decisionGuid
+form.requests.initReq.ASEO.Event.GUID = decisionVersionGuid
+
 var resp = apiobjects.ServerKomunikace.postAsync("ASEOSPDataRequestEx", form.requests.initReq.toJson(true))
   
 if resp.isError() or (resp.getMessageType() = "IN906A") then
@@ -3632,10 +3812,136 @@ endIf
 
 if form.model.ASEO.Event.ValidityStartDate.hasValue() then
 	form.apiobjects.ZJPLHUTA.loadDataAsync(form.model.ASEO.Event.ValidityStartDate)
+	form.apiobjects.ZJPLHUTA.setDate(toDate(form.model.ASEO.Event.ValidityStartDate))
 else
 	form.apiobjects.ZJPLHUTA.loadDataAsync(getDateTime())
+	form.apiobjects.ZJPLHUTA.setDate(getDate())
 endIf
+
+var filter = form.apiobjects.filtered_ZJPLHUTA.getFilter()
+filter.includeItemsByStringColumn("POVOLTYP", form.authorizationType)
+filter.commit()
 ]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setNewPeriod" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var modelNewPeriod = form.formState.sekce4rozsirene.newPeriod
+
+modelNewPeriod.Unit = modelNewPeriod._ZJPLHUTYP.MJCAS
+modelNewPeriod.PeriodDuration = modelNewPeriod._ZJPLHUTYP.DOPDELKA
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="insertPeriod" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var newPeriod = form.model.ASEO.Event.Period.addItem()
+
+newPeriod.TypeOfPeriod.Key = form.formState.sekce4rozsirene.newPeriod._ZJPLHUTYP.ZJPLHUTYP
+newPeriod.TypeOfPeriod.Description = form.formState.sekce4rozsirene.newPeriod._ZJPLHUTYP.POPIS
+newPeriod.Unit = form.formState.sekce4rozsirene.newPeriod.Unit
+newPeriod.PeriodDuration = form.formState.sekce4rozsirene.newPeriod.PeriodDuration
+
+form.formState.sekce4rozsirene.newPeriod.clear()
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_button1_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var confirm = system.confirm("Chcete skutečně smazat Celní úřad?")
+if confirm then
+	params.data.removeMe()
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_buttonDeteleGood_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var confirm = system.confirm("Chcete skutečně smazat položku zboží?")
+if confirm then
+	params.data.removeMe()
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_button_deleteAnnex_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var confirm = system.confirm("Chcete skutečně smazat přidanou přílohu?")
+if confirm then
+	params.data.removeMe()
+endIf
+
+form.components.tabsMenu.Tab05prilohy.Title = "Text a přílohy (" + toString(form.model.ASEO.Event.File.count()) + ")"]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_button_deletePeriod_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var confirm = system.confirm("Chcete skutečně smazat lhůtu?")
+if confirm then
+	params.data.removeMe()
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="refreshData" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+form.actions.loadAseoData(form.GUID, form.VersionGUID)
+
+globals.IsBusy = False
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="liveCycle_authorisation" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form.model.toJson())
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+	form.actions.showEnhancementErrorMessage("Nastala chyba. Žádosti nemohla být autorizace udělena", true)
+else
+	form.model.clear()
+	form.actions.showEnhancementErrorMessage("Žádosti byla úspěšně předána k autorizaci.", false)
+	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+endIf
+
+globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -3701,7 +4007,6 @@ endIf
     <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
       <Name value="ZJPLHUTA" />
       <autoLoad value="False" />
-      <filterByDate value="False" />
       <name value="ZJPLHUTA" />
       <server reference="+GlobalApiObjects.ServerKomunikace" />
       <columns>
@@ -3713,7 +4018,31 @@ endIf
           <columnName value="POPIS" />
           <columnRole value="Description" />
         </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="OD" />
+          <columnRole value="ValidityStart" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="DO" />
+          <columnRole value="ValidityEnd" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="MJCAS" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POVOLTYP" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="DOPDELKA" />
+          <columnRole value="Description" />
+        </CodelistColumn>
       </columns>
     </Codelist>
+    <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="filtered_ZJPLHUTA" />
+      <codelistSource reference="~ZJPLHUTA" />
+    </FilteredCodelist>
   </ApiObjects>
 </Form>
