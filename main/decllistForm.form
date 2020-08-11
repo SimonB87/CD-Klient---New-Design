@@ -83,6 +83,7 @@
                 <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
                   <Name value="tabNews" />
                   <CustomCssClass value="tabItemStyle newsItem" />
+                  <Visible value="False" />
                   <Bindings>
                     <Binding SourceProperty="Title" Expression="form.tabFilter.Tab09.Title" />
                   </Bindings>
@@ -90,9 +91,15 @@
                 <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
                   <Name value="tabAdminNews" />
                   <CustomCssClass value="tabItemStyle newsItem" />
+                  <Visible value="False" />
                   <Bindings>
-                    <Binding SourceProperty="Visible" Expression="globals.OverenyUzivatel.hasRoleAdmin" />
                     <Binding SourceProperty="Title" Expression="form.tabFilter.Tab10.Title" />
+                  </Bindings>
+                </tab>
+                <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                  <Name value="tabNewSub" />
+                  <Bindings>
+                    <Binding SourceProperty="Title" Expression="tabFilter.tab11.Title" />
                   </Bindings>
                 </tab>
               </Tabs>
@@ -341,6 +348,12 @@
                   <Name value="LinkCZ65" />
                   <Caption value="LinkCZ65" />
                   <ColumnName value="LinkCZ65" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="listColumn_CustomsDecisionStatus" />
+                  <Caption value="CustomsDecisionStatus" />
+                  <ColumnName value="CustomsDecisionStatus" />
                   <IsVisible value="False" />
                 </listColumn>
               </columns>
@@ -1635,6 +1648,45 @@
                 </Computed>
               </Children>
             </Complex>
+            <Complex>
+              <Name value="tab11" />
+              <Caption value="Tab 11" />
+              <Children>
+                <Attribute>
+                  <Name value="Title" />
+                  <Caption value="Title" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Visible" />
+                  <Caption value="Visible" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="CustomCssClass" />
+                  <Caption value="Custom css class" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Computed>
+                  <Name value="IsSelected" />
+                  <Caption value="Is selected" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[this.owner().SelectedTab = 11]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
           </Children>
         </Complex>
         <Attribute>
@@ -1903,6 +1955,7 @@ else
 	
 endif
 
+form.apiobjects.listCtrl.setPageSize(12)
 form.apiobjects.listCtrl.setReady(true)
 
 //set up form variables
@@ -2063,7 +2116,8 @@ form.tabFilter.Tab05.Title = "Expirované"
 form.tabFilter.Tab06.Title = "Vše"
 form.tabFilter.Tab07.Title = "K doplnění"
 form.tabFilter.Tab09.Title = "Novinky"
-form.tabFilter.Tab10.Title = "Správa novinek"]]></Script>
+form.tabFilter.Tab10.Title = "Správa novinek"
+form.tabFilter.tab11.Title = "Nová žádost"]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -2107,6 +2161,9 @@ if form.tabFilter.SelectedTab.hasValue() then
 	endIf
 	if form.tabFilter.SelectedTab = 9 then
 		form.actions.newsChangeSeeNew(form.tabFilter.SelectedTab)
+	endIf
+	if form.tabFilter.SelectedTab = 10 then
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq 'APA')")
 	endIf
 endif
 
