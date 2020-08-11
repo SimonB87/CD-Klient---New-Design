@@ -1506,6 +1506,100 @@
                     </CssClassConditional>
                   </CssClass>
                 </Button>
+                <Panel>
+                  <Name value="panel20_addNewPeriod" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Bindings>
+                    <Binding SourceProperty="IsVisible" Expression="formState.sekce4rozsirene.switchAddNewPeriod" />
+                  </Bindings>
+                  <Children>
+                    <ReferenceCombo>
+                      <Name value="referenceC_addTypeOfPeriod" />
+                      <DisplayMember value="_description" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="25%" />
+                      <ReferenceList reference="~eventTypeEnum" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="formState.sekce4rozsirene.newPeriod.TypeOfPeriod" />
+                        <Binding SourceProperty="Caption" Expression="formState.sekce4rozsirene.newPeriod.TypeOfPeriod.caption()" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.sekce4rozsirene.newPeriod.TypeOfPeriod.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-referencecombo" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </ReferenceCombo>
+                    <ReferenceCombo>
+                      <Name value="referenceC_addZJPLHUTYP" />
+                      <Caption value="Typ ZJP lhůty" />
+                      <DisplayMember value="_description" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="25%" />
+                      <ReferenceList reference="~ZJPLHUTA" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="formState.sekce4rozsirene.newPeriod._ZJPLHUTYP" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.sekce4rozsirene.newPeriod._ZJPLHUTYP.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-referencecombo" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </ReferenceCombo>
+                    <TextBox>
+                      <Name value="textBox_addPeriodDuration" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="25%" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="formState.sekce4rozsirene.newPeriod.PeriodDuration" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.sekce4rozsirene.newPeriod.PeriodDuration.isRequired()" />
+                        <Binding SourceProperty="Caption" Expression="formState.sekce4rozsirene.newPeriod.PeriodDuration.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <Button>
+                      <Name value="button_addPeriod" />
+                      <Caption value="Přidat lhůtu" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+                <Label>
+                  <Name value="label_lhuty" />
+                  <Data value="Lhůty" />
+                  <Heading value="h2" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-label" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Label>
                 <Repeater>
                   <Name value="repeater3" />
                   <Panel.Height value="#" />
@@ -1516,149 +1610,77 @@
                       <Orientation value="Horizontal" />
                       <Children>
                         <GroupBox>
-                          <Name value="groupBox1_period" />
+                          <Name value="box_periodItem" />
                           <Caption value="Lhůta" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Content>
                             <Panel>
-                              <Name value="panel25" />
-                              <Orientation value="Vertical" />
+                              <Name value="panel29" />
+                              <Orientation value="Horizontal" />
                               <Children>
-                                <Panel>
-                                  <Name value="panel26" />
-                                  <Orientation value="Horizontal" />
+                                <ReferenceCombo>
+                                  <Name value="referenceCombo_TypeOfPeriod" />
+                                  <DisplayMember value="_description" />
                                   <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Children>
-                                    <GroupBox>
-                                      <Name value="groupBox_period" />
-                                      <Caption value="Lhůta" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="50%" />
-                                      <Content>
-                                        <Panel>
-                                          <Name value="panel20" />
-                                          <Orientation value="Horizontal" />
-                                          <Children>
-                                            <ReferenceCombo>
-                                              <Name value="referenceCombo_TypeOfPeriod" />
-                                              <DisplayMember value="_description" />
-                                              <Panel.Height value="#" />
-                                              <Panel.Width value="*" />
-                                              <ReferenceList reference="~eventTypeEnum" />
-                                              <Bindings>
-                                                <Binding SourceProperty="Data" Expression="TypeOfPeriod" />
-                                                <Binding SourceProperty="Caption" Expression="TypeOfPeriod.caption()" />
-                                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="TypeOfPeriod.isRequired()" />
-                                              </Bindings>
-                                              <CssClass>
-                                                <CssClassConditional>
-                                                  <ClassName value="{theme}-referencecombo" />
-                                                  <IsThemedStyle value="True" />
-                                                </CssClassConditional>
-                                              </CssClass>
-                                            </ReferenceCombo>
-                                          </Children>
-                                          <CssClass>
-                                            <CssClassConditional>
-                                              <ClassName value="{theme}-panel" />
-                                              <IsThemedStyle value="True" />
-                                            </CssClassConditional>
-                                          </CssClass>
-                                        </Panel>
-                                      </Content>
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-groupbox" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </GroupBox>
-                                    <GroupBox>
-                                      <Name value="groupBox_allowanceDebt" />
-                                      <Caption value="Povolení druhu vydávaných dokladů" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="50%" />
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-groupbox" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </GroupBox>
-                                  </Children>
+                                  <Panel.Width value="25%" />
+                                  <ReferenceList reference="~eventTypeEnum" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="TypeOfPeriod" />
+                                    <Binding SourceProperty="Caption" Expression="TypeOfPeriod.caption()" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="TypeOfPeriod.isRequired()" />
+                                  </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
-                                      <ClassName value="{theme}-panel" />
+                                      <ClassName value="{theme}-referencecombo" />
                                       <IsThemedStyle value="True" />
                                     </CssClassConditional>
                                   </CssClass>
-                                </Panel>
-                                <Panel>
-                                  <Name value="panel27" />
-                                  <Orientation value="Horizontal" />
+                                </ReferenceCombo>
+                                <TextBox>
+                                  <Name value="textBox_Unit" />
                                   <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Children>
-                                    <GroupBox>
-                                      <Name value="groupBox_code" />
-                                      <Caption value="Kód schváleného vydavatele" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="50%" />
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-groupbox" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </GroupBox>
-                                    <GroupBox>
-                                      <Name value="groupBox_deletePeriod" />
-                                      <Caption value="Smazat lhůtu" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="50%" />
-                                      <Content>
-                                        <Panel>
-                                          <Name value="panel24" />
-                                          <Orientation value="Horizontal" />
-                                          <Children>
-                                            <Button>
-                                              <Name value="button_deletePeriod" />
-                                              <Caption value="Smazat lhůtu" />
-                                              <Panel.Height value="#" />
-                                              <Panel.Width value="150px" />
-                                              <CssClass>
-                                                <CssClassConditional>
-                                                  <ClassName value="{theme}-button" />
-                                                  <IsThemedStyle value="True" />
-                                                </CssClassConditional>
-                                              </CssClass>
-                                            </Button>
-                                          </Children>
-                                          <CssClass>
-                                            <CssClassConditional>
-                                              <ClassName value="{theme}-panel" />
-                                              <IsThemedStyle value="True" />
-                                            </CssClassConditional>
-                                          </CssClass>
-                                        </Panel>
-                                      </Content>
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-groupbox" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </GroupBox>
-                                  </Children>
+                                  <Panel.Width value="25%" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="Unit" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="Unit.isRequired()" />
+                                    <Binding SourceProperty="Caption" Expression="Unit.caption()" />
+                                  </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
-                                      <ClassName value="{theme}-panel" />
+                                      <ClassName value="{theme}-textbox" />
                                       <IsThemedStyle value="True" />
                                     </CssClassConditional>
                                   </CssClass>
-                                </Panel>
+                                </TextBox>
+                                <TextBox>
+                                  <Name value="textBox_PeriodDuration" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="25%" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="PeriodDuration" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="PeriodDuration.isRequired()" />
+                                    <Binding SourceProperty="Caption" Expression="PeriodDuration.caption()" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-textbox" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </TextBox>
+                                <Button>
+                                  <Name value="button_deletePeriod" />
+                                  <Caption value="Smazat lhůtu" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="150px" />
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-button" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Button>
                               </Children>
                               <CssClass>
                                 <CssClassConditional>
@@ -1694,6 +1716,32 @@
                     </CssClassConditional>
                   </CssClass>
                 </Repeater>
+                <Label>
+                  <Name value="label3" />
+                  <Data value="Povolení druhu vydávaných dokladů" />
+                  <Heading value="h2" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="300px" />
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-label" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Label>
+                <Label>
+                  <Name value="label2" />
+                  <Data value="Kód schváleného vydavatele" />
+                  <Heading value="h2" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="300px" />
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-label" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Label>
               </Children>
               <CssClass>
                 <CssClassConditional>
@@ -1704,13 +1752,123 @@
             </Panel>
             <Panel>
               <Name value="sekce5prilohy" />
-              <Orientation value="Horizontal" />
+              <Orientation value="Vertical" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
               <Bindings>
                 <Binding SourceProperty="IsVisible" Expression="components.tabsMenu.Tab05prilohy.IsSelected" />
               </Bindings>
               <Children>
+                <Button>
+                  <Name value="button_addNewAnnex" />
+                  <Caption value="Přidej přílohu" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="150px" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~handler_button_addNewAnnex_OnClick" />
+                  </OnClick>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-button" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Button>
+                <GroupBox>
+                  <Name value="groupBox_addFile" />
+                  <Caption value="Přidat soubor" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Content>
+                    <Panel>
+                      <Name value="panel20" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="formState.sekce5prilohy.switchAddNewAnnex" />
+                      </Bindings>
+                      <Children>
+                        <FileReader identity="FileReader.f457f0445b7e44b7a3a1134647eff385">
+                          <Name value="fileReader_addNewAnnex" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="25%" />
+                          <Bindings>
+                            <Binding SourceProperty="FileContent" Expression="formState.sekce5prilohy.addNewAnnex.FileContent" />
+                            <Binding SourceProperty="FileName" Expression="formState.sekce5prilohy.addNewAnnex.FileName" />
+                            <Binding SourceProperty="FileType" Expression="" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-filereader" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </FileReader>
+                        <TextBox>
+                          <Name value="textBox29" />
+                          <CaptionPosition value="Top" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="25%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="formState.sekce5prilohy.addNewAnnex.FileType" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.sekce5prilohy.addNewAnnex.FileType.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="formState.sekce5prilohy.addNewAnnex.FileType.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                        <CheckBox>
+                          <Name value="checkBox3_IsFulltext" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="25%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="formState.sekce5prilohy.addNewAnnex.IsFulltext" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.sekce5prilohy.addNewAnnex.IsFulltext.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="formState.sekce5prilohy.addNewAnnex.IsFulltext.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                        <Button>
+                          <Name value="button_insertNewAnnex" />
+                          <Caption value="Přidej přílohu" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="150px" />
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-button" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Button>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Content>
+                  <Bindings>
+                    <Binding SourceProperty="IsVisible" Expression="formState.sekce5prilohy.switchAddNewAnnex" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-groupbox" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </GroupBox>
                 <Repeater>
                   <Name value="repeater1" />
                   <Panel.Height value="#" />
@@ -1840,6 +1998,18 @@
                                     </CssClassConditional>
                                   </CssClass>
                                 </Panel>
+                                <Button>
+                                  <Name value="button_deleteAnnex" />
+                                  <Caption value="Smazat" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="100px" />
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-button" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Button>
                               </Children>
                               <CssClass>
                                 <CssClassConditional>
@@ -2480,6 +2650,163 @@
                 </Attribute>
               </Children>
             </Complex>
+            <Complex>
+              <Name value="sekce4rozsirene" />
+              <Caption value="Sekce 4 rozsirene" />
+              <Children>
+                <Complex>
+                  <Name value="newPeriod" />
+                  <Caption value="New period" />
+                  <Children>
+                    <Reference>
+                      <Name value="TypeOfPeriod" />
+                      <Caption value="Typ lhůty" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/Period/TypeOfPeriod" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.TypeOfTimerEnum" />
+                        </Include>
+                        <Computed>
+                          <Name value="_description" />
+                          <Caption value="_description" />
+                          <Expression IsValid="True">
+                            <ExpressionText><![CDATA[functions.codeListDescription(Key,Description)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </Expression>
+                        </Computed>
+                      </Children>
+                    </Reference>
+                    <Attribute>
+                      <Name value="Unit" />
+                      <Caption value="MJ" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/Period/Unit" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <StrMaxLength value="10" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="PeriodDuration" />
+                      <Caption value="Délka lhůty" />
+                      <MetaType reference="+MetaTypes.PeriodDuration" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/Period/PeriodDuration" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                    <Reference>
+                      <Name value="_ZJPLHUTYP" />
+                      <Caption value="_ ZJPLHUTYP" />
+                      <Children>
+                        <Attribute>
+                          <Name value="ZJPLHUTYP" />
+                          <Caption value="ZJPLHUTYP" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="POPIS" />
+                          <Caption value="POPIS" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Computed>
+                          <Name value="_description" />
+                          <Caption value="_ description" />
+                          <Expression IsValid="True">
+                            <ExpressionText><![CDATA[functions.codeListDescription(ZJPLHUTYP,POPIS)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </Expression>
+                        </Computed>
+                      </Children>
+                    </Reference>
+                  </Children>
+                </Complex>
+                <Attribute>
+                  <Name value="switchAddNewPeriod" />
+                  <Caption value="Switch add new period" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="sekce5prilohy" />
+              <Caption value="Sekce 5 prilohy" />
+              <Children>
+                <Complex>
+                  <Name value="addNewAnnex" />
+                  <Caption value="Add new annex" />
+                  <Children>
+                    <Attribute>
+                      <Name value="IsFulltext" />
+                      <Caption value="Je plný text či jen doplněk plného textu?" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/File/IsFulltext" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="FileName" />
+                      <Caption value="Název souboru" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/File/FileName" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <StrMaxLength value="255" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="FileType" />
+                      <Caption value="Typ souboru" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/File/FileType" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <StrMaxLength value="255" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="FileContent" />
+                      <Caption value="Obsah souboru" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileContent" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Complex>
+                <Attribute>
+                  <Name value="switchAddNewAnnex" />
+                  <Caption value="Switch add new annex" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
           </Children>
         </Complex>
         <Complex>
@@ -2872,6 +3199,10 @@
             </Computed>
           </Children>
         </Modifier>
+        <Modifier>
+          <Name value="modifier_7DC72A68_Period" />
+          <SourcePath value="model.ASEO.Event.Period" />
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
@@ -3231,6 +3562,21 @@ globals.IsBusy = False
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_button_addNewAnnex_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.formState.sekce5prilohy.switchAddNewAnnex = defaultBool() then
+	form.formState.sekce5prilohy.switchAddNewAnnex = true
+else
+	form.formState.sekce5prilohy.switchAddNewAnnex = not form.formState.sekce5prilohy.switchAddNewAnnex
+endIf
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
   </Actions>
   <ApiObjects>
     <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
@@ -3284,6 +3630,23 @@ globals.IsBusy = False
         </CodelistColumn>
         <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
           <columnName value="Description" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="ZJPLHUTA" />
+      <autoLoad value="False" />
+      <filterByDate value="False" />
+      <name value="ZJPLHUTA" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="ZJPLHUTYP" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POPIS" />
           <columnRole value="Description" />
         </CodelistColumn>
       </columns>
