@@ -695,6 +695,83 @@
           </CssClass>
         </Panel>
         <Panel>
+          <Name value="validationsSummary" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <ClientValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+              <Name value="clientValidationSummary" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="validationErrors" Expression="validations.clientValidationErrors" />
+                <Binding SourceProperty="isVisible" Expression="validations.isVisible" />
+                <Binding SourceProperty="validationRoot" Expression="validations.validationRoot" />
+              </Bindings>
+              <columns>
+                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                  <Name value="validationSummaryColumn1" />
+                  <columnCaption value="Zpráva" />
+                  <propertyName value="Message" />
+                </validationSummaryColumn>
+                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                  <Name value="validationSummaryColumn2" />
+                  <columnCaption value="Místo" />
+                  <propertyName value="Pointer" />
+                </validationSummaryColumn>
+                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                  <Name value="validationSummaryColumn3" />
+                  <columnCaption value="Typ" />
+                  <propertyName value="Type" />
+                </validationSummaryColumn>
+                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                  <Name value="validationSummaryColumn4" />
+                  <columnCaption value="Odkaz" />
+                  <propertyName value="FocusTo" />
+                </validationSummaryColumn>
+              </columns>
+            </ClientValidationSummary>
+            <ServerValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+              <Name value="serverValidationSummary" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="validationErrors" Expression="validations.serverValidationErrors" />
+                <Binding SourceProperty="isVisible" Expression="validations.isVisible" />
+              </Bindings>
+              <columns>
+                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                  <Name value="validationSummaryColumn5" />
+                  <columnCaption value="Kód" />
+                  <propertyName value="Code" />
+                </validationSummaryColumn>
+                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                  <Name value="validationSummaryColumn6" />
+                  <columnCaption value="Popis" />
+                  <propertyName value="Description" />
+                </validationSummaryColumn>
+                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                  <Name value="validationSummaryColumn7" />
+                  <columnCaption value="Umístění" />
+                  <propertyName value="Pointer" />
+                </validationSummaryColumn>
+                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                  <Name value="validationSummaryColumn8" />
+                  <columnCaption value="Odkaz" />
+                  <propertyName value="FocusTo" />
+                </validationSummaryColumn>
+              </columns>
+            </ServerValidationSummary>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
           <Name value="declarationBody" />
           <Orientation value="Vertical" />
           <Panel.Height value="#" />
@@ -1924,8 +2001,6 @@
                     <Panel>
                       <Name value="panel20" />
                       <Orientation value="Horizontal" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="*" />
                       <Bindings>
                         <Binding SourceProperty="IsVisible" Expression="formState.sekce5prilohy.switchAddNewAnnex" />
                       </Bindings>
@@ -3334,6 +3409,115 @@
                   </Children>
                 </Complex>
               </Children>
+            </Complex>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="validations" />
+          <Caption value="Validations" />
+          <Children>
+            <Collection>
+              <Name value="clientValidationErrors" />
+              <Caption value="Client validation errors" />
+              <Children>
+                <Attribute>
+                  <Name value="Message" />
+                  <Caption value="Message" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Pointer" />
+                  <Caption value="Pointer" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Type" />
+                  <Caption value="Type" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Computed>
+                  <Name value="FocusTo" />
+                  <Caption value="Focus to" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[Pointer = "a" ? "textBox1" : defaultString()]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Collection>
+            <Collection>
+              <Name value="serverValidationErrors" />
+              <Caption value="Server validation errors" />
+              <Children>
+                <Attribute>
+                  <Name value="Code" />
+                  <Caption value="Code" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                  <PropertyLocalizationData.PropertyLocalizations>
+                    <PropertyLocalizationData />
+                  </PropertyLocalizationData.PropertyLocalizations>
+                </Attribute>
+                <Attribute>
+                  <Name value="Description" />
+                  <Caption value="Description" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                  <PropertyLocalizationData.PropertyLocalizations>
+                    <PropertyLocalizationData />
+                  </PropertyLocalizationData.PropertyLocalizations>
+                </Attribute>
+                <Attribute>
+                  <Name value="Pointer" />
+                  <Caption value="Pointer" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                  <PropertyLocalizationData.PropertyLocalizations>
+                    <PropertyLocalizationData>
+                      <LocalizedProperties>
+                        <LocalizedProperty>
+                          <Localization reference="+UiParts.econImpactRegime.mainContentArea" />
+                          <PropertyName value="Caption" />
+                        </LocalizedProperty>
+                      </LocalizedProperties>
+                    </PropertyLocalizationData>
+                  </PropertyLocalizationData.PropertyLocalizations>
+                </Attribute>
+                <Computed>
+                  <Name value="FocusTo" />
+                  <Caption value="Focus to" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[Pointer = "a" ? "textBox1" : defaultString()]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Collection>
+            <Attribute>
+              <Name value="isVisible" />
+              <Caption value="Is visible" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Complex>
+              <Name value="validationRoot" />
+              <Caption value="Validation root" />
             </Complex>
           </Children>
         </Complex>
