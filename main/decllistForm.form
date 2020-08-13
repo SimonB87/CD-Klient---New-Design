@@ -81,11 +81,32 @@
                   </Bindings>
                 </tab>
                 <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                  <Name value="tabNewSub" />
+                  <CustomCssClass value="tabItemStyle" />
+                  <Bindings>
+                    <Binding SourceProperty="Title" Expression="form.tabFilter.tab08.Title" />
+                  </Bindings>
+                </tab>
+                <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                  <Name value="tabOdnate" />
+                  <CustomCssClass value="tabItemStyle" />
+                  <Bindings>
+                    <Binding SourceProperty="Title" Expression="form.tabFilter.tab09.Title" />
+                  </Bindings>
+                </tab>
+                <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                  <Name value="tabZanikle" />
+                  <CustomCssClass value="tabItemStyle" />
+                  <Bindings>
+                    <Binding SourceProperty="Title" Expression="form.tabFilter.tab10.Title" />
+                  </Bindings>
+                </tab>
+                <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
                   <Name value="tabNews" />
                   <CustomCssClass value="tabItemStyle newsItem" />
                   <Visible value="False" />
                   <Bindings>
-                    <Binding SourceProperty="Title" Expression="form.tabFilter.Tab09.Title" />
+                    <Binding SourceProperty="Title" Expression="form.tabFilter.tab11.Title" />
                   </Bindings>
                 </tab>
                 <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
@@ -93,13 +114,7 @@
                   <CustomCssClass value="tabItemStyle newsItem" />
                   <Visible value="False" />
                   <Bindings>
-                    <Binding SourceProperty="Title" Expression="form.tabFilter.Tab10.Title" />
-                  </Bindings>
-                </tab>
-                <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
-                  <Name value="tabNewSub" />
-                  <Bindings>
-                    <Binding SourceProperty="Title" Expression="tabFilter.tab11.Title" />
+                    <Binding SourceProperty="Title" Expression="form.tabFilter.Tab12.Title" />
                   </Bindings>
                 </tab>
               </Tabs>
@@ -352,9 +367,8 @@
                 </listColumn>
                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                   <Name value="listColumn_CustomsDecisionStatus" />
-                  <Caption value="CustomsDecisionStatus" />
+                  <Caption value="CustomsDecisionStatus*" />
                   <ColumnName value="CustomsDecisionStatus" />
-                  <IsVisible value="False" />
                 </listColumn>
               </columns>
             </List>
@@ -1687,6 +1701,45 @@
                 </Computed>
               </Children>
             </Complex>
+            <Complex>
+              <Name value="tab12" />
+              <Caption value="Tab 12" />
+              <Children>
+                <Attribute>
+                  <Name value="Title" />
+                  <Caption value="Title" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Visible" />
+                  <Caption value="Visible" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="CustomCssClass" />
+                  <Caption value="Custom css class" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Computed>
+                  <Name value="IsSelected" />
+                  <Caption value="Is selected" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[this.owner().SelectedTab = 12]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
           </Children>
         </Complex>
         <Attribute>
@@ -1761,7 +1814,7 @@
               <Name value="visibility_newsForUser" />
               <Caption value="Visibility _ news for user" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA[form.tabFilter.SelectedTab = 8 ? true : false]]></ExpressionText>
+                <ExpressionText><![CDATA[form.tabFilter.SelectedTab = 11 ? true : false]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -1771,7 +1824,7 @@
               <Name value="visibility_newsForAdmin" />
               <Caption value="Visibility _ news for admin" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA[form.tabFilter.SelectedTab = 9 ? true : false]]></ExpressionText>
+                <ExpressionText><![CDATA[form.tabFilter.SelectedTab = 12 ? true : false]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -2115,9 +2168,11 @@ form.tabFilter.Tab04.Title = "Zneplatněné"
 form.tabFilter.Tab05.Title = "Expirované"
 form.tabFilter.Tab06.Title = "Vše"
 form.tabFilter.Tab07.Title = "K doplnění"
-form.tabFilter.Tab09.Title = "Novinky"
-form.tabFilter.Tab10.Title = "Správa novinek"
-form.tabFilter.tab11.Title = "Nová žádost"]]></Script>
+form.tabFilter.Tab08.Title = "Nové"
+form.tabFilter.Tab09.Title = "Odňaté"
+form.tabFilter.Tab10.Title = "Zanikle"
+form.tabFilter.tab11.Title = "Novinky"
+form.tabFilter.tab12.Title = "Správa novinek"]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -2134,37 +2189,50 @@ if form.tabFilter.SelectedTab.hasValue() then
 		form.apiobjects.listCtrl.setInvisibleODataFilter(basicIncompleteFilter + "LastIncomplete')")
 	endif
 	if form.tabFilter.SelectedTab = 2 then
+		//eq all
 		form.apiobjects.listCtrl.clearState()
 	endif
 	if form.tabFilter.SelectedTab = 3 then
 		//eq 'Active'
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '01')")
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '01' or CustomsDecisionStatus eq 'AUA' or CustomsDecisionStatus eq 'FUW')")
 	endif
 	if form.tabFilter.SelectedTab = 4 then
 		//eq 'Suspended' - dodat kód stavu
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '02')")
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '02' or CustomsDecisionStatus eq 'AUS')")
 	endif
 	if form.tabFilter.SelectedTab = 5 then
 		//eq 'Revoked' - dodat kód stavu
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '03')")
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '03' or CustomsDecisionStatus eq 'AUC' or CustomsDecisionStatus eq 'FCA')")
 	endif
 	if form.tabFilter.SelectedTab = 6 then
 		//eq 'Annulled - dodat kód stavu
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '04')")
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '04' or CustomsDecisionStatus eq 'AUR')")
 	endif
 	if form.tabFilter.SelectedTab = 7 then
 		//eq 'Expired'
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '99')")
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '99' or CustomsDecisionStatus eq 'AUE')")
 	endif
 	if form.tabFilter.SelectedTab = 8 then
-		form.actions.newsChangeSeeNew(form.tabFilter.SelectedTab)
+		//ASEO "žádost přijata"
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq 'APA' or CustomsDecisionStatus eq 'FUR' or CustomsDecisionStatus eq 'FUA')")
 	endIf
 	if form.tabFilter.SelectedTab = 9 then
-		form.actions.newsChangeSeeNew(form.tabFilter.SelectedTab)
+		//ASEO "žádost přijata"
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq 'AUW' or CustomsDecisionStatus eq 'FWA')")
 	endIf
 	if form.tabFilter.SelectedTab = 10 then
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq 'APA')")
+		//ASEO "Zaniknuté"
+		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq 'DEA')")
 	endIf
+	if form.tabFilter.SelectedTab = 11 then
+		form.actions.newsChangeSeeNew(form.tabFilter.SelectedTab)
+	endIf
+	if form.tabFilter.SelectedTab = 12 then
+		form.actions.newsChangeSeeNew(form.tabFilter.SelectedTab)
+	endIf
+	//test
+	system.console("SelectedTab: " + toString(form.tabFilter.SelectedTab))
+	//test
 endif
 
 if (not (form.tabFilter.SelectedTab in [8, 9])) then 
@@ -2213,8 +2281,8 @@ else
   form.incompleteCounts.last = toInt(respContent, -1)
   form.tabFilter.Tab07.Title = "K doplnění (" + toString(form.incompleteCounts.last) + ")"
 endif
-
-// NonLastIncomplete
+/*
+// NonLastIncomplete - not being used in 2020
 url = basicUrl + "NonLastIncomplete')"
 resp = apiobjects.ServerKomunikace.getAsync(url)
 
@@ -2228,7 +2296,7 @@ else
   form.incompleteCounts.nonLast = toInt(respContent, -1)
   form.tabFilter.Tab08.Title = "Historické k doplnění (" + toString(form.incompleteCounts.nonLast) + ")"
 endif
-]]></Script>
+*/]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
