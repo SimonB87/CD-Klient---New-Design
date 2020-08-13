@@ -1374,9 +1374,6 @@
 
 form.actions.setUserCustomsOffice()
 form.actions.setCodelistPovolTyp()
-
-//vaibales et up
-form.uiState.annexModel.IsFulltext.setTouched(True)
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -1519,7 +1516,6 @@ if form.uiState.annexModel.IsFulltext = defaultBool() then
 endIf
 
 if form.uiState.annexModel.isValid() then
-
 	var data = form.uiState.annexModel.toJson()
 	
 	var newFileToModel = form.aseoApplication.ASEO.Event.File.addItem()
@@ -1531,14 +1527,15 @@ if form.uiState.annexModel.isValid() then
 	form.uiState.annexModel.setTouched(false)
 	form.uiState.annexModel.clear()
 	form.uiState.annexModel.IsFulltext = false
-
 else
 	form.uiState.annexModel.FileType.setTouched(true)
 	form.uiState.annexModel.FileName.setTouched(true)
+	form.uiState.annexModel.IsFulltext.setTouched(True)
 	apiobjects.notificationsCtrl.addWarning("Nejsou vyplněny všechny položky k příloze.")
 endIf
 
-globals.IsBusy = False]]></Script>
+globals.IsBusy = False
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
