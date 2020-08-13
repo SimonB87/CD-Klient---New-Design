@@ -4047,6 +4047,22 @@ false]]></ExpressionText>
           <Name value="modifier_DA3EC415_ASEO" />
           <SourcePath value="model.ASEO" />
         </Modifier>
+        <Modifier>
+          <Name value="modifier_1ED27372_GoodsItem" />
+          <SourcePath value="requests.ASEOmegaMessage.ASEO.Event.GoodsList.GoodsItem" />
+          <Children>
+            <Attribute>
+              <Name value="CNCode" />
+              <Caption value="CN code" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="10" />
+                  <StrMinLength value="2" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
@@ -4652,6 +4668,7 @@ form.components.tabsMenu.Tab05prilohy.Title = "Text a přílohy (" + toString(cu
         <Script><![CDATA[if messageType = "ASEOSPAuthorization" then
 	form.formState.modelJson = form.model.toJson()
 	form.model.clear()
+	form.requests.ASEOmegaMessage.clear()
 	form.requests.ASEOmegaMessage.fromJson(form.formState.modelJson)
 	form.requests.ASEOmegaMessage.ASEO.Event.File.clear()
 	form.formState.sekce5prilohy.newFilesCollectionJson = form.formState.sekce5prilohy.newFilesCollection.File.toJson()
