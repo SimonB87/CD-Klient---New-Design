@@ -187,6 +187,9 @@
                   <Caption value="Modifikace zamítnutí " />
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~lifeCycle_applicationRejectionModification" />
+                  </OnClick>
                   <Bindings>
                     <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
                     <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAUR" />
@@ -206,6 +209,9 @@
                   <Caption value="Zamítnutí" />
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~lifeCycle_applicationRejection" />
+                  </OnClick>
                   <Bindings>
                     <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
                     <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAPA" />
@@ -888,7 +894,7 @@
                     <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
                       <Name value="tablifecycle_applicationRejection" />
                       <Bindings>
-                        <Binding SourceProperty="Visible" Expression="components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible" />
+                        <Binding SourceProperty="Visible" Expression="components.tabsMenu.Tab10lifecycle_applicationRejection.isVisibleComputed" />
                         <Binding SourceProperty="Title" Expression="components.tabsMenu.Tab10lifecycle_applicationRejection.Title" />
                       </Bindings>
                     </tab>
@@ -1045,14 +1051,15 @@
                               </CssClass>
                             </TextBox>
                             <TextBox>
-                              <Name value="textBox17" />
+                              <Name value="textBox_originalValidity" />
+                              <Caption value="Platnosti povolení od (Uložená hodnota)" />
+                              <IsEnabled value="False" />
                               <Panel.Height value="#" />
-                              <Panel.Width value="33%" />
+                              <Panel.Width value="33.33%" />
+                              <Tooltip value="Tato hodnota je datum, od kterého je povolení platné. Tento údaj nelze měnit." />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.ValidityStartDate" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.ValidityStartDate.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.ValidityStartDate.caption()" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                                <Binding SourceProperty="Data" Expression="formState.original_validityStartDate" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.original_validityStartDate.isRequired()" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -1134,6 +1141,38 @@
                                 <Binding SourceProperty="Data" Expression="model.ASEO.Event.EvidenceDate" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.EvidenceDate.isRequired()" />
                                 <Binding SourceProperty="Caption" Expression="model.ASEO.Event.EvidenceDate.caption()" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                        <Panel>
+                          <Name value="panel31" />
+                          <Orientation value="Horizontal" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Children>
+                            <TextBox>
+                              <Name value="textBox17" />
+                              <Caption value="Nastavení nové platnosti povolení" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="33%" />
+                              <Tooltip value="Zde uživatel zadá, od kdy se mají projevit změny po zaslání nové úpravy, Běžně bude povolení upravenno až po 60 minutách od odeslání. Tuto lhůtu lze snížit" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.ValidityStartDate" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.ValidityStartDate.isRequired()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -2888,12 +2927,15 @@
               <Orientation value="Horizontal" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="IsVisible" Expression="components.tabsMenu.Tab09lifecycle_authorisation.IsSelected" />
+              </Bindings>
               <Children>
                 <GroupBox>
                   <Name value="box_contact" />
                   <Caption value="Kontaktní osoba držitele povolení" />
                   <Panel.Height value="100%" />
-                  <Panel.Width value="*" />
+                  <Panel.Width value="50%" />
                   <Content>
                     <Panel>
                       <Name value="panel6" />
@@ -2989,17 +3031,17 @@
                 <GroupBox>
                   <Name value="box_authorisation" />
                   <Caption value="Autorizace" />
-                  <Panel.Height value="#" />
-                  <Panel.Width value="*" />
+                  <Panel.Height value="100%" />
+                  <Panel.Width value="50%" />
                   <Content>
                     <Panel>
                       <Name value="panel24" />
-                      <Orientation value="Horizontal" />
+                      <Orientation value="Vertical" />
                       <Children>
                         <CheckBox>
                           <Name value="checkBox3" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="33%" />
+                          <Panel.Width value="*" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.LimitedAuthorizationValidity" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.LimitedAuthorizationValidity.isRequired()" />
@@ -3016,7 +3058,7 @@
                         <DatePicker>
                           <Name value="datePicker_AuthorizationValidUntil" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="33%" />
+                          <Panel.Width value="*" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.AuthorizationValidUntil" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.AuthorizationValidUntil.isRequired()" />
@@ -3059,26 +3101,111 @@
               <Orientation value="Horizontal" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.sectionVisibilities.isPanelVisibile_applicationRejection" />
+              </Bindings>
               <Children>
                 <GroupBox>
                   <Name value="box_applicationRejection" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
                   <Content>
-                    <TextBox>
-                      <Name value="textBox31" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="model.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription.isRequired()" />
-                        <Binding SourceProperty="Caption" Expression="model.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription.caption()" />
-                      </Bindings>
+                    <Panel>
+                      <Name value="panel27" />
+                      <Orientation value="Vertical" />
+                      <Children>
+                        <Panel>
+                          <Name value="panel28" />
+                          <Orientation value="Horizontal" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Children>
+                            <TextBox>
+                              <Name value="textBox32" />
+                              <Caption value="Uložený důvod zamítnutí žádosti" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="50%" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.ApplicationRejection.ApplicationRejectionReason" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.ApplicationRejection.ApplicationRejectionReason.isRequired()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <ReferenceCombo>
+                              <Name value="referenceCombo_zaduzam" />
+                              <Caption value="Upravit důvod zamítnuté žádosti" />
+                              <CaptionPosition value="Top" />
+                              <DisplayMember value="_description" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="50%" />
+                              <ReferenceList reference="~zaduzam" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="formState.lifeCycle.applicationRejection.ZADUZAM" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.lifeCycle.applicationRejection.ZADUZAM.isRequired()" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-referencecombo" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </ReferenceCombo>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                        <Panel>
+                          <Name value="panel30" />
+                          <Orientation value="Horizontal" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Children>
+                            <TextBox>
+                              <Name value="textBox31" />
+                              <InputType value="Multiline" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription.caption()" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                      </Children>
                       <CssClass>
                         <CssClassConditional>
-                          <ClassName value="{theme}-textbox" />
+                          <ClassName value="{theme}-panel" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
                       </CssClass>
-                    </TextBox>
+                    </Panel>
                   </Content>
                   <Bindings>
                     <Binding SourceProperty="Caption" Expression="form.model.ASEO.Event.ApplicationRejection.caption()" />
@@ -3752,11 +3879,64 @@ false]]></ExpressionText>
                     <Reference>
                       <Name value="ZADUZAM" />
                       <Caption value="ZADUZAM" />
+                      <Children>
+                        <Attribute>
+                          <Name value="ZADUZAM" />
+                          <Caption value="ZADUZAM" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="POPIS" />
+                          <Caption value="POPIS" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Computed>
+                          <Name value="_description" />
+                          <Caption value="_description" />
+                          <Expression IsValid="True">
+                            <ExpressionText><![CDATA[functions.codeListDescription(ZADUZAM,POPIS)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </Expression>
+                        </Computed>
+                      </Children>
                     </Reference>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="sectionVisibilities" />
+                  <Caption value="Section visibilities" />
+                  <Children>
+                    <Computed>
+                      <Name value="isPanelVisibile_applicationRejection" />
+                      <Caption value="Is panel visibile _ application rejection" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[(form.formState.lifeCycle.stateCode in ["APA","AUR","FUR"]) ? 
+	( form.components.tabsMenu.Tab10lifecycle_applicationRejection.IsSelected ? true : false ) : 
+	false]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
                   </Children>
                 </Complex>
               </Children>
             </Complex>
+            <Attribute>
+              <Name value="original_validityStartDate" />
+              <Caption value="Original _ validity start date" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="DateTime" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
           </Children>
         </Complex>
         <Complex>
@@ -4154,15 +4334,16 @@ false]]></ExpressionText>
                         </ResultType>
                       </Expression>
                     </Computed>
-                    <Attribute>
-                      <Name value="isVisible" />
-                      <Caption value="Is visible" />
-                      <DeclaredType>
-                        <AttributeType>
+                    <Computed>
+                      <Name value="isVisibleComputed" />
+                      <Caption value="Is visible computed" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[(form.formState.lifeCycle.stateCode in ["APA","AUR","FUR"]) ? true : false]]></ExpressionText>
+                        <ResultType>
                           <BaseType value="Bool" />
-                        </AttributeType>
-                      </DeclaredType>
-                    </Attribute>
+                        </ResultType>
+                      </Expression>
+                    </Computed>
                   </Children>
                 </Complex>
               </Children>
@@ -4239,6 +4420,10 @@ false]]></ExpressionText>
           <Name value="modifier_1ED27372_GoodsItem" />
           <SourcePath value="requests.ASEOmegaMessage.ASEO.Event.GoodsList.GoodsItem" />
         </Modifier>
+        <Modifier>
+          <Name value="modifier_BADEE68C_ApplicationRejection" />
+          <SourcePath value="requests.ASEOmegaMessage.ASEO.Event.ApplicationRejection" />
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
@@ -4253,6 +4438,7 @@ false]]></ExpressionText>
 
 form.actions.prepareCodeLists()
 form.actions.loadAseoData(form.GUID)
+form.actions.getStateCode()
 form.actions.initTabMenu()
 
 //variables set up
@@ -4265,9 +4451,9 @@ if form.authorizationType in ["TIR", "ACP"] then
 endIf
 
 //variable preparation
+form.formState.original_validityStartDate = form.model.ASEO.Event.ValidityStartDate //save this for GUI to display
 form.model.ASEO.Event.ValidityStartDate = getDateTime()
 form.model.ASEO.Event.ValidityStartDate = addHours(form.model.ASEO.Event.ValidityStartDate, 1)
-form.actions.getStateCode()
 
 //form.actions.demoDataSetUp()
 //globals.OverenyUzivatel.hasRoleWrite = false
@@ -4303,6 +4489,8 @@ else
     if form.model.ASEO.Event.GUID.hasValue() then
 		form.VersionGUID = form.model.ASEO.Event.GUID
 	endIf
+
+	form.isEditOn = false
 
 endIf
 ]]></Script>
@@ -4442,51 +4630,54 @@ endIf]]></Script>
     <ActionBlock>
       <Name value="initTabMenu" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.components.tabsMenu.Tab01obecne.Title = "Obecné"
-form.components.tabsMenu.Tab02celniUrady.Title = "Celní úřady"
-form.components.tabsMenu.Tab03zbozi.Title = "Zboží"
-form.components.tabsMenu.Tab04rozsirene.Title = "Rozšířené"
+        <Script><![CDATA[var tabs = form.components.tabsMenu
+
+tabs.Tab01obecne.Title = "Obecné"
+tabs.Tab02celniUrady.Title = "Celní úřady"
+tabs.Tab03zbozi.Title = "Zboží"
+tabs.Tab04rozsirene.Title = "Rozšířené"
 
 var currentAnnex = form.model.ASEO.Event.File.count()
 var newAnnex = form.formState.sekce5prilohy.newFilesCollection.File.count()
-form.components.tabsMenu.Tab05prilohy.Title = "Text a přílohy (" + toString(currentAnnex + newAnnex) + ")"
+tabs.Tab05prilohy.Title = "Text a přílohy (" + toString(currentAnnex + newAnnex) + ")"
 
-form.components.tabsMenu.Tab06prehodnoceni.Title = "Přehodnocení"
-form.components.tabsMenu.Tab07lhutyAzajisteni.Title = "Lhůty a zajištení"
-form.components.tabsMenu.Tab08rezimy.Title = "Režimy"
+tabs.Tab06prehodnoceni.Title = "Přehodnocení"
+tabs.Tab07lhutyAzajisteni.Title = "Lhůty a zajištení"
+tabs.Tab08rezimy.Title = "Režimy"
 
-form.components.tabsMenu.Tab09lifecycle_authorisation.Title = "Autorizace"
-form.components.tabsMenu.Tab09lifecycle_authorisation.isVisible = form.formState.lifeCycle.btnVisibilities.isCodeAPA_AUS_AUC
-form.components.tabsMenu.Tab10lifecycle_applicationRejection.Title = "Zamítnutí žádosti"
-form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = form.formState.lifeCycle.btnVisibilities.isCodeAPA
+tabs.Tab09lifecycle_authorisation.Title = "Autorizace"
+tabs.Tab09lifecycle_authorisation.isVisible = true
+tabs.Tab10lifecycle_applicationRejection.Title = "Zamítnutí žádosti"
 
-form.components.tabsMenu.Tab01obecne.isVisible = true
+tabs.Tab01obecne.isVisible = true
+
 
 if form.authorizationType = "TIR" then
 
-	form.components.tabsMenu.Tab03zbozi.isVisible = true
-	form.components.tabsMenu.Tab05prilohy.isVisible = true
-	form.components.tabsMenu.Tab06prehodnoceni.isVisible = true
+	tabs.Tab03zbozi.isVisible = true
+	tabs.Tab05prilohy.isVisible = true
+	tabs.Tab06prehodnoceni.isVisible = true
 	
 else if form.authorizationType = "ACP" then
 
-	form.components.tabsMenu.Tab02celniUrady.isVisible = true
-	form.components.tabsMenu.Tab03zbozi.isVisible = true
-	form.components.tabsMenu.Tab04rozsirene.isVisible = true
-	form.components.tabsMenu.Tab05prilohy.isVisible = true
-	form.components.tabsMenu.Tab06prehodnoceni.isVisible = true
+	tabs.Tab02celniUrady.isVisible = true
+	tabs.Tab03zbozi.isVisible = true
+	tabs.Tab04rozsirene.isVisible = true
+	tabs.Tab05prilohy.isVisible = true
+	tabs.Tab06prehodnoceni.isVisible = true
 	
 else if form.authorizationType = "SAR" then
 
-	form.components.tabsMenu.Tab02celniUrady.isVisible = true
-	form.components.tabsMenu.Tab03zbozi.isVisible = true
-	form.components.tabsMenu.Tab04rozsirene.isVisible = true
-	form.components.tabsMenu.Tab05prilohy.isVisible = true
-	form.components.tabsMenu.Tab06prehodnoceni.isVisible = true
-	form.components.tabsMenu.Tab07lhutyAzajisteni.isVisible = true
-	form.components.tabsMenu.Tab08rezimy.isVisible = true
+	tabs.Tab02celniUrady.isVisible = true
+	tabs.Tab03zbozi.isVisible = true
+	tabs.Tab04rozsirene.isVisible = true
+	tabs.Tab05prilohy.isVisible = true
+	tabs.Tab06prehodnoceni.isVisible = true
+	tabs.Tab07lhutyAzajisteni.isVisible = true
+	tabs.Tab08rezimy.isVisible = true
 	
-endIf endIf endIf]]></Script>
+endIf endIf endIf
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -4795,7 +4986,8 @@ endIf
 
 form.actions.editDataAfterPosting("ASEOSPAuthorization")
 
-globals.IsBusy = False]]></Script>
+globals.IsBusy = False
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -4804,7 +4996,7 @@ globals.IsBusy = False]]></Script>
     <ActionBlock>
       <Name value="editDataAfterPosting" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if messageType = "ASEOSPAuthorization" then	
+        <Script><![CDATA[if  messageType in ["ASEOSPAuthorization", "ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification"]  then	
 	form.requests.ASEOmegaMessage.ASEO.Event.File.clear()
 	form.formState.sekce5prilohy.newFilesCollection.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
 	form.model.fromJson(form.formState.modelJson)
@@ -4846,17 +5038,30 @@ form.components.tabsMenu.Tab05prilohy.Title = "Text a přílohy (" + toString(cu
     <ActionBlock>
       <Name value="editDataBeforePosting" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if messageType = "ASEOSPAuthorization" then
+        <Script><![CDATA[var aseoMegaMessage = form.requests.ASEOmegaMessage
+
+if messageType = "ASEOSPAuthorization" then
 	form.formState.modelJson = form.model.toJson()
 	form.model.clear()
-	form.requests.ASEOmegaMessage.clear()
-	form.requests.ASEOmegaMessage.fromJson(form.formState.modelJson)
-	form.requests.ASEOmegaMessage.ASEO.Event.File.clear()
+	aseoMegaMessage.clear()
+	aseoMegaMessage.fromJson(form.formState.modelJson)
+	aseoMegaMessage.ASEO.Event.File.clear()
 	form.formState.sekce5prilohy.newFilesCollectionJson = form.formState.sekce5prilohy.newFilesCollection.File.toJson()
 	form.formState.sekce5prilohy.newFilesCollection.File.clear()
-	form.requests.ASEOmegaMessage.ASEO.Event.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
+	aseoMegaMessage.ASEO.Event.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
 endIf
-]]></Script>
+
+if messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification"] then
+	form.formState.modelJson = form.model.toJson()
+	form.model.clear()
+	aseoMegaMessage.clear()
+	aseoMegaMessage.fromJson(form.formState.modelJson)
+	aseoMegaMessage.ASEO.Event.File.clear()
+	form.formState.sekce5prilohy.newFilesCollectionJson = form.formState.sekce5prilohy.newFilesCollection.File.toJson()
+	form.formState.sekce5prilohy.newFilesCollection.File.clear()
+	aseoMegaMessage.ASEO.Event.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
+	aseoMegaMessage.ASEO.Event.ApplicationRejection.ApplicationRejectionReason = form.formState.lifeCycle.applicationRejection.ZADUZAM.ZADUZAM
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -4924,6 +5129,58 @@ else
 endIf
 
 form.requests.initReq.clear()
+
+globals.IsBusy = False]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="lifeCycle_applicationRejection" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+form.actions.editDataBeforePosting("ASEOSPApplicationRejection")
+
+var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejection", form.requests.ASEOmegaMessage.toJson())
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+	form.actions.showEnhancementErrorMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
+else
+	form.model.clear()
+	form.actions.showEnhancementErrorMessage("Žádosti byla úspěšně předána k autorizaci.", false)
+	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+endIf
+
+form.actions.editDataAfterPosting("ASEOSPApplicationRejection")
+
+globals.IsBusy = False]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="lifeCycle_applicationRejectionModification" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+form.actions.editDataBeforePosting("ASEOSPApplicationRejectionModification")
+
+var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejectionModification", form.requests.ASEOmegaMessage.toJson())
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+	form.actions.showEnhancementErrorMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
+else
+	form.model.clear()
+	form.actions.showEnhancementErrorMessage("Žádosti byla úspěšně předána k autorizaci.", false)
+	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+endIf
+
+form.actions.editDataAfterPosting("ASEOSPApplicationRejectionModification")
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
@@ -5028,5 +5285,21 @@ globals.IsBusy = False]]></Script>
       <Name value="filtered_ZJPLHUTA" />
       <codelistSource reference="~ZJPLHUTA" />
     </FilteredCodelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="zaduzam" />
+      <filterByDate value="False" />
+      <name value="ZADUZAM" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="ZADUZAM" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POPIS" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
   </ApiObjects>
 </Form>
