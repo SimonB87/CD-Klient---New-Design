@@ -470,6 +470,102 @@
           </CssClass>
         </Panel>
         <Panel>
+          <Name value="panelGUInotifications" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="formState.notifications.visibleNoticeWindow" />
+          </Bindings>
+          <Children>
+            <GroupBox>
+              <Name value="box_notifications" />
+              <Caption value="Upozornění" />
+              <Margin value="0, 6, 0, 6 px" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="panelNotificationStyle" />
+                  <Orientation value="Horizontal" />
+                  <Children>
+                    <Label>
+                      <Name value="label_notificationsMessages" />
+                      <Margin value="2, 0, 2, 0 px" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="form.formState.notifications.operationResultMessage" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="aseo-warning-isErrorFont" />
+                          <Bindings>
+                            <Binding SourceProperty="Condition" Expression="formState.notifications.operationResultError" />
+                          </Bindings>
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="test_aseo-warning-isErrorFont" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                    <Button>
+                      <Name value="clearNotifications" />
+                      <Caption value="Promazat upozornění" />
+                      <Margin value="0, 0, 0, 0 px" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~action1" />
+                      </OnClick>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="btnSecondary" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-groupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="aseo-warning-isErrorPanel" />
+                  <Bindings>
+                    <Binding SourceProperty="Condition" Expression="formState.notifications.operationResultError" />
+                  </Bindings>
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="test_aseo-warning-isErrorPanel" />
+                </CssClassConditional>
+              </CssClass>
+            </GroupBox>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
           <Name value="buttonsForVersion" />
           <Orientation value="Horizontal" />
           <Panel.Height value="#" />
@@ -525,22 +621,6 @@
             <Binding SourceProperty="IsVisible" Expression="formState.visibilities.showVersionHistory" />
           </Bindings>
           <Children>
-            <Label>
-              <Name value="labelPlaceHolder2" />
-              <Data value=" " />
-              <Panel.Height value="#" />
-              <Panel.VerticalAlignment value="Middle" />
-              <Panel.Width value="150px" />
-              <CssClass>
-                <CssClassConditional>
-                  <ClassName value="m8-label" />
-                </CssClassConditional>
-                <CssClassConditional>
-                  <ClassName value="{theme}-label" />
-                  <IsThemedStyle value="True" />
-                </CssClassConditional>
-              </CssClass>
-            </Label>
             <DataTable>
               <Name value="decisionVersions" />
               <Panel.Height value="#" />
@@ -1173,6 +1253,25 @@
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.ASEO.Event.ValidityStartDate" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.ValidityStartDate.isRequired()" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox_note" />
+                              <CaptionPosition value="Top" />
+                              <InputType value="Multiline" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="66.66%" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.Note" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Note.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Note.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -4436,6 +4535,7 @@ false]]></ExpressionText>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = true
 
+form.formState.notifications.operationResultMessage.clear()
 form.actions.prepareCodeLists()
 form.actions.loadAseoData(form.GUID)
 form.actions.getStateCode()
@@ -4475,12 +4575,12 @@ var resp = apiobjects.ServerKomunikace.postAsync("ASEOSPDataRequestEx", form.req
   
 if resp.isError() or (resp.getMessageType() = "IN906A") then
     apiobjects.notificationsCtrl.addError("Data povolení nebyla načtena.")
-    form.actions.showEnhancementErrorMessage("Data povolení nebyla načtena. ", true)
+    form.actions.showErorrNotificationMessage("Data povolení nebyla načtena. ", true)
     
     var errorMsg = resp.getErrorMessage()
     system.consoleError("Response content: " + errorMsg)
 else
-	form.actions.showEnhancementErrorMessage("Data povolení byla úspěšně načtena. ", false)
+	form.actions.showErorrNotificationMessage("Data povolení byla úspěšně načtena. ", false)
 	
     var respJson = resp.getJsonString()
     form.model.clear()
@@ -4520,7 +4620,7 @@ endIf
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="showEnhancementErrorMessage" />
+      <Name value="showErorrNotificationMessage" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[//add string with error description to other error messages
 form.formState.notifications.operationResultMessage = form.formState.notifications.operationResultMessage + errorContent
@@ -4534,6 +4634,10 @@ if operationResultError then
 	apiobjects.notificationsCtrl.addWarning(errorContent)
 else
 	apiobjects.notificationsCtrl.addInfo(errorContent)
+endIf
+
+if clearPreviousNotifications then
+	form.formState.notifications.operationResultMessage.clear()
 endIf]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -4553,6 +4657,16 @@ endIf]]></Script>
               <Caption value="Operation result error" />
               <DataContextParameter.IsInput value="True" />
               <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="clearPreviousNotifications" />
+              <Caption value="Clear previous notifications" />
+              <DataContextParameter.IsInput value="True" />
               <DeclaredType>
                 <AttributeType>
                   <BaseType value="Bool" />
@@ -4831,7 +4945,7 @@ if newFileIsValid and newFileHasValue then
 else
 	form.formState.sekce5prilohy.addNewAnnex.FileType.setTouched(true)
 	form.formState.sekce5prilohy.addNewAnnex.FileName.setTouched(true)
-	form.actions.showEnhancementErrorMessage("Data nahrávané přílohy nejsou plně vyplněna", true)
+	form.actions.showErorrNotificationMessage("Data nahrávané přílohy nejsou plně vyplněna", true)
 endIf
 
 globals.IsBusy = False
@@ -4977,10 +5091,10 @@ var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form
 
 if response.isError() then
 	system.console(response.getErrorMessage())
-	form.actions.showEnhancementErrorMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
+	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
 else
 	form.model.clear()
-	form.actions.showEnhancementErrorMessage("Žádosti byla úspěšně předána k autorizaci.", false)
+	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k autorizaci.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
 
@@ -5061,7 +5175,10 @@ if messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModi
 	form.formState.sekce5prilohy.newFilesCollection.File.clear()
 	aseoMegaMessage.ASEO.Event.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
 	aseoMegaMessage.ASEO.Event.ApplicationRejection.ApplicationRejectionReason = form.formState.lifeCycle.applicationRejection.ZADUZAM.ZADUZAM
-endIf]]></Script>
+endIf
+
+form.formState.notifications.clear()
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -5117,14 +5234,15 @@ endIf
 //prepara message for sending
 form.requests.initReq.clear()
 form.requests.initReq.ASEO.GUID = form.GUID
+form.formState.notifications.clear()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOFutureRemoval", form.requests.initReq.toJson())
 
 if response.isError() then
 	system.console(response.getErrorMessage())
-	form.actions.showEnhancementErrorMessage("Nastala chyba. Odstranění budoucí změny nemohlo být provedeno.", true)
+	form.actions.showErorrNotificationMessage("Nastala chyba. Odstranění budoucí změny nemohlo být provedeno.", true)
 else
-	form.actions.showEnhancementErrorMessage("Odstranění budoucí změny bylo úspěšně provedeno.", false)
+	form.actions.showErorrNotificationMessage("Odstranění budoucí změny bylo úspěšně provedeno.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
 
@@ -5147,10 +5265,10 @@ var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejection
 
 if response.isError() then
 	system.console(response.getErrorMessage())
-	form.actions.showEnhancementErrorMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
+	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
 else
 	form.model.clear()
-	form.actions.showEnhancementErrorMessage("Žádosti byla úspěšně předána k autorizaci.", false)
+	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k autorizaci.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
 
@@ -5173,16 +5291,27 @@ var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejection
 
 if response.isError() then
 	system.console(response.getErrorMessage())
-	form.actions.showEnhancementErrorMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
+	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
 else
 	form.model.clear()
-	form.actions.showEnhancementErrorMessage("Žádosti byla úspěšně předána k autorizaci.", false)
+	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k autorizaci.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
 
 form.actions.editDataAfterPosting("ASEOSPApplicationRejectionModification")
 
 globals.IsBusy = False]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="action1" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.formState.notifications.operationResultMessage.clear()
+form.formState.notifications.visibleNoticeWindow = false]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
