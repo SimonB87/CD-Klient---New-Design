@@ -783,6 +783,18 @@
                   <MtsImportOptions.MTS.Type value="group" />
                   <Children>
                     <Attribute>
+                      <Name value="CNCode" />
+                      <Caption value="Zbožový kód" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/GoodsList/GoodsItem/CNCode" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <StrMaxLength value="10" />
+                          <StrMinLength value="2" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
                       <Name value="Allowed" />
                       <Caption value="Povolená / zakázaná" />
                       <IsRequired value="True" />
@@ -991,36 +1003,18 @@
                   <MtsImportOptions.MTS.ID value="/ASEOSP_SF/ASEO/Event/CustomsOffices/CustomsOfficeOfRelease" />
                   <MtsImportOptions.MTS.Type value="group" />
                   <Children>
-                    <Reference>
+                    <Attribute>
                       <Name value="CustomsOfficeReferenceNumber" />
                       <Caption value="Číslo CÚ" />
-                      <IsRequired value="True" />
-                      <MtsImportOptions.MTS.ID value="/ASEOSP_SF/ASEO/Event/CustomsOffices/CustomsOfficeOfRelease/CustomsOfficeReferenceNumber" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/CustomsOffices/CustomsOfficeOfRelease/CustomsOfficeReferenceNumber" />
                       <MtsImportOptions.MTS.Type value="element" />
-                      <Children>
-                        <Include>
-                          <Include reference="+DataEntities.CELUPLAT_R" />
-                        </Include>
-                      </Children>
-                      <Validators>
-                        <Validator Name="CustomsOfficeOfRelease2012">
-                          <MtsImportOptions.MTS.ID value="CustomsOfficeOfRelease2012" />
-                          <MtsImportOptions.MTS.Type value="rule-constraint" />
-                          <ErrorMessage IsValid="True">
-                            <ExpressionText><![CDATA["CustomsOfficeOfRelease2012"]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="String" />
-                            </ResultType>
-                          </ErrorMessage>
-                          <IsValid IsValid="True">
-                            <ExpressionText><![CDATA[true /* IMPORTED RULE CustomsOfficeOfRelease2012 Nástupce zvoleného propouštěnícího CÚ nelze použít - není nástupcem MPR, nebo jeho podřízených CÚ. */]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="Bool" />
-                            </ResultType>
-                          </IsValid>
-                        </Validator>
-                      </Validators>
-                    </Reference>
+                      <DeclaredType>
+                        <AttributeType>
+                          <StrMaxLength value="8" />
+                          <StrMinLength value="8" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
                     <Collection>
                       <Name value="AuthorizedAgreedLocation" />
                       <Caption value="Schválené místo" />

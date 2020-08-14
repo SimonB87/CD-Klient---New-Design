@@ -361,6 +361,9 @@
                   <Caption value="Odstranění budoucí změny" />
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~lifeCycle_futureRemoval" />
+                  </OnClick>
                   <Bindings>
                     <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
                     <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCode_notAUS" />
@@ -875,6 +878,20 @@
                         <Binding SourceProperty="Visible" Expression="components.tabsMenu.Tab08rezimy.isVisible" />
                       </Bindings>
                     </tab>
+                    <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                      <Name value="tablifeCycle_authorisation" />
+                      <Bindings>
+                        <Binding SourceProperty="Title" Expression="components.tabsMenu.Tab09lifecycle_authorisation.Title" />
+                        <Binding SourceProperty="Visible" Expression="components.tabsMenu.Tab09lifecycle_authorisation.isVisible" />
+                      </Bindings>
+                    </tab>
+                    <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                      <Name value="tablifecycle_applicationRejection" />
+                      <Bindings>
+                        <Binding SourceProperty="Visible" Expression="components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible" />
+                        <Binding SourceProperty="Title" Expression="components.tabsMenu.Tab10lifecycle_applicationRejection.Title" />
+                      </Bindings>
+                    </tab>
                   </Tabs>
                 </TabControl>
               </Children>
@@ -1160,199 +1177,130 @@
                       <Name value="box_holder" />
                       <Caption value="Držitel Povolení" />
                       <Panel.Height value="100%" />
-                      <Panel.Width value="50%" />
+                      <Panel.Width value="100%" />
                       <Content>
                         <Panel>
                           <Name value="panel5" />
                           <Orientation value="Vertical" />
                           <Children>
-                            <TextBox>
-                              <Name value="textBox7" />
-                              <CaptionVAlign value="Middle" />
+                            <Panel>
+                              <Name value="panel25" />
+                              <Orientation value="Horizontal" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.OperatorName" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.OperatorName.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.OperatorName.caption()" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                              </Bindings>
+                              <Children>
+                                <TextBox>
+                                  <Name value="textBox7" />
+                                  <CaptionVAlign value="Middle" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="66.66%" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="model.ASEO.Event.OperatorName" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.OperatorName.isRequired()" />
+                                    <Binding SourceProperty="Caption" Expression="model.ASEO.Event.OperatorName.caption()" />
+                                    <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-textbox" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </TextBox>
+                                <TextBox>
+                                  <Name value="textBox8" />
+                                  <CaptionVAlign value="Middle" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="33.33%" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="model.ASEO.Event.OperatorStreetAndNr" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.OperatorStreetAndNr.isRequired()" />
+                                    <Binding SourceProperty="Caption" Expression="model.ASEO.Event.OperatorStreetAndNr.caption()" />
+                                    <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-textbox" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </TextBox>
+                              </Children>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
+                                  <ClassName value="{theme}-panel" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </TextBox>
-                            <TextBox>
-                              <Name value="textBox8" />
-                              <CaptionVAlign value="Middle" />
+                            </Panel>
+                            <Panel>
+                              <Name value="panel26" />
+                              <Orientation value="Horizontal" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.OperatorStreetAndNr" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.OperatorStreetAndNr.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.OperatorStreetAndNr.caption()" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                              </Bindings>
+                              <Children>
+                                <TextBox>
+                                  <Name value="textBox9" />
+                                  <CaptionVAlign value="Middle" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="33.33%" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="model.ASEO.Event.OperatorCity" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.OperatorCity.isRequired()" />
+                                    <Binding SourceProperty="Caption" Expression="model.ASEO.Event.OperatorCity.caption()" />
+                                    <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-textbox" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </TextBox>
+                                <TextBox>
+                                  <Name value="textBox10" />
+                                  <CaptionVAlign value="Middle" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="33.33%" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="model.ASEO.Event.OperatorPostCode" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.OperatorPostCode.isRequired()" />
+                                    <Binding SourceProperty="Caption" Expression="model.ASEO.Event.OperatorPostCode.caption()" />
+                                    <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-textbox" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </TextBox>
+                                <TextBox>
+                                  <Name value="textBox11" />
+                                  <CaptionVAlign value="Middle" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="33.33%" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="model.ASEO.Event.OperatorCountry" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.OperatorCountry.isRequired()" />
+                                    <Binding SourceProperty="Caption" Expression="model.ASEO.Event.OperatorCountry.caption()" />
+                                    <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-textbox" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </TextBox>
+                              </Children>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
+                                  <ClassName value="{theme}-panel" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </TextBox>
-                            <TextBox>
-                              <Name value="textBox9" />
-                              <CaptionVAlign value="Middle" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.OperatorCity" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.OperatorCity.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.OperatorCity.caption()" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </TextBox>
-                            <TextBox>
-                              <Name value="textBox10" />
-                              <CaptionVAlign value="Middle" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.OperatorPostCode" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.OperatorPostCode.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.OperatorPostCode.caption()" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </TextBox>
-                            <TextBox>
-                              <Name value="textBox11" />
-                              <CaptionVAlign value="Middle" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.OperatorCountry" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.OperatorCountry.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.OperatorCountry.caption()" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </TextBox>
-                          </Children>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-panel" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </Panel>
-                      </Content>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-groupbox" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </GroupBox>
-                    <GroupBox>
-                      <Name value="box_contact" />
-                      <Caption value="Kontaktní osoba držitele povolení" />
-                      <Panel.Height value="100%" />
-                      <Panel.Width value="*" />
-                      <Content>
-                        <Panel>
-                          <Name value="panel6" />
-                          <Orientation value="Vertical" />
-                          <Children>
-                            <TextBox>
-                              <Name value="textBox12" />
-                              <CaptionVAlign value="Middle" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.ResponsiblePersonName" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.ResponsiblePersonName.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.ResponsiblePersonName.caption()" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </TextBox>
-                            <TextBox>
-                              <Name value="textBox13" />
-                              <CaptionVAlign value="Middle" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.ResponsiblePersonPhone" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.ResponsiblePersonPhone.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.ResponsiblePersonPhone.caption()" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </TextBox>
-                            <TextBox>
-                              <Name value="textBox14" />
-                              <Caption value="Email osoby" />
-                              <CaptionVAlign value="Middle" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.ResponsiblePersonEMail" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.ResponsiblePersonEMail.isRequired()" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </TextBox>
-                            <CheckBox>
-                              <Name value="checkBox_ResponsiblePersonWantsToBeNotified" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.caption()" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-checkbox" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </CheckBox>
+                            </Panel>
                           </Children>
                           <CssClass>
                             <CssClassConditional>
@@ -1377,66 +1325,6 @@
                     </CssClassConditional>
                   </CssClass>
                 </Panel>
-                <GroupBox>
-                  <Name value="box_authorisation" />
-                  <Caption value="Autorizace" />
-                  <Panel.Height value="#" />
-                  <Panel.Width value="*" />
-                  <Content>
-                    <Panel>
-                      <Name value="panel24" />
-                      <Orientation value="Horizontal" />
-                      <Children>
-                        <CheckBox>
-                          <Name value="checkBox3" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="33%" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.LimitedAuthorizationValidity" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.LimitedAuthorizationValidity.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.LimitedAuthorizationValidity.caption()" />
-                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-checkbox" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </CheckBox>
-                        <DatePicker>
-                          <Name value="datePicker_AuthorizationValidUntil" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="33%" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.AuthorizationValidUntil" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.AuthorizationValidUntil.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.AuthorizationValidUntil.caption()" />
-                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-datepicker" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </DatePicker>
-                      </Children>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-panel" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </Panel>
-                  </Content>
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-groupbox" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                  </CssClass>
-                </GroupBox>
               </Children>
               <CssClass>
                 <CssClassConditional>
@@ -2527,7 +2415,6 @@
                                   <Children>
                                     <TextBox>
                                       <Name value="textBox22" />
-                                      <CaptionPosition value="Top" />
                                       <IsEnabled value="False" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="25%" />
@@ -2545,7 +2432,6 @@
                                     </TextBox>
                                     <TextBox>
                                       <Name value="textBox30" />
-                                      <CaptionPosition value="Top" />
                                       <IsEnabled value="False" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="25%" />
@@ -2563,7 +2449,6 @@
                                     </TextBox>
                                     <CheckBox>
                                       <Name value="checkBox4" />
-                                      <CaptionPosition value="Top" />
                                       <IsEnabled value="False" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="25%" />
@@ -2991,6 +2876,221 @@
               <Bindings>
                 <Binding SourceProperty="IsVisible" Expression="components.tabsMenu.Tab08rezimy.IsSelected" />
               </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+            <Panel>
+              <Name value="pnlLifeCycle_authorisation" />
+              <Orientation value="Horizontal" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Children>
+                <GroupBox>
+                  <Name value="box_contact" />
+                  <Caption value="Kontaktní osoba držitele povolení" />
+                  <Panel.Height value="100%" />
+                  <Panel.Width value="*" />
+                  <Content>
+                    <Panel>
+                      <Name value="panel6" />
+                      <Orientation value="Vertical" />
+                      <Children>
+                        <TextBox>
+                          <Name value="textBox12" />
+                          <CaptionVAlign value="Middle" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.ResponsiblePersonName" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.ResponsiblePersonName.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.ResponsiblePersonName.caption()" />
+                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                        <TextBox>
+                          <Name value="textBox13" />
+                          <CaptionVAlign value="Middle" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.ResponsiblePersonPhone" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.ResponsiblePersonPhone.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.ResponsiblePersonPhone.caption()" />
+                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                        <TextBox>
+                          <Name value="textBox14" />
+                          <Caption value="Email osoby" />
+                          <CaptionVAlign value="Middle" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.ResponsiblePersonEMail" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.ResponsiblePersonEMail.isRequired()" />
+                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                        <CheckBox>
+                          <Name value="checkBox_ResponsiblePersonWantsToBeNotified" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.caption()" />
+                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Content>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-groupbox" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </GroupBox>
+                <GroupBox>
+                  <Name value="box_authorisation" />
+                  <Caption value="Autorizace" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Content>
+                    <Panel>
+                      <Name value="panel24" />
+                      <Orientation value="Horizontal" />
+                      <Children>
+                        <CheckBox>
+                          <Name value="checkBox3" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.LimitedAuthorizationValidity" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.LimitedAuthorizationValidity.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.LimitedAuthorizationValidity.caption()" />
+                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                        <DatePicker>
+                          <Name value="datePicker_AuthorizationValidUntil" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.AuthorizationValidUntil" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.AuthorizationValidUntil.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.AuthorizationValidUntil.caption()" />
+                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-datepicker" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </DatePicker>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Content>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-groupbox" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </GroupBox>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+            <Panel>
+              <Name value="pnlLifeCycle_applicationRejection" />
+              <Orientation value="Horizontal" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Children>
+                <GroupBox>
+                  <Name value="box_applicationRejection" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Content>
+                    <TextBox>
+                      <Name value="textBox31" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription.isRequired()" />
+                        <Binding SourceProperty="Caption" Expression="model.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                  </Content>
+                  <Bindings>
+                    <Binding SourceProperty="Caption" Expression="form.model.ASEO.Event.ApplicationRejection.caption()" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-groupbox" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </GroupBox>
+              </Children>
               <CssClass>
                 <CssClassConditional>
                   <ClassName value="{theme}-panel" />
@@ -3645,6 +3745,16 @@ false]]></ExpressionText>
                     </ResultType>
                   </Expression>
                 </Computed>
+                <Complex>
+                  <Name value="applicationRejection" />
+                  <Caption value="Application rejection" />
+                  <Children>
+                    <Reference>
+                      <Name value="ZADUZAM" />
+                      <Caption value="ZADUZAM" />
+                    </Reference>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
           </Children>
@@ -3977,6 +4087,84 @@ false]]></ExpressionText>
                     </Attribute>
                   </Children>
                 </Complex>
+                <Complex>
+                  <Name value="Tab09lifecycle_authorisation" />
+                  <Caption value="Tab 09 lifecycle _ authorisation" />
+                  <Children>
+                    <Attribute>
+                      <Name value="Title" />
+                      <Caption value="Title" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="CustomCssClass" />
+                      <Caption value="Custom css class" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Computed>
+                      <Name value="IsSelected" />
+                      <Caption value="Is selected" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[this.owner().SelectedTab = 9 ? true : false]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Attribute>
+                      <Name value="isVisible" />
+                      <Caption value="Is visible" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="Tab10lifecycle_applicationRejection" />
+                  <Caption value="Tab 10 lifecycle _ application rejection" />
+                  <Children>
+                    <Attribute>
+                      <Name value="Title" />
+                      <Caption value="Title" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="CustomCssClass" />
+                      <Caption value="Custom css class" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Computed>
+                      <Name value="IsSelected" />
+                      <Caption value="Is selected" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[this.owner().SelectedTab = 10 ? true : false]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Attribute>
+                      <Name value="isVisible" />
+                      <Caption value="Is visible" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
           </Children>
@@ -4050,18 +4238,6 @@ false]]></ExpressionText>
         <Modifier>
           <Name value="modifier_1ED27372_GoodsItem" />
           <SourcePath value="requests.ASEOmegaMessage.ASEO.Event.GoodsList.GoodsItem" />
-          <Children>
-            <Attribute>
-              <Name value="CNCode" />
-              <Caption value="CN code" />
-              <DeclaredType>
-                <AttributeType>
-                  <StrMaxLength value="10" />
-                  <StrMinLength value="2" />
-                </AttributeType>
-              </DeclaredType>
-            </Attribute>
-          </Children>
         </Modifier>
       </Modifiers>
     </DataContext>
@@ -4278,6 +4454,11 @@ form.components.tabsMenu.Tab05prilohy.Title = "Text a přílohy (" + toString(cu
 form.components.tabsMenu.Tab06prehodnoceni.Title = "Přehodnocení"
 form.components.tabsMenu.Tab07lhutyAzajisteni.Title = "Lhůty a zajištení"
 form.components.tabsMenu.Tab08rezimy.Title = "Režimy"
+
+form.components.tabsMenu.Tab09lifecycle_authorisation.Title = "Autorizace"
+form.components.tabsMenu.Tab09lifecycle_authorisation.isVisible = form.formState.lifeCycle.btnVisibilities.isCodeAPA_AUS_AUC
+form.components.tabsMenu.Tab10lifecycle_applicationRejection.Title = "Zamítnutí žádosti"
+form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = form.formState.lifeCycle.btnVisibilities.isCodeAPA
 
 form.components.tabsMenu.Tab01obecne.isVisible = true
 
@@ -4674,7 +4855,8 @@ form.components.tabsMenu.Tab05prilohy.Title = "Text a přílohy (" + toString(cu
 	form.formState.sekce5prilohy.newFilesCollectionJson = form.formState.sekce5prilohy.newFilesCollection.File.toJson()
 	form.formState.sekce5prilohy.newFilesCollection.File.clear()
 	form.requests.ASEOmegaMessage.ASEO.Event.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
-endIf]]></Script>
+endIf
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -4715,10 +4897,35 @@ endIf
 else
 	form.formState.lifeCycle.stateCode = defaultString()
 endIf
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="lifeCycle_futureRemoval" />
+      <Description value="message_ASEOFutureRemoval" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
 
-//test
-system.console("stateCode: " + form.formState.lifeCycle.stateCode)
-//test]]></Script>
+//prepara message for sending
+form.requests.initReq.clear()
+form.requests.initReq.ASEO.GUID = form.GUID
+
+var response = apiobjects.ServerKomunikace.postAsync("ASEOFutureRemoval", form.requests.initReq.toJson())
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+	form.actions.showEnhancementErrorMessage("Nastala chyba. Odstranění budoucí změny nemohlo být provedeno.", true)
+else
+	form.actions.showEnhancementErrorMessage("Odstranění budoucí změny bylo úspěšně provedeno.", false)
+	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+endIf
+
+form.requests.initReq.clear()
+
+globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
