@@ -168,6 +168,9 @@
                   <Caption value="Modifikace žádosti" />
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~lifeCycle_applicationModification" />
+                  </OnClick>
                   <Bindings>
                     <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
                     <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAPA" />
@@ -206,7 +209,7 @@
                 </Button>
                 <Button>
                   <Name value="send_ASEOSPApplicationRejection" />
-                  <Caption value="Zamítnutí" />
+                  <Caption value="Zamítnout žádost" />
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
                   <OnClick>
@@ -228,7 +231,7 @@
                 </Button>
                 <Button>
                   <Name value="send_ASEOSPAuthorization" />
-                  <Caption value="Autorizace" />
+                  <Caption value="Autorizovat" />
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
                   <OnClick>
@@ -236,7 +239,7 @@
                   </OnClick>
                   <Bindings>
                     <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
-                    <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAPA_AUS_AUC" />
+                    <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAPA_AUS_AUC_AUW" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -250,9 +253,12 @@
                 </Button>
                 <Button>
                   <Name value="send_ASEOSPAuthorizationWithdrawal" />
-                  <Caption value="Odnětí" />
+                  <Caption value="Odejmout žádost" />
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~lifeCycle_authorizationWithdrawal" />
+                  </OnClick>
                   <Bindings>
                     <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
                     <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAUA_AUS" />
@@ -269,9 +275,12 @@
                 </Button>
                 <Button>
                   <Name value="send_ASEOSPAuthorizationSuspending" />
-                  <Caption value="Pozastavení" />
+                  <Caption value="Pozastavit" />
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~lifeCycle_authorizationSuspending" />
+                  </OnClick>
                   <Bindings>
                     <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
                     <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAUA" />
@@ -288,9 +297,12 @@
                 </Button>
                 <Button>
                   <Name value="send_ASEOSPAuthorizationCancellation" />
-                  <Caption value="Zrušení" />
+                  <Caption value="Zrušit žádost" />
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~lifeCycle_authorizationCancellation" />
+                  </OnClick>
                   <Bindings>
                     <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
                     <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAUA" />
@@ -307,7 +319,7 @@
                 </Button>
                 <Button>
                   <Name value="send_ASEOSPAuthorizationWithdrawalModification" />
-                  <Caption value="Modifikace odnětí" />
+                  <Caption value="Modifikovat odnětí" />
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
                   <Bindings>
@@ -326,7 +338,7 @@
                 </Button>
                 <Button>
                   <Name value="send_ASEOSPAuthorizationModification" />
-                  <Caption value="Modifikace autorizace" />
+                  <Caption value="Modifikovat autorizaci" />
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
                   <Bindings>
@@ -345,7 +357,7 @@
                 </Button>
                 <Button>
                   <Name value="send_ASEOSPAuthorizationCancellationModification" />
-                  <Caption value="Modifikace zrušení " />
+                  <Caption value="Modifikovat zrušení " />
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
                   <Bindings>
@@ -364,7 +376,7 @@
                 </Button>
                 <Button>
                   <Name value="send_ASEOFutureRemoval" />
-                  <Caption value="Odstranění budoucí změny" />
+                  <Caption value="Odstranit budoucí změnu" />
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
                   <OnClick>
@@ -978,6 +990,20 @@
                         <Binding SourceProperty="Title" Expression="components.tabsMenu.Tab10lifecycle_applicationRejection.Title" />
                       </Bindings>
                     </tab>
+                    <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                      <Name value="tablifeCycle_authorizationWithdrawal" />
+                      <Bindings>
+                        <Binding SourceProperty="Visible" Expression="components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisibleComputed" />
+                        <Binding SourceProperty="Title" Expression="components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.Title" />
+                      </Bindings>
+                    </tab>
+                    <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                      <Name value="tablifeCycle_authorizationSuspending" />
+                      <Bindings>
+                        <Binding SourceProperty="Title" Expression="components.tabsMenu.Tab12lifecycle_authorizationSuspending.Title" />
+                        <Binding SourceProperty="Visible" Expression="components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisibleComputed" />
+                      </Bindings>
+                    </tab>
                   </Tabs>
                 </TabControl>
               </Children>
@@ -1264,7 +1290,6 @@
                             </TextBox>
                             <TextBox>
                               <Name value="textBox_note" />
-                              <CaptionPosition value="Top" />
                               <InputType value="Multiline" />
                               <Panel.Height value="#" />
                               <Panel.Width value="66.66%" />
@@ -3221,7 +3246,7 @@
                           <Children>
                             <TextBox>
                               <Name value="textBox32" />
-                              <Caption value="Uložený důvod zamítnutí žádosti" />
+                              <Caption value="Uložený Důvod zamítnutí žádosti" />
                               <CaptionPosition value="Top" />
                               <IsEnabled value="False" />
                               <Panel.Height value="#" />
@@ -3239,7 +3264,7 @@
                             </TextBox>
                             <ReferenceCombo>
                               <Name value="referenceCombo_zaduzam" />
-                              <Caption value="Upravit důvod zamítnuté žádosti" />
+                              <Caption value="Upravit Důvod zamítnuté žádosti" />
                               <CaptionPosition value="Top" />
                               <DisplayMember value="_description" />
                               <Panel.Height value="#" />
@@ -3308,6 +3333,270 @@
                   </Content>
                   <Bindings>
                     <Binding SourceProperty="Caption" Expression="form.model.ASEO.Event.ApplicationRejection.caption()" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-groupbox" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </GroupBox>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+            <Panel>
+              <Name value="pnlLifeCycle_authorizationWithdrawal" />
+              <Orientation value="Horizontal" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.sectionVisibilities.isPanelVisibile_authorizationWithdrawal" />
+              </Bindings>
+              <Children>
+                <GroupBox>
+                  <Name value="box_AuthorizationWithdrawal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Content>
+                    <Panel>
+                      <Name value="panel32" />
+                      <Orientation value="Vertical" />
+                      <Children>
+                        <Panel>
+                          <Name value="panel33" />
+                          <Orientation value="Horizontal" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Children>
+                            <TextBox>
+                              <Name value="textBox33" />
+                              <Caption value="Uložený Důvod odejmutí/zrušení povolení" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="50%" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason.isRequired()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <ReferenceCombo>
+                              <Name value="referenceCombo_POVOLDUOD" />
+                              <Caption value="Změnit Důvod odejmutí/zrušení povolení" />
+                              <DisplayMember value="_description" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="50%" />
+                              <ReferenceList reference="~pOVOLDUOD" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="formState.lifeCycle.authorizationWithdrawal.POVOLDUOD" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.lifeCycle.authorizationWithdrawal.POVOLDUOD.isRequired()" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-referencecombo" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </ReferenceCombo>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                        <Panel>
+                          <Name value="panel34" />
+                          <Orientation value="Horizontal" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Children>
+                            <TextBox>
+                              <Name value="textBox34" />
+                              <InputType value="Multiline" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription.caption()" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Content>
+                  <Bindings>
+                    <Binding SourceProperty="Caption" Expression="form.model.ASEO.Event.AuthorizationWithdrawal.caption()" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-groupbox" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </GroupBox>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+            <Panel>
+              <Name value="pnlLifeCycle_authorizationSuspending" />
+              <Orientation value="Horizontal" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.sectionVisibilities.isPanelVisibile_authorizationSuspending" />
+              </Bindings>
+              <Children>
+                <GroupBox>
+                  <Name value="box_authorizationSuspending" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Content>
+                    <Panel>
+                      <Name value="panel35" />
+                      <Orientation value="Horizontal" />
+                      <Children>
+                        <Panel>
+                          <Name value="panel36" />
+                          <Orientation value="Horizontal" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Children>
+                            <TextBox>
+                              <Name value="textBox35" />
+                              <Caption value="Uložený Důvod pozastavení povolení" />
+                              <CaptionPosition value="Top" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="50%" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason.isRequired()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <Label>
+                              <Name value="label6" />
+                              <Data value="Missing codelist" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="150px" />
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-label" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Label>
+                            <TextBox>
+                              <Name value="textBox37" />
+                              <Caption value="Upravit Důvod pozastavení povolení" />
+                              <CaptionPosition value="Top" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="150px" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="formState.lifeCycle.authorizationSuspending.AuthorizationSuspendingReason" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.lifeCycle.authorizationSuspending.AuthorizationSuspendingReason.isRequired()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                        <Panel>
+                          <Name value="panel37" />
+                          <Orientation value="Horizontal" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Children>
+                            <TextBox>
+                              <Name value="textBox36" />
+                              <CaptionPosition value="Top" />
+                              <InputType value="Multiline" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Content>
+                  <Bindings>
+                    <Binding SourceProperty="Caption" Expression="form.model.ASEO.Event.AuthorizationSuspending.caption()" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -3959,6 +4248,16 @@ false]]></ExpressionText>
                         </ResultType>
                       </Expression>
                     </Computed>
+                    <Computed>
+                      <Name value="isCodeAPA_AUS_AUC_AUW" />
+                      <Caption value="Is code APA _ AUS _ AUC _ AUW" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[(this.owner().stateCode in ["APA","AUS","AUC","AUW"]) ? true : false]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
                   </Children>
                 </Complex>
                 <Computed>
@@ -4008,6 +4307,55 @@ false]]></ExpressionText>
                   </Children>
                 </Complex>
                 <Complex>
+                  <Name value="authorizationWithdrawal" />
+                  <Caption value="Authorization withdrawal" />
+                  <Children>
+                    <Reference>
+                      <Name value="POVOLDUOD" />
+                      <Caption value="POVOLDUOD" />
+                      <Children>
+                        <Attribute>
+                          <Name value="POVOLDUOD" />
+                          <Caption value="POVOLDUOD" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="POPIS" />
+                          <Caption value="POPIS" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Computed>
+                          <Name value="_description" />
+                          <Caption value="_description" />
+                          <Expression IsValid="True">
+                            <ExpressionText><![CDATA[functions.codeListDescription(POVOLDUOD,POPIS)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </Expression>
+                        </Computed>
+                      </Children>
+                    </Reference>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="authorizationSuspending" />
+                  <Caption value="Authorization suspending" />
+                  <Children>
+                    <Attribute>
+                      <Name value="AuthorizationSuspendingReason" />
+                      <Caption value="Důvod pozastavení povolení" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Complex>
+                <Complex>
                   <Name value="sectionVisibilities" />
                   <Caption value="Section visibilities" />
                   <Children>
@@ -4015,9 +4363,34 @@ false]]></ExpressionText>
                       <Name value="isPanelVisibile_applicationRejection" />
                       <Caption value="Is panel visibile _ application rejection" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[(form.formState.lifeCycle.stateCode in ["APA","AUR","FUR"]) ? 
+                        <ExpressionText><![CDATA[(form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisibleComputed = true) ? 
 	( form.components.tabsMenu.Tab10lifecycle_applicationRejection.IsSelected ? true : false ) : 
 	false]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Computed>
+                      <Name value="isPanelVisibile_authorizationWithdrawal" />
+                      <Caption value="Is panel visibile _ authorization withdrawal" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[(form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisibleComputed = true) ? 
+	( form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.IsSelected ? true : false ) : 
+	false]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Computed>
+                      <Name value="isPanelVisibile_authorizationSuspending" />
+                      <Caption value="Is panel visibile _ authorization suspending" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[(form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisibleComputed = true) ? 
+	( form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.IsSelected ? true : false ) : 
+	false
+]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -4445,6 +4818,86 @@ false]]></ExpressionText>
                     </Computed>
                   </Children>
                 </Complex>
+                <Complex>
+                  <Name value="Tab11lifecycle_authorizationWithdrawal" />
+                  <Caption value="Tab 11 lifecycle _ authorization withdrawal" />
+                  <Children>
+                    <Attribute>
+                      <Name value="Title" />
+                      <Caption value="Title" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="CustomCssClass" />
+                      <Caption value="Custom css class" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Computed>
+                      <Name value="IsSelected" />
+                      <Caption value="Is selected" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[this.owner().SelectedTab = 11 ? true : false]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Computed>
+                      <Name value="isVisibleComputed" />
+                      <Caption value="Is visible computed" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[(form.formState.lifeCycle.stateCode in ["AUW","AUA","AUC","FUW"]) ? true : false]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="Tab12lifecycle_authorizationSuspending" />
+                  <Caption value="Tab 12 lifecycle _ authorization suspending" />
+                  <Children>
+                    <Attribute>
+                      <Name value="Title" />
+                      <Caption value="Title" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="CustomCssClass" />
+                      <Caption value="Custom css class" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Computed>
+                      <Name value="IsSelected" />
+                      <Caption value="Is selected" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[this.owner().SelectedTab = 12 ? true : false]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Computed>
+                      <Name value="isVisibleComputed" />
+                      <Caption value="Is visible computed" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[(form.formState.lifeCycle.stateCode in ["AUS","AUA","AUE"]) ? true : false]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
           </Children>
@@ -4523,6 +4976,19 @@ false]]></ExpressionText>
           <Name value="modifier_BADEE68C_ApplicationRejection" />
           <SourcePath value="requests.ASEOmegaMessage.ASEO.Event.ApplicationRejection" />
         </Modifier>
+        <Modifier>
+          <Name value="modifier_1FDB7ECF_AuthorizationWithdrawal" />
+          <SourcePath value="requests.ASEOmegaMessage.ASEO.Event.AuthorizationWithdrawal" />
+          <Children>
+            <Attribute>
+              <Name value="AuthorizationWithdrawalReason" />
+              <Caption value="Authorization withdrawal reason" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
@@ -4536,6 +5002,8 @@ false]]></ExpressionText>
         <Script><![CDATA[globals.IsBusy = true
 
 form.formState.notifications.operationResultMessage.clear()
+form.VersionGUID.clear()
+
 form.actions.prepareCodeLists()
 form.actions.loadAseoData(form.GUID)
 form.actions.getStateCode()
@@ -4623,7 +5091,9 @@ endIf
       <Name value="showErorrNotificationMessage" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[//add string with error description to other error messages
-form.formState.notifications.operationResultMessage = form.formState.notifications.operationResultMessage + errorContent
+var currentDameTime = getDateTime() 
+
+form.formState.notifications.operationResultMessage = form.formState.notifications.operationResultMessage + " (" + toString(currentDameTime) + ") "  + errorContent + " * "
 //if true - the message for user imn operationResult will have red border; if false - we have only a good anoucement in operationResult with blue border
 form.formState.notifications.operationResultError = operationResultError
 //make panel with operationResult visible
@@ -4762,6 +5232,8 @@ tabs.Tab08rezimy.Title = "Režimy"
 tabs.Tab09lifecycle_authorisation.Title = "Autorizace"
 tabs.Tab09lifecycle_authorisation.isVisible = true
 tabs.Tab10lifecycle_applicationRejection.Title = "Zamítnutí žádosti"
+tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Odnětí"
+tabs.Tab12lifecycle_authorizationSuspending.Title = "Pozastaveno"
 
 tabs.Tab01obecne.isVisible = true
 
@@ -5082,6 +5554,7 @@ globals.IsBusy = False
     </ActionBlock>
     <ActionBlock>
       <Name value="lifeCycle_authorisation" />
+      <Category value="lifeCycleMessage" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
@@ -5110,10 +5583,23 @@ globals.IsBusy = False
     <ActionBlock>
       <Name value="editDataAfterPosting" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if  messageType in ["ASEOSPAuthorization", "ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification"]  then	
-	form.requests.ASEOmegaMessage.ASEO.Event.File.clear()
+        <Script><![CDATA[if not messagePostSucess then
 	form.formState.sekce5prilohy.newFilesCollection.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
+	form.formState.sekce5prilohy.newFilesCollectionJson.clear()
+else
+	form.formState.sekce5prilohy.newFilesCollectionJson.clear()
+endIf
+
+if  messageType in ["ASEOSPAuthorization", "ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification", "ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationCancellation"]  then	
+	form.requests.ASEOmegaMessage.clear()
 	form.model.fromJson(form.formState.modelJson)
+	form.formState.modelJson.clear()
+endIf
+
+if messageType in ["ASEOSPApplicationModification"] then
+	form.requests.ASEOSPApplicationModification.clear()
+	form.model.fromJson(form.formState.modelJson)
+	form.formState.modelJson.clear()
 endIf]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -5126,6 +5612,16 @@ endIf]]></Script>
               <DataContextParameter.IsInputRequired value="True" />
               <DeclaredType>
                 <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="messagePostSucess" />
+              <Caption value="Message post sucess" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
               </DeclaredType>
             </Attribute>
           </Children>
@@ -5175,6 +5671,41 @@ if messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModi
 	form.formState.sekce5prilohy.newFilesCollection.File.clear()
 	aseoMegaMessage.ASEO.Event.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
 	aseoMegaMessage.ASEO.Event.ApplicationRejection.ApplicationRejectionReason = form.formState.lifeCycle.applicationRejection.ZADUZAM.ZADUZAM
+endIf
+
+if messageType in ["ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationCancellation"] then
+	form.formState.modelJson = form.model.toJson()
+	form.model.clear()
+	aseoMegaMessage.clear()
+	aseoMegaMessage.fromJson(form.formState.modelJson)
+	aseoMegaMessage.ASEO.Event.File.clear()
+	form.formState.sekce5prilohy.newFilesCollectionJson = form.formState.sekce5prilohy.newFilesCollection.File.toJson()
+	form.formState.sekce5prilohy.newFilesCollection.File.clear()
+	aseoMegaMessage.ASEO.Event.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
+	aseoMegaMessage.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason = form.formState.lifeCycle.authorizationWithdrawal.POVOLDUOD.POVOLDUOD
+endIf
+
+if messageType in ["ASEOSPAuthorizationSuspending"] then
+	form.formState.modelJson = form.model.toJson()
+	form.model.clear()
+	aseoMegaMessage.clear()
+	aseoMegaMessage.fromJson(form.formState.modelJson)
+	aseoMegaMessage.ASEO.Event.File.clear()
+	form.formState.sekce5prilohy.newFilesCollectionJson = form.formState.sekce5prilohy.newFilesCollection.File.toJson()
+	form.formState.sekce5prilohy.newFilesCollection.File.clear()
+	aseoMegaMessage.ASEO.Event.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
+	aseoMegaMessage.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason = form.formState.lifeCycle.authorizationSuspending.AuthorizationSuspendingReason
+endIf
+
+if messageType in ["ASEOSPApplicationModification"] then
+	form.formState.modelJson = form.model.toJson()
+	form.model.clear()
+	form.requests.ASEOSPApplicationModification.clear()
+	form.requests.ASEOSPApplicationModification.fromJson(form.formState.modelJson)
+	form.requests.ASEOSPApplicationModification.ASEO.Event.File.clear()
+	form.formState.sekce5prilohy.newFilesCollectionJson = form.formState.sekce5prilohy.newFilesCollection.File.toJson()
+	form.formState.sekce5prilohy.newFilesCollection.File.clear()
+	form.requests.ASEOSPApplicationModification.ASEO.Event.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
 endIf
 
 form.formState.notifications.clear()
@@ -5227,6 +5758,7 @@ endIf
     </ActionBlock>
     <ActionBlock>
       <Name value="lifeCycle_futureRemoval" />
+      <Category value="lifeCycleMessage" />
       <Description value="message_ASEOFutureRemoval" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
@@ -5256,6 +5788,7 @@ globals.IsBusy = False]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="lifeCycle_applicationRejection" />
+      <Category value="lifeCycleMessage" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
@@ -5282,6 +5815,7 @@ globals.IsBusy = False]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="lifeCycle_applicationRejectionModification" />
+      <Category value="lifeCycleMessage" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
@@ -5312,6 +5846,117 @@ globals.IsBusy = False]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.formState.notifications.operationResultMessage.clear()
 form.formState.notifications.visibleNoticeWindow = false]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="lifeCycle_authorizationWithdrawal" />
+      <Category value="lifeCycleMessage" />
+      <Description value="send ASEO SP AuthorizationWithdrawal" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+form.actions.editDataBeforePosting("ASEOSPAuthorizationWithdrawal")
+
+var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationWithdrawal", form.requests.ASEOmegaMessage.toJson())
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být odnětí udělena.", true)
+else
+	form.model.clear()
+	form.actions.showErorrNotificationMessage("Žádosti bylo úspěšně předáno k odnětí.", false)
+	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+endIf
+
+form.actions.editDataAfterPosting("ASEOSPAuthorizationWithdrawal")
+
+globals.IsBusy = False]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="lifeCycle_authorizationSuspending" />
+      <Category value="lifeCycleMessage" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+form.actions.editDataBeforePosting("ASEOSPAuthorizationSuspending")
+
+var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationSuspending", form.requests.ASEOmegaMessage.toJson())
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být předána k pozastavení.", true)
+else
+	form.model.clear()
+	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k pozastavení.", false)
+	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+endIf
+
+form.actions.editDataAfterPosting("ASEOSPAuthorizationSuspending")
+
+globals.IsBusy = False]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="lifeCycle_authorizationCancellation" />
+      <Category value="lifeCycleMessage" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+form.actions.editDataBeforePosting("ASEOSPAuthorizationCancellation")
+
+var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationCancellation", form.requests.ASEOmegaMessage.toJson())
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být předána k zrušení povolení.", true)
+else
+	form.model.clear()
+	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k zrušení povolení.", false)
+	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+endIf
+
+form.actions.editDataAfterPosting("ASEOSPAuthorizationCancellation")
+
+globals.IsBusy = False
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="lifeCycle_applicationModification" />
+      <Category value="lifeCycleMessage" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+form.actions.editDataBeforePosting("ASEOSPApplicationModification")
+
+var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationModification", form.requests.ASEOSPApplicationModification.toJson())
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+	form.actions.showErorrNotificationMessage("Nastala chyba. Modifikace žádosti nemohla být provedena.", true)
+else
+	form.model.clear()
+	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k modifikaci žádosti.", false)
+	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+endIf
+
+form.actions.editDataAfterPosting("ASEOSPApplicationModification")
+
+globals.IsBusy = False
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -5422,6 +6067,22 @@ form.formState.notifications.visibleNoticeWindow = false]]></Script>
       <columns>
         <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
           <columnName value="ZADUZAM" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POPIS" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="pOVOLDUOD" />
+      <filterByDate value="False" />
+      <name value="POVOLDUOD" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POVOLDUOD" />
           <columnRole value="Key" />
         </CodelistColumn>
         <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
