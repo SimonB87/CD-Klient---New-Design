@@ -165,7 +165,7 @@
               <Children>
                 <Button>
                   <Name value="send_ASEOSPApplicationModification" />
-                  <Caption value="Modifikace žádosti" />
+                  <Caption value="Modifikovat žádosti" />
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
                   <OnClick>
@@ -268,9 +268,12 @@
                   <Caption value="Modifikovat autorizaci" />
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~lifeCycle_authorisationModification" />
+                  </OnClick>
                   <Bindings>
                     <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
-                    <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAUS_AUE" />
+                    <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAUA_AUE" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -709,6 +712,7 @@
                 <DataColumn>
                   <Name value="columnEventType_Description" />
                   <Caption value="Typ události/rozhodnutí" />
+                  <Width value="22%" />
                   <Content>
                     <Label>
                       <Name value="eventType_Description" />
@@ -739,6 +743,7 @@
                 <DataColumn>
                   <Name value="columnValidityStartDate" />
                   <Caption value="Platné od" />
+                  <Width value="13%" />
                   <Content>
                     <Label>
                       <Name value="validityStartDate" />
@@ -769,6 +774,7 @@
                 <DataColumn>
                   <Name value="columnEvidenceDate" />
                   <Caption value="Datum evidence" />
+                  <Width value="13%" />
                   <Content>
                     <Label>
                       <Name value="evidenceDate" />
@@ -799,6 +805,7 @@
                 <DataColumn>
                   <Name value="columnDecidingCO" />
                   <Caption value="Rozhodující celní úřad" />
+                  <Width value="14%" />
                   <Content>
                     <Label>
                       <Name value="decidingCustomsOffice" />
@@ -829,6 +836,7 @@
                 <DataColumn>
                   <Name value="columnValidityEndDate" />
                   <Caption value="Konec platnosti této události" />
+                  <Width value="14%" />
                   <Content>
                     <Label>
                       <Name value="labelValidityEndDate" />
@@ -859,6 +867,7 @@
                 <DataColumn>
                   <Name value="columnDecidingPerson" />
                   <Caption value="Osobní číslo vydavatele rozhodnutí" />
+                  <Width value="12%" />
                   <Content>
                     <Label>
                       <Name value="decidingPerson" />
@@ -889,6 +898,7 @@
                 <DataColumn>
                   <Name value="columnNote" />
                   <Caption value="Poznámka" />
+                  <Width value="14%" />
                   <Content>
                     <Label>
                       <Name value="note" />
@@ -4294,6 +4304,16 @@ false]]></ExpressionText>
                         </ResultType>
                       </Expression>
                     </Computed>
+                    <Computed>
+                      <Name value="isCodeAUA_AUE" />
+                      <Caption value="isCodeAUA_AUE" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[(this.owner().stateCode in ["AUA","AUE"]) ? true : false]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
                   </Children>
                 </Complex>
                 <Computed>
@@ -5626,7 +5646,7 @@ else
 	form.formState.sekce5prilohy.newFilesCollectionJson.clear()
 endIf
 
-if  messageType in ["ASEOSPAuthorization", "ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification", "ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationCancellation"]  then	
+if  messageType in ["ASEOSPAuthorization", "ASEOSPAuthorizationModification","ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification", "ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationCancellation"]  then	
 	form.requests.ASEOmegaMessage.clear()
 	form.model.fromJson(form.formState.modelJson)
 	form.formState.modelJson.clear()
@@ -5686,7 +5706,7 @@ form.components.tabsMenu.Tab05prilohy.Title = "Text a přílohy (" + toString(cu
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var aseoMegaMessage = form.requests.ASEOmegaMessage
 
-if messageType = "ASEOSPAuthorization" then
+if messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification"] then
 	form.formState.modelJson = form.model.toJson()
 	form.model.clear()
 	aseoMegaMessage.clear()
@@ -5990,6 +6010,34 @@ else
 endIf
 
 form.actions.editDataAfterPosting("ASEOSPApplicationModification")
+
+globals.IsBusy = False
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="lifeCycle_authorisationModification" />
+      <Category value="lifeCycleMessage" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+form.actions.editDataBeforePosting("ASEOSPAuthorizationModification")
+
+var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationModification", form.requests.ASEOmegaMessage.toJson())
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být modifikace autorizace udělena.", true)
+else
+	form.model.clear()
+	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k modifikaci autorizace.", false)
+	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+endIf
+
+form.actions.editDataAfterPosting("ASEOSPAuthorizationModification")
 
 globals.IsBusy = False
 ]]></Script>
