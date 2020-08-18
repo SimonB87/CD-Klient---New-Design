@@ -549,6 +549,87 @@
           </CssClass>
         </Panel>
         <Panel>
+          <Name value="panelValidations" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isValidationsVisible" />
+          </Bindings>
+          <Children>
+            <GroupBox>
+              <Name value="box_clientValidations" />
+              <Caption value="Validace na straně klienta" />
+              <Panel.Height value="#" />
+              <Panel.Width value="50%" />
+              <Content>
+                <ClientValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                  <Name value="clientValidationSummary" />
+                  <Bindings>
+                    <Binding SourceProperty="validationErrors" Expression="error.clientValidationErrors" />
+                    <Binding SourceProperty="validationRoot" Expression="model" />
+                  </Bindings>
+                  <columns>
+                    <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                      <Name value="validationSummaryColumn1" />
+                      <columnCaption value="Pointer" />
+                      <columnRole value="pointer" />
+                      <columnWidth value="30%" />
+                      <propertyName value="Pointer" />
+                    </validationSummaryColumn>
+                    <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                      <Name value="validationSummaryColumn2" />
+                      <columnCaption value="Message" />
+                      <columnWidth value="70%" />
+                      <propertyName value="Message" />
+                    </validationSummaryColumn>
+                  </columns>
+                </ClientValidationSummary>
+              </Content>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-groupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </GroupBox>
+            <GroupBox>
+              <Name value="box_serverValidations" />
+              <Caption value="Validace na straně Centra" />
+              <Panel.Height value="#" />
+              <Panel.Width value="50%" />
+              <Content>
+                <ServerValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                  <Name value="serverValidationSummary" />
+                  <Bindings>
+                    <Binding SourceProperty="validationErrors" Expression="error.serverValidationErrors" />
+                  </Bindings>
+                  <columns>
+                    <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                      <Name value="validationSummaryColumn4" />
+                      <columnCaption value="Message" />
+                      <columnWidth value="70%" />
+                      <propertyName value="Reason" />
+                    </validationSummaryColumn>
+                  </columns>
+                </ServerValidationSummary>
+              </Content>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-groupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </GroupBox>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
           <Name value="panelGUInotifications" />
           <Orientation value="Horizontal" />
           <Panel.Height value="#" />
@@ -4567,6 +4648,15 @@
                     </AttributeType>
                   </DeclaredType>
                 </Attribute>
+                <Attribute>
+                  <Name value="isValidationsVisible" />
+                  <Caption value="Is validations visible" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
               </Children>
             </Complex>
             <Attribute>
@@ -5276,6 +5366,81 @@ false]]></ExpressionText>
           <Name value="test" />
           <Caption value="Test" />
         </Complex>
+        <Complex>
+          <Name value="error" />
+          <Caption value="Error" />
+          <Children>
+            <Collection>
+              <Name value="clientValidationErrors" />
+              <Caption value="Client validation errors" />
+              <Children>
+                <Attribute>
+                  <Name value="Message" />
+                  <Caption value="Message" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Pointer" />
+                  <Caption value="Pointer" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Type" />
+                  <Caption value="Type" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Computed>
+                  <Name value="FocusTo" />
+                  <Caption value="Focus to" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[Pointer = "a" ? "textBox1" : defaultString()]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Collection>
+            <Collection>
+              <Name value="serverValidationErrors" />
+              <Caption value="Server validation errors" />
+              <Children>
+                <Attribute>
+                  <Name value="Reason" />
+                  <Caption value="Reason" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Collection>
+            <Complex>
+              <Name value="serverValidationComplex" />
+              <Caption value="Server validation complex" />
+              <Children>
+                <Collection>
+                  <Name value="QEI" />
+                  <Caption value="QEI" />
+                  <Children>
+                    <Attribute>
+                      <Name value="QEI01" />
+                      <Caption value="QEI 01" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Collection>
+              </Children>
+            </Complex>
+          </Children>
+        </Complex>
       </Children>
       <Modifiers>
         <Modifier>
@@ -5947,6 +6112,26 @@ var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form
 if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
+
+	form.error.serverValidationComplex.clear()
+	form.error.serverValidationComplex.fromJson(response.extractJson("QERR"))
+	
+	form.error.serverValidationErrors.clear()
+	forEach error in form.error.serverValidationComplex.QEI do
+		var newErrorItem = form.error.serverValidationErrors.addItem()
+		newErrorItem.Reason = error.QEI01 
+	endFor
+	
+	form.error.serverValidationComplex.clear()
+	form.formState.visibilities.isValidationsVisible = True	
+	
+	if not form.model.modelStructure.ASEO.Event.Authorization.hasValue() then
+		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
+	endIf
+	
+	form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
+	form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
+	
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k autorizaci.", false)
@@ -6089,6 +6274,12 @@ if messageType in ["ASEOSPApplicationModification"] then
 	form.model.sekce5prilohy.newFilesCollection.File.clear()
 	form.requests.applicationModification.ASEO.Event.File.fromJson(form.model.sekce5prilohy.newFilesCollectionJson)
 endIf
+
+//test client notifications
+if form.Model.validationErrorsCount() > 0 then
+	form.formState.visibilities.isValidationsVisible = True 
+endIf
+//test client notifications
 
 form.formState.notifications.clear()
 ]]></Script>
@@ -6330,6 +6521,24 @@ var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationModificat
 if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Modifikace žádosti nemohla být provedena.", true)
+	
+	//test server notifications
+	form.error.serverValidationComplex.clear()
+	//
+	form.actions.showErorrNotificationMessage(" << response - begin >> " + response.getJsonString() + " << response - end >> ", true)
+	
+	form.error.serverValidationComplex.fromJson(response.getJsonString())
+	
+	//
+	form.actions.showErorrNotificationMessage(" << serverValidationComplex - begin >> " + form.error.serverValidationComplex.toJson() + " << serverValidationComplex - end >> ", true)
+	
+	form.error.serverValidationErrors.fromJson(form.error.serverValidationComplex.toJson())
+	//
+	form.actions.showErorrNotificationMessage(" << serverValidationErrors - begin >> " + form.error.serverValidationErrors.toJson() + " << serverValidationErrors - end >> ", true)
+	
+	form.error.serverValidationComplex.clear()
+	form.formState.visibilities.isValidationsVisible = True
+	//test server notifications
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k modifikaci žádosti.", false)
