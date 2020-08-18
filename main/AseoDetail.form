@@ -189,31 +189,6 @@
                   </CssClass>
                 </Button>
                 <Button>
-                  <Name value="send_ASEOSPApplicationRejectionModification" />
-                  <Caption value="Modifikace zamítnutí " />
-                  <Panel.Height value="#" />
-                  <Panel.Width value="150px" />
-                  <OnClick>
-                    <ActionEvent ReferencedAction="~lifeCycle_applicationRejectionModification" />
-                  </OnClick>
-                  <Bindings>
-                    <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
-                    <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAUR" />
-                  </Bindings>
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-button" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                    <CssClassConditional>
-                      <ClassName value="elo-fixed-button" />
-                    </CssClassConditional>
-                    <CssClassConditional>
-                      <ClassName value="greenBtn" />
-                    </CssClassConditional>
-                  </CssClass>
-                </Button>
-                <Button>
                   <Name value="send_ASEOSPApplicationRejection" />
                   <Caption value="Zamítnout žádost" />
                   <Panel.Height value="#" />
@@ -234,7 +209,32 @@
                       <ClassName value="elo-fixed-button" />
                     </CssClassConditional>
                     <CssClassConditional>
-                      <ClassName value="greenBtn" />
+                      <ClassName value="blueBtn" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Button>
+                <Button>
+                  <Name value="send_ASEOSPApplicationRejectionModification" />
+                  <Caption value="Modifikace zamítnutí " />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="150px" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~lifeCycle_applicationRejectionModification" />
+                  </OnClick>
+                  <Bindings>
+                    <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
+                    <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAUR" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-button" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="elo-fixed-button" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="blueBtn" />
                     </CssClassConditional>
                   </CssClass>
                 </Button>
@@ -3861,6 +3861,7 @@
                     <Reference>
                       <Name value="ZADUZAM" />
                       <Caption value="ZADUZAM" />
+                      <IsRequired value="True" />
                       <Children>
                         <Attribute>
                           <Name value="ZADUZAM" />
@@ -3897,6 +3898,7 @@
                     <Reference>
                       <Name value="POVOLDUOD" />
                       <Caption value="POVOLDUOD" />
+                      <IsRequired value="True" />
                       <Children>
                         <Attribute>
                           <Name value="POVOLDUOD" />
@@ -3933,6 +3935,7 @@
                     <Attribute>
                       <Name value="AuthorizationSuspendingReason" />
                       <Caption value="Důvod pozastavení povolení" />
+                      <IsRequired value="True" />
                       <DeclaredType>
                         <AttributeType />
                       </DeclaredType>
@@ -6107,6 +6110,8 @@ globals.IsBusy = False
 
 form.actions.editDataBeforePosting("ASEOSPAuthorization")
 
+form.error.serverValidationErrors.clear()
+
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form.requests.ASEOmegaMessage.toJson())
 
 if response.isError() then
@@ -6116,7 +6121,6 @@ if response.isError() then
 	form.error.serverValidationComplex.clear()
 	form.error.serverValidationComplex.fromJson(response.extractJson("QERR"))
 	
-	form.error.serverValidationErrors.clear()
 	forEach error in form.error.serverValidationComplex.QEI do
 		var newErrorItem = form.error.serverValidationErrors.addItem()
 		newErrorItem.Reason = error.QEI01 
@@ -6341,6 +6345,8 @@ form.requests.initReq.clear()
 form.requests.initReq.ASEO.GUID = form.GUID
 form.formState.notifications.clear()
 
+form.error.serverValidationErrors.clear()
+
 var response = apiobjects.ServerKomunikace.postAsync("ASEOFutureRemoval", form.requests.initReq.toJson())
 
 if response.isError() then
@@ -6367,11 +6373,31 @@ globals.IsBusy = False]]></Script>
 
 form.actions.editDataBeforePosting("ASEOSPApplicationRejection")
 
+form.error.serverValidationErrors.clear()
+
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejection", form.requests.ASEOmegaMessage.toJson())
 
 if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
+	
+	form.error.serverValidationComplex.clear()
+	form.error.serverValidationComplex.fromJson(response.extractJson("QERR"))
+	
+	forEach error in form.error.serverValidationComplex.QEI do
+		var newErrorItem = form.error.serverValidationErrors.addItem()
+		newErrorItem.Reason = error.QEI01 
+	endFor
+	
+	form.error.serverValidationComplex.clear()
+	form.formState.visibilities.isValidationsVisible = True	
+	
+	if not form.model.lifeCycleSupport.applicationRejection.hasValue() then
+		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zamítnuti žádosti\".", true)
+	endIf
+	
+	form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(true)
+	
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k autorizaci.", false)
@@ -6393,6 +6419,8 @@ globals.IsBusy = False]]></Script>
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPApplicationRejectionModification")
+
+form.error.serverValidationErrors.clear()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejectionModification", form.requests.ASEOmegaMessage.toJson())
 
@@ -6433,6 +6461,8 @@ form.formState.notifications.visibleNoticeWindow = false]]></Script>
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationWithdrawal")
 
+form.error.serverValidationErrors.clear()
+
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationWithdrawal", form.requests.ASEOmegaMessage.toJson())
 
 if response.isError() then
@@ -6461,6 +6491,8 @@ globals.IsBusy = False
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationSuspending")
 
+form.error.serverValidationErrors.clear()
+
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationSuspending", form.requests.ASEOmegaMessage.toJson())
 
 if response.isError() then
@@ -6487,6 +6519,8 @@ globals.IsBusy = False]]></Script>
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationCancellation")
+
+form.error.serverValidationErrors.clear()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationCancellation", form.requests.ASEOmegaMessage.toJson())
 
@@ -6516,13 +6550,14 @@ globals.IsBusy = False
 
 form.actions.editDataBeforePosting("ASEOSPApplicationModification")
 
+form.error.serverValidationErrors.clear()
+
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationModification", form.requests.applicationModification.toJson())
 
 if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Modifikace žádosti nemohla být provedena.", true)
 	
-	form.error.serverValidationComplex.clear()
 	form.error.serverValidationComplex.fromJson(response.extractJson("QERR"))
 	
 	form.error.serverValidationErrors.clear()
@@ -6557,6 +6592,8 @@ globals.IsBusy = False
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationModification")
 
+form.error.serverValidationErrors.clear()
+
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationModification", form.requests.ASEOmegaMessage.toJson())
 
 if response.isError() then
@@ -6584,6 +6621,8 @@ globals.IsBusy = False
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationWithdrawalModification")
+
+form.error.serverValidationErrors.clear()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationWithdrawalModification", form.requests.ASEOmegaMessage.toJson())
 
@@ -6613,6 +6652,8 @@ globals.IsBusy = False
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationCancellationModification")
 
+form.error.serverValidationErrors.clear()
+
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationCancellationModification", form.requests.ASEOmegaMessage.toJson())
 
 if response.isError() then
@@ -6640,6 +6681,8 @@ globals.IsBusy = False
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationSuspendingModification")
+
+form.error.serverValidationErrors.clear()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationSuspendingModification", form.requests.ASEOmegaMessage.toJson())
 
