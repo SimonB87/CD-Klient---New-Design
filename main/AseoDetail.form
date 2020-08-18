@@ -6429,6 +6429,23 @@ var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejection
 if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být modifikace zamítnutí uděleno.", true)
+
+	form.error.serverValidationComplex.fromJson(response.extractJson("QERR"))
+	
+	forEach error in form.error.serverValidationComplex.QEI do
+		var newErrorItem = form.error.serverValidationErrors.addItem()
+		newErrorItem.Reason = error.QEI01 
+	endFor
+	
+	form.error.serverValidationComplex.clear()
+	form.formState.visibilities.isValidationsVisible = True	
+	
+	if not form.model.lifeCycleSupport.applicationRejection.hasValue() then
+		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zamítnuti žádosti\".", true)
+	endIf
+	
+	form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(true)
+
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci zamítnutí.", false)
