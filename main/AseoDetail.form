@@ -6522,23 +6522,18 @@ if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Modifikace žádosti nemohla být provedena.", true)
 	
-	//test server notifications
 	form.error.serverValidationComplex.clear()
-	//
-	form.actions.showErorrNotificationMessage(" << response - begin >> " + response.getJsonString() + " << response - end >> ", true)
+	form.error.serverValidationComplex.fromJson(response.extractJson("QERR"))
 	
-	form.error.serverValidationComplex.fromJson(response.getJsonString())
-	
-	//
-	form.actions.showErorrNotificationMessage(" << serverValidationComplex - begin >> " + form.error.serverValidationComplex.toJson() + " << serverValidationComplex - end >> ", true)
-	
-	form.error.serverValidationErrors.fromJson(form.error.serverValidationComplex.toJson())
-	//
-	form.actions.showErorrNotificationMessage(" << serverValidationErrors - begin >> " + form.error.serverValidationErrors.toJson() + " << serverValidationErrors - end >> ", true)
+	form.error.serverValidationErrors.clear()
+	forEach error in form.error.serverValidationComplex.QEI do
+		var newErrorItem = form.error.serverValidationErrors.addItem()
+		newErrorItem.Reason = error.QEI01 
+	endFor
 	
 	form.error.serverValidationComplex.clear()
-	form.formState.visibilities.isValidationsVisible = True
-	//test server notifications
+	form.formState.visibilities.isValidationsVisible = True	
+	
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k modifikaci žádosti.", false)
