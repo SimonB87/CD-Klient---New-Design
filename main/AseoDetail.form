@@ -165,7 +165,7 @@
               <Children>
                 <Button>
                   <Name value="send_ASEOSPApplicationModification" />
-                  <Caption value="Modifikovat žádosti" />
+                  <Caption value="Modifikovat žádost" />
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
                   <OnClick>
@@ -314,6 +314,31 @@
                   </CssClass>
                 </Button>
                 <Button>
+                  <Name value="send_ASEOSPAuthorizationWithdrawalModification" />
+                  <Caption value="Modifikovat odnětí" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="150px" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~lifeCycle_authorizationWithdrawalModification" />
+                  </OnClick>
+                  <Bindings>
+                    <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
+                    <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAUW" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-button" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="elo-fixed-button" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="blueBtn" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Button>
+                <Button>
                   <Name value="send_ASEOSPAuthorizationSuspending" />
                   <Caption value="Pozastavit" />
                   <Panel.Height value="#" />
@@ -364,32 +389,13 @@
                   </CssClass>
                 </Button>
                 <Button>
-                  <Name value="send_ASEOSPAuthorizationWithdrawalModification" />
-                  <Caption value="Modifikovat odnětí" />
-                  <Panel.Height value="#" />
-                  <Panel.Width value="150px" />
-                  <Bindings>
-                    <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
-                    <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAUW" />
-                  </Bindings>
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-button" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                    <CssClassConditional>
-                      <ClassName value="elo-fixed-button" />
-                    </CssClassConditional>
-                    <CssClassConditional>
-                      <ClassName value="blueBtn" />
-                    </CssClassConditional>
-                  </CssClass>
-                </Button>
-                <Button>
                   <Name value="send_ASEOSPAuthorizationCancellationModification" />
                   <Caption value="Modifikovat zrušení " />
                   <Panel.Height value="#" />
                   <Panel.Width value="150px" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~lifeCycle_authorizationCancellationModification" />
+                  </OnClick>
                   <Bindings>
                     <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
                     <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAUC" />
@@ -3535,7 +3541,7 @@
                   <Content>
                     <Panel>
                       <Name value="panel35" />
-                      <Orientation value="Horizontal" />
+                      <Orientation value="Vertical" />
                       <Children>
                         <Panel>
                           <Name value="panel36" />
@@ -3746,12 +3752,271 @@
               </Children>
             </Complex>
             <Complex>
-              <Name value="ASEOSPApplicationModification" />
-              <Caption value="ASEOSP application modification" />
+              <Name value="applicationModification" />
+              <Caption value="Application modification" />
               <Children>
-                <Include>
-                  <Include reference="+DataEntities.ASEOSPApplication" />
-                </Include>
+                <Complex>
+                  <Name value="ASEO" />
+                  <Caption value="ASEO" />
+                  <Children>
+                    <Attribute>
+                      <Name value="GUID" />
+                      <Caption value="GUID" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="TIN" />
+                      <Caption value="TIN / EORI číslo" />
+                      <IsRequired value="True" />
+                      <MetaType reference="+MetaTypes.TIN" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/TIN" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                    <Attribute>
+                      <Name value="ResponsibleCustomsOffice" />
+                      <Caption value="Celní úřad zodpovědný za modifikaci a údržbu povolení" />
+                      <IsRequired value="True" />
+                      <MetaType reference="+MetaTypes.CU" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/ResponsibleCustomsOffice" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="val1">
+                          <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
+                    </Attribute>
+                    <Reference>
+                      <Name value="AuthorizationType" />
+                      <Caption value="Typ povolení/ZJP" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/AuthorizationType" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.POVOLTYP" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                    <Complex>
+                      <Name value="Event" />
+                      <Caption value="Událost / Rozhodnutí" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event" />
+                      <MtsImportOptions.MTS.Type value="group" />
+                      <Children>
+                        <Attribute>
+                          <Name value="OperatorName" />
+                          <Caption value="Název subjektu" />
+                          <IsRequired value="True" />
+                          <MetaType reference="+MetaTypes.OperatorName" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/OperatorName" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Attribute>
+                          <Name value="OperatorStreetAndNr" />
+                          <Caption value="Ulice a č.p. sídla" />
+                          <MetaType reference="+MetaTypes.StreetAndNr" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/OperatorStreetAndNr" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Attribute>
+                          <Name value="OperatorCity" />
+                          <Caption value="Město sídla subjektu" />
+                          <MetaType reference="+MetaTypes.City" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/OperatorCity" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Attribute>
+                          <Name value="OperatorPostCode" />
+                          <Caption value="PSČ" />
+                          <MetaType reference="+MetaTypes.PostCode" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/OperatorPostCode" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Reference>
+                          <Name value="OperatorCountry" />
+                          <Caption value="Země sídla subjektu" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/OperatorCountry" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Children>
+                            <Include>
+                              <Include reference="+DataEntities.ZEME_O" />
+                            </Include>
+                          </Children>
+                        </Reference>
+                        <Attribute>
+                          <Name value="ReferenceNumber" />
+                          <Caption value="Číslo jednací" />
+                          <IsRequired value="True" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/ReferenceNumber" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType>
+                              <StrMaxLength value="30" />
+                            </AttributeType>
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="YourMark" />
+                          <Caption value="Vaše značka" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/YourMark" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType>
+                              <StrMaxLength value="30" />
+                            </AttributeType>
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="HandledBy" />
+                          <Caption value="Vyřizuje/linka" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/HandledBy" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType>
+                              <StrMaxLength value="20" />
+                            </AttributeType>
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="DecisionDate" />
+                          <Caption value="Datum vydání rozhodnutí" />
+                          <IsRequired value="True" />
+                          <MetaType reference="+MetaTypes.Date_YYYYMMDD" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/DecisionDate" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Attribute>
+                          <Name value="ValidityStartDate" />
+                          <Caption value="Platné od" />
+                          <IsRequired value="True" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/ValidityStartDate" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType>
+                              <BaseType value="DateTime" />
+                            </AttributeType>
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="DecidingCustomsOffice" />
+                          <Caption value="Rozhodující celní úřad" />
+                          <IsRequired value="True" />
+                          <MetaType reference="+MetaTypes.CU" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/DecidingCustomsOffice" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="val1">
+                              <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="DecidingPerson" />
+                          <Caption value="Osobní číslo vydavatele rozhodnutí" />
+                          <IsRequired value="True" />
+                          <MetaType reference="+MetaTypes.Pracovnik" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/DecidingPerson" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Attribute>
+                          <Name value="Note" />
+                          <Caption value="Poznámka" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/Note" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType>
+                              <StrMaxLength value="10000" />
+                            </AttributeType>
+                          </DeclaredType>
+                        </Attribute>
+                        <Collection>
+                          <Name value="File" />
+                          <Caption value="Soubor přílohy" />
+                          <MaxCount value="999" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File" />
+                          <MtsImportOptions.MTS.Type value="group" />
+                          <Children>
+                            <Attribute>
+                              <Name value="IsFulltext" />
+                              <Caption value="Je plný text či jen doplněk plného textu?" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/IsFulltext" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType>
+                                  <BaseType value="Bool" />
+                                </AttributeType>
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="FileContent" />
+                              <Caption value="Obsah souboru" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileContent" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType />
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="FileName" />
+                              <Caption value="Název souboru" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileName" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType>
+                                  <StrMaxLength value="255" />
+                                </AttributeType>
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="FileType" />
+                              <Caption value="Typ souboru" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileType" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType>
+                                  <StrMaxLength value="255" />
+                                </AttributeType>
+                              </DeclaredType>
+                            </Attribute>
+                          </Children>
+                        </Collection>
+                      </Children>
+                    </Complex>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
             <Complex>
@@ -4958,6 +5223,10 @@ false]]></ExpressionText>
             </Complex>
           </Children>
         </Complex>
+        <Complex>
+          <Name value="test" />
+          <Caption value="Test" />
+        </Complex>
       </Children>
       <Modifiers>
         <Modifier>
@@ -5646,14 +5915,14 @@ else
 	form.formState.sekce5prilohy.newFilesCollectionJson.clear()
 endIf
 
-if  messageType in ["ASEOSPAuthorization", "ASEOSPAuthorizationModification","ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification", "ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationCancellation"]  then	
+if  messageType in ["ASEOSPAuthorization", "ASEOSPAuthorizationModification","ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification", "ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationWithdrawalModification"]  then	
 	form.requests.ASEOmegaMessage.clear()
 	form.model.fromJson(form.formState.modelJson)
 	form.formState.modelJson.clear()
 endIf
 
 if messageType in ["ASEOSPApplicationModification"] then
-	form.requests.ASEOSPApplicationModification.clear()
+	form.requests.applicationModification.clear()
 	form.model.fromJson(form.formState.modelJson)
 	form.formState.modelJson.clear()
 endIf]]></Script>
@@ -5729,7 +5998,7 @@ if messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModi
 	aseoMegaMessage.ASEO.Event.ApplicationRejection.ApplicationRejectionReason = form.formState.lifeCycle.applicationRejection.ZADUZAM.ZADUZAM
 endIf
 
-if messageType in ["ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationCancellation"] then
+if messageType in ["ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawalModification"] then
 	form.formState.modelJson = form.model.toJson()
 	form.model.clear()
 	aseoMegaMessage.clear()
@@ -5756,12 +6025,12 @@ endIf
 if messageType in ["ASEOSPApplicationModification"] then
 	form.formState.modelJson = form.model.toJson()
 	form.model.clear()
-	form.requests.ASEOSPApplicationModification.clear()
-	form.requests.ASEOSPApplicationModification.fromJson(form.formState.modelJson)
-	form.requests.ASEOSPApplicationModification.ASEO.Event.File.clear()
+	form.requests.applicationModification.clear()
+	form.requests.applicationModification.fromJson(form.formState.modelJson)
+	form.requests.applicationModification.ASEO.Event.File.clear()
 	form.formState.sekce5prilohy.newFilesCollectionJson = form.formState.sekce5prilohy.newFilesCollection.File.toJson()
 	form.formState.sekce5prilohy.newFilesCollection.File.clear()
-	form.requests.ASEOSPApplicationModification.ASEO.Event.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
+	form.requests.applicationModification.ASEO.Event.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
 endIf
 
 form.formState.notifications.clear()
@@ -5929,7 +6198,8 @@ endIf
 
 form.actions.editDataAfterPosting("ASEOSPAuthorizationWithdrawal")
 
-globals.IsBusy = False]]></Script>
+globals.IsBusy = False
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -5998,7 +6268,7 @@ globals.IsBusy = False
 
 form.actions.editDataBeforePosting("ASEOSPApplicationModification")
 
-var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationModification", form.requests.ASEOSPApplicationModification.toJson())
+var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationModification", form.requests.applicationModification.toJson())
 
 if response.isError() then
 	system.console(response.getErrorMessage())
@@ -6038,6 +6308,62 @@ else
 endIf
 
 form.actions.editDataAfterPosting("ASEOSPAuthorizationModification")
+
+globals.IsBusy = False
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="lifeCycle_authorizationWithdrawalModification" />
+      <Category value="lifeCycleMessage" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+form.actions.editDataBeforePosting("ASEOSPAuthorizationWithdrawalModification")
+
+var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationWithdrawalModification", form.requests.ASEOmegaMessage.toJson())
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být odnětí udělena.", true)
+else
+	form.model.clear()
+	form.actions.showErorrNotificationMessage("Žádosti bylo úspěšně předáno k odnětí.", false)
+	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+endIf
+
+form.actions.editDataAfterPosting("ASEOSPAuthorizationWithdrawalModification")
+
+globals.IsBusy = False
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="lifeCycle_authorizationCancellationModification" />
+      <Category value="lifeCycleMessage" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+form.actions.editDataBeforePosting("ASEOSPAuthorizationCancellationModification")
+
+var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationCancellationModification", form.requests.ASEOmegaMessage.toJson())
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být předána k zrušení povolení.", true)
+else
+	form.model.clear()
+	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k zrušení povolení.", false)
+	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+endIf
+
+form.actions.editDataAfterPosting("ASEOSPAuthorizationCancellationModification")
 
 globals.IsBusy = False
 ]]></Script>
