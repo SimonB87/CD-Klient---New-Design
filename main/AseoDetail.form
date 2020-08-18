@@ -6119,7 +6119,6 @@ if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
 
-	form.error.serverValidationComplex.clear()
 	form.error.serverValidationComplex.fromJson(response.extractJson("QERR"))
 	
 	forEach error in form.error.serverValidationComplex.QEI do
@@ -6382,9 +6381,8 @@ var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejection
 
 if response.isError() then
 	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
+	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohlo být zamítnutí žádosti uděleno.", true)
 	
-	form.error.serverValidationComplex.clear()
 	form.error.serverValidationComplex.fromJson(response.extractJson("QERR"))
 	
 	forEach error in form.error.serverValidationComplex.QEI do
@@ -6403,7 +6401,7 @@ if response.isError() then
 	
 else
 	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k autorizaci.", false)
+	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k zamítnutí žádosti.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
 
@@ -6430,10 +6428,10 @@ var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejection
 
 if response.isError() then
 	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
+	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být modifikace zamítnutí uděleno.", true)
 else
 	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k autorizaci.", false)
+	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci zamítnutí.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
 
@@ -6579,7 +6577,7 @@ if response.isError() then
 	
 else
 	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k modifikaci žádosti.", false)
+	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
 
@@ -6638,10 +6636,10 @@ var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationWithdra
 
 if response.isError() then
 	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být odnětí udělena.", true)
+	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být modifikace odnětí udělena.", true)
 else
 	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádosti bylo úspěšně předáno k odnětí.", false)
+	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci odnětí.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
 
@@ -6669,10 +6667,10 @@ var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationCancell
 
 if response.isError() then
 	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být předána k zrušení povolení.", true)
+	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být předána k modifikaci zrušení.", true)
 else
 	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k zrušení povolení.", false)
+	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k modifikaci zrušení.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
 
