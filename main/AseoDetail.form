@@ -28,8 +28,8 @@
                   <Panel.Height value="#" />
                   <Panel.Width value="33%" />
                   <Bindings>
-                    <Binding SourceProperty="Data" Expression="model.ASEO.SPHolderCode" />
-                    <Binding SourceProperty="Caption" Expression="model.ASEO.SPHolderCode.caption()" />
+                    <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.SPHolderCode" />
+                    <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.SPHolderCode.caption()" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -44,8 +44,8 @@
                   <Panel.Height value="#" />
                   <Panel.Width value="33%" />
                   <Bindings>
-                    <Binding SourceProperty="Data" Expression="model.ASEO.TIN" />
-                    <Binding SourceProperty="Caption" Expression="model.ASEO.TIN.caption()" />
+                    <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.TIN" />
+                    <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.TIN.caption()" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -61,7 +61,7 @@
                   <Panel.Height value="#" />
                   <Panel.Width value="33.33%" />
                   <Bindings>
-                    <Binding SourceProperty="Data" Expression="form.model.ASEO.AuthorizationType._description" />
+                    <Binding SourceProperty="Data" Expression="form.model.modelStructure.ASEO.AuthorizationType._description" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -90,8 +90,8 @@
                   <Panel.Height value="#" />
                   <Panel.Width value="33%" />
                   <Bindings>
-                    <Binding SourceProperty="Caption" Expression="model.ASEO.ASEOID.caption()" />
-                    <Binding SourceProperty="Data" Expression="model.ASEO.ASEOID" />
+                    <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.ASEOID.caption()" />
+                    <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.ASEOID" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -106,8 +106,8 @@
                   <Panel.Height value="#" />
                   <Panel.Width value="33%" />
                   <Bindings>
-                    <Binding SourceProperty="Caption" Expression="model.ASEO.ResponsibleCustomsOffice.caption()" />
-                    <Binding SourceProperty="Data" Expression="model.ASEO.ResponsibleCustomsOffice" />
+                    <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.ResponsibleCustomsOffice.caption()" />
+                    <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.ResponsibleCustomsOffice" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -122,8 +122,8 @@
                   <Panel.Height value="#" />
                   <Panel.Width value="33%" />
                   <Bindings>
-                    <Binding SourceProperty="Caption" Expression="model.ASEO.State.caption()" />
-                    <Binding SourceProperty="Data" Expression="model.ASEO.State" />
+                    <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.State.caption()" />
+                    <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.State" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -364,6 +364,31 @@
                   </CssClass>
                 </Button>
                 <Button>
+                  <Name value="send_ASEOSPAuthorizationSuspendingModification" />
+                  <Caption value="Upravit pozastavení" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="150px" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~lifeCycle_authorizationSuspendingModification" />
+                  </OnClick>
+                  <Bindings>
+                    <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
+                    <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAUS" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-button" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="elo-fixed-button" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="blueBtn" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Button>
+                <Button>
                   <Name value="send_ASEOSPAuthorizationCancellation" />
                   <Caption value="Zrušit žádost" />
                   <Panel.Height value="#" />
@@ -461,7 +486,7 @@
               <Children>
                 <Button>
                   <Name value="edit" />
-                  <Caption value="Upravit" />
+                  <Caption value="Povolit úpravy" />
                   <Panel.Height value="51px" />
                   <Panel.Width value="120px" />
                   <OnClick>
@@ -683,7 +708,7 @@
                 <ActionEvent ReferencedAction="~handler_decisionVersions_OnRowActivate" />
               </OnRowActivate>
               <Bindings>
-                <Binding SourceProperty="DataItems" Expression="form.model.ASEO.EventHistory" />
+                <Binding SourceProperty="DataItems" Expression="form.model.modelStructure.ASEO.EventHistory" />
               </Bindings>
               <Columns>
                 <DataColumn>
@@ -1128,9 +1153,9 @@
                               <Panel.Height value="#" />
                               <Panel.Width value="33%" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.ReferenceNumber" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.ReferenceNumber.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.ReferenceNumber.caption()" />
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.ReferenceNumber" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.ReferenceNumber.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.ReferenceNumber.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -1145,9 +1170,9 @@
                               <Panel.Height value="#" />
                               <Panel.Width value="33%" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.YourMark" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.YourMark.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.YourMark.caption()" />
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.YourMark" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.YourMark.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.YourMark.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -1162,9 +1187,9 @@
                               <Panel.Height value="#" />
                               <Panel.Width value="33%" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.HandledBy" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.HandledBy.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.HandledBy.caption()" />
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.HandledBy" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.HandledBy.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.HandledBy.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -1188,23 +1213,23 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Children>
-                            <TextBox>
-                              <Name value="textBox6" />
+                            <DatePicker>
+                              <Name value="datePicker_decisionDate" />
                               <Panel.Height value="#" />
                               <Panel.Width value="33%" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.DecisionDate" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.DecisionDate.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.DecisionDate.caption()" />
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.DecisionDate" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.DecisionDate.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.DecisionDate.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
+                                  <ClassName value="{theme}-datepicker" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </TextBox>
+                            </DatePicker>
                             <TextBox>
                               <Name value="textBox_originalValidity" />
                               <Caption value="Platnosti povolení od (Uložená hodnota)" />
@@ -1228,9 +1253,9 @@
                               <Panel.Height value="#" />
                               <Panel.Width value="33%" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.EventType.Description" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.EventType.Description.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.EventType.Description.caption()" />
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.EventType.Description" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.EventType.Description.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.EventType.Description.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -1259,9 +1284,9 @@
                               <Panel.Height value="#" />
                               <Panel.Width value="33%" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.DecidingPerson" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.DecidingPerson.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.DecidingPerson.caption()" />
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.DecidingPerson" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.DecidingPerson.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.DecidingPerson.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -1276,9 +1301,9 @@
                               <Panel.Height value="#" />
                               <Panel.Width value="33%" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.DecidingCustomsOffice" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.DecidingCustomsOffice.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.DecidingCustomsOffice.caption()" />
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.DecidingCustomsOffice" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.DecidingCustomsOffice.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.DecidingCustomsOffice.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -1288,23 +1313,23 @@
                                 </CssClassConditional>
                               </CssClass>
                             </TextBox>
-                            <TextBox>
-                              <Name value="textBox21" />
+                            <DatePicker>
+                              <Name value="datePicker_evidenceDate" />
                               <Panel.Height value="#" />
                               <Panel.Width value="33%" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.EvidenceDate" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.EvidenceDate.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.EvidenceDate.caption()" />
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.EvidenceDate" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.EvidenceDate.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.EvidenceDate.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
+                                  <ClassName value="{theme}-datepicker" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </TextBox>
+                            </DatePicker>
                           </Children>
                           <CssClass>
                             <CssClassConditional>
@@ -1319,33 +1344,33 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Children>
-                            <TextBox>
-                              <Name value="textBox17" />
+                            <DatePicker>
+                              <Name value="datePicker_validityStartDate" />
                               <Caption value="Nastavení nové platnosti povolení" />
                               <Panel.Height value="#" />
                               <Panel.Width value="33%" />
                               <Tooltip value="Zde uživatel zadá, od kdy se mají projevit změny po zaslání nové úpravy, Běžně bude povolení upravenno až po 60 minutách od odeslání. Tuto lhůtu lze snížit" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.ValidityStartDate" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.ValidityStartDate.isRequired()" />
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.ValidityStartDate" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.ValidityStartDate.isRequired()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
+                                  <ClassName value="{theme}-datepicker" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </TextBox>
+                            </DatePicker>
                             <TextBox>
                               <Name value="textBox_note" />
                               <InputType value="Multiline" />
                               <Panel.Height value="#" />
                               <Panel.Width value="66.66%" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.Note" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Note.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Note.caption()" />
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Note" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Note.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Note.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -1407,9 +1432,9 @@
                                   <Panel.Height value="#" />
                                   <Panel.Width value="66.66%" />
                                   <Bindings>
-                                    <Binding SourceProperty="Data" Expression="model.ASEO.Event.OperatorName" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.OperatorName.isRequired()" />
-                                    <Binding SourceProperty="Caption" Expression="model.ASEO.Event.OperatorName.caption()" />
+                                    <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.OperatorName" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.OperatorName.isRequired()" />
+                                    <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.OperatorName.caption()" />
                                     <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                                   </Bindings>
                                   <CssClass>
@@ -1425,9 +1450,9 @@
                                   <Panel.Height value="#" />
                                   <Panel.Width value="33.33%" />
                                   <Bindings>
-                                    <Binding SourceProperty="Data" Expression="model.ASEO.Event.OperatorStreetAndNr" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.OperatorStreetAndNr.isRequired()" />
-                                    <Binding SourceProperty="Caption" Expression="model.ASEO.Event.OperatorStreetAndNr.caption()" />
+                                    <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.OperatorStreetAndNr" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.OperatorStreetAndNr.isRequired()" />
+                                    <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.OperatorStreetAndNr.caption()" />
                                     <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                                   </Bindings>
                                   <CssClass>
@@ -1457,9 +1482,9 @@
                                   <Panel.Height value="#" />
                                   <Panel.Width value="33.33%" />
                                   <Bindings>
-                                    <Binding SourceProperty="Data" Expression="model.ASEO.Event.OperatorCity" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.OperatorCity.isRequired()" />
-                                    <Binding SourceProperty="Caption" Expression="model.ASEO.Event.OperatorCity.caption()" />
+                                    <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.OperatorCity" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.OperatorCity.isRequired()" />
+                                    <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.OperatorCity.caption()" />
                                     <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                                   </Bindings>
                                   <CssClass>
@@ -1475,9 +1500,9 @@
                                   <Panel.Height value="#" />
                                   <Panel.Width value="33.33%" />
                                   <Bindings>
-                                    <Binding SourceProperty="Data" Expression="model.ASEO.Event.OperatorPostCode" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.OperatorPostCode.isRequired()" />
-                                    <Binding SourceProperty="Caption" Expression="model.ASEO.Event.OperatorPostCode.caption()" />
+                                    <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.OperatorPostCode" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.OperatorPostCode.isRequired()" />
+                                    <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.OperatorPostCode.caption()" />
                                     <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                                   </Bindings>
                                   <CssClass>
@@ -1493,9 +1518,9 @@
                                   <Panel.Height value="#" />
                                   <Panel.Width value="33.33%" />
                                   <Bindings>
-                                    <Binding SourceProperty="Data" Expression="model.ASEO.Event.OperatorCountry" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.OperatorCountry.isRequired()" />
-                                    <Binding SourceProperty="Caption" Expression="model.ASEO.Event.OperatorCountry.caption()" />
+                                    <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.OperatorCountry" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.OperatorCountry.isRequired()" />
+                                    <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.OperatorCountry.caption()" />
                                     <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                                   </Bindings>
                                   <CssClass>
@@ -1566,7 +1591,7 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Bindings>
-                        <Binding SourceProperty="Data" Expression="model.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.caption()" />
+                        <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.caption()" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -1599,7 +1624,7 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Bindings>
-                        <Binding SourceProperty="IsVisible" Expression="formState.sekce2celniUrady.switchInsertNewCo" />
+                        <Binding SourceProperty="IsVisible" Expression="model.sekce2celniUrady.switchInsertNewCo" />
                       </Bindings>
                       <Children>
                         <TextBox>
@@ -1609,8 +1634,8 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="33%" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="formState.sekce2celniUrady.model_addNewCO.CustomsOfficeReferenceNumber" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.sekce2celniUrady.model_addNewCO.CustomsOfficeReferenceNumber.isRequired()" />
+                            <Binding SourceProperty="Data" Expression="model.sekce2celniUrady.model_addNewCO.CustomsOfficeReferenceNumber" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce2celniUrady.model_addNewCO.CustomsOfficeReferenceNumber.isRequired()" />
                             <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                           </Bindings>
                           <CssClass>
@@ -1698,7 +1723,7 @@
                         </Panel>
                       </Content>
                       <Bindings>
-                        <Binding SourceProperty="DataItems" Expression="model.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease" />
+                        <Binding SourceProperty="DataItems" Expression="model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -1739,9 +1764,9 @@
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
                   <Bindings>
-                    <Binding SourceProperty="Data" Expression="formState.sekce3zbozi.negativeCollectionView" />
-                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.sekce3zbozi.negativeCollectionView.isRequired()" />
-                    <Binding SourceProperty="Caption" Expression="formState.sekce3zbozi.negativeCollectionView.caption()" />
+                    <Binding SourceProperty="Data" Expression="model.sekce3zbozi.negativeCollectionView" />
+                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce3zbozi.negativeCollectionView.isRequired()" />
+                    <Binding SourceProperty="Caption" Expression="model.sekce3zbozi.negativeCollectionView.caption()" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -1761,7 +1786,7 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="50%" />
                       <Bindings>
-                        <Binding SourceProperty="DataItems" Expression="form.model.ASEO.Event.GoodsList.GoodsItem" />
+                        <Binding SourceProperty="DataItems" Expression="form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem" />
                       </Bindings>
                       <Columns>
                         <DataColumn>
@@ -1878,7 +1903,7 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="160px" />
                           <Bindings>
-                            <Binding SourceProperty="IsVisible" Expression="form.formState.sekce3zbozi.switchInsertNewGoodsItem" />
+                            <Binding SourceProperty="IsVisible" Expression="form.model.sekce3zbozi.switchInsertNewGoodsItem" />
                           </Bindings>
                           <Children>
                             <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
@@ -1891,7 +1916,7 @@
                               <Panel.Width value="300px" />
                               <useContains value="False" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="form.formState.sekce3zbozi.CNCode" />
+                                <Binding SourceProperty="Data" Expression="form.model.sekce3zbozi.CNCode" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -1984,7 +2009,7 @@
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
                   <Bindings>
-                    <Binding SourceProperty="IsVisible" Expression="formState.sekce4rozsirene.switchAddNewPeriod" />
+                    <Binding SourceProperty="IsVisible" Expression="model.sekce4rozsirene.switchAddNewPeriod" />
                   </Bindings>
                   <Children>
                     <ReferenceCombo>
@@ -1995,8 +2020,8 @@
                       <Panel.Width value="25%" />
                       <ReferenceList reference="~filtered_ZJPLHUTA" />
                       <Bindings>
-                        <Binding SourceProperty="Data" Expression="formState.sekce4rozsirene.newPeriod._ZJPLHUTYP" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.sekce4rozsirene.newPeriod._ZJPLHUTYP.isRequired()" />
+                        <Binding SourceProperty="Data" Expression="model.sekce4rozsirene.newPeriod._ZJPLHUTYP" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce4rozsirene.newPeriod._ZJPLHUTYP.isRequired()" />
                         <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
@@ -2012,9 +2037,9 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="25%" />
                       <Bindings>
-                        <Binding SourceProperty="Data" Expression="formState.sekce4rozsirene.newPeriod.Unit" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.sekce4rozsirene.newPeriod.Unit.isRequired()" />
-                        <Binding SourceProperty="Caption" Expression="formState.sekce4rozsirene.newPeriod.Unit.caption()" />
+                        <Binding SourceProperty="Data" Expression="model.sekce4rozsirene.newPeriod.Unit" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce4rozsirene.newPeriod.Unit.isRequired()" />
+                        <Binding SourceProperty="Caption" Expression="model.sekce4rozsirene.newPeriod.Unit.caption()" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -2028,9 +2053,9 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="25%" />
                       <Bindings>
-                        <Binding SourceProperty="Data" Expression="formState.sekce4rozsirene.newPeriod.PeriodDuration" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.sekce4rozsirene.newPeriod.PeriodDuration.isRequired()" />
-                        <Binding SourceProperty="Caption" Expression="formState.sekce4rozsirene.newPeriod.PeriodDuration.caption()" />
+                        <Binding SourceProperty="Data" Expression="model.sekce4rozsirene.newPeriod.PeriodDuration" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce4rozsirene.newPeriod.PeriodDuration.isRequired()" />
+                        <Binding SourceProperty="Caption" Expression="model.sekce4rozsirene.newPeriod.PeriodDuration.caption()" />
                         <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
@@ -2196,7 +2221,7 @@
                     </Panel>
                   </Content>
                   <Bindings>
-                    <Binding SourceProperty="DataItems" Expression="form.model.ASEO.Event.Period" />
+                    <Binding SourceProperty="DataItems" Expression="form.model.modelStructure.ASEO.Event.Period" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -2446,7 +2471,7 @@
                         </Panel>
                       </Content>
                       <Bindings>
-                        <Binding SourceProperty="DataItems" Expression="model.ASEO.Event.File" />
+                        <Binding SourceProperty="DataItems" Expression="model.modelStructure.ASEO.Event.File" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -2513,7 +2538,7 @@
                           <Name value="panel20" />
                           <Orientation value="Horizontal" />
                           <Bindings>
-                            <Binding SourceProperty="IsVisible" Expression="formState.sekce5prilohy.switchAddNewAnnex" />
+                            <Binding SourceProperty="IsVisible" Expression="model.sekce5prilohy.switchAddNewAnnex" />
                           </Bindings>
                           <Children>
                             <FileReader identity="FileReader.f457f0445b7e44b7a3a1134647eff385">
@@ -2522,8 +2547,8 @@
                               <Panel.Height value="#" />
                               <Panel.Width value="25%" />
                               <Bindings>
-                                <Binding SourceProperty="FileContent" Expression="formState.sekce5prilohy.addNewAnnex.FileContent" />
-                                <Binding SourceProperty="FileName" Expression="formState.sekce5prilohy.addNewAnnex.FileName" />
+                                <Binding SourceProperty="FileContent" Expression="model.sekce5prilohy.addNewAnnex.FileContent" />
+                                <Binding SourceProperty="FileName" Expression="model.sekce5prilohy.addNewAnnex.FileName" />
                                 <Binding SourceProperty="FileType" Expression="" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
@@ -2539,9 +2564,9 @@
                               <Panel.Height value="#" />
                               <Panel.Width value="25%" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="formState.sekce5prilohy.addNewAnnex.FileType" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.sekce5prilohy.addNewAnnex.FileType.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="formState.sekce5prilohy.addNewAnnex.FileType.caption()" />
+                                <Binding SourceProperty="Data" Expression="model.sekce5prilohy.addNewAnnex.FileType" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce5prilohy.addNewAnnex.FileType.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.sekce5prilohy.addNewAnnex.FileType.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -2556,9 +2581,9 @@
                               <Panel.Height value="#" />
                               <Panel.Width value="25%" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="formState.sekce5prilohy.addNewAnnex.IsFulltext" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.sekce5prilohy.addNewAnnex.IsFulltext.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="formState.sekce5prilohy.addNewAnnex.IsFulltext.caption()" />
+                                <Binding SourceProperty="Data" Expression="model.sekce5prilohy.addNewAnnex.IsFulltext" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce5prilohy.addNewAnnex.IsFulltext.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.sekce5prilohy.addNewAnnex.IsFulltext.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -2596,7 +2621,7 @@
                         </Panel>
                       </Content>
                       <Bindings>
-                        <Binding SourceProperty="IsVisible" Expression="formState.sekce5prilohy.switchAddNewAnnex" />
+                        <Binding SourceProperty="IsVisible" Expression="model.sekce5prilohy.switchAddNewAnnex" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -2615,8 +2640,9 @@
                           <Orientation value="Vertical" />
                           <Children>
                             <GroupBox>
-                              <Name value="groupBox1" />
-                              <Caption value="Group box 1" />
+                              <Name value="groupBox_annexAdded" />
+                              <Caption value="Přidaná příloha" />
+                              <Margin value="0, 6, 0, 6 px" />
                               <Panel.Height value="#" />
                               <Panel.HorizontalAlignment value="Right" />
                               <Panel.Width value="98.5%" />
@@ -2723,7 +2749,7 @@
                         </Panel>
                       </Content>
                       <Bindings>
-                        <Binding SourceProperty="DataItems" Expression="formState.sekce5prilohy.newFilesCollection.File" />
+                        <Binding SourceProperty="DataItems" Expression="model.sekce5prilohy.newFilesCollection.File" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -2777,7 +2803,7 @@
                         <ActionEvent ReferencedAction="~handler_table_control_OnRowActivate" />
                       </OnRowActivate>
                       <Bindings>
-                        <Binding SourceProperty="DataItems" Expression="form.model.ASEO.Control" />
+                        <Binding SourceProperty="DataItems" Expression="form.model.modelStructure.ASEO.Control" />
                       </Bindings>
                       <Columns>
                         <DataColumn>
@@ -2935,7 +2961,7 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Bindings>
-                        <Binding SourceProperty="DataItems" Expression="form.formState.sekcePrehodnoceni.kontrolaPrilohy" />
+                        <Binding SourceProperty="DataItems" Expression="form.model.sekcePrehodnoceni.kontrolaPrilohy" />
                       </Bindings>
                       <Columns>
                         <DataColumn>
@@ -3120,9 +3146,9 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.ResponsiblePersonName" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.ResponsiblePersonName.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.ResponsiblePersonName.caption()" />
+                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonName" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonName.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonName.caption()" />
                             <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                           </Bindings>
                           <CssClass>
@@ -3138,9 +3164,9 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.ResponsiblePersonPhone" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.ResponsiblePersonPhone.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.ResponsiblePersonPhone.caption()" />
+                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonPhone" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonPhone.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonPhone.caption()" />
                             <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                           </Bindings>
                           <CssClass>
@@ -3157,8 +3183,8 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.ResponsiblePersonEMail" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.ResponsiblePersonEMail.isRequired()" />
+                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonEMail" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonEMail.isRequired()" />
                             <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                           </Bindings>
                           <CssClass>
@@ -3173,9 +3199,9 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.caption()" />
+                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.caption()" />
                             <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                           </Bindings>
                           <CssClass>
@@ -3216,9 +3242,9 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.LimitedAuthorizationValidity" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.LimitedAuthorizationValidity.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.LimitedAuthorizationValidity.caption()" />
+                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.caption()" />
                             <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                           </Bindings>
                           <CssClass>
@@ -3233,9 +3259,9 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.ASEO.Event.Authorization.AuthorizationValidUntil" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.Authorization.AuthorizationValidUntil.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="model.ASEO.Event.Authorization.AuthorizationValidUntil.caption()" />
+                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil.caption()" />
                             <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                           </Bindings>
                           <CssClass>
@@ -3301,8 +3327,8 @@
                               <Panel.Height value="#" />
                               <Panel.Width value="50%" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.ApplicationRejection.ApplicationRejectionReason" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.ApplicationRejection.ApplicationRejectionReason.isRequired()" />
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionReason" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionReason.isRequired()" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -3320,8 +3346,8 @@
                               <Panel.Width value="50%" />
                               <ReferenceList reference="~zaduzam" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="formState.lifeCycle.applicationRejection.ZADUZAM" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.lifeCycle.applicationRejection.ZADUZAM.isRequired()" />
+                                <Binding SourceProperty="Data" Expression="model.lifeCycleSupport.applicationRejection.ZADUZAM" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.applicationRejection.ZADUZAM.isRequired()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -3351,9 +3377,9 @@
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription.caption()" />
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -3381,7 +3407,7 @@
                     </Panel>
                   </Content>
                   <Bindings>
-                    <Binding SourceProperty="Caption" Expression="form.model.ASEO.Event.ApplicationRejection.caption()" />
+                    <Binding SourceProperty="Caption" Expression="form.model.modelStructure.ASEO.Event.ApplicationRejection.caption()" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -3429,8 +3455,8 @@
                               <Panel.Height value="#" />
                               <Panel.Width value="50%" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason.isRequired()" />
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason.isRequired()" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -3447,8 +3473,8 @@
                               <Panel.Width value="50%" />
                               <ReferenceList reference="~pOVOLDUOD" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="formState.lifeCycle.authorizationWithdrawal.POVOLDUOD" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.lifeCycle.authorizationWithdrawal.POVOLDUOD.isRequired()" />
+                                <Binding SourceProperty="Data" Expression=" model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression=" model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.isRequired()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -3478,9 +3504,9 @@
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription.caption()" />
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -3508,7 +3534,7 @@
                     </Panel>
                   </Content>
                   <Bindings>
-                    <Binding SourceProperty="Caption" Expression="form.model.ASEO.Event.AuthorizationWithdrawal.caption()" />
+                    <Binding SourceProperty="Caption" Expression="form.model.modelStructure.ASEO.Event.AuthorizationWithdrawal.caption()" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -3553,11 +3579,12 @@
                               <Name value="textBox35" />
                               <Caption value="Uložený Důvod pozastavení povolení" />
                               <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
                               <Panel.Height value="#" />
                               <Panel.Width value="50%" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason.isRequired()" />
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason.isRequired()" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -3581,12 +3608,12 @@
                             <TextBox>
                               <Name value="textBox37" />
                               <Caption value="Upravit Důvod pozastavení povolení" />
-                              <CaptionPosition value="Top" />
                               <Panel.Height value="#" />
-                              <Panel.Width value="150px" />
+                              <Panel.Width value="300px" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="formState.lifeCycle.authorizationSuspending.AuthorizationSuspendingReason" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.lifeCycle.authorizationSuspending.AuthorizationSuspendingReason.isRequired()" />
+                                <Binding SourceProperty="Data" Expression="model.lifeCycleSupport.authorizationSuspending.AuthorizationSuspendingReason" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.authorizationSuspending.AuthorizationSuspendingReason.isRequired()" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -3611,14 +3638,14 @@
                           <Children>
                             <TextBox>
                               <Name value="textBox36" />
-                              <CaptionPosition value="Top" />
                               <InputType value="Multiline" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription.caption()" />
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription.caption()" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -3645,7 +3672,7 @@
                     </Panel>
                   </Content>
                   <Bindings>
-                    <Binding SourceProperty="Caption" Expression="form.model.ASEO.Event.AuthorizationSuspending.caption()" />
+                    <Binding SourceProperty="Caption" Expression="form.model.modelStructure.ASEO.Event.AuthorizationSuspending.caption()" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -3733,351 +3760,104 @@
           <Name value="model" />
           <Caption value="Model" />
           <Children>
-            <Include>
-              <Include reference="+DataEntities.ASEOSPDataResponseEx" />
-            </Include>
-          </Children>
-        </Complex>
-        <Complex>
-          <Name value="requests" />
-          <Caption value="Requests" />
-          <Children>
             <Complex>
-              <Name value="initReq" />
-              <Caption value="Init req" />
+              <Name value="modelStructure" />
+              <Caption value="Model structure" />
               <Children>
                 <Include>
-                  <Include reference="+DataEntities.ASEOSPDataRequestEx" />
+                  <Include reference="+DataEntities.ASEOSPDataResponseEx" />
                 </Include>
               </Children>
             </Complex>
             <Complex>
-              <Name value="applicationModification" />
-              <Caption value="Application modification" />
+              <Name value="lifeCycleSupport" />
+              <Caption value="Life cycle support" />
               <Children>
                 <Complex>
-                  <Name value="ASEO" />
-                  <Caption value="ASEO" />
+                  <Name value="applicationRejection" />
+                  <Caption value="Application rejection" />
+                  <Children>
+                    <Reference>
+                      <Name value="ZADUZAM" />
+                      <Caption value="ZADUZAM" />
+                      <Children>
+                        <Attribute>
+                          <Name value="ZADUZAM" />
+                          <Caption value="ZADUZAM" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="POPIS" />
+                          <Caption value="POPIS" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Computed>
+                          <Name value="_description" />
+                          <Caption value="_description" />
+                          <Expression IsValid="True">
+                            <ExpressionText><![CDATA[functions.codeListDescription(ZADUZAM,POPIS)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </Expression>
+                        </Computed>
+                      </Children>
+                    </Reference>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="authorizationWithdrawal" />
+                  <Caption value="Authorization withdrawal" />
+                  <Children>
+                    <Reference>
+                      <Name value="POVOLDUOD" />
+                      <Caption value="POVOLDUOD" />
+                      <Children>
+                        <Attribute>
+                          <Name value="POVOLDUOD" />
+                          <Caption value="POVOLDUOD" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="POPIS" />
+                          <Caption value="POPIS" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Computed>
+                          <Name value="_description" />
+                          <Caption value="_description" />
+                          <Expression IsValid="True">
+                            <ExpressionText><![CDATA[functions.codeListDescription(POVOLDUOD,POPIS)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </Expression>
+                        </Computed>
+                      </Children>
+                    </Reference>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="authorizationSuspending" />
+                  <Caption value="Authorization suspending" />
                   <Children>
                     <Attribute>
-                      <Name value="GUID" />
-                      <Caption value="GUID" />
+                      <Name value="AuthorizationSuspendingReason" />
+                      <Caption value="Důvod pozastavení povolení" />
                       <DeclaredType>
                         <AttributeType />
                       </DeclaredType>
                     </Attribute>
-                    <Attribute>
-                      <Name value="TIN" />
-                      <Caption value="TIN / EORI číslo" />
-                      <IsRequired value="True" />
-                      <MetaType reference="+MetaTypes.TIN" />
-                      <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/TIN" />
-                      <MtsImportOptions.MTS.Type value="element" />
-                    </Attribute>
-                    <Attribute>
-                      <Name value="ResponsibleCustomsOffice" />
-                      <Caption value="Celní úřad zodpovědný za modifikaci a údržbu povolení" />
-                      <IsRequired value="True" />
-                      <MetaType reference="+MetaTypes.CU" />
-                      <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/ResponsibleCustomsOffice" />
-                      <MtsImportOptions.MTS.Type value="element" />
-                      <Validators>
-                        <Validator Name="val1">
-                          <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
-                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
-                          <ErrorMessage IsValid="True">
-                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="String" />
-                            </ResultType>
-                          </ErrorMessage>
-                          <IsValid IsValid="True">
-                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="Bool" />
-                            </ResultType>
-                          </IsValid>
-                        </Validator>
-                      </Validators>
-                    </Attribute>
-                    <Reference>
-                      <Name value="AuthorizationType" />
-                      <Caption value="Typ povolení/ZJP" />
-                      <IsRequired value="True" />
-                      <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/AuthorizationType" />
-                      <MtsImportOptions.MTS.Type value="element" />
-                      <Children>
-                        <Include>
-                          <Include reference="+DataEntities.POVOLTYP" />
-                        </Include>
-                      </Children>
-                    </Reference>
-                    <Complex>
-                      <Name value="Event" />
-                      <Caption value="Událost / Rozhodnutí" />
-                      <IsRequired value="True" />
-                      <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event" />
-                      <MtsImportOptions.MTS.Type value="group" />
-                      <Children>
-                        <Attribute>
-                          <Name value="OperatorName" />
-                          <Caption value="Název subjektu" />
-                          <IsRequired value="True" />
-                          <MetaType reference="+MetaTypes.OperatorName" />
-                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/OperatorName" />
-                          <MtsImportOptions.MTS.Type value="element" />
-                        </Attribute>
-                        <Attribute>
-                          <Name value="OperatorStreetAndNr" />
-                          <Caption value="Ulice a č.p. sídla" />
-                          <MetaType reference="+MetaTypes.StreetAndNr" />
-                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/OperatorStreetAndNr" />
-                          <MtsImportOptions.MTS.Type value="element" />
-                        </Attribute>
-                        <Attribute>
-                          <Name value="OperatorCity" />
-                          <Caption value="Město sídla subjektu" />
-                          <MetaType reference="+MetaTypes.City" />
-                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/OperatorCity" />
-                          <MtsImportOptions.MTS.Type value="element" />
-                        </Attribute>
-                        <Attribute>
-                          <Name value="OperatorPostCode" />
-                          <Caption value="PSČ" />
-                          <MetaType reference="+MetaTypes.PostCode" />
-                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/OperatorPostCode" />
-                          <MtsImportOptions.MTS.Type value="element" />
-                        </Attribute>
-                        <Reference>
-                          <Name value="OperatorCountry" />
-                          <Caption value="Země sídla subjektu" />
-                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/OperatorCountry" />
-                          <MtsImportOptions.MTS.Type value="element" />
-                          <Children>
-                            <Include>
-                              <Include reference="+DataEntities.ZEME_O" />
-                            </Include>
-                          </Children>
-                        </Reference>
-                        <Attribute>
-                          <Name value="ReferenceNumber" />
-                          <Caption value="Číslo jednací" />
-                          <IsRequired value="True" />
-                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/ReferenceNumber" />
-                          <MtsImportOptions.MTS.Type value="element" />
-                          <DeclaredType>
-                            <AttributeType>
-                              <StrMaxLength value="30" />
-                            </AttributeType>
-                          </DeclaredType>
-                        </Attribute>
-                        <Attribute>
-                          <Name value="YourMark" />
-                          <Caption value="Vaše značka" />
-                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/YourMark" />
-                          <MtsImportOptions.MTS.Type value="element" />
-                          <DeclaredType>
-                            <AttributeType>
-                              <StrMaxLength value="30" />
-                            </AttributeType>
-                          </DeclaredType>
-                        </Attribute>
-                        <Attribute>
-                          <Name value="HandledBy" />
-                          <Caption value="Vyřizuje/linka" />
-                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/HandledBy" />
-                          <MtsImportOptions.MTS.Type value="element" />
-                          <DeclaredType>
-                            <AttributeType>
-                              <StrMaxLength value="20" />
-                            </AttributeType>
-                          </DeclaredType>
-                        </Attribute>
-                        <Attribute>
-                          <Name value="DecisionDate" />
-                          <Caption value="Datum vydání rozhodnutí" />
-                          <IsRequired value="True" />
-                          <MetaType reference="+MetaTypes.Date_YYYYMMDD" />
-                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/DecisionDate" />
-                          <MtsImportOptions.MTS.Type value="element" />
-                        </Attribute>
-                        <Attribute>
-                          <Name value="ValidityStartDate" />
-                          <Caption value="Platné od" />
-                          <IsRequired value="True" />
-                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/ValidityStartDate" />
-                          <MtsImportOptions.MTS.Type value="element" />
-                          <DeclaredType>
-                            <AttributeType>
-                              <BaseType value="DateTime" />
-                            </AttributeType>
-                          </DeclaredType>
-                        </Attribute>
-                        <Attribute>
-                          <Name value="DecidingCustomsOffice" />
-                          <Caption value="Rozhodující celní úřad" />
-                          <IsRequired value="True" />
-                          <MetaType reference="+MetaTypes.CU" />
-                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/DecidingCustomsOffice" />
-                          <MtsImportOptions.MTS.Type value="element" />
-                          <Validators>
-                            <Validator Name="val1">
-                              <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
-                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
-                              <ErrorMessage IsValid="True">
-                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
-                                <ResultType>
-                                  <BaseType value="String" />
-                                </ResultType>
-                              </ErrorMessage>
-                              <IsValid IsValid="True">
-                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
-                                <ResultType>
-                                  <BaseType value="Bool" />
-                                </ResultType>
-                              </IsValid>
-                            </Validator>
-                          </Validators>
-                        </Attribute>
-                        <Attribute>
-                          <Name value="DecidingPerson" />
-                          <Caption value="Osobní číslo vydavatele rozhodnutí" />
-                          <IsRequired value="True" />
-                          <MetaType reference="+MetaTypes.Pracovnik" />
-                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/DecidingPerson" />
-                          <MtsImportOptions.MTS.Type value="element" />
-                        </Attribute>
-                        <Attribute>
-                          <Name value="Note" />
-                          <Caption value="Poznámka" />
-                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/Note" />
-                          <MtsImportOptions.MTS.Type value="element" />
-                          <DeclaredType>
-                            <AttributeType>
-                              <StrMaxLength value="10000" />
-                            </AttributeType>
-                          </DeclaredType>
-                        </Attribute>
-                        <Collection>
-                          <Name value="File" />
-                          <Caption value="Soubor přílohy" />
-                          <MaxCount value="999" />
-                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File" />
-                          <MtsImportOptions.MTS.Type value="group" />
-                          <Children>
-                            <Attribute>
-                              <Name value="IsFulltext" />
-                              <Caption value="Je plný text či jen doplněk plného textu?" />
-                              <IsRequired value="True" />
-                              <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/IsFulltext" />
-                              <MtsImportOptions.MTS.Type value="element" />
-                              <DeclaredType>
-                                <AttributeType>
-                                  <BaseType value="Bool" />
-                                </AttributeType>
-                              </DeclaredType>
-                            </Attribute>
-                            <Attribute>
-                              <Name value="FileContent" />
-                              <Caption value="Obsah souboru" />
-                              <IsRequired value="True" />
-                              <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileContent" />
-                              <MtsImportOptions.MTS.Type value="element" />
-                              <DeclaredType>
-                                <AttributeType />
-                              </DeclaredType>
-                            </Attribute>
-                            <Attribute>
-                              <Name value="FileName" />
-                              <Caption value="Název souboru" />
-                              <IsRequired value="True" />
-                              <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileName" />
-                              <MtsImportOptions.MTS.Type value="element" />
-                              <DeclaredType>
-                                <AttributeType>
-                                  <StrMaxLength value="255" />
-                                </AttributeType>
-                              </DeclaredType>
-                            </Attribute>
-                            <Attribute>
-                              <Name value="FileType" />
-                              <Caption value="Typ souboru" />
-                              <IsRequired value="True" />
-                              <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileType" />
-                              <MtsImportOptions.MTS.Type value="element" />
-                              <DeclaredType>
-                                <AttributeType>
-                                  <StrMaxLength value="255" />
-                                </AttributeType>
-                              </DeclaredType>
-                            </Attribute>
-                          </Children>
-                        </Collection>
-                      </Children>
-                    </Complex>
                   </Children>
                 </Complex>
-              </Children>
-            </Complex>
-            <Complex>
-              <Name value="ASEOmegaMessage" />
-              <Caption value="ASE omega message" />
-              <Children>
-                <Include>
-                  <Include reference="+DataEntities.ASEOSP_SF" />
-                </Include>
-              </Children>
-            </Complex>
-          </Children>
-        </Complex>
-        <Complex>
-          <Name value="formState" />
-          <Caption value="Form state" />
-          <Children>
-            <Complex>
-              <Name value="notifications" />
-              <Caption value="Notifications" />
-              <Children>
-                <Attribute>
-                  <Name value="operationResultMessage" />
-                  <Caption value="Operation result message" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="operationResultError" />
-                  <Caption value="Operation result error" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="visibleNoticeWindow" />
-                  <Caption value="Visible notice window" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
-              </Children>
-            </Complex>
-            <Complex>
-              <Name value="visibilities" />
-              <Caption value="Visibilities" />
-              <Children>
-                <Attribute>
-                  <Name value="showVersionHistory" />
-                  <Caption value="Show version history" />
-                  <DeclaredType>
-                    <AttributeType>
-                      <BaseType value="Bool" />
-                    </AttributeType>
-                  </DeclaredType>
-                </Attribute>
               </Children>
             </Complex>
             <Complex>
@@ -4445,6 +4225,350 @@
                 </Attribute>
               </Children>
             </Complex>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="requests" />
+          <Caption value="Requests" />
+          <Children>
+            <Complex>
+              <Name value="initReq" />
+              <Caption value="Init req" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOSPDataRequestEx" />
+                </Include>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="applicationModification" />
+              <Caption value="Application modification" />
+              <Children>
+                <Complex>
+                  <Name value="ASEO" />
+                  <Caption value="ASEO" />
+                  <Children>
+                    <Attribute>
+                      <Name value="GUID" />
+                      <Caption value="GUID" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="TIN" />
+                      <Caption value="TIN / EORI číslo" />
+                      <IsRequired value="True" />
+                      <MetaType reference="+MetaTypes.TIN" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/TIN" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                    <Attribute>
+                      <Name value="ResponsibleCustomsOffice" />
+                      <Caption value="Celní úřad zodpovědný za modifikaci a údržbu povolení" />
+                      <IsRequired value="True" />
+                      <MetaType reference="+MetaTypes.CU" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/ResponsibleCustomsOffice" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="val1">
+                          <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
+                    </Attribute>
+                    <Reference>
+                      <Name value="AuthorizationType" />
+                      <Caption value="Typ povolení/ZJP" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/AuthorizationType" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.POVOLTYP" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                    <Complex>
+                      <Name value="Event" />
+                      <Caption value="Událost / Rozhodnutí" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event" />
+                      <MtsImportOptions.MTS.Type value="group" />
+                      <Children>
+                        <Attribute>
+                          <Name value="OperatorName" />
+                          <Caption value="Název subjektu" />
+                          <IsRequired value="True" />
+                          <MetaType reference="+MetaTypes.OperatorName" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/OperatorName" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Attribute>
+                          <Name value="OperatorStreetAndNr" />
+                          <Caption value="Ulice a č.p. sídla" />
+                          <MetaType reference="+MetaTypes.StreetAndNr" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/OperatorStreetAndNr" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Attribute>
+                          <Name value="OperatorCity" />
+                          <Caption value="Město sídla subjektu" />
+                          <MetaType reference="+MetaTypes.City" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/OperatorCity" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Attribute>
+                          <Name value="OperatorPostCode" />
+                          <Caption value="PSČ" />
+                          <MetaType reference="+MetaTypes.PostCode" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/OperatorPostCode" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Reference>
+                          <Name value="OperatorCountry" />
+                          <Caption value="Země sídla subjektu" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/OperatorCountry" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Children>
+                            <Include>
+                              <Include reference="+DataEntities.ZEME_O" />
+                            </Include>
+                          </Children>
+                        </Reference>
+                        <Attribute>
+                          <Name value="ReferenceNumber" />
+                          <Caption value="Číslo jednací" />
+                          <IsRequired value="True" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/ReferenceNumber" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType>
+                              <StrMaxLength value="30" />
+                            </AttributeType>
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="YourMark" />
+                          <Caption value="Vaše značka" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/YourMark" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType>
+                              <StrMaxLength value="30" />
+                            </AttributeType>
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="HandledBy" />
+                          <Caption value="Vyřizuje/linka" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/HandledBy" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType>
+                              <StrMaxLength value="20" />
+                            </AttributeType>
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="DecisionDate" />
+                          <Caption value="Datum vydání rozhodnutí" />
+                          <IsRequired value="True" />
+                          <MetaType reference="+MetaTypes.Date_YYYYMMDD" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/DecisionDate" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Attribute>
+                          <Name value="ValidityStartDate" />
+                          <Caption value="Platné od" />
+                          <IsRequired value="True" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/ValidityStartDate" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType>
+                              <BaseType value="DateTime" />
+                            </AttributeType>
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="DecidingCustomsOffice" />
+                          <Caption value="Rozhodující celní úřad" />
+                          <IsRequired value="True" />
+                          <MetaType reference="+MetaTypes.CU" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/DecidingCustomsOffice" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="val1">
+                              <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="DecidingPerson" />
+                          <Caption value="Osobní číslo vydavatele rozhodnutí" />
+                          <IsRequired value="True" />
+                          <MetaType reference="+MetaTypes.Pracovnik" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/DecidingPerson" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Attribute>
+                          <Name value="Note" />
+                          <Caption value="Poznámka" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/Note" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType>
+                              <StrMaxLength value="10000" />
+                            </AttributeType>
+                          </DeclaredType>
+                        </Attribute>
+                        <Collection>
+                          <Name value="File" />
+                          <Caption value="Soubor přílohy" />
+                          <MaxCount value="999" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File" />
+                          <MtsImportOptions.MTS.Type value="group" />
+                          <Children>
+                            <Attribute>
+                              <Name value="IsFulltext" />
+                              <Caption value="Je plný text či jen doplněk plného textu?" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/IsFulltext" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType>
+                                  <BaseType value="Bool" />
+                                </AttributeType>
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="FileContent" />
+                              <Caption value="Obsah souboru" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileContent" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType />
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="FileName" />
+                              <Caption value="Název souboru" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileName" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType>
+                                  <StrMaxLength value="255" />
+                                </AttributeType>
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="FileType" />
+                              <Caption value="Typ souboru" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileType" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType>
+                                  <StrMaxLength value="255" />
+                                </AttributeType>
+                              </DeclaredType>
+                            </Attribute>
+                          </Children>
+                        </Collection>
+                      </Children>
+                    </Complex>
+                  </Children>
+                </Complex>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="ASEOmegaMessage" />
+              <Caption value="ASE omega message" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOSP_SF" />
+                </Include>
+              </Children>
+            </Complex>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="formState" />
+          <Caption value="Form state" />
+          <Children>
+            <Complex>
+              <Name value="notifications" />
+              <Caption value="Notifications" />
+              <Children>
+                <Attribute>
+                  <Name value="operationResultMessage" />
+                  <Caption value="Operation result message" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="operationResultError" />
+                  <Caption value="Operation result error" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="visibleNoticeWindow" />
+                  <Caption value="Visible notice window" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="visibilities" />
+              <Caption value="Visibilities" />
+              <Children>
+                <Attribute>
+                  <Name value="showVersionHistory" />
+                  <Caption value="Show version history" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
             <Attribute>
               <Name value="modelJson" />
               <Caption value="Model json" />
@@ -4579,6 +4703,16 @@ false]]></ExpressionText>
                         </ResultType>
                       </Expression>
                     </Computed>
+                    <Computed>
+                      <Name value="isCodeAUS" />
+                      <Caption value="Is code AUS" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[(this.owner().stateCode = "AUS") ? true : false]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
                   </Children>
                 </Complex>
                 <Computed>
@@ -4591,91 +4725,6 @@ false]]></ExpressionText>
                     </ResultType>
                   </Expression>
                 </Computed>
-                <Complex>
-                  <Name value="applicationRejection" />
-                  <Caption value="Application rejection" />
-                  <Children>
-                    <Reference>
-                      <Name value="ZADUZAM" />
-                      <Caption value="ZADUZAM" />
-                      <Children>
-                        <Attribute>
-                          <Name value="ZADUZAM" />
-                          <Caption value="ZADUZAM" />
-                          <DeclaredType>
-                            <AttributeType />
-                          </DeclaredType>
-                        </Attribute>
-                        <Attribute>
-                          <Name value="POPIS" />
-                          <Caption value="POPIS" />
-                          <DeclaredType>
-                            <AttributeType />
-                          </DeclaredType>
-                        </Attribute>
-                        <Computed>
-                          <Name value="_description" />
-                          <Caption value="_description" />
-                          <Expression IsValid="True">
-                            <ExpressionText><![CDATA[functions.codeListDescription(ZADUZAM,POPIS)]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="String" />
-                            </ResultType>
-                          </Expression>
-                        </Computed>
-                      </Children>
-                    </Reference>
-                  </Children>
-                </Complex>
-                <Complex>
-                  <Name value="authorizationWithdrawal" />
-                  <Caption value="Authorization withdrawal" />
-                  <Children>
-                    <Reference>
-                      <Name value="POVOLDUOD" />
-                      <Caption value="POVOLDUOD" />
-                      <Children>
-                        <Attribute>
-                          <Name value="POVOLDUOD" />
-                          <Caption value="POVOLDUOD" />
-                          <DeclaredType>
-                            <AttributeType />
-                          </DeclaredType>
-                        </Attribute>
-                        <Attribute>
-                          <Name value="POPIS" />
-                          <Caption value="POPIS" />
-                          <DeclaredType>
-                            <AttributeType />
-                          </DeclaredType>
-                        </Attribute>
-                        <Computed>
-                          <Name value="_description" />
-                          <Caption value="_description" />
-                          <Expression IsValid="True">
-                            <ExpressionText><![CDATA[functions.codeListDescription(POVOLDUOD,POPIS)]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="String" />
-                            </ResultType>
-                          </Expression>
-                        </Computed>
-                      </Children>
-                    </Reference>
-                  </Children>
-                </Complex>
-                <Complex>
-                  <Name value="authorizationSuspending" />
-                  <Caption value="Authorization suspending" />
-                  <Children>
-                    <Attribute>
-                      <Name value="AuthorizationSuspendingReason" />
-                      <Caption value="Důvod pozastavení povolení" />
-                      <DeclaredType>
-                        <AttributeType />
-                      </DeclaredType>
-                    </Attribute>
-                  </Children>
-                </Complex>
                 <Complex>
                   <Name value="sectionVisibilities" />
                   <Caption value="Section visibilities" />
@@ -5231,15 +5280,15 @@ false]]></ExpressionText>
       <Modifiers>
         <Modifier>
           <Name value="modifier_5CC0D53D_EventHistory" />
-          <SourcePath value="model.ASEO.EventHistory" />
+          <SourcePath value="model.modelStructure.ASEO.EventHistory" />
         </Modifier>
         <Modifier>
           <Name value="modifier_6D69AC3E_Authorization" />
-          <SourcePath value="model.ASEO.Event.Authorization" />
+          <SourcePath value="model.modelStructure.ASEO.Event.Authorization" />
         </Modifier>
         <Modifier>
           <Name value="modifier_E697599F_File" />
-          <SourcePath value="model.ASEO.Event.File" />
+          <SourcePath value="model.modelStructure.ASEO.Event.File" />
           <Children>
             <Computed>
               <Name value="_fileUrl" />
@@ -5255,7 +5304,7 @@ false]]></ExpressionText>
         </Modifier>
         <Modifier>
           <Name value="modifier_91A79430_File" />
-          <SourcePath value="model.ASEO.Control.File" />
+          <SourcePath value="model.modelStructure.ASEO.Control.File" />
           <Children>
             <Computed>
               <Name value="_fileUrl" />
@@ -5271,7 +5320,7 @@ false]]></ExpressionText>
         </Modifier>
         <Modifier>
           <Name value="modifier_44F74FEA_TypeOfPeriod" />
-          <SourcePath value="model.ASEO.Event.Period.TypeOfPeriod" />
+          <SourcePath value="model.modelStructure.ASEO.Event.Period.TypeOfPeriod" />
           <Children>
             <Computed>
               <Name value="_description" />
@@ -5287,11 +5336,11 @@ false]]></ExpressionText>
         </Modifier>
         <Modifier>
           <Name value="modifier_7DC72A68_Period" />
-          <SourcePath value="model.ASEO.Event.Period" />
+          <SourcePath value="model.modelStructure.ASEO.Event.Period" />
         </Modifier>
         <Modifier>
           <Name value="modifier_DA3EC415_ASEO" />
-          <SourcePath value="model.ASEO" />
+          <SourcePath value="model.modelStructure.ASEO" />
         </Modifier>
         <Modifier>
           <Name value="modifier_1ED27372_GoodsItem" />
@@ -5340,13 +5389,13 @@ form.isLastVersionSelected = true
 form.components.tabsMenu.SelectedTab = 1
 
 if form.authorizationType in ["TIR", "ACP"] then
-	form.formState.sekce3zbozi.negativeCollectionView = false
+	form.model.sekce3zbozi.negativeCollectionView = false
 endIf
 
 //variable preparation
-form.formState.original_validityStartDate = form.model.ASEO.Event.ValidityStartDate //save this for GUI to display
-form.model.ASEO.Event.ValidityStartDate = getDateTime()
-form.model.ASEO.Event.ValidityStartDate = addHours(form.model.ASEO.Event.ValidityStartDate, 1)
+form.formState.original_validityStartDate = form.model.modelStructure.ASEO.Event.ValidityStartDate //save this for GUI to display
+form.model.modelStructure.ASEO.Event.ValidityStartDate = getDateTime()
+form.model.modelStructure.ASEO.Event.ValidityStartDate = addHours(form.model.modelStructure.ASEO.Event.ValidityStartDate, 1)
 
 //form.actions.demoDataSetUp()
 //globals.OverenyUzivatel.hasRoleWrite = false
@@ -5376,11 +5425,11 @@ else
 	form.actions.showErorrNotificationMessage("Data povolení byla úspěšně načtena. ", false)
 	
     var respJson = resp.getJsonString()
-    form.model.clear()
-    form.model.fromJson(respJson)
+    form.model.modelStructure.clear()
+    form.model.modelStructure.fromJson(respJson)
     
-    if form.model.ASEO.Event.GUID.hasValue() then
-		form.VersionGUID = form.model.ASEO.Event.GUID
+    if form.model.modelStructure.ASEO.Event.GUID.hasValue() then
+		form.VersionGUID = form.model.modelStructure.ASEO.Event.GUID
 	endIf
 
 	form.isEditOn = false
@@ -5504,6 +5553,10 @@ form.actions.loadAseoData(form.GUID, selecteEventVersion)
 
 form.actions.checkIfLastVersionIsLoaded()
 
+var currentAnnex = form.model.modelStructure.ASEO.Event.File.count()
+var newAnnex = form.model.sekce5prilohy.newFilesCollection.File.count()
+form.components.tabsMenu.Tab05prilohy.Title = "Text a přílohy (" + toString(currentAnnex + newAnnex) + ")"
+
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -5523,7 +5576,7 @@ globals.IsBusy = False]]></Script>
     <ActionBlock>
       <Name value="checkIfLastVersionIsLoaded" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var currentEvent = form.model.ASEO.EventHistory.selectFirst()
+        <Script><![CDATA[var currentEvent = form.model.modelStructure.ASEO.EventHistory.selectFirst()
 var currentEventGuid = currentEvent.GUID
 
 if (currentEventGuid = form.VersionGUID) then
@@ -5546,8 +5599,8 @@ tabs.Tab02celniUrady.Title = "Celní úřady"
 tabs.Tab03zbozi.Title = "Zboží"
 tabs.Tab04rozsirene.Title = "Rozšířené"
 
-var currentAnnex = form.model.ASEO.Event.File.count()
-var newAnnex = form.formState.sekce5prilohy.newFilesCollection.File.count()
+var currentAnnex = form.model.modelStructure.ASEO.Event.File.count()
+var newAnnex = form.model.sekce5prilohy.newFilesCollection.File.count()
 tabs.Tab05prilohy.Title = "Text a přílohy (" + toString(currentAnnex + newAnnex) + ")"
 
 tabs.Tab06prehodnoceni.Title = "Přehodnocení"
@@ -5597,9 +5650,9 @@ endIf endIf endIf
     <ActionBlock>
       <Name value="demoDataSetUp" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.model.ASEO.AuthorizationType.POVOLTYP = "ACP" then
+        <Script><![CDATA[if form.model.modelStructure.ASEO.AuthorizationType.POVOLTYP = "ACP" then
 
-	var newItem = form.model.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.addItem()
+	var newItem = form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.addItem()
 	
 	newItem.AuthorizedAgreedLocation.addItem()
 	newItem.TemporaryStorage.addItem()
@@ -5609,18 +5662,18 @@ endIf endIf endIf
 
 endIf
 
-form.model.ASEO.Control.addItem()
-var firstControl = form.model.ASEO.Control.selectFirst()
+form.model.modelStructure.ASEO.Control.addItem()
+var firstControl = form.model.modelStructure.ASEO.Control.selectFirst()
 firstControl.File.addItem()
 firstControl.File.addItem()
 
-form.model.ASEO.Control.addItem()
-var secondControl = form.model.ASEO.Control.selectFirst(current.index() = 2)
+form.model.modelStructure.ASEO.Control.addItem()
+var secondControl = form.model.modelStructure.ASEO.Control.selectFirst(current.index() = 2)
 secondControl.File.addItem()
 secondControl.File.addItem()
 secondControl.File.addItem()
 
-form.model.ASEO.Event.Period.addItem()]]></Script>
+form.model.modelStructure.ASEO.Event.Period.addItem()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -5631,8 +5684,8 @@ form.model.ASEO.Event.Period.addItem()]]></Script>
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var filesJson = params.data.File.toJson()
-form.formState.sekcePrehodnoceni.kontrolaPrilohy.clear()
-form.formState.sekcePrehodnoceni.kontrolaPrilohy.fromJson(filesJson)]]></Script>
+form.model.sekcePrehodnoceni.kontrolaPrilohy.clear()
+form.model.sekcePrehodnoceni.kontrolaPrilohy.fromJson(filesJson)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -5642,10 +5695,10 @@ form.formState.sekcePrehodnoceni.kontrolaPrilohy.fromJson(filesJson)]]></Script>
       <Name value="handler_buttonAddCO_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.formState.sekce2celniUrady.switchInsertNewCo = defaultBool() then
-	form.formState.sekce2celniUrady.switchInsertNewCo = true
+        <Script><![CDATA[if form.model.sekce2celniUrady.switchInsertNewCo = defaultBool() then
+	form.model.sekce2celniUrady.switchInsertNewCo = true
 else
-	form.formState.sekce2celniUrady.switchInsertNewCo = not form.formState.sekce2celniUrady.switchInsertNewCo
+	form.model.sekce2celniUrady.switchInsertNewCo = not form.model.sekce2celniUrady.switchInsertNewCo
 endIf]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -5655,14 +5708,14 @@ endIf]]></Script>
     <ActionBlock>
       <Name value="insertNewCO" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var target = form.formState.sekce2celniUrady.model_addNewCO.CustomsOfficeReferenceNumber
-var targetIsValid = form.formState.sekce2celniUrady.model_addNewCO.CustomsOfficeReferenceNumber.isValid()
-var targetHasValue = form.formState.sekce2celniUrady.model_addNewCO.CustomsOfficeReferenceNumber.hasValue()
+        <Script><![CDATA[var target = form.model.sekce2celniUrady.model_addNewCO.CustomsOfficeReferenceNumber
+var targetIsValid = form.model.sekce2celniUrady.model_addNewCO.CustomsOfficeReferenceNumber.isValid()
+var targetHasValue = form.model.sekce2celniUrady.model_addNewCO.CustomsOfficeReferenceNumber.hasValue()
 
 if targetIsValid and targetHasValue then
-	var newCo = form.model.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.addItem()
+	var newCo = form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.addItem()
 	newCo.CustomsOfficeReferenceNumber = target
-	form.formState.sekce2celniUrady.model_addNewCO.CustomsOfficeReferenceNumber.clear()
+	form.model.sekce2celniUrady.model_addNewCO.CustomsOfficeReferenceNumber.clear()
 endIf
 ]]></Script>
       </ActionLangBody>
@@ -5674,14 +5727,14 @@ endIf
       <Name value="handler_buttonAddGoodsItem_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.formState.sekce3zbozi.switchInsertNewGoodsItem = defaultBool() then
-	form.formState.sekce3zbozi.switchInsertNewGoodsItem = true
+        <Script><![CDATA[if form.model.sekce3zbozi.switchInsertNewGoodsItem = defaultBool() then
+	form.model.sekce3zbozi.switchInsertNewGoodsItem = true
 else
-	form.formState.sekce3zbozi.switchInsertNewGoodsItem = not form.formState.sekce3zbozi.switchInsertNewGoodsItem
+	form.model.sekce3zbozi.switchInsertNewGoodsItem = not form.model.sekce3zbozi.switchInsertNewGoodsItem
 endIf
 
-if form.model.ASEO.Event.ValidityStartDate.hasValue() then
-	apiobjects.cnCodeCl.setDateTime(form.model.ASEO.Event.ValidityStartDate)
+if form.model.modelStructure.ASEO.Event.ValidityStartDate.hasValue() then
+	apiobjects.cnCodeCl.setDateTime(form.model.modelStructure.ASEO.Event.ValidityStartDate)
 else
 	apiobjects.cnCodeCl.setDateTime(getDateTime())
 endIf]]></Script>
@@ -5695,14 +5748,14 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
-var targetIsValid = form.formState.sekce3zbozi.CNCode.isValid()
-var targetHasValue = form.formState.sekce3zbozi.CNCode.hasValue()
+var targetIsValid = form.model.sekce3zbozi.CNCode.isValid()
+var targetHasValue = form.model.sekce3zbozi.CNCode.hasValue()
 
 if targetIsValid and targetHasValue then
-	var newItem = form.model.ASEO.Event.GoodsList.GoodsItem.addItem()
-	newItem.CNCode = form.formState.sekce3zbozi.CNCode.ZBOZIKOD
-	newItem.Allowed = form.formState.sekce3zbozi.negativeCollectionView
-	form.formState.sekce3zbozi.CNCode.clear()
+	var newItem = form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.addItem()
+	newItem.CNCode = form.model.sekce3zbozi.CNCode.ZBOZIKOD
+	newItem.Allowed = form.model.sekce3zbozi.negativeCollectionView
+	form.model.sekce3zbozi.CNCode.clear()
 endIf
 
 globals.IsBusy = False
@@ -5716,13 +5769,13 @@ globals.IsBusy = False
       <Name value="handler_button_addNewAnnex_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.formState.sekce5prilohy.switchAddNewAnnex = defaultBool() then
-	form.formState.sekce5prilohy.switchAddNewAnnex = true
+        <Script><![CDATA[if form.model.sekce5prilohy.switchAddNewAnnex = defaultBool() then
+	form.model.sekce5prilohy.switchAddNewAnnex = true
 else
-	form.formState.sekce5prilohy.switchAddNewAnnex = not form.formState.sekce5prilohy.switchAddNewAnnex
+	form.model.sekce5prilohy.switchAddNewAnnex = not form.model.sekce5prilohy.switchAddNewAnnex
 endIf
 
-form.formState.sekce5prilohy.addNewAnnex.IsFulltext = false]]></Script>
+form.model.sekce5prilohy.addNewAnnex.IsFulltext = false]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -5733,15 +5786,19 @@ form.formState.sekce5prilohy.addNewAnnex.IsFulltext = false]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
-var newFileIsValid = form.formState.sekce5prilohy.addNewAnnex.isValid()
-var newFileHasValue = form.formState.sekce5prilohy.addNewAnnex.hasValue()
+var newFileIsValid = form.model.sekce5prilohy.addNewAnnex.isValid()
+var newFileHasValue = form.model.sekce5prilohy.addNewAnnex.hasValue()
 
 if newFileIsValid and newFileHasValue then
-	var newAnnexFile = form.formState.sekce5prilohy.newFilesCollection.File.addItem()
-	newAnnexFile.fromJson(form.formState.sekce5prilohy.addNewAnnex.toJson())
+	var newAnnexFile = form.model.sekce5prilohy.newFilesCollection.File.addItem()
+	newAnnexFile.fromJson(form.model.sekce5prilohy.addNewAnnex.toJson())
+	
+	var currentAnnex = form.model.modelStructure.ASEO.Event.File.count()
+	var newAnnex = form.model.sekce5prilohy.newFilesCollection.File.count()
+	form.components.tabsMenu.Tab05prilohy.Title = "Text a přílohy (" + toString(currentAnnex + newAnnex) + ")"
 else
-	form.formState.sekce5prilohy.addNewAnnex.FileType.setTouched(true)
-	form.formState.sekce5prilohy.addNewAnnex.FileName.setTouched(true)
+	form.model.sekce5prilohy.addNewAnnex.FileType.setTouched(true)
+	form.model.sekce5prilohy.addNewAnnex.FileName.setTouched(true)
 	form.actions.showErorrNotificationMessage("Data nahrávané přílohy nejsou plně vyplněna", true)
 endIf
 
@@ -5756,15 +5813,15 @@ globals.IsBusy = False
       <Name value="handler_button1_addPeriod_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.formState.sekce4rozsirene.switchAddNewPeriod = defaultBool() then
-	form.formState.sekce4rozsirene.switchAddNewPeriod = true
+        <Script><![CDATA[if form.model.sekce4rozsirene.switchAddNewPeriod = defaultBool() then
+	form.model.sekce4rozsirene.switchAddNewPeriod = true
 else
- 	form.formState.sekce4rozsirene.switchAddNewPeriod = not form.formState.sekce4rozsirene.switchAddNewPeriod
+ 	form.model.sekce4rozsirene.switchAddNewPeriod = not form.model.sekce4rozsirene.switchAddNewPeriod
 endIf
 
-if form.model.ASEO.Event.ValidityStartDate.hasValue() then
-	form.apiobjects.ZJPLHUTA.loadDataAsync(form.model.ASEO.Event.ValidityStartDate)
-	form.apiobjects.ZJPLHUTA.setDate(toDate(form.model.ASEO.Event.ValidityStartDate))
+if form.model.modelStructure.ASEO.Event.ValidityStartDate.hasValue() then
+	form.apiobjects.ZJPLHUTA.loadDataAsync(form.model.modelStructure.ASEO.Event.ValidityStartDate)
+	form.apiobjects.ZJPLHUTA.setDate(toDate(form.model.modelStructure.ASEO.Event.ValidityStartDate))
 else
 	form.apiobjects.ZJPLHUTA.loadDataAsync(getDateTime())
 	form.apiobjects.ZJPLHUTA.setDate(getDate())
@@ -5782,7 +5839,7 @@ filter.commit()
     <ActionBlock>
       <Name value="setNewPeriod" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var modelNewPeriod = form.formState.sekce4rozsirene.newPeriod
+        <Script><![CDATA[var modelNewPeriod = form.model.sekce4rozsirene.newPeriod
 
 modelNewPeriod.Unit = modelNewPeriod._ZJPLHUTYP.MJCAS
 modelNewPeriod.PeriodDuration = modelNewPeriod._ZJPLHUTYP.DOPDELKA
@@ -5795,14 +5852,14 @@ modelNewPeriod.PeriodDuration = modelNewPeriod._ZJPLHUTYP.DOPDELKA
     <ActionBlock>
       <Name value="insertPeriod" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var newPeriod = form.model.ASEO.Event.Period.addItem()
+        <Script><![CDATA[var newPeriod = form.model.modelStructure.ASEO.Event.Period.addItem()
 
-newPeriod.TypeOfPeriod.Key = form.formState.sekce4rozsirene.newPeriod._ZJPLHUTYP.ZJPLHUTYP
-newPeriod.TypeOfPeriod.Description = form.formState.sekce4rozsirene.newPeriod._ZJPLHUTYP.POPIS
-newPeriod.Unit = form.formState.sekce4rozsirene.newPeriod.Unit
-newPeriod.PeriodDuration = form.formState.sekce4rozsirene.newPeriod.PeriodDuration
+newPeriod.TypeOfPeriod.Key = form.model.sekce4rozsirene.newPeriod._ZJPLHUTYP.ZJPLHUTYP
+newPeriod.TypeOfPeriod.Description = form.model.sekce4rozsirene.newPeriod._ZJPLHUTYP.POPIS
+newPeriod.Unit = form.model.sekce4rozsirene.newPeriod.Unit
+newPeriod.PeriodDuration = form.model.sekce4rozsirene.newPeriod.PeriodDuration
 
-form.formState.sekce4rozsirene.newPeriod.clear()
+form.model.sekce4rozsirene.newPeriod.clear()
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -5844,7 +5901,7 @@ if confirm then
 	params.data.removeMe()
 endIf
 
-form.components.tabsMenu.Tab05prilohy.Title = "Text a přílohy (" + toString(form.model.ASEO.Event.File.count()) + ")"]]></Script>
+form.components.tabsMenu.Tab05prilohy.Title = "Text a přílohy (" + toString(form.model.modelStructure.ASEO.Event.File.count()) + ")"]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -5891,7 +5948,7 @@ if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
 else
-	form.model.clear()
+	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k autorizaci.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
@@ -5909,21 +5966,21 @@ globals.IsBusy = False
       <Name value="editDataAfterPosting" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if not messagePostSucess then
-	form.formState.sekce5prilohy.newFilesCollection.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
-	form.formState.sekce5prilohy.newFilesCollectionJson.clear()
+	form.model.sekce5prilohy.newFilesCollection.File.fromJson(form.model.sekce5prilohy.newFilesCollectionJson)
+	form.model.sekce5prilohy.newFilesCollectionJson.clear()
 else
-	form.formState.sekce5prilohy.newFilesCollectionJson.clear()
+	form.model.sekce5prilohy.newFilesCollectionJson.clear()
 endIf
 
-if  messageType in ["ASEOSPAuthorization", "ASEOSPAuthorizationModification","ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification", "ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationWithdrawalModification"]  then	
+if  messageType in ["ASEOSPAuthorization", "ASEOSPAuthorizationModification","ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification", "ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification","ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationWithdrawalModification"]  then	
 	form.requests.ASEOmegaMessage.clear()
-	form.model.fromJson(form.formState.modelJson)
+	form.model.modelStructure.fromJson(form.formState.modelJson)
 	form.formState.modelJson.clear()
 endIf
 
 if messageType in ["ASEOSPApplicationModification"] then
 	form.requests.applicationModification.clear()
-	form.model.fromJson(form.formState.modelJson)
+	form.model.modelStructure.fromJson(form.formState.modelJson)
 	form.formState.modelJson.clear()
 endIf]]></Script>
       </ActionLangBody>
@@ -5962,8 +6019,8 @@ if confirm then
 	params.data.removeMe()
 endIf
 
-var currentAnnex = form.model.ASEO.Event.File.count()
-var newAnnex = form.formState.sekce5prilohy.newFilesCollection.File.count()
+var currentAnnex = form.model.modelStructure.ASEO.Event.File.count()
+var newAnnex = form.model.sekce5prilohy.newFilesCollection.File.count()
 form.components.tabsMenu.Tab05prilohy.Title = "Text a přílohy (" + toString(currentAnnex + newAnnex) + ")"]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -5976,61 +6033,61 @@ form.components.tabsMenu.Tab05prilohy.Title = "Text a přílohy (" + toString(cu
         <Script><![CDATA[var aseoMegaMessage = form.requests.ASEOmegaMessage
 
 if messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification"] then
-	form.formState.modelJson = form.model.toJson()
-	form.model.clear()
+	form.formState.modelJson = form.model.modelStructure.toJson()
+	form.model.modelStructure.clear()
 	aseoMegaMessage.clear()
 	aseoMegaMessage.fromJson(form.formState.modelJson)
 	aseoMegaMessage.ASEO.Event.File.clear()
-	form.formState.sekce5prilohy.newFilesCollectionJson = form.formState.sekce5prilohy.newFilesCollection.File.toJson()
-	form.formState.sekce5prilohy.newFilesCollection.File.clear()
-	aseoMegaMessage.ASEO.Event.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
+	form.model.sekce5prilohy.newFilesCollectionJson = form.model.sekce5prilohy.newFilesCollection.File.toJson()
+	form.model.sekce5prilohy.newFilesCollection.File.clear()
+	aseoMegaMessage.ASEO.Event.File.fromJson(form.model.sekce5prilohy.newFilesCollectionJson)
 endIf
 
 if messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification"] then
-	form.formState.modelJson = form.model.toJson()
-	form.model.clear()
+	form.formState.modelJson = form.model.modelStructure.toJson()
+	form.model.modelStructure.clear()
 	aseoMegaMessage.clear()
 	aseoMegaMessage.fromJson(form.formState.modelJson)
 	aseoMegaMessage.ASEO.Event.File.clear()
-	form.formState.sekce5prilohy.newFilesCollectionJson = form.formState.sekce5prilohy.newFilesCollection.File.toJson()
-	form.formState.sekce5prilohy.newFilesCollection.File.clear()
-	aseoMegaMessage.ASEO.Event.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
-	aseoMegaMessage.ASEO.Event.ApplicationRejection.ApplicationRejectionReason = form.formState.lifeCycle.applicationRejection.ZADUZAM.ZADUZAM
+	form.model.sekce5prilohy.newFilesCollectionJson = form.model.sekce5prilohy.newFilesCollection.File.toJson()
+	form.model.sekce5prilohy.newFilesCollection.File.clear()
+	aseoMegaMessage.ASEO.Event.File.fromJson(form.model.sekce5prilohy.newFilesCollectionJson)
+	aseoMegaMessage.ASEO.Event.ApplicationRejection.ApplicationRejectionReason = form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM
 endIf
 
 if messageType in ["ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawalModification"] then
-	form.formState.modelJson = form.model.toJson()
-	form.model.clear()
+	form.formState.modelJson = form.model.modelStructure.toJson()
+	form.model.modelStructure.clear()
 	aseoMegaMessage.clear()
 	aseoMegaMessage.fromJson(form.formState.modelJson)
 	aseoMegaMessage.ASEO.Event.File.clear()
-	form.formState.sekce5prilohy.newFilesCollectionJson = form.formState.sekce5prilohy.newFilesCollection.File.toJson()
-	form.formState.sekce5prilohy.newFilesCollection.File.clear()
-	aseoMegaMessage.ASEO.Event.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
-	aseoMegaMessage.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason = form.formState.lifeCycle.authorizationWithdrawal.POVOLDUOD.POVOLDUOD
+	form.model.sekce5prilohy.newFilesCollectionJson = form.model.sekce5prilohy.newFilesCollection.File.toJson()
+	form.model.sekce5prilohy.newFilesCollection.File.clear()
+	aseoMegaMessage.ASEO.Event.File.fromJson(form.model.sekce5prilohy.newFilesCollectionJson)
+	aseoMegaMessage.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason = form. model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.POVOLDUOD
 endIf
 
-if messageType in ["ASEOSPAuthorizationSuspending"] then
-	form.formState.modelJson = form.model.toJson()
-	form.model.clear()
+if messageType in ["ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification"] then
+	form.formState.modelJson = form.model.modelStructure.toJson()
+	form.model.modelStructure.clear()
 	aseoMegaMessage.clear()
 	aseoMegaMessage.fromJson(form.formState.modelJson)
 	aseoMegaMessage.ASEO.Event.File.clear()
-	form.formState.sekce5prilohy.newFilesCollectionJson = form.formState.sekce5prilohy.newFilesCollection.File.toJson()
-	form.formState.sekce5prilohy.newFilesCollection.File.clear()
-	aseoMegaMessage.ASEO.Event.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
-	aseoMegaMessage.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason = form.formState.lifeCycle.authorizationSuspending.AuthorizationSuspendingReason
+	form.model.sekce5prilohy.newFilesCollectionJson = form.model.sekce5prilohy.newFilesCollection.File.toJson()
+	form.model.sekce5prilohy.newFilesCollection.File.clear()
+	aseoMegaMessage.ASEO.Event.File.fromJson(form.model.sekce5prilohy.newFilesCollectionJson)
+	aseoMegaMessage.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason = form.model.lifeCycleSupport.authorizationSuspending.AuthorizationSuspendingReason
 endIf
 
 if messageType in ["ASEOSPApplicationModification"] then
-	form.formState.modelJson = form.model.toJson()
-	form.model.clear()
+	form.formState.modelJson = form.model.modelStructure.toJson()
+	form.model.modelStructure.clear()
 	form.requests.applicationModification.clear()
 	form.requests.applicationModification.fromJson(form.formState.modelJson)
 	form.requests.applicationModification.ASEO.Event.File.clear()
-	form.formState.sekce5prilohy.newFilesCollectionJson = form.formState.sekce5prilohy.newFilesCollection.File.toJson()
-	form.formState.sekce5prilohy.newFilesCollection.File.clear()
-	form.requests.applicationModification.ASEO.Event.File.fromJson(form.formState.sekce5prilohy.newFilesCollectionJson)
+	form.model.sekce5prilohy.newFilesCollectionJson = form.model.sekce5prilohy.newFilesCollection.File.toJson()
+	form.model.sekce5prilohy.newFilesCollection.File.clear()
+	form.requests.applicationModification.ASEO.Event.File.fromJson(form.model.sekce5prilohy.newFilesCollectionJson)
 endIf
 
 form.formState.notifications.clear()
@@ -6070,8 +6127,8 @@ endIf
     <ActionBlock>
       <Name value="getStateCode" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.model.ASEO.State.hasValue() then
-	form.formState.lifeCycle.stateCode = SubString(form.model.ASEO.State, 1 , 3)
+        <Script><![CDATA[if form.model.modelStructure.ASEO.State.hasValue() then
+	form.formState.lifeCycle.stateCode = SubString(form.model.modelStructure.ASEO.State, 1 , 3)
 else
 	form.formState.lifeCycle.stateCode = defaultString()
 endIf
@@ -6125,7 +6182,7 @@ if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
 else
-	form.model.clear()
+	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k autorizaci.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
@@ -6152,7 +6209,7 @@ if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
 else
-	form.model.clear()
+	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k autorizaci.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
@@ -6191,7 +6248,7 @@ if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být odnětí udělena.", true)
 else
-	form.model.clear()
+	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti bylo úspěšně předáno k odnětí.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
@@ -6219,7 +6276,7 @@ if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být předána k pozastavení.", true)
 else
-	form.model.clear()
+	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k pozastavení.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
@@ -6246,7 +6303,7 @@ if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být předána k zrušení povolení.", true)
 else
-	form.model.clear()
+	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k zrušení povolení.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
@@ -6274,7 +6331,7 @@ if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Modifikace žádosti nemohla být provedena.", true)
 else
-	form.model.clear()
+	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k modifikaci žádosti.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
@@ -6302,7 +6359,7 @@ if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být modifikace autorizace udělena.", true)
 else
-	form.model.clear()
+	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k modifikaci autorizace.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
@@ -6330,7 +6387,7 @@ if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být odnětí udělena.", true)
 else
-	form.model.clear()
+	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti bylo úspěšně předáno k odnětí.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
@@ -6358,7 +6415,7 @@ if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být předána k zrušení povolení.", true)
 else
-	form.model.clear()
+	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k zrušení povolení.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
@@ -6367,6 +6424,33 @@ form.actions.editDataAfterPosting("ASEOSPAuthorizationCancellationModification")
 
 globals.IsBusy = False
 ]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="lifeCycle_authorizationSuspendingModification" />
+      <Category value="lifeCycleMessage" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+form.actions.editDataBeforePosting("ASEOSPAuthorizationSuspendingModification")
+
+var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationSuspendingModification", form.requests.ASEOmegaMessage.toJson())
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být předána k Úpravě pozastavení.", true)
+else
+	form.model.modelStructure.ASEO.clear()
+	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k úpravě pozastavení.", false)
+	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+endIf
+
+form.actions.editDataAfterPosting("ASEOSPAuthorizationSuspendingModification")
+
+globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
