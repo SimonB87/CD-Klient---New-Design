@@ -5635,7 +5635,7 @@ endIf
         <Script><![CDATA[//add string with error description to other error messages
 var currentDameTime = getDateTime() 
 
-form.formState.notifications.operationResultMessage = form.formState.notifications.operationResultMessage + " (" + toString(currentDameTime) + ") "  + errorContent + " * "
+form.formState.notifications.operationResultMessage = form.formState.notifications.operationResultMessage + " (" + toString(currentDameTime) + ") "  + errorContent + " | "
 //if true - the message for user imn operationResult will have red border; if false - we have only a good anoucement in operationResult with blue border
 form.formState.notifications.operationResultError = operationResultError
 //make panel with operationResult visible
@@ -6110,29 +6110,21 @@ globals.IsBusy = False
 
 form.actions.editDataBeforePosting("ASEOSPAuthorization")
 
-form.error.clear()
-form.formState.visibilities.isValidationsVisible = False	
+form.actions.validErr_clearPrevious()	
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form.requests.ASEOmegaMessage.toJson())
 
 if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
-
-	form.error.serverValidationComplex.fromJson(response.extractJson("QERR"))
 	
-	forEach error in form.error.serverValidationComplex.QEI do
-		var newErrorItem = form.error.serverValidationErrors.addItem()
-		newErrorItem.Reason = error.QEI01 
-	endFor
-	
-	form.error.serverValidationComplex.clear()
-	form.formState.visibilities.isValidationsVisible = True	
+	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
 	if not form.model.modelStructure.ASEO.Event.Authorization.hasValue() then
 		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
 	endIf
 	
+	// setTouch so the user sees, what si missing from submission
 	form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
 	form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
 	
@@ -6153,6 +6145,7 @@ globals.IsBusy = False
     </ActionBlock>
     <ActionBlock>
       <Name value="editDataAfterPosting" />
+      <Category value="lifeCyclePostingSetUp" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if not messagePostSucess then
 	form.model.sekce5prilohy.newFilesCollection.File.fromJson(form.model.sekce5prilohy.newFilesCollectionJson)
@@ -6218,6 +6211,7 @@ form.components.tabsMenu.Tab05prilohy.Title = "Text a přílohy (" + toString(cu
     </ActionBlock>
     <ActionBlock>
       <Name value="editDataBeforePosting" />
+      <Category value="lifeCyclePostingSetUp" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var aseoMegaMessage = form.requests.ASEOmegaMessage
 
@@ -6345,14 +6339,15 @@ form.requests.initReq.clear()
 form.requests.initReq.ASEO.GUID = form.GUID
 form.formState.notifications.clear()
 
-form.error.clear()
-form.formState.visibilities.isValidationsVisible = False	
+form.actions.validErr_clearPrevious()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOFutureRemoval", form.requests.initReq.toJson())
 
 if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Odstranění budoucí změny nemohlo být provedeno.", true)
+	
+	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 else
 	form.actions.showErorrNotificationMessage("Odstranění budoucí změny bylo úspěšně provedeno.", false)
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
@@ -6360,7 +6355,8 @@ endIf
 
 form.requests.initReq.clear()
 
-globals.IsBusy = False]]></Script>
+globals.IsBusy = False
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -6374,8 +6370,7 @@ globals.IsBusy = False]]></Script>
 
 form.actions.editDataBeforePosting("ASEOSPApplicationRejection")
 
-form.error.clear()
-form.formState.visibilities.isValidationsVisible = False	
+form.actions.validErr_clearPrevious()	
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejection", form.requests.ASEOmegaMessage.toJson())
 
@@ -6383,15 +6378,7 @@ if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohlo být zamítnutí žádosti uděleno.", true)
 	
-	form.error.serverValidationComplex.fromJson(response.extractJson("QERR"))
-	
-	forEach error in form.error.serverValidationComplex.QEI do
-		var newErrorItem = form.error.serverValidationErrors.addItem()
-		newErrorItem.Reason = error.QEI01 
-	endFor
-	
-	form.error.serverValidationComplex.clear()
-	form.formState.visibilities.isValidationsVisible = True	
+	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
 	if not form.model.lifeCycleSupport.applicationRejection.hasValue() then
 		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zamítnuti žádosti\".", true)
@@ -6421,8 +6408,7 @@ globals.IsBusy = False]]></Script>
 
 form.actions.editDataBeforePosting("ASEOSPApplicationRejectionModification")
 
-form.error.clear()
-form.formState.visibilities.isValidationsVisible = False	
+form.actions.validErr_clearPrevious()	
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejectionModification", form.requests.ASEOmegaMessage.toJson())
 
@@ -6430,20 +6416,12 @@ if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být modifikace zamítnutí uděleno.", true)
 
-	form.error.serverValidationComplex.fromJson(response.extractJson("QERR"))
-	
-	forEach error in form.error.serverValidationComplex.QEI do
-		var newErrorItem = form.error.serverValidationErrors.addItem()
-		newErrorItem.Reason = error.QEI01 
-	endFor
-	
-	form.error.serverValidationComplex.clear()
-	form.formState.visibilities.isValidationsVisible = True	
+	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
 	if not form.model.lifeCycleSupport.applicationRejection.hasValue() then
 		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zamítnuti žádosti\".", true)
 	endIf
-	
+	// setTouch so the user sees, what si missing from submission
 	form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(true)
 
 else
@@ -6488,6 +6466,8 @@ var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationWithdra
 if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být odnětí udělena.", true)
+	
+	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti bylo úspěšně předáno k odnětí.", false)
@@ -6511,14 +6491,15 @@ globals.IsBusy = False
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationSuspending")
 
-form.error.clear()
-form.formState.visibilities.isValidationsVisible = False	
+form.actions.validErr_clearPrevious()	
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationSuspending", form.requests.ASEOmegaMessage.toJson())
 
 if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být předána k pozastavení.", true)
+	
+	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k pozastavení.", false)
@@ -6541,14 +6522,15 @@ globals.IsBusy = False]]></Script>
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationCancellation")
 
-form.error.clear()
-form.formState.visibilities.isValidationsVisible = False	
+form.actions.validErr_clearPrevious()	
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationCancellation", form.requests.ASEOmegaMessage.toJson())
 
 if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být předána k zrušení povolení.", true)
+	
+	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k zrušení povolení.", false)
@@ -6572,8 +6554,7 @@ globals.IsBusy = False
 
 form.actions.editDataBeforePosting("ASEOSPApplicationModification")
 
-form.error.clear()
-form.formState.visibilities.isValidationsVisible = False	
+form.actions.validErr_clearPrevious()		
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationModification", form.requests.applicationModification.toJson())
 
@@ -6581,16 +6562,7 @@ if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Modifikace žádosti nemohla být provedena.", true)
 	
-	form.error.serverValidationComplex.fromJson(response.extractJson("QERR"))
-	
-	form.error.serverValidationErrors.clear()
-	forEach error in form.error.serverValidationComplex.QEI do
-		var newErrorItem = form.error.serverValidationErrors.addItem()
-		newErrorItem.Reason = error.QEI01 
-	endFor
-	
-	form.error.serverValidationComplex.clear()
-	form.formState.visibilities.isValidationsVisible = True	
+	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
 else
 	form.model.modelStructure.ASEO.clear()
@@ -6615,14 +6587,16 @@ globals.IsBusy = False
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationModification")
 
-form.error.clear()
-form.formState.visibilities.isValidationsVisible = False	
+form.actions.validErr_clearPrevious()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationModification", form.requests.ASEOmegaMessage.toJson())
 
 if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být modifikace autorizace udělena.", true)
+	
+	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+	
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k modifikaci autorizace.", false)
@@ -6646,14 +6620,15 @@ globals.IsBusy = False
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationWithdrawalModification")
 
-form.error.clear()
-form.formState.visibilities.isValidationsVisible = False	
+form.actions.validErr_clearPrevious()	
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationWithdrawalModification", form.requests.ASEOmegaMessage.toJson())
 
 if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být modifikace odnětí udělena.", true)
+	
+	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci odnětí.", false)
@@ -6677,14 +6652,15 @@ globals.IsBusy = False
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationCancellationModification")
 
-form.error.clear()
-form.formState.visibilities.isValidationsVisible = False	
+form.actions.validErr_clearPrevious()	
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationCancellationModification", form.requests.ASEOmegaMessage.toJson())
 
 if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být předána k modifikaci zrušení.", true)
+	
+	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k modifikaci zrušení.", false)
@@ -6708,14 +6684,15 @@ globals.IsBusy = False
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationSuspendingModification")
 
-form.error.clear()
-form.formState.visibilities.isValidationsVisible = False	
+form.actions.validErr_clearPrevious()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationSuspendingModification", form.requests.ASEOmegaMessage.toJson())
 
 if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být předána k Úpravě pozastavení.", true)
+	
+	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádosti byla úspěšně předána k úpravě pozastavení.", false)
@@ -6728,6 +6705,47 @@ globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="validErr_clearPrevious" />
+      <Category value="lifeCyclePostingSetUp" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.error.clear()
+form.formState.visibilities.isValidationsVisible = False]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="validErr_prepareServerErr" />
+      <Category value="lifeCyclePostingSetUp" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.error.serverValidationComplex.fromJson(extractJsonErrorMessage)
+
+forEach error in form.error.serverValidationComplex.QEI do
+	var newErrorItem = form.error.serverValidationErrors.addItem()
+	newErrorItem.Reason = error.QEI01 
+endFor
+
+form.error.serverValidationComplex.clear()
+form.formState.visibilities.isValidationsVisible = True	]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="extractJsonErrorMessage" />
+              <Caption value="Extract json error message" />
+              <Comment value="JSON string from Server with response indicating all server errors" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
   </Actions>
