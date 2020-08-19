@@ -13445,6 +13445,15 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                 </Include>
               </Children>
             </Reference>
+            <Complex>
+              <Name value="reqSetIpoArticlesToTrue" />
+              <Caption value="Req set ipo articles to true" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.CustomsDecisionSetIPOArticles86" />
+                </Include>
+              </Children>
+            </Complex>
           </Children>
         </Complex>
         <Complex>
@@ -15160,7 +15169,26 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.enhancement.completedAllSelected.ipoAllArticled86Fill.allArticles86True = True
 
-// TODO - zasílání zprávy CustomsDecisionSetIPOArticles86]]></Script>
+var cdData = form.CD.customsDecisionAuthorisationData
+var messageData = form.enhancement.reqSetIpoArticlesToTrue.customsDecisionAuthorisationData
+
+messageData.customsDecisionGUID = cdData.customsDecisionGUID
+messageData.customsDecisionVersionGUID = cdData.customsDecisionVersionGUID
+
+var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionSetIPOArticles86", form.enhancement.reqSetIpoArticlesToTrue.toJson())
+  
+if resp.isError() or (resp.getMessageType() = "IN906A") then  
+    var errorMsg = resp.getErrorMessage()
+    system.consoleError(errorMsg)
+    errorMsg = resp.getJsonString()
+    system.consoleError("Response content: " + errorMsg)
+    form.actions.showEnhancementErrorMessage("Něco se nezdařilo. Nebylo možné všem položkám nastavit články 86 UCC na \"ANO\". ", true)
+else
+    form.actions.showEnhancementErrorMessage("Bylo úspěšně všem položkám nastavit články 86 UCC na \"ANO\". ", false)
+    form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
+    form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
+endif
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
