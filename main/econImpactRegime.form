@@ -338,7 +338,7 @@
                           <Name value="btnSave" />
                           <Caption value="Uložit" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="100px" />
+                          <Panel.Width value="150px" />
                           <OnClick>
                             <ActionEvent ReferencedAction="~storeEnhacement" />
                           </OnClick>
@@ -353,46 +353,10 @@
                           <Name value="btnCloseAndSave" />
                           <Caption value="Uložit a zavřít" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="100px" />
+                          <Panel.Width value="150px" />
                           <OnClick>
                             <ActionEvent ReferencedAction="~storeAndClose" />
                           </OnClick>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-button" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </Button>
-                        <Button>
-                          <Name value="saveButton" />
-                          <Caption value="Uložit (old)" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="100px" />
-                          <OnClick>
-                            <ActionEvent ReferencedAction="~saveEnhancement" />
-                          </OnClick>
-                          <Bindings>
-                            <Binding SourceProperty="IsVisible" Expression="form.formBehavior.visibilities.saveButtons" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-button" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </Button>
-                        <Button>
-                          <Name value="saveCloseButton" />
-                          <Caption value="Uložit a zavřít (old)" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="100px" />
-                          <OnClick>
-                            <ActionEvent ReferencedAction="~saveAndClose" />
-                          </OnClick>
-                          <Bindings>
-                            <Binding SourceProperty="IsVisible" Expression="form.formBehavior.visibilities.saveButtons" />
-                          </Bindings>
                           <CssClass>
                             <CssClassConditional>
                               <ClassName value="{theme}-button" />
@@ -3928,16 +3892,19 @@
                                       <Name value="listC_storage1" />
                                       <Caption value="GUID povolení*" />
                                       <ColumnName value="customsDecisionGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listC_storage2" />
                                       <Caption value="GUID verze povolení*" />
                                       <ColumnName value="customsDecisionVersionGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listC_storage3" />
                                       <Caption value="GUID Goods Itemu*" />
                                       <ColumnName value="goodsCZGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listC_storage4" />
@@ -4749,16 +4716,19 @@
                                       <Name value="listColumn19" />
                                       <Caption value="GUID povolení*" />
                                       <ColumnName value="customsDecisionGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn20" />
                                       <Caption value="GUID verze povolení*" />
                                       <ColumnName value="customsDecisionVersionGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn21" />
                                       <Caption value="GUID Goods Itemu*" />
                                       <ColumnName value="goodsCZGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn22" />
@@ -5593,9 +5563,6 @@
                                   <Caption value="Použít původní řazení položek" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="200px" />
-                                  <OnClick>
-                                    <ActionEvent ReferencedAction="~useOriginalSorting" />
-                                  </OnClick>
                                   <CssClass>
                                     <CssClassConditional>
                                       <ClassName value="{theme}-button" />
@@ -5653,70 +5620,6 @@
                               <Panel.Width value="*" />
                               <Children>
                                 <Label>
-                                  <Name value="label10" />
-                                  <Data value="CollectionList" />
-                                  <Heading value="h3" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="300px" />
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-label" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Label>
-                                <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="processingList_all" />
-                                  <controller reference="~goodsItemCZ" />
-                                  <listName value="processingGoodsItemCZ" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <OnRowClicked>
-                                    <ActionEvent ReferencedAction="~handler_list_goodsItemCZ_OnRowClicked" />
-                                  </OnRowClicked>
-                                  <Bindings>
-                                    <Binding SourceProperty="selectedRow" Expression="form.enhancement.selectedRowGoodsItems" />
-                                  </Bindings>
-                                  <columns>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingIpo_completed" />
-                                      <Caption value="Doplněno" />
-                                      <ColumnName value="completed" />
-                                      <DataType value="bool" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingIpo_combinedNomenclatureCode" />
-                                      <Caption value="Kód KN" />
-                                      <ColumnName value="combinedNomenclatureCode" />
-                                      <DataType value="string" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingIpo_tARICCode" />
-                                      <Caption value="TARIC kód" />
-                                      <ColumnName value="tARICCode" />
-                                      <DataType value="string" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingIpo_goodsQuantity" />
-                                      <Caption value="Množství" />
-                                      <ColumnName value="goodsQuantity" />
-                                      <DataType value="integer" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingIpo_measureUnit" />
-                                      <Caption value="Měrná jednotka" />
-                                      <ColumnName value="measureUnit" />
-                                      <DataType value="string" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnProccesingIpo_computedWriteOffMeasureUnit" />
-                                      <Caption value="Odpisová měrná jednotka" />
-                                      <ColumnName value="computed_writeOffMeasureUnit" />
-                                      <DataType value="string" />
-                                    </listColumn>
-                                  </columns>
-                                </List>
-                                <Label>
                                   <Name value="label12" />
                                   <Data value="Dataset List" />
                                   <Heading value="h3" />
@@ -5746,16 +5649,19 @@
                                       <Name value="listColumn2" />
                                       <Caption value="GUID povolení*" />
                                       <ColumnName value="customsDecisionGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn4" />
                                       <Caption value="GUID verze povolení*" />
                                       <ColumnName value="customsDecisionVersionGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn6" />
                                       <Caption value="GUID Goods Itemu*" />
                                       <ColumnName value="goodsCZGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn8" />
@@ -7412,16 +7318,19 @@
                                       <Name value="listColumn17" />
                                       <Caption value="GUID povolení*" />
                                       <ColumnName value="customsDecisionGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn31" />
                                       <Caption value="GUID verze povolení*" />
                                       <ColumnName value="customsDecisionVersionGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn51" />
                                       <Caption value="GUID Goods Itemu*" />
                                       <ColumnName value="goodsCZGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listColumn71" />
@@ -9810,12 +9719,9 @@
                                   <Children>
                                     <Button>
                                       <Name value="originalSrotingBtn2" />
-                                      <Caption value="Použít původní řazení položek" />
+                                      <Caption value="TODO - Použít původní řazení položek" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="200px" />
-                                      <OnClick>
-                                        <ActionEvent ReferencedAction="~useOriginalSorting" />
-                                      </OnClick>
                                       <CssClass>
                                         <CssClassConditional>
                                           <ClassName value="{theme}-button" />
@@ -9870,21 +9776,6 @@
                                         </CssClassConditional>
                                       </CssClass>
                                     </Button>
-                                    <Button>
-                                      <Name value="button_count" />
-                                      <Caption value="Count" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="150px" />
-                                      <OnClick>
-                                        <ActionEvent ReferencedAction="~handler_button_count_OnClick" />
-                                      </OnClick>
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-button" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </Button>
                                   </Children>
                                   <CssClass>
                                     <CssClassConditional>
@@ -9910,80 +9801,6 @@
                                 <Binding SourceProperty="IsVisible" Expression="enhancement.uiComponentSetting.computed_showEnhancementListBasic" />
                               </Bindings>
                               <Children>
-                                <Label>
-                                  <Name value="label_2" />
-                                  <Data value="List - Collection" />
-                                  <Heading value="h2" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-label" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Label>
-                                <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="enhancementList_basic" />
-                                  <controller reference="~goodsItemCZenhancement" />
-                                  <listName value="enhancementGoodsItemCZ" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <OnRowClicked>
-                                    <ActionEvent ReferencedAction="~handler_list_EnhancementGoodsItemCZ_OnRowClicked" />
-                                  </OnRowClicked>
-                                  <Bindings>
-                                    <Binding SourceProperty="selectedRow" Expression="form.enhancement.selectedRowGoodsItems" />
-                                  </Bindings>
-                                  <columns>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhancement_completed" />
-                                      <Caption value="Doplněno" />
-                                      <ColumnName value="completed" />
-                                      <DataType value="bool" />
-                                      <FilterOperatorType value="startswith" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhancement_combinedNomenclatureCode" />
-                                      <Caption value="Kód KN" />
-                                      <ColumnName value="combinedNomenclatureCode" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhancement_tARICCode" />
-                                      <Caption value="TARIC kód" />
-                                      <ColumnName value="tARICCode" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhancement_goodsQuantity" />
-                                      <Caption value="Množství" />
-                                      <ColumnName value="goodsQuantity" />
-                                      <DataType value="decimal" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhancement_measureUnit" />
-                                      <Caption value="Měrná jednotka (MU)" />
-                                      <ColumnName value="measureUnit" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhancement_computedWriteOffMU" />
-                                      <Caption value="Odpisová MU" />
-                                      <ColumnName value="computed_writeOffMeasureUnit" />
-                                    </listColumn>
-                                  </columns>
-                                </List>
-                                <Label>
-                                  <Name value="label_3" />
-                                  <Data value="Dec List - goodsQuantity was missing from declist on 03-07-2020 - waiting for Diddy to set it back to dataSet" />
-                                  <Heading value="h2" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-label" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Label>
                                 <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                   <Name value="enhancementGoodsItmes_basicList" />
                                   <controller reference="~enhancementDeclistGoodsItems" />
@@ -10001,16 +9818,19 @@
                                       <Name value="listCol_cdGUID" />
                                       <Caption value="GUID povolení*" />
                                       <ColumnName value="customsDecisionGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listCol_cdVersionGUID" />
                                       <Caption value="GUID verze povolení*" />
                                       <ColumnName value="customsDecisionVersionGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listCol_goodsCZGUID" />
                                       <Caption value="GUID Goods Itemu*" />
                                       <ColumnName value="goodsCZGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listCol_completed" />
@@ -10063,95 +9883,6 @@
                                 <Binding SourceProperty="IsVisible" Expression="form.zobrazIPO" />
                               </Bindings>
                               <Children>
-                                <Label>
-                                  <Name value="label_4" />
-                                  <Data value="List - Collection" />
-                                  <Heading value="h2" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-label" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Label>
-                                <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="enhancementList_ipo" />
-                                  <controller reference="~goodsItemCZenhancement" />
-                                  <listName value="enhancementGoodsItemCZ" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <OnRowClicked>
-                                    <ActionEvent ReferencedAction="~handler_enhancementList_ipo_OnRowClicked" />
-                                  </OnRowClicked>
-                                  <Bindings>
-                                    <Binding SourceProperty="selectedRow" Expression="form.enhancement.selectedRowGoodsItems" />
-                                  </Bindings>
-                                  <columns>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhIpo_completed" />
-                                      <Caption value="Doplněno" />
-                                      <ColumnName value="completed" />
-                                      <DataType value="bool" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhIpo_combinedNomenclatureCode" />
-                                      <Caption value="Kód KN" />
-                                      <ColumnName value="combinedNomenclatureCode" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhIpo_tARICCode" />
-                                      <Caption value="TARIC kód" />
-                                      <ColumnName value="tARICCode" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhIpo_goodsQuantity" />
-                                      <Caption value="Množství" />
-                                      <ColumnName value="goodsQuantity" />
-                                      <DataType value="decimal" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhIpo_measureUnit" />
-                                      <Caption value="Měrná jednotka(MU)" />
-                                      <ColumnName value="measureUnit" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhIpo_computedWriteOffMeasureUnit" />
-                                      <Caption value="Odpisová MU" />
-                                      <ColumnName value="computed_writeOffMeasureUnit" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhIpo_article863UCC" />
-                                      <Caption value="Článek 86(3) UCC" />
-                                      <ColumnName value="article863UCC" />
-                                      <DataType value="bool" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhIpo_article864UCC" />
-                                      <Caption value="Článek 86(4) UCC" />
-                                      <ColumnName value="article864UCC" />
-                                      <DataType value="bool" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumn_computedCnCodeArticle73DA" />
-                                      <Caption value="Kód KN při použití čl. 73 DA" />
-                                      <ColumnName value="computed_cnCodeArticle73DA" />
-                                    </listColumn>
-                                  </columns>
-                                </List>
-                                <Label>
-                                  <Name value="label_5" />
-                                  <Data value="TODO - include DecList for IPO" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="150px" />
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-label" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Label>
                                 <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                   <Name value="enhancementServerList_ipo" />
                                   <controller reference="~enhancementDeclistGoodsItems" />
@@ -10169,16 +9900,19 @@
                                       <Name value="listC2_customsDecisionGUID1" />
                                       <Caption value="customsDecisionGUID*" />
                                       <ColumnName value="customsDecisionGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listC2_customsDecisionVersionGUID1" />
                                       <Caption value="CDVersionGUID*" />
                                       <ColumnName value="customsDecisionVersionGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listC2_goodsCZGUID1" />
                                       <Caption value="goodsCZGUID*" />
                                       <ColumnName value="goodsCZGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listC2_completed1" />
@@ -10248,83 +9982,6 @@
                                 <Binding SourceProperty="IsVisible" Expression="form.zobrazEUS" />
                               </Bindings>
                               <Children>
-                                <Label>
-                                  <Name value="label_6" />
-                                  <Data value="List - Collection" />
-                                  <Heading value="h2" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-label" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Label>
-                                <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                  <Name value="enhancementList_eus" />
-                                  <controller reference="~goodsItemCZenhancement" />
-                                  <listName value="enhancementGoodsItemCZ" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <OnRowClicked>
-                                    <ActionEvent ReferencedAction="~handler_enhancementList_eus_OnRowClicked" />
-                                  </OnRowClicked>
-                                  <Bindings>
-                                    <Binding SourceProperty="selectedRow" Expression="form.enhancement.selectedRowGoodsItems" />
-                                  </Bindings>
-                                  <columns>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhEus_completed" />
-                                      <Caption value="Doplněno" />
-                                      <ColumnName value="completed" />
-                                      <DataType value="string" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhEus_combinedNomenclatureCode" />
-                                      <Caption value="Kód KN" />
-                                      <ColumnName value="combinedNomenclatureCode" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhEus_tARICCode" />
-                                      <Caption value="TARIC kód" />
-                                      <ColumnName value="tARICCode" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhEus_goodsQuantity" />
-                                      <Caption value="Množství" />
-                                      <ColumnName value="goodsQuantity" />
-                                      <DataType value="decimal" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhEus_measureUnit" />
-                                      <Caption value="Měrná jednotka (MU)" />
-                                      <ColumnName value="measureUnit" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhEus_computedWriteOffMeasureUnit" />
-                                      <Caption value="Odpisová MU" />
-                                      <ColumnName value="computed_writeOffMeasureUnit" />
-                                    </listColumn>
-                                    <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                                      <Name value="listColumnEnhEus_cnCodeForSecuring" />
-                                      <Caption value="Kód KN pro dozajištění" />
-                                      <ColumnName value="computed_cnCodeForSecuring" />
-                                    </listColumn>
-                                  </columns>
-                                </List>
-                                <Label>
-                                  <Name value="label_7" />
-                                  <Data value="TODO - include DecList - for EUS" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="150px" />
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-label" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Label>
                                 <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                   <Name value="enhancementServerList_EUS" />
                                   <controller reference="~enhancementDeclistGoodsItems" />
@@ -10342,16 +9999,19 @@
                                       <Name value="listC2_customsDecisionGUID2" />
                                       <Caption value="customsDecisionGUID*" />
                                       <ColumnName value="customsDecisionGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listC2_customsDecisionVersionGUID2" />
                                       <Caption value="CDVersionGUID*" />
                                       <ColumnName value="customsDecisionVersionGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listC2_goodsCZGUID2" />
                                       <Caption value="goodsCZGUID*" />
                                       <ColumnName value="goodsCZGUID" />
+                                      <IsVisible value="False" />
                                     </listColumn>
                                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                                       <Name value="listC2_completed2" />
@@ -10440,232 +10100,6 @@
                           <Name value="pnlEditSelectedGoodsItem_parent" />
                           <Orientation value="Vertical" />
                           <Children>
-                            <Label>
-                              <Name value="label11" />
-                              <Data value="collection 2 data" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="300px" />
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-label" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </Label>
-                            <Panel>
-                              <Name value="pnlEditSelectedGoodsItem1" />
-                              <Orientation value="Vertical" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <Children>
-                                <Panel>
-                                  <Name value="pnlEditSelectedGoodsItem_row11" />
-                                  <Orientation value="Horizontal" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Children>
-                                    <CheckBox>
-                                      <Name value="checkBox31" />
-                                      <CaptionPosition value="Top" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="100px" />
-                                      <Bindings>
-                                        <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.completed" />
-                                        <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                        <Binding SourceProperty="Tooltip" Expression="localized.econImpact_goods_common_goodsItem_completed_tt" />
-                                        <Binding SourceProperty="Caption" Expression="localized.econImpact_goods_common_goodsItem_completed" />
-                                      </Bindings>
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-checkbox" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </CheckBox>
-                                    <ReferenceCombo>
-                                      <Name value="referenceCombo11" />
-                                      <CaptionPosition value="Top" />
-                                      <DisplayMember value="_description" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="250px" />
-                                      <ReferenceList reference="+GlobalApiObjects.woMeasureUnitCl" />
-                                      <Bindings>
-                                        <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.writeOffMeasureUnit" />
-                                        <Binding SourceProperty="Caption" Expression="enhancement.modelEnhancement.writeOffMeasureUnit.caption()" />
-                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.modelEnhancement.writeOffMeasureUnit.isRequired()" />
-                                        <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                      </Bindings>
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-referencecombo" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </ReferenceCombo>
-                                    <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
-                                      <Name value="refLookUp_cnCodeForSecuring1" />
-                                      <Caption value="Kód KN pro dozajištění" />
-                                      <CaptionPosition value="Top" />
-                                      <DataApiObject reference="+GlobalApiObjects.cnCodeCl" />
-                                      <DisplayMember value="_description" />
-                                      <immediateUpdate value="True" />
-                                      <MinChars value="6" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="200px" />
-                                      <Tooltip value="Minimální počet znaků pro vyhledávání je 5" />
-                                      <Bindings>
-                                        <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.cnCodeForSecuring" />
-                                        <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.zobrazEUS" />
-                                        <Binding SourceProperty="IsVisible" Expression="form.zobrazEUS" />
-                                      </Bindings>
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-referencelookup" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </ReferenceLookup>
-                                    <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
-                                      <Name value="refLookUp_cnCodeArticle73DA1" />
-                                      <Caption value="Kód KN při použití čl. 73 DA" />
-                                      <CaptionPosition value="Top" />
-                                      <DataApiObject reference="+GlobalApiObjects.cnCodeCl" />
-                                      <DisplayMember value="_description" />
-                                      <immediateUpdate value="True" />
-                                      <MinChars value="6" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="200px" />
-                                      <Bindings>
-                                        <Binding SourceProperty="Data" Expression="form.enhancement.modelEnhancement.cnCodeArticle73DA" />
-                                        <Binding SourceProperty="IsVisible" Expression="form.zobrazIPO" />
-                                      </Bindings>
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-referencelookup" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </ReferenceLookup>
-                                    <CheckBox>
-                                      <Name value="checkBox41" />
-                                      <CaptionPosition value="Top" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="250px" />
-                                      <Bindings>
-                                        <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.article863UCC" />
-                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.modelEnhancement.article863UCC.isRequired()" />
-                                        <Binding SourceProperty="Caption" Expression="enhancement.modelEnhancement.article863UCC.caption()" />
-                                        <Binding SourceProperty="IsVisible" Expression="form.zobrazIPO" />
-                                        <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                      </Bindings>
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-checkbox" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </CheckBox>
-                                    <CheckBox>
-                                      <Name value="checkBox51" />
-                                      <CaptionPosition value="Top" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="250px" />
-                                      <Bindings>
-                                        <Binding SourceProperty="Data" Expression="enhancement.modelEnhancement.article864UCC" />
-                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="enhancement.modelEnhancement.article864UCC.isRequired()" />
-                                        <Binding SourceProperty="Caption" Expression="enhancement.modelEnhancement.article864UCC.caption()" />
-                                        <Binding SourceProperty="IsVisible" Expression="form.zobrazIPO" />
-                                        <Binding SourceProperty="IsEnabled" Expression="form.formBehavior.editableNationalData" />
-                                      </Bindings>
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-checkbox" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </CheckBox>
-                                  </Children>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-panel" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                    <CssClassConditional>
-                                      <ClassName value="minHeight19vh" />
-                                      <Bindings>
-                                        <Binding SourceProperty="Condition" Expression="form.enhancement.uiComponentSetting.computed_extendedPanelHeightEnhancement" />
-                                      </Bindings>
-                                    </CssClassConditional>
-                                    <CssClassConditional>
-                                      <ClassName value="enhancement-attention-needed" />
-                                      <Bindings>
-                                        <Binding SourceProperty="Condition" Expression="not form.enhancement.modelEnhancement.computed_completed" />
-                                      </Bindings>
-                                    </CssClassConditional>
-                                    <CssClassConditional>
-                                      <ClassName value="anchorRelativePosition" />
-                                      <Bindings>
-                                        <Binding SourceProperty="Condition" Expression="not form.enhancement.modelEnhancement.computed_completed" />
-                                      </Bindings>
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Panel>
-                                <Panel>
-                                  <Name value="pnlEditSelectedGoodsItem_row21" />
-                                  <Orientation value="Horizontal" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Children>
-                                    <Button>
-                                      <Name value="button_saveChangesEnhancement1" />
-                                      <Caption value="Uložit změny do seznamu" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="250px" />
-                                      <OnClick>
-                                        <ActionEvent ReferencedAction="~saveOneItemEnhancementData" />
-                                      </OnClick>
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-button" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                        <CssClassConditional>
-                                          <ClassName value="disabledButton" />
-                                          <Bindings>
-                                            <Binding SourceProperty="Condition" Expression="not form.enhancement.isEnhancementEditOn" />
-                                          </Bindings>
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </Button>
-                                  </Children>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-panel" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Panel>
-                              </Children>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-panel" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </Panel>
-                            <Label>
-                              <Name value="label13" />
-                              <Data value="Server Declist Data" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="300px" />
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-label" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </Label>
                             <Panel>
                               <Name value="pnlEditSelectedGoodsItem2" />
                               <Orientation value="Vertical" />
@@ -12522,7 +11956,7 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                   <Name value="nationalDataTab" />
                   <Caption value="National data tab" />
                   <Expression IsValid="True">
-                    <ExpressionText><![CDATA[simplifiedEntryProcedure or simplifiedReleaseProcedure or not form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.exists(current.completed.hasValue())]]></ExpressionText>
+                    <ExpressionText><![CDATA[simplifiedEntryProcedure or simplifiedReleaseProcedure]]></ExpressionText>
                     <ResultType>
                       <BaseType value="Bool" />
                     </ResultType>
@@ -14051,13 +13485,6 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
               </DeclaredType>
             </Attribute>
             <Attribute>
-              <Name value="cdGoodsItemCollectionJson" />
-              <Caption value="CD GoodsItem Collection Json" />
-              <DeclaredType>
-                <AttributeType />
-              </DeclaredType>
-            </Attribute>
-            <Attribute>
               <Name value="seeGoodsItemDetailInfromation" />
               <Caption value="See goods item detail infromation" />
               <DeclaredType>
@@ -14143,42 +13570,6 @@ and (customsDecisionStatus.STAVROZH in ["01"])]]></ExpressionText>
           </Children>
         </Modifier>
         <Modifier>
-          <Name value="modifier_7F1171C1_goodsItemCZ" />
-          <SourcePath value="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ" />
-          <Children>
-            <Computed>
-              <Name value="computed_writeOffMeasureUnit" />
-              <Caption value="Odpisová měrná jednotka" />
-              <Expression IsValid="True">
-                <ExpressionText><![CDATA[writeOffMeasureUnit.JMODPIS.hasValue() ? writeOffMeasureUnit.JMODPIS: ""]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </Expression>
-            </Computed>
-            <Computed>
-              <Name value="computed_cnCodeArticle73DA" />
-              <Caption value="Kód KN při použití čl. 73 DA" />
-              <Expression IsValid="True">
-                <ExpressionText><![CDATA[cnCodeArticle73DA.ZBOZIKOD.hasValue() ? cnCodeArticle73DA.ZBOZIKOD : ""]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </Expression>
-            </Computed>
-            <Computed>
-              <Name value="computed_cnCodeForSecuring" />
-              <Caption value="Computed _ cn code for securing" />
-              <Expression IsValid="True">
-                <ExpressionText><![CDATA[cnCodeForSecuring.ZBOZIKOD.hasValue() ? cnCodeForSecuring.ZBOZIKOD : ""]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </Expression>
-            </Computed>
-          </Children>
-        </Modifier>
-        <Modifier>
           <Name value="modifier_D57661A8_attachedDocumentsCZ" />
           <SourcePath value="CD.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ" />
           <Children>
@@ -14221,9 +13612,6 @@ actions.commonLoadData(form.GUID)
 if globals.dataLoadingSpace.success then
 
   form.CD.fromJson(globals.dataLoadingSpace.cdDetailJson)
-  
-  //load plain object 
-  form.apiobjects.econImpactPlainObject.init(globals.dataLoadingSpace.cdDetailJson)
   
   // a little bit of optimization - CD-type should be immutable so it's sufficient to do that just once => here
   form.actions.zjistitTypPovol_ALANG()
@@ -14929,8 +14317,6 @@ form.formBehavior.visibilities.operationResult = False
 //variable set up
 form.enhancement.goodsItemCZvalidatation = true
 
-form.actions.validateEachGoodsItemCZ()
-
 var fullyEnh = true
 var enh = form.cdeReq.customsDecisionAuthorisationData.enhancementCZ
 
@@ -14952,28 +14338,6 @@ if form.enhancement.goodsItemCZvalidatation then
   // let's make check for validity and completness of goods-items data
   var allCompleted = true //form.actions.checkGoodsCompletness()
   var messageCounter = 0
-   
-    foreach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
-      if not goodsItem.writeOffMeasureUnit.isValid() then
-        form.enhancement.goodsItemCZvalidatation = false
-        
-        if messageCounter < 7 then
-  		 form.actions.showEnhancementErrorMessage("Odpisová měrná jednotka vykazuje chybu. ", true)
-  		 messageCounter = messageCounter + 1
-  		endIf
-  		
-  		if messageCounter = 7 then
-  		  form.actions.showEnhancementErrorMessage("Další položky v kolekci také vykazují chybu u odpisové měrné jednotky. ", true)
-  		 messageCounter = messageCounter + 1
-  		endIf
-  		
-  		form.enhancement.clientMsg.sendRequest = true
-  		
-      endif
-      if isFalseOrDefault(goodsItem.completed) then
-        allCompleted = false
-      endif
-    endfor
     
   fullyEnh = fullyEnh and allCompleted
   
@@ -14994,15 +14358,7 @@ if form.enhancement.goodsItemCZvalidatation then
   form.actions.fillCdeReq()
   enh.fullyEnhanced = fullyEnh
   
-  //Option X
-  if fullyEnh then
-  	form.apiobjects.econImpactCdeReq.set("customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced", "true")
-  else
-    form.apiobjects.econImpactCdeReq.set("customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced", "false")
-  endIf
-    
-  //Option X - sending data from plain objects as JSON to CIC
-  var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.apiobjects.econImpactCdeReq.toJson())
+  var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.cdeReq.toJson())
   
   if resp.isError() or (resp.getMessageType() = "IN906A") then
         
@@ -15012,15 +14368,8 @@ if form.enhancement.goodsItemCZvalidatation then
     system.consoleError("Response content: " + errorMsg)
     form.actions.showEnhancementErrorMessage("Něco se nezdařilo. Změny se nepovedlo uložit. ", true)
     form.enhancement.clientMsg.sendRequest = true
-    //load last state data from Json
-    form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.fromJson(form.uiState.cdGoodsItemCollectionJson)
-    //clear temporarly JSON storage
-    form.uiState.cdGoodsItemCollectionJson.clear()
    
   else
-    
-    //clear data that were sent
-    form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.goodsItemCZ.clear()
         
     var msg = "Změny byly odeslány a uloženy na server."
     if fullyEnh then
@@ -15030,14 +14379,11 @@ if form.enhancement.goodsItemCZvalidatation then
     
     form.actions.showEnhancementErrorMessage(msg, false)
     form.enhancement.clientMsg.sendRequest = true
-    
+
     var respJson = resp.getJsonString()
     
     form.CD.clear()
-    form.CD.fromJson(respJson)
-    
-    //reload new data into plain object with goodsItems
-    form.apiobjects.econImpactPlainObject.init(respJson)   
+    form.CD.fromJson(respJson) 
     
     form.actions.afterVersionLoad()
   endif
@@ -15089,37 +14435,6 @@ endif
 if form.CD.customsDecisionAuthorisationData.enhancementCZ.editNote.hasValue() then
 	enh.editNote = form.CD.customsDecisionAuthorisationData.enhancementCZ.editNote
 endif
-
-var enhItems = enh.goodsItemCZ
-//teď chci naplnit akualizovat data pro poslání pomocí kolekce prezentované v Listu
-enhItems.clear()
-
-//option X - fill plain object cdeReq
-form.uiState.cdGoodsItemCollectionJson = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.toJson(true)
-
-form.apiobjects.econImpactCdeReq.init(form.cdeReq.toJson(true))
-form.apiobjects.econImpactCdeReq.set("customsDecisionAuthorisationData/enhancementCZ/goodsItemCZ", form.uiState.cdGoodsItemCollectionJson)
-
-var fillingCounter = 0
-
-forEach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
-
-	var itemPath = "customsDecisionAuthorisationData/enhancementCZ/goodsItemCZ[" + toString(fillingCounter) + "l" 
-	
-	form.apiobjects.econImpactCdeReq.remove(itemPath + ".combinedNomenclatureCode")
-	form.apiobjects.econImpactCdeReq.remove(itemPath + ".tARICCode")
-	form.apiobjects.econImpactCdeReq.remove(itemPath + ".goodsQuantity")
-	form.apiobjects.econImpactCdeReq.remove(itemPath + ".measureUnit")
-	form.apiobjects.econImpactCdeReq.remove(itemPath + ".computed_writeOffMeasureUnit")
-	form.apiobjects.econImpactCdeReq.remove(itemPath + ".computed_cnCodeArticle73DA")
-	form.apiobjects.econImpactCdeReq.remove(itemPath + ".computed_cnCodeForSecuring")
-	
-	fillingCounter = fillingCounter + 1
-endFor
-
-//clear from memory goodsItems collection
-form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.clear()
-
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -15185,69 +14500,9 @@ if globals.dataLoadingSpace.success then
   
   var ucd = cdDetail.customsDecisionAuthorisationData.universalCustomsDecisionInformation
   
-  form.apiobjects.goodsItemCZ.setReady(false)
-  form.apiobjects.goodsItemCZenhancement.setReady(false)
-  
-  foreach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
-      var guid = goodsItem.guid
-      
-      if packages.utils.functions.classicOr(form.zobrazIPO, form.zobrazOPO) then
-        var oldG2bpx = cdDetail.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ
-        
-        if oldG2bpx.exists(goodsItem.guid = guid) then
-        
-          var oldItem = oldG2bpx.selectFirst(goodsItem.guid = guid)
-          goodsItem.writeOffMeasureUnit.JMODPIS = oldItem.writeOffMeasureUnit.JMODPIS
-          goodsItem.article863UCC = oldItem.article863UCC
-          goodsItem.article864UCC = oldItem.article864UCC
-          goodsItem.cnCodeArticle73DA = oldItem.cnCodeArticle73DA
-          
-        endif
-        
-      else if form.zobrazEUS then
-      
-        var oldG2bpx = cdDetail.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ
-        
-        if oldG2bpx.exists(goodsItem.guid = guid) then
-        
-          var oldItem = oldG2bpx.selectFirst(goodsItem.guid = guid)
-          goodsItem.writeOffMeasureUnit.JMODPIS = oldItem.writeOffMeasureUnit.JMODPIS
-          goodsItem.cnCodeForSecuring = oldItem.cnCodeForSecuring
-          
-        endif
-        
-      else if form.zobrazTEA then
-      
-        var oldG2bpx = cdDetail.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ
-        
-        if oldG2bpx.exists(goodsItem.guid = guid) then
-        
-          var oldItem = oldG2bpx.selectFirst(goodsItem.guid = guid)
-          goodsItem.writeOffMeasureUnit.JMODPIS = oldItem.writeOffMeasureUnit.JMODPIS
-          
-        endif
-        
-      else if packages.utils.functions.classicOr(form.zobrazCW, form.zobrazTST) then
-      
-        var oldG2bpx = cdDetail.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ
-        
-        if oldG2bpx.exists(goodsItem.guid = guid) then
-        
-          var oldItem = oldG2bpx.selectFirst(goodsItem.guid = guid)
-          goodsItem.writeOffMeasureUnit.JMODPIS = oldItem.writeOffMeasureUnit.JMODPIS
-          
-        endif
-        
-      endif  endif  endif endif 
-      
-  endfor
-  
-  
   var msg = "Data obohacení dané verze (poř. č.: " + toString(form.prefillTemplate.versionNum) + ") se podařilo úspěšně načíst a předvyplnit."
   form.actions.showSuccessfullResult(msg)
   
-  form.apiobjects.goodsItemCZ.setReady(true)
-  form.apiobjects.goodsItemCZenhancement.setReady(true)
 else
   form.actions.handleVersionDataLoadError(form.prefillTemplate.versionNum, form.prefillTemplate.versionGuid)
 endif
@@ -15274,23 +14529,7 @@ endif
       <ActionLangBody IsValid="True">
         <Script><![CDATA[// currently only periodForClearance is supported
 form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.periodForClearance.clear()
-
-form.apiobjects.goodsItemCZ.setReady(false)
-form.apiobjects.goodsItemCZenhancement.setReady(false)
-
-foreach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
-
-    goodsItem.cnCodeForSecuring.clear()
-    goodsItem.writeOffMeasureUnit.JMODPIS = "###" // this is ugly but we don't have the comfort of named constants
-    goodsItem.article863UCC.clear()
-    goodsItem.article864UCC.clear()
-    goodsItem.cnCodeArticle73DA.clear()
-    goodsItem.completed = false
-    
-endfor
-
-form.apiobjects.goodsItemCZ.setReady(true)
-form.apiobjects.goodsItemCZenhancement.setReady(true)]]></Script>
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -15479,40 +14718,7 @@ globals.uiGlobalState.annex.annexDetail.request.customsDecisionAuthorisationData
     <ActionBlock>
       <Name value="prepareGoodsItemCZlistCtrl" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[//List - processing
-form.apiobjects.goodsItemCZ.setReady(false)
-
-if form.enhancement.listState = defaultString() then
-
-	form.enhancement.uiComponentSetting.listPageSize = 9
-	form.apiobjects.goodsItemCZ.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
-
-	//form.apiobjects.goodsItemCZ.clearSorting()
-	form.apiobjects.goodsItemCZ.setSorting("combinedNomenclatureCode:asc")
-
-	form.apiobjects.goodsItemCZ.focusFirstRecord()
-
-endif
-
-form.apiobjects.goodsItemCZ.setReady(true)
-
-//List - enhancement
-form.apiobjects.goodsItemCZenhancement.setReady(false)
-
-if form.enhancement.listStateEnhancement = defaultString() then
-	
-	form.apiobjects.goodsItemCZenhancement.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
-
-	//form.apiobjects.goodsItemCZenhancement.clearSorting()
-	form.apiobjects.goodsItemCZenhancement.setSorting("combinedNomenclatureCode:asc")
-
-	form.apiobjects.goodsItemCZenhancement.focusFirstRecord()	
-
-endif
-
-form.apiobjects.goodsItemCZenhancement.setReady(true)
-
-//Declist - enhancement
+        <Script><![CDATA[//Declist - enhancement
 if form.enhancement.listStateEnhancement = defaultString() then
 
 	var cdGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
@@ -15523,38 +14729,8 @@ if form.enhancement.listStateEnhancement = defaultString() then
 	form.apiobjects.enhancementDeclistGoodsItems.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
 	form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
 
-endIf]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="handler_list_goodsItemCZ_OnRowClicked" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[//put data froma reference to a lo structure for viewing
-form.enhancement.selectedGoodsItemCZ.clear()
-form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())
-
-if form.enhancement.selectedGoodsItemCZ.completed.hasValue() = false then
-	form.enhancement.selectedGoodsItemCZ.completed = false
-endif
-
-if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.exists(current.hasValue()) then
-
-	var choosenGoodsItem = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.selectFirst(current.guid = form.enhancement.selectedRowGoodsItems.guid)
-	
-	var choosenGoodsItemOderNumber = choosenGoodsItem.index()
-	
-	var pathToChoosenGoodsItem = "customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsCZ/goodsItemCZ[" + toString(choosenGoodsItemOderNumber) + "]"
-	
-	var itemData = form.apiobjects.econImpactPlainObject.get(pathToChoosenGoodsItem)
-	
-	form.guiPresentedDataGoodsItem.goodsCZ.goodsItemCZ.fromJson(itemData)
-
-
-endIf]]></Script>
+endIf
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -15664,164 +14840,6 @@ endif
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="handler_list_EnhancementGoodsItemCZ_OnRowClicked" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[//put data froma reference to a lo structure for viewing
-form.enhancement.selectedGoodsItemCZ.clear()
-form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())
-
-form.enhancement.modelEnhancement.clear()
-
-if form.enhancement.selectedGoodsItemCZ.completed.hasValue() = false then
-	form.enhancement.selectedGoodsItemCZ.completed = false
-endif
-
-form.enhancement.modelEnhancement.clear()
-form.enhancement.modelEnhancement.fromJson(form.enhancement.selectedGoodsItemCZ.toJson())
-
-
-//insert codelist value into referenceCombo "writeOffMeasureUnit" 
-form.enhancement.modelEnhancement.writeOffMeasureUnit.clear()
-
-if form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit.hasValue() then
-
-	var item = apiobjects.woMeasureUnitCl.getItemByStringColumnAsync("JMODPIS", form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit, getDateTime(), defaultBool())
-
-	if item.isFound() then
-		form.enhancement.modelEnhancement.writeOffMeasureUnit.fromJson(item.getJsonString())
-	else
-		form.enhancement.modelEnhancement.writeOffMeasureUnit.JMODPIS = form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit
-	endif
-
-endIf]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="saveOneItemEnhancementData" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[globals.IsBusy = True
-
-if form.enhancement.modelEnhancement.completed and form.enhancement.isEnhancementEditOn then
-	
-	//clear all previous error messages
-	form.operationResultMessage.clear()
-	form.formBehavior.visibilities.operationResult = False
-	
-	if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.exists(current.guid = form.enhancement.selectedGoodsItemCZ.guid) then
-		
-		var selectedItem = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.selectFirst(current.guid = form.enhancement.selectedGoodsItemCZ.guid)
-				
-		//init of helping variable
-		var proceed = True
-		
-		if form.zobrazIPO and form.enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD.hasValue() then
-		
-			globals.IsBusy = True
-				apiobjects.cnCodeCl.setDateTime(getDateTime())
-			globals.IsBusy = False
-		    
-		    var itemCn73da = apiobjects.cnCodeCl.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.modelEnhancement.cnCodeArticle73DA.ZBOZIKOD, getDateTime(), defaultBool())
-		    
-		    if itemCn73da.isFound() then
-		       selectedItem.cnCodeArticle73DA.fromJson(itemCn73da.getJsonString())
-		       
-		       proceed = True
-		    else
-		    	//clear previous warning messages in GUI
-		    	form.operationResultMessage.clear()
-		    	form.formBehavior.visibilities.operationResult = False
-		    	
-		    	form.actions.showEnhancementErrorMessage("Vybraný Kód KN při použití čl. 73 DA se nepodařil vložit do seznamu, protože nemá aktuální platnou hodnotu číselníku. ", false)
-		    	
-		    	proceed = False
-		    	
-		    endIf
-		    
-		endIf
-		
-		if form.zobrazEUS and form.enhancement.modelEnhancement.cnCodeForSecuring.ZBOZIKOD.hasValue() then
-			
-			globals.IsBusy = True
-				apiobjects.cnCodeCl.setDateTime(getDateTime())
-			globals.IsBusy = False
-				
-			var itemCn = apiobjects.cnCodeCl.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.modelEnhancement.cnCodeForSecuring.ZBOZIKOD , getDateTime(), defaultBool())
-	
-			if itemCn.isFound() then
-				selectedItem.cnCodeForSecuring.fromJson(itemCn.getJsonString())
-				
-			else
-				//clear previous warning messages in GUI
-		    	form.operationResultMessage.clear()
-		    	form.formBehavior.visibilities.operationResult = False
-		    	
-				form.actions.showEnhancementErrorMessage("Vybraný Kód pro dozajištění se nepodařil vložit do seznamu, protože nemá aktuální platnou hodnotu číselníku. ", true)
-				
-				proceed = False
-				
-			endif
-				
-		endif
-
-		
-		if proceed = True then
-		
-			selectedItem.completed = form.enhancement.modelEnhancement.completed
-			
-			selectedItem.writeOffMeasureUnit.JMODPIS = form.enhancement.modelEnhancement.writeOffMeasureUnit.JMODPIS
-			selectedItem.writeOffMeasureUnit.POPIS = form.enhancement.modelEnhancement.writeOffMeasureUnit.POPIS	
-			
-			if form.zobrazIPO then
-				if not form.enhancement.modelEnhancement.article863UCC.hasValue() then
-					form.enhancement.modelEnhancement.article863UCC = false
-				endif
-				selectedItem.article863UCC = form.enhancement.modelEnhancement.article863UCC
-			endif
-			
-			if form.zobrazIPO then
-				if not form.enhancement.modelEnhancement.article864UCC.hasValue() then
-					form.enhancement.modelEnhancement.article864UCC = false
-				endif
-				selectedItem.article864UCC = form.enhancement.modelEnhancement.article864UCC
-			endif
-			
-			
-			form.apiobjects.goodsItemCZenhancement.setReady(false)
-			form.apiobjects.goodsItemCZenhancement.setReady(true)
-	
-	
-		endIf
-			
-	else
-		form.actions.showEnhancementErrorMessage("Datová struktura je poškozena.", true)
-				
-	endIf
-	
-else
-	if form.uiState.messageCounter < 7 then
-		form.actions.showEnhancementErrorMessage("Vyberte \"Hotovo\" u vybrané položky a zkontrolujte jestli editujete povolení. ", true)
-		form.uiState.messageCounter = form.uiState.messageCounter + 1
-	endIf
-		
-	if form.uiState.messageCounter = 7 then
-		form.operationResultMessage.clear()
-		form.formBehavior.visibilities.operationResult = False
-		form.uiState.messageCounter = 0
-	endif
-
-endif
-
-globals.IsBusy = False]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="showEnhancementErrorMessage" />
       <Description value="show error string in GUI" />
       <ActionLangBody IsValid="True">
@@ -15867,114 +14885,16 @@ endIf]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="validateEachGoodsItemCZ" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[//established message counter, so user will not see too many notices
-var messageCounter = 0
-
-//validate certain goods items for selected CD type   
-foreach item in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
-
-	var errorNoticeItemNumber = "Položka s Kódem KN: \"" + toString(item.combinedNomenclatureCode) + "\" vykazuje chybu v údaji: " 
-
-	if form.zobrazIPO then
-		if not item.article863UCC.isValid() then
-		
-			if messageCounter < 7 then
-				form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Článek 86(3) UCC\" ", true)
-				messageCounter = messageCounter + 1
-			endIf
-			
-			if messageCounter = 7 then
-				form.actions.showEnhancementErrorMessage(" Další položky v kolekci také vykazují chyby. ", true)
-				messageCounter = messageCounter + 1
-			endIf
-			
-			errorNoticeItemNumber = ","
-			form.enhancement.clientMsg.sendRequest = true
-			
-		endif
-	
-		if not item.article864UCC.isValid() then
-		
-			if messageCounter < 7 then
-				form.actions.showEnhancementErrorMessage(errorNoticeItemNumber +  " \"Článek 86(4) UCC\" ", true)
-				messageCounter = messageCounter + 1
-			endIf
-			
-			if messageCounter = 7 then
-				form.actions.showEnhancementErrorMessage(" Další položky v kolekci také vykazují chyby. ", true)
-				messageCounter = messageCounter + 1
-			endIf
-			
-			errorNoticeItemNumber = ","
-			form.enhancement.clientMsg.sendRequest = true
-		endif
-	endif
-
-	if form.zobrazEUS then
-		if not item.cnCodeForSecuring.isValid() then
-		
-			if messageCounter < 7 then
-			  form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Zbožový kód pro dozajištění\" ", true)
-			  messageCounter = messageCounter + 1
-			endIf
-			
-			if messageCounter = 7 then
-				form.actions.showEnhancementErrorMessage(" Další položky v kolekci také vykazují chyby. ", true)
-				messageCounter = messageCounter + 1
-			endIf
-			
-			errorNoticeItemNumber = ","
-			form.enhancement.clientMsg.sendRequest = true
-		endif
-	endif
-	
-	if not item.completed.isValid() then
-	
-		if messageCounter < 9 then
-			form.actions.showEnhancementErrorMessage(errorNoticeItemNumber + " \"Stav kompletnosti obohacení položky zboží\" ", true)
-			messageCounter = messageCounter + 1
-		endIf
-		
-		if messageCounter = 9 then
-			form.actions.showEnhancementErrorMessage(" Další položky v kolekci také vykazují chyby. ", true)
-			messageCounter = messageCounter + 1
-		endIf
-		
-		errorNoticeItemNumber = ","
-		form.enhancement.clientMsg.sendRequest = true
-	endif
-	
-endFor
-]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="saveNumberOfItemsInList" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[//set number of displayed items in given List in one page
-
-if form.tabsMenu.Tab08Processing.IsSelected then
-	form.apiobjects.goodsItemCZ.setReady(false)
-		form.apiobjects.goodsItemCZ.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
-	form.apiobjects.goodsItemCZ.setReady(true)
-	
-endif
-
-if form.tabsMenu.Tab16NationalData.IsSelected then
-	form.apiobjects.goodsItemCZenhancement.setReady(false)
-		form.apiobjects.goodsItemCZenhancement.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
-	form.apiobjects.goodsItemCZenhancement.setReady(true)
-	
+if form.tabsMenu.Tab16NationalData.IsSelected then	
 	//in development - enhancementDeclistGoodsItems
 	form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
 		form.apiobjects.enhancementDeclistGoodsItems.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
 	form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
-endif]]></Script>
+endif
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -15984,7 +14904,7 @@ endif]]></Script>
       <Name value="switch_isCompletedAllSelected" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var proceed = True
-
+/* //TOFO - poslat zprávu do centra - označit všechny položky jako hotové
 if form.zobrazEUS then
 	
 	if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.exists(current.hasValue()) then
@@ -16042,7 +14962,8 @@ else
 
 	form.actions.showEnhancementErrorMessage("Vyplňte všechny údaje pro všechny položky.", true)
 
-endif]]></Script>
+endif
+*/]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -16149,96 +15070,6 @@ endIf]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="handler_enhancementList_ipo_OnRowClicked" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[globals.IsBusy = True
-
-//put data froma reference to a lo structure for viewing
-form.enhancement.selectedGoodsItemCZ.clear()
-form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())
-
-form.enhancement.modelEnhancement.clear()
-
-if form.enhancement.selectedGoodsItemCZ.completed.hasValue() = false then
-	form.enhancement.selectedGoodsItemCZ.completed = false
-endif
-
-form.enhancement.modelEnhancement.clear()
-form.enhancement.modelEnhancement.fromJson(form.enhancement.selectedGoodsItemCZ.toJson())
-
-
-if form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit.hasValue() then
-	//insert codelist value into referenceCombo "writeOffMeasureUnit" 
-	form.enhancement.modelEnhancement.writeOffMeasureUnit.clear()
-	
-	var item = apiobjects.woMeasureUnitCl.getItemByStringColumnAsync("JMODPIS", form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit, getDateTime(), defaultBool())
-	
-	if item.isFound() then
-		form.enhancement.modelEnhancement.writeOffMeasureUnit.fromJson(item.getJsonString())
-	else
-		form.enhancement.modelEnhancement.writeOffMeasureUnit.JMODPIS = form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit
-	endif
-
-endIf
-
-//set up cnCodeArticle73DA
-form.enhancement.modelEnhancement.cnCodeArticle73DA_text.clear()
-form.enhancement.modelEnhancement.cnCodeArticle73DA_text = form.enhancement.selectedGoodsItemCZ.computedCnCodeArt73da
-
-globals.IsBusy = False]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="handler_enhancementList_eus_OnRowClicked" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[//put data froma reference to a lo structure for viewing
-form.enhancement.selectedGoodsItemCZ.clear()
-form.enhancement.selectedGoodsItemCZ.fromJson(form.enhancement.selectedRowGoodsItems.toJson())
-
-form.enhancement.modelEnhancement.clear()
-
-if form.enhancement.selectedGoodsItemCZ.completed.hasValue() = false then
-	form.enhancement.selectedGoodsItemCZ.completed = false
-endif
-
-form.enhancement.modelEnhancement.clear()
-form.enhancement.modelEnhancement.fromJson(form.enhancement.selectedGoodsItemCZ.toJson())
-
-
-//insert codelist value into referenceCombo "writeOffMeasureUnit" 
-if form.enhancement.modelEnhancement.writeOffMeasureUnit.hasValue() then
-
-	form.enhancement.modelEnhancement.writeOffMeasureUnit.clear()
-	
-	var item = apiobjects.woMeasureUnitCl.getItemByStringColumnAsync("JMODPIS", form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit, getDateTime(), defaultBool())
-	
-	if item.isFound() then
-		form.enhancement.modelEnhancement.writeOffMeasureUnit.fromJson(item.getJsonString())
-	else
-		form.enhancement.modelEnhancement.writeOffMeasureUnit.JMODPIS = form.enhancement.selectedGoodsItemCZ.computed_writeOffMeasureUnit
-	endif
-
-endIf
-
-//inser codelist value to referenceLookup "cnCodeArticle73DA"
-form.enhancement.modelEnhancement.cnCodeForSecuring.clear()
-
-if form.enhancement.selectedGoodsItemCZ.computed_cnCodeForSecuring.hasValue() then
-	//direct assignment
-	form.enhancement.modelEnhancement.cnCodeForSecuring.fromJson(form.enhancement.selectedRowGoodsItems.cnCodeForSecuring.toJson())
-	
-endIf]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="sendErrorAsClientMsg" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.CD.customsDecisionAuthorisationData.customsDecisionGUID.hasValue() then
@@ -16327,47 +15158,7 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.enhancement.completedAllSelected.ipoAllArticled86Fill.allArticles86True = True
 
-if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.exists(current.hasValue()) and form.zobrazIPO then
-
-  globals.IsBusy = True
-  form.apiobjects.goodsItemCZenhancement.setReady(False)
-  
-   forEach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
-      
-   	if goodsItem.article863UCC.isEmpty() then
-	  goodsItem.article863UCC = True
-	endIf
-
-	if goodsItem.article864UCC.isEmpty() then
-	  goodsItem.article864UCC = True
-	endIf
-
-   endFor
-   
-   form.apiobjects.goodsItemCZenhancement.setReady(True)
-   globals.IsBusy = False
-   
-endIf]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="useOriginalSorting" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[//use original sorting
-if form.tabsMenu.Tab08Processing.IsSelected then
-	form.apiobjects.goodsItemCZ.setReady(false)
-		form.apiobjects.goodsItemCZ.clearSorting()
-	form.apiobjects.goodsItemCZ.setReady(true)
-endif
-
-if form.tabsMenu.Tab16NationalData.IsSelected then
-	form.apiobjects.goodsItemCZenhancement.setReady(false)
-		form.apiobjects.goodsItemCZenhancement.clearSorting()
-	form.apiobjects.goodsItemCZenhancement.setReady(true)
-endif]]></Script>
+// TODO - zasílání zprávy CustomsDecisionSetIPOArticles86]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -16743,17 +15534,6 @@ globals.IsBusy = False]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="handler_button_count_OnClick" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var faltyGoodsCount = form.apiobjects.enhancementDeclistGoodsItems.getRowCount()
-apiobjects.notificationsCtrl.addInfo("Falty Goods Count" + toString(faltyGoodsCount))]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="storeEnhacement" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = true
@@ -16817,7 +15597,6 @@ if form.enhancement.goodsItemCZvalidatation then
     form.actions.showEnhancementErrorMessage("Něco se nezdařilo. Změny se nepovedlo uložit. ", true)
     form.enhancement.clientMsg.sendRequest = true
 
-    form.uiState.cdGoodsItemCollectionJson.clear()
     form.formBehavior.operationResultError = false
    
   else
@@ -17456,26 +16235,6 @@ endIf  ]]></Script>
         </CodelistColumn>
       </columns>
     </Codelist>
-    <CollectionDataProvider2 identity="CollectionDataProvider2.796ba28ddaf44db78bd2cdf0b9f3628c">
-      <Name value="collectionDataProviderGItemCZ" />
-      <dataSourceCollectionReference value="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ" />
-    </CollectionDataProvider2>
-    <ListCtrl identity="ListCtrl.459ff3780ab145df985191cfc1336ce1">
-      <Name value="goodsItemCZ" />
-      <dataProvider reference="~collectionDataProviderGItemCZ" />
-      <server reference="+GlobalApiObjects.ServerKomunikace" />
-    </ListCtrl>
-    <ListCtrl identity="ListCtrl.459ff3780ab145df985191cfc1336ce1">
-      <Name value="goodsItemCZenhancement" />
-      <dataProvider reference="~collectionDataProviderGItemCZ" />
-      <server reference="+GlobalApiObjects.ServerKomunikace" />
-    </ListCtrl>
-    <PlainObject identity="PlainObject.2933617ce1714fe38ef01785a5a6492f">
-      <Name value="econImpactPlainObject" />
-    </PlainObject>
-    <PlainObject identity="PlainObject.2933617ce1714fe38ef01785a5a6492f">
-      <Name value="econImpactCdeReq" />
-    </PlainObject>
     <ListCtrl identity="ListCtrl.459ff3780ab145df985191cfc1336ce1">
       <Name value="enhancementDeclistGoodsItems" />
       <server reference="+GlobalApiObjects.ServerKomunikace" />
