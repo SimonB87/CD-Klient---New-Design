@@ -106,6 +106,9 @@
                           <ClassName value="{theme}-textbox" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="prefixCZ" />
+                        </CssClassConditional>
                       </CssClass>
                     </TextBox>
                     <TextBox>
@@ -642,7 +645,7 @@
                     <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
                       <Name value="validationSummaryColumn4" />
                       <columnCaption value="Message" />
-                      <columnWidth value="70%" />
+                      <columnWidth value="100%" />
                       <propertyName value="Reason" />
                     </validationSummaryColumn>
                   </columns>
@@ -652,6 +655,9 @@
                 <CssClassConditional>
                   <ClassName value="{theme}-groupbox" />
                   <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="serverValidationWidth" />
                 </CssClassConditional>
               </CssClass>
             </GroupBox>
@@ -5359,7 +5365,7 @@ false]]></ExpressionText>
                       <Name value="isVisibleComputed" />
                       <Caption value="Is visible computed" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[(form.formState.lifeCycle.stateCode in ["AUW","AUA","AUC","FUW"]) ? true : false]]></ExpressionText>
+                        <ExpressionText><![CDATA[(form.formState.lifeCycle.stateCode in ["AUW","AUA","AUC","FUW", "AUS"]) ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5636,6 +5642,8 @@ if resp.isError() or (resp.getMessageType() = "IN906A") then
     
     var errorMsg = resp.getErrorMessage()
     system.consoleError("Response content: " + errorMsg)
+    
+    form.actions.validErr_prepareServerErr(resp.extractJson("QERR"))
 else
 	form.actions.showErorrNotificationMessage("Data povolení byla úspěšně načtena. ", false)
 	
