@@ -17,7 +17,7 @@
           <Panel.Width value="*" />
           <Children>
             <Panel>
-              <Name value="panel1" />
+              <Name value="panel_header_row1" />
               <Orientation value="Horizontal" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
@@ -26,7 +26,7 @@
                   <Name value="textBox1" />
                   <IsEnabled value="False" />
                   <Panel.Height value="#" />
-                  <Panel.Width value="33%" />
+                  <Panel.Width value="33.33%" />
                   <Bindings>
                     <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.SPHolderCode" />
                     <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.SPHolderCode.caption()" />
@@ -42,7 +42,7 @@
                   <Name value="textBox2" />
                   <IsEnabled value="False" />
                   <Panel.Height value="#" />
-                  <Panel.Width value="33%" />
+                  <Panel.Width value="33.33%" />
                   <Bindings>
                     <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.TIN" />
                     <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.TIN.caption()" />
@@ -79,32 +79,66 @@
               </CssClass>
             </Panel>
             <Panel>
-              <Name value="panel2" />
+              <Name value="panel_header_row2" />
               <Orientation value="Horizontal" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
               <Children>
-                <TextBox>
-                  <Name value="textBox3" />
-                  <IsEnabled value="False" />
+                <Panel>
+                  <Name value="panel_aseoID" />
+                  <Orientation value="Horizontal" />
                   <Panel.Height value="#" />
-                  <Panel.Width value="33%" />
-                  <Bindings>
-                    <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.ASEOID.caption()" />
-                    <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.ASEOID" />
-                  </Bindings>
+                  <Panel.Width value="33.33%" />
+                  <Children>
+                    <TextBox>
+                      <Name value="textBox_prefixCZ" />
+                      <IsEnabled value="False" />
+                      <Margin value="6, 1, 6, 6 px" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="40%" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="formState.header.prefixCZ" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.header.prefixCZ.isRequired()" />
+                        <Binding SourceProperty="Caption" Expression="formState.header.prefixCZ.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <TextBox>
+                      <Name value="textBox3" />
+                      <CaptionPosition value="Hide" />
+                      <IsEnabled value="False" />
+                      <Margin value="6, 6, 6, 0 px" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="60%" />
+                      <Bindings>
+                        <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.ASEOID.caption()" />
+                        <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.ASEOID" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                  </Children>
                   <CssClass>
                     <CssClassConditional>
-                      <ClassName value="{theme}-textbox" />
+                      <ClassName value="{theme}-panel" />
                       <IsThemedStyle value="True" />
                     </CssClassConditional>
                   </CssClass>
-                </TextBox>
+                </Panel>
                 <TextBox>
                   <Name value="textBox4" />
                   <IsEnabled value="False" />
                   <Panel.Height value="#" />
-                  <Panel.Width value="33%" />
+                  <Panel.Width value="33.33%" />
                   <Bindings>
                     <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.ResponsibleCustomsOffice.caption()" />
                     <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.ResponsibleCustomsOffice" />
@@ -120,7 +154,7 @@
                   <Name value="textBox5" />
                   <IsEnabled value="False" />
                   <Panel.Height value="#" />
-                  <Panel.Width value="33%" />
+                  <Panel.Width value="33.33%" />
                   <Bindings>
                     <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.State.caption()" />
                     <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.State" />
@@ -4607,6 +4641,19 @@
           <Caption value="Form state" />
           <Children>
             <Complex>
+              <Name value="header" />
+              <Caption value="Header" />
+              <Children>
+                <Attribute>
+                  <Name value="prefixCZ" />
+                  <Caption value="Evidenční číslo zjednodušeného postupu" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Complex>
               <Name value="notifications" />
               <Caption value="Notifications" />
               <Children>
@@ -5563,6 +5610,7 @@ endIf
 form.formState.original_validityStartDate = form.model.modelStructure.ASEO.Event.ValidityStartDate //save this for GUI to display
 form.model.modelStructure.ASEO.Event.ValidityStartDate = getDateTime()
 form.model.modelStructure.ASEO.Event.ValidityStartDate = addHours(form.model.modelStructure.ASEO.Event.ValidityStartDate, 1)
+form.formState.header.prefixCZ = "CZ"
 
 //form.actions.demoDataSetUp()
 //globals.OverenyUzivatel.hasRoleWrite = false
