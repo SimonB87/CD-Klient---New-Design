@@ -9719,9 +9719,12 @@
                                   <Children>
                                     <Button>
                                       <Name value="originalSrotingBtn2" />
-                                      <Caption value="TODO - Použít původní řazení položek" />
+                                      <Caption value="Použít původní řazení položek" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="200px" />
+                                      <OnClick>
+                                        <ActionEvent ReferencedAction="~handler_originalSrotingBtn2_OnClick" />
+                                      </OnClick>
                                       <CssClass>
                                         <CssClassConditional>
                                           <ClassName value="{theme}-button" />
@@ -9763,7 +9766,7 @@
                                     </Button>
                                     <Button>
                                       <Name value="button_validateGoods" />
-                                      <Caption value="Validate Goods" />
+                                      <Caption value="Validovat položky" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="100px" />
                                       <OnClick>
@@ -14917,67 +14920,25 @@ endif
     <ActionBlock>
       <Name value="switch_isCompletedAllSelected" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var proceed = True
-/* //TOFO - poslat zprávu do centra - označit všechny položky jako hotové
-if form.zobrazEUS then
-	
-	if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.exists(current.hasValue()) then
-	
-		globals.IsBusy = True
-		var messageCounter = 0
-	
-		forEach item in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
-			
-			if (item.cnCodeArticle73DA.hasValue() = false) or (item.cnCodeArticle73DA.isValid() = false) then
-				proceed = false
-				
-				if messageCounter < 6 then
-				  form.actions.showEnhancementErrorMessage("Položka s kódem KN: " + item.combinedNomenclatureCode + "není správně obohacena. ", true)
-				  messageCounter = messageCounter + 1
-				endIf
-				
-				if messageCounter = 7 then
-				   form.actions.showEnhancementErrorMessage(" U položek existují další chyby. ", true)
-				   messageCounter = messageCounter + 1
-				endIf
-				
-				
-			endIf
-			
-		endFor
-		
-		globals.IsBusy = False
-	
-	endIf
-	
-endif		
-	
+        <Script><![CDATA[form.enhancement.completedAllSelected.ipoAllArticled86Fill.allArticles86True = True
 
-if proceed = true then
+var cdData = form.CD.customsDecisionAuthorisationData
+var messageData = "{\"customsDecisionAuthorisationData\": {\"customsDecisionGUID\": \"" + cdData.customsDecisionGUID + "\", \"customsDecisionVersionGUID\": \""+ cdData.customsDecisionVersionGUID +"\"}}"
 
-	form.apiobjects.goodsItemCZenhancement.setReady(False)
-	
-	//switch value of boolean variable
-	form.enhancement.completedAllSelected.isCompletedAllSelected = not(form.enhancement.completedAllSelected.isCompletedAllSelected)
-		
-	//fill all items in presented collection as "completed" = true
-	if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.exists(current.hasValue()) then
-	   globals.IsBusy = True
-	   forEach goodsItem in form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ do
-	   	 goodsItem.completed = True
-	   endFor
-	   globals.IsBusy = False
-	endIf
-	
-	
-	form.apiobjects.goodsItemCZenhancement.setReady(True)
-
+var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionDefaultEnhancement", messageData)
+  
+if resp.isError() or (resp.getMessageType() = "IN906A") then  
+    var errorMsg = resp.getErrorMessage()
+    system.consoleError(errorMsg)
+    errorMsg = resp.getJsonString()
+    system.consoleError("Response content: " + errorMsg)
+    form.actions.showEnhancementErrorMessage("Něco se nezdařilo. Nebylo možné všem položkám nastavit \"Doplněno\" na \"ano\". ", true)
 else
-
-	form.actions.showEnhancementErrorMessage("Vyplňte všechny údaje pro všechny položky.", true)
-
+    form.actions.showEnhancementErrorMessage("Všem položkám zboží byly nastaveny hodnoty \"Doplněno\" na \"ano\". ", false)
+    form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
+    form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
 endif
-*/]]></Script>
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -15822,6 +15783,24 @@ endIf  ]]></Script>
             </Attribute>
           </Children>
         </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_originalSrotingBtn2_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var cdGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+var cdVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
+
+form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
+form.apiobjects.enhancementDeclistGoodsItems.setInvisibleODataFilter("(customsDecisionGUID eq '" + cdGUID + "' and customsDecisionVersionGUID eq '" + cdVersionGUID +"')")
+form.apiobjects.enhancementDeclistGoodsItems.setSorting("combinedNomenclatureCode:asc")
+form.apiobjects.enhancementDeclistGoodsItems.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
+form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
+form.apiobjects.enhancementDeclistGoodsItems.clearSorting()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>
