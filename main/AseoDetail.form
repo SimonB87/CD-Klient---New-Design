@@ -3713,35 +3713,25 @@
                                 </CssClassConditional>
                               </CssClass>
                             </TextBox>
-                            <Label>
-                              <Name value="label6" />
-                              <Data value="Missing codelist" />
+                            <ReferenceCombo>
+                              <Name value="authorizationSuspendingReasonRefCombo" />
+                              <DisplayMember value="_description" />
                               <Panel.Height value="#" />
-                              <Panel.Width value="150px" />
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-label" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </Label>
-                            <TextBox>
-                              <Name value="textBox37" />
-                              <Caption value="Upravit Důvod pozastavení povolení" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="300px" />
+                              <Panel.Width value="50%" />
+                              <ReferenceList reference="~authorizationSuspendingReasonCodelist" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.lifeCycleSupport.authorizationSuspending.AuthorizationSuspendingReason" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.authorizationSuspending.AuthorizationSuspendingReason.isRequired()" />
+                                <Binding SourceProperty="Data" Expression="model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference" />
+                                <Binding SourceProperty="Caption" Expression="model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.caption()" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.isRequired()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
+                                  <ClassName value="{theme}-referencecombo" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </TextBox>
+                            </ReferenceCombo>
                           </Children>
                           <CssClass>
                             <CssClassConditional>
@@ -3971,14 +3961,36 @@
                   <Name value="authorizationSuspending" />
                   <Caption value="Authorization suspending" />
                   <Children>
-                    <Attribute>
-                      <Name value="AuthorizationSuspendingReason" />
-                      <Caption value="Důvod pozastavení povolení" />
-                      <IsRequired value="True" />
-                      <DeclaredType>
-                        <AttributeType />
-                      </DeclaredType>
-                    </Attribute>
+                    <Reference>
+                      <Name value="authorizationSuspendingReasonReference" />
+                      <Caption value="Upravit Důvod pozastavení povolení" />
+                      <Children>
+                        <Attribute>
+                          <Name value="authorizationSuspendingReason" />
+                          <Caption value="Authorization suspending reason" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="description" />
+                          <Caption value="Description" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Computed>
+                          <Name value="_description" />
+                          <Caption value="_description" />
+                          <Expression IsValid="True">
+                            <ExpressionText><![CDATA[functions.codeListDescription(authorizationSuspendingReason,description)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </Expression>
+                        </Computed>
+                      </Children>
+                    </Reference>
                   </Children>
                 </Complex>
               </Children>
@@ -5618,6 +5630,9 @@ form.model.modelStructure.ASEO.Event.ValidityStartDate = getDateTime()
 form.model.modelStructure.ASEO.Event.ValidityStartDate = addHours(form.model.modelStructure.ASEO.Event.ValidityStartDate, 1)
 form.formState.header.prefixCZ = "CZ"
 
+var dataCustomCodelist = "[{\"authorizationSuspendingReason\":\"J\", \"description\":  \"Pozastavení povolení z jiného důvodu\"}]"
+form.apiobjects.authorizationSuspendingReasonCodelist.fillFromJson(dataCustomCodelist)
+
 //form.actions.demoDataSetUp()
 //globals.OverenyUzivatel.hasRoleWrite = false
 //globals.OverenyUzivatel.hasRoleAdmin = false
@@ -6314,7 +6329,7 @@ if messageType in ["ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendi
 	form.model.sekce5prilohy.newFilesCollectionJson = form.model.sekce5prilohy.newFilesCollection.File.toJson()
 	form.model.sekce5prilohy.newFilesCollection.File.clear()
 	aseoMegaMessage.ASEO.Event.File.fromJson(form.model.sekce5prilohy.newFilesCollectionJson)
-	aseoMegaMessage.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason = form.model.lifeCycleSupport.authorizationSuspending.AuthorizationSuspendingReason
+	aseoMegaMessage.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason = form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason
 endIf
 
 if messageType in ["ASEOSPApplicationModification"] then
@@ -6569,18 +6584,20 @@ if response.isError() then
 	
 	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 
-	if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
+	var authorisation = form.model.modelStructure.ASEO.Event.Authorization
+	if not authorisation.hasValue() then
 		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
 	endIf
 	// setTouch so the user sees, what si missing from submission
-	form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
-	form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
-
-	if not form.model.lifeCycleSupport.authorizationSuspending.AuthorizationSuspendingReason.hasValue() then
+	authorisation.LimitedAuthorizationValidity.setTouched(true)
+	authorisation.ResponsiblePersonWantsToBeNotified.setTouched(true)
+	
+	var suspendingPath = form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference
+	if not suspendingPath.authorizationSuspendingReason.hasValue() then
 		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Pozastavení\".", true)
 	endIf
 	// setTouch so the user sees, what si missing from submission
-	form.model.lifeCycleSupport.authorizationSuspending.AuthorizationSuspendingReason.setTouched(true)
+	suspendingPath.authorizationSuspendingReason.setTouched(true)
 
 else
 	form.model.modelStructure.ASEO.clear()
@@ -6590,7 +6607,8 @@ endIf
 
 form.actions.editDataAfterPosting("ASEOSPAuthorizationSuspending")
 
-globals.IsBusy = False]]></Script>
+globals.IsBusy = False
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -6821,19 +6839,20 @@ if response.isError() then
 	
 	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 
-	if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
+	var authorisation = form.model.modelStructure.ASEO.Event.Authorization
+	if not authorisation.hasValue() then
 		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
 	endIf
 	// setTouch so the user sees, what si missing from submission
-	form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
-	form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
-
-	if not form.model.lifeCycleSupport.authorizationSuspending.AuthorizationSuspendingReason.hasValue() then
+	authorisation.LimitedAuthorizationValidity.setTouched(true)
+	authorisation.ResponsiblePersonWantsToBeNotified.setTouched(true)
+	
+	var suspendingPath = form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference
+	if not suspendingPath.authorizationSuspendingReason.hasValue() then
 		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Pozastavení\".", true)
 	endIf
 	// setTouch so the user sees, what si missing from submission
-	form.model.lifeCycleSupport.authorizationSuspending.AuthorizationSuspendingReason.setTouched(true)
-
+	suspendingPath.authorizationSuspendingReason.setTouched(true)
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k úpravě pozastavení.", false)
@@ -7014,6 +7033,22 @@ form.formState.visibilities.isValidationsVisible = True	]]></Script>
         </CodelistColumn>
         <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
           <columnName value="POPIS" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="authorizationSuspendingReasonCodelist" />
+      <autoLoad value="False" />
+      <filterByDate value="False" />
+      <name value="authorizationSuspendingReasonCodelist" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="authorizationSuspendingReason" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="description" />
           <columnRole value="Description" />
         </CodelistColumn>
       </columns>
