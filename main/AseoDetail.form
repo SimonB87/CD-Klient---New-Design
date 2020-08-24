@@ -575,7 +575,7 @@
           <Panel.Height value="#" />
           <Panel.Width value="*" />
           <Bindings>
-            <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isValidationsVisible" />
+            <Binding SourceProperty="IsVisible" Expression="form.formState.visibilities.isValidationsVisible" />
           </Bindings>
           <Children>
             <ClientValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
@@ -585,6 +585,7 @@
               <Bindings>
                 <Binding SourceProperty="validationErrors" Expression="error.clientValidationErrors" />
                 <Binding SourceProperty="validationRoot" Expression="model" />
+                <Binding SourceProperty="isVisible" Expression="form.formState.visibilities.isValidationsVisible" />
               </Bindings>
               <columns>
                 <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
@@ -600,22 +601,25 @@
                   <columnWidth value="40%" />
                   <propertyName value="Pointer" />
                 </validationSummaryColumn>
-                <ServerValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
-                  <Name value="serverValidationSummary" />
-                  <Bindings>
-                    <Binding SourceProperty="validationErrors" Expression="form.error.serverValidationErrors" />
-                  </Bindings>
-                  <columns>
-                    <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
-                      <Name value="validationSummaryColumn4" />
-                      <columnCaption value="Validační zpráva Centra" />
-                      <columnWidth value="100%" />
-                      <propertyName value="Reason" />
-                    </validationSummaryColumn>
-                  </columns>
-                </ServerValidationSummary>
               </columns>
             </ClientValidationSummary>
+            <ServerValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+              <Name value="serverValidationSummary" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="validationErrors" Expression="form.error.serverValidationErrors" />
+                <Binding SourceProperty="isVisible" Expression="form.formState.visibilities.isValidationsVisible" />
+              </Bindings>
+              <columns>
+                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                  <Name value="validationSummaryColumn4" />
+                  <columnCaption value="Validační zpráva Centra" />
+                  <columnWidth value="100%" />
+                  <propertyName value="Reason" />
+                </validationSummaryColumn>
+              </columns>
+            </ServerValidationSummary>
           </Children>
           <CssClass>
             <CssClassConditional>
@@ -6841,11 +6845,12 @@ form.formState.visibilities.isValidationsVisible = False]]></Script>
 
 forEach error in form.error.serverValidationComplex.QEI do
 	var newErrorItem = form.error.serverValidationErrors.addItem()
-	newErrorItem.Reason = error.QEI01 
+	newErrorItem.Reason = error.QEI01
 endFor
 
 form.error.serverValidationComplex.clear()
-form.formState.visibilities.isValidationsVisible = True	]]></Script>
+form.formState.visibilities.isValidationsVisible = True	
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
