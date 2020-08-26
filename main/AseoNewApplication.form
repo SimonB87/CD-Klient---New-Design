@@ -191,6 +191,21 @@
                         </CssClassConditional>
                       </CssClass>
                     </CheckBox>
+                    <Button>
+                      <Name value="buttonLoadSubjectRegisterData" />
+                      <Caption value=" Načíst z registru" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~action2" />
+                      </OnClick>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
@@ -1369,6 +1384,24 @@
             </Collection>
           </Children>
         </Complex>
+        <Complex>
+          <Name value="request" />
+          <Caption value="Request" />
+          <Children>
+            <Include>
+              <Include reference="+DataEntities.SubjektPodleIdentifikatoruRequestCIC" />
+            </Include>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="response" />
+          <Caption value="Response" />
+          <Children>
+            <Include>
+              <Include reference="+DataEntities.SubjektPodleIdentifikatoruResponseCIC" />
+            </Include>
+          </Children>
+        </Complex>
       </Children>
     </DataContext>
   </DataContext>
@@ -1378,7 +1411,7 @@
   <Actions>
     <ActionBlock>
       <Name value="initForm" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[form.apiobjects.zeme_o.startLoadingData( getDateTime() )
 
 form.actions.setUserCustomsOffice()
@@ -1630,6 +1663,42 @@ if globals.LoginResult.user.exists(current.hasValue())  then
 else
 	form.aseoApplication.ASEO.Event.DecidingPerson = "*"
 endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="action2" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.request.HodnotaIdentifikatoru = form.aseoApplication.ASEO.TIN
+form.request.KodTypuIdentifikatoru = "EORI"
+form.request.JenUrcujiciIdentifikator = false
+form.request.ZiskatAdresy = false
+form.request.ZiskatIdentifikatory = true
+form.request.ZiskatNespravneUdaje = false
+form.request.ZiskatZpochybneneUdaje = false
+form.request.ZiskatProvozovny = false
+form.request.ZeZakladnichRegistru = true
+form.request.KodEvidence = "ASEO"
+form.request.KodAgendoveRole = "CR328"
+//form.request.KodUtvaru = CREDENTIAL("ASEO", "COMPANY")
+form.request.Uzivatel = globals.OverenyUzivatel.userName
+//form.request.IP = OtherParams("", 'ClientIP')
+form.request.Duvod = "Vydávání povolení v ASEO"
+
+var response = apiobjects.ServerKomunikace.postAsync("SubjektPodleIdentifikatoruRequestCIC", form.request.toJson())
+		
+//check server reply
+if response.isError() then
+	system.console(response.getErrorMessage())	
+else
+	var jsonData = response.getJsonString()
+	form.response.fromJson(jsonData)
+endIf
+
+form.request.clear()
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
