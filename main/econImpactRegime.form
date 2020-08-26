@@ -14500,7 +14500,7 @@ form.prefillTemplate.versionGuid = versionGuid
     </ActionBlock>
     <ActionBlock>
       <Name value="prefillEnhancementData" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[//ToDO TODO to do -- new prefil from last version
 
 actions.commonLoadData(form.CD.customsDecisionAuthorisationData.customsDecisionGUID, form.prefillTemplate.versionGuid)
@@ -14515,6 +14515,9 @@ if globals.dataLoadingSpace.success then
   var ucd = cdDetail.customsDecisionAuthorisationData.universalCustomsDecisionInformation
   
   var msg = "Data obohacení dané verze (poř. č.: " + toString(form.prefillTemplate.versionNum) + ") se podařilo úspěšně načíst a předvyplnit."
+  
+  form.actions.prefilCurrentGoodsItemFromPreviousCDversion()
+  
   form.actions.showSuccessfullResult(msg)
   
 else
@@ -15798,6 +15801,33 @@ form.apiobjects.enhancementDeclistGoodsItems.setSorting("combinedNomenclatureCod
 form.apiobjects.enhancementDeclistGoodsItems.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
 form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
 form.apiobjects.enhancementDeclistGoodsItems.clearSorting()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="prefilCurrentGoodsItemFromPreviousCDversion" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var cdData = form.CD.customsDecisionAuthorisationData
+var messageData = form.enhancement.reqSetIpoArticlesToTrue.customsDecisionAuthorisationData
+
+var cdPath = form.CD.customsDecisionAuthorisationData
+var messageJson = "{\"customsDecisionAuthorisationData\": {\"customsDecisionGUID\": \"" + cdPath.customsDecisionGUID + "\", \"customsDecisionVersionGUID\": \""+ cdPath.customsDecisionVersionGUID +"\"}}"
+
+var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionMigrateGoodsItemsCZ", messageJson)
+  
+if resp.isError() or (resp.getMessageType() = "IN906A") then  
+    var errorMsg = resp.getErrorMessage()
+    system.consoleError(errorMsg)
+    errorMsg = resp.getJsonString()
+    system.consoleError("Response content: " + errorMsg)
+    form.actions.showEnhancementErrorMessage("Něco se nezdařilo. Nebylo možné převzít stav zbožových položek z minulé verze povolení. ", true)
+else
+    form.actions.showEnhancementErrorMessage("Podařilo se převzít stav zbožových položek z minulé verze povolení. ", false)
+    form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
+    form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
