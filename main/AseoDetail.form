@@ -2909,7 +2909,7 @@
                               <Bindings>
                                 <Binding SourceProperty="FileContent" Expression="model.sekce5prilohy.addNewAnnex.FileContent" />
                                 <Binding SourceProperty="FileName" Expression="model.sekce5prilohy.addNewAnnex.FileName" />
-                                <Binding SourceProperty="FileType" Expression="" />
+                                <Binding SourceProperty="FileType" Expression="model.sekce5prilohy.addNewAnnex.FileType" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -2921,13 +2921,13 @@
                             </FileReader>
                             <TextBox>
                               <Name value="textBox29" />
+                              <IsEnabled value="False" />
                               <Panel.Height value="#" />
                               <Panel.Width value="25%" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.sekce5prilohy.addNewAnnex.FileType" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce5prilohy.addNewAnnex.FileType.isRequired()" />
                                 <Binding SourceProperty="Caption" Expression="model.sekce5prilohy.addNewAnnex.FileType.caption()" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -4124,14 +4124,9 @@
                     <Attribute>
                       <Name value="CustomsOfficeReferenceNumber" />
                       <Caption value="Číslo CÚ" />
+                      <MetaType reference="+MetaTypes.CU" />
                       <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/CustomsOffices/CustomsOfficeOfRelease/CustomsOfficeReferenceNumber" />
                       <MtsImportOptions.MTS.Type value="element" />
-                      <DeclaredType>
-                        <AttributeType>
-                          <StrMaxLength value="8" />
-                          <StrMinLength value="8" />
-                        </AttributeType>
-                      </DeclaredType>
                     </Attribute>
                   </Children>
                 </Complex>
@@ -5698,7 +5693,7 @@ false]]></ExpressionText>
   <Actions>
     <ActionBlock>
       <Name value="init" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = true
 
 form.formState.notifications.operationResultMessage.clear()
