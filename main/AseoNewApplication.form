@@ -197,7 +197,7 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
-                        <ActionEvent ReferencedAction="~action2" />
+                        <ActionEvent ReferencedAction="~loadRegisterData" />
                       </OnClick>
                       <CssClass>
                         <CssClassConditional>
@@ -1394,12 +1394,119 @@
           </Children>
         </Complex>
         <Complex>
-          <Name value="response" />
-          <Caption value="Response" />
+          <Name value="responseCrs" />
+          <Caption value="Response crs" />
           <Children>
-            <Include>
-              <Include reference="+DataEntities.SubjektPodleIdentifikatoruResponseCIC" />
-            </Include>
+            <Attribute>
+              <Name value="PopisChyby" />
+              <Caption value="PopisChyby" />
+              <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/PopisChyby" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="KodChyby" />
+              <Caption value="KodChyby" />
+              <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/KodChyby" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Collection>
+              <Name value="Subjekty" />
+              <Caption value="Subjekty" />
+              <Children>
+                <Collection>
+                  <Name value="Subjekt" />
+                  <Caption value="Subjekt" />
+                  <Children>
+                    <Attribute>
+                      <Name value="Klic" />
+                      <Caption value="Klic" />
+                      <IsRequired value="True" />
+                      <MetaType reference="+MetaTypes.CRSGuid" />
+                      <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/Klic" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                    <Attribute>
+                      <Name value="KlicVerze" />
+                      <Caption value="KlicVerze" />
+                      <IsRequired value="True" />
+                      <MetaType reference="+MetaTypes.CRSGuid" />
+                      <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/KlicVerze" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                    <Collection>
+                      <Name value="SloucenaAdresa" />
+                      <Caption value="Sloucena adresa" />
+                      <Children>
+                        <Attribute>
+                          <Name value="PlnyNazev" />
+                          <Caption value="Název subjektu" />
+                          <IsRequired value="True" />
+                          <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/PlnyNazev" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="ZkracenyNazev" />
+                          <Caption value="Krátký název subjektu" />
+                          <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/ZkracenyNazev" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="UliceACislo" />
+                          <Caption value="Ulice a číslo" />
+                          <IsRequired value="True" />
+                          <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/UliceACislo" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="Mesto" />
+                          <Caption value="Město" />
+                          <IsRequired value="True" />
+                          <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/Mesto" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="PSC" />
+                          <Caption value="PSČ" />
+                          <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/PSC" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="Zeme" />
+                          <Caption value="Země" />
+                          <IsRequired value="True" />
+                          <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/Zeme" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                      </Children>
+                    </Collection>
+                  </Children>
+                </Collection>
+              </Children>
+            </Collection>
           </Children>
         </Complex>
       </Children>
@@ -1527,11 +1634,13 @@ globals.IsBusy = false
       <Name value="handler_button1_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var data = "{\"TIN\":\"CZ20100400\",\"AuthorizationType\":{\"POVOLTYP\":\"TIR\",\"POPIS\":\"Povolení přístupu k systému TIR\",\"IDZALOZKY\":\"CD\",\"_description\":\"TIR - Povolení přístupu k systému TIR\"},\"ResponsibleCustomsOffice\":\"CZ510000\",\"Event\":{\"OperatorName\":\"Simon Test Firma TIR 2020-07-28 a.s.\",\"OperatorStreetAndNr\":\"111\",\"OperatorCity\":\"Praha\",\"OperatorPostCode\":\"11000\",\"OperatorCountry\":{\"ZEME_O\":\"CZ\",\"POPIS\":\"Česká republika\",\"_description\":\"CZ - Česká republika\"},\"ReferenceNumber\":\"1000\",\"YourMark\":\"a1000\",\"HandledBy\":\"alfa1001\",\"DecisionDate\":\"2020-07-28\",\"ValidityStartDate\":\"2020-07-28T09:00:00.000\",\"Note\":\"alfa beta omega\"}}"
+        <Script><![CDATA[var data = "{\"TIN\":\"CZ44444444\",\"AuthorizationType\":{\"POVOLTYP\":\"ACP\",\"POPIS\":\"Povolení k udělení statusu schváleného vydavatele k prokázání důkazu o celním statusu zboží Unie\",\"IDZALOZKY\":\"CD\",\"_description\":\"ACP - Povolení k udělení statusu schváleného vydavatele k prokázání důkazu o celním statusu zboží Unie\"},\"ResponsibleCustomsOffice\":\"CZ510000\",\"Event\":{\"OperatorName\":\"Simon Test Firma ACP 2020-08-12\",\"OperatorStreetAndNr\":\"111\",\"OperatorCity\":\"Praha\",\"OperatorPostCode\":\"11000\",\"OperatorCountry\":{\"ZEME_O\":\"CZ\",\"POPIS\":\"Česká republika\",\"_description\":\"CZ - Česká republika\"},\"ReferenceNumber\":\"1000\",\"YourMark\":\"a1000\",\"HandledBy\":\"alfa1001\",\"DecisionDate\":\"2020-08-12\",\"ValidityStartDate\":\"2020-08-02T09:01:23.000\",\"Note\":\"ACP1 testing this alfa beta omega\"}}"
 
 //var data = "{\"TIN\":\"CZ20100400\",\"AuthorizationType\":{\"POVOLTYP\":\"ACP\",\"POPIS\":\"Povolení k udělení statusu schváleného vydavatele k prokázání důkazu o celním statusu zboží Unie\",\"IDZALOZKY\":\"CD\",\"_description\":\"ACP - Povolení k udělení statusu schváleného vydavatele k prokázání důkazu o celním statusu zboží Unie\"},\"ResponsibleCustomsOffice\":\"CZ510000\",\"Event\":{\"OperatorName\":\"Simon Test Firma ACP 2020-06-29 a.s.\",\"OperatorStreetAndNr\":\"111\",\"OperatorCity\":\"Praha\",\"OperatorPostCode\":\"11000\",\"OperatorCountry\":{\"ZEME_O\":\"CZ\",\"POPIS\":\"Česká republika\",\"_description\":\"CZ - Česká republika\"},\"ReferenceNumber\":\"1000\",\"YourMark\":\"a1000\",\"HandledBy\":\"alfa1001\",\"DecisionDate\":\"2020-06-24\",\"ValidityStartDate\":\"2020-06-24T09:00:00.000\",\"DecidingCustomsOffice\":\"CZ520000\",\"DecidingPerson\":\"alfa1\",\"Note\":\"alfa beta omega\"}}"
 
-form.aseoApplication.Aseo.fromJson(data)]]></Script>
+var what = form.aseoApplication.Aseo.fromJson(data)
+
+system.console(toString(what))]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -1669,9 +1778,10 @@ endIf]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="action2" />
+      <Name value="loadRegisterData" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.request.HodnotaIdentifikatoru = form.aseoApplication.ASEO.TIN
+        <Script><![CDATA[globals.IsBusy = True
+form.request.HodnotaIdentifikatoru = form.aseoApplication.ASEO.TIN
 form.request.KodTypuIdentifikatoru = "EORI"
 form.request.JenUrcujiciIdentifikator = false
 form.request.ZiskatAdresy = false
@@ -1682,26 +1792,97 @@ form.request.ZiskatProvozovny = false
 form.request.ZeZakladnichRegistru = true
 form.request.KodEvidence = "ASEO"
 form.request.KodAgendoveRole = "CR328"
-//form.request.KodUtvaru = CREDENTIAL("ASEO", "COMPANY")
+form.request.KodUtvaru = form.aseoApplication.ASEO.Event.DecidingCustomsOffice
 form.request.Uzivatel = globals.OverenyUzivatel.userName
-//form.request.IP = OtherParams("", 'ClientIP')
+form.request.IP = "172.20.43.235"
 form.request.Duvod = "Vydávání povolení v ASEO"
 
 var response = apiobjects.ServerKomunikace.postAsync("SubjektPodleIdentifikatoruRequestCIC", form.request.toJson())
-		
-//check server reply
+
 if response.isError() then
-	system.console(response.getErrorMessage())	
+	system.console(response.getErrorMessage())
+	apiobjects.notificationsCtrl.addError("Došlo k chybě při komunikaci s Centrem.")
+
 else
 	var jsonData = response.getJsonString()
-	form.response.fromJson(jsonData)
+	form.responseCrs.fromJson(jsonData) 
+		
+	if form.responseCrs.Subjekty.isEmpty() then
+		
+		form.responseCrs.fromJson(response.getJsonString())
+	
+		var warningMessage = "Nepodařilo se najít žádné odpovídající subjekty."
+		
+		if form.responseCrs.PopisChyby.hasValue() then
+			warningMessage = warningMessage + "Kód Chyby: \"" + form.responseCrs.PopisChyby + "\""
+		endIf
+		
+		if form.responseCrs.KodChyby.hasValue() then
+			warningMessage = warningMessage + "Popis chyby \"" +form.responseCrs.KodChyby + "\""
+		endIf
+		
+		apiobjects.notificationsCtrl.addWarning(warningMessage)
+	else
+		
+	var mainCol = form.responseCrs.Subjekty.selectFirst()
+	if not mainCol.Subjekt.isEmpty() then
+		var innerCol = mainCol.Subjekt.selectFirst()
+			if not innerCol.SloucenaAdresa.isEmpty() then
+				var targetCol = innerCol.SloucenaAdresa.selectFirst()
+					form.aseoApplication.ASEO.Event.OperatorName = targetCol.PlnyNazev
+					form.aseoApplication.ASEO.Event.OperatorStreetAndNr = targetCol.UliceACislo
+					form.aseoApplication.ASEO.Event.OperatorCity = targetCol.Mesto
+					form.aseoApplication.ASEO.Event.OperatorPostCode = targetCol.PSC
+					form.actions.getOperatorCountry(targetCol.Zeme)
+					apiobjects.notificationsCtrl.addSuccess("Podařilo se získat data z CRS.")
+			else
+				apiobjects.notificationsCtrl.addError("Došlo k chybě načítání dat.")
+			endIf
+		else
+			apiobjects.notificationsCtrl.addError("Došlo k chybě načítání dat.")
+		endIf	
+		
+	endIf
 endIf
 
 form.request.clear()
-]]></Script>
+
+globals.IsBusy = False
+
+/*
+var respJson = resp.getJsonString()
+form.model.modelStructure.clear()
+form.model.modelStructure.fromJson(respJson)
+*/]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="getOperatorCountry" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var countryFromCodeList = form.apiobjects.zeme_o.getItemByStringColumnAsync("ZEME_O", countryFromCrs, getDateTime(), defaultBool())
+
+if countryFromCodeList.isFound() then
+	form.aseoApplication.ASEO.Event.OperatorCountry.fromJson(countryFromCodeList.getJsonString())
+else
+	apiobjects.notificationsCtrl.addWarning("Vybraná země není ve validním seznamu států.")
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="countryFromCrs" />
+              <Caption value="Country from crs" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
   </Actions>
