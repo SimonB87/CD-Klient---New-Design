@@ -1406,7 +1406,7 @@
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.DecisionDate" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.DecisionDate.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.DecisionDate.caption()" />
+                                <Binding SourceProperty="Caption" Expression="formState.lifeCycle.DecisionDateLabel.DecisionDateLabelComputed" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -1501,12 +1501,12 @@
                             </TextBox>
                             <DatePicker>
                               <Name value="datePicker_evidenceDate" />
+                              <Caption value="Datum Evidence" />
                               <Panel.Height value="#" />
                               <Panel.Width value="33.33%" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.EvidenceDate" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.EvidenceDate.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.EvidenceDate.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -1910,7 +1910,7 @@
                           <Name value="textBox_TIRHolderID" />
                           <CaptionVAlign value="Middle" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="300px" />
+                          <Panel.Width value="100%" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPTIR.TIRHolder" />
                             <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPTIR.TIRHolder.caption()" />
@@ -2009,7 +2009,6 @@
                         <TextBox>
                           <Name value="textBox27" />
                           <Caption value="Nové číslo CÚ" />
-                          <CaptionPosition value="Top" />
                           <Panel.Height value="#" />
                           <Panel.Width value="33%" />
                           <Bindings>
@@ -4402,13 +4401,6 @@
                           </DeclaredType>
                         </Attribute>
                         <Attribute>
-                          <Name value="FileContent" />
-                          <Caption value="File content" />
-                          <DeclaredType>
-                            <AttributeType />
-                          </DeclaredType>
-                        </Attribute>
-                        <Attribute>
                           <Name value="FileName" />
                           <Caption value="File name" />
                           <DeclaredType>
@@ -4424,6 +4416,13 @@
                             <AttributeType>
                               <StrMaxLength value="255" />
                             </AttributeType>
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="FileContent" />
+                          <Caption value="File content" />
+                          <DeclaredType>
+                            <AttributeType />
                           </DeclaredType>
                         </Attribute>
                       </Children>
@@ -5046,6 +5045,30 @@ false]]></ExpressionText>
                     </Computed>
                   </Children>
                 </Complex>
+                <Complex>
+                  <Name value="DecisionDateLabel" />
+                  <Caption value="Decision date label" />
+                  <Children>
+                    <Computed>
+                      <Name value="DecisionDateLabelComputed" />
+                      <Caption value="Decision date label computed" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[((this.owner().stateCode = "APA") and (form.formState.lifeCycle.actionConfirm.actionName = "Autorizovat") ) ? "Datum rozhodnutí" :
+	((this.owner().stateCode = "APA") and (form.formState.lifeCycle.actionConfirm.actionName = "Zamítnout žádost" )) ? "Datum odmítnutí" :
+		((this.owner().stateCode = "AUW") and (form.formState.lifeCycle.actionConfirm.actionName = "Autorizovat" )) ? "Datum rozhodnutí" :
+			(this.owner().stateCode in ["AUS","AUE"] ) ? "Datum rozhodnutí" :
+				(this.owner().stateCode = "APA" ) ? "Datum doručení žádosti" :
+					(this.owner().stateCode = "AUA" ) ? "Datum rozhodnutí" :
+						(this.owner().stateCode = "AUR" ) ? "Datum odmítnutí" :
+							(this.owner().stateCode = "AUW" ) ? "Datum zrušení" :
+								"Datum vydání rozhodnutí."]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
             <Attribute>
@@ -5650,6 +5673,13 @@ false]]></ExpressionText>
                 </ResultType>
               </Expression>
             </Computed>
+            <Attribute>
+              <Name value="FileContent" />
+              <Caption value="File content" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
           </Children>
         </Modifier>
         <Modifier>
@@ -5703,6 +5733,19 @@ false]]></ExpressionText>
         <Modifier>
           <Name value="modifier_1FDB7ECF_AuthorizationWithdrawal" />
           <SourcePath value="requests.ASEOmegaMessage.ASEO.Event.AuthorizationWithdrawal" />
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_5EEFBCF1_File" />
+          <SourcePath value="requests.ASEOmegaMessage.ASEO.Event.File" />
+          <Children>
+            <Attribute>
+              <Name value="FileContent" />
+              <Caption value="File content" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
         </Modifier>
       </Modifiers>
     </DataContext>
@@ -6144,6 +6187,9 @@ if newFileIsValid and newFileHasValue then
 	var currentAnnex = form.model.modelStructure.ASEO.Event.File.count()
 	var newAnnex = form.model.sekce5prilohy.newFilesCollection.File.count()
 	form.components.tabsMenu.Tab06prilohy.Title = "Text a přílohy (" + toString(currentAnnex + newAnnex) + ")"
+	
+	form.model.sekce5prilohy.addNewAnnex.clear()
+	
 else
 	form.model.sekce5prilohy.addNewAnnex.FileType.setTouched(true)
 	form.model.sekce5prilohy.addNewAnnex.FileName.setTouched(true)
@@ -6323,6 +6369,7 @@ else
 	//test check
 	form.VersionGUID.clear()//test check
 	form.actions.loadAseoData(form.GUID)
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 endIf
 
 form.actions.editDataAfterPosting("ASEOSPAuthorization")
@@ -6412,10 +6459,7 @@ if messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification"] then
 	aseoMegaMessage.clear()
 	aseoMegaMessage.fromJson(form.formState.modelJson)
 	aseoMegaMessage.ASEO.Event.File.clear()
-	form.model.sekce5prilohy.newFilesCollectionJson = form.model.sekce5prilohy.newFilesCollection.File.toJson()
-	form.model.sekce5prilohy.newFilesCollection.File.clear()
-	aseoMegaMessage.ASEO.Event.File.fromJson(form.model.sekce5prilohy.newFilesCollectionJson)
-	
+	form.actions.setNewAnnexBeforeSendingMessage()
 	aseoMegaMessage.ASEO.Event.GoodsList.GoodsListType = false
 	
 endIf
@@ -6426,9 +6470,7 @@ if messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModi
 	aseoMegaMessage.clear()
 	aseoMegaMessage.fromJson(form.formState.modelJson)
 	aseoMegaMessage.ASEO.Event.File.clear()
-	form.model.sekce5prilohy.newFilesCollectionJson = form.model.sekce5prilohy.newFilesCollection.File.toJson()
-	form.model.sekce5prilohy.newFilesCollection.File.clear()
-	aseoMegaMessage.ASEO.Event.File.fromJson(form.model.sekce5prilohy.newFilesCollectionJson)
+	form.actions.setNewAnnexBeforeSendingMessage()
 	aseoMegaMessage.ASEO.Event.ApplicationRejection.ApplicationRejectionReason = form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM
 endIf
 
@@ -6438,9 +6480,7 @@ if messageType in ["ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationCancella
 	aseoMegaMessage.clear()
 	aseoMegaMessage.fromJson(form.formState.modelJson)
 	aseoMegaMessage.ASEO.Event.File.clear()
-	form.model.sekce5prilohy.newFilesCollectionJson = form.model.sekce5prilohy.newFilesCollection.File.toJson()
-	form.model.sekce5prilohy.newFilesCollection.File.clear()
-	aseoMegaMessage.ASEO.Event.File.fromJson(form.model.sekce5prilohy.newFilesCollectionJson)
+	form.actions.setNewAnnexBeforeSendingMessage()
 	aseoMegaMessage.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason = form. model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.POVOLDUOD
 endIf
 
@@ -6450,9 +6490,7 @@ if messageType in ["ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendi
 	aseoMegaMessage.clear()
 	aseoMegaMessage.fromJson(form.formState.modelJson)
 	aseoMegaMessage.ASEO.Event.File.clear()
-	form.model.sekce5prilohy.newFilesCollectionJson = form.model.sekce5prilohy.newFilesCollection.File.toJson()
-	form.model.sekce5prilohy.newFilesCollection.File.clear()
-	aseoMegaMessage.ASEO.Event.File.fromJson(form.model.sekce5prilohy.newFilesCollectionJson)
+	form.actions.setNewAnnexBeforeSendingMessage()
 	aseoMegaMessage.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason = form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason
 endIf
 
@@ -6462,9 +6500,7 @@ if messageType in ["ASEOSPApplicationModification"] then
 	form.requests.applicationModification.clear()
 	form.requests.applicationModification.fromJson(form.formState.modelJson)
 	form.requests.applicationModification.ASEO.Event.File.clear()
-	form.model.sekce5prilohy.newFilesCollectionJson = form.model.sekce5prilohy.newFilesCollection.File.toJson()
-	form.model.sekce5prilohy.newFilesCollection.File.clear()
-	form.requests.applicationModification.ASEO.Event.File.fromJson(form.model.sekce5prilohy.newFilesCollectionJson)
+	form.actions.setNewAnnexBeforeSendingMessage()
 endIf
 
 //check client errors in form
@@ -6543,7 +6579,9 @@ if response.isError() then
 	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 else
 	form.actions.showErorrNotificationMessage("Odstranění budoucí změny bylo úspěšně provedeno.", false)
+	form.VersionGUID.clear()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 endIf
 
 form.requests.initReq.clear()
@@ -6582,7 +6620,9 @@ if response.isError() then
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k zamítnutí žádosti.", false)
+	form.VersionGUID.clear()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 endIf
 
 form.actions.editDataAfterPosting("ASEOSPApplicationRejection")
@@ -6620,7 +6660,9 @@ if response.isError() then
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci zamítnutí.", false)
+	form.VersionGUID.clear()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 endIf
 
 form.actions.editDataAfterPosting("ASEOSPApplicationRejectionModification")
@@ -6678,7 +6720,9 @@ if response.isError() then
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k odnětí.", false)
+	form.VersionGUID.clear()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 endIf
 
 form.actions.editDataAfterPosting("ASEOSPAuthorizationWithdrawal")
@@ -6726,7 +6770,9 @@ if response.isError() then
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k pozastavení.", false)
+	form.VersionGUID.clear()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 endIf
 
 form.actions.editDataAfterPosting("ASEOSPAuthorizationSuspending")
@@ -6772,7 +6818,9 @@ if response.isError() then
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána ke zrušení.", false)
+	form.VersionGUID.clear()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 endIf
 
 form.actions.editDataAfterPosting("ASEOSPAuthorizationCancellation")
@@ -6805,7 +6853,9 @@ if response.isError() then
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci.", false)
+	form.VersionGUID.clear()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 endIf
 
 form.actions.editDataAfterPosting("ASEOSPApplicationModification")
@@ -6842,7 +6892,9 @@ if response.isError() then
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci autorizace.", false)
+	form.VersionGUID.clear()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 endIf
 
 form.actions.editDataAfterPosting("ASEOSPAuthorizationModification")
@@ -6888,7 +6940,9 @@ if response.isError() then
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci odnětí.", false)
+	form.VersionGUID.clear()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 endIf
 
 form.actions.editDataAfterPosting("ASEOSPAuthorizationWithdrawalModification")
@@ -6933,7 +6987,9 @@ if response.isError() then
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci zrušení.", false)
+	form.VersionGUID.clear()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 endIf
 
 form.actions.editDataAfterPosting("ASEOSPAuthorizationCancellationModification")
@@ -6980,7 +7036,9 @@ if response.isError() then
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k úpravě pozastavení.", false)
+	form.VersionGUID.clear()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 endIf
 
 form.actions.editDataAfterPosting("ASEOSPAuthorizationSuspendingModification")
@@ -7203,7 +7261,9 @@ tabs.Tab04zbozi.isVisible = True
 if form.authorizationType in ["ACP"] then
 	tabs.Tab03celniUrady.isVisible = true
 	tabs.Tab05rozsirene.isVisible = true
-endIf]]></Script>
+endIf
+
+form.actions.setDateAuthorisation()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -7462,7 +7522,48 @@ form.actions.initTabMenu()
 form.formState.lifeCycle.actionConfirm.actionName.clear()
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible.clear()
 form.components.tabsMenu.SelectedTab = 1
+
+form.VersionGUID.clear()//test check
+form.actions.loadAseoData(form.GUID)
 ]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setDateAuthorisation" />
+      <Category value="lifeCyclePostingSetUp" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if ((form.isEditOn) and (form.formState.lifeCycle.stateCode = "APA"))   then
+	form.model.modelStructure.ASEO.Event.DecisionDate.clear()
+	form.model.modelStructure.ASEO.Event.DecisionDate = getDate()
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setNewAnnexBeforeSendingMessage" />
+      <Category value="lifeCyclePostingSetUp" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.model.sekce5prilohy.newFilesCollectionJson = form.model.sekce5prilohy.newFilesCollection.File.toJson()
+
+forEach annexItem in form.model.sekce5prilohy.newFilesCollection.File do
+
+	var insertNew = form.requests.ASEOmegaMessage.ASEO.Event.File.addItem()
+	
+	insertNew.IsFulltext = annexItem.IsFulltext
+	insertNew.FileName = annexItem.FileName
+	insertNew.FileType = annexItem.FileType
+	insertNew.FileContent = annexItem.FileContent
+	
+	annexItem.FileContent.clear()
+	
+endFor
+
+form.model.sekce5prilohy.newFilesCollection.File.clear()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
