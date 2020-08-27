@@ -1906,6 +1906,25 @@
                             </CssClassConditional>
                           </CssClass>
                         </DatePicker>
+                        <TextBox>
+                          <Name value="textBox_TIRHolderID" />
+                          <CaptionVAlign value="Middle" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="300px" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPTIR.TIRHolder" />
+                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPTIR.TIRHolder.caption()" />
+                            <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationTir" />
+                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.visibilities.isAuthorisationTir" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
                       </Children>
                       <CssClass>
                         <CssClassConditional>
@@ -4708,7 +4727,7 @@
               <Caption value="ASE omega message" />
               <Children>
                 <Include>
-                  <Include reference="+DataEntities.ASEOSP_SF" />
+                  <Include reference="+DataEntities.ASEOSPDataResponseEx" />
                 </Include>
               </Children>
             </Complex>
@@ -4784,6 +4803,16 @@
                     </AttributeType>
                   </DeclaredType>
                 </Attribute>
+                <Computed>
+                  <Name value="isAuthorisationTir" />
+                  <Caption value="Is authorisation tir" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.authorizationType = "TIR" ? true : false]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
               </Children>
             </Complex>
             <Attribute>
@@ -5674,15 +5703,6 @@ false]]></ExpressionText>
         <Modifier>
           <Name value="modifier_1FDB7ECF_AuthorizationWithdrawal" />
           <SourcePath value="requests.ASEOmegaMessage.ASEO.Event.AuthorizationWithdrawal" />
-          <Children>
-            <Attribute>
-              <Name value="AuthorizationWithdrawalReason" />
-              <Caption value="Authorization withdrawal reason" />
-              <DeclaredType>
-                <AttributeType />
-              </DeclaredType>
-            </Attribute>
-          </Children>
         </Modifier>
       </Modifiers>
     </DataContext>
@@ -6279,6 +6299,11 @@ if response.isError() then
 	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
 	
 	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+	
+	if ( (form.authorizationType = "TIR") and (not form.requests.ASEOmegaMessage.ASEO.Event.SPTIR.TIRHolder.hasValue()) ) then
+		form.model.modelStructure.ASEO.Event.SPTIR.setTouched(true)
+		form.actions.showErorrNotificationMessage("Doplňte Údaj \"Lhůty\" v záložce \"Autorizace\".", true)
+	endIf
 	
 	if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
 		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
