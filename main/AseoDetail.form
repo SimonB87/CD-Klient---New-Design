@@ -1272,7 +1272,7 @@
                       <Name value="tabPrehodnoceni" />
                       <Bindings>
                         <Binding SourceProperty="Title" Expression="components.tabsMenu.Tab07prehodnoceni.Title" />
-                        <Binding SourceProperty="Visible" Expression="not form.isEditOn" />
+                        <Binding SourceProperty="Visible" Expression="components.tabsMenu.Tab07prehodnoceni.isVisible" />
                       </Bindings>
                     </tab>
                     <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
@@ -1662,13 +1662,13 @@
                                 <TextBox>
                                   <Name value="textBox7" />
                                   <CaptionVAlign value="Middle" />
+                                  <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="66.66%" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.OperatorName" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.OperatorName.isRequired()" />
                                     <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.OperatorName.caption()" />
-                                    <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -1680,13 +1680,13 @@
                                 <TextBox>
                                   <Name value="textBox8" />
                                   <CaptionVAlign value="Middle" />
+                                  <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="33.33%" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.OperatorStreetAndNr" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.OperatorStreetAndNr.isRequired()" />
                                     <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.OperatorStreetAndNr.caption()" />
-                                    <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -1712,13 +1712,13 @@
                                 <TextBox>
                                   <Name value="textBox9" />
                                   <CaptionVAlign value="Middle" />
+                                  <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="33.33%" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.OperatorCity" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.OperatorCity.isRequired()" />
                                     <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.OperatorCity.caption()" />
-                                    <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -1730,13 +1730,13 @@
                                 <TextBox>
                                   <Name value="textBox10" />
                                   <CaptionVAlign value="Middle" />
+                                  <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="33.33%" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.OperatorPostCode" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.OperatorPostCode.isRequired()" />
                                     <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.OperatorPostCode.caption()" />
-                                    <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -1748,13 +1748,13 @@
                                 <TextBox>
                                   <Name value="textBox11" />
                                   <CaptionVAlign value="Middle" />
+                                  <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="33.33%" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.OperatorCountry" />
                                     <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.OperatorCountry.isRequired()" />
                                     <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.OperatorCountry.caption()" />
-                                    <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -6533,6 +6533,7 @@ if reloadAction then
 endIf
 
 form.formState.visibilities.showHistorySesctions = true
+form.components.tabsMenu.Tab07prehodnoceni.isVisible = true
 
 globals.IsBusy = False
 ]]></Script>
@@ -7458,6 +7459,7 @@ form.actions.initTabMenu()
 form.actions.prepareTabsForAction("Modifikovat žádost")
 form.isEditOn = true
 form.formState.visibilities.showHistorySesctions = false
+form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7494,6 +7496,7 @@ form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
 form.components.tabsMenu.SelectedTab = 10
 form.isEditOn = true
 form.formState.visibilities.showHistorySesctions = false
+form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7530,6 +7533,7 @@ form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
 form.components.tabsMenu.SelectedTab = 10
 form.isEditOn = true
 form.formState.visibilities.showHistorySesctions = false
+form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7575,6 +7579,7 @@ endIf
 form.actions.setDateAuthorisation()
 form.isEditOn = true
 form.formState.visibilities.showHistorySesctions = false
+form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7619,6 +7624,7 @@ if form.authorizationType in ["ACP"] then
 endIf
 form.isEditOn = true
 form.formState.visibilities.showHistorySesctions = false
+form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7655,6 +7661,7 @@ tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 tabs.SelectedTab = 11
 form.isEditOn = true
 form.formState.visibilities.showHistorySesctions = false
+form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7691,6 +7698,7 @@ tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 tabs.SelectedTab = 11
 form.isEditOn = true
 form.formState.visibilities.showHistorySesctions = false
+form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7727,6 +7735,7 @@ form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible = True
 form.components.tabsMenu.SelectedTab = 12
 form.isEditOn = true
 form.formState.visibilities.showHistorySesctions = false
+form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7763,6 +7772,7 @@ form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible = True
 form.components.tabsMenu.SelectedTab = 12
 form.isEditOn = true
 form.formState.visibilities.showHistorySesctions = false
+form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7799,6 +7809,7 @@ form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 form.components.tabsMenu.SelectedTab = 11
 form.isEditOn = true
 form.formState.visibilities.showHistorySesctions = false
+form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7835,6 +7846,7 @@ form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 form.components.tabsMenu.SelectedTab = 11
 form.isEditOn = true
 form.formState.visibilities.showHistorySesctions = false
+form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7869,6 +7881,7 @@ form.actions.initTabMenu()
 form.actions.prepareTabsForAction("Odstranit budoucí změnu")
 form.isEditOn = true
 form.formState.visibilities.showHistorySesctions = false
+form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7908,6 +7921,7 @@ form.components.tabsMenu.SelectedTab = 1
 form.VersionGUID.clear()//test check
 form.actions.loadAseoData(form.GUID)
 form.formState.visibilities.showHistorySesctions = true
+form.components.tabsMenu.Tab07prehodnoceni.isVisible = True
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
