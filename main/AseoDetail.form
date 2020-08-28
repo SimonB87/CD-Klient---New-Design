@@ -23,13 +23,13 @@
               <Panel.Width value="*" />
               <Children>
                 <TextBox>
-                  <Name value="textBox28" />
-                  <Caption value="Typ povolení/ZJP" />
-                  <IsEnabled value="False" />
+                  <Name value="textBox2" />
                   <Panel.Height value="#" />
                   <Panel.Width value="33.33%" />
                   <Bindings>
-                    <Binding SourceProperty="Data" Expression="form.model.modelStructure.ASEO.AuthorizationType._description" />
+                    <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.TIN" />
+                    <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.TIN.caption()" />
+                    <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -39,13 +39,13 @@
                   </CssClass>
                 </TextBox>
                 <TextBox>
-                  <Name value="textBox2" />
+                  <Name value="textBox28" />
+                  <Caption value="Typ povolení/ZJP" />
                   <IsEnabled value="False" />
                   <Panel.Height value="#" />
                   <Panel.Width value="33.33%" />
                   <Bindings>
-                    <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.TIN" />
-                    <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.TIN.caption()" />
+                    <Binding SourceProperty="Data" Expression="form.model.modelStructure.ASEO.AuthorizationType._description" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -4921,6 +4921,131 @@
                 </Complex>
               </Children>
             </Complex>
+            <Complex>
+              <Name value="responseCRS" />
+              <Caption value="Response CRS" />
+              <Children>
+                <Attribute>
+                  <Name value="PopisChyby" />
+                  <Caption value="PopisChyby" />
+                  <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/PopisChyby" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="KodChyby" />
+                  <Caption value="KodChyby" />
+                  <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/KodChyby" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Collection>
+                  <Name value="Subjekty" />
+                  <Caption value="Subjekty" />
+                  <Children>
+                    <Collection>
+                      <Name value="Subjekt" />
+                      <Caption value="Subjekt" />
+                      <Children>
+                        <Attribute>
+                          <Name value="Klic" />
+                          <Caption value="Klic" />
+                          <IsRequired value="True" />
+                          <MetaType reference="+MetaTypes.CRSGuid" />
+                          <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/Klic" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Attribute>
+                          <Name value="KlicVerze" />
+                          <Caption value="KlicVerze" />
+                          <IsRequired value="True" />
+                          <MetaType reference="+MetaTypes.CRSGuid" />
+                          <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/KlicVerze" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Collection>
+                          <Name value="SloucenaAdresa" />
+                          <Caption value="Sloucena adresa" />
+                          <Children>
+                            <Attribute>
+                              <Name value="PlnyNazev" />
+                              <Caption value="Název subjektu" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/PlnyNazev" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType />
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="ZkracenyNazev" />
+                              <Caption value="Krátký název subjektu" />
+                              <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/ZkracenyNazev" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType />
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="UliceACislo" />
+                              <Caption value="Ulice a číslo" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/UliceACislo" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType />
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="Mesto" />
+                              <Caption value="Město" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/Mesto" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType />
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="PSC" />
+                              <Caption value="PSČ" />
+                              <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/PSC" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType />
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="Zeme" />
+                              <Caption value="Země" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/Zeme" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType />
+                              </DeclaredType>
+                            </Attribute>
+                          </Children>
+                        </Collection>
+                      </Children>
+                    </Collection>
+                  </Children>
+                </Collection>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="requestCRS" />
+              <Caption value="Request CRS" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.SubjektPodleIdentifikatoruRequestCIC" />
+                </Include>
+              </Children>
+            </Complex>
           </Children>
         </Complex>
         <Complex>
@@ -5987,9 +6112,10 @@ form.formState.visibilities.showHistorySesctions = true
 var dataCustomCodelist = "[{\"authorizationSuspendingReason\":\"J\", \"description\":  \"Pozastavení povolení z jiného důvodu\"}]"
 form.apiobjects.authorizationSuspendingReasonCodelist.fillFromJson(dataCustomCodelist)
 
-//form.actions.demoDataSetUp()
+//test
 //globals.OverenyUzivatel.hasRoleWrite = false
 //globals.OverenyUzivatel.hasRoleAdmin = false
+//test
 
 globals.IsBusy = false]]></Script>
       </ActionLangBody>
@@ -6240,38 +6366,6 @@ else if stateCode in ["AUS"] then
 
 endIf endIf endIf endIf
 ]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="demoDataSetUp" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.model.modelStructure.ASEO.AuthorizationType.POVOLTYP = "ACP" then
-
-	var newItem = form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.addItem()
-	
-	newItem.AuthorizedAgreedLocation.addItem()
-	newItem.TemporaryStorage.addItem()
-	
-	newItem.AuthorizedAgreedLocation.addItem()
-	newItem.TemporaryStorage.addItem()
-
-endIf
-
-form.model.modelStructure.ASEO.Control.addItem()
-var firstControl = form.model.modelStructure.ASEO.Control.selectFirst()
-firstControl.File.addItem()
-firstControl.File.addItem()
-
-form.model.modelStructure.ASEO.Control.addItem()
-var secondControl = form.model.modelStructure.ASEO.Control.selectFirst(current.index() = 2)
-secondControl.File.addItem()
-secondControl.File.addItem()
-secondControl.File.addItem()
-
-form.model.modelStructure.ASEO.Event.Period.addItem()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -7455,11 +7549,9 @@ var tabs = form.components.tabsMenu
  tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
  tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 
-form.actions.initTabMenu()
 form.actions.prepareTabsForAction("Modifikovat žádost")
-form.isEditOn = true
-form.formState.visibilities.showHistorySesctions = false
-form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
+form.actions.prepareFormForEdit()
+form.actions.initTabMenu()
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7489,14 +7581,11 @@ var tabs = form.components.tabsMenu
  tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
  tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
  
-form.actions.initTabMenu()
 form.actions.prepareTabsForAction("Zamítnout žádost")
-
+form.actions.prepareFormForEdit()
+form.actions.initTabMenu()
 form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
 form.components.tabsMenu.SelectedTab = 10
-form.isEditOn = true
-form.formState.visibilities.showHistorySesctions = false
-form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7526,14 +7615,13 @@ var tabs = form.components.tabsMenu
  tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
  tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 
+form.actions.prepareFormForEdit()
 form.actions.initTabMenu()
 form.actions.prepareTabsForAction("Modifikace zamítnutí" )
 
 form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
 form.components.tabsMenu.SelectedTab = 10
-form.isEditOn = true
-form.formState.visibilities.showHistorySesctions = false
-form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
+//
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7564,6 +7652,7 @@ var tabs = form.components.tabsMenu
  tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 
 form.actions.initTabMenu()
+form.actions.prepareFormForEdit()
 form.actions.prepareTabsForAction("Autorizovat")
 
 tabs.Tab02lifecycle_authorisation.isVisible = true
@@ -7577,9 +7666,6 @@ if form.authorizationType in ["ACP"] then
 endIf
 
 form.actions.setDateAuthorisation()
-form.isEditOn = true
-form.formState.visibilities.showHistorySesctions = false
-form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7610,6 +7696,7 @@ var tabs = form.components.tabsMenu
  tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
  tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 
+form.actions.prepareFormForEdit()
 form.actions.initTabMenu()
 form.actions.prepareTabsForAction("Modifikovat autorizaci")
 
@@ -7622,9 +7709,6 @@ if form.authorizationType in ["ACP"] then
 	tabs.Tab03celniUrady.isVisible = true
 	tabs.Tab05rozsirene.isVisible = true
 endIf
-form.isEditOn = true
-form.formState.visibilities.showHistorySesctions = false
-form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7655,13 +7739,11 @@ var tabs = form.components.tabsMenu
  tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 
 form.actions.initTabMenu()
+form.actions.prepareFormForEdit()
 form.actions.prepareTabsForAction("Odejmout žádost")
 
 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 tabs.SelectedTab = 11
-form.isEditOn = true
-form.formState.visibilities.showHistorySesctions = false
-form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7692,13 +7774,11 @@ var tabs = form.components.tabsMenu
  tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 
 form.actions.initTabMenu()
+form.actions.prepareFormForEdit()
 form.actions.prepareTabsForAction("Modifikovat odnětí" )
 
 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 tabs.SelectedTab = 11
-form.isEditOn = true
-form.formState.visibilities.showHistorySesctions = false
-form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7730,12 +7810,10 @@ var tabs = form.components.tabsMenu
 
 form.actions.initTabMenu()
 form.actions.prepareTabsForAction("Pozastavit")
+form.actions.prepareFormForEdit()
 
 form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible = True
 form.components.tabsMenu.SelectedTab = 12
-form.isEditOn = true
-form.formState.visibilities.showHistorySesctions = false
-form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7766,13 +7844,11 @@ var tabs = form.components.tabsMenu
  tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 
 form.actions.initTabMenu()
+form.actions.prepareFormForEdit()
 form.actions.prepareTabsForAction("Upravit pozastavení")
 
 form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible = True
 form.components.tabsMenu.SelectedTab = 12
-form.isEditOn = true
-form.formState.visibilities.showHistorySesctions = false
-form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7803,13 +7879,11 @@ var tabs = form.components.tabsMenu
  tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 
 form.actions.initTabMenu()
+form.actions.prepareFormForEdit()
 form.actions.prepareTabsForAction("Zrušit žádost")
 
 form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 form.components.tabsMenu.SelectedTab = 11
-form.isEditOn = true
-form.formState.visibilities.showHistorySesctions = false
-form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7840,13 +7914,11 @@ var tabs = form.components.tabsMenu
  tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 
 form.actions.initTabMenu()
+form.actions.prepareFormForEdit()
 form.actions.prepareTabsForAction("Modifikovat zrušení")
 
 form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 form.components.tabsMenu.SelectedTab = 11
-form.isEditOn = true
-form.formState.visibilities.showHistorySesctions = false
-form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7879,9 +7951,7 @@ var tabs = form.components.tabsMenu
 
 form.actions.initTabMenu()
 form.actions.prepareTabsForAction("Odstranit budoucí změnu")
-form.isEditOn = true
-form.formState.visibilities.showHistorySesctions = false
-form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
+form.actions.prepareFormForEdit()
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -7961,6 +8031,100 @@ forEach annexItem in form.model.sekce5prilohy.newFilesCollection.File do
 endFor
 
 form.model.sekce5prilohy.newFilesCollection.File.clear()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="loadDataFromRegister" />
+      <Category value="lifeCyclePostingSetUp" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+form.requests.requestCRS.HodnotaIdentifikatoru = form.model.modelStructure.ASEO.TIN
+form.requests.requestCRS.KodTypuIdentifikatoru = "EORI"
+form.requests.requestCRS.JenUrcujiciIdentifikator = false
+form.requests.requestCRS.ZiskatAdresy = false
+form.requests.requestCRS.ZiskatIdentifikatory = true
+form.requests.requestCRS.ZiskatNespravneUdaje = false
+form.requests.requestCRS.ZiskatZpochybneneUdaje = false
+form.requests.requestCRS.ZiskatProvozovny = false
+form.requests.requestCRS.ZeZakladnichRegistru = true
+form.requests.requestCRS.KodEvidence = "ASEO"
+form.requests.requestCRS.KodAgendoveRole = "CR328"
+form.requests.requestCRS.KodUtvaru = form.model.modelStructure.ASEO.Event.DecidingCustomsOffice
+form.requests.requestCRS.Uzivatel = globals.OverenyUzivatel.userName
+//form.requests.requestCRS.IP = "172.20.43.235"
+form.requests.requestCRS.IP = "172.0.0.1"
+form.requests.requestCRS.Duvod = "Vydávání povolení v ASEO"
+
+var response = apiobjects.ServerKomunikace.postAsync("SubjektPodleIdentifikatoruRequestCIC", form.requests.requestCRS.toJson())
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+	apiobjects.notificationsCtrl.addError("Došlo k chybě při komunikaci s Centrem.")
+
+else
+	var jsonData = response.getJsonString()
+	form.requests.responseCRS.fromJson(jsonData) 
+		
+	if form.requests.responseCRS.Subjekty.isEmpty() then
+		
+		form.requests.responseCRS.fromJson(response.getJsonString())
+	
+		var warningMessage = "Nepodařilo se najít žádné odpovídající subjekty."
+		
+		if form.requests.responseCRS.PopisChyby.hasValue() then
+			warningMessage = warningMessage + "Kód Chyby: \"" + form.requests.responseCRS.PopisChyby + "\""
+		endIf
+		
+		if form.requests.responseCRS.KodChyby.hasValue() then
+			warningMessage = warningMessage + "Popis chyby \"" +form.requests.responseCRS.KodChyby + "\""
+		endIf
+		
+		apiobjects.notificationsCtrl.addWarning(warningMessage)
+	else
+		
+	var mainCol = form.requests.responseCRS.Subjekty.selectFirst()
+	if not mainCol.Subjekt.isEmpty() then
+		var innerCol = mainCol.Subjekt.selectFirst()
+			if not innerCol.SloucenaAdresa.isEmpty() then
+				var targetCol = innerCol.SloucenaAdresa.selectFirst()
+					form.model.modelStructure.ASEO.Event.OperatorName = targetCol.PlnyNazev
+					form.model.modelStructure.ASEO.Event.OperatorStreetAndNr = targetCol.UliceACislo
+					form.model.modelStructure.ASEO.Event.OperatorCity = targetCol.Mesto
+					form.model.modelStructure.ASEO.Event.OperatorPostCode = targetCol.PSC
+					form.model.modelStructure.ASEO.Event.OperatorCountry = targetCol.Zeme
+					//apiobjects.notificationsCtrl.addSuccess("Podařilo se získat data z CRS.")
+			else
+				apiobjects.notificationsCtrl.addError("Došlo k chybě načítání dat.")
+			endIf
+		else
+			apiobjects.notificationsCtrl.addError("Došlo k chybě načítání dat.")
+		endIf	
+		
+	endIf
+endIf
+
+form.requests.requestCRS.clear()
+form.requests.responseCRS.clear()
+
+globals.IsBusy = False
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="prepareFormForEdit" />
+      <Category value="lifeCyclePostingSetUp" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.isEditOn = true
+form.formState.visibilities.showHistorySesctions = false
+form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
+form.actions.loadDataFromRegister()
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
