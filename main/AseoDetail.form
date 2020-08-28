@@ -586,17 +586,53 @@
                   <Orientation value="Horizontal" />
                   <Children>
                     <Label>
-                      <Name value="label_confirmAction" />
+                      <Name value="label_actionName1" />
+                      <Data value="Chcete provézt následující akci:" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="350px" />
+                      <Panel.Width value="200px" />
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="font1rem085" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                    <Label>
+                      <Name value="label_actionName2" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="120px" />
                       <Bindings>
-                        <Binding SourceProperty="Data" Expression="formState.lifeCycle.actionConfirm.computed_actionName" />
+                        <Binding SourceProperty="Data" Expression="formState.lifeCycle.actionConfirm.actionName" />
                         <Binding SourceProperty="IsVisible" Expression="form.formState.lifeCycle.canClickBtn" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-label" />
                           <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="liveFontColor" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="font1rem085" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                    <Label>
+                      <Name value="label_actionName3" />
+                      <Data value="?" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="30px" />
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="font1rem085" />
                         </CssClassConditional>
                       </CssClass>
                     </Label>
@@ -619,6 +655,9 @@
                         <CssClassConditional>
                           <ClassName value="greenBtn" />
                         </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="font1rem085" />
+                        </CssClassConditional>
                       </CssClass>
                     </Button>
                     <Button>
@@ -639,6 +678,9 @@
                         </CssClassConditional>
                         <CssClassConditional>
                           <ClassName value="btnSecondary" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="font1rem085" />
                         </CssClassConditional>
                       </CssClass>
                     </Button>
@@ -1482,23 +1524,6 @@
                                 </CssClassConditional>
                               </CssClass>
                             </TextBox>
-                            <TextBox>
-                              <Name value="textBox18" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="33.33%" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.EventType.Description" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.EventType.Description.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.EventType.Description.caption()" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </TextBox>
                             <DatePicker>
                               <Name value="datePicker_evidenceDate" />
                               <Caption value="Datum Evidence" />
@@ -1516,6 +1541,24 @@
                                 </CssClassConditional>
                               </CssClass>
                             </DatePicker>
+                            <TextBox>
+                              <Name value="textBox18" />
+                              <IsEnabled value="False" />
+                              <IsVisible value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="33.33%" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.EventType.Description" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.EventType.Description.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.EventType.Description.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
                           </Children>
                           <CssClass>
                             <CssClassConditional>
@@ -4047,6 +4090,7 @@
                     <Reference>
                       <Name value="authorizationSuspendingReasonReference" />
                       <Caption value="Upravit Důvod pozastavení povolení" />
+                      <IsRequired value="True" />
                       <Children>
                         <Attribute>
                           <Name value="authorizationSuspendingReason" />
@@ -6319,7 +6363,11 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
-form.actions.loadAseoData(form.GUID, form.VersionGUID)
+var reloadAction = system.confirm("Chcete opět načíst detail povolení?")
+
+if reloadAction then
+	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+endIf
 
 globals.IsBusy = False
 ]]></Script>
@@ -6482,6 +6530,17 @@ if messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification"] then
 	aseoMegaMessage.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage()
 	aseoMegaMessage.ASEO.Event.GoodsList.GoodsListType = false
+	
+	if aseoMegaMessage.ASEO.Event.Authorization.hasValue() then
+	
+		if aseoMegaMessage.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.isEmpty() then
+			aseoMegaMessage.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified = false
+		endIf
+		if aseoMegaMessage.ASEO.Event.Authorization.LimitedAuthorizationValidity.isEmpty() then
+			aseoMegaMessage.ASEO.Event.Authorization.LimitedAuthorizationValidity = false
+		endIf
+
+	endIf
 	
 	var stateCode = form.formState.lifeCycle.stateCode
 	if stateCode in ["AUC","AUS","AUW"] then
