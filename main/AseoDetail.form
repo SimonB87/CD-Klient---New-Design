@@ -878,6 +878,9 @@
           <Orientation value="Horizontal" />
           <Panel.Height value="#" />
           <Panel.Width value="42px" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="formState.visibilities.showHistorySesctions" />
+          </Bindings>
           <Children>
             <Label>
               <Name value="label71" />
@@ -1269,7 +1272,7 @@
                       <Name value="tabPrehodnoceni" />
                       <Bindings>
                         <Binding SourceProperty="Title" Expression="components.tabsMenu.Tab07prehodnoceni.Title" />
-                        <Binding SourceProperty="Visible" Expression="components.tabsMenu.Tab07prehodnoceni.isVisible" />
+                        <Binding SourceProperty="Visible" Expression="not form.isEditOn" />
                       </Bindings>
                     </tab>
                     <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
@@ -5000,6 +5003,15 @@
                     </ResultType>
                   </Expression>
                 </Computed>
+                <Attribute>
+                  <Name value="showHistorySesctions" />
+                  <Caption value="Show history sesctions" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
               </Children>
             </Complex>
             <Attribute>
@@ -5970,6 +5982,7 @@ form.model.modelStructure.ASEO.Event.ValidityStartDate = getDateTime()
 form.model.modelStructure.ASEO.Event.ValidityStartDate = addHours(form.model.modelStructure.ASEO.Event.ValidityStartDate, 1)
 form.formState.header.prefixCZ = "CZ"
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+form.formState.visibilities.showHistorySesctions = true
 
 var dataCustomCodelist = "[{\"authorizationSuspendingReason\":\"J\", \"description\":  \"Pozastavení povolení z jiného důvodu\"}]"
 form.apiobjects.authorizationSuspendingReasonCodelist.fillFromJson(dataCustomCodelist)
@@ -6136,6 +6149,10 @@ var currentAnnex = form.model.modelStructure.ASEO.Event.File.count()
 var newAnnex = form.model.sekce5prilohy.newFilesCollection.File.count()
 form.components.tabsMenu.Tab06prilohy.Title = "Text a přílohy (" + toString(currentAnnex + newAnnex) + ")"
 
+if form.isLastVersionSelected = false then
+	form.isEditOn = false
+endIf
+
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -6155,13 +6172,15 @@ globals.IsBusy = False]]></Script>
     <ActionBlock>
       <Name value="checkIfLastVersionIsLoaded" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var currentEvent = form.model.modelStructure.ASEO.EventHistory.selectFirst()
-var currentEventGuid = currentEvent.GUID
-
-if (currentEventGuid = form.VersionGUID) then
-	form.isLastVersionSelected = True
-else
-	form.isLastVersionSelected = False
+        <Script><![CDATA[if form.model.modelStructure.ASEO.EventHistory.exists(current.hasValue()) then
+	var currentEvent = form.model.modelStructure.ASEO.EventHistory.selectFirst()
+	var currentEventGuid = currentEvent.GUID
+	
+	if (currentEventGuid = form.VersionGUID) then
+		form.isLastVersionSelected = True
+	else
+		form.isLastVersionSelected = False
+	endIf
 endIf]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -6512,6 +6531,8 @@ var reloadAction = system.confirm("Chcete opět načíst detail povolení?")
 if reloadAction then
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
+
+form.formState.visibilities.showHistorySesctions = true
 
 globals.IsBusy = False
 ]]></Script>
@@ -7417,7 +7438,9 @@ form.formState.lifeCycle.actionConfirm.actionName = actionName]]></Script>
       <Name value="handler_send_ASEOSPApplicationModification_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var tabs = form.components.tabsMenu
+        <Script><![CDATA[if form.isLastVersionSelected = true then
+
+var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
  tabs.Tab03celniUrady.isVisible = false
@@ -7434,7 +7457,11 @@ form.formState.lifeCycle.actionConfirm.actionName = actionName]]></Script>
 form.actions.initTabMenu()
 form.actions.prepareTabsForAction("Modifikovat žádost")
 form.isEditOn = true
-]]></Script>
+form.formState.visibilities.showHistorySesctions = false
+
+else
+	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -7444,7 +7471,9 @@ form.isEditOn = true
       <Name value="handler_send_ASEOSPApplicationRejection_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var tabs = form.components.tabsMenu
+        <Script><![CDATA[if form.isLastVersionSelected = true then
+
+var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
  tabs.Tab03celniUrady.isVisible = false
@@ -7464,7 +7493,11 @@ form.actions.prepareTabsForAction("Zamítnout žádost")
 form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
 form.components.tabsMenu.SelectedTab = 10
 form.isEditOn = true
-]]></Script>
+form.formState.visibilities.showHistorySesctions = false
+
+else
+	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -7474,7 +7507,9 @@ form.isEditOn = true
       <Name value="handler_send_ASEOSPApplicationRejectionModification_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var tabs = form.components.tabsMenu
+        <Script><![CDATA[if form.isLastVersionSelected = true then
+
+var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
  tabs.Tab03celniUrady.isVisible = false
@@ -7494,7 +7529,11 @@ form.actions.prepareTabsForAction("Modifikace zamítnutí" )
 form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
 form.components.tabsMenu.SelectedTab = 10
 form.isEditOn = true
-]]></Script>
+form.formState.visibilities.showHistorySesctions = false
+
+else
+	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -7504,7 +7543,9 @@ form.isEditOn = true
       <Name value="handler_send_ASEOSPAuthorization_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var tabs = form.components.tabsMenu
+        <Script><![CDATA[if form.isLastVersionSelected = true then
+
+var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
  tabs.Tab03celniUrady.isVisible = false
@@ -7533,6 +7574,11 @@ endIf
 
 form.actions.setDateAuthorisation()
 form.isEditOn = true
+form.formState.visibilities.showHistorySesctions = false
+
+else
+	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
+endIf
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -7543,7 +7589,9 @@ form.isEditOn = true
       <Name value="handler_send_ASEOSPAuthorizationModification_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var tabs = form.components.tabsMenu
+        <Script><![CDATA[if form.isLastVersionSelected = true then
+
+var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
  tabs.Tab03celniUrady.isVisible = false
@@ -7570,7 +7618,11 @@ if form.authorizationType in ["ACP"] then
 	tabs.Tab05rozsirene.isVisible = true
 endIf
 form.isEditOn = true
-]]></Script>
+form.formState.visibilities.showHistorySesctions = false
+
+else
+	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -7580,7 +7632,9 @@ form.isEditOn = true
       <Name value="handler_send_ASEOSPAuthorizationWithdrawal_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var tabs = form.components.tabsMenu
+        <Script><![CDATA[if form.isLastVersionSelected = true then
+
+var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
  tabs.Tab03celniUrady.isVisible = false
@@ -7600,7 +7654,11 @@ form.actions.prepareTabsForAction("Odejmout žádost")
 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 tabs.SelectedTab = 11
 form.isEditOn = true
-]]></Script>
+form.formState.visibilities.showHistorySesctions = false
+
+else
+	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -7610,7 +7668,9 @@ form.isEditOn = true
       <Name value="handler_send_ASEOSPAuthorizationWithdrawalModification_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var tabs = form.components.tabsMenu
+        <Script><![CDATA[if form.isLastVersionSelected = true then
+
+var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
  tabs.Tab03celniUrady.isVisible = false
@@ -7630,7 +7690,11 @@ form.actions.prepareTabsForAction("Modifikovat odnětí" )
 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 tabs.SelectedTab = 11
 form.isEditOn = true
-]]></Script>
+form.formState.visibilities.showHistorySesctions = false
+
+else
+	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -7640,7 +7704,9 @@ form.isEditOn = true
       <Name value="handler_send_ASEOSPAuthorizationSuspending_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var tabs = form.components.tabsMenu
+        <Script><![CDATA[if form.isLastVersionSelected = true then
+
+var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
  tabs.Tab03celniUrady.isVisible = false
@@ -7660,7 +7726,11 @@ form.actions.prepareTabsForAction("Pozastavit")
 form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible = True
 form.components.tabsMenu.SelectedTab = 12
 form.isEditOn = true
-]]></Script>
+form.formState.visibilities.showHistorySesctions = false
+
+else
+	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -7670,7 +7740,9 @@ form.isEditOn = true
       <Name value="handler_send_ASEOSPAuthorizationSuspendingModification_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var tabs = form.components.tabsMenu
+        <Script><![CDATA[if form.isLastVersionSelected = true then
+
+var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
  tabs.Tab03celniUrady.isVisible = false
@@ -7690,7 +7762,11 @@ form.actions.prepareTabsForAction("Upravit pozastavení")
 form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible = True
 form.components.tabsMenu.SelectedTab = 12
 form.isEditOn = true
-]]></Script>
+form.formState.visibilities.showHistorySesctions = false
+
+else
+	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -7700,7 +7776,9 @@ form.isEditOn = true
       <Name value="handler_send_ASEOSPAuthorizationCancellation_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var tabs = form.components.tabsMenu
+        <Script><![CDATA[if form.isLastVersionSelected = true then
+
+var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
  tabs.Tab03celniUrady.isVisible = false
@@ -7720,7 +7798,11 @@ form.actions.prepareTabsForAction("Zrušit žádost")
 form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 form.components.tabsMenu.SelectedTab = 11
 form.isEditOn = true
-]]></Script>
+form.formState.visibilities.showHistorySesctions = false
+
+else
+	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -7730,7 +7812,9 @@ form.isEditOn = true
       <Name value="handler_send_ASEOSPAuthorizationCancellationModification_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var tabs = form.components.tabsMenu
+        <Script><![CDATA[if form.isLastVersionSelected = true then
+
+var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
  tabs.Tab03celniUrady.isVisible = false
@@ -7750,6 +7834,11 @@ form.actions.prepareTabsForAction("Modifikovat zrušení")
 form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 form.components.tabsMenu.SelectedTab = 11
 form.isEditOn = true
+form.formState.visibilities.showHistorySesctions = false
+
+else
+	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
+endIf
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -7760,7 +7849,9 @@ form.isEditOn = true
       <Name value="handler_send_ASEOFutureRemoval_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var tabs = form.components.tabsMenu
+        <Script><![CDATA[if form.isLastVersionSelected = true then
+
+var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
  tabs.Tab03celniUrady.isVisible = false
@@ -7777,6 +7868,11 @@ form.isEditOn = true
 form.actions.initTabMenu()
 form.actions.prepareTabsForAction("Odstranit budoucí změnu")
 form.isEditOn = true
+form.formState.visibilities.showHistorySesctions = false
+
+else
+	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
+endIf
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -7787,7 +7883,9 @@ form.isEditOn = true
       <Name value="handler_buttonActionCancel_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var tabs = form.components.tabsMenu
+        <Script><![CDATA[globals.IsBusy = True
+
+var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
  tabs.Tab03celniUrady.isVisible = false
@@ -7809,7 +7907,8 @@ form.components.tabsMenu.SelectedTab = 1
 
 form.VersionGUID.clear()//test check
 form.actions.loadAseoData(form.GUID)
-]]></Script>
+form.formState.visibilities.showHistorySesctions = true
+globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
