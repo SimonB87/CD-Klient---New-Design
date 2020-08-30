@@ -24,12 +24,12 @@
               <Children>
                 <TextBox>
                   <Name value="textBox2" />
+                  <IsEnabled value="False" />
                   <Panel.Height value="#" />
                   <Panel.Width value="33.33%" />
                   <Bindings>
                     <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.TIN" />
                     <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.TIN.caption()" />
-                    <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -7665,8 +7665,6 @@ if form.authorizationType in ["ACP"] then
 	tabs.Tab05rozsirene.isVisible = true
 endIf
 
-form.actions.setDateAuthorisation()
-
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
 endIf
@@ -8120,11 +8118,12 @@ globals.IsBusy = False
       <Name value="prepareFormForEdit" />
       <Category value="lifeCyclePostingSetUp" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.isEditOn = true
+        <Script><![CDATA[form.error.serverValidationErrors.clear()
+form.isEditOn = true
 form.formState.visibilities.showHistorySesctions = false
 form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 form.actions.loadDataFromRegister()
-]]></Script>
+form.actions.setDateAuthorisation()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
