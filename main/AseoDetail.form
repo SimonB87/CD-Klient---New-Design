@@ -3632,7 +3632,7 @@
                               <Panel.Width value="*" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.applicationRejection.applicationRejection_requiredDescription" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.applicationRejection.requiredMarkAR" />
                                 <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
@@ -3759,7 +3759,7 @@
                               <Panel.Width value="*" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.authorizationWithdrawal.authorizationWithdrawal_requiredDescription" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.authorizationWithdrawal.requiredMarkAW" />
                                 <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
@@ -3886,7 +3886,7 @@
                               <Panel.Width value="*" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.authorizationSuspending.authorizationSuspending__requiredDescription" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.authorizationSuspending.requiredMarkAS" />
                                 <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
@@ -4051,15 +4051,16 @@
                         </Computed>
                       </Children>
                     </Reference>
-                    <Attribute>
-                      <Name value="applicationRejection_requiredDescription" />
-                      <Caption value="Application rejection _ required description" />
-                      <DeclaredType>
-                        <AttributeType>
+                    <Computed>
+                      <Name value="requiredMarkAR" />
+                      <Caption value="Required mark AR" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[this.ZADUZAM.ZADUZAM = "J" ? true : false]]></ExpressionText>
+                        <ResultType>
                           <BaseType value="Bool" />
-                        </AttributeType>
-                      </DeclaredType>
-                    </Attribute>
+                        </ResultType>
+                      </Expression>
+                    </Computed>
                   </Children>
                 </Complex>
                 <Complex>
@@ -4097,15 +4098,16 @@
                         </Computed>
                       </Children>
                     </Reference>
-                    <Attribute>
-                      <Name value="authorizationWithdrawal_requiredDescription" />
-                      <Caption value="Authorization withdrawal _ required description" />
-                      <DeclaredType>
-                        <AttributeType>
+                    <Computed>
+                      <Name value="requiredMarkAW" />
+                      <Caption value="Required mark AW" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[this.POVOLDUOD.POVOLDUOD = "J" ? true : false]]></ExpressionText>
+                        <ResultType>
                           <BaseType value="Bool" />
-                        </AttributeType>
-                      </DeclaredType>
-                    </Attribute>
+                        </ResultType>
+                      </Expression>
+                    </Computed>
                   </Children>
                 </Complex>
                 <Complex>
@@ -4143,15 +4145,16 @@
                         </Computed>
                       </Children>
                     </Reference>
-                    <Attribute>
-                      <Name value="authorizationSuspending__requiredDescription" />
-                      <Caption value="Authorization suspending __ required description" />
-                      <DeclaredType>
-                        <AttributeType>
+                    <Computed>
+                      <Name value="requiredMarkAS" />
+                      <Caption value="Required mark AS" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[this.authorizationSuspendingReasonReference.authorizationSuspendingReason = "J" ? true : false]]></ExpressionText>
+                        <ResultType>
                           <BaseType value="Bool" />
-                        </AttributeType>
-                      </DeclaredType>
-                    </Attribute>
+                        </ResultType>
+                      </Expression>
+                    </Computed>
                   </Children>
                 </Complex>
               </Children>
@@ -7702,7 +7705,8 @@ form.actions.initTabMenu()
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
-endIf]]></Script>
+endIf
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -8117,7 +8121,7 @@ endIf
     <ActionBlock>
       <Name value="handler_buttonActionCancel_OnClick" />
       <IsPrivate value="True" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
 var tabs = form.components.tabsMenu
@@ -8142,7 +8146,6 @@ form.components.tabsMenu.SelectedTab = 1
 
 form.VersionGUID.clear()//test check
 form.actions.loadAseoData(form.GUID)
-form.actions.resetRejectionReasonRequirements()
 
 form.formState.visibilities.showHistorySesctions = true
 form.components.tabsMenu.Tab07prehodnoceni.isVisible = True
@@ -8318,20 +8321,24 @@ form.model.modelStructure.ASEO.Event.ValidityStartDate = addHours(form.model.mod
     <ActionBlock>
       <Name value="checkReasonCodeTypeJ" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var lcPath = form.model.lifeCycleSupport
+        <Script><![CDATA[var lcPath = form.requests.ASEOmegaMessage.ASEO.Event
+var modelData = form.model.lifeCycleSupport
 result = defaultBool()
 
 result = true
 
-if lcPath.applicationRejection.ZADUZAM.ZADUZAM = "J" then
-	lcPath.applicationRejection.applicationRejection_requiredDescription = true
-	result = false
-else if lcPath.authorizationWithdrawal.POVOLDUOD.POVOLDUOD = "J" then
-	lcPath.authorizationWithdrawal.authorizationWithdrawal_requiredDescription = true
-	result = false
-else if lcPath.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason = "J" then
-	lcPath.authorizationSuspending.authorizationSuspending__requiredDescription = true
-	result = false
+if 	( (lcPath.applicationRejection.ApplicationRejectionReason = "J" )
+	and ( not lcPath.ApplicationRejection.ApplicationRejectionDescription.hasValue() ) )
+	then
+			result = false
+else if  ( (lcPath.AuthorizationWithdrawal.AuthorizationWithdrawalReason = "J") 
+	and ( not lcPath.AuthorizationWithdrawal.AuthorizationWithdrawalDescription.hasValue() ) )
+	then
+			result = false
+else if ( (lcPath.AuthorizationSuspending.AuthorizationSuspendingReason = "J" )
+	and ( not lcPath.AuthorizationSuspending.AuthorizationSuspendingDescription.hasValue() ) )
+	then
+			result = false
 endIf endIf endIf
 ]]></Script>
       </ActionLangBody>
@@ -8350,23 +8357,6 @@ endIf endIf endIf
             </Attribute>
           </Children>
         </ActionDataContext>
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="resetRejectionReasonRequirements" />
-      <Description value="reset required marks in case previous reason was code type J" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var lcPath = form.model.lifeCycleSupport
-
-lcPath.applicationRejection.applicationRejection_requiredDescription = defaultBool()
-
-lcPath.authorizationWithdrawal.authorizationWithdrawal_requiredDescription = defaultBool()
-
-lcPath.authorizationSuspending.authorizationSuspending__requiredDescription = defaultBool()
-]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>
