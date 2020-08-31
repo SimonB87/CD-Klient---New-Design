@@ -475,7 +475,7 @@
                       </OnClick>
                       <Bindings>
                         <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                        <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCode_notAUS" />
+                        <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.futureChangeWillHappen" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -1222,6 +1222,9 @@
                   <Panel.Height value="#" />
                   <Panel.VerticalAlignment value="Bottom" />
                   <Panel.Width value="*" />
+                  <OnTabClick>
+                    <ActionEvent ReferencedAction="~handler_tabs_OnTabClick" />
+                  </OnTabClick>
                   <Bindings>
                     <Binding SourceProperty="SelectedTab" Expression="components.tabsMenu.SelectedTab" />
                   </Bindings>
@@ -5283,6 +5286,16 @@ false]]></ExpressionText>
                         </ResultType>
                       </Expression>
                     </Computed>
+                    <Computed>
+                      <Name value="futureChangeWillHappen" />
+                      <Caption value="Future change will happen" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.formState.original_validityStartDate > this.owner().owner().currentDateTime ? true : false]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
                   </Children>
                 </Complex>
                 <Computed>
@@ -5399,6 +5412,15 @@ false]]></ExpressionText>
             <Attribute>
               <Name value="original_validityStartDate" />
               <Caption value="Original _ validity start date" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="DateTime" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="currentDateTime" />
+              <Caption value="Current date time" />
               <DeclaredType>
                 <AttributeType>
                   <BaseType value="DateTime" />
@@ -6081,7 +6103,7 @@ false]]></ExpressionText>
   <Actions>
     <ActionBlock>
       <Name value="init" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = true
 
 form.formState.notifications.operationResultMessage.clear()
@@ -6103,14 +6125,14 @@ endIf
 
 //variable preparation
 form.formState.original_validityStartDate = form.model.modelStructure.ASEO.Event.ValidityStartDate //save this for GUI to display
-form.model.modelStructure.ASEO.Event.ValidityStartDate = getDateTime()
-form.model.modelStructure.ASEO.Event.ValidityStartDate = addHours(form.model.modelStructure.ASEO.Event.ValidityStartDate, 1)
+form.actions.editValidityStartDate()
 form.formState.header.prefixCZ = "CZ"
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 form.formState.visibilities.showHistorySesctions = true
 
 var dataCustomCodelist = "[{\"authorizationSuspendingReason\":\"J\", \"description\":  \"Pozastavení povolení z jiného důvodu\"}]"
 form.apiobjects.authorizationSuspendingReasonCodelist.fillFromJson(dataCustomCodelist)
+form.formState.currentDateTime = getDateTime()
 
 //test
 //globals.OverenyUzivatel.hasRoleWrite = false
@@ -6289,7 +6311,8 @@ globals.IsBusy = False]]></Script>
       <Name value="handler_versionHistoryToggle_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.formState.visibilities.showVersionHistory = not form.formState.visibilities.showVersionHistory]]></Script>
+        <Script><![CDATA[form.formState.visibilities.showVersionHistory = not form.formState.visibilities.showVersionHistory
+form.formState.currentDateTime = getDateTime()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -6628,6 +6651,7 @@ endIf
 
 form.formState.visibilities.showHistorySesctions = true
 form.components.tabsMenu.Tab07prehodnoceni.isVisible = true
+form.formState.currentDateTime = getDateTime()
 
 globals.IsBusy = False
 ]]></Script>
@@ -7031,7 +7055,8 @@ globals.IsBusy = False]]></Script>
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.formState.notifications.operationResultMessage.clear()
-form.formState.notifications.visibleNoticeWindow = false]]></Script>
+form.formState.notifications.visibleNoticeWindow = false
+form.formState.currentDateTime = getDateTime()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -8123,7 +8148,34 @@ form.isEditOn = true
 form.formState.visibilities.showHistorySesctions = false
 form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 form.actions.loadDataFromRegister()
-form.actions.setDateAuthorisation()]]></Script>
+form.actions.setDateAuthorisation()
+form.formState.currentDateTime = getDateTime()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_tabs_OnTabClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//get current date time
+form.formState.currentDateTime = getDateTime()
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="editValidityStartDate" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//get porevious original validity start date for Remove Future Event Button Visibility
+form.formState.original_validityStartDate = form.model.modelStructure.ASEO.LastEventValidityStartDate
+//Update ValidityStartDate and add 1 Hour
+form.model.modelStructure.ASEO.Event.ValidityStartDate = getDateTime()
+form.model.modelStructure.ASEO.Event.ValidityStartDate = addHours(form.model.modelStructure.ASEO.Event.ValidityStartDate, 1)
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
