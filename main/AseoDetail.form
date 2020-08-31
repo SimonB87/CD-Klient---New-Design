@@ -646,7 +646,7 @@
                         <ActionEvent ReferencedAction="~sendLifeCycleMessage" />
                       </OnClick>
                       <Bindings>
-                        <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
+                        <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -670,7 +670,7 @@
                         <ActionEvent ReferencedAction="~handler_buttonActionCancel_OnClick" />
                       </OnClick>
                       <Bindings>
-                        <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
+                        <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -3632,7 +3632,7 @@
                               <Panel.Width value="*" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription.isRequired()" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.applicationRejection.applicationRejection_requiredDescription" />
                                 <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
@@ -3759,7 +3759,7 @@
                               <Panel.Width value="*" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription.isRequired()" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.authorizationWithdrawal.authorizationWithdrawal_requiredDescription" />
                                 <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
@@ -3886,7 +3886,7 @@
                               <Panel.Width value="*" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription.isRequired()" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.authorizationSuspending.authorizationSuspending__requiredDescription" />
                                 <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
@@ -4051,6 +4051,15 @@
                         </Computed>
                       </Children>
                     </Reference>
+                    <Attribute>
+                      <Name value="applicationRejection_requiredDescription" />
+                      <Caption value="Application rejection _ required description" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
                   </Children>
                 </Complex>
                 <Complex>
@@ -4088,6 +4097,15 @@
                         </Computed>
                       </Children>
                     </Reference>
+                    <Attribute>
+                      <Name value="authorizationWithdrawal_requiredDescription" />
+                      <Caption value="Authorization withdrawal _ required description" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
                   </Children>
                 </Complex>
                 <Complex>
@@ -4125,6 +4143,15 @@
                         </Computed>
                       </Children>
                     </Reference>
+                    <Attribute>
+                      <Name value="authorizationSuspending__requiredDescription" />
+                      <Caption value="Authorization suspending __ required description" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
                   </Children>
                 </Complex>
               </Children>
@@ -5290,7 +5317,7 @@ false]]></ExpressionText>
                       <Name value="futureChangeWillHappen" />
                       <Caption value="Future change will happen" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[form.formState.original_validityStartDate > this.owner().owner().currentDateTime ? true : false]]></ExpressionText>
+                        <ExpressionText><![CDATA[form.model.modelStructure.ASEO.LastEventValidityStartDate > this.owner().owner().currentDateTime ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5424,6 +5451,15 @@ false]]></ExpressionText>
               <DeclaredType>
                 <AttributeType>
                   <BaseType value="DateTime" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="loadingVersion" />
+              <Caption value="Loading version" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
                 </AttributeType>
               </DeclaredType>
             </Attribute>
@@ -6150,6 +6186,10 @@ globals.IsBusy = false]]></Script>
         <Script><![CDATA[form.requests.initReq.ASEO.GUID = decisionGuid
 form.requests.initReq.ASEO.Event.GUID = decisionVersionGuid
 
+if decisionVersionGuid = defaultString() then
+	form.requests.initReq.ASEO.Event.GUID = defaultString()
+endIf
+
 var resp = apiobjects.ServerKomunikace.postAsync("ASEOSPDataRequestEx", form.requests.initReq.toJson(true))
   
 if resp.isError() or (resp.getMessageType() = "IN906A") then
@@ -6171,10 +6211,13 @@ else
 		form.VersionGUID = form.model.modelStructure.ASEO.Event.GUID
 	endIf
 
+	form.actions.getStateCode()
 	form.isEditOn = false
-
+	
 endIf
-]]></Script>
+
+
+form.formState.currentDateTime = getDateTime()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -6267,7 +6310,8 @@ endIf]]></Script>
 form.apiobjects.eventTypeEnum.startLoadingData(getDateTime())
 //custom codelist for SuspendingReason
 var dataCustomCodelist = "[{\"authorizationSuspendingReason\":\"J\", \"description\":  \"Pozastavení povolení z jiného důvodu\"}]"
-form.apiobjects.authorizationSuspendingReasonCodelist.fillFromJson(dataCustomCodelist)]]></Script>
+form.apiobjects.authorizationSuspendingReasonCodelist.fillFromJson(dataCustomCodelist)
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -6322,6 +6366,7 @@ form.formState.currentDateTime = getDateTime()]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="checkIfLastVersionIsLoaded" />
+      <Category value="lifeCyclePostingSetUp" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.model.modelStructure.ASEO.EventHistory.exists(current.hasValue()) then
 	var currentEvent = form.model.modelStructure.ASEO.EventHistory.selectFirst()
@@ -6649,11 +6694,13 @@ var reloadAction = system.confirm("Chcete opět načíst detail povolení?")
 
 if reloadAction then
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+	form.actions.initTabMenu()
+	form.formState.visibilities.showHistorySesctions = true
+	form.components.tabsMenu.Tab07prehodnoceni.isVisible = true
+	form.formState.currentDateTime = getDateTime()
 endIf
 
-form.formState.visibilities.showHistorySesctions = true
-form.components.tabsMenu.Tab07prehodnoceni.isVisible = true
-form.formState.currentDateTime = getDateTime()
+
 
 globals.IsBusy = False
 ]]></Script>
@@ -6701,8 +6748,7 @@ if response.isError() then
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k autorizaci.", false)
-	//test check
-	form.VersionGUID.clear()//test check
+	form.VersionGUID = defaultString()
 	form.actions.loadAseoData(form.GUID)
 	responseResult = true
 endIf
@@ -6732,9 +6778,7 @@ endIf
 if  messageType in ["ASEOSPAuthorization", "ASEOSPAuthorizationModification","ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification", "ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification","ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationWithdrawalModification"]  then	
 	form.requests.ASEOmegaMessage.clear()
 	
-	if mainPostingMessageSuccess = false then
-		form.model.modelStructure.fromJson(form.formState.modelJson)
-	endIf
+	form.model.modelStructure.fromJson(form.formState.modelJson)
 	
 	form.formState.modelJson.clear()
 endIf
@@ -6742,12 +6786,15 @@ endIf
 if messageType in ["ASEOSPApplicationModification"] then
 	form.requests.applicationModification.clear()
 	
-	if mainPostingMessageSuccess = false then
-		form.model.modelStructure.fromJson(form.formState.modelJson)
-	endIf
+	form.model.modelStructure.fromJson(form.formState.modelJson)
 	
 	form.formState.modelJson.clear()
-endIf]]></Script>
+endIf
+
+form.isEditOn = globals.OverenyUzivatel.hasWritePermission
+form.formState.currentDateTime = getDateTime()
+form.formState.visibilities.showHistorySesctions = true
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -6903,7 +6950,7 @@ form.formState.notifications.clear()
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isEditOn = defaultBool() then
-	form.isEditOn = True
+	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 else
 	form.isEditOn = not form.isEditOn
 endIf
@@ -6951,7 +6998,7 @@ if response.isError() then
 	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 else
 	form.actions.showErorrNotificationMessage("Odstranění budoucí změny bylo úspěšně provedeno.", false)
-	form.VersionGUID.clear()
+	form.VersionGUID = defaultString()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 endIf
 
@@ -6979,27 +7026,36 @@ form.actions.validErr_clearPrevious()
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejection", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
 
-if response.isError() then
-	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohlo být zamítnutí uděleno.", true)
-	
-	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
-	
-	if not form.model.lifeCycleSupport.applicationRejection.hasValue() then
-		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zamítnuti žádosti\".", true)
+var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
+
+if checkNecessaryReason = true then
+
+	if response.isError() then
+		system.console(response.getErrorMessage())
+		form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohlo být zamítnutí uděleno.", true)
+		
+		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+		
+		if not form.model.lifeCycleSupport.applicationRejection.hasValue() then
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zamítnuti žádosti\".", true)
+		endIf
+		
+		form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(true)
+		responseResult = false
+	else
+		form.model.modelStructure.ASEO.clear()
+		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k zamítnutí žádosti.", false)
+		form.VersionGUID = defaultString()
+		form.actions.loadAseoData(form.GUID, form.VersionGUID)
+		responseResult = true
 	endIf
 	
-	form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(true)
-	responseResult = false
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+	
 else
-	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k zamítnutí žádosti.", false)
-	form.VersionGUID.clear()
-	form.actions.loadAseoData(form.GUID, form.VersionGUID)
-	responseResult = true
+	form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
+	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 endIf
-
-form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 
 form.actions.editDataAfterPosting("ASEOSPApplicationRejection", responseResult)
 
@@ -7022,27 +7078,36 @@ form.actions.validErr_clearPrevious()
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejectionModification", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
 
-if response.isError() then
-	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být modifikace zamítnutí udělena.", true)
+var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
-	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+if checkNecessaryReason = true then
+
+	if response.isError() then
+		system.console(response.getErrorMessage())
+		form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být modifikace zamítnutí udělena.", true)
 	
-	if not form.model.lifeCycleSupport.applicationRejection.hasValue() then
-		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zamítnuti žádosti\".", true)
+		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+		
+		if not form.model.lifeCycleSupport.applicationRejection.hasValue() then
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zamítnuti žádosti\".", true)
+		endIf
+		// setTouch so the user sees, what si missing from submission
+		form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(true)
+		responseResult = false
+	else
+		form.model.modelStructure.ASEO.clear()
+		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci zamítnutí.", false)
+		form.VersionGUID = defaultString()
+		form.actions.loadAseoData(form.GUID, form.VersionGUID)
+		responseResult = true
 	endIf
-	// setTouch so the user sees, what si missing from submission
-	form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(true)
-	responseResult = false
+	
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+	
 else
-	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci zamítnutí.", false)
-	form.VersionGUID.clear()
-	form.actions.loadAseoData(form.GUID, form.VersionGUID)
-	responseResult = true
+	form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
+	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 endIf
-
-form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 
 form.actions.editDataAfterPosting("ASEOSPApplicationRejectionModification", responseResult)
 
@@ -7079,32 +7144,42 @@ form.formState.visibilities.isValidationsVisible = False
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationWithdrawal", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
 
-if response.isError() then
-	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohlo být odnětí uděleno.", true)
+var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
+
+if checkNecessaryReason = true then
+
+	if response.isError() then
+		system.console(response.getErrorMessage())
+		form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohlo být odnětí uděleno.", true)
+		
+		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
-	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
-
-	if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
-		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
+		if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
+		endIf
+		// setTouch so the user sees, what si missing from submission
+		form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
+		form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
+	
+		if not form.requests.ASEOmegaMessage.ASEO.Event.AuthorizationWithdrawal.hasValue() then
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Odnětí\".", true)
+		endIf
+		// setTouch so the user sees, what si missing from submission
+		form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
+		responseResult = false
+	else
+		form.model.modelStructure.ASEO.clear()
+		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k odnětí.", false)
+		form.VersionGUID = defaultString()
+		form.actions.loadAseoData(form.GUID, form.VersionGUID)
+		responseResult = true
 	endIf
-	// setTouch so the user sees, what si missing from submission
-	form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
-	form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
 
-	if not form.requests.ASEOmegaMessage.ASEO.Event.AuthorizationWithdrawal.hasValue() then
-		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Odnětí\".", true)
-	endIf
-	// setTouch so the user sees, what si missing from submission
-	form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
-	responseResult = false
 else
-	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k odnětí.", false)
-	form.VersionGUID.clear()
-	form.actions.loadAseoData(form.GUID, form.VersionGUID)
-	responseResult = true
+	form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
+	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 endIf
+
 
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 
@@ -7130,38 +7205,47 @@ form.actions.validErr_clearPrevious()
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationSuspending", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
 
-if response.isError() then
-	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Žádost nemohla být předána k pozastavení.", true)
-	
-	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
-	var authorisation = form.model.modelStructure.ASEO.Event.Authorization
-	if not authorisation.hasValue() then
-		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
-	endIf
-	// setTouch so the user sees, what si missing from submission
-	authorisation.LimitedAuthorizationValidity.setTouched(true)
-	authorisation.ResponsiblePersonWantsToBeNotified.setTouched(true)
+if checkNecessaryReason = true then
+
+	if response.isError() then
+		system.console(response.getErrorMessage())
+		form.actions.showErorrNotificationMessage("Nastala chyba. Žádost nemohla být předána k pozastavení.", true)
+		
+		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
-	var suspendingPath = form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference
-	if not suspendingPath.authorizationSuspendingReason.hasValue() then
-		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Pozastavení\".", true)
+		var authorisation = form.model.modelStructure.ASEO.Event.Authorization
+		if not authorisation.hasValue() then
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
+		endIf
+		// setTouch so the user sees, what si missing from submission
+		authorisation.LimitedAuthorizationValidity.setTouched(true)
+		authorisation.ResponsiblePersonWantsToBeNotified.setTouched(true)
+		
+		var suspendingPath = form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference
+		if not suspendingPath.authorizationSuspendingReason.hasValue() then
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Pozastavení\".", true)
+		endIf
+		// setTouch so the user sees, what si missing from submission
+		suspendingPath.authorizationSuspendingReason.setTouched(true)
+		responseResult = false
+	else
+		form.model.modelStructure.ASEO.clear()
+		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k pozastavení.", false)
+		form.VersionGUID = defaultString()
+		form.actions.loadAseoData(form.GUID, form.VersionGUID)
+		responseResult = true
 	endIf
-	// setTouch so the user sees, what si missing from submission
-	suspendingPath.authorizationSuspendingReason.setTouched(true)
-	responseResult = false
+	
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+	
 else
-	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k pozastavení.", false)
-	form.VersionGUID.clear()
-	form.actions.loadAseoData(form.GUID, form.VersionGUID)
-	responseResult = true
+	form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
+	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 endIf
 
-form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
-
-form.actions.editDataAfterPosting("ASEOSPAuthorizationSuspending", responseResult)
+	form.actions.editDataAfterPosting("ASEOSPAuthorizationSuspending", responseResult)
 
 globals.IsBusy = False
 ]]></Script>
@@ -7183,34 +7267,43 @@ form.actions.validErr_clearPrevious()
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationCancellation", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
 
-if response.isError() then
-	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Žádost nemohla být předána ke zrušení.", true)
-	
-	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
-	
-	if not form.requests.ASEOmegaMessage.ASEO.Event.AuthorizationWithdrawal.hasValue() then
-		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Odnětí\".", true)
-	endIf
-	// setTouch so the user sees, what si missing from submission
-	form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
-	
-	if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
-		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
-	endIf
-	// setTouch so the user sees, what si missing from submission
-	form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
-	form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)	
-	responseResult = false
-else
-	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána ke zrušení.", false)
-	form.VersionGUID.clear()
-	form.actions.loadAseoData(form.GUID, form.VersionGUID)
-	responseResult = true
-endIf
+var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
-form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+if checkNecessaryReason = true then
+
+	if response.isError() then
+		system.console(response.getErrorMessage())
+		form.actions.showErorrNotificationMessage("Nastala chyba. Žádost nemohla být předána ke zrušení.", true)
+		
+		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+		
+		if not form.requests.ASEOmegaMessage.ASEO.Event.AuthorizationWithdrawal.hasValue() then
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Odnětí\".", true)
+		endIf
+		// setTouch so the user sees, what si missing from submission
+		form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
+		
+		if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
+		endIf
+		// setTouch so the user sees, what si missing from submission
+		form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
+		form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)	
+		responseResult = false
+	else
+		form.model.modelStructure.ASEO.clear()
+		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána ke zrušení.", false)
+		form.VersionGUID = defaultString()
+		form.actions.loadAseoData(form.GUID, form.VersionGUID)
+		responseResult = true
+	endIf
+	
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+	
+else
+	form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
+	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
+endIf
 
 form.actions.editDataAfterPosting("ASEOSPAuthorizationCancellation", responseResult)
 
@@ -7242,7 +7335,7 @@ if response.isError() then
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci.", false)
-	form.VersionGUID.clear()
+	form.VersionGUID = defaultString()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 	responseResult = true
 endIf
@@ -7284,7 +7377,7 @@ if response.isError() then
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci autorizace.", false)
-	form.VersionGUID.clear()
+	form.VersionGUID = defaultString()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 	responseResult = true
 endIf
@@ -7313,34 +7406,43 @@ form.actions.validErr_clearPrevious()
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationWithdrawalModification", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
 
-if response.isError() then
-	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Žádost nemohla být modifikace odnětí udělena.", true)
+var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
+
+if checkNecessaryReason = true then
 	
-	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
-
-	if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
-		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
+	if response.isError() then
+		system.console(response.getErrorMessage())
+		form.actions.showErorrNotificationMessage("Nastala chyba. Žádost nemohla být modifikace odnětí udělena.", true)
+		
+		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+	
+		if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
+		endIf
+		// setTouch so the user sees, what si missing from submission
+		form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
+		form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
+	
+		if not form.requests.ASEOmegaMessage.ASEO.Event.AuthorizationWithdrawal.hasValue() then
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Odnětí\".", true)
+		endIf
+		// setTouch so the user sees, what si missing from submission
+		form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
+		responseResult = false
+	else
+		form.model.modelStructure.ASEO.clear()
+		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci odnětí.", false)
+		form.VersionGUID = defaultString()
+		form.actions.loadAseoData(form.GUID, form.VersionGUID)
+		responseResult = true
 	endIf
-	// setTouch so the user sees, what si missing from submission
-	form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
-	form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
-
-	if not form.requests.ASEOmegaMessage.ASEO.Event.AuthorizationWithdrawal.hasValue() then
-		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Odnětí\".", true)
-	endIf
-	// setTouch so the user sees, what si missing from submission
-	form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
-	responseResult = false
+	
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+	
 else
-	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci odnětí.", false)
-	form.VersionGUID.clear()
-	form.actions.loadAseoData(form.GUID, form.VersionGUID)
-	responseResult = true
+	form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
+	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 endIf
-
-form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 
 form.actions.editDataAfterPosting("ASEOSPAuthorizationWithdrawalModification", responseResult)
 
@@ -7364,34 +7466,43 @@ form.actions.validErr_clearPrevious()
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationCancellationModification", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
 
-if response.isError() then
-	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Žádost nemohla být předána k modifikaci zrušení.", true)
-	
-	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
-	
-	if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
-		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
-	endIf
-	// setTouch so the user sees, what si missing from submission
-	form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
-	form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
-	
-	if not form.requests.ASEOmegaMessage.ASEO.Event.AuthorizationWithdrawal.hasValue() then
-		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Odnětí\".", true)
-	endIf
-	// setTouch so the user sees, what si missing from submission
-	form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
-	responseResult = false
-else
-	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci zrušení.", false)
-	form.VersionGUID.clear()
-	form.actions.loadAseoData(form.GUID, form.VersionGUID)
-	responseResult = true
-endIf
+var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
-form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+if checkNecessaryReason = true then
+
+	if response.isError() then
+		system.console(response.getErrorMessage())
+		form.actions.showErorrNotificationMessage("Nastala chyba. Žádost nemohla být předána k modifikaci zrušení.", true)
+		
+		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+		
+		if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
+		endIf
+		// setTouch so the user sees, what si missing from submission
+		form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
+		form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
+	
+		if not form.requests.ASEOmegaMessage.ASEO.Event.AuthorizationWithdrawal.hasValue() then
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Odnětí\".", true)
+		endIf
+		// setTouch so the user sees, what si missing from submission
+		form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
+		responseResult = false
+	else
+		form.model.modelStructure.ASEO.clear()
+		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci zrušení.", false)
+		form.VersionGUID = defaultString()
+		form.actions.loadAseoData(form.GUID, form.VersionGUID)
+		responseResult = true
+	endIf
+	
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+	
+else
+	form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
+	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
+endIf
 
 form.actions.editDataAfterPosting("ASEOSPAuthorizationCancellationModification", responseResult)
 
@@ -7415,38 +7526,47 @@ form.actions.validErr_clearPrevious()
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationSuspendingModification", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
 
-if response.isError() then
-	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Žádost nemohla být předána k úpravě pozastavení.", true)
-	
-	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
-	var authorisation = form.model.modelStructure.ASEO.Event.Authorization
-	if not authorisation.hasValue() then
-		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
-	endIf
-	// setTouch so the user sees, what si missing from submission
-	authorisation.LimitedAuthorizationValidity.setTouched(true)
-	authorisation.ResponsiblePersonWantsToBeNotified.setTouched(true)
+if checkNecessaryReason = true then
+
+	if response.isError() then
+		system.console(response.getErrorMessage())
+		form.actions.showErorrNotificationMessage("Nastala chyba. Žádost nemohla být předána k úpravě pozastavení.", true)
+		
+		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
-	var suspendingPath = form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference
-	if not suspendingPath.authorizationSuspendingReason.hasValue() then
-		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Pozastavení\".", true)
+		var authorisation = form.model.modelStructure.ASEO.Event.Authorization
+		if not authorisation.hasValue() then
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
+		endIf
+		// setTouch so the user sees, what si missing from submission
+		authorisation.LimitedAuthorizationValidity.setTouched(true)
+		authorisation.ResponsiblePersonWantsToBeNotified.setTouched(true)
+		
+		var suspendingPath = form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference
+		if not suspendingPath.authorizationSuspendingReason.hasValue() then
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Pozastavení\".", true)
+		endIf
+		// setTouch so the user sees, what si missing from submission
+		suspendingPath.authorizationSuspendingReason.setTouched(true)
+		responseResult = false
+	else
+		form.model.modelStructure.ASEO.clear()
+		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k úpravě pozastavení.", false)
+		form.VersionGUID = defaultString()
+		form.actions.loadAseoData(form.GUID, form.VersionGUID)
+		responseResult = true
 	endIf
-	// setTouch so the user sees, what si missing from submission
-	suspendingPath.authorizationSuspendingReason.setTouched(true)
-	responseResult = false
+	
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+	
 else
-	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k úpravě pozastavení.", false)
-	form.VersionGUID.clear()
-	form.actions.loadAseoData(form.GUID, form.VersionGUID)
-	responseResult = true
+	form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
+	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 endIf
 
-form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
-
-form.actions.editDataAfterPosting("ASEOSPAuthorizationSuspendingModification", responseResult)
+	form.actions.editDataAfterPosting("ASEOSPAuthorizationSuspendingModification", responseResult)
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
@@ -7611,6 +7731,7 @@ var tabs = form.components.tabsMenu
 form.actions.prepareTabsForAction("Zamítnout žádost")
 form.actions.prepareFormForEdit()
 form.actions.initTabMenu()
+
 form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
 form.components.tabsMenu.SelectedTab = 10
 
@@ -7752,9 +7873,6 @@ endIf]]></Script>
 var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab03celniUrady.isVisible = false
- tabs.Tab04zbozi.isVisible = false
- tabs.Tab05rozsirene.isVisible = false
  tabs.Tab06prilohy.isVisible = false
  tabs.Tab07prehodnoceni.isVisible = false
  tabs.Tab08lhutyAzajisteni.isVisible = false
@@ -7766,6 +7884,10 @@ var tabs = form.components.tabsMenu
 form.actions.initTabMenu()
 form.actions.prepareFormForEdit()
 form.actions.prepareTabsForAction("Odejmout žádost")
+
+tabs.Tab03celniUrady.isVisible = false
+tabs.Tab04zbozi.isVisible = false
+tabs.Tab05rozsirene.isVisible = false
 
 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 tabs.SelectedTab = 11
@@ -7787,9 +7909,6 @@ endIf]]></Script>
 var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab03celniUrady.isVisible = false
- tabs.Tab04zbozi.isVisible = false
- tabs.Tab05rozsirene.isVisible = false
  tabs.Tab06prilohy.isVisible = false
  tabs.Tab07prehodnoceni.isVisible = false
  tabs.Tab08lhutyAzajisteni.isVisible = false
@@ -7801,6 +7920,10 @@ var tabs = form.components.tabsMenu
 form.actions.initTabMenu()
 form.actions.prepareFormForEdit()
 form.actions.prepareTabsForAction("Modifikovat odnětí" )
+
+tabs.Tab03celniUrady.isVisible = false
+tabs.Tab04zbozi.isVisible = false
+tabs.Tab05rozsirene.isVisible = false
 
 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 tabs.SelectedTab = 11
@@ -7822,9 +7945,6 @@ endIf]]></Script>
 var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab03celniUrady.isVisible = false
- tabs.Tab04zbozi.isVisible = false
- tabs.Tab05rozsirene.isVisible = false
  tabs.Tab06prilohy.isVisible = false
  tabs.Tab07prehodnoceni.isVisible = false
  tabs.Tab08lhutyAzajisteni.isVisible = false
@@ -7836,6 +7956,10 @@ var tabs = form.components.tabsMenu
 form.actions.initTabMenu()
 form.actions.prepareTabsForAction("Pozastavit")
 form.actions.prepareFormForEdit()
+
+tabs.Tab03celniUrady.isVisible = false
+tabs.Tab04zbozi.isVisible = false
+tabs.Tab05rozsirene.isVisible = false
 
 form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible = True
 form.components.tabsMenu.SelectedTab = 12
@@ -7857,9 +7981,6 @@ endIf]]></Script>
 var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab03celniUrady.isVisible = false
- tabs.Tab04zbozi.isVisible = false
- tabs.Tab05rozsirene.isVisible = false
  tabs.Tab06prilohy.isVisible = false
  tabs.Tab07prehodnoceni.isVisible = false
  tabs.Tab08lhutyAzajisteni.isVisible = false
@@ -7871,6 +7992,10 @@ var tabs = form.components.tabsMenu
 form.actions.initTabMenu()
 form.actions.prepareFormForEdit()
 form.actions.prepareTabsForAction("Upravit pozastavení")
+
+tabs.Tab03celniUrady.isVisible = false
+tabs.Tab04zbozi.isVisible = false
+tabs.Tab05rozsirene.isVisible = false
 
 form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible = True
 form.components.tabsMenu.SelectedTab = 12
@@ -7892,9 +8017,6 @@ endIf]]></Script>
 var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab03celniUrady.isVisible = false
- tabs.Tab04zbozi.isVisible = false
- tabs.Tab05rozsirene.isVisible = false
  tabs.Tab06prilohy.isVisible = false
  tabs.Tab07prehodnoceni.isVisible = false
  tabs.Tab08lhutyAzajisteni.isVisible = false
@@ -7906,6 +8028,10 @@ var tabs = form.components.tabsMenu
 form.actions.initTabMenu()
 form.actions.prepareFormForEdit()
 form.actions.prepareTabsForAction("Zrušit žádost")
+
+tabs.Tab03celniUrady.isVisible = false
+tabs.Tab04zbozi.isVisible = false
+tabs.Tab05rozsirene.isVisible = false
 
 form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 form.components.tabsMenu.SelectedTab = 11
@@ -7927,9 +8053,6 @@ endIf]]></Script>
 var tabs = form.components.tabsMenu
  tabs.Tab01obecne.isVisible = false
  tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab03celniUrady.isVisible = false
- tabs.Tab04zbozi.isVisible = false
- tabs.Tab05rozsirene.isVisible = false
  tabs.Tab06prilohy.isVisible = false
  tabs.Tab07prehodnoceni.isVisible = false
  tabs.Tab08lhutyAzajisteni.isVisible = false
@@ -7941,6 +8064,10 @@ var tabs = form.components.tabsMenu
 form.actions.initTabMenu()
 form.actions.prepareFormForEdit()
 form.actions.prepareTabsForAction("Modifikovat zrušení")
+
+tabs.Tab03celniUrady.isVisible = false
+tabs.Tab04zbozi.isVisible = false
+tabs.Tab05rozsirene.isVisible = false
 
 form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 form.components.tabsMenu.SelectedTab = 11
@@ -7990,7 +8117,7 @@ endIf
     <ActionBlock>
       <Name value="handler_buttonActionCancel_OnClick" />
       <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = True
 
 var tabs = form.components.tabsMenu
@@ -8015,8 +8142,11 @@ form.components.tabsMenu.SelectedTab = 1
 
 form.VersionGUID.clear()//test check
 form.actions.loadAseoData(form.GUID)
+form.actions.resetRejectionReasonRequirements()
+
 form.formState.visibilities.showHistorySesctions = true
 form.components.tabsMenu.Tab07prehodnoceni.isVisible = True
+
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -8146,12 +8276,14 @@ globals.IsBusy = False
       <Category value="lifeCyclePostingSetUp" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.error.serverValidationErrors.clear()
-form.isEditOn = true
+form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 form.formState.visibilities.showHistorySesctions = false
 form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 form.actions.loadDataFromRegister()
 form.actions.setDateAuthorisation()
-form.formState.currentDateTime = getDateTime()]]></Script>
+form.formState.currentDateTime = getDateTime()
+form.actions.editValidityStartDate()
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -8177,6 +8309,60 @@ form.formState.original_validityStartDate = form.model.modelStructure.ASEO.LastE
 //Update ValidityStartDate and add 1 Hour
 form.model.modelStructure.ASEO.Event.ValidityStartDate = getDateTime()
 form.model.modelStructure.ASEO.Event.ValidityStartDate = addHours(form.model.modelStructure.ASEO.Event.ValidityStartDate, 1)
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="checkReasonCodeTypeJ" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var lcPath = form.model.lifeCycleSupport
+result = defaultBool()
+
+result = true
+
+if lcPath.applicationRejection.ZADUZAM.ZADUZAM = "J" then
+	lcPath.applicationRejection.applicationRejection_requiredDescription = true
+	result = false
+else if lcPath.authorizationWithdrawal.POVOLDUOD.POVOLDUOD = "J" then
+	lcPath.authorizationWithdrawal.authorizationWithdrawal_requiredDescription = true
+	result = false
+else if lcPath.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason = "J" then
+	lcPath.authorizationSuspending.authorizationSuspending__requiredDescription = true
+	result = false
+endIf endIf endIf
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="resetRejectionReasonRequirements" />
+      <Description value="reset required marks in case previous reason was code type J" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var lcPath = form.model.lifeCycleSupport
+
+lcPath.applicationRejection.applicationRejection_requiredDescription = defaultBool()
+
+lcPath.authorizationWithdrawal.authorizationWithdrawal_requiredDescription = defaultBool()
+
+lcPath.authorizationSuspending.authorizationSuspending__requiredDescription = defaultBool()
 ]]></Script>
       </ActionLangBody>
       <DataContext>
