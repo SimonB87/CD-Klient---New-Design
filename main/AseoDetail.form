@@ -6103,7 +6103,7 @@ false]]></ExpressionText>
   <Actions>
     <ActionBlock>
       <Name value="init" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = true
 
 form.formState.notifications.operationResultMessage.clear()
@@ -6130,8 +6130,7 @@ form.formState.header.prefixCZ = "CZ"
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 form.formState.visibilities.showHistorySesctions = true
 
-var dataCustomCodelist = "[{\"authorizationSuspendingReason\":\"J\", \"description\":  \"Pozastavení povolení z jiného důvodu\"}]"
-form.apiobjects.authorizationSuspendingReasonCodelist.fillFromJson(dataCustomCodelist)
+
 form.formState.currentDateTime = getDateTime()
 
 //test
@@ -6265,7 +6264,10 @@ endIf]]></Script>
       <Name value="prepareCodeLists" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.apiobjects.povoltyp.startLoadingData(getDateTime())
-form.apiobjects.eventTypeEnum.startLoadingData(getDateTime())]]></Script>
+form.apiobjects.eventTypeEnum.startLoadingData(getDateTime())
+//custom codelist for SuspendingReason
+var dataCustomCodelist = "[{\"authorizationSuspendingReason\":\"J\", \"description\":  \"Pozastavení povolení z jiného důvodu\"}]"
+form.apiobjects.authorizationSuspendingReasonCodelist.fillFromJson(dataCustomCodelist)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
