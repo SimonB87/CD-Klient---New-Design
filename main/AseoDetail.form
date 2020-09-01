@@ -7830,7 +7830,7 @@ form.formState.visibilities.isValidationsVisible = True
 
 var postingSuccess = defaultBool() 
 
-if form.model.modelStructure.ASEO.Event.ValidityStartDate <= form.formState.currentDateTime then
+if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.ValidityStartDate then
 
 	if form.formState.lifeCycle.actionConfirm.actionName = "Modifikovat žádost" then
 		postingSuccess = form.actions.lifeCycle_applicationModification()
@@ -7865,7 +7865,7 @@ if form.model.modelStructure.ASEO.Event.ValidityStartDate <= form.formState.curr
 	endIf
 
 else
-	var message = "V záložce \"Obecné\" nesmí být údaj \"Počátek platnosti rozhodnutí od\" nastavena na čas v minulosti. Současný čas je: \"" + toString(form.formState.currentDateTime) + "\"" 
+	var message = "V záložce \"Obecné\" nesmí být údaj \"Počátek platnosti rozhodnutí od\" nastaven na čas v minulosti. Současný čas je: \"" + toString(form.formState.currentDateTime) + "\"" 
 	form.actions.showErorrNotificationMessage(message, true)
 endIf]]></Script>
       </ActionLangBody>
@@ -8362,7 +8362,7 @@ form.formState.lifeCycle.actionConfirm.actionName.clear()
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible.clear()
 form.components.tabsMenu.SelectedTab = 1
 
-form.VersionGUID.clear()//test check
+form.VersionGUID.clear()
 form.actions.loadAseoData(form.GUID)
 
 form.formState.visibilities.showHistorySesctions = true
