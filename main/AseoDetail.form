@@ -320,7 +320,7 @@
                     </Button>
                     <Button>
                       <Name value="send_ASEOSPAuthorizationWithdrawal" />
-                      <Caption value="Odejmout žádost" />
+                      <Caption value="Odejmout povolení" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
@@ -420,7 +420,7 @@
                     </Button>
                     <Button>
                       <Name value="send_ASEOSPAuthorizationCancellation" />
-                      <Caption value="Zrušit žádost" />
+                      <Caption value="Zrušit povolení" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
@@ -7828,7 +7828,7 @@ form.formState.visibilities.isValidationsVisible = True
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.formState.currentDateTime = getDateTime()
 
-var postingSuccess = defaultBool() 
+var postingSuccess = defaultBool()
 
 if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.ValidityStartDate then
 
@@ -7842,7 +7842,7 @@ if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.Validi
 		postingSuccess = form.actions.lifeCycle_authorisation()
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Modifikovat autorizaci"	then
 		postingSuccess = form.actions.lifeCycle_authorisationModification()	
-	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Odejmout žádost"	then
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Odejmout povolení"	then
 		postingSuccess = form.actions.lifeCycle_authorizationWithdrawal()	
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Modifikovat odnětí"	then
 		postingSuccess = form.actions.lifeCycle_authorizationWithdrawalModification()	
@@ -7850,7 +7850,7 @@ if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.Validi
 		postingSuccess = form.actions.lifeCycle_authorizationSuspending()	
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit pozastavení"	then
 		postingSuccess = form.actions.lifeCycle_authorizationSuspendingModification()	
-	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Zrušit žádost"	then
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Zrušit povolení"	then
 		postingSuccess = form.actions.lifeCycle_authorizationCancellation()	
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Modifikovat zrušení"	then
 		postingSuccess = form.actions.lifeCycle_authorizationCancellationModification()	
@@ -7867,7 +7867,8 @@ if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.Validi
 else
 	var message = "V záložce \"Obecné\" nesmí být údaj \"Počátek platnosti rozhodnutí od\" nastaven na čas v minulosti. Současný čas je: \"" + toString(form.formState.currentDateTime) + "\"" 
 	form.actions.showErorrNotificationMessage(message, true)
-endIf]]></Script>
+endIf
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -8105,7 +8106,7 @@ var tabs = form.components.tabsMenu
 
 form.actions.initTabMenu()
 form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Odejmout žádost")
+form.actions.prepareTabsForAction("Odejmout povolení")
 
 tabs.Tab03celniUrady.isVisible = false
 tabs.Tab04zbozi.isVisible = false
@@ -8249,7 +8250,7 @@ var tabs = form.components.tabsMenu
 
 form.actions.initTabMenu()
 form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Zrušit žádost")
+form.actions.prepareTabsForAction("Zrušit povolení")
 
 tabs.Tab03celniUrady.isVisible = false
 tabs.Tab04zbozi.isVisible = false
@@ -8592,7 +8593,7 @@ if name in ["Zamítnout žádost", "Modifikace zamítnutí"] then
 		support.authorizationSuspending.authorizationSuspendingReasonReference.clear()
 		modelStr.AuthorizationSuspending.AuthorizationSuspendingDescription.clear()
 
-else if name in ["Odejmout žádost", "Modifikovat odnětí", "Zrušit žádost", "Modifikovat zrušení"] then
+else if name in ["Odejmout povolení", "Modifikovat odnětí", "Zrušit povolení", "Modifikovat zrušení"] then
 	
 		support.applicationRejection.ZADUZAM.clear()
 		modelStr.ApplicationRejection.ApplicationRejectionDescription.clear()
