@@ -189,6 +189,9 @@
                   <Orientation value="Horizontal" />
                   <Panel.Height value="#" />
                   <Panel.Width value="75%" />
+                  <Bindings>
+                    <Binding SourceProperty="IsVisible" Expression="not formState.lifeCycle.actionConfirm.actionConfirmPanelVisible" />
+                  </Bindings>
                   <Children>
                     <Button>
                       <Name value="send_ASEOSPApplicationModification" />
@@ -1861,6 +1864,23 @@
                             </CssClassConditional>
                           </CssClass>
                         </TextBox>
+                        <CheckBox>
+                          <Name value="checkBox_ResponsiblePersonWantsToBeNotified" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.caption()" />
+                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
                         <TextBox>
                           <Name value="textBox14" />
                           <Caption value="Email osoby" />
@@ -1879,23 +1899,6 @@
                             </CssClassConditional>
                           </CssClass>
                         </TextBox>
-                        <CheckBox>
-                          <Name value="checkBox_ResponsiblePersonWantsToBeNotified" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="*" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.caption()" />
-                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-checkbox" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </CheckBox>
                       </Children>
                       <CssClass>
                         <CssClassConditional>
@@ -5183,13 +5186,16 @@
               <Name value="lifeCycle" />
               <Caption value="Life cycle" />
               <Children>
-                <Attribute>
+                <Computed>
                   <Name value="stateCode" />
-                  <Caption value="delete after Test - my string" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
+                  <Caption value="State code" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.model.modelStructure.ASEO.State.hasValue() ? (SubString(form.model.modelStructure.ASEO.State, 1 , 3)) : ""]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
                 <Complex>
                   <Name value="btnVisibilities" />
                   <Caption value="Btn visibilities" />
@@ -5320,7 +5326,8 @@ false]]></ExpressionText>
                       <Name value="futureChangeWillHappen" />
                       <Caption value="Future change will happen" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[form.model.modelStructure.ASEO.LastEventValidityStartDate > this.owner().owner().currentDateTime ? true : false]]></ExpressionText>
+                        <ExpressionText><![CDATA[(this.owner().stateCode in ["FUR", "FUA", "FWA", "FUW", "FCA"]) ? true :
+	form.model.modelStructure.ASEO.LastEventValidityStartDate > this.owner().owner().currentDateTime ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5437,6 +5444,16 @@ false]]></ExpressionText>
                     </Computed>
                   </Children>
                 </Complex>
+                <Computed>
+                  <Name value="isValidityStartDateInFutureTime" />
+                  <Caption value="Is validity start date in future time" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.model.modelStructure.ASEO.Event.ValidityStartDate > this.owner().currentDateTime ? true : false]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
               </Children>
             </Complex>
             <Attribute>
@@ -6150,7 +6167,6 @@ form.VersionGUID.clear()
 
 form.actions.prepareCodeLists()
 form.actions.loadAseoData(form.GUID)
-form.actions.getStateCode()
 form.actions.initTabMenu()
 
 //variables set up
@@ -6214,7 +6230,6 @@ else
 		form.VersionGUID = form.model.modelStructure.ASEO.Event.GUID
 	endIf
 
-	form.actions.getStateCode()
 	form.isEditOn = false
 	
 endIf
@@ -6715,7 +6730,7 @@ globals.IsBusy = False
     <ActionBlock>
       <Name value="lifeCycle_authorisation" />
       <Category value="lifeCycleMessage" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPAuthorization")
@@ -6724,6 +6739,7 @@ form.actions.validErr_clearPrevious()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
+result = responseResult
 
 if response.isError() then
 	system.console(response.getErrorMessage())
@@ -6748,12 +6764,14 @@ if response.isError() then
 	form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
 	form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
 	responseResult = false
+	result = responseResult
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k autorizaci.", false)
 	form.VersionGUID = defaultString()
 	form.actions.loadAseoData(form.GUID)
 	responseResult = true
+	result = responseResult
 endIf
 
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
@@ -6764,7 +6782,20 @@ globals.IsBusy = False
 ]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
@@ -6781,7 +6812,9 @@ endIf
 if  messageType in ["ASEOSPAuthorization", "ASEOSPAuthorizationModification","ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification", "ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification","ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationWithdrawalModification"]  then	
 	form.requests.ASEOmegaMessage.clear()
 	
-	form.model.modelStructure.fromJson(form.formState.modelJson)
+	if not messagePostSucess then
+		form.model.modelStructure.fromJson(form.formState.modelJson)
+	endIf
 	
 	form.formState.modelJson.clear()
 endIf
@@ -6789,9 +6822,19 @@ endIf
 if messageType in ["ASEOSPApplicationModification"] then
 	form.requests.applicationModification.clear()
 	
-	form.model.modelStructure.fromJson(form.formState.modelJson)
+	if not messagePostSucess then
+		form.model.modelStructure.fromJson(form.formState.modelJson)
+	endIf
 	
 	form.formState.modelJson.clear()
+endIf
+
+if messageType in ["ASEOSPApplicationModification", "ASEOSPAuthorization", "ASEOSPAuthorizationModification"] then
+
+	form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(false)
+	form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(false)
+	form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.setTouched(false)
+
 endIf
 
 form.isEditOn = globals.OverenyUzivatel.hasWritePermission
@@ -6866,17 +6909,14 @@ if messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification"] then
 	aseoMegaMessage.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage()
 	aseoMegaMessage.ASEO.Event.GoodsList.GoodsListType = false
-	
-	if aseoMegaMessage.ASEO.Event.Authorization.hasValue() then
-	
-		if aseoMegaMessage.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.isEmpty() then
-			aseoMegaMessage.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified = false
-		endIf
-		if aseoMegaMessage.ASEO.Event.Authorization.LimitedAuthorizationValidity.isEmpty() then
-			aseoMegaMessage.ASEO.Event.Authorization.LimitedAuthorizationValidity = false
-		endIf
-
+		
+	if aseoMegaMessage.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.isEmpty() then
+		aseoMegaMessage.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified = false
 	endIf
+	if aseoMegaMessage.ASEO.Event.Authorization.LimitedAuthorizationValidity.isEmpty() then
+		aseoMegaMessage.ASEO.Event.Authorization.LimitedAuthorizationValidity = false
+	endIf
+
 	
 	var stateCode = form.formState.lifeCycle.stateCode
 	if stateCode in ["AUC","AUS","AUW"] then
@@ -6964,24 +7004,10 @@ endIf
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="getStateCode" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.model.modelStructure.ASEO.State.hasValue() then
-	form.formState.lifeCycle.stateCode = SubString(form.model.modelStructure.ASEO.State, 1 , 3)
-else
-	form.formState.lifeCycle.stateCode = defaultString()
-endIf
-]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="lifeCycle_futureRemoval" />
       <Category value="lifeCycleMessage" />
       <Description value="message_ASEOFutureRemoval" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = True
 
 //prepara message for sending
@@ -6993,16 +7019,19 @@ form.actions.validErr_clearPrevious()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOFutureRemoval", form.requests.initReq.toJson())
 var responseResult = defaultBool()
+result = responseResult
 
 if response.isError() then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Odstranění budoucí změny nemohlo být provedeno.", true)
 	
 	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+	result = false
 else
 	form.actions.showErorrNotificationMessage("Odstranění budoucí změny bylo úspěšně provedeno.", false)
 	form.VersionGUID = defaultString()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
+	result = true
 endIf
 
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
@@ -7013,7 +7042,20 @@ globals.IsBusy = False
 ]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
@@ -7028,7 +7070,7 @@ form.actions.validErr_clearPrevious()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejection", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
-
+result = responseResult
 var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
 if checkNecessaryReason = true then
@@ -7045,12 +7087,14 @@ if checkNecessaryReason = true then
 		
 		form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(true)
 		responseResult = false
+		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
 		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k zamítnutí žádosti.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
+		result = responseResult
 	endIf
 	
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
@@ -7065,13 +7109,26 @@ form.actions.editDataAfterPosting("ASEOSPApplicationRejection", responseResult)
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
       <Name value="lifeCycle_applicationRejectionModification" />
       <Category value="lifeCycleMessage" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPApplicationRejectionModification")
@@ -7080,6 +7137,7 @@ form.actions.validErr_clearPrevious()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejectionModification", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
+result = responseResult
 
 var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
@@ -7097,12 +7155,14 @@ if checkNecessaryReason = true then
 		// setTouch so the user sees, what si missing from submission
 		form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(true)
 		responseResult = false
+		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
 		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci zamítnutí.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
+		result = responseResult
 	endIf
 	
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
@@ -7117,7 +7177,20 @@ form.actions.editDataAfterPosting("ASEOSPApplicationRejectionModification", resp
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
@@ -7136,7 +7209,7 @@ form.formState.currentDateTime = getDateTime()]]></Script>
       <Name value="lifeCycle_authorizationWithdrawal" />
       <Category value="lifeCycleMessage" />
       <Description value="send ASEO SP AuthorizationWithdrawal" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationWithdrawal")
@@ -7146,6 +7219,7 @@ form.formState.visibilities.isValidationsVisible = False
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationWithdrawal", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
+result = responseResult
 
 var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
@@ -7170,12 +7244,14 @@ if checkNecessaryReason = true then
 		// setTouch so the user sees, what si missing from submission
 		form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
 		responseResult = false
+		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
 		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k odnětí.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
+		result = responseResult
 	endIf
 
 else
@@ -7192,13 +7268,26 @@ globals.IsBusy = False
 ]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
       <Name value="lifeCycle_authorizationSuspending" />
       <Category value="lifeCycleMessage" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationSuspending")
@@ -7207,6 +7296,7 @@ form.actions.validErr_clearPrevious()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationSuspending", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
+result = responseResult
 
 var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
@@ -7233,12 +7323,14 @@ if checkNecessaryReason = true then
 		// setTouch so the user sees, what si missing from submission
 		suspendingPath.authorizationSuspendingReason.setTouched(true)
 		responseResult = false
+		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
 		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k pozastavení.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
+		result = responseResult
 	endIf
 	
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
@@ -7254,13 +7346,26 @@ globals.IsBusy = False
 ]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
       <Name value="lifeCycle_authorizationCancellation" />
       <Category value="lifeCycleMessage" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationCancellation")
@@ -7269,6 +7374,7 @@ form.actions.validErr_clearPrevious()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationCancellation", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
+result = responseResult
 
 var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
@@ -7293,12 +7399,14 @@ if checkNecessaryReason = true then
 		form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
 		form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)	
 		responseResult = false
+		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
 		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána ke zrušení.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
+		result = responseResult
 	endIf
 	
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
@@ -7314,7 +7422,20 @@ globals.IsBusy = False
 ]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
@@ -7327,6 +7448,8 @@ form.actions.editDataBeforePosting("ASEOSPApplicationModification")
 
 form.actions.validErr_clearPrevious()		
 
+result = defaultBool()
+
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationModification", form.requests.applicationModification.toJson())
 var responseResult = defaultBool()
 if response.isError() then
@@ -7335,12 +7458,14 @@ if response.isError() then
 	
 	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	responseResult = false
+	result = false
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci.", false)
 	form.VersionGUID = defaultString()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 	responseResult = true
+	result = true
 endIf
 
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
@@ -7351,7 +7476,21 @@ globals.IsBusy = False
 ]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <Comment value="posting Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
@@ -7366,6 +7505,7 @@ form.actions.validErr_clearPrevious()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationModification", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
+result = responseResult
 
 if response.isError() then
 	system.console(response.getErrorMessage())
@@ -7377,12 +7517,14 @@ if response.isError() then
 	form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
 	form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
 	responseResult = false
+	result = responseResult
 else
 	form.model.modelStructure.ASEO.clear()
 	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci autorizace.", false)
 	form.VersionGUID = defaultString()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 	responseResult = true
+	result = responseResult
 endIf
 
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
@@ -7393,7 +7535,20 @@ globals.IsBusy = False
 ]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
@@ -7408,6 +7563,7 @@ form.actions.validErr_clearPrevious()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationWithdrawalModification", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
+result = responseResult
 
 var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
@@ -7432,12 +7588,14 @@ if checkNecessaryReason = true then
 		// setTouch so the user sees, what si missing from submission
 		form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
 		responseResult = false
+		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
 		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci odnětí.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
+		result = responseResult
 	endIf
 	
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
@@ -7453,7 +7611,20 @@ globals.IsBusy = False
 ]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
@@ -7468,6 +7639,7 @@ form.actions.validErr_clearPrevious()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationCancellationModification", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
+result = responseResult
 
 var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
@@ -7492,12 +7664,14 @@ if checkNecessaryReason = true then
 		// setTouch so the user sees, what si missing from submission
 		form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
 		responseResult = false
+		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
 		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci zrušení.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
+		result = responseResult
 	endIf
 	
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
@@ -7513,13 +7687,26 @@ globals.IsBusy = False
 ]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
       <Name value="lifeCycle_authorizationSuspendingModification" />
       <Category value="lifeCycleMessage" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationSuspendingModification")
@@ -7528,6 +7715,7 @@ form.actions.validErr_clearPrevious()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationSuspendingModification", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
+result = responseResult
 
 var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
@@ -7554,12 +7742,14 @@ if checkNecessaryReason = true then
 		// setTouch so the user sees, what si missing from submission
 		suspendingPath.authorizationSuspendingReason.setTouched(true)
 		responseResult = false
+		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
 		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k úpravě pozastavení.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
+		result = responseResult
 	endIf
 	
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
@@ -7574,7 +7764,20 @@ endIf
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
@@ -7623,33 +7826,48 @@ form.formState.visibilities.isValidationsVisible = True
       <Name value="sendLifeCycleMessage" />
       <Category value="lifeCyclePostingSetUp" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.formState.lifeCycle.actionConfirm.actionName = "Modifikovat žádost" then
-	form.actions.lifeCycle_applicationModification()
-else if form.formState.lifeCycle.actionConfirm.actionName = "Zamítnout žádost" then
-	form.actions.lifeCycle_applicationRejection()
-else if form.formState.lifeCycle.actionConfirm.actionName = "Modifikace zamítnutí" then
-	form.actions.lifeCycle_applicationRejectionModification()
-else if form.formState.lifeCycle.actionConfirm.actionName = "Autorizovat" then
-	form.actions.lifeCycle_authorisation()
-else if form.formState.lifeCycle.actionConfirm.actionName =	 "Modifikovat autorizaci"	then
-	form.actions.lifeCycle_authorisationModification()	
-else if form.formState.lifeCycle.actionConfirm.actionName =	 "Odejmout žádost"	then
-	form.actions.lifeCycle_authorizationWithdrawal()	
-else if form.formState.lifeCycle.actionConfirm.actionName =	 "Modifikovat odnětí"	then
-	form.actions.lifeCycle_authorizationWithdrawalModification()	
-else if form.formState.lifeCycle.actionConfirm.actionName =	 "Pozastavit"	then
-	form.actions.lifeCycle_authorizationSuspending()	
-else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit pozastavení"	then
-	form.actions.lifeCycle_authorizationSuspendingModification()	
-else if form.formState.lifeCycle.actionConfirm.actionName =	 "Zrušit žádost"	then
-	form.actions.lifeCycle_authorizationCancellation()	
-else if form.formState.lifeCycle.actionConfirm.actionName =	 "Modifikovat zrušení"	then
-	form.actions.lifeCycle_authorizationCancellationModification()	
-else if form.formState.lifeCycle.actionConfirm.actionName =	 "Odstranit budoucí změnu"	then
-	form.actions.lifeCycle_futureRemoval()	
-endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf
+        <Script><![CDATA[form.formState.currentDateTime = getDateTime()
 
-form.isEditOn = false]]></Script>
+var postingSuccess = defaultBool() 
+
+if form.model.modelStructure.ASEO.Event.ValidityStartDate <= form.formState.currentDateTime then
+
+	if form.formState.lifeCycle.actionConfirm.actionName = "Modifikovat žádost" then
+		postingSuccess = form.actions.lifeCycle_applicationModification()
+	else if form.formState.lifeCycle.actionConfirm.actionName = "Zamítnout žádost" then
+		postingSuccess = form.actions.lifeCycle_applicationRejection()
+	else if form.formState.lifeCycle.actionConfirm.actionName = "Modifikace zamítnutí" then
+		postingSuccess = form.actions.lifeCycle_applicationRejectionModification()
+	else if form.formState.lifeCycle.actionConfirm.actionName = "Autorizovat" then
+		postingSuccess = form.actions.lifeCycle_authorisation()
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Modifikovat autorizaci"	then
+		postingSuccess = form.actions.lifeCycle_authorisationModification()	
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Odejmout žádost"	then
+		postingSuccess = form.actions.lifeCycle_authorizationWithdrawal()	
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Modifikovat odnětí"	then
+		postingSuccess = form.actions.lifeCycle_authorizationWithdrawalModification()	
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Pozastavit"	then
+		postingSuccess = form.actions.lifeCycle_authorizationSuspending()	
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit pozastavení"	then
+		postingSuccess = form.actions.lifeCycle_authorizationSuspendingModification()	
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Zrušit žádost"	then
+		postingSuccess = form.actions.lifeCycle_authorizationCancellation()	
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Modifikovat zrušení"	then
+		postingSuccess = form.actions.lifeCycle_authorizationCancellationModification()	
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Odstranit budoucí změnu"	then
+		postingSuccess = form.actions.lifeCycle_futureRemoval()	
+	endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf
+	
+	if postingSuccess then
+		form.isEditOn = false
+	else
+		form.isEditOn = globals.OverenyUzivatel.hasWritePermission
+	endIf
+
+else
+	var message = "V záložce \"Obecné\" nesmí být údaj \"Počátek platnosti rozhodnutí od\" nastavena na čas v minulosti. Současný čas je: \"" + toString(form.formState.currentDateTime) + "\"" 
+	form.actions.showErorrNotificationMessage(message, true)
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -7769,7 +7987,7 @@ var tabs = form.components.tabsMenu
 
 form.actions.prepareFormForEdit()
 form.actions.initTabMenu()
-form.actions.prepareTabsForAction("Modifikace zamítnutí" )
+form.actions.prepareTabsForAction("Modifikace zamítnutí")
 
 form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
 form.components.tabsMenu.SelectedTab = 10
@@ -7923,7 +8141,7 @@ var tabs = form.components.tabsMenu
 
 form.actions.initTabMenu()
 form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Modifikovat odnětí" )
+form.actions.prepareTabsForAction("Modifikovat odnětí")
 
 tabs.Tab03celniUrady.isVisible = false
 tabs.Tab04zbozi.isVisible = false
@@ -8148,6 +8366,7 @@ form.VersionGUID.clear()//test check
 form.actions.loadAseoData(form.GUID)
 
 form.formState.visibilities.showHistorySesctions = true
+form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 form.components.tabsMenu.Tab07prehodnoceni.isVisible = True
 
 globals.IsBusy = False]]></Script>
@@ -8277,7 +8496,7 @@ globals.IsBusy = False
     <ActionBlock>
       <Name value="prepareFormForEdit" />
       <Category value="lifeCyclePostingSetUp" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[form.error.serverValidationErrors.clear()
 form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 form.formState.visibilities.showHistorySesctions = false
@@ -8286,7 +8505,7 @@ form.actions.loadDataFromRegister()
 form.actions.setDateAuthorisation()
 form.formState.currentDateTime = getDateTime()
 form.actions.editValidityStartDate()
-]]></Script>
+form.actions.clearOtherRejectionTabs()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -8357,6 +8576,42 @@ endIf endIf endIf
             </Attribute>
           </Children>
         </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="clearOtherRejectionTabs" />
+      <Category value="lifeCyclePostingSetUp" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var name = form.formState.lifeCycle.actionConfirm.actionName
+var modelStr = form.model.modelStructure.ASEO.Event
+var support = form.model.lifeCycleSupport
+
+if name in ["Zamítnout žádost", "Modifikace zamítnutí"] then
+		support.authorizationWithdrawal.POVOLDUOD.clear()
+		modelStr.AuthorizationWithdrawal.AuthorizationWithdrawalDescription.clear()
+		support.authorizationSuspending.authorizationSuspendingReasonReference.clear()
+		modelStr.AuthorizationSuspending.AuthorizationSuspendingDescription.clear()
+
+else if name in ["Odejmout žádost", "Modifikovat odnětí", "Zrušit žádost", "Modifikovat zrušení"] then
+	
+		support.applicationRejection.ZADUZAM.clear()
+		modelStr.ApplicationRejection.ApplicationRejectionDescription.clear()
+		support.authorizationSuspending.authorizationSuspendingReasonReference.clear()
+		modelStr.AuthorizationSuspending.AuthorizationSuspendingDescription.clear()
+
+	
+else if name in ["Pozastavit", "Upravit pozastavení"] then
+		
+		support.applicationRejection.ZADUZAM.clear()
+		modelStr.ApplicationRejection.ApplicationRejectionDescription.clear()
+		support.authorizationWithdrawal.POVOLDUOD.clear()
+		modelStr.AuthorizationWithdrawal.AuthorizationWithdrawalDescription.clear()
+
+endIf endIf endIf
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>
