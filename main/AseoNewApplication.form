@@ -18,7 +18,7 @@
           <Children>
             <Label>
               <Name value="label1" />
-              <Data value="Založení nového povolení" />
+              <Data value="Nová žádost" />
               <Heading value="h2" />
               <Panel.Height value="#" />
               <Panel.HorizontalAlignment value="Center" />
@@ -160,41 +160,6 @@
                     <Binding SourceProperty="IsVisible" Expression="globals.OverenyUzivatel.hasWritePermission" />
                   </Bindings>
                   <Children>
-                    <TextBox>
-                      <Name value="textCustomCU" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="33%" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="uiState.customCU.textCustomCU" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="uiState.customCU.textCustomCU.isRequired()" />
-                        <Binding SourceProperty="Caption" Expression="uiState.customCU.textCustomCU.caption()" />
-                        <Binding SourceProperty="IsVisible" Expression="globals.OverenyUzivatel.hasRoleAdmin" />
-                        <Binding SourceProperty="IsEnabled" Expression="form.uiState.customCU.isCustomsCUused" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-textbox" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </TextBox>
-                    <CheckBox>
-                      <Name value="isCustomsCUused" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="33%" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="uiState.customCU.isCustomsCUused" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="uiState.customCU.isCustomsCUused.isRequired()" />
-                        <Binding SourceProperty="Caption" Expression="uiState.customCU.isCustomsCUused.caption()" />
-                        <Binding SourceProperty="IsVisible" Expression="globals.OverenyUzivatel.hasRoleAdmin" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-checkbox" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </CheckBox>
                     <Button>
                       <Name value="buttonLoadSubjectRegisterData" />
                       <Caption value=" Načíst z registru" />
@@ -203,6 +168,9 @@
                       <OnClick>
                         <ActionEvent ReferencedAction="~loadRegisterData" />
                       </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-button" />
@@ -215,12 +183,6 @@
                     <CssClassConditional>
                       <ClassName value="{theme}-panel" />
                       <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                    <CssClassConditional>
-                      <ClassName value="childsFloatRight" />
-                      <Bindings>
-                        <Binding SourceProperty="Condition" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                      </Bindings>
                     </CssClassConditional>
                   </CssClass>
                 </Panel>
@@ -1571,7 +1533,7 @@ form.uiState.selectedCustomsOffice.fromJson(data.toJson())
     <ActionBlock>
       <Name value="clearGenericUserCU" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.uiState.customCU.textCustomCU.hasValue() and globals.OverenyUzivatel.hasRoleAdmin then
+        <Script><![CDATA[if form.uiState.customCU.textCustomCU.hasValue() and globals.OverenyUzivatel.hasWritePermission then
 	form.uiState.selectedCustomsOffice.clear()
 endIf
 ]]></Script>
