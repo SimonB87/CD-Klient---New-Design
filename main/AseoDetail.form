@@ -270,7 +270,7 @@
                     </Button>
                     <Button>
                       <Name value="send_ASEOSPAuthorization" />
-                      <Caption value="Autorizovat" />
+                      <Caption value="Vydat povolení" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
@@ -1917,7 +1917,7 @@
                 </GroupBox>
                 <GroupBox>
                   <Name value="box_authorisation" />
-                  <Caption value="Autorizace" />
+                  <Caption value="Vydání povolení" />
                   <Panel.Height value="100%" />
                   <Panel.Width value="50%" />
                   <Content>
@@ -1927,12 +1927,12 @@
                       <Children>
                         <CheckBox>
                           <Name value="checkBox3" />
+                          <Caption value="Omezit délku platnosti" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.caption()" />
                             <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                           </Bindings>
                           <CssClass>
@@ -1951,6 +1951,7 @@
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil.isRequired()" />
                             <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil.caption()" />
                             <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                            <Binding SourceProperty="IsVisible" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -2664,32 +2665,107 @@
                     </CssClassConditional>
                   </CssClass>
                 </Repeater>
-                <Label>
-                  <Name value="label3" />
-                  <Data value="Povolení druhu vydávaných dokladů" />
-                  <Heading value="h2" />
+                <GroupBox>
+                  <Name value="box_documents" />
+                  <Caption value="Povolení druhu vydávaných dokladů" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
+                  <Content>
+                    <Panel>
+                      <Name value="panel2" />
+                      <Orientation value="Horizontal" />
+                      <Children>
+                        <CheckBox>
+                          <Name value="checkBox5" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="50%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPACP.ProducesT2L" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPACP.ProducesT2L.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPACP.ProducesT2L.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                        <CheckBox>
+                          <Name value="checkBox6" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="50%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPACP.ProducesInvoiceTransportDocument" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPACP.ProducesInvoiceTransportDocument.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPACP.ProducesInvoiceTransportDocument.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Content>
                   <CssClass>
                     <CssClassConditional>
-                      <ClassName value="{theme}-label" />
+                      <ClassName value="{theme}-groupbox" />
                       <IsThemedStyle value="True" />
                     </CssClassConditional>
                   </CssClass>
-                </Label>
-                <Label>
-                  <Name value="label2" />
-                  <Data value="Kód schváleného vydavatele" />
-                  <Heading value="h2" />
+                </GroupBox>
+                <GroupBox>
+                  <Name value="box_codeSupplier" />
+                  <Caption value="Kód schváleného vydavatele" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
+                  <Content>
+                    <Panel>
+                      <Name value="panel39" />
+                      <Orientation value="Horizontal" />
+                      <Children>
+                        <TextBox>
+                          <Name value="textBox1" />
+                          <CaptionVAlign value="Middle" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="50%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPACP.AuthorisedIssuerCode" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPACP.AuthorisedIssuerCode.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPACP.AuthorisedIssuerCode.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Content>
                   <CssClass>
                     <CssClassConditional>
-                      <ClassName value="{theme}-label" />
+                      <ClassName value="{theme}-groupbox" />
                       <IsThemedStyle value="True" />
                     </CssClassConditional>
                   </CssClass>
-                </Label>
+                </GroupBox>
               </Children>
               <CssClass>
                 <CssClassConditional>
@@ -6419,7 +6495,7 @@ tabs.Tab07prehodnoceni.Title = "Přehodnocení"
 tabs.Tab08lhutyAzajisteni.Title = "Lhůty a zajištení"
 tabs.Tab09rezimy.Title = "Režimy"
 
-tabs.Tab02lifecycle_authorisation.Title = "Autorizace"
+tabs.Tab02lifecycle_authorisation.Title = "Povoleni" //"Autorizace"
 tabs.Tab10lifecycle_applicationRejection.Title = "Zamítnutí žádosti"
 tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Odnětí"
 tabs.Tab12lifecycle_authorizationSuspending.Title = "Pozastavení"
@@ -6730,7 +6806,7 @@ globals.IsBusy = False
     <ActionBlock>
       <Name value="lifeCycle_authorisation" />
       <Category value="lifeCycleMessage" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPAuthorization")
@@ -7007,7 +7083,7 @@ endIf
       <Name value="lifeCycle_futureRemoval" />
       <Category value="lifeCycleMessage" />
       <Description value="message_ASEOFutureRemoval" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
 //prepara message for sending
@@ -7128,7 +7204,7 @@ globals.IsBusy = False]]></Script>
     <ActionBlock>
       <Name value="lifeCycle_applicationRejectionModification" />
       <Category value="lifeCycleMessage" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPApplicationRejectionModification")
@@ -7209,7 +7285,7 @@ form.formState.currentDateTime = getDateTime()]]></Script>
       <Name value="lifeCycle_authorizationWithdrawal" />
       <Category value="lifeCycleMessage" />
       <Description value="send ASEO SP AuthorizationWithdrawal" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationWithdrawal")
@@ -7287,7 +7363,7 @@ globals.IsBusy = False
     <ActionBlock>
       <Name value="lifeCycle_authorizationSuspending" />
       <Category value="lifeCycleMessage" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationSuspending")
@@ -7365,7 +7441,7 @@ globals.IsBusy = False
     <ActionBlock>
       <Name value="lifeCycle_authorizationCancellation" />
       <Category value="lifeCycleMessage" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationCancellation")
@@ -7706,7 +7782,7 @@ globals.IsBusy = False
     <ActionBlock>
       <Name value="lifeCycle_authorizationSuspendingModification" />
       <Category value="lifeCycleMessage" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPAuthorizationSuspendingModification")
@@ -7838,7 +7914,7 @@ if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.Validi
 		postingSuccess = form.actions.lifeCycle_applicationRejection()
 	else if form.formState.lifeCycle.actionConfirm.actionName = "Modifikace zamítnutí" then
 		postingSuccess = form.actions.lifeCycle_applicationRejectionModification()
-	else if form.formState.lifeCycle.actionConfirm.actionName = "Autorizovat" then
+	else if form.formState.lifeCycle.actionConfirm.actionName = "Vydat povolení" then
 		postingSuccess = form.actions.lifeCycle_authorisation()
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Modifikovat autorizaci"	then
 		postingSuccess = form.actions.lifeCycle_authorisationModification()	
@@ -8024,7 +8100,7 @@ var tabs = form.components.tabsMenu
 
 form.actions.initTabMenu()
 form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Autorizovat")
+form.actions.prepareTabsForAction("Vydat povolení")//"Autorizovat"
 
 tabs.Tab02lifecycle_authorisation.isVisible = true
 tabs.SelectedTab = 2
@@ -8497,7 +8573,7 @@ globals.IsBusy = False
     <ActionBlock>
       <Name value="prepareFormForEdit" />
       <Category value="lifeCyclePostingSetUp" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[form.error.serverValidationErrors.clear()
 form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 form.formState.visibilities.showHistorySesctions = false
