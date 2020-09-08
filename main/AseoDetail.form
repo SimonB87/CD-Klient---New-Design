@@ -1851,6 +1851,7 @@
                           <CaptionVAlign value="Middle" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
+                          <Tooltip value="Formát telefonního čísla je &quot;+123...&quot; Číslo musí začínat symbolem &quot;+&quot;." />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonPhone" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonPhone.isRequired()" />
@@ -1889,7 +1890,7 @@
                           <Panel.Width value="*" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonEMail" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonEMail.isRequired()" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified" />
                             <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                           </Bindings>
                           <CssClass>
@@ -1928,6 +1929,7 @@
                         <CheckBox>
                           <Name value="checkBox3" />
                           <Caption value="Omezit délku platnosti" />
+                          <IsVisible value="False" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
@@ -1944,6 +1946,7 @@
                         </CheckBox>
                         <DatePicker>
                           <Name value="datePicker_AuthorizationValidUntil" />
+                          <IsVisible value="False" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
@@ -1951,7 +1954,6 @@
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil.isRequired()" />
                             <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil.caption()" />
                             <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                            <Binding SourceProperty="IsVisible" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -2876,12 +2878,13 @@
                                     </TextBox>
                                     <CheckBox>
                                       <Name value="checkBox1" />
+                                      <Caption value="Jedná se o Formulář žádosti: ano/ne" />
                                       <IsEnabled value="False" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="*" />
+                                      <Tooltip value="Zadejte, jestli se jedná o Formulář žádosti, nebo o nový celistvý dokument. " />
                                       <Bindings>
                                         <Binding SourceProperty="Data" Expression="IsFulltext" />
-                                        <Binding SourceProperty="Caption" Expression="IsFulltext.caption()" />
                                       </Bindings>
                                       <CssClass>
                                         <CssClassConditional>
@@ -3085,12 +3088,13 @@
                             </TextBox>
                             <CheckBox>
                               <Name value="checkBox3_IsFulltext" />
+                              <Caption value="Jedná se o Formulář žádosti: ano/ne" />
                               <Panel.Height value="#" />
                               <Panel.Width value="25%" />
+                              <Tooltip value="Zadejte, jestli se jedná o Formulář žádosti, nebo o nový celistvý dokument. " />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.sekce5prilohy.addNewAnnex.IsFulltext" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce5prilohy.addNewAnnex.IsFulltext.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.sekce5prilohy.addNewAnnex.IsFulltext.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -8084,33 +8088,38 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
-var tabs = form.components.tabsMenu
- tabs.Tab01obecne.isVisible = false
- tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab03celniUrady.isVisible = false
- tabs.Tab04zbozi.isVisible = false
- tabs.Tab05rozsirene.isVisible = false
- tabs.Tab06prilohy.isVisible = false
- tabs.Tab07prehodnoceni.isVisible = false
- tabs.Tab08lhutyAzajisteni.isVisible = false
- tabs.Tab09rezimy.isVisible = false
- tabs.Tab10lifecycle_applicationRejection.isVisible = false
- tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
- tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-
-form.actions.initTabMenu()
-form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Vydat povolení")//"Autorizovat"
-
-tabs.Tab02lifecycle_authorisation.isVisible = true
-tabs.SelectedTab = 2
-
-tabs.Tab04zbozi.isVisible = True
-
-if form.authorizationType in ["ACP"] then
-	tabs.Tab03celniUrady.isVisible = true
-	tabs.Tab05rozsirene.isVisible = true
-endIf
+	var tabs = form.components.tabsMenu
+	 tabs.Tab01obecne.isVisible = false
+	 tabs.Tab02lifecycle_authorisation.isVisible = false
+	 tabs.Tab03celniUrady.isVisible = false
+	 tabs.Tab04zbozi.isVisible = false
+	 tabs.Tab05rozsirene.isVisible = false
+	 tabs.Tab06prilohy.isVisible = false
+	 tabs.Tab07prehodnoceni.isVisible = false
+	 tabs.Tab08lhutyAzajisteni.isVisible = false
+	 tabs.Tab09rezimy.isVisible = false
+	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
+	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+	
+	form.actions.initTabMenu()
+	form.actions.prepareFormForEdit()
+	form.actions.prepareTabsForAction("Vydat povolení")//"Autorizovat"
+	
+	tabs.Tab02lifecycle_authorisation.isVisible = true
+	tabs.SelectedTab = 2
+	
+	tabs.Tab04zbozi.isVisible = True
+	
+	if form.authorizationType in ["ACP"] then
+		tabs.Tab03celniUrady.isVisible = true
+		tabs.Tab05rozsirene.isVisible = true
+	endIf
+	
+	//set by default variables as false
+	var pathAuth = form.model.modelStructure.ASEO.Event.Authorization
+	pathAuth.ResponsiblePersonWantsToBeNotified = false
+	pathAuth.LimitedAuthorizationValidity = false
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
