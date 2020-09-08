@@ -190,7 +190,7 @@
                   <Panel.Height value="#" />
                   <Panel.Width value="75%" />
                   <Bindings>
-                    <Binding SourceProperty="IsVisible" Expression="not formState.lifeCycle.actionConfirm.actionConfirmPanelVisible" />
+                    <Binding SourceProperty="IsVisible" Expression="form.formState.lifeCycle.showActionButtonPanel" />
                   </Bindings>
                   <Children>
                     <Button>
@@ -5548,6 +5548,15 @@ false]]></ExpressionText>
                     </ResultType>
                   </Expression>
                 </Computed>
+                <Attribute>
+                  <Name value="showActionButtonPanel" />
+                  <Caption value="Show action button panel" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
               </Children>
             </Complex>
             <Attribute>
@@ -6278,7 +6287,7 @@ form.actions.editValidityStartDate()
 form.formState.header.prefixCZ = "CZ"
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 form.formState.visibilities.showHistorySesctions = true
-
+form.formState.lifeCycle.showActionButtonPanel = true
 
 form.formState.currentDateTime = getDateTime()
 
@@ -6457,9 +6466,11 @@ form.components.tabsMenu.Tab06prilohy.Title = "Text a přílohy (" + toString(cu
 
 if form.isLastVersionSelected = false then
 	form.isEditOn = false
-	
+	form.formState.lifeCycle.showActionButtonPanel = false
 	form.actions.setVisibleTabsAccordingToEventType()
-
+else
+	form.formState.lifeCycle.showActionButtonPanel = true
+	form.actions.initTabMenu()
 endIf
 
 globals.IsBusy = False]]></Script>
@@ -6815,7 +6826,7 @@ if reloadAction then
 	form.formState.currentDateTime = getDateTime()
 endIf
 
-
+form.formState.lifeCycle.showActionButtonPanel = true
 
 globals.IsBusy = False
 ]]></Script>
@@ -7094,7 +7105,8 @@ form.formState.notifications.clear()
 else
 	form.isEditOn = not form.isEditOn
 endIf
-]]></Script>
+
+form.formState.lifeCycle.showActionButtonPanel = true]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -7977,6 +7989,8 @@ endIf
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = true
 
+form.formState.lifeCycle.showActionButtonPanel = false
+
 form.formState.lifeCycle.actionConfirm.actionName = actionName]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -8784,10 +8798,7 @@ else if keyType in ["NA","MA"] then
 endIf endIf endIf endIf endIf
 
 tabs.SelectedTab = 1
-
-//test
-system.console("keyType > " + keyType)
-//test]]></Script>
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
