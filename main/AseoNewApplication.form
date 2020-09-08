@@ -160,24 +160,41 @@
                     <Binding SourceProperty="IsVisible" Expression="globals.OverenyUzivatel.hasWritePermission" />
                   </Bindings>
                   <Children>
-                    <Button>
-                      <Name value="buttonLoadSubjectRegisterData" />
-                      <Caption value=" Načíst z registru" />
+                    <Panel>
+                      <Name value="panel9" />
+                      <Orientation value="Horizontal" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="150px" />
-                      <OnClick>
-                        <ActionEvent ReferencedAction="~loadRegisterData" />
-                      </OnClick>
-                      <Bindings>
-                        <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                      </Bindings>
+                      <Panel.Width value="33.33%" />
+                      <Children>
+                        <Button>
+                          <Name value="buttonLoadSubjectRegisterData" />
+                          <Caption value=" Načíst z registru" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="150px" />
+                          <OnClick>
+                            <ActionEvent ReferencedAction="~loadRegisterData" />
+                          </OnClick>
+                          <Bindings>
+                            <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-button" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Button>
+                      </Children>
                       <CssClass>
                         <CssClassConditional>
-                          <ClassName value="{theme}-button" />
+                          <ClassName value="{theme}-panel" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="floatRigth" />
+                        </CssClassConditional>
                       </CssClass>
-                    </Button>
+                    </Panel>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
@@ -795,13 +812,14 @@
                       <Children>
                         <CheckBox>
                           <Name value="IsFulltext" />
+                          <Caption value="Jedná se o Formulář žádosti: ano/ne" />
                           <CaptionPosition value="Top" />
                           <Panel.Height value="#" />
                           <Panel.Width value="33.33%" />
+                          <Tooltip value="Zadejte, jestli se jedná o Formulář žádosti, nebo o nový celistvý dokument. " />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="form.uiState.annexModel.IsFulltext" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.uiState.annexModel.IsFulltext.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="form.uiState.annexModel.IsFulltext.caption()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
