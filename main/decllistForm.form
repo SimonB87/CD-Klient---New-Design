@@ -46,6 +46,13 @@
                   </Bindings>
                 </tab>
                 <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                  <Name value="tabNewSub" />
+                  <CustomCssClass value="tabItemStyle" />
+                  <Bindings>
+                    <Binding SourceProperty="Title" Expression="form.tabFilter.tab08.Title" />
+                  </Bindings>
+                </tab>
+                <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
                   <Name value="tabActive" />
                   <CustomCssClass value="tabItemStyle" />
                   <Bindings>
@@ -78,13 +85,6 @@
                   <CustomCssClass value="tabItemStyle" />
                   <Bindings>
                     <Binding SourceProperty="Title" Expression="form.tabFilter.Tab05.Title" />
-                  </Bindings>
-                </tab>
-                <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
-                  <Name value="tabNewSub" />
-                  <CustomCssClass value="tabItemStyle" />
-                  <Bindings>
-                    <Binding SourceProperty="Title" Expression="form.tabFilter.tab08.Title" />
                   </Bindings>
                 </tab>
                 <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
@@ -2180,7 +2180,7 @@ form.tabFilter.Tab04.Title = "Zneplatněné"
 form.tabFilter.Tab05.Title = "Expirované"
 form.tabFilter.Tab06.Title = "Vše"
 form.tabFilter.Tab07.Title = "K doplnění"
-form.tabFilter.Tab08.Title = "Nové"
+form.tabFilter.Tab08.Title = "Přijaté žádosti"//"Nové"
 form.tabFilter.Tab09.Title = "Odňaté"
 form.tabFilter.Tab10.Title = "Zaniklé"
 form.tabFilter.tab11.Title = "Novinky"
@@ -2196,52 +2196,53 @@ form.tabFilter.tab12.Title = "Správa novinek"]]></Script>
         <Script><![CDATA[globals.IsBusy = true
 
 if form.tabFilter.SelectedTab.hasValue() then
+
 	if form.tabFilter.SelectedTab = 1 then
-		var basicIncompleteFilter = "(CustomsDecisionType eq 'OPO' or CustomsDecisionType eq 'IPO' or CustomsDecisionType eq 'TEA' or CustomsDecisionType eq 'CW1' or CustomsDecisionType eq 'CW2' or CustomsDecisionType eq 'CWP' or CustomsDecisionType eq 'EUS' or CustomsDecisionType eq 'CCL') and (EnhancementCompleteness eq '"
-		form.apiobjects.listCtrl.setInvisibleODataFilter(basicIncompleteFilter + "LastIncomplete')")
-	endif
-	if form.tabFilter.SelectedTab = 2 then
-		//eq all
-		form.apiobjects.listCtrl.clearState()
-	endif
-	if form.tabFilter.SelectedTab = 3 then
-		//eq 'Active'
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '01' or CustomsDecisionStatus eq 'AUA' or CustomsDecisionStatus eq 'FUW')")
-	endif
-	if form.tabFilter.SelectedTab = 4 then
-		//eq 'Suspended' - dodat kód stavu
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '02' or CustomsDecisionStatus eq 'AUS')")
-	endif
-	if form.tabFilter.SelectedTab = 5 then
-		//eq 'Revoked' - dodat kód stavu
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '03' or CustomsDecisionStatus eq 'AUC' or CustomsDecisionStatus eq 'FCA')")
-	endif
-	if form.tabFilter.SelectedTab = 6 then
-		//eq 'Annulled - dodat kód stavu
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '04' or CustomsDecisionStatus eq 'AUR')")
-	endif
-	if form.tabFilter.SelectedTab = 7 then
-		//eq 'Expired'
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '99' or CustomsDecisionStatus eq 'AUE')")
-	endif
-	if form.tabFilter.SelectedTab = 8 then
-		//ASEO "žádost přijata"
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq 'APA' or CustomsDecisionStatus eq 'FUR' or CustomsDecisionStatus eq 'FUA')")
-	endIf
-	if form.tabFilter.SelectedTab = 9 then
-		//ASEO "žádost přijata"
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq 'AUW' or CustomsDecisionStatus eq 'FWA')")
-	endIf
-	if form.tabFilter.SelectedTab = 10 then
-		//ASEO "Zaniknuté"
-		form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq 'DEA')")
-	endIf
-	if form.tabFilter.SelectedTab = 11 then
-		form.actions.newsChangeSeeNew(form.tabFilter.SelectedTab)
-	endIf
-	if form.tabFilter.SelectedTab = 12 then
-		form.actions.newsChangeSeeNew(form.tabFilter.SelectedTab)
-	endIf
+        var basicIncompleteFilter = "(CustomsDecisionType eq 'OPO' or CustomsDecisionType eq 'IPO' or CustomsDecisionType eq 'TEA' or CustomsDecisionType eq 'CW1' or CustomsDecisionType eq 'CW2' or CustomsDecisionType eq 'CWP' or CustomsDecisionType eq 'EUS' or CustomsDecisionType eq 'CCL') and (EnhancementCompleteness eq '"
+        form.apiobjects.listCtrl.setInvisibleODataFilter(basicIncompleteFilter + "LastIncomplete')")
+    endif
+    if form.tabFilter.SelectedTab = 2 then
+        //eq all
+        form.apiobjects.listCtrl.clearState()
+    endif
+    if form.tabFilter.SelectedTab = 3 then
+        //ASEO "Přijaté žádosti"
+        form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq 'APA' or CustomsDecisionStatus eq 'FUR' or CustomsDecisionStatus eq 'FUA')")
+    endIf
+    if form.tabFilter.SelectedTab = 4 then
+        //eq 'Active'
+        form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '01' or CustomsDecisionStatus eq 'AUA' or CustomsDecisionStatus eq 'FUW')")
+    endif
+    if form.tabFilter.SelectedTab = 5 then
+        //eq 'Suspended' - dodat kód stavu
+        form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '02' or CustomsDecisionStatus eq 'AUS')")
+    endif
+    if form.tabFilter.SelectedTab = 6 then
+        //eq 'Revoked' - dodat kód stavu
+        form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '03' or CustomsDecisionStatus eq 'AUC' or CustomsDecisionStatus eq 'FCA')")
+    endif
+    if form.tabFilter.SelectedTab = 7 then
+        //eq 'Annulled - dodat kód stavu
+        form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '04' or CustomsDecisionStatus eq 'AUR')")
+    endif
+    if form.tabFilter.SelectedTab = 8 then
+        //eq 'Expired'
+        form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq '99' or CustomsDecisionStatus eq 'AUE')")
+    endif
+    if form.tabFilter.SelectedTab = 9 then
+        //ASEO "Přijaté žádosti"
+        form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq 'AUW' or CustomsDecisionStatus eq 'FWA')")
+    endIf
+    if form.tabFilter.SelectedTab = 10 then
+        //ASEO "Zaniknuté"
+        form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq 'DEA')")
+    endIf
+    if form.tabFilter.SelectedTab = 11 then
+        form.actions.newsChangeSeeNew(form.tabFilter.SelectedTab)
+    endIf
+    if form.tabFilter.SelectedTab = 12 then
+        form.actions.newsChangeSeeNew(form.tabFilter.SelectedTab)
+    endIf
 
 endif
 
