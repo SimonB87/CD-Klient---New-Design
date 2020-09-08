@@ -2195,6 +2195,7 @@
                   <Name value="checkBox2" />
                   <CaptionPosition value="Right" />
                   <IsEnabled value="False" />
+                  <IsVisible value="False" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
                   <Bindings>
@@ -2209,6 +2210,18 @@
                     </CssClassConditional>
                   </CssClass>
                 </CheckBox>
+                <Label>
+                  <Name value="label_onlyNegativeList" />
+                  <Data value="V tomto povolení je možné uvést pouze negativní výčet zboží" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="300px" />
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-label" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Label>
                 <Panel>
                   <Name value="panel12" />
                   <Orientation value="Horizontal" />
@@ -6429,7 +6442,7 @@ form.apiobjects.authorizationSuspendingReasonCodelist.fillFromJson(dataCustomCod
     <ActionBlock>
       <Name value="handler_decisionVersions_OnRowActivate" />
       <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = True
 
 var selecteEventVersion = params.data.GUID
@@ -6444,6 +6457,9 @@ form.components.tabsMenu.Tab06prilohy.Title = "Text a přílohy (" + toString(cu
 
 if form.isLastVersionSelected = false then
 	form.isEditOn = false
+	
+	form.actions.setVisibleTabsAccordingToEventType()
+	
 endIf
 
 globals.IsBusy = False]]></Script>
@@ -6500,7 +6516,7 @@ tabs.Tab07prehodnoceni.Title = "Přehodnocení"
 tabs.Tab08lhutyAzajisteni.Title = "Lhůty a zajištení"
 tabs.Tab09rezimy.Title = "Režimy"
 
-tabs.Tab02lifecycle_authorisation.Title = "Povoleni" //"Autorizace"
+tabs.Tab02lifecycle_authorisation.Title = "Povolení" //"Autorizace"
 tabs.Tab10lifecycle_applicationRejection.Title = "Zamítnutí žádosti"
 tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Odnětí"
 tabs.Tab12lifecycle_authorizationSuspending.Title = "Pozastavení"
@@ -8696,6 +8712,82 @@ else if name in ["Pozastavit", "Upravit pozastavení"] then
 
 endIf endIf endIf
 ]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setVisibleTabsAccordingToEventType" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var tabs = form.components.tabsMenu
+
+var currentAnnex = form.model.modelStructure.ASEO.Event.File.count()
+var newAnnex = form.model.sekce5prilohy.newFilesCollection.File.count()
+
+tabs.Tab06prilohy.Title = "Text a přílohy (" + toString(currentAnnex + newAnnex) + ")"
+tabs.Tab01obecne.isVisible = true
+tabs.Tab07prehodnoceni.isVisible = true
+tabs.Tab06prilohy.isVisible = true
+
+var keyType = form.model.modelStructure.ASEO.Event.EventType.Key
+
+if keyType in ["NR","MR"] then
+	tabs.Tab10lifecycle_applicationRejection.isVisible = true
+	
+	tabs.Tab02lifecycle_authorisation.isVisible = false
+	tabs.Tab04zbozi.isVisible = false
+	tabs.Tab03celniUrady.isVisible = false
+	tabs.Tab05rozsirene.isVisible = false
+	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+	tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+	
+else if keyType in ["NU","MU"] then
+	tabs.Tab02lifecycle_authorisation.isVisible = true
+	tabs.Tab04zbozi.isVisible = true
+		if form.authorizationType in ["ACP"] then
+			tabs.Tab03celniUrady.isVisible = true
+			tabs.Tab05rozsirene.isVisible = true
+	  	endIf
+	  	
+	 tabs.Tab10lifecycle_applicationRejection.isVisible = false	
+	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+else if keyType in ["NW","MW", "NC", "MC"] then
+	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
+	
+	tabs.Tab02lifecycle_authorisation.isVisible = false
+	tabs.Tab04zbozi.isVisible = false
+	tabs.Tab03celniUrady.isVisible = false
+	tabs.Tab05rozsirene.isVisible = false
+	tabs.Tab10lifecycle_applicationRejection.isVisible = false
+	tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+else if keyType in ["NS","MS"] then
+	tabs.Tab12lifecycle_authorizationSuspending.isVisible = true
+	
+	tabs.Tab02lifecycle_authorisation.isVisible = false
+	tabs.Tab04zbozi.isVisible = false
+	tabs.Tab03celniUrady.isVisible = false
+	tabs.Tab05rozsirene.isVisible = false
+	tabs.Tab10lifecycle_applicationRejection.isVisible = false	
+	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+else if keyType in ["NA","MA"] then
+
+	tabs.Tab02lifecycle_authorisation.isVisible = false
+	tabs.Tab04zbozi.isVisible = false
+	tabs.Tab03celniUrady.isVisible = false
+	tabs.Tab05rozsirene.isVisible = false
+	tabs.Tab10lifecycle_applicationRejection.isVisible = false	
+	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+	tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+	
+endIf endIf endIf endIf endIf
+
+tabs.SelectedTab = 1
+
+//test
+system.console("keyType > " + keyType)
+//test]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
