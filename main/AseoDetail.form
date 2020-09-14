@@ -1169,7 +1169,7 @@
                     <Label>
                       <Name value="note" />
                       <Bindings>
-                        <Binding SourceProperty="Data" Expression="Note" />
+                        <Binding SourceProperty="Data" Expression="shortNote" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -6175,10 +6175,6 @@ false]]></ExpressionText>
       </Children>
       <Modifiers>
         <Modifier>
-          <Name value="modifier_5CC0D53D_EventHistory" />
-          <SourcePath value="model.modelStructure.ASEO.EventHistory" />
-        </Modifier>
-        <Modifier>
           <Name value="modifier_6D69AC3E_Authorization" />
           <SourcePath value="model.modelStructure.ASEO.Event.Authorization" />
         </Modifier>
@@ -6270,6 +6266,19 @@ false]]></ExpressionText>
             </Attribute>
           </Children>
         </Modifier>
+        <Modifier>
+          <Name value="modifier_8FE93F69_EventHistory" />
+          <SourcePath value="model.modelStructure.ASEO.EventHistory" />
+          <Children>
+            <Attribute>
+              <Name value="shortNote" />
+              <Caption value="Short note" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
@@ -6321,7 +6330,7 @@ globals.IsBusy = false]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="loadAseoData" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[form.requests.initReq.ASEO.GUID = decisionGuid
 form.requests.initReq.ASEO.Event.GUID = decisionVersionGuid
 
@@ -6349,6 +6358,8 @@ else
     if form.model.modelStructure.ASEO.Event.GUID.hasValue() then
 		form.VersionGUID = form.model.modelStructure.ASEO.Event.GUID
 	endIf
+	
+	form.actions.editNoteEventHistory()
 
 	form.isEditOn = false
 	
@@ -7024,7 +7035,7 @@ form.components.tabsMenu.Tab06prilohy.Title = "Text a přílohy (" + toString(cu
     <ActionBlock>
       <Name value="editDataBeforePosting" />
       <Category value="lifeCyclePostingSetUp" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[var aseoMegaMessage = form.requests.ASEOmegaMessage
 
 if messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification"] then
@@ -8836,6 +8847,27 @@ endIf endIf endIf endIf endIf
 
 tabs.SelectedTab = 1
 ]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="editNoteEventHistory" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.model.modelStructure.ASEO.EventHistory.exists(current.hasValue()) then
+
+	forEach item in form.model.modelStructure.ASEO.EventHistory do
+	
+		if (length(item.Note) > 25 ) then 
+			item.shortNote = subString(item.Note, 1, 25) + " ..."
+		else
+			item.shortNote = item.Note
+		endIf
+		
+	endFor
+
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
