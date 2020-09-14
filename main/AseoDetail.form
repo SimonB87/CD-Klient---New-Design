@@ -2956,7 +2956,8 @@
                                         <ActionEvent ReferencedAction="~handler_button_deleteAnnex_OnClick" />
                                       </OnClick>
                                       <Bindings>
-                                        <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                                        <Binding SourceProperty="IsEnabled" Expression="form.formState.editCapabilities.isEditAllowedNow" />
+                                        <Binding SourceProperty="IsVisible" Expression="globals.OverenyUzivatel.hasWritePermission" />
                                       </Bindings>
                                       <CssClass>
                                         <CssClassConditional>
@@ -3211,6 +3212,7 @@
                                     </TextBox>
                                     <CheckBox>
                                       <Name value="checkBox4" />
+                                      <Caption value="Jedná se o Formulář žádosti: ano/ne" />
                                       <IsEnabled value="False" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="25%" />
@@ -3218,7 +3220,6 @@
                                       <Bindings>
                                         <Binding SourceProperty="Data" Expression="IsFulltext" />
                                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="IsFulltext.isRequired()" />
-                                        <Binding SourceProperty="Caption" Expression="IsFulltext.caption()" />
                                       </Bindings>
                                       <CssClass>
                                         <CssClassConditional>
@@ -5269,6 +5270,22 @@
                 </Attribute>
               </Children>
             </Complex>
+            <Complex>
+              <Name value="editCapabilities" />
+              <Caption value="Edit capabilities" />
+              <Children>
+                <Computed>
+                  <Name value="isEditAllowedNow" />
+                  <Caption value="Is edit allowed now" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.isEditOn ? globals.OverenyUzivatel.hasWritePermission : false]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
             <Attribute>
               <Name value="modelJson" />
               <Caption value="Model json" />
@@ -6686,6 +6703,7 @@ if newFileIsValid and newFileHasValue then
 	form.components.tabsMenu.Tab06prilohy.Title = "Text a přílohy (" + toString(currentAnnex + newAnnex) + ")"
 	
 	form.model.sekce5prilohy.addNewAnnex.clear()
+	form.model.sekce5prilohy.addNewAnnex.IsFulltext = false
 	
 else
 	form.model.sekce5prilohy.addNewAnnex.FileType.setTouched(true)
@@ -7006,7 +7024,7 @@ form.components.tabsMenu.Tab06prilohy.Title = "Text a přílohy (" + toString(cu
     <ActionBlock>
       <Name value="editDataBeforePosting" />
       <Category value="lifeCyclePostingSetUp" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[var aseoMegaMessage = form.requests.ASEOmegaMessage
 
 if messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification"] then
@@ -7069,7 +7087,7 @@ if messageType in ["ASEOSPApplicationModification"] then
 	form.requests.applicationModification.clear()
 	form.requests.applicationModification.fromJson(form.formState.modelJson)
 	form.requests.applicationModification.ASEO.Event.File.clear()
-	form.actions.setNewAnnexBeforeSendingMessage()
+	form.actions.setNewAnnexBeforeSendingMessage("ASEOSPApplicationModification")
 endIf
 
 //check client errors in form
@@ -7144,6 +7162,7 @@ else
 endIf
 
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+form.formState.visibilities.showHistorySesctions = true
 
 form.requests.initReq.clear()
 
@@ -8518,19 +8537,34 @@ forEach annexItem in form.model.sekce5prilohy.newFilesCollection.File do
 
 	var insertNew = form.requests.ASEOmegaMessage.ASEO.Event.File.addItem()
 	
-	insertNew.IsFulltext = annexItem.IsFulltext
-	insertNew.FileName = annexItem.FileName
-	insertNew.FileType = annexItem.FileType
-	insertNew.FileContent = annexItem.FileContent
+	if messageType = "ASEOSPApplicationModification" then
+		insertNew = form.requests.applicationModification.ASEO.Event.File.addItem()
+	endIf
 	
-	annexItem.FileContent.clear()
-	
+		insertNew.IsFulltext = annexItem.IsFulltext
+		insertNew.FileName = annexItem.FileName
+		insertNew.FileType = annexItem.FileType
+		insertNew.FileContent = annexItem.FileContent
+		
+		annexItem.FileContent.clear()
+		
 endFor
 
 form.model.sekce5prilohy.newFilesCollection.File.clear()]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="messageType" />
+              <Caption value="Message type" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
