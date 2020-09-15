@@ -1169,7 +1169,7 @@
                     <Label>
                       <Name value="note" />
                       <Bindings>
-                        <Binding SourceProperty="Data" Expression="shortNote" />
+                        <Binding SourceProperty="Data" Expression="computedNote" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -1205,6 +1205,9 @@
             <CssClassConditional>
               <ClassName value="{theme}-panel" />
               <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="eventHistory" />
             </CssClassConditional>
           </CssClass>
         </Panel>
@@ -2358,6 +2361,7 @@
                               <Caption value="Kód KN" />
                               <DataApiObject reference="+GlobalApiObjects.cnCodeCl" />
                               <DisplayMember value="_description" />
+                              <IsRequiredMarkVisible value="True" />
                               <MinChars value="2" />
                               <Panel.Height value="#" />
                               <Panel.Width value="300px" />
@@ -4049,6 +4053,9 @@
         </CssClassConditional>
         <CssClassConditional>
           <ClassName value="aseo-style" />
+        </CssClassConditional>
+        <CssClassConditional>
+          <ClassName value="whiteBackground" />
         </CssClassConditional>
       </CssClass>
     </Panel>
@@ -6270,13 +6277,16 @@ false]]></ExpressionText>
           <Name value="modifier_8FE93F69_EventHistory" />
           <SourcePath value="model.modelStructure.ASEO.EventHistory" />
           <Children>
-            <Attribute>
-              <Name value="shortNote" />
-              <Caption value="Short note" />
-              <DeclaredType>
-                <AttributeType />
-              </DeclaredType>
-            </Attribute>
+            <Computed>
+              <Name value="computedNote" />
+              <Caption value="Computed note" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[(length(this.Note) > 25 ) ?  (subString(this.Note, 1, 25) + " ...") : this.Note]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </Expression>
+            </Computed>
           </Children>
         </Modifier>
       </Modifiers>
@@ -6330,7 +6340,7 @@ globals.IsBusy = false]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="loadAseoData" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[form.requests.initReq.ASEO.GUID = decisionGuid
 form.requests.initReq.ASEO.Event.GUID = decisionVersionGuid
 
@@ -6359,8 +6369,6 @@ else
 		form.VersionGUID = form.model.modelStructure.ASEO.Event.GUID
 	endIf
 	
-	form.actions.editNoteEventHistory()
-
 	form.isEditOn = false
 	
 endIf
@@ -6648,12 +6656,7 @@ endIf
 else
 	form.model.sekce3zbozi.switchInsertNewGoodsItem = not form.model.sekce3zbozi.switchInsertNewGoodsItem
 endIf
-
-if form.model.modelStructure.ASEO.Event.ValidityStartDate.hasValue() then
-	apiobjects.cnCodeCl.setDateTime(form.model.modelStructure.ASEO.Event.ValidityStartDate)
-else
-	apiobjects.cnCodeCl.setDateTime(getDateTime())
-endIf]]></Script>
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -6715,6 +6718,10 @@ if newFileIsValid and newFileHasValue then
 	
 	form.model.sekce5prilohy.addNewAnnex.clear()
 	form.model.sekce5prilohy.addNewAnnex.IsFulltext = false
+	form.model.sekce5prilohy.addNewAnnex.IsFulltext.setTouched(false)
+	form.model.sekce5prilohy.addNewAnnex.FileName.setTouched(false)
+	form.model.sekce5prilohy.addNewAnnex.FileType.setTouched(false)
+	form.model.sekce5prilohy.addNewAnnex.FileContent.setTouched(false)
 	
 else
 	form.model.sekce5prilohy.addNewAnnex.FileType.setTouched(true)
@@ -8670,7 +8677,18 @@ form.actions.loadDataFromRegister()
 form.actions.setDateAuthorisation()
 form.formState.currentDateTime = getDateTime()
 form.actions.editValidityStartDate()
-form.actions.clearOtherRejectionTabs()]]></Script>
+form.actions.clearOtherRejectionTabs()
+
+if form.formState.original_validityStartDate.hasValue() then
+
+	var originalValidityDate = toDate(form.formState.original_validityStartDate)
+	if (originalValidityDate > getDate()) then
+		originalValidityDate = getDate()
+	endIf
+	apiobjects.cnCodeCl.startLoadingData(originalValidityDate)
+else
+	apiobjects.cnCodeCl.startLoadingData(getDate())
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -8847,27 +8865,6 @@ endIf endIf endIf endIf endIf
 
 tabs.SelectedTab = 1
 ]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="editNoteEventHistory" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.model.modelStructure.ASEO.EventHistory.exists(current.hasValue()) then
-
-	forEach item in form.model.modelStructure.ASEO.EventHistory do
-	
-		if (length(item.Note) > 25 ) then 
-			item.shortNote = subString(item.Note, 1, 25) + " ..."
-		else
-			item.shortNote = item.Note
-		endIf
-		
-	endFor
-
-endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
