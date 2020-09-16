@@ -732,12 +732,15 @@
           <Children>
             <ClientValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
               <Name value="clientValidationSummary" />
+              <isVisible value="False" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
+              <OnItemClick>
+                <ActionEvent ReferencedAction="~handler_clientValidationSummary_OnItemClick" />
+              </OnItemClick>
               <Bindings>
                 <Binding SourceProperty="validationErrors" Expression="error.clientValidationErrors" />
                 <Binding SourceProperty="validationRoot" Expression="model" />
-                <Binding SourceProperty="isVisible" Expression="form.formState.visibilities.isValidationsVisible" />
               </Bindings>
               <columns>
                 <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
@@ -6961,17 +6964,8 @@ else
 	form.model.sekce5prilohy.newFilesCollectionJson.clear()
 endIf
 
-if  messageType in ["ASEOSPAuthorization", "ASEOSPAuthorizationModification","ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification", "ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification","ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationWithdrawalModification"]  then	
+if  messageType in ["ASEOSPAuthorization", "ASEOSPAuthorizationModification","ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification", "ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification","ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationWithdrawalModification", "ASEOSPApplicationModification"]  then	
 	form.requests.ASEOmegaMessage.clear()
-	
-	if not messagePostSucess then
-		form.model.modelStructure.fromJson(form.formState.modelJson)
-	endIf
-	
-	form.formState.modelJson.clear()
-endIf
-
-if messageType in ["ASEOSPApplicationModification"] then
 	form.requests.applicationModification.clear()
 	
 	if not messagePostSucess then
@@ -6981,13 +6975,7 @@ if messageType in ["ASEOSPApplicationModification"] then
 	form.formState.modelJson.clear()
 endIf
 
-if messageType in ["ASEOSPApplicationModification", "ASEOSPAuthorization", "ASEOSPAuthorizationModification"] then
-
-	form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(false)
-	form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(false)
-	form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.setTouched(false)
-
-endIf
+form.actions.editDataAfterPosting_editSetTouchedOfReasonsCombos(messagePostSucess, messageType)
 
 form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 form.formState.currentDateTime = getDateTime()
@@ -8611,7 +8599,6 @@ form.requests.requestCRS.KodEvidence = "ASEO"
 form.requests.requestCRS.KodAgendoveRole = "CR328"
 form.requests.requestCRS.KodUtvaru = form.model.modelStructure.ASEO.Event.DecidingCustomsOffice
 form.requests.requestCRS.Uzivatel = globals.OverenyUzivatel.userName
-//form.requests.requestCRS.IP = "172.20.43.235"
 form.requests.requestCRS.IP = "172.0.0.1"
 form.requests.requestCRS.Duvod = "Vydávání povolení v ASEO"
 
@@ -8639,7 +8626,8 @@ else
 			warningMessage = warningMessage + "Popis chyby \"" +form.requests.responseCRS.KodChyby + "\""
 		endIf
 		
-		apiobjects.notificationsCtrl.addWarning(warningMessage)
+		//apiobjects.notificationsCtrl.addWarning(warningMessage)
+		form.actions.showErorrNotificationMessage(warningMessage, true)
 	else
 		
 	var mainCol = form.requests.responseCRS.Subjekty.selectFirst()
@@ -8654,10 +8642,12 @@ else
 					form.model.modelStructure.ASEO.Event.OperatorCountry = targetCol.Zeme
 					//apiobjects.notificationsCtrl.addSuccess("Podařilo se získat data z CRS.")
 			else
-				apiobjects.notificationsCtrl.addError("Došlo k chybě načítání dat.")
+				//apiobjects.notificationsCtrl.addError("Došlo k chybě načítání dat.")
+				form.actions.showErorrNotificationMessage("Došlo k chybě načítání dat.", true)
 			endIf
 		else
-			apiobjects.notificationsCtrl.addError("Došlo k chybě načítání dat.")
+			//apiobjects.notificationsCtrl.addError("Došlo k chybě načítání dat.")
+			form.actions.showErorrNotificationMessage("Došlo k chybě načítání dat.", true)
 		endIf	
 		
 	endIf
@@ -8877,6 +8867,67 @@ endIf endIf endIf endIf endIf
 
 tabs.SelectedTab = 1
 ]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="editDataAfterPosting_editSetTouchedOfReasonsCombos" />
+      <Category value="lifeCyclePostingSetUp" />
+      <Description value="used only in action editDataAfterPosting" />
+      <ActionLangBody>
+        <Script><![CDATA[if not messagePostSucess then
+	
+	form.error.clientValidationErrors.clear()
+	form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(false)
+	form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(false)
+	form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.setTouched(false)
+	
+	if messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification"] then
+		form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(true)
+	else if messageType in ["ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawalModification"] then
+		form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
+	else if messageType in ["ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification"] then
+		form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.setTouched(false)
+	endIf endIf endIf
+
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="messagePostSucess" />
+              <Caption value="Message post sucess" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="messageType" />
+              <Caption value="Message type" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_clientValidationSummary_OnItemClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[// original client validation errors summary set up
+// visibility set: form.formState.visibilities.isValidationsVisible
+// validation errors: error.clientValidationErrors
+// validationRoot: model
+system.console("isValidationsVisible: " + toString(form.formState.visibilities.isValidationsVisible))]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
