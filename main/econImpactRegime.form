@@ -14144,6 +14144,8 @@ if globals.dataLoadingSpace.success then
   var msg = "Data dané verze (poř. č.: " + toString(params.data.orderNumber) + ") se podařilo úspěšně načíst."
   form.actions.showSuccessfullResult(msg)
   
+  form.actions.prepareGoodsItemCZlistCtrl()
+  
   form.mode = enums.DetailMode.show
 else
   form.actions.handleVersionDataLoadError(params.data.orderNumber, params.data.customsDecisionVersionGUID)
@@ -14500,7 +14502,7 @@ form.prefillTemplate.versionGuid = versionGuid
     </ActionBlock>
     <ActionBlock>
       <Name value="prefillEnhancementData" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[//ToDO TODO to do -- new prefil from last version
 
 actions.commonLoadData(form.CD.customsDecisionAuthorisationData.customsDecisionGUID, form.prefillTemplate.versionGuid)
