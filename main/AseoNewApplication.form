@@ -466,13 +466,13 @@
                     </TextBox>
                     <TextBox>
                       <Name value="YourMark" />
+                      <Caption value="Spisová značka" />
                       <CaptionPosition value="Top" />
                       <Panel.Height value="#" />
                       <Panel.Width value="33.33%" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="aseoApplication.ASEO.Event.YourMark" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="aseoApplication.ASEO.Event.YourMark.isRequired()" />
-                        <Binding SourceProperty="Caption" Expression="aseoApplication.ASEO.Event.YourMark.caption()" />
                         <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
                       </Bindings>
                       <CssClass>
@@ -640,6 +640,9 @@
                                       <ClassName value="{theme}-label" />
                                       <IsThemedStyle value="True" />
                                     </CssClassConditional>
+                                    <CssClassConditional>
+                                      <ClassName value="fileTypeWordBreak" />
+                                    </CssClassConditional>
                                   </CssClass>
                                 </Label>
                               </Content>
@@ -663,6 +666,9 @@
                                     <CssClassConditional>
                                       <ClassName value="{theme}-label" />
                                       <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                    <CssClassConditional>
+                                      <ClassName value="fileTypeWordBreak" />
                                     </CssClassConditional>
                                   </CssClass>
                                 </Label>
@@ -1111,6 +1117,9 @@
         <CssClassConditional>
           <ClassName value="aseo-style" />
         </CssClassConditional>
+        <CssClassConditional>
+          <ClassName value="whiteBackground" />
+        </CssClassConditional>
       </CssClass>
     </Panel>
   </Content>
@@ -1532,6 +1541,8 @@
 form.actions.setUserCustomsOffice()
 form.actions.setCodelistPovolTyp()
 form.actions.setDecidingOfficeAndPerson()
+
+form.uiState.annexModel.IsFulltext = false
 
 //test
 //globals.OverenyUzivatel.hasRoleWrite = false

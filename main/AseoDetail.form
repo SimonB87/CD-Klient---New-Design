@@ -1408,12 +1408,12 @@
                             </TextBox>
                             <TextBox>
                               <Name value="textBox16" />
+                              <Caption value="Spisová značka" />
                               <Panel.Height value="#" />
                               <Panel.Width value="33.33%" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.YourMark" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.YourMark.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.YourMark.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -2891,6 +2891,9 @@
                                           <ClassName value="{theme}-textbox" />
                                           <IsThemedStyle value="True" />
                                         </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="fileTypeWordBreak" />
+                                        </CssClassConditional>
                                       </CssClass>
                                     </TextBox>
                                     <CheckBox>
@@ -3102,6 +3105,9 @@
                                   <ClassName value="{theme}-textbox" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
+                                <CssClassConditional>
+                                  <ClassName value="fileTypeWordBreak" />
+                                </CssClassConditional>
                               </CssClass>
                             </TextBox>
                             <CheckBox>
@@ -3211,6 +3217,9 @@
                                         <CssClassConditional>
                                           <ClassName value="{theme}-textbox" />
                                           <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="fileTypeWordBreak" />
                                         </CssClassConditional>
                                       </CssClass>
                                     </TextBox>
@@ -6319,7 +6328,6 @@ endIf
 
 //variable preparation
 form.formState.original_validityStartDate = form.model.modelStructure.ASEO.Event.ValidityStartDate //save this for GUI to display
-form.actions.editValidityStartDate()
 form.formState.header.prefixCZ = "CZ"
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 form.formState.visibilities.showHistorySesctions = true
@@ -8678,6 +8686,7 @@ form.actions.setDateAuthorisation()
 form.formState.currentDateTime = getDateTime()
 form.actions.editValidityStartDate()
 form.actions.clearOtherRejectionTabs()
+form.actions.editValidityStartDate()
 
 if form.formState.original_validityStartDate.hasValue() then
 
