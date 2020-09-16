@@ -1554,38 +1554,6 @@
                                 </CssClassConditional>
                               </CssClass>
                             </DatePicker>
-                            <TextBox>
-                              <Name value="textBox18" />
-                              <IsEnabled value="False" />
-                              <IsVisible value="False" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="33.33%" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.EventType.Description" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.EventType.Description.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.EventType.Description.caption()" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </TextBox>
-                          </Children>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-panel" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </Panel>
-                        <Panel>
-                          <Name value="panel31" />
-                          <Orientation value="Horizontal" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="*" />
-                          <Children>
                             <DatePicker>
                               <Name value="datePicker_validityStartDate" />
                               <Caption value="Počátek platnosti rozhodnutí od" />
@@ -1604,16 +1572,48 @@
                                 </CssClassConditional>
                               </CssClass>
                             </DatePicker>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                        <Panel>
+                          <Name value="panel31" />
+                          <Orientation value="Horizontal" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Children>
                             <TextBox>
                               <Name value="textBox_note" />
                               <InputType value="Multiline" />
                               <Panel.Height value="#" />
-                              <Panel.Width value="66.66%" />
+                              <Panel.Width value="99.9%" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Note" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Note.isRequired()" />
                                 <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Note.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox18" />
+                              <IsEnabled value="False" />
+                              <IsVisible value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="0.1%" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.EventType.Description" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.EventType.Description.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.EventType.Description.caption()" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -8686,8 +8686,8 @@ form.actions.setDateAuthorisation()
 form.formState.currentDateTime = getDateTime()
 form.actions.editValidityStartDate()
 form.actions.clearOtherRejectionTabs()
-form.actions.editValidityStartDate()
 
+/*
 if form.formState.original_validityStartDate.hasValue() then
 
 	var originalValidityDate = toDate(form.formState.original_validityStartDate)
@@ -8697,7 +8697,10 @@ if form.formState.original_validityStartDate.hasValue() then
 	apiobjects.cnCodeCl.startLoadingData(originalValidityDate)
 else
 	apiobjects.cnCodeCl.startLoadingData(getDate())
-endIf]]></Script>
+endIf
+*/
+
+form.actions.editValidityStartDate()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
