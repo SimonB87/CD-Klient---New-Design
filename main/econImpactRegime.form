@@ -990,7 +990,7 @@
                         <CssClassConditional>
                           <ClassName value="disabledButton" />
                           <Bindings>
-                            <Binding SourceProperty="Condition" Expression="form.formBehavior.imgButton_prefilDisabledClass" />
+                            <Binding SourceProperty="Condition" Expression="not form.formBehavior.prefillVersionExists" />
                           </Bindings>
                         </CssClassConditional>
                         <CssClassConditional>
@@ -15281,7 +15281,7 @@ if response.isError() then
 	
 else
 	var dataReceived = response.getJsonString()
-	
+		
 	form.dataSetGoodsItems.response.fromJson(dataReceived)
 	
 	var goodsItemData = form.dataSetGoodsItems.response.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsCZ.goodsItemCZ.selectFirst()
@@ -15609,8 +15609,10 @@ if form.enhancement.goodsItemCZvalidatation then
     form.actions.showEnhancementErrorMessage(msg, false)
     form.enhancement.clientMsg.sendRequest = true
     
+    var decisionGuid = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+    var decisiosVersionGuid = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
     
-    actions.commonLoadData(form.GUID)
+    actions.commonLoadData(decisionGuid, decisiosVersionGuid)
     if globals.dataLoadingSpace.success then
     	form.CD.clear()
     	form.CD.fromJson(globals.dataLoadingSpace.cdDetailJson)
@@ -15829,7 +15831,11 @@ else
     form.actions.showEnhancementErrorMessage("Podařilo se převzít stav zbožových položek z minulé verze povolení. ", false)
     form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
     form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
-endif]]></Script>
+endif
+
+//refresh declist of GoodsItems
+form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
+form.apiobjects.enhancementDeclistGoodsItems.setReady(false)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
