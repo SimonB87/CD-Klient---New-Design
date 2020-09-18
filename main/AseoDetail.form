@@ -195,7 +195,7 @@
                   <Children>
                     <Button>
                       <Name value="send_ASEOSPApplicationModification" />
-                      <Caption value="Modifikovat žádost" />
+                      <Caption value="Upravit žádost" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
@@ -245,7 +245,7 @@
                     </Button>
                     <Button>
                       <Name value="send_ASEOSPApplicationRejectionModification" />
-                      <Caption value="Modifikace zamítnutí " />
+                      <Caption value="Upravit zamítnutí " />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
@@ -295,7 +295,7 @@
                     </Button>
                     <Button>
                       <Name value="send_ASEOSPAuthorizationModification" />
-                      <Caption value="Modifikovat autorizaci" />
+                      <Caption value="Upravit autorizaci" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
@@ -345,7 +345,7 @@
                     </Button>
                     <Button>
                       <Name value="send_ASEOSPAuthorizationWithdrawalModification" />
-                      <Caption value="Modifikovat odnětí" />
+                      <Caption value="Upravit odnětí" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
@@ -445,7 +445,7 @@
                     </Button>
                     <Button>
                       <Name value="send_ASEOSPAuthorizationCancellationModification" />
-                      <Caption value="Modifikovat zrušení " />
+                      <Caption value="Upravit zrušení " />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
@@ -6607,7 +6607,11 @@ else if stateCode in ["AUS"] then
 
 	tabs.Tab12lifecycle_authorizationSuspending.isVisible = true
 
-endIf endIf endIf endIf
+else if stateCode in ["APA", "FUA"] then 
+
+	tabs.Tab07prehodnoceni.isVisible = false
+
+endIf endIf endIf endIf endIf
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -7057,12 +7061,8 @@ if messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification"] then
 		aseoMegaMessage.ASEO.Event.Authorization.LimitedAuthorizationValidity = false
 	endIf
 
-	
-	var stateCode = form.formState.lifeCycle.stateCode
-	if stateCode in ["AUC","AUS","AUW"] then
-		aseoMegaMessage.ASEO.ASEOID.clear()
-	endIf
-	
+	aseoMegaMessage.ASEO.ASEOID.clear()
+
 endIf
 
 if messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification"] then
@@ -7974,27 +7974,27 @@ var postingSuccess = defaultBool()
 
 if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.ValidityStartDate then
 
-	if form.formState.lifeCycle.actionConfirm.actionName = "Modifikovat žádost" then
+	if form.formState.lifeCycle.actionConfirm.actionName = "Upravit žádost" then
 		postingSuccess = form.actions.lifeCycle_applicationModification()
 	else if form.formState.lifeCycle.actionConfirm.actionName = "Zamítnout žádost" then
 		postingSuccess = form.actions.lifeCycle_applicationRejection()
-	else if form.formState.lifeCycle.actionConfirm.actionName = "Modifikace zamítnutí" then
+	else if form.formState.lifeCycle.actionConfirm.actionName = "Upravit zamítnutí" then
 		postingSuccess = form.actions.lifeCycle_applicationRejectionModification()
 	else if form.formState.lifeCycle.actionConfirm.actionName = "Vydat povolení" then
 		postingSuccess = form.actions.lifeCycle_authorisation()
-	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Modifikovat autorizaci"	then
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit autorizaci" then
 		postingSuccess = form.actions.lifeCycle_authorisationModification()	
-	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Odejmout povolení"	then
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Odejmout povolení" then
 		postingSuccess = form.actions.lifeCycle_authorizationWithdrawal()	
-	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Modifikovat odnětí"	then
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit odnětí"	then
 		postingSuccess = form.actions.lifeCycle_authorizationWithdrawalModification()	
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Pozastavit"	then
 		postingSuccess = form.actions.lifeCycle_authorizationSuspending()	
-	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit pozastavení"	then
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit pozastavení" then
 		postingSuccess = form.actions.lifeCycle_authorizationSuspendingModification()	
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Zrušit povolení"	then
 		postingSuccess = form.actions.lifeCycle_authorizationCancellation()	
-	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Modifikovat zrušení"	then
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit zrušení"	then
 		postingSuccess = form.actions.lifeCycle_authorizationCancellationModification()	
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Odstranit budoucí změnu"	then
 		postingSuccess = form.actions.lifeCycle_futureRemoval()	
@@ -8064,7 +8064,7 @@ var tabs = form.components.tabsMenu
  tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
  tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 
-form.actions.prepareTabsForAction("Modifikovat žádost")
+form.actions.prepareTabsForAction("Upravit žádost")
 form.actions.prepareFormForEdit()
 form.actions.initTabMenu()
 
@@ -8134,7 +8134,7 @@ var tabs = form.components.tabsMenu
 
 form.actions.prepareFormForEdit()
 form.actions.initTabMenu()
-form.actions.prepareTabsForAction("Modifikace zamítnutí")
+form.actions.prepareTabsForAction("Upravit zamítnutí")
 
 form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
 form.components.tabsMenu.SelectedTab = 10
@@ -8218,7 +8218,7 @@ var tabs = form.components.tabsMenu
 
 form.actions.prepareFormForEdit()
 form.actions.initTabMenu()
-form.actions.prepareTabsForAction("Modifikovat autorizaci")
+form.actions.prepareTabsForAction("Upravit autorizaci")
 
 tabs.Tab02lifecycle_authorisation.isVisible = true
 tabs.SelectedTab = 2
@@ -8293,7 +8293,7 @@ var tabs = form.components.tabsMenu
 
 form.actions.initTabMenu()
 form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Modifikovat odnětí")
+form.actions.prepareTabsForAction("Upravit odnětí")
 
 tabs.Tab03celniUrady.isVisible = false
 tabs.Tab04zbozi.isVisible = false
@@ -8437,7 +8437,7 @@ var tabs = form.components.tabsMenu
 
 form.actions.initTabMenu()
 form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Modifikovat zrušení")
+form.actions.prepareTabsForAction("Upravit zrušení")
 
 tabs.Tab03celniUrady.isVisible = false
 tabs.Tab04zbozi.isVisible = false
