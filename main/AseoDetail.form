@@ -270,7 +270,6 @@
                     </Button>
                     <Button>
                       <Name value="send_ASEOSPAuthorization" />
-                      <Caption value="Vydat povolení" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
@@ -279,6 +278,7 @@
                       <Bindings>
                         <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
                         <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAPA_AUS_AUC_AUW" />
+                        <Binding SourceProperty="Caption" Expression="form.formState.lifeCycle.pastAuthorisation.authorisationButtonText" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -320,7 +320,7 @@
                     </Button>
                     <Button>
                       <Name value="send_ASEOSPAuthorizationWithdrawal" />
-                      <Caption value="Odejmout povolení" />
+                      <Caption value="Zneplatnit povolení" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
@@ -345,7 +345,7 @@
                     </Button>
                     <Button>
                       <Name value="send_ASEOSPAuthorizationWithdrawalModification" />
-                      <Caption value="Upravit odnětí" />
+                      <Caption value="Upravit zneplatnění" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
@@ -5593,6 +5593,26 @@ false]]></ExpressionText>
                     </AttributeType>
                   </DeclaredType>
                 </Attribute>
+                <Complex>
+                  <Name value="pastAuthorisation" />
+                  <Caption value="Past authorisation" />
+                  <Children>
+                    <Attribute>
+                      <Name value="authorisationButtonText" />
+                      <Caption value="Authorisation button text" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="pastAuthorisationGuidVersion" />
+                      <Caption value="Past authorisation guid version" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
             <Attribute>
@@ -6319,6 +6339,7 @@ form.VersionGUID.clear()
 form.actions.prepareCodeLists()
 form.actions.loadAseoData(form.GUID)
 form.actions.initTabMenu()
+form.actions.prepareButtonActionText()
 
 //variables set up
 form.formState.visibilities.showVersionHistory = false
@@ -6370,7 +6391,7 @@ if resp.isError() or (resp.getMessageType() = "IN906A") then
     
     form.actions.validErr_prepareServerErr(resp.extractJson("QERR"))
 else
-	form.actions.showErorrNotificationMessage("Data povolení byla úspěšně načtena. ", false)
+	form.actions.showErorrNotificationMessage("Data byla úspěšně načtena z Centra. ", false)
 	
     var respJson = resp.getJsonString()
     form.model.modelStructure.clear()
@@ -6379,6 +6400,8 @@ else
     if form.model.modelStructure.ASEO.Event.GUID.hasValue() then
 		form.VersionGUID = form.model.modelStructure.ASEO.Event.GUID
 	endIf
+	
+	form.actions.prepareButtonActionText()
 	
 	form.isEditOn = false
 	
@@ -6902,7 +6925,7 @@ result = responseResult
 
 if response.isError() then
 	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být autorizace udělena.", true)
+	form.actions.showErorrNotificationMessage("Nastala chyba. Nemohlo být vydání povolení realizováno.", true)
 	
 	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
@@ -6926,7 +6949,15 @@ if response.isError() then
 	result = responseResult
 else
 	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k autorizaci.", false)
+	
+	var messageString = ""
+	if form.formState.lifeCycle.pastAuthorisation.pastAuthorisationGuidVersion.hasValue() then
+		messageString = "Úspěšně předáno k vydání povolení."
+	else
+		messageString = "Úspěšně předáno k obnovení povolení."
+	endIF
+	
+	form.actions.showErorrNotificationMessage(messageString, false)
 	form.VersionGUID = defaultString()
 	form.actions.loadAseoData(form.GUID)
 	responseResult = true
@@ -7369,7 +7400,7 @@ if checkNecessaryReason = true then
 
 	if response.isError() then
 		system.console(response.getErrorMessage())
-		form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohlo být odnětí uděleno.", true)
+		form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohlo být zneplatnění uděleno.", true)
 		
 		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
@@ -7389,7 +7420,7 @@ if checkNecessaryReason = true then
 		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
-		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k odnětí.", false)
+		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k zneplatnění.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
@@ -7713,7 +7744,7 @@ if checkNecessaryReason = true then
 	
 	if response.isError() then
 		system.console(response.getErrorMessage())
-		form.actions.showErorrNotificationMessage("Nastala chyba. Žádost nemohla být modifikace odnětí udělena.", true)
+		form.actions.showErorrNotificationMessage("Nastala chyba. Žádost nemohla být předána k úpravě zneplatnění.", true)
 		
 		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
@@ -7733,7 +7764,7 @@ if checkNecessaryReason = true then
 		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
-		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci odnětí.", false)
+		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k úpravě zneplatnění.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
@@ -7980,13 +8011,13 @@ if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.Validi
 		postingSuccess = form.actions.lifeCycle_applicationRejection()
 	else if form.formState.lifeCycle.actionConfirm.actionName = "Upravit zamítnutí" then
 		postingSuccess = form.actions.lifeCycle_applicationRejectionModification()
-	else if form.formState.lifeCycle.actionConfirm.actionName = "Vydat povolení" then
+	else if form.formState.lifeCycle.actionConfirm.actionName in ["Vydat povolení", "Obnovit povolení"] then
 		postingSuccess = form.actions.lifeCycle_authorisation()
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit autorizaci" then
 		postingSuccess = form.actions.lifeCycle_authorisationModification()	
-	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Odejmout povolení" then
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Zneplatnit povolení" then
 		postingSuccess = form.actions.lifeCycle_authorizationWithdrawal()	
-	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit odnětí"	then
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit zneplatnění"	then
 		postingSuccess = form.actions.lifeCycle_authorizationWithdrawalModification()	
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Pozastavit"	then
 		postingSuccess = form.actions.lifeCycle_authorizationSuspending()	
@@ -8170,7 +8201,7 @@ endIf]]></Script>
 	
 	form.actions.initTabMenu()
 	form.actions.prepareFormForEdit()
-	form.actions.prepareTabsForAction("Vydat povolení")//"Autorizovat"
+	form.actions.prepareTabsForAction(form.formState.lifeCycle.pastAuthorisation.authorisationButtonText)//"Autorizovat"
 	
 	tabs.Tab02lifecycle_authorisation.isVisible = true
 	tabs.SelectedTab = 2
@@ -8182,11 +8213,18 @@ endIf]]></Script>
 		tabs.Tab05rozsirene.isVisible = true
 	endIf
 	
+	if form.formState.lifeCycle.pastAuthorisation.pastAuthorisationGuidVersion.hasValue() then
+		var lastAuthorisationGuid = form.formState.lifeCycle.pastAuthorisation.pastAuthorisationGuidVersion
+		form.actions.preloadLastAuthorisationData(lastAuthorisationGuid)
+	endIf
 	//set by default variables as false
 	var pathAuth = form.model.modelStructure.ASEO.Event.Authorization
-	pathAuth.ResponsiblePersonWantsToBeNotified = false
-	pathAuth.LimitedAuthorizationValidity = false
-
+	if pathAuth.ResponsiblePersonWantsToBeNotified.isEmpty() then
+		pathAuth.ResponsiblePersonWantsToBeNotified = false
+	endIf
+	if pathAuth.LimitedAuthorizationValidity.isEmpty() then
+		pathAuth.LimitedAuthorizationValidity = false
+	endIf
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
 endIf
@@ -8257,7 +8295,7 @@ var tabs = form.components.tabsMenu
 
 form.actions.initTabMenu()
 form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Odejmout povolení")
+form.actions.prepareTabsForAction("Zneplatnit povolení")
 
 tabs.Tab03celniUrady.isVisible = false
 tabs.Tab04zbozi.isVisible = false
@@ -8928,6 +8966,140 @@ endIf]]></Script>
 // validation errors: error.clientValidationErrors
 // validationRoot: model
 system.console("isValidationsVisible: " + toString(form.formState.visibilities.isValidationsVisible))]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="prepareButtonActionText" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.model.modelStructure.ASEO.EventHistory.exists(current.EventType.Key in ["NU", "MU"]) then
+	var lastAuthorisation = form.model.modelStructure.ASEO.EventHistory.selectFirst(current.EventType.Key in ["NU", "MU"])
+	var lastAuthorisationGUIDVersion = lastAuthorisation.GUID
+	system.console("exists: " + lastAuthorisationGUIDVersion)
+	
+	form.formState.lifeCycle.pastAuthorisation.authorisationButtonText = "Obnovit povolení"
+	form.formState.lifeCycle.pastAuthorisation.pastAuthorisationGuidVersion = lastAuthorisationGUIDVersion
+else
+	form.formState.lifeCycle.pastAuthorisation.authorisationButtonText = "Vydat povolení"
+	form.formState.lifeCycle.pastAuthorisation.pastAuthorisationGuidVersion.clear()
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="preloadLastAuthorisationData" />
+      <Category value="authorisationPreload" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.requests.initReq.ASEO.GUID = form.GUID
+form.requests.initReq.ASEO.Event.GUID = lastAuthorisationGuid
+
+var resp = apiobjects.ServerKomunikace.postAsync("ASEOSPDataRequestEx", form.requests.initReq.toJson(true))
+  
+if resp.isError() or (resp.getMessageType() = "IN906A") then
+    form.actions.showErorrNotificationMessage("Data poslední verze uděleného povolení nebyla načtena. ", true)
+    
+    var errorMsg = resp.getErrorMessage()
+    system.consoleError("Response content: " + errorMsg)
+    
+    form.actions.validErr_prepareServerErr(resp.extractJson("QERR"))
+else
+	form.actions.showErorrNotificationMessage("Data poslední verze uděleného povolení byla načtena úspěšně", false)
+	
+    var respJson = resp.getJsonString()
+    form.requests.ASEOmegaMessage.clear()
+    form.requests.ASEOmegaMessage.fromJson(respJson)
+
+	form.actions.preloadDataForAll()
+
+	if form.authorizationType = "TIR" then
+		form.actions.preloadDataForTIR()
+	else if form.authorizationType = "ACP" then
+		form.actions.preloadDataForACP()
+	endIf endIf
+	//delete afterwards support structure
+	form.requests.ASEOmegaMessage.clear()
+	
+endIf
+
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="lastAuthorisationGuid" />
+              <Caption value="Last authorisation guid" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="preloadDataForAll" />
+      <Category value="authorisationPreload" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var modelPath = form.model.modelStructure.ASEO.Event
+var preloadedPath = form.requests.ASEOmegaMessage.ASEO.Event
+
+//Povolení:
+modelPath.Authorization.LimitedAuthorizationValidity = preloadedPath.Authorization.LimitedAuthorizationValidity
+
+	//Kontaktní osoba držitele povolení
+	modelPath.Authorization.ResponsiblePersonName = preloadedPath.Authorization.ResponsiblePersonName
+	modelPath.Authorization.ResponsiblePersonPhone = preloadedPath.Authorization.ResponsiblePersonPhone
+	modelPath.Authorization.ResponsiblePersonEMail = preloadedPath.Authorization.ResponsiblePersonEMail
+	modelPath.Authorization.ResponsiblePersonWantsToBeNotified = preloadedPath.Authorization.ResponsiblePersonWantsToBeNotified
+
+//Zboží
+modelPath.GoodsList.fromJson(preloadedPath.GoodsList.toJson())
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="preloadDataForTIR" />
+      <Category value="authorisationPreload" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var modelPath = form.model.modelStructure.ASEO.Event
+var preloadedPath = form.requests.ASEOmegaMessage.ASEO.Event
+
+// Povolení:
+
+	// Vydání povolení: TIR ID
+	modelPath.SPTIR.TIRHolder = preloadedPath.SPTIR.TIRHolder]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="preloadDataForACP" />
+      <Category value="authorisationPreload" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var modelPath = form.model.modelStructure.ASEO.Event
+var preloadedPath = form.requests.ASEOmegaMessage.ASEO.Event
+
+//Celní úřady:
+modelPath.CustomsOffices.fromJson(preloadedPath.CustomsOffices.toJson())
+
+//Rozšířené:
+modelPath.Period.fromJson(preloadedPath.Period.toJson())
+
+modelPath.SPACP.ProducesT2L = preloadedPath.SPACP.ProducesT2L
+modelPath.SPACP.ProducesInvoiceTransportDocument = preloadedPath.SPACP.ProducesInvoiceTransportDocument
+modelPath.SPACP.AuthorisedIssuerCode = preloadedPath.SPACP.AuthorisedIssuerCode
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
