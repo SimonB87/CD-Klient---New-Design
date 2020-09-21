@@ -295,7 +295,7 @@
                     </Button>
                     <Button>
                       <Name value="send_ASEOSPAuthorizationModification" />
-                      <Caption value="Upravit autorizaci" />
+                      <Caption value="Upravit povolení" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
@@ -6931,11 +6931,11 @@ if response.isError() then
 	
 	if ( (form.authorizationType = "TIR") and (not form.requests.ASEOmegaMessage.ASEO.Event.SPTIR.TIRHolder.hasValue()) ) then
 		form.model.modelStructure.ASEO.Event.SPTIR.setTouched(true)
-		form.actions.showErorrNotificationMessage("Doplňte Údaj \"Lhůty\" v záložce \"Autorizace\".", true)
+		form.actions.showErorrNotificationMessage("Doplňte Údaj \"Lhůty\" v záložce \"Rozšířené\".", true)
 	endIf
 	
 	if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
-		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
+		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Povolení\".", true)
 	endIf
 	
 	if ( form.authorizationType = "ACP" ) and (not form.requests.ASEOmegaMessage.ASEO.Event.Period.hasValue()) then
@@ -7405,7 +7405,7 @@ if checkNecessaryReason = true then
 		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
 		if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
-			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Povolení\".", true)
 		endIf
 		// setTouch so the user sees, what si missing from submission
 		form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
@@ -7483,7 +7483,7 @@ if checkNecessaryReason = true then
 	
 		var authorisation = form.model.modelStructure.ASEO.Event.Authorization
 		if not authorisation.hasValue() then
-			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Povolení\".", true)
 		endIf
 		// setTouch so the user sees, what si missing from submission
 		authorisation.LimitedAuthorizationValidity.setTouched(true)
@@ -7566,7 +7566,7 @@ if checkNecessaryReason = true then
 		form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
 		
 		if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
-			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Povolení\".", true)
 		endIf
 		// setTouch so the user sees, what si missing from submission
 		form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
@@ -7682,7 +7682,7 @@ result = responseResult
 
 if response.isError() then
 	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být modifikace autorizace udělena.", true)
+	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být úprava povolení udělena.", true)
 	
 	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
@@ -7693,7 +7693,7 @@ if response.isError() then
 	result = responseResult
 else
 	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci autorizace.", false)
+	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k úpravě povolení.", false)
 	form.VersionGUID = defaultString()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 	responseResult = true
@@ -7749,7 +7749,7 @@ if checkNecessaryReason = true then
 		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
 		if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
-			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Povolení\".", true)
 		endIf
 		// setTouch so the user sees, what si missing from submission
 		form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
@@ -7825,7 +7825,7 @@ if checkNecessaryReason = true then
 		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 		
 		if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
-			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Povolení\".", true)
 		endIf
 		// setTouch so the user sees, what si missing from submission
 		form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
@@ -7902,7 +7902,7 @@ if checkNecessaryReason = true then
 	
 		var authorisation = form.model.modelStructure.ASEO.Event.Authorization
 		if not authorisation.hasValue() then
-			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Autorizace\".", true)
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Povolení\".", true)
 		endIf
 		// setTouch so the user sees, what si missing from submission
 		authorisation.LimitedAuthorizationValidity.setTouched(true)
@@ -8013,7 +8013,7 @@ if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.Validi
 		postingSuccess = form.actions.lifeCycle_applicationRejectionModification()
 	else if form.formState.lifeCycle.actionConfirm.actionName in ["Vydat povolení", "Obnovit povolení"] then
 		postingSuccess = form.actions.lifeCycle_authorisation()
-	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit autorizaci" then
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit povolení" then
 		postingSuccess = form.actions.lifeCycle_authorisationModification()	
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Zneplatnit povolení" then
 		postingSuccess = form.actions.lifeCycle_authorizationWithdrawal()	
@@ -8256,7 +8256,7 @@ var tabs = form.components.tabsMenu
 
 form.actions.prepareFormForEdit()
 form.actions.initTabMenu()
-form.actions.prepareTabsForAction("Upravit autorizaci")
+form.actions.prepareTabsForAction("Upravit povolení")
 
 tabs.Tab02lifecycle_authorisation.isVisible = true
 tabs.SelectedTab = 2
@@ -8331,7 +8331,7 @@ var tabs = form.components.tabsMenu
 
 form.actions.initTabMenu()
 form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Upravit odnětí")
+form.actions.prepareTabsForAction("Upravit zneplatnění")
 
 tabs.Tab03celniUrady.isVisible = false
 tabs.Tab04zbozi.isVisible = false
