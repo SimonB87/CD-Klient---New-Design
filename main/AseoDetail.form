@@ -188,7 +188,7 @@
                   <Name value="buttonsLifecycle" />
                   <Orientation value="Horizontal" />
                   <Panel.Height value="#" />
-                  <Panel.Width value="75%" />
+                  <Panel.Width value="80%" />
                   <Bindings>
                     <Binding SourceProperty="IsVisible" Expression="form.formState.lifeCycle.showActionButtonPanel" />
                   </Bindings>
@@ -512,32 +512,13 @@
                   <Orientation value="Horizontal" />
                   <Panel.Height value="#" />
                   <Panel.HorizontalAlignment value="Right" />
-                  <Panel.Width value="25%" />
+                  <Panel.Width value="20%" />
                   <Children>
-                    <Button>
-                      <Name value="edit" />
-                      <Caption value="Povolit úpravy" />
-                      <IsVisible value="False" />
-                      <Panel.Height value="51px" />
-                      <Panel.Width value="120px" />
-                      <OnClick>
-                        <ActionEvent ReferencedAction="~handler_edit_OnClick" />
-                      </OnClick>
-                      <Bindings>
-                        <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-button" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </Button>
                     <Button>
                       <Name value="reloadData" />
                       <Caption value="Znovu načíst data" />
                       <Panel.Height value="51px" />
-                      <Panel.Width value="120px" />
+                      <Panel.Width value="50%" />
                       <OnClick>
                         <ActionEvent ReferencedAction="~refreshData" />
                       </OnClick>
@@ -552,7 +533,7 @@
                       <Name value="back" />
                       <Caption value="Zpět" />
                       <Panel.Height value="51px" />
-                      <Panel.Width value="120px" />
+                      <Panel.Width value="50%" />
                       <OnClick>
                         <ActionEvent ReferencedAction="~handler_back_OnClick" />
                       </OnClick>
@@ -6925,7 +6906,7 @@ result = responseResult
 
 if response.isError() then
 	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Nemohlo být vydání povolení realizováno.", true)
+	form.actions.showErorrNotificationMessage("Nastala chyba. Nemohlo být vydání povolení provedeno.", true)
 	
 	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
@@ -7160,22 +7141,6 @@ form.formState.notifications.clear()
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="handler_edit_OnClick" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.isEditOn = defaultBool() then
-	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
-else
-	form.isEditOn = not form.isEditOn
-endIf
-
-form.formState.lifeCycle.showActionButtonPanel = true]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="lifeCycle_futureRemoval" />
       <Category value="lifeCycleMessage" />
       <Description value="message_ASEOFutureRemoval" />
@@ -7400,7 +7365,7 @@ if checkNecessaryReason = true then
 
 	if response.isError() then
 		system.console(response.getErrorMessage())
-		form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohlo být zneplatnění uděleno.", true)
+		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být zneplatnění uděleno.", true)
 		
 		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
@@ -7420,7 +7385,7 @@ if checkNecessaryReason = true then
 		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
-		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k zneplatnění.", false)
+		form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno ke zneplatnění.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
@@ -7477,7 +7442,7 @@ if checkNecessaryReason = true then
 
 	if response.isError() then
 		system.console(response.getErrorMessage())
-		form.actions.showErorrNotificationMessage("Nastala chyba. Žádost nemohla být předána k pozastavení.", true)
+		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být předáno k pozastavení.", true)
 		
 		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
@@ -7499,7 +7464,7 @@ if checkNecessaryReason = true then
 		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
-		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k pozastavení.", false)
+		form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno k pozastavení.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
@@ -7555,7 +7520,7 @@ if checkNecessaryReason = true then
 
 	if response.isError() then
 		system.console(response.getErrorMessage())
-		form.actions.showErorrNotificationMessage("Nastala chyba. Žádost nemohla být předána ke zrušení.", true)
+		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být předáno ke zrušení.", true)
 		
 		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 		
@@ -7575,7 +7540,7 @@ if checkNecessaryReason = true then
 		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
-		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána ke zrušení.", false)
+		form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno ke zrušení.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
@@ -7627,14 +7592,14 @@ var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationModificat
 var responseResult = defaultBool()
 if response.isError() then
 	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Modifikace žádosti nemohla být provedena.", true)
+	form.actions.showErorrNotificationMessage("Nastala chyba. Úprava žádosti nemohla být provedena.", true)
 	
 	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	responseResult = false
 	result = false
 else
 	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci.", false)
+	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k úpravě.", false)
 	form.VersionGUID = defaultString()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 	responseResult = true
@@ -7682,7 +7647,7 @@ result = responseResult
 
 if response.isError() then
 	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být úprava povolení udělena.", true)
+	form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být úpraveno.", true)
 	
 	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
@@ -7693,7 +7658,7 @@ if response.isError() then
 	result = responseResult
 else
 	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k úpravě povolení.", false)
+	form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno k úpravě povolení.", false)
 	form.VersionGUID = defaultString()
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 	responseResult = true
@@ -7744,7 +7709,7 @@ if checkNecessaryReason = true then
 	
 	if response.isError() then
 		system.console(response.getErrorMessage())
-		form.actions.showErorrNotificationMessage("Nastala chyba. Žádost nemohla být předána k úpravě zneplatnění.", true)
+		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být předáno k úpravě zneplatnění.", true)
 		
 		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
@@ -7764,7 +7729,7 @@ if checkNecessaryReason = true then
 		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
-		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k úpravě zneplatnění.", false)
+		form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno k úpravě zneplatnění.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
@@ -7820,7 +7785,7 @@ if checkNecessaryReason = true then
 
 	if response.isError() then
 		system.console(response.getErrorMessage())
-		form.actions.showErorrNotificationMessage("Nastala chyba. Žádost nemohla být předána k modifikaci zrušení.", true)
+		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být předáno k úpravě zrušení.", true)
 		
 		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 		
@@ -7840,7 +7805,7 @@ if checkNecessaryReason = true then
 		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
-		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci zrušení.", false)
+		form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno k úpravě zrušení.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
@@ -7896,7 +7861,7 @@ if checkNecessaryReason = true then
 
 	if response.isError() then
 		system.console(response.getErrorMessage())
-		form.actions.showErorrNotificationMessage("Nastala chyba. Žádost nemohla být předána k úpravě pozastavení.", true)
+		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být předáno k úpravě pozastavení.", true)
 		
 		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
@@ -7918,7 +7883,7 @@ if checkNecessaryReason = true then
 		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
-		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k úpravě pozastavení.", false)
+		form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno k úpravě pozastavení.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
