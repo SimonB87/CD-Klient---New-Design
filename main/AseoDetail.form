@@ -6893,7 +6893,7 @@ globals.IsBusy = False
     <ActionBlock>
       <Name value="lifeCycle_authorisation" />
       <Category value="lifeCycleMessage" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPAuthorization")
@@ -6931,12 +6931,7 @@ if response.isError() then
 else
 	form.model.modelStructure.ASEO.clear()
 	
-	var messageString = ""
-	if form.formState.lifeCycle.pastAuthorisation.pastAuthorisationGuidVersion.hasValue() then
-		messageString = "Úspěšně předáno k vydání povolení."
-	else
-		messageString = "Úspěšně předáno k obnovení povolení."
-	endIF
+	var messageString = form.actions.getAuthorisationMessage()
 	
 	form.actions.showErorrNotificationMessage(messageString, false)
 	form.VersionGUID = defaultString()
@@ -8930,8 +8925,7 @@ system.console("isValidationsVisible: " + toString(form.formState.visibilities.i
         <Script><![CDATA[if form.model.modelStructure.ASEO.EventHistory.exists(current.EventType.Key in ["NU", "MU"]) then
 	var lastAuthorisation = form.model.modelStructure.ASEO.EventHistory.selectFirst(current.EventType.Key in ["NU", "MU"])
 	var lastAuthorisationGUIDVersion = lastAuthorisation.GUID
-	system.console("exists: " + lastAuthorisationGUIDVersion)
-	
+		
 	form.formState.lifeCycle.pastAuthorisation.authorisationButtonText = "Obnovit povolení"
 	form.formState.lifeCycle.pastAuthorisation.pastAuthorisationGuidVersion = lastAuthorisationGUIDVersion
 else
@@ -9056,6 +9050,36 @@ modelPath.SPACP.AuthorisedIssuerCode = preloadedPath.SPACP.AuthorisedIssuerCode
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="getAuthorisationMessage" />
+      <Category value="lifeCyclePostingSetUp" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.model.modelStructure.ASEO.EventHistory.exists(current.EventType.Key in ["NU", "MU"]) then
+	var lastAuthorisation = form.model.modelStructure.ASEO.EventHistory.selectFirst(current.EventType.Key in ["NU", "MU"])
+	var lastAuthorisationGUIDVersion = lastAuthorisation.GUID
+	
+	form.formState.lifeCycle.pastAuthorisation.pastAuthorisationGuidVersion = lastAuthorisationGUIDVersion
+	result = "Úspěšně předáno k obnovení povolení."
+else
+	form.formState.lifeCycle.pastAuthorisation.pastAuthorisationGuidVersion.clear()
+	result = "Úspěšně předáno k vydání povolení."
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
   </Actions>
