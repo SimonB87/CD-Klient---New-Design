@@ -328,7 +328,31 @@
                       </OnClick>
                       <Bindings>
                         <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                        <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAUA_AUS" />
+                        <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAUA" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="elo-fixed-button" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="blueBtn" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
+                      <Name value="send_ASEOSPAuthorizationWithdrawalFromAUS" />
+                      <Caption value="Zrušit povolení" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_send_ASEOSPAuthorizationWithdrawalFromAUS_OnClick" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.btnVisibilities.isCodeAUS" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -6893,7 +6917,7 @@ globals.IsBusy = False
     <ActionBlock>
       <Name value="lifeCycle_authorisation" />
       <Category value="lifeCycleMessage" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
 form.actions.editDataBeforePosting("ASEOSPAuthorization")
@@ -7975,8 +7999,8 @@ if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.Validi
 		postingSuccess = form.actions.lifeCycle_authorisation()
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit povolení" then
 		postingSuccess = form.actions.lifeCycle_authorisationModification()	
-	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Zneplatnit povolení" then
-		postingSuccess = form.actions.lifeCycle_authorizationWithdrawal()	
+	else if form.formState.lifeCycle.actionConfirm.actionName in ["Zneplatnit povolení", "Zrušit povolení."] then
+		postingSuccess = form.actions.lifeCycle_authorizationWithdrawal()
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit zneplatnění"	then
 		postingSuccess = form.actions.lifeCycle_authorizationWithdrawalModification()	
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Pozastavit"	then
@@ -9080,6 +9104,42 @@ endIf]]></Script>
             </Attribute>
           </Children>
         </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_send_ASEOSPAuthorizationWithdrawalFromAUS_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.isLastVersionSelected = true then
+
+var tabs = form.components.tabsMenu
+ tabs.Tab01obecne.isVisible = false
+ tabs.Tab02lifecycle_authorisation.isVisible = false
+ tabs.Tab06prilohy.isVisible = false
+ tabs.Tab07prehodnoceni.isVisible = false
+ tabs.Tab08lhutyAzajisteni.isVisible = false
+ tabs.Tab09rezimy.isVisible = false
+ tabs.Tab10lifecycle_applicationRejection.isVisible = false
+ tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+ tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+
+form.actions.initTabMenu()
+form.actions.prepareFormForEdit()
+form.actions.prepareTabsForAction("Zrušit povolení.")
+
+tabs.Tab03celniUrady.isVisible = false
+tabs.Tab04zbozi.isVisible = false
+tabs.Tab05rozsirene.isVisible = false
+
+tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
+tabs.SelectedTab = 11
+
+else
+	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>
