@@ -1910,31 +1910,32 @@
 	
 else 
 
-// Nastavit záložky
-form.actions.initTabFilter()
-
-form.actions.refreshIncompleteCounts()
-
-if globals.listState = defaultString() then
-	// set defaults
-	form.apiobjects.listCtrl.setSorting("CustomsDecisionIssueDate:desc")
-	form.tabFilter.SelectedTab = (globals.OverenyUzivatel.hasWritePermission and (form.incompleteCounts.last > 0)) ? 1 : 2
-	form.actions.tabFilter(false)
+	// Nastavit záložky
+	form.actions.initTabFilter()
 	
-else
-	// load serialized state saved in some global variable
-	form.actions.tabFilter(false)
-	form.tabFilter.SelectedTab = globals.fromTab
-	form.apiobjects.listCtrl.loadState(globals.listState)
+	form.actions.refreshIncompleteCounts()
 	
-endif
-
-form.apiobjects.listCtrl.setPageSize(12)
-form.apiobjects.listCtrl.setReady(true)
-
-//set up form variables
-form.uiState.isSelectedMyCUoffice = False
-globals.selectedCdExpired = False
+	if globals.listState = defaultString() then
+		// set defaults
+		form.apiobjects.listCtrl.setSorting("CustomsDecisionIssueDate:desc")
+		form.tabFilter.SelectedTab = (globals.OverenyUzivatel.hasWritePermission and (form.incompleteCounts.last > 0)) ? 1 : 2
+		form.actions.tabFilter(false)
+		
+	else
+		// load serialized state saved in some global variable
+		form.actions.tabFilter(false)
+		form.tabFilter.SelectedTab = globals.fromTab
+		form.apiobjects.listCtrl.loadState(globals.listState)
+		
+	endif
+	
+	form.apiobjects.listCtrl.setPageSize(12)
+	form.apiobjects.listCtrl.setReady(true)
+	
+	//set up form variables
+	form.uiState.isSelectedMyCUoffice = False
+	globals.selectedCdExpired = False
+	//form.actions.checkIfUserPostedNewAseoSubmission() //needs List changed in later version
 
 endif
 
@@ -2467,7 +2468,34 @@ form.apiobjects.DatasetNoticesFull.setReady(true)]]></Script>
       <Name value="handler_btnNewApplication_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[navigation.main.AseoNewApplication.go()]]></Script>
+        <Script><![CDATA[globals.uiGlobalState.aseoNewSubmission.userCreatedNewSubmission = true
+form.apiobjects.listCtrl.clearVisibleFilters()
+form.apiobjects.listCtrl.clearInvisibleColumnsFilters()
+navigation.main.AseoNewApplication.go()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="checkIfUserPostedNewAseoSubmission" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var newSubBool = globals.uiGlobalState.aseoNewSubmission
+
+if newSubBool.userCreatedNewSubmission then
+	form.tabFilter.SelectedTab = 3
+	
+	//ASEO "Přijaté žádosti"
+	form.apiobjects.listCtrl.clearState()
+    form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq 'APA' or CustomsDecisionStatus eq 'FUR' or CustomsDecisionStatus eq 'FUA')")
+endIf
+
+if newSubBool.userCreatedNewSubmission.isEmpty() then
+	newSubBool.userCreatedNewSubmission = false
+else
+	newSubBool.userCreatedNewSubmission = not newSubBool.userCreatedNewSubmission
+endIf
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
