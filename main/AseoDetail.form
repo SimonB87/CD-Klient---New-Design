@@ -7074,8 +7074,10 @@ form.components.tabsMenu.Tab06prilohy.Title = "Text a přílohy (" + toString(cu
     <ActionBlock>
       <Name value="editDataBeforePosting" />
       <Category value="lifeCyclePostingSetUp" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[var aseoMegaMessage = form.requests.ASEOmegaMessage
+
+form.actions.checkPreferCd()
 
 if messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification"] then
 	form.formState.modelJson = form.model.modelStructure.toJson()
@@ -9137,6 +9139,18 @@ tabs.SelectedTab = 11
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="checkPreferCd" />
+      <Category value="lifeCyclePostingSetUp" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.model.modelStructure.ASEO.IsInCD.hasValue() then
+	form.model.modelStructure.ASEO.Event.PreferCD = form.model.modelStructure.ASEO.IsInCD
 endIf]]></Script>
       </ActionLangBody>
       <DataContext>
