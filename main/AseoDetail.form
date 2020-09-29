@@ -320,7 +320,7 @@
                     </Button>
                     <Button>
                       <Name value="send_ASEOSPAuthorizationWithdrawal" />
-                      <Caption value="Zneplatnit povolení" />
+                      <Caption value="Zrušit povolení" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
@@ -369,7 +369,7 @@
                     </Button>
                     <Button>
                       <Name value="send_ASEOSPAuthorizationWithdrawalModification" />
-                      <Caption value="Upravit zneplatnění" />
+                      <Caption value="Upravit zrušení" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
@@ -444,7 +444,7 @@
                     </Button>
                     <Button>
                       <Name value="send_ASEOSPAuthorizationCancellation" />
-                      <Caption value="Zrušit povolení" />
+                      <Caption value="Zneplatit povolení" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
@@ -469,7 +469,7 @@
                     </Button>
                     <Button>
                       <Name value="send_ASEOSPAuthorizationCancellationModification" />
-                      <Caption value="Upravit zrušení " />
+                      <Caption value="Upravit zneplatnění" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
@@ -3823,7 +3823,7 @@
                           <Children>
                             <TextBox>
                               <Name value="textBox33" />
-                              <Caption value="Uložený Důvod odejmutí/zrušení povolení" />
+                              <Caption value="Uložený Důvod zrušení povolení" />
                               <IsEnabled value="False" />
                               <Panel.Height value="#" />
                               <Panel.Width value="50%" />
@@ -3840,7 +3840,7 @@
                             </TextBox>
                             <ReferenceCombo>
                               <Name value="referenceCombo_POVOLDUOD" />
-                              <Caption value="Změnit Důvod odejmutí/zrušení povolení" />
+                              <Caption value="Změnit Důvod zrušení povolení" />
                               <DisplayMember value="_description" />
                               <Panel.Height value="#" />
                               <Panel.Width value="50%" />
@@ -3873,13 +3873,13 @@
                           <Children>
                             <TextBox>
                               <Name value="textBox34" />
+                              <Caption value="Důvod zrušení povolení" />
                               <InputType value="Multiline" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.authorizationWithdrawal.requiredMarkAW" />
-                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -6605,7 +6605,7 @@ tabs.Tab09rezimy.Title = "Režimy"
 
 tabs.Tab02lifecycle_authorisation.Title = "Povolení" //"Autorizace"
 tabs.Tab10lifecycle_applicationRejection.Title = "Zamítnutí žádosti"
-tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Odnětí"
+tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení platnosti"
 tabs.Tab12lifecycle_authorizationSuspending.Title = "Pozastavení"
 
 tabs.Tab01obecne.isVisible = true
@@ -7074,7 +7074,7 @@ form.components.tabsMenu.Tab06prilohy.Title = "Text a přílohy (" + toString(cu
     <ActionBlock>
       <Name value="editDataBeforePosting" />
       <Category value="lifeCyclePostingSetUp" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[var aseoMegaMessage = form.requests.ASEOmegaMessage
 
 form.actions.checkPreferCd()
@@ -7387,7 +7387,7 @@ if checkNecessaryReason = true then
 
 	if response.isError() then
 		system.console(response.getErrorMessage())
-		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být zneplatnění uděleno.", true)
+		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být zrušení uděleno.", true)
 		
 		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
@@ -7399,7 +7399,7 @@ if checkNecessaryReason = true then
 		form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
 	
 		if not form.requests.ASEOmegaMessage.ASEO.Event.AuthorizationWithdrawal.hasValue() then
-			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Odnětí\".", true)
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zrušení platnosti\".", true)
 		endIf
 		// setTouch so the user sees, what si missing from submission
 		form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
@@ -7407,7 +7407,7 @@ if checkNecessaryReason = true then
 		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
-		form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno ke zneplatnění.", false)
+		form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno ke zrušení.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
@@ -7542,12 +7542,12 @@ if checkNecessaryReason = true then
 
 	if response.isError() then
 		system.console(response.getErrorMessage())
-		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být předáno ke zrušení.", true)
+		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být předáno ke zneplatnění.", true)
 		
 		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 		
 		if not form.requests.ASEOmegaMessage.ASEO.Event.AuthorizationWithdrawal.hasValue() then
-			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Odnětí\".", true)
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zrušení platnosti\".", true)
 		endIf
 		// setTouch so the user sees, what si missing from submission
 		form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
@@ -7562,7 +7562,7 @@ if checkNecessaryReason = true then
 		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
-		form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno ke zrušení.", false)
+		form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno ke zneplatnění.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
@@ -7731,7 +7731,7 @@ if checkNecessaryReason = true then
 	
 	if response.isError() then
 		system.console(response.getErrorMessage())
-		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být předáno k úpravě zneplatnění.", true)
+		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být předáno k úpravě zrušení.", true)
 		
 		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 	
@@ -7743,7 +7743,7 @@ if checkNecessaryReason = true then
 		form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
 	
 		if not form.requests.ASEOmegaMessage.ASEO.Event.AuthorizationWithdrawal.hasValue() then
-			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Odnětí\".", true)
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zrušení platnosti\".", true)
 		endIf
 		// setTouch so the user sees, what si missing from submission
 		form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
@@ -7751,7 +7751,7 @@ if checkNecessaryReason = true then
 		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
-		form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno k úpravě zneplatnění.", false)
+		form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno k úpravě zrušení.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
@@ -7807,7 +7807,7 @@ if checkNecessaryReason = true then
 
 	if response.isError() then
 		system.console(response.getErrorMessage())
-		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být předáno k úpravě zrušení.", true)
+		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být předáno k úpravě zneplatnění.", true)
 		
 		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 		
@@ -7819,7 +7819,7 @@ if checkNecessaryReason = true then
 		form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
 	
 		if not form.requests.ASEOmegaMessage.ASEO.Event.AuthorizationWithdrawal.hasValue() then
-			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Odnětí\".", true)
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zrušení platnosti\".", true)
 		endIf
 		// setTouch so the user sees, what si missing from submission
 		form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
@@ -7827,7 +7827,7 @@ if checkNecessaryReason = true then
 		result = responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
-		form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno k úpravě zrušení.", false)
+		form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno k úpravě zneplatnění.", false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID, form.VersionGUID)
 		responseResult = true
@@ -8002,17 +8002,17 @@ if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.Validi
 		postingSuccess = form.actions.lifeCycle_authorisation()
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit povolení" then
 		postingSuccess = form.actions.lifeCycle_authorisationModification()	
-	else if form.formState.lifeCycle.actionConfirm.actionName in ["Zneplatnit povolení", "Zrušit povolení."] then
+	else if form.formState.lifeCycle.actionConfirm.actionName in ["Zrušit povolení", "Zrušit povolení."] then
 		postingSuccess = form.actions.lifeCycle_authorizationWithdrawal()
-	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit zneplatnění"	then
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit zrušení"	then
 		postingSuccess = form.actions.lifeCycle_authorizationWithdrawalModification()	
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Pozastavit"	then
 		postingSuccess = form.actions.lifeCycle_authorizationSuspending()	
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit pozastavení" then
 		postingSuccess = form.actions.lifeCycle_authorizationSuspendingModification()	
-	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Zrušit povolení"	then
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Zneplatit povolení"	then
 		postingSuccess = form.actions.lifeCycle_authorizationCancellation()	
-	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit zrušení"	then
+	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Upravit zneplatnění"	then
 		postingSuccess = form.actions.lifeCycle_authorizationCancellationModification()	
 	else if form.formState.lifeCycle.actionConfirm.actionName =	 "Odstranit budoucí změnu"	then
 		postingSuccess = form.actions.lifeCycle_futureRemoval()	
@@ -8282,7 +8282,7 @@ var tabs = form.components.tabsMenu
 
 form.actions.initTabMenu()
 form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Zneplatnit povolení")
+form.actions.prepareTabsForAction("Zrušit povolení")
 
 tabs.Tab03celniUrady.isVisible = false
 tabs.Tab04zbozi.isVisible = false
@@ -8318,7 +8318,7 @@ var tabs = form.components.tabsMenu
 
 form.actions.initTabMenu()
 form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Upravit zneplatnění")
+form.actions.prepareTabsForAction("Upravit zrušení")
 
 tabs.Tab03celniUrady.isVisible = false
 tabs.Tab04zbozi.isVisible = false
@@ -8413,27 +8413,27 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
-var tabs = form.components.tabsMenu
- tabs.Tab01obecne.isVisible = false
- tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab06prilohy.isVisible = false
- tabs.Tab07prehodnoceni.isVisible = false
- tabs.Tab08lhutyAzajisteni.isVisible = false
- tabs.Tab09rezimy.isVisible = false
- tabs.Tab10lifecycle_applicationRejection.isVisible = false
- tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
- tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-
-form.actions.initTabMenu()
-form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Zrušit povolení")
-
-tabs.Tab03celniUrady.isVisible = false
-tabs.Tab04zbozi.isVisible = false
-tabs.Tab05rozsirene.isVisible = false
-
-form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisible = true
-form.components.tabsMenu.SelectedTab = 11
+	var tabs = form.components.tabsMenu
+	 tabs.Tab01obecne.isVisible = false
+	 tabs.Tab02lifecycle_authorisation.isVisible = false
+	 tabs.Tab06prilohy.isVisible = false
+	 tabs.Tab07prehodnoceni.isVisible = false
+	 tabs.Tab08lhutyAzajisteni.isVisible = false
+	 tabs.Tab09rezimy.isVisible = false
+	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
+	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+	
+	form.actions.initTabMenu()
+	form.actions.prepareFormForEdit()
+	form.actions.prepareTabsForAction("Zneplatit povolení")
+	
+	tabs.Tab03celniUrady.isVisible = false
+	tabs.Tab04zbozi.isVisible = false
+	tabs.Tab05rozsirene.isVisible = false
+	
+	form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisible = true
+	form.components.tabsMenu.SelectedTab = 11
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -8462,7 +8462,7 @@ var tabs = form.components.tabsMenu
 
 form.actions.initTabMenu()
 form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Upravit zrušení")
+form.actions.prepareTabsForAction("Upravit zneplatnění")
 
 tabs.Tab03celniUrady.isVisible = false
 tabs.Tab04zbozi.isVisible = false
