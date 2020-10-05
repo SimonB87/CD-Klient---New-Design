@@ -6715,9 +6715,14 @@ var targetIsValid = form.model.sekce3zbozi.CNCode.isValid()
 var targetHasValue = form.model.sekce3zbozi.CNCode.hasValue()
 
 if targetIsValid and targetHasValue then
+	
 	var newItem = form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.addItem()
 	newItem.CNCode = form.model.sekce3zbozi.CNCode.ZBOZIKOD
 	newItem.Allowed = form.model.sekce3zbozi.negativeCollectionView
+	
+	var sortedColl = form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.orderBy(current.CNCode, true)
+	form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.fromJson(sortedColl.toJson())
+	
 	form.model.sekce3zbozi.CNCode.clear()
 endIf
 
