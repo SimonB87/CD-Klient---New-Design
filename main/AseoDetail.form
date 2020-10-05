@@ -3806,97 +3806,54 @@
                 <Binding SourceProperty="IsVisible" Expression="formState.lifeCycle.sectionVisibilities.isPanelVisibile_authorizationWithdrawal" />
               </Bindings>
               <Children>
-                <GroupBox>
-                  <Name value="box_AuthorizationWithdrawal" />
+                <Panel>
+                  <Name value="panel32" />
+                  <Orientation value="Vertical" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
-                  <Content>
+                  <Children>
                     <Panel>
-                      <Name value="panel32" />
-                      <Orientation value="Vertical" />
+                      <Name value="panel33" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
                       <Children>
-                        <Panel>
-                          <Name value="panel33" />
-                          <Orientation value="Horizontal" />
+                        <TextBox>
+                          <Name value="textBox33" />
+                          <Caption value="Uložený Důvod zrušení povolení" />
+                          <IsEnabled value="False" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="*" />
-                          <Children>
-                            <TextBox>
-                              <Name value="textBox33" />
-                              <Caption value="Uložený Důvod zrušení povolení" />
-                              <IsEnabled value="False" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="50%" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason.isRequired()" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </TextBox>
-                            <ReferenceCombo>
-                              <Name value="referenceCombo_POVOLDUOD" />
-                              <Caption value="Změnit Důvod zrušení povolení" />
-                              <DisplayMember value="_description" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="50%" />
-                              <ReferenceList reference="~pOVOLDUOD" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression=" model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression=" model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.isRequired()" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-referencecombo" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </ReferenceCombo>
-                          </Children>
+                          <Panel.Width value="50%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason.isRequired()" />
+                          </Bindings>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-panel" />
+                              <ClassName value="{theme}-textbox" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </Panel>
-                        <Panel>
-                          <Name value="panel34" />
-                          <Orientation value="Horizontal" />
+                        </TextBox>
+                        <ReferenceCombo>
+                          <Name value="referenceCombo_POVOLDUOD" />
+                          <Caption value="Změnit Důvod zrušení povolení" />
+                          <DisplayMember value="_description" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="*" />
-                          <Children>
-                            <TextBox>
-                              <Name value="textBox34" />
-                              <Caption value="Důvod zrušení povolení" />
-                              <InputType value="Multiline" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.authorizationWithdrawal.requiredMarkAW" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </TextBox>
-                          </Children>
+                          <Panel.Width value="50%" />
+                          <ReferenceList reference="~pOVOLDUOD" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression=" model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression=" model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.isRequired()" />
+                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                          </Bindings>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-panel" />
+                              <ClassName value="{theme}-referencecombo" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </Panel>
+                        </ReferenceCombo>
                       </Children>
                       <CssClass>
                         <CssClassConditional>
@@ -3905,17 +3862,49 @@
                         </CssClassConditional>
                       </CssClass>
                     </Panel>
-                  </Content>
-                  <Bindings>
-                    <Binding SourceProperty="Caption" Expression="form.model.modelStructure.ASEO.Event.AuthorizationWithdrawal.caption()" />
-                  </Bindings>
+                    <Panel>
+                      <Name value="panel34" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <TextBox>
+                          <Name value="textBox34" />
+                          <Caption value="Důvod zrušení povolení" />
+                          <InputType value="Multiline" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.authorizationWithdrawal.requiredMarkAW" />
+                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Children>
                   <CssClass>
                     <CssClassConditional>
-                      <ClassName value="{theme}-groupbox" />
+                      <ClassName value="{theme}-panel" />
                       <IsThemedStyle value="True" />
                     </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="paddingAllSides" />
+                    </CssClassConditional>
                   </CssClass>
-                </GroupBox>
+                </Panel>
               </Children>
               <CssClass>
                 <CssClassConditional>
