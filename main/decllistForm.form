@@ -1794,6 +1794,15 @@
                 </ResultType>
               </Expression>
             </Computed>
+            <Attribute>
+              <Name value="newsCount" />
+              <Caption value="News count" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
           </Children>
         </Complex>
         <Complex>
@@ -2015,7 +2024,13 @@ else
 	if globals.listState = defaultString() then
 		// set defaults
 		form.apiobjects.listCtrl.setSorting("CustomsDecisionIssueDate:desc")
-		form.tabFilter.SelectedTab = (globals.OverenyUzivatel.hasWritePermission and (form.incompleteCounts.last > 0)) ? 1 : 2
+		
+		if form.uiState.newsCount < 1 then
+		   form.tabFilter.SelectedTab = (globals.OverenyUzivatel.hasWritePermission and (form.incompleteCounts.last > 0)) ? 1 : 2
+		else
+		   form.tabFilter.SelectedTab = 9
+		endIf
+		
 		form.actions.tabFilter(false)
 		
 	else
@@ -2290,6 +2305,15 @@ else
   form.incompleteCounts.last = toInt(respContent, -1)
   form.tabFilter.Tab06.Title = "K doplnění (" + toString(form.incompleteCounts.last) + ")"
 endif
+
+form.apiobjects.DatasetNoticesFull.setReady(false)
+form.apiobjects.DatasetNoticesFull.setInvisibleODataFilter("(Checked eq 'Ne')")
+
+form.uiState.newsCount = form.apiobjects.DatasetNoticesFull.getRowCount()
+
+form.apiobjects.DatasetNoticesFull.clearInvisibleColumnsFilters()
+form.apiobjects.DatasetNoticesFull.setReady(true)
+
 /*
 // NonLastIncomplete - not being used in 2020
 url = basicUrl + "NonLastIncomplete')"
