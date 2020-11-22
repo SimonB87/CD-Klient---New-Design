@@ -90,7 +90,6 @@
                 <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
                   <Name value="tabNews" />
                   <CustomCssClass value="tabItemStyle newsItem" />
-                  <Visible value="False" />
                   <Bindings>
                     <Binding SourceProperty="Title" Expression="form.tabFilter.tab09.Title" />
                   </Bindings>
@@ -98,7 +97,6 @@
                 <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
                   <Name value="tabAdminNews" />
                   <CustomCssClass value="tabItemStyle newsItem" />
-                  <Visible value="False" />
                   <Bindings>
                     <Binding SourceProperty="Title" Expression="form.tabFilter.tab10.Title" />
                   </Bindings>
@@ -151,15 +149,23 @@
             </CheckBox>
             <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
               <Name value="cdList" />
+              <allowFilterClearIcon value="True" />
               <controller reference="~listCtrl" />
+              <lastClickedRowSelectWhenCheckboxesOff value="True" />
               <listName value="DatasetCustomsDecision" />
+              <pagingTemplate value="$first|$previous|$next|$last|$refresh|$editableCurrentPage|$records|$pageSize" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
+              <useArrowKeys value="True" />
               <OnRowClicked>
                 <ActionEvent ReferencedAction="~handler_cdList_OnRowClicked" />
               </OnRowClicked>
               <Bindings>
-                <Binding SourceProperty="selectedRow" Expression="form.selectedCd" />
+                <Binding SourceProperty="lastClickedRow" Expression="form.selectedCd" />
+                <Binding SourceProperty="savedState" Expression="" />
+                <Binding SourceProperty="lastClickedRow" Expression="form.selectedCd" />
+                <Binding SourceProperty="dataCollection" Expression="form.datasetSelectedCD" />
+                <Binding SourceProperty="savedColumns" Expression="" />
               </Bindings>
               <columns>
                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
@@ -506,15 +512,22 @@
                 </Panel>
                 <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
                   <Name value="listNoticesFull" />
+                  <allowFilterClearIcon value="True" />
                   <controller reference="~DatasetNoticesFull" />
+                  <lastClickedRowSelectWhenCheckboxesOff value="True" />
                   <listName value="DatasetNoticesFull" />
+                  <pagingTemplate value="$first|$previous|$next|$last|$refresh|$editableCurrentPage|$records|$pageSize" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
+                  <useArrowKeys value="True" />
                   <OnRowClicked>
                     <ActionEvent ReferencedAction="~handler_listNoticesFull_OnRowClicked" />
                   </OnRowClicked>
                   <Bindings>
-                    <Binding SourceProperty="selectedRow" Expression="form.newsGroup.selectedNews" />
+                    <Binding SourceProperty="lastClickedRow" Expression="form.newsGroup.selectedNews" />
+                    <Binding SourceProperty="savedColumns" Expression="" />
+                    <Binding SourceProperty="savedState" Expression="" />
+                    <Binding SourceProperty="dataCollection" Expression="form.newsGroup.datasetNoticesList" />
                   </Bindings>
                   <columns>
                     <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
@@ -1199,6 +1212,24 @@
             </Include>
           </Children>
         </Reference>
+        <Collection>
+          <Name value="datasetSelectedCD" />
+          <Caption value="Dataset selected CD" />
+          <Children>
+            <Include>
+              <Include reference="+DataEntities.DatasetCustomsDecision" />
+            </Include>
+          </Children>
+        </Collection>
+        <Reference>
+          <Name value="noticesReference" />
+          <Caption value="Notices reference" />
+          <Children>
+            <Include>
+              <Include reference="+DataEntities.DatasetNotices" />
+            </Include>
+          </Children>
+        </Reference>
         <Complex>
           <Name value="loginRequestASEO" />
           <Caption value="Login request ASEO" />
@@ -1735,7 +1766,7 @@
               <Name value="visibility_newsForUser" />
               <Caption value="Visibility _ news for user" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA[form.tabFilter.SelectedTab = 11 ? true : false]]></ExpressionText>
+                <ExpressionText><![CDATA[form.tabFilter.SelectedTab = 9 ? true : false]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -1745,7 +1776,7 @@
               <Name value="visibility_newsForAdmin" />
               <Caption value="Visibility _ news for admin" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA[form.tabFilter.SelectedTab = 12 ? true : false]]></ExpressionText>
+                <ExpressionText><![CDATA[form.tabFilter.SelectedTab = 10 ? true : false]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -1835,6 +1866,72 @@
                 </Attribute>
               </Children>
             </Reference>
+            <Collection>
+              <Name value="datasetNoticesList" />
+              <Caption value="Dataset notices list" />
+              <Children>
+                <Attribute>
+                  <Name value="GUID" />
+                  <Caption value="GUID" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Checked" />
+                  <Caption value="Checked" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Caption" />
+                  <Caption value="Caption" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="ValidFrom" />
+                  <Caption value="Valid from" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="DateTime" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="ValidTo" />
+                  <Caption value="Valid to" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="DateTime" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Text" />
+                  <Caption value="Text" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="State" />
+                  <Caption value="State" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="UserName" />
+                  <Caption value="User name" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Collection>
             <Complex>
               <Name value="newNewsItem" />
               <Caption value="New news item" />
@@ -2142,6 +2239,7 @@ if form.tabFilter.SelectedTab.hasValue() then
     endIf
     if form.tabFilter.SelectedTab = 10 then
         form.actions.newsChangeSeeNew(form.tabFilter.SelectedTab)
+        
     endIf
 
 endif
