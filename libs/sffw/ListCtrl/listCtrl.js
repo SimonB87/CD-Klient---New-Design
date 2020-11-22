@@ -120,6 +120,7 @@ var sffw;
                     this.listCtrlCore = new listCtrl.ListCtrlCore(datacontext, args);
                     this.ctrlCore.onDataRowsChangedCallback = sffw.extractEventHandlerFromApiArgs(datacontext, args, 'OnDataRowsChanged');
                     this.ctrlCore.onColumnsChangedHandler = sffw.extractEventHandlerFromApiArgs(datacontext, args, 'OnColumnsChanged');
+                    this.ctrlCore.autoPrefixReservedColumnNames = args.autoPrefixReservedColumnNames;
                 }
                 ListCtrlApi.prototype.setReady = function (args) {
                     this.listCtrlCore.setReady(args.isReady);
@@ -199,6 +200,9 @@ var sffw;
                 };
                 ListCtrlApi.prototype.getVisibleColumns = function () {
                     return JSON.stringify(this.listCtrlCore.getVisibleColumns());
+                };
+                ListCtrlApi.prototype.getVisibleColumnsEx = function () {
+                    return JSON.stringify(this.listCtrlCore.getVisibleColumnsEx());
                 };
                 ListCtrlApi.prototype.resetColumns = function () {
                     this.listCtrlCore.resetColumns();
@@ -674,6 +678,17 @@ var sffw;
                         _this.rowCount(dataPage.count);
                         _this.rows.removeAll();
                         _.each(dataPage.records, function (r) {
+                            if (_this.autoPrefixReservedColumnNames) {
+                                for (var prop in r) {
+                                    if (Object.prototype.hasOwnProperty.call(r, prop)) {
+                                        // if prop name is reserved keyword, prefix it with underscore
+                                        if (sffw.isReservedKeyword(prop)) {
+                                            r["_" + prop] = r[prop];
+                                            delete r[prop];
+                                        }
+                                    }
+                                }
+                            }
                             _this.rows.push(r);
                         });
                         // skip na stránku 1 pokud při nastavení page nebo filtrů se dostaneme mimo rozsah
@@ -1107,6 +1122,25 @@ var sffw;
                     });
                     return result;
                 };
+                ListCtrlCore.prototype.getVisibleColumnsEx = function () {
+                    var _this = this;
+                    var result = [];
+                    _.each(this.columns, function (item) {
+                        if (item.IsVisible) {
+                            result.push({ Name: item.Name, DataType: item.DataType, DisplayColumnName: item.DisplayColumnName,
+                                DisplayDataType: item.DisplayDataType, FilterOperatorType: item.FilterOperatorType,
+                                Caption: item.IsCaptionLocalized ? _this.dataContext.$localize(item.Caption) : ko.unwrap(item.Caption) });
+                        }
+                    });
+                    _.each(this.reservedColumns, function (item) {
+                        if (item.IsVisible) {
+                            result.push({ Name: item.Name, DataType: item.DataType, DisplayColumnName: item.DisplayColumnName,
+                                DisplayDataType: item.DisplayDataType, FilterOperatorType: item.FilterOperatorType,
+                                Caption: item.IsCaptionLocalized ? _this.dataContext.$localize(item.Caption) : ko.unwrap(item.Caption) });
+                        }
+                    });
+                    return result;
+                };
                 ListCtrlCore.prototype.resetColumns = function () {
                     var _this = this;
                     var promiseChain = Promise.resolve();
@@ -1275,4 +1309,12 @@ var sffw;
         }
     }
     sffw.safeWriteToAriaLiveRegion = safeWriteToAriaLiveRegion;
+})(sffw || (sffw = {}));
+var sffw;
+(function (sffw) {
+    sffw.SF_RESERVED_NAMES = ["break", "case", "catch", "class", "const", "continue", "debugger", "default", "delete", "do", "else", "export", "extends", "finally", "for", "function", "if", "import", "in", "instanceof", "new", "return", "super", "switch", "this", "throw", "try", "typeof", "var", "void", "while", "with", "yield", "attr", "collection", "enums", "functions", "globals", "metadata", "this", "packages"];
+    function isReservedKeyword(name) {
+        return name && sffw.SF_RESERVED_NAMES.indexOf(name.toLowerCase()) > -1;
+    }
+    sffw.isReservedKeyword = isReservedKeyword;
 })(sffw || (sffw = {}));
