@@ -2306,13 +2306,15 @@ else
   form.tabFilter.Tab06.Title = "K doplnění (" + toString(form.incompleteCounts.last) + ")"
 endif
 
-form.apiobjects.DatasetNoticesFull.setReady(false)
-form.apiobjects.DatasetNoticesFull.setInvisibleODataFilter("(Checked eq 'Ne')")
+var checkedUrl = "datasets/DatasetNoticesFull/$count/?$filter=(Checked eq 'Ne')"
+var response = apiobjects.ServerKomunikace.getAsync(checkedUrl)
+var responseContent = response.getJsonString()
 
-form.uiState.newsCount = form.apiobjects.DatasetNoticesFull.getRowCount()
-
-form.apiobjects.DatasetNoticesFull.clearInvisibleColumnsFilters()
-form.apiobjects.DatasetNoticesFull.setReady(true)
+if response.isError() then
+	form.uiState.newsCount = 0
+else
+	form.uiState.newsCount = toInt(responseContent, -1)
+endIf
 
 /*
 // NonLastIncomplete - not being used in 2020
