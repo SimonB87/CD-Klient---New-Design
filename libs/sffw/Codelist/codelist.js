@@ -53,6 +53,9 @@ var sffw;
                 CodelistApi.prototype.getValueMemberName = function () {
                     return this.core.valueMember;
                 };
+                CodelistApi.prototype.getServerDescriptionColumnName = function () {
+                    return this.core.serverDescriptionColumnName;
+                };
                 CodelistApi.prototype.getItemsFilteredByValidityDate = function (dt) {
                     return this.core.getItemsFilteredByValidityDate(dt);
                 };

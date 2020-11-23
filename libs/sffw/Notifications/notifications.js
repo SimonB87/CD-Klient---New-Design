@@ -182,7 +182,7 @@ var sffw;
                     this.notifications.removeAll();
                 };
                 NotificationPanelModel.prototype.toggleGrowlNotifications = function () {
-                    this.growlNotificationsOn(!this.growlNotificationsOn());
+                    this.controller.setGrowlNotificationsOn({ isOn: !this.growlNotificationsOn() });
                 };
                 return NotificationPanelModel;
             }());

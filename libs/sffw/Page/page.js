@@ -15,6 +15,11 @@ var sffw;
                         this.windowHandle.location.href = args.url;
                     }
                 };
+                BrowserTab.prototype.close = function () {
+                    if (this.windowHandle) {
+                        this.windowHandle.close();
+                    }
+                };
                 return BrowserTab;
             }());
             page.BrowserTab = BrowserTab;

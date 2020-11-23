@@ -159,6 +159,18 @@ var sffw;
                         resolve(new CollectionDataProvider2_1.ListPageData(jsonArray, totalRecountCount));
                     });
                 };
+                CollectionDataProvider2.prototype.getDataExportUrl = function (listName, columns, sortColumn, columnFilters, oDataFilter, format) {
+                    console.warn('Method CollectionDataProvider2.getDataExportUrl() has no implementation.');
+                    return null;
+                };
+                CollectionDataProvider2.prototype.getODataFilterQueryParam = function (columns, columnFilters, oDataFilter) {
+                    console.warn('Method CollectionDataProvider2.getODataFilterQueryParam() has no implementation.');
+                    return null;
+                };
+                CollectionDataProvider2.prototype.getODataOrderByQueryParam = function (sortColumn) {
+                    console.warn('Method CollectionDataProvider2.getODataOrderByQueryParam() has no implementation.');
+                    return null;
+                };
                 return CollectionDataProvider2;
             }());
             CollectionDataProvider2_1.CollectionDataProvider2 = CollectionDataProvider2;

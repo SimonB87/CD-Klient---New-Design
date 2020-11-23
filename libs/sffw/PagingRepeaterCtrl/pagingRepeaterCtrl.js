@@ -54,13 +54,24 @@ var sffw;
                     this.captionAttName = params.CaptionAtt;
                     this.allowAdd = params.AllowAdd;
                     this.allowRemove = params.AllowRemove;
+                    this.showAdd = _.isUndefined(params.ShowAdd) ? true : params.ShowAdd;
+                    this.showRemove = _.isUndefined(params.ShowRemove) ? true : params.ShowRemove;
                     this.checkItemIsValidBeforeIndexChange = params.CheckItemIsValidBeforeIndexChange;
                     this.indicateDataErrors = params.IndicateDataErrors;
+                    this.keepArrowsTogether = !!params.KeepArrowsTogether;
                     this.title = ko.pureComputed(this.getTitle, this);
                     this.leftButtonEnabled = ko.pureComputed(this.getLeftButtonEnabled, this);
+                    this.leftButtonEnabledBindingValue = ko.pureComputed(this.getLeftButtonEnabledBindingValue, this);
+                    this.leftButtonAriaDisabledBindingValue = ko.pureComputed(this.getLeftButtonAriaDisabledBindingValue, this);
                     this.rightButtonEnabled = ko.pureComputed(this.getRightButtonEnabled, this);
+                    this.rightButtonEnabledBindingValue = ko.pureComputed(this.getRightButtonEnabledBindingValue, this);
+                    this.rightButtonAriaDisabledBindingValue = ko.pureComputed(this.getRightButtonAriaDisabledBindingValue, this);
                     this.addButtonEnabled = ko.pureComputed(this.getAddButtonEnabled, this);
+                    this.addButtonEnabledBindingValue = ko.pureComputed(this.getAddButtonEnabledBindingValue, this);
+                    this.addButtonAriaDisabledBindingValue = ko.pureComputed(this.getAddButtonAriaDisabledBindingValue, this);
                     this.removeButtonEnabled = ko.pureComputed(this.getRemoveButtonEnabled, this);
+                    this.removeButtonEnabledBindingValue = ko.pureComputed(this.getRemoveButtonEnabledBindingValue, this);
+                    this.removeButtonAriaDisabledBindingValue = ko.pureComputed(this.getRemoveButtonAriaDisabledBindingValue, this);
                     this.dataHasErrors = ko.pureComputed(this.getDataHasErrors, this);
                     this.itemAddHandler = params.OnItemAdd;
                     this.itemRemoveHandler = params.OnItemRemove;
@@ -82,24 +93,96 @@ var sffw;
                 PagingRepeaterCtrlModel.prototype.getLeftButtonEnabled = function () {
                     return this.indexAsNumber() > 1;
                 };
+                PagingRepeaterCtrlModel.prototype.getLeftButtonEnabledBindingValue = function () {
+                    var _a, _b;
+                    if ((_b = (_a = window.sf.accessibility) === null || _a === void 0 ? void 0 : _a.preferences) === null || _b === void 0 ? void 0 : _b.focusableDisabledButtons) {
+                        return true;
+                    }
+                    else {
+                        return this.leftButtonEnabled();
+                    }
+                };
+                PagingRepeaterCtrlModel.prototype.getLeftButtonAriaDisabledBindingValue = function () {
+                    var _a, _b;
+                    if ((_b = (_a = window.sf.accessibility) === null || _a === void 0 ? void 0 : _a.preferences) === null || _b === void 0 ? void 0 : _b.focusableDisabledButtons) {
+                        return !(this.leftButtonEnabled());
+                    }
+                    else {
+                        return null;
+                    }
+                };
                 PagingRepeaterCtrlModel.prototype.getRightButtonEnabled = function () {
                     return this.indexAsNumber() < this.count();
                 };
+                PagingRepeaterCtrlModel.prototype.getRightButtonEnabledBindingValue = function () {
+                    var _a, _b;
+                    if ((_b = (_a = window.sf.accessibility) === null || _a === void 0 ? void 0 : _a.preferences) === null || _b === void 0 ? void 0 : _b.focusableDisabledButtons) {
+                        return true;
+                    }
+                    else {
+                        return this.rightButtonEnabled();
+                    }
+                };
+                PagingRepeaterCtrlModel.prototype.getRightButtonAriaDisabledBindingValue = function () {
+                    var _a, _b;
+                    if ((_b = (_a = window.sf.accessibility) === null || _a === void 0 ? void 0 : _a.preferences) === null || _b === void 0 ? void 0 : _b.focusableDisabledButtons) {
+                        return !(this.rightButtonEnabled());
+                    }
+                    else {
+                        return null;
+                    }
+                };
                 PagingRepeaterCtrlModel.prototype.getAddButtonEnabled = function () {
                     if (typeof this.allowAdd === 'boolean') {
-                        return this.allowAdd;
+                        return this.allowAdd === true;
                     }
                     if (typeof this.allowAdd === 'function') {
-                        return this.allowAdd();
+                        return this.allowAdd() === true;
                     }
                     return false;
                 };
+                PagingRepeaterCtrlModel.prototype.getAddButtonEnabledBindingValue = function () {
+                    var _a, _b;
+                    if ((_b = (_a = window.sf.accessibility) === null || _a === void 0 ? void 0 : _a.preferences) === null || _b === void 0 ? void 0 : _b.focusableDisabledButtons) {
+                        return true;
+                    }
+                    else {
+                        return this.addButtonEnabled();
+                    }
+                };
+                PagingRepeaterCtrlModel.prototype.getAddButtonAriaDisabledBindingValue = function () {
+                    var _a, _b;
+                    if ((_b = (_a = window.sf.accessibility) === null || _a === void 0 ? void 0 : _a.preferences) === null || _b === void 0 ? void 0 : _b.focusableDisabledButtons) {
+                        return !(this.addButtonEnabled());
+                    }
+                    else {
+                        return null;
+                    }
+                };
                 PagingRepeaterCtrlModel.prototype.getRemoveButtonEnabled = function () {
                     if (typeof this.allowRemove === 'boolean') {
-                        return this.allowRemove && this.indexAsNumber() > 0;
+                        return (this.allowRemove === true) && this.indexAsNumber() > 0;
                     }
                     if (typeof this.allowRemove === 'function') {
-                        return this.allowRemove() && this.indexAsNumber() > 0;
+                        return (this.allowRemove() === true) && this.indexAsNumber() > 0;
+                    }
+                };
+                PagingRepeaterCtrlModel.prototype.getRemoveButtonEnabledBindingValue = function () {
+                    var _a, _b;
+                    if ((_b = (_a = window.sf.accessibility) === null || _a === void 0 ? void 0 : _a.preferences) === null || _b === void 0 ? void 0 : _b.focusableDisabledButtons) {
+                        return true;
+                    }
+                    else {
+                        return this.removeButtonEnabled();
+                    }
+                };
+                PagingRepeaterCtrlModel.prototype.getRemoveButtonAriaDisabledBindingValue = function () {
+                    var _a, _b;
+                    if ((_b = (_a = window.sf.accessibility) === null || _a === void 0 ? void 0 : _a.preferences) === null || _b === void 0 ? void 0 : _b.focusableDisabledButtons) {
+                        return !(this.removeButtonEnabled());
+                    }
+                    else {
+                        return null;
                     }
                 };
                 PagingRepeaterCtrlModel.prototype.setNewIndex = function (newIndex, checkIsValid) {
@@ -118,21 +201,37 @@ var sffw;
                         this.isInternalIndexChange = false;
                     }
                 };
+                PagingRepeaterCtrlModel.prototype.writeButtonDisabledErrToAriaLiveRegion = function () {
+                    var msg = window.sf.localization.currentCulture().errorFormatter.formatButtonDisabled("");
+                    sffw.safeWriteToAriaLiveRegion(msg);
+                };
                 PagingRepeaterCtrlModel.prototype.onLeftButtonClicked = function () {
-                    if (this.leftButtonEnabled()) {
+                    var _a, _b;
+                    var isEnabled = this.leftButtonEnabled();
+                    if (isEnabled) {
                         var newIndex = this.indexAsNumber() - 1;
                         this.setNewIndex(newIndex, true);
                     }
+                    else if ((_b = (_a = window.sf.accessibility) === null || _a === void 0 ? void 0 : _a.preferences) === null || _b === void 0 ? void 0 : _b.focusableDisabledButtons) {
+                        this.writeButtonDisabledErrToAriaLiveRegion();
+                    }
                 };
                 PagingRepeaterCtrlModel.prototype.onRightButtonClicked = function () {
-                    if (this.rightButtonEnabled()) {
+                    var _a, _b;
+                    var isEnabled = this.rightButtonEnabled();
+                    if (isEnabled) {
                         var newIndex = this.indexAsNumber() + 1;
                         this.setNewIndex(newIndex, true);
+                    }
+                    else if ((_b = (_a = window.sf.accessibility) === null || _a === void 0 ? void 0 : _a.preferences) === null || _b === void 0 ? void 0 : _b.focusableDisabledButtons) {
+                        this.writeButtonDisabledErrToAriaLiveRegion();
                     }
                 };
                 PagingRepeaterCtrlModel.prototype.onAddButtonClicked = function () {
                     var _this = this;
-                    if (this.addButtonEnabled()) {
+                    var _a, _b;
+                    var isEnabled = this.addButtonEnabled();
+                    if (isEnabled) {
                         this.collection.$addItem().then(function (item) {
                             var itemIndex = _this.collection.$items().length;
                             _this.setNewIndex(itemIndex, true);
@@ -143,10 +242,15 @@ var sffw;
                             }
                         });
                     }
+                    else if ((_b = (_a = window.sf.accessibility) === null || _a === void 0 ? void 0 : _a.preferences) === null || _b === void 0 ? void 0 : _b.focusableDisabledButtons) {
+                        this.writeButtonDisabledErrToAriaLiveRegion();
+                    }
                 };
                 PagingRepeaterCtrlModel.prototype.onRemoveButtonClicked = function () {
+                    var _a, _b;
+                    var isEnabled = this.removeButtonEnabled();
                     var idx = this.indexAsNumber();
-                    if (idx > 0) {
+                    if (isEnabled) {
                         var item = this.collection.$items()[idx - 1];
                         this.collection.$items.remove(item);
                         if (idx > this.count() && this.count() > 0) {
@@ -158,6 +262,9 @@ var sffw;
                             itemRemoveParams.removedItem = item;
                             this.itemRemoveHandler(null, event, itemRemoveParams);
                         }
+                    }
+                    else if ((_b = (_a = window.sf.accessibility) === null || _a === void 0 ? void 0 : _a.preferences) === null || _b === void 0 ? void 0 : _b.focusableDisabledButtons) {
+                        this.writeButtonDisabledErrToAriaLiveRegion();
                     }
                 };
                 PagingRepeaterCtrlModel.prototype.getTitle = function () {
@@ -251,9 +358,18 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new sffw.components.pagingRepeaterCtrl.PagingRepeaterCtrlModel(params, componentInfo); }
                     },
-                    template: "\n<div data-bind=\"class: 'sffw-paging-repeater-ctrl-container', css: { 'has-errors': dataHasErrors }\">\n    <div style=\"display:table; float:right\">\n        <button data-bind=\"css: rightButtonClass, enable: rightButtonEnabled, click: onRightButtonClicked\"></button>\n        <button data-bind=\"css: addButtonClass, enable: addButtonEnabled, click: onAddButtonClicked\"></button>\n        <button data-bind=\"css: removeButtonClass, enable: removeButtonEnabled, click: onRemoveButtonClicked\"></button>\n        </div>\n    <div style=\"display: flex; align-items: center; position: relative\">\n        <button data-bind=\"css: leftButtonClass, enable: leftButtonEnabled, click: onLeftButtonClicked\"></button>\n        <input class=\"editor-value sffw-paging-repeater-ctrl-index-input\" data-bind=\"value: indexString\" type=\"text\">\n        <div data-bind=\"text: title\" class=\"sffw-paging-repeater-ctrl-title\"></div>\n        <span data-bind=\"visible: dataHasErrors\" class=\"sffw-paging-repeater-ctrl-error-icon\"></span>\n    </div>\n    <span class=\"sffw-paging-repeater-ctrl-error\" data-bind=\"visible: isError, text: $root.$localize('PagingRepeaterCtrl$$isNotValidMessage')\"></span>\n</div>\n"
+                    template: "\n<div data-bind=\"class: 'sffw-paging-repeater-ctrl-container', css: { 'has-errors': dataHasErrors }\">\n    <div style=\"display:table; float:right\">\n        <!-- ko ifnot: keepArrowsTogether -->\n        <button data-bind=\"css: rightButtonClass, enable: rightButtonEnabledBindingValue,\n            click: onRightButtonClicked, attr: {'aria-disabled': rightButtonAriaDisabledBindingValue }\"></button>\n        <!-- /ko -->\n        <!-- ko if: showAdd -->\n        <button data-bind=\"css: addButtonClass, enable: addButtonEnabledBindingValue,\n            click: onAddButtonClicked, attr: {'aria-disabled': addButtonAriaDisabledBindingValue }\"></button>\n        <!-- /ko -->\n        <!-- ko if: showRemove -->\n        <button data-bind=\"css: removeButtonClass, enable: removeButtonEnabledBindingValue,\n            click: onRemoveButtonClicked, attr: {'aria-disabled': removeButtonAriaDisabledBindingValue }\"></button>\n        <!-- /ko -->\n    </div>\n    <div style=\"display: flex; align-items: center; position: relative\">\n        <button data-bind=\"css: leftButtonClass, enable: leftButtonEnabledBindingValue,\n            click: onLeftButtonClicked, attr: {'aria-disabled': leftButtonAriaDisabledBindingValue }\"></button>\n        <!-- ko if: keepArrowsTogether -->\n        <button data-bind=\"css: rightButtonClass, enable: rightButtonEnabledBindingValue,\n            click: onRightButtonClicked, attr: {'aria-disabled': rightButtonAriaDisabledBindingValue }\"></button>\n        <!-- /ko -->\n        <input class=\"editor-value sffw-paging-repeater-ctrl-index-input\" data-bind=\"value: indexString\" type=\"text\">\n        <div data-bind=\"text: title\" class=\"sffw-paging-repeater-ctrl-title\"></div>\n        <span data-bind=\"visible: dataHasErrors\" class=\"sffw-paging-repeater-ctrl-error-icon\"></span>\n    </div>\n    <span class=\"sffw-paging-repeater-ctrl-error\" data-bind=\"visible: isError, text: $root.$localize('PagingRepeaterCtrl$$isNotValidMessage')\"></span>\n</div>\n"
                 });
             }
         })(pagingRepeaterCtrl = components.pagingRepeaterCtrl || (components.pagingRepeaterCtrl = {}));
     })(components = sffw.components || (sffw.components = {}));
+})(sffw || (sffw = {}));
+var sffw;
+(function (sffw) {
+    function safeWriteToAriaLiveRegion(message) {
+        if (message && window.sf.accessibility && window.sf.accessibility.ariaLiveRegion) {
+            window.sf.accessibility.ariaLiveRegion.append(message);
+        }
+    }
+    sffw.safeWriteToAriaLiveRegion = safeWriteToAriaLiveRegion;
 })(sffw || (sffw = {}));

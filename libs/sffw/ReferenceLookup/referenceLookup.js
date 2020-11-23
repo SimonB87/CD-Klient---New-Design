@@ -23,7 +23,7 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new sffw.components.referenceLookup.ReferenceLookupViewModel(params, componentInfo); }
                     },
-                    template: "   <!-- ko if: isEnabled -->\n            <input data-bind=\"referenceLookup: data,\n                attr: { 'aria-controls': listboxContainerId, 'aria-owns': listboxContainerId, 'aria-invalid': data.$isReportingErrors() }\"\n                autocomplete=\"off\" aria-autocomplete=\"list\">\n        <!-- /ko -->\n        <!-- ko ifnot: isEnabled -->\n            <input data-bind=\"value: data[displayMember].$asString\" autocomplete=\"off\" disabled/>\n        <!-- /ko -->"
+                    template: "   <!-- ko if: isEnabled -->\n            <input data-bind=\"referenceLookup: data,\n                attr: { 'aria-controls': listboxContainerId, 'aria-owns': listboxContainerId, 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" aria-autocomplete=\"list\">\n        <!-- /ko -->\n        <!-- ko ifnot: isEnabled -->\n            <input data-bind=\"value: data[displayMember].$asString,\n                attr: { 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" disabled/>\n        <!-- /ko -->"
                 });
             }
             if (!ko.components.isRegistered('sffw-tariclookup')) {
@@ -31,7 +31,7 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new sffw.components.referenceLookup.TaricLookupViewModel(params, componentInfo); }
                     },
-                    template: "   <!-- ko if: isEnabled -->\n            <input data-bind=\"taricLookup: data,\n                attr: { 'aria-controls': listboxContainerId, 'aria-owns': listboxContainerId, 'aria-invalid': data.$isReportingErrors() }\"\n                autocomplete=\"off\" aria-autocomplete=\"list\">\n        <!-- /ko -->\n        <!-- ko ifnot: isEnabled -->\n            <input data-bind=\"value: data[displayMember].$asString\" autocomplete=\"off\" disabled/>\n        <!-- /ko -->"
+                    template: "   <!-- ko if: isEnabled -->\n            <input data-bind=\"taricLookup: data,\n                attr: { 'aria-controls': listboxContainerId, 'aria-owns': listboxContainerId, 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" aria-autocomplete=\"list\">\n        <!-- /ko -->\n        <!-- ko ifnot: isEnabled -->\n            <input data-bind=\"value: data[displayMember].$asString,\n                attr: { 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" disabled/>\n        <!-- /ko -->"
                 });
             }
         })(referenceLookup = components.referenceLookup || (components.referenceLookup = {}));
@@ -165,6 +165,8 @@ var sffw;
                         return refAtt.$emptyRecursive(true).then(function () {
                             SetWarningTimeout(element);
                             $(element).val(elementValue);
+                            var message = window.sf.localization.currentCulture().errorFormatter.formatInvalidValue(elementValue);
+                            sffw.safeWriteToAriaLiveRegion(message);
                         });
                     }
                     $('.' + vm.panelClass).scroll(function (event) {
@@ -414,4 +416,13 @@ var sffw;
         return "" + Date.now() + Math.random().toString(16).substr(2, 5).toUpperCase();
     }
     sffw.generateRandomId = generateRandomId;
+})(sffw || (sffw = {}));
+var sffw;
+(function (sffw) {
+    function safeWriteToAriaLiveRegion(message) {
+        if (message && window.sf.accessibility && window.sf.accessibility.ariaLiveRegion) {
+            window.sf.accessibility.ariaLiveRegion.append(message);
+        }
+    }
+    sffw.safeWriteToAriaLiveRegion = safeWriteToAriaLiveRegion;
 })(sffw || (sffw = {}));

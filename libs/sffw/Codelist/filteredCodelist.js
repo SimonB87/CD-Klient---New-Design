@@ -243,6 +243,9 @@ var sffw;
                 FilteredCodelist.prototype.getValueMemberName = function () {
                     return this.codelistSource.getValueMemberName();
                 };
+                FilteredCodelist.prototype.getServerDescriptionColumnName = function () {
+                    return this.codelistSource.getServerDescriptionColumnName();
+                };
                 FilteredCodelist.prototype.getItemsFilteredByValidityDate = function (dt) {
                     return this.codelistSource.getItemsFilteredByValidityDate(dt);
                 };

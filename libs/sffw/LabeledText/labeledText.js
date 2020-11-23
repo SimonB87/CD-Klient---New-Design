@@ -9,7 +9,7 @@ var sffw;
                     this.displayedText = params.Data;
                     if (params.IsCurrency || params.IsAmount) {
                         this.displayedText = ko.pureComputed(function () {
-                            return sffw.formatAsAmountOrCurrency(params.Data(), params.IsAmount, params.IsCurrency);
+                            return sffw.formatAsAmountOrCurrency(params.Data(), params.IsAmount, params.IsCurrency, params.MinDecimalPlaces);
                         });
                     }
                     else {
@@ -41,7 +41,7 @@ var sffw;
 })(sffw || (sffw = {}));
 var sffw;
 (function (sffw) {
-    function formatAsAmountOrCurrency(strValue, formatAsAmount, formatAsCurrency) {
+    function formatAsAmountOrCurrency(strValue, formatAsAmount, formatAsCurrency, minDecPlaces) {
         if (!strValue) {
             return '';
         }
@@ -67,7 +67,17 @@ var sffw;
         var sign = numValue.lt(0) ? '-' : '';
         var integralPart = numValue.abs().round(0, 0).toString(); // absolutní hodnota celočíselné části
         var leftover = integralPart.length > 3 ? (integralPart.length) % 3 : 0;
-        var decimalPart = numberParts.length > 1 ? "" + decimalSign + numberParts[1].substr(0, places) : '';
+        var decimalPart = '';
+        if (numberParts.length > 1) {
+            var decPlacesStr = numberParts[1].substr(0, places);
+            if (minDecPlaces && minDecPlaces > 0 && decPlacesStr.length < minDecPlaces) {
+                decPlacesStr = decPlacesStr.concat(Array(minDecPlaces - decPlacesStr.length + 1).join("0"));
+            }
+            decimalPart = "" + decimalSign + decPlacesStr;
+        }
+        else if (minDecPlaces && minDecPlaces > 0) {
+            decimalPart = "" + decimalSign + Array(minDecPlaces + 1).join("0");
+        }
         return sign + (leftover ? integralPart.substr(0, leftover) + thousandSign : '') + integralPart.substr(leftover).replace(/(\d{3})(?=\d)/g, '$1' + thousandSign)
             + decimalPart
             + (formatAsCurrency ? " " + symbol : '');

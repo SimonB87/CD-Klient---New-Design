@@ -11,6 +11,10 @@ var sffw;
                     this.panelVisibility = ko.observable(false);
                     this.growlNotificationsOn = ko.observable(true);
                     this.ordering = args.ordering;
+                    var handler = sffw.extractEventHandlerFromApiArgs(datacontext, args, 'OnGrowlNotificationsToggle');
+                    if (handler) {
+                        this.onGrowlNotificationsToggleHandler = handler;
+                    }
                 }
                 NotificationsCtrl.prototype.addItem = function (type, message) {
                     var newItem = { type: type, message: message };
@@ -43,6 +47,9 @@ var sffw;
                 NotificationsCtrl.prototype.setGrowlNotificationsOn = function (args) {
                     if (typeof args.isOn !== 'undefined' && args.isOn !== null) {
                         this.growlNotificationsOn(args.isOn);
+                        if (this.onGrowlNotificationsToggleHandler) {
+                            this.onGrowlNotificationsToggleHandler(this, null, { isOn: args.isOn });
+                        }
                     }
                 };
                 NotificationsCtrl.prototype.dispose = function () {
@@ -81,4 +88,19 @@ var sffw;
         }
     }
     sffw.safeWriteToAriaLiveRegion = safeWriteToAriaLiveRegion;
+})(sffw || (sffw = {}));
+var sffw;
+(function (sffw) {
+    function extractEventHandlerFromApiArgs(datacontext, args, eventName) {
+        if (args.$events && args.$events[eventName] && args.$events[eventName].Reference) {
+            if (args.$events[eventName].ReferenceType === 'Global') {
+                return datacontext.$globals.$actions[args.$events[eventName].Reference];
+            }
+            else {
+                return datacontext.$actions[args.$events[eventName].Reference];
+            }
+        }
+        return undefined;
+    }
+    sffw.extractEventHandlerFromApiArgs = extractEventHandlerFromApiArgs;
 })(sffw || (sffw = {}));

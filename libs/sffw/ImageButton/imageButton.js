@@ -12,12 +12,40 @@ var sffw;
                     this.onClickHandler = params.OnClick;
                     this.isEnabled = params.IsEnabled !== undefined ? params.IsEnabled : true;
                     this.ctx = params.$parentData;
+                    this.enabledBindingValue = ko.pureComputed(this.getEnabledBindingValue, this);
+                    this.ariaDisabledBindingValue = ko.pureComputed(this.getAriaDisabledBindingValue, this);
                 }
                 ImageButtonModel.prototype.onClick = function (model, event) {
-                    if (ko.unwrap(this.isEnabled) !== false) {
+                    var _a, _b;
+                    if (ko.unwrap(this.isEnabled)) {
                         if (this.onClickHandler) {
                             this.onClickHandler(model.ctx, event, { data: this.ctx });
                         }
+                    }
+                    else if ((_b = (_a = window.sf.accessibility) === null || _a === void 0 ? void 0 : _a.preferences) === null || _b === void 0 ? void 0 : _b.focusableDisabledButtons) {
+                        var $button = $((event.currentTarget || event.srcElement));
+                        var msg = window.sf.localization.currentCulture().errorFormatter.formatButtonDisabled($button.text());
+                        sffw.safeWriteToAriaLiveRegion(msg);
+                    }
+                };
+                // to use with ko enabled binding
+                ImageButtonModel.prototype.getEnabledBindingValue = function () {
+                    var _a, _b;
+                    if ((_b = (_a = window.sf.accessibility) === null || _a === void 0 ? void 0 : _a.preferences) === null || _b === void 0 ? void 0 : _b.focusableDisabledButtons) {
+                        return true;
+                    }
+                    else {
+                        return ko.unwrap(this.isEnabled) || false;
+                    }
+                };
+                // to use with ko aria-disabled attr binding instead of enabled binding
+                ImageButtonModel.prototype.getAriaDisabledBindingValue = function () {
+                    var _a, _b;
+                    if ((_b = (_a = window.sf.accessibility) === null || _a === void 0 ? void 0 : _a.preferences) === null || _b === void 0 ? void 0 : _b.focusableDisabledButtons) {
+                        return !(ko.unwrap(this.isEnabled) || false);
+                    }
+                    else {
+                        return null;
                     }
                 };
                 return ImageButtonModel;
@@ -107,7 +135,7 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new imageButton.ImageButtonModel(params, componentInfo); }
                     },
-                    template: "\n<button data-bind=\"imageButton: caption, attr: { title: tooltip }, click: onClick, enable: isEnabled\"></button>"
+                    template: "\n<button data-bind=\"imageButton: caption, attr: { title: tooltip, 'aria-disabled': ariaDisabledBindingValue }, click: onClick, enable: enabledBindingValue\"></button>"
                 });
             }
         })(imageButton = components.imageButton || (components.imageButton = {}));
@@ -141,4 +169,13 @@ var sffw;
         return undefined;
     }
     sffw.extractEventHandlerFromApiArgs = extractEventHandlerFromApiArgs;
+})(sffw || (sffw = {}));
+var sffw;
+(function (sffw) {
+    function safeWriteToAriaLiveRegion(message) {
+        if (message && window.sf.accessibility && window.sf.accessibility.ariaLiveRegion) {
+            window.sf.accessibility.ariaLiveRegion.append(message);
+        }
+    }
+    sffw.safeWriteToAriaLiveRegion = safeWriteToAriaLiveRegion;
 })(sffw || (sffw = {}));
