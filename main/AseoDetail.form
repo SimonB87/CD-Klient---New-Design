@@ -6331,7 +6331,10 @@ form.formState.notifications.operationResultMessage.clear()
 form.VersionGUID.clear()
 
 form.actions.prepareCodeLists()
+
+
 form.actions.loadAseoData(form.GUID)
+
 form.actions.initTabMenu()
 form.actions.prepareButtonActionText()
 
@@ -6340,7 +6343,7 @@ form.formState.visibilities.showVersionHistory = false
 form.isLastVersionSelected = true
 form.components.tabsMenu.SelectedTab = 1
 
-if form.authorizationType in ["TIR", "ACP"] then
+if form.authorizationType in ["TIR", "ACP", "SAR"] then
 	form.model.sekce3zbozi.negativeCollectionView = false
 endIf
 
@@ -6617,11 +6620,14 @@ else if stateCode in ["FUA", "AUA", "AUE", "FCA", "FWA"] then
 	tabs.Tab02lifecycle_authorisation.isVisible = true
 	tabs.Tab04zbozi.isVisible = true
 	
-	if form.authorizationType in ["ACP"] then
+	if form.authorizationType in ["ACP", "SAR"] then
 		tabs.Tab03celniUrady.isVisible = true
 		tabs.Tab05rozsirene.isVisible = true
 	endIf
 	
+	if form.authorizationType in ["SAR"] then
+		tabs.Tab09rezimy.isVisible = false
+	endIf	
 else if stateCode in ["AUC", "FUW", "AUW"] then 
 	
 	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
