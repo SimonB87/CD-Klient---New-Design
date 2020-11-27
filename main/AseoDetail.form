@@ -2743,6 +2743,9 @@
                       </CssClass>
                     </Panel>
                   </Content>
+                  <Bindings>
+                    <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationACP" />
+                  </Bindings>
                   <CssClass>
                     <CssClassConditional>
                       <ClassName value="{theme}-groupbox" />
@@ -2786,6 +2789,9 @@
                       </CssClass>
                     </Panel>
                   </Content>
+                  <Bindings>
+                    <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationACP" />
+                  </Bindings>
                   <CssClass>
                     <CssClassConditional>
                       <ClassName value="{theme}-groupbox" />
@@ -3661,6 +3667,21 @@
               <Bindings>
                 <Binding SourceProperty="IsVisible" Expression="components.tabsMenu.Tab09rezimy.IsSelected" />
               </Bindings>
+              <Children>
+                <Label>
+                  <Name value="label2" />
+                  <Data value="Režimy" />
+                  <Heading value="h3" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="150px" />
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-label" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Label>
+              </Children>
               <CssClass>
                 <CssClassConditional>
                   <ClassName value="{theme}-panel" />
@@ -5272,6 +5293,26 @@
                     </ResultType>
                   </Expression>
                 </Computed>
+                <Computed>
+                  <Name value="isAuthorisationSAR" />
+                  <Caption value="Is authorisation SAR" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.authorizationType in ["SAR"] ? true : false]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="isAuthorisationACP" />
+                  <Caption value="Is authorisation ACP" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.authorizationType in ["ACP"] ? true : false]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
                 <Attribute>
                   <Name value="showHistorySesctions" />
                   <Caption value="Show history sesctions" />
@@ -6332,7 +6373,6 @@ form.VersionGUID.clear()
 
 form.actions.prepareCodeLists()
 
-
 form.actions.loadAseoData(form.GUID)
 
 form.actions.initTabMenu()
@@ -6626,7 +6666,7 @@ else if stateCode in ["FUA", "AUA", "AUE", "FCA", "FWA"] then
 	endIf
 	
 	if form.authorizationType in ["SAR"] then
-		tabs.Tab09rezimy.isVisible = false
+		tabs.Tab09rezimy.isVisible = true
 	endIf	
 else if stateCode in ["AUC", "FUW", "AUW"] then 
 	
@@ -6950,7 +6990,7 @@ if response.isError() then
 		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Povolení\".", true)
 	endIf
 	
-	if ( form.authorizationType = "ACP" ) and (not form.requests.ASEOmegaMessage.ASEO.Event.Period.hasValue()) then
+	if ( form.authorizationType in ["ACP", "SAR"] ) and (not form.requests.ASEOmegaMessage.ASEO.Event.Period.hasValue()) then
 		form.actions.showErorrNotificationMessage("Doplňte aspoň jednu položku \"Lhůty\" v záložce \"Rozšířené\".", true)
 	endIf
 	
@@ -8195,16 +8235,9 @@ endIf]]></Script>
 	form.actions.initTabMenu()
 	form.actions.prepareFormForEdit()
 	form.actions.prepareTabsForAction(form.formState.lifeCycle.pastAuthorisation.authorisationButtonText)//"Autorizovat"
-	
-	tabs.Tab02lifecycle_authorisation.isVisible = true
+	form.actions.showTabsFor_Authorisation()
+
 	tabs.SelectedTab = 2
-	
-	tabs.Tab04zbozi.isVisible = True
-	
-	if form.authorizationType in ["ACP"] then
-		tabs.Tab03celniUrady.isVisible = true
-		tabs.Tab05rozsirene.isVisible = true
-	endIf
 	
 	if form.formState.lifeCycle.pastAuthorisation.pastAuthorisationGuidVersion.hasValue() then
 		var lastAuthorisationGuid = form.formState.lifeCycle.pastAuthorisation.pastAuthorisationGuidVersion
@@ -9162,6 +9195,28 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.model.modelStructure.ASEO.IsInCD.hasValue() then
 	form.model.modelStructure.ASEO.Event.PreferCD = form.model.modelStructure.ASEO.IsInCD
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="showTabsFor_Authorisation" />
+      <Category value="showTabsForActions" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var tabs = form.components.tabsMenu
+
+tabs.Tab02lifecycle_authorisation.isVisible = true
+tabs.Tab04zbozi.isVisible = True
+	
+if form.authorizationType in ["ACP", "SAR"] then
+	tabs.Tab03celniUrady.isVisible = true
+	tabs.Tab05rozsirene.isVisible = true
+endIf
+	
+if form.authorizationType in ["SAR"] then
+	tabs.Tab09rezimy.isVisible = true
 endIf]]></Script>
       </ActionLangBody>
       <DataContext>
