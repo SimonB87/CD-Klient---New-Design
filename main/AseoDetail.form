@@ -3661,7 +3661,7 @@
             </Panel>
             <Panel>
               <Name value="sekce8rezimy" />
-              <Orientation value="Horizontal" />
+              <Orientation value="Vertical" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
               <Bindings>
@@ -3681,6 +3681,79 @@
                     </CssClassConditional>
                   </CssClass>
                 </Label>
+                <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
+                  <Name value="pagingRepeaterCtrl1" />
+                  <KeepArrowsTogether value="True" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Bindings>
+                    <Binding SourceProperty="Data" Expression="form.model.modelStructure.ASEO.Event.CustomsProcedure.CustomsProcedureCombination" />
+                    <Binding SourceProperty="Index" Expression="form.formState.indexes._index_CustomsProcedure" />
+                    <Binding SourceProperty="AllowRemove" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                    <Binding SourceProperty="AllowAdd" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                  </Bindings>
+                </PagingRepeaterCtrl>
+                <PagingRepeater identity="pagingRepeater.36d02d015fb0460b9372e4a46959c4bf">
+                  <Name value="pagingRepeater1" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Content>
+                    <Panel>
+                      <Name value="panel40" />
+                      <Orientation value="Horizontal" />
+                      <Children>
+                        <ReferenceCombo>
+                          <Name value="referenceCombo_REZIM4" />
+                          <CaptionPosition value="Top" />
+                          <DisplayMember value="_description" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="50%" />
+                          <ReferenceList reference="~REZIM4" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="CustomsProcedureCombinationCode" />
+                            <Binding SourceProperty="Caption" Expression="CustomsProcedureCombinationCode.caption()" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="CustomsProcedureCombinationCode.isRequired()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-referencecombo" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </ReferenceCombo>
+                        <ReferenceCombo>
+                          <Name value="referenceCombo_cel_eu" />
+                          <CaptionPosition value="Top" />
+                          <DisplayMember value="_description" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="50%" />
+                          <ReferenceList reference="~CEL_UR" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="CustomsProcedureCode" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="CustomsProcedureCode.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="CustomsProcedureCode.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-referencecombo" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </ReferenceCombo>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Content>
+                  <Bindings>
+                    <Binding SourceProperty="Data" Expression="form.model.modelStructure.ASEO.Event.CustomsProcedure.CustomsProcedureCombination" />
+                    <Binding SourceProperty="Index" Expression="form.formState.indexes._index_CustomsProcedure" />
+                  </Bindings>
+                </PagingRepeater>
               </Children>
               <CssClass>
                 <CssClassConditional>
@@ -5340,13 +5413,21 @@
                 </Computed>
               </Children>
             </Complex>
-            <Attribute>
-              <Name value="modelJson" />
-              <Caption value="Model json" />
-              <DeclaredType>
-                <AttributeType />
-              </DeclaredType>
-            </Attribute>
+            <Complex>
+              <Name value="indexes" />
+              <Caption value="Indexes" />
+              <Children>
+                <Attribute>
+                  <Name value="_index_CustomsProcedure" />
+                  <Caption value="_ index _ customs procedure" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Integer" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
             <Complex>
               <Name value="lifeCycle" />
               <Caption value="Life cycle" />
@@ -5650,6 +5731,13 @@ false]]></ExpressionText>
                 </Complex>
               </Children>
             </Complex>
+            <Attribute>
+              <Name value="modelJson" />
+              <Caption value="Model json" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
             <Attribute>
               <Name value="original_validityStartDate" />
               <Caption value="Original _ validity start date" />
@@ -6536,6 +6624,8 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.apiobjects.povoltyp.startLoadingData(getDateTime())
 form.apiobjects.eventTypeEnum.startLoadingData(getDateTime())
+form.apiobjects.REZIM4.startLoadingData(getDateTime())
+form.apiobjects.CEL_UR.startLoadingData(getDateTime())
 //custom codelist for SuspendingReason
 var dataCustomCodelist = "[{\"authorizationSuspendingReason\":\"J\", \"description\":  \"Pozastavení povolení z jiného důvodu\"}]"
 form.apiobjects.authorizationSuspendingReasonCodelist.fillFromJson(dataCustomCodelist)
@@ -9365,6 +9455,52 @@ endIf]]></Script>
         <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
           <columnName value="description" />
           <columnRole value="Description" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="REZIM4" />
+      <name value="REZIM4" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="REZIM4" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POPIS" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="OD" />
+          <columnRole value="ValidityStart" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="DO" />
+          <columnRole value="ValidityEnd" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="CEL_UR" />
+      <name value="CEL_UR" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="CEL_UR" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POPIS" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="OD" />
+          <columnRole value="ValidityStart" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="DO" />
+          <columnRole value="ValidityEnd" />
         </CodelistColumn>
       </columns>
     </Codelist>
