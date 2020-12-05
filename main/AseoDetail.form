@@ -1862,7 +1862,7 @@
                           <CaptionVAlign value="Middle" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
-                          <Tooltip value="Formát telefonního čísla je &quot;+123...&quot; Číslo musí začínat symbolem &quot;+&quot;." />
+                          <Tooltip value="Formát telefonního čísla je &quot;+420...&quot;, &quot;+33&quot; atd. Číslo musí začínat symbolem &quot;+&quot;." />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonPhone" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonPhone.isRequired()" />
@@ -2203,7 +2203,7 @@
                       <Name value="label_SupervisingCustomsOffice" />
                       <Heading value="h2" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="150px" />
+                      <Panel.Width value="*" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="form.model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice.caption()" />
                       </Bindings>
@@ -2214,24 +2214,6 @@
                         </CssClassConditional>
                       </CssClass>
                     </Label>
-                    <Button>
-                      <Name value="button_addCOSupervising" />
-                      <Caption value="Přidat další celní úřad" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="150px" />
-                      <OnClick>
-                        <ActionEvent ReferencedAction="~handler_button_addCOSupervising_OnClick" />
-                      </OnClick>
-                      <Bindings>
-                        <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-button" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </Button>
                     <Panel>
                       <Name value="panel18" />
                       <Orientation value="Vertical" />
@@ -2241,163 +2223,71 @@
                         <Binding SourceProperty="IsVisible" Expression="form.model.sekce2celniUrady.model_addNewSupervisingCO.switchInsertNewCOsupervising" />
                       </Bindings>
                       <Children>
-                        <Panel>
-                          <Name value="panel41" />
-                          <Orientation value="Horizontal" />
+                        <Repeater>
+                          <Name value="repeater4" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
-                          <Children>
-                            <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
-                              <Name value="referenceLookup_supervisingCO" />
-                              <CaptionPosition value="Top" />
-                              <DataApiObject reference="~CELUTVAR" />
-                              <DisplayMember value="_description" />
-                              <MinChars value="3" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="33%" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="form.model.sekce2celniUrady.model_addNewSupervisingCO.CustomsOfficeReferenceNumber" />
-                                <Binding SourceProperty="Caption" Expression="form.model.sekce2celniUrady.model_addNewSupervisingCO.CustomsOfficeReferenceNumber.caption()" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-referencelookup" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </ReferenceLookup>
-                            <Button>
-                              <Name value="button_addCO" />
-                              <Caption value="Přidat celní úřad" />
-                              <IsEnabled value="False" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="150px" />
-                              <OnClick>
-                                <ActionEvent ReferencedAction="~insertNewCOsupervising" />
-                              </OnClick>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-button" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </Button>
-                            <Button>
-                              <Name value="button1" />
-                              <Caption value="print" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="150px" />
-                              <OnClick>
-                                <ActionEvent ReferencedAction="~action2" />
-                              </OnClick>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-button" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </Button>
-                          </Children>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-panel" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </Panel>
-                        <Panel>
-                          <Name value="panel42" />
-                          <Orientation value="Vertical" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="*" />
-                          <Children>
-                            <GroupBox>
-                              <Name value="groupBox_SupervisingCustomsOffice" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <Content>
-                                <Repeater>
-                                  <Name value="repeater4" />
-                                  <Content>
-                                    <Panel>
-                                      <Name value="panel43" />
-                                      <Orientation value="Horizontal" />
-                                      <Children>
-                                        <ReferenceCombo>
-                                          <Name value="referenceCombo_filledCustomsOfficeReferenceNumber" />
-                                          <DisplayMember value="_description" />
-                                          <IsEnabled value="False" />
-                                          <Panel.Height value="#" />
-                                          <Panel.Width value="*" />
-                                          <ReferenceList reference="~CELUTVAR" />
-                                          <Bindings>
-                                            <Binding SourceProperty="Data" Expression="CustomsOfficeReferenceNumber" />
-                                            <Binding SourceProperty="Caption" Expression="CustomsOfficeReferenceNumber.caption()" />
-                                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="CustomsOfficeReferenceNumber.isRequired()" />
-                                          </Bindings>
-                                          <CssClass>
-                                            <CssClassConditional>
-                                              <ClassName value="{theme}-referencecombo" />
-                                              <IsThemedStyle value="True" />
-                                            </CssClassConditional>
-                                          </CssClass>
-                                        </ReferenceCombo>
-                                        <Button>
-                                          <Name value="button_deleteCOSupervising" />
-                                          <Caption value="Smaž" />
-                                          <Panel.Height value="#" />
-                                          <Panel.Width value="150px" />
-                                          <OnClick>
-                                            <ActionEvent ReferencedAction="~handler_button_deleteCOSupervising_OnClick" />
-                                          </OnClick>
-                                          <Bindings>
-                                            <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                                          </Bindings>
-                                          <CssClass>
-                                            <CssClassConditional>
-                                              <ClassName value="{theme}-button" />
-                                              <IsThemedStyle value="True" />
-                                            </CssClassConditional>
-                                          </CssClass>
-                                        </Button>
-                                      </Children>
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-panel" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </Panel>
-                                  </Content>
+                          <Content>
+                            <Panel>
+                              <Name value="panel43" />
+                              <Orientation value="Horizontal" />
+                              <Children>
+                                <ReferenceCombo>
+                                  <Name value="referenceCombo_filledCustomsOfficeReferenceNumber" />
+                                  <DisplayMember value="_description" />
+                                  <IsEnabled value="False" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <ReferenceList reference="~CELUTVAR" />
                                   <Bindings>
-                                    <Binding SourceProperty="DataItems" Expression="model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice" />
+                                    <Binding SourceProperty="Data" Expression="CustomsOfficeReferenceNumber" />
+                                    <Binding SourceProperty="Caption" Expression="CustomsOfficeReferenceNumber.caption()" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="CustomsOfficeReferenceNumber.isRequired()" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
-                                      <ClassName value="{theme}-repeater" />
+                                      <ClassName value="{theme}-referencecombo" />
                                       <IsThemedStyle value="True" />
                                     </CssClassConditional>
                                   </CssClass>
-                                </Repeater>
-                              </Content>
-                              <Bindings>
-                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice.caption()" />
-                              </Bindings>
+                                </ReferenceCombo>
+                                <Button>
+                                  <Name value="button_deleteCOSupervising" />
+                                  <Caption value="Smaž" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="150px" />
+                                  <OnClick>
+                                    <ActionEvent ReferencedAction="~handler_button_deleteCOSupervising_OnClick" />
+                                  </OnClick>
+                                  <Bindings>
+                                    <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-button" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Button>
+                              </Children>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-groupbox" />
+                                  <ClassName value="{theme}-panel" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </GroupBox>
-                          </Children>
+                            </Panel>
+                          </Content>
+                          <Bindings>
+                            <Binding SourceProperty="DataItems" Expression="model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice" />
+                          </Bindings>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-panel" />
+                              <ClassName value="{theme}-repeater" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </Panel>
+                        </Repeater>
                       </Children>
                       <CssClass>
                         <CssClassConditional>
@@ -2531,12 +2421,10 @@
                             <Button>
                               <Name value="buttonDeteleGood" />
                               <Caption value="Smaž" />
+                              <IsEnabled value="False" />
                               <OnClick>
                                 <ActionEvent ReferencedAction="~handler_buttonDeteleGood_OnClick" />
                               </OnClick>
-                              <Bindings>
-                                <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                              </Bindings>
                               <CssClass>
                                 <CssClassConditional>
                                   <ClassName value="{theme}-button" />
@@ -3932,16 +3820,15 @@
                       <Orientation value="Horizontal" />
                       <Children>
                         <ReferenceCombo>
-                          <Name value="referenceCombo_REZIM4" />
-                          <CaptionPosition value="Top" />
+                          <Name value="referenceCombo_cel_eu" />
                           <DisplayMember value="_description" />
                           <Panel.Height value="#" />
                           <Panel.Width value="50%" />
-                          <ReferenceList reference="~REZIM4" />
+                          <ReferenceList reference="~CEL_UR" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="CustomsProcedureCombinationCode" />
-                            <Binding SourceProperty="Caption" Expression="CustomsProcedureCombinationCode.caption()" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="CustomsProcedureCombinationCode.isRequired()" />
+                            <Binding SourceProperty="Data" Expression="CustomsProcedureCode" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="CustomsProcedureCode.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="CustomsProcedureCode.caption()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -3951,16 +3838,15 @@
                           </CssClass>
                         </ReferenceCombo>
                         <ReferenceCombo>
-                          <Name value="referenceCombo_cel_eu" />
-                          <CaptionPosition value="Top" />
+                          <Name value="referenceCombo_REZIM4" />
                           <DisplayMember value="_description" />
                           <Panel.Height value="#" />
                           <Panel.Width value="50%" />
-                          <ReferenceList reference="~CEL_UR" />
+                          <ReferenceList reference="~REZIM4" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="CustomsProcedureCode" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="CustomsProcedureCode.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="CustomsProcedureCode.caption()" />
+                            <Binding SourceProperty="Data" Expression="CustomsProcedureCombinationCode" />
+                            <Binding SourceProperty="Caption" Expression="CustomsProcedureCombinationCode.caption()" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="CustomsProcedureCombinationCode.isRequired()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -6703,6 +6589,124 @@ false]]></ExpressionText>
             </Computed>
           </Children>
         </Modifier>
+        <Modifier>
+          <Name value="modifier_2FAE6C3E_CNCode" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.GoodsList.GoodsItem.CNCode" />
+          <Validators>
+            <Validator Name="canNotIcludeCodeInIncludedParentGroup">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Nelze vkládat kód, který spadá do již přidané skupiny"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[not this.collection().exists(
+	this.index() <> current.index())
+	AND
+	(subString(this.CNCode, 1, (Length(this.CNCode)-2)) = this.CNCode)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_51A26D18_GoodsItem" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.GoodsList.GoodsItem" />
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_6EE83AA5_ZBOZIKOD" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.sekce3zbozi.CNCode.ZBOZIKOD" />
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_8B2E161A_CELUPLAT_R" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.sekce2celniUrady.model_addNewCO.CustomsOfficeReferenceNumber.CELUPLAT_R" />
+          <Validators>
+            <Validator Name="val1">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Nelze přidat celní útvar, který je již přidán"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[not form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.exists(Current.CustomsOfficeReferenceNumber.CELUPLAT_R = form.model.sekce2celniUrady.model_addNewCO.CustomsOfficeReferenceNumber.CELUPLAT_R)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_F0661011_ResponsiblePersonPhone" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonPhone" />
+          <Validators>
+            <Validator Name="validPhonePrefix">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Telefonní čísla musí mít validní znak telefonního prefixu. (Jedná se o znak: \"+\" ) "]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[substring(this.ResponsiblePersonPhone, 1, 1) = "+"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_15F1B26D_ResponsiblePersonEMail" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonEMail" />
+          <Validators>
+            <Validator Name="emailValidity">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Email musí mít validní formát"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$") : true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_9F20775A_REZIM4" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.CustomsProcedure.CustomsProcedureCombination.CustomsProcedureCombinationCode.REZIM4" />
+          <Validators>
+            <Validator Name="customsProcedureCodeMatch">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Tento kód musí mít dvě počáteční číslice stejné jako \"Kód celního režimu\"."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(this.owner().CustomsProcedureCode.CEL_UR = subString(this.REZIM4, 1, 2)) ? false : true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
@@ -8609,6 +8613,7 @@ endIf]]></Script>
 	
 	if form.authorizationType in ["SAR"] then
 		form.actions.prepareCOsupervising()
+		form.model.sekce2celniUrady.model_addNewSupervisingCO.switchInsertNewCOsupervising = true
 	endIf
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9588,22 +9593,6 @@ endIf]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="handler_button_addCOSupervising_OnClick" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var traget = form.model.sekce2celniUrady.model_addNewSupervisingCO
-
-if traget.switchInsertNewCOsupervising.hasValue() = false then
-	traget.switchInsertNewCOsupervising = true
-else
-	traget.switchInsertNewCOsupervising = not traget.switchInsertNewCOsupervising
-endIf]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="insertNewCOsupervising" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var target = form.model.sekce2celniUrady.model_addNewSupervisingCO.CustomsOfficeReferenceNumber
@@ -9644,31 +9633,14 @@ if co.count() < 1 then
 endIf
 
 if co.count() > 0 then
-	var first = co.selectFirst()
-	var stredoceskyKraj = form.apiobjects.CELUTVAR.getItemByStringColumnAsync("CELU", "CZ610000", getDateTime(), defaultBool())
-	
+
+	var stredoceskyKraj = form.apiobjects.CELUTVAR.getItemByStringColumnAsync("CELU", "CZ610000", getDateTime(), defaultBool())	
 	var json = stredoceskyKraj.getJsonString()
-	first.fromJson(json)
 	
-	//TODO
-	//test
-	
-	system.console(stredoceskyKraj.getJsonString())
-	
-	system.console(form.model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice.toJson())
-	//test
+	var mySupervisingCustomsOffice = form.model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice.selectFirst()
+	mySupervisingCustomsOffice.CustomsOfficeReferenceNumber.fromJson(json)
+
 endIf]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="action2" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var x = form.model.sekce2celniUrady.model_addNewSupervisingCO.CustomsOfficeReferenceNumber.toJson()
-system.console(x)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -9908,6 +9880,18 @@ system.console(x)]]></Script>
         <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
           <columnName value="DO" />
           <columnRole value="ValidityEnd" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="ZIMR" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="CELUTV" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POPISCEL" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="PORG" />
         </CodelistColumn>
       </columns>
     </Codelist>
