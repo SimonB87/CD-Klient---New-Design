@@ -169,10 +169,18 @@
               </Bindings>
               <columns>
                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="cmpd_CustomsDecisionReferenceNumber" />
+                  <Caption value="Referenční číslo rozhodnutí" />
+                  <ColumnName value="cmpd_CustomsDecisionReferenceNumber" />
+                  <IsHtml value="True" />
+                  <UnderlyingColumnName value="CustomsDecisionReferenceNumber" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                   <Name value="CustomsDecisionReferenceNumber" />
                   <Caption value="Referenční číslo rozhodnutí" />
                   <ColumnName value="CustomsDecisionReferenceNumber" />
                   <DataType value="string" />
+                  <IsVisible value="False" />
                 </listColumn>
                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                   <Name value="HolderEORINumber" />
@@ -1210,6 +1218,16 @@
             <Include>
               <Include reference="+DataEntities.DatasetCustomsDecision" />
             </Include>
+            <Computed>
+              <Name value="cmpd_CustomsDecisionReferenceNumber" />
+              <Caption value="Cmpd _ customs decision reference number" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[StringFormat("<span class=\"declistNavLink\">{0}</span>", this.CustomsDecisionReferenceNumber)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </Expression>
+            </Computed>
           </Children>
         </Reference>
         <Collection>
@@ -1219,6 +1237,16 @@
             <Include>
               <Include reference="+DataEntities.DatasetCustomsDecision" />
             </Include>
+            <Computed>
+              <Name value="cmpd_CustomsDecisionReferenceNumber" />
+              <Caption value="Cmpd _ customs decision reference number" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[StringFormat("<span class=\"declistNavLink\">{0}</span>", this.CustomsDecisionReferenceNumber)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </Expression>
+            </Computed>
           </Children>
         </Collection>
         <Reference>
@@ -2351,7 +2379,7 @@ endif
       <Name value="handler_cdList_OnRowClicked" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if isTrueOrDefault(params.columnName = "CustomsDecisionReferenceNumber") then
+        <Script><![CDATA[if isTrueOrDefault(params.columnName = "cmpd_CustomsDecisionReferenceNumber") then
   form.actions.zobrazDetail_ALANG()
 endif
 
