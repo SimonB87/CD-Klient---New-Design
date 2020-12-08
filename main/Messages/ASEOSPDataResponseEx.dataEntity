@@ -1333,14 +1333,18 @@
               <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/Guarantee" />
               <MtsImportOptions.MTS.Type value="group" />
               <Children>
-                <Attribute>
+                <Reference>
                   <Name value="GuaranteeType" />
                   <Caption value="Typ zajištění celního dluhu" />
                   <IsRequired value="True" />
-                  <MetaType reference="+MetaTypes.GuaranteeType" />
                   <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/Guarantee/GuaranteeType" />
                   <MtsImportOptions.MTS.Type value="element" />
-                </Attribute>
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ZJPZAJIST" />
+                    </Include>
+                  </Children>
+                </Reference>
                 <Attribute>
                   <Name value="GuaranteeID" />
                   <Caption value="Číslo zajištění" />

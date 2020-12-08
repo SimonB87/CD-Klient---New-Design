@@ -2931,6 +2931,230 @@
                     </CssClassConditional>
                   </CssClass>
                 </GroupBox>
+                <GroupBox>
+                  <Name value="groupBox_payback" />
+                  <Caption value="Druh výpočtu lhůty splatnosti dle délky zúčtovacího období" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Content>
+                    <Panel>
+                      <Name value="referenceCombo1_parent" />
+                      <Orientation value="Horizontal" />
+                      <Children>
+                        <ReferenceCombo>
+                          <Name value="referenceCombo_TypeOfPaybackPeriod" />
+                          <DisplayMember value="_description" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33.33%" />
+                          <ReferenceList reference="~TypeOfPaybackPeriodEnum" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod" />
+                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.caption()" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.isRequired()" />
+                            <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-referencecombo" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </ReferenceCombo>
+                        <TextBox>
+                          <Name value="textBox_DaysOfPayback" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33.33%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPSI.DaysOfPayback" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPSI.DaysOfPayback.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPSI.DaysOfPayback.caption()" />
+                            <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Content>
+                  <Bindings>
+                    <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationSAR" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-groupbox" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </GroupBox>
+                <GroupBox>
+                  <Name value="groupBox_guarantee" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Content>
+                    <Panel>
+                      <Name value="panel41" />
+                      <Orientation value="Horizontal" />
+                      <Children>
+                        <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
+                          <Name value="pagingRepeaterCtrl_Guarantee" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="form.model.modelStructure.ASEO.Event.Guarantee" />
+                            <Binding SourceProperty="Index" Expression="form.formState.indexes._index_guarantee" />
+                            <Binding SourceProperty="AllowAdd" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                            <Binding SourceProperty="AllowRemove" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                          </Bindings>
+                        </PagingRepeaterCtrl>
+                        <PagingRepeater identity="pagingRepeater.36d02d015fb0460b9372e4a46959c4bf">
+                          <Name value="pagingRepeater_Guarantee" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Content>
+                            <Panel>
+                              <Name value="panel42" />
+                              <Orientation value="Horizontal" />
+                              <Children>
+                                <Panel>
+                                  <Name value="panel44" />
+                                  <Orientation value="Horizontal" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <Children>
+                                    <ReferenceCombo>
+                                      <Name value="referenceCombo_GuaranteeType" />
+                                      <DisplayMember value="_description" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="33.33%" />
+                                      <ReferenceList reference="~ZJPZAJIST" />
+                                      <Bindings>
+                                        <Binding SourceProperty="Data" Expression="GuaranteeType" />
+                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="GuaranteeType.isRequired()" />
+                                        <Binding SourceProperty="Caption" Expression="GuaranteeType.caption()" />
+                                        <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                                      </Bindings>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-referencecombo" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </ReferenceCombo>
+                                    <TextBox>
+                                      <Name value="textBox_GuaranteeID" />
+                                      <CaptionPosition value="Top" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="33.33%" />
+                                      <Bindings>
+                                        <Binding SourceProperty="Data" Expression="" />
+                                        <Binding SourceProperty="Caption" Expression="GuaranteeID" />
+                                        <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                                      </Bindings>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-textbox" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </TextBox>
+                                    <TextBox>
+                                      <Name value="textBox_GuaranteeState" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="33.33%" />
+                                      <Bindings>
+                                        <Binding SourceProperty="Data" Expression="" />
+                                        <Binding SourceProperty="Caption" Expression="GuaranteeState" />
+                                        <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                                      </Bindings>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-textbox" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </TextBox>
+                                  </Children>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-panel" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Panel>
+                                <Panel>
+                                  <Name value="panel45" />
+                                  <Orientation value="Horizontal" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <Children>
+                                    <Button>
+                                      <Name value="button_sendGuaranteeQuestion" />
+                                      <Caption value="Zaslat dotaz na záruku" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="150px" />
+                                      <Bindings>
+                                        <Binding SourceProperty="IsVisible" Expression="form.isEditOn" />
+                                        <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                                      </Bindings>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-button" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Button>
+                                  </Children>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-panel" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Panel>
+                              </Children>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-panel" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Panel>
+                          </Content>
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="form.model.modelStructure.ASEO.Event.Guarantee" />
+                            <Binding SourceProperty="Index" Expression="form.formState.indexes._index_guarantee" />
+                          </Bindings>
+                        </PagingRepeater>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Content>
+                  <Bindings>
+                    <Binding SourceProperty="Caption" Expression="form.model.modelStructure.ASEO.Event.Guarantee.caption()" />
+                    <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationSAR" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-groupbox" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </GroupBox>
               </Children>
               <CssClass>
                 <CssClassConditional>
@@ -3844,6 +4068,7 @@
                             <Binding SourceProperty="Data" Expression="CustomsProcedureCode" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="CustomsProcedureCode.isRequired()" />
                             <Binding SourceProperty="Caption" Expression="CustomsProcedureCode.caption()" />
+                            <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -3862,6 +4087,7 @@
                             <Binding SourceProperty="Data" Expression="CustomsProcedureCombinationCode" />
                             <Binding SourceProperty="Caption" Expression="CustomsProcedureCombinationCode.caption()" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="CustomsProcedureCombinationCode.isRequired()" />
+                            <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -5530,7 +5756,7 @@
                   <Name value="isAuthorisationSAR" />
                   <Caption value="Is authorisation SAR" />
                   <Expression IsValid="True">
-                    <ExpressionText><![CDATA[form.authorizationType in ["SAR"] ? true : false]]></ExpressionText>
+                    <ExpressionText><![CDATA[form.authorizationType = "SAR" ? true : false]]></ExpressionText>
                     <ResultType>
                       <BaseType value="Bool" />
                     </ResultType>
@@ -5580,6 +5806,15 @@
                 <Attribute>
                   <Name value="_index_CustomsProcedure" />
                   <Caption value="_ index _ customs procedure" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Integer" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="_index_guarantee" />
+                  <Caption value="_ index _ guarantee" />
                   <DeclaredType>
                     <AttributeType>
                       <BaseType value="Integer" />
@@ -6727,6 +6962,22 @@ false]]></ExpressionText>
           <ShowAsChanges value="True" />
           <SourcePath value="model.modelStructure.ASEO.Event.CustomsProcedure" />
         </Modifier>
+        <Modifier>
+          <Name value="modifier_CA98C8C9_TypeOfPaybackPeriod" />
+          <SourcePath value="model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod" />
+          <Children>
+            <Computed>
+              <Name value="_description" />
+              <Caption value="_ description" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[this.Key.hasValue() ? this.Key + " - " + this.Description : " ... "]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </Expression>
+            </Computed>
+          </Children>
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
@@ -6812,6 +7063,10 @@ else
 	endIf
 	
 	form.actions.prepareButtonActionText()
+	
+	if form.model.modelStructure.ASEO.AuthorizationType.POVOLTYP.hasValue() then
+		form.authorizationType = form.model.modelStructure.ASEO.AuthorizationType.POVOLTYP
+	endIf	
 	
 	form.isEditOn = false
 	
@@ -6916,6 +7171,8 @@ form.apiobjects.CEL_UR.startLoadingData(currentDate)
 
 form.apiobjects.CELUPLAT_R.setDateTime(currentDate)
 form.apiobjects.CELUTVAR.setDateTime(currentDate)
+form.apiobjects.ZJPZAJIST.setDateTime(currentDate)
+form.apiobjects.TypeOfPaybackPeriodEnum.setDateTime(currentDate)
 
 //custom codelist for SuspendingReason
 var dataCustomCodelist = "[{\"authorizationSuspendingReason\":\"J\", \"description\":  \"Pozastavení povolení z jiného důvodu\"}]"
@@ -9913,5 +10170,46 @@ endIf]]></Script>
     <Page identity="Page.f7aa0c151c64407daef13910dcf7b72a">
       <Name value="pageAseoDetail" />
     </Page>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="ZJPZAJIST" />
+      <name value="ZJPZAJIST" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="ZJPZAJIST" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POPIS" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="OD" />
+          <columnRole value="ValidityStart" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="DO" />
+          <columnRole value="ValidityEnd" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POVOLTYP" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="TypeOfPaybackPeriodEnum" />
+      <name value="TypeOfPaybackPeriodEnum" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="Key" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="Description" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
   </ApiObjects>
 </Form>
