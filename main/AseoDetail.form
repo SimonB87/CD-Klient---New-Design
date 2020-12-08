@@ -2236,6 +2236,7 @@
                                   <Name value="referenceCombo_filledCustomsOfficeReferenceNumber" />
                                   <DisplayMember value="_description" />
                                   <IsEnabled value="False" />
+                                  <IsVisible value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="*" />
                                   <ReferenceList reference="~CELUTVAR" />
@@ -2251,17 +2252,31 @@
                                     </CssClassConditional>
                                   </CssClass>
                                 </ReferenceCombo>
+                                <TextBox>
+                                  <Name value="textBox6" />
+                                  <IsEnabled value="False" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="CustomsOfficeReferenceNumber._description" />
+                                    <Binding SourceProperty="Caption" Expression="CustomsOfficeReferenceNumber.caption()" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-textbox" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </TextBox>
                                 <Button>
                                   <Name value="button_deleteCOSupervising" />
                                   <Caption value="Smaž" />
+                                  <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="150px" />
                                   <OnClick>
                                     <ActionEvent ReferencedAction="~handler_button_deleteCOSupervising_OnClick" />
                                   </OnClick>
-                                  <Bindings>
-                                    <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                                  </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
                                       <ClassName value="{theme}-button" />
@@ -6699,13 +6714,18 @@ false]]></ExpressionText>
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(this.owner().CustomsProcedureCode.CEL_UR = subString(this.REZIM4, 1, 2)) ? false : true]]></ExpressionText>
+                <ExpressionText><![CDATA[(this.owner().CustomsProcedureCode.CEL_UR = subString(this.REZIM4, 1, 2)) ? true : false]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
               </IsValid>
             </Validator>
           </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_F5185D9E_CustomsProcedure" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.CustomsProcedure" />
         </Modifier>
       </Modifiers>
     </DataContext>
@@ -7493,8 +7513,9 @@ if messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification"] then
 	aseoMegaMessage.fromJson(form.formState.modelJson)
 	aseoMegaMessage.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage()
-	aseoMegaMessage.ASEO.Event.GoodsList.GoodsListType = false
-		
+	if form.authorizationType in ["TIR", "ACP"] then
+		aseoMegaMessage.ASEO.Event.GoodsList.GoodsListType = false
+	endIf		
 	if aseoMegaMessage.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.isEmpty() then
 		aseoMegaMessage.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified = false
 	endIf
@@ -9636,11 +9657,15 @@ endIf
 
 if co.count() > 0 then
 
-	var stredoceskyKraj = form.apiobjects.CELUTVAR.getItemByStringColumnAsync("CELU", "CZ610000", getDateTime(), defaultBool())	
+	var stredoceskyKraj = form.apiobjects.CELUTVAR.getItemByStringColumnAsync("CELUTVAR", "CZ610000", getDateTime(), defaultBool())	
 	var json = stredoceskyKraj.getJsonString()
 	
 	var mySupervisingCustomsOffice = form.model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice.selectFirst()
 	mySupervisingCustomsOffice.CustomsOfficeReferenceNumber.fromJson(json)
+	
+	//test
+	system.console(form.model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice.toJson())
+	//test
 
 endIf]]></Script>
       </ActionLangBody>
@@ -9868,7 +9893,7 @@ endIf]]></Script>
       <server reference="+GlobalApiObjects.ServerKomunikace" />
       <columns>
         <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
-          <columnName value="CELU" />
+          <columnName value="CELUTVAR" />
           <columnRole value="Key" />
         </CodelistColumn>
         <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
@@ -9882,18 +9907,6 @@ endIf]]></Script>
         <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
           <columnName value="DO" />
           <columnRole value="ValidityEnd" />
-        </CodelistColumn>
-        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
-          <columnName value="ZIMR" />
-        </CodelistColumn>
-        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
-          <columnName value="CELUTV" />
-        </CodelistColumn>
-        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
-          <columnName value="POPISCEL" />
-        </CodelistColumn>
-        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
-          <columnName value="PORG" />
         </CodelistColumn>
       </columns>
     </Codelist>
