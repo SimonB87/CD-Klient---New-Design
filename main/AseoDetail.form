@@ -2700,8 +2700,6 @@
                           <Content>
                             <Repeater>
                               <Name value="repeater3" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
                               <Content>
                                 <Panel>
                                   <Name value="panel23" />
@@ -3086,7 +3084,7 @@
                                         <Binding SourceProperty="Data" Expression="GuaranteeID" />
                                         <Binding SourceProperty="Caption" Expression="GuaranteeID.caption()" />
                                         <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
-                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="GuaranteeID.isRequired()" />
+                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.formState.visibilities.isAuthorisationSAR" />
                                       </Bindings>
                                       <CssClass>
                                         <CssClassConditional>
@@ -5718,6 +5716,24 @@
                 </Include>
               </Children>
             </Complex>
+            <Complex>
+              <Name value="guaranteeReq" />
+              <Caption value="Guarantee req" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOGuaranteeRequest" />
+                </Include>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="guaranteeRes" />
+              <Caption value="Guarantee res" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOGuaranteeResponse" />
+                </Include>
+              </Children>
+            </Complex>
           </Children>
         </Complex>
         <Complex>
@@ -7041,6 +7057,30 @@ false]]></ExpressionText>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(form.lifeCycleMode in ["authorize", "authorizeModify"]) and ( form.authorizationType = "SAR" ) and ( this.key.hasValue() ) ? 
 	(isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "MES") ) ? true : false 
+	: 
+	true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_6876424A_GuaranteeID" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.Guarantee.GuaranteeID" />
+          <Validators>
+            <Validator Name="requiredGuaranteeID">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Prvek je povinný pro vydání povolení"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(form.lifeCycleMode in ["authorize", "authorizeModify"]) and ( form.authorizationType = "SAR" ) and ( this.GuaranteeType.ZJPZAJIST.hasValue() ) ? 
+	(isTrue(this.GuaranteeID.hasValue()) ) ? true : false 
 	: 
 	true]]></ExpressionText>
                 <ResultType>
@@ -8928,7 +8968,7 @@ endIf]]></Script>
     <ActionBlock>
       <Name value="handler_send_ASEOSPAuthorization_OnClick" />
       <IsPrivate value="True" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
 	var tabs = form.components.tabsMenu
