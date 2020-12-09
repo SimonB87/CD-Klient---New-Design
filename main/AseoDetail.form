@@ -2576,229 +2576,262 @@
                 <Binding SourceProperty="IsVisible" Expression="components.tabsMenu.Tab05rozsirene.IsSelected" />
               </Bindings>
               <Children>
-                <Button>
-                  <Name value="button1_addPeriod" />
-                  <Caption value="Přidat lhůtu" />
-                  <Panel.Height value="#" />
-                  <Panel.Width value="150px" />
-                  <OnClick>
-                    <ActionEvent ReferencedAction="~handler_button1_addPeriod_OnClick" />
-                  </OnClick>
-                  <Bindings>
-                    <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                  </Bindings>
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-button" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                  </CssClass>
-                </Button>
-                <Panel>
-                  <Name value="panel20_addNewPeriod" />
-                  <Orientation value="Horizontal" />
-                  <Panel.Height value="#" />
-                  <Panel.Width value="*" />
-                  <Bindings>
-                    <Binding SourceProperty="IsVisible" Expression="model.sekce4rozsirene.switchAddNewPeriod" />
-                  </Bindings>
-                  <Children>
-                    <ReferenceCombo>
-                      <Name value="referenceC_addZJPLHUTYP" />
-                      <Caption value="Typ ZJP lhůty" />
-                      <DisplayMember value="_description" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="25%" />
-                      <ReferenceList reference="~filtered_ZJPLHUTA" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="model.sekce4rozsirene.newPeriod._ZJPLHUTYP" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce4rozsirene.newPeriod._ZJPLHUTYP.isRequired()" />
-                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-referencecombo" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </ReferenceCombo>
-                    <TextBox>
-                      <Name value="textBox_TimeUnit" />
-                      <IsEnabled value="False" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="25%" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="model.sekce4rozsirene.newPeriod.Unit" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce4rozsirene.newPeriod.Unit.isRequired()" />
-                        <Binding SourceProperty="Caption" Expression="model.sekce4rozsirene.newPeriod.Unit.caption()" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-textbox" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </TextBox>
-                    <TextBox>
-                      <Name value="textBox_addPeriodDuration" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="25%" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="model.sekce4rozsirene.newPeriod.PeriodDuration" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce4rozsirene.newPeriod.PeriodDuration.isRequired()" />
-                        <Binding SourceProperty="Caption" Expression="model.sekce4rozsirene.newPeriod.PeriodDuration.caption()" />
-                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-textbox" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </TextBox>
-                    <Button>
-                      <Name value="button_addPeriod" />
-                      <Caption value="Přidat lhůtu" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="150px" />
-                      <OnClick>
-                        <ActionEvent ReferencedAction="~insertPeriod" />
-                      </OnClick>
-                      <Bindings>
-                        <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-button" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </Button>
-                  </Children>
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-panel" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                  </CssClass>
-                </Panel>
-                <Label>
-                  <Name value="label_lhuty" />
-                  <Data value="Lhůty" />
-                  <Heading value="h2" />
-                  <Panel.Height value="#" />
-                  <Panel.Width value="*" />
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-label" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                  </CssClass>
-                </Label>
-                <Repeater>
-                  <Name value="repeater3" />
+                <GroupBox>
+                  <Name value="box_periods" />
+                  <Caption value="Lhůty" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
                   <Content>
                     <Panel>
-                      <Name value="panel23" />
+                      <Name value="panel46" />
                       <Orientation value="Vertical" />
                       <Children>
-                        <GroupBox>
-                          <Name value="box_periodItem" />
-                          <Caption value="Lhůta" />
+                        <Button>
+                          <Name value="button1_addPeriod" />
+                          <Caption value="Přidat lhůtu" />
                           <Panel.Height value="#" />
-                          <Panel.HorizontalAlignment value="Right" />
-                          <Panel.Width value="98.5%" />
-                          <Content>
-                            <Panel>
-                              <Name value="panel29" />
-                              <Orientation value="Horizontal" />
-                              <Children>
-                                <TextBox>
-                                  <Name value="textBox_TypeOfPeriod" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="25%" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="TypeOfPeriod._description" />
-                                    <Binding SourceProperty="Caption" Expression="TypeOfPeriod.Description.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox_Unit" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="25%" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="Unit" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="Unit.isRequired()" />
-                                    <Binding SourceProperty="Caption" Expression="Unit.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox_PeriodDuration" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="25%" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="PeriodDuration" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="PeriodDuration.isRequired()" />
-                                    <Binding SourceProperty="Caption" Expression="PeriodDuration.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <Button>
-                                  <Name value="button_deletePeriod" />
-                                  <Caption value="Smazat lhůtu" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="150px" />
-                                  <OnClick>
-                                    <ActionEvent ReferencedAction="~handler_button_deletePeriod_OnClick" />
-                                  </OnClick>
-                                  <Bindings>
-                                    <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-button" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Button>
-                              </Children>
+                          <Panel.Width value="150px" />
+                          <OnClick>
+                            <ActionEvent ReferencedAction="~handler_button1_addPeriod_OnClick" />
+                          </OnClick>
+                          <Bindings>
+                            <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-button" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Button>
+                        <Panel>
+                          <Name value="panel20_addNewPeriod" />
+                          <Orientation value="Horizontal" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="IsVisible" Expression="model.sekce4rozsirene.switchAddNewPeriod" />
+                          </Bindings>
+                          <Children>
+                            <ReferenceCombo>
+                              <Name value="referenceC_addZJPLHUTYP" />
+                              <Caption value="Typ ZJP lhůty" />
+                              <DisplayMember value="_description" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="25%" />
+                              <ReferenceList reference="~filtered_ZJPLHUTA" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.sekce4rozsirene.newPeriod._ZJPLHUTYP" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce4rozsirene.newPeriod._ZJPLHUTYP.isRequired()" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-panel" />
+                                  <ClassName value="{theme}-referencecombo" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </Panel>
+                            </ReferenceCombo>
+                            <TextBox>
+                              <Name value="textBox_TimeUnit" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="25%" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.sekce4rozsirene.newPeriod.Unit" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce4rozsirene.newPeriod.Unit.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.sekce4rozsirene.newPeriod.Unit.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox_addPeriodDuration" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="25%" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.sekce4rozsirene.newPeriod.PeriodDuration" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce4rozsirene.newPeriod.PeriodDuration.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.sekce4rozsirene.newPeriod.PeriodDuration.caption()" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <Button>
+                              <Name value="button_addPeriod" />
+                              <Caption value="Přidat lhůtu" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="150px" />
+                              <OnClick>
+                                <ActionEvent ReferencedAction="~insertPeriod" />
+                              </OnClick>
+                              <Bindings>
+                                <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-button" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Button>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                        <GroupBox>
+                          <Name value="box_addedPeriods" />
+                          <Caption value="Přidané lhůty" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Content>
+                            <Repeater>
+                              <Name value="repeater3" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Content>
+                                <Panel>
+                                  <Name value="panel23" />
+                                  <Orientation value="Vertical" />
+                                  <Children>
+                                    <GroupBox>
+                                      <Name value="box_periodItem" />
+                                      <Caption value="Lhůta" />
+                                      <Panel.Height value="#" />
+                                      <Panel.HorizontalAlignment value="Right" />
+                                      <Panel.Width value="98.5%" />
+                                      <Content>
+                                        <Panel>
+                                          <Name value="panel29" />
+                                          <Orientation value="Horizontal" />
+                                          <Children>
+                                            <TextBox>
+                                              <Name value="textBox_TypeOfPeriod" />
+                                              <IsEnabled value="False" />
+                                              <Panel.Height value="#" />
+                                              <Panel.Width value="25%" />
+                                              <Bindings>
+                                                <Binding SourceProperty="Data" Expression="TypeOfPeriod._description" />
+                                                <Binding SourceProperty="Caption" Expression="TypeOfPeriod.Description.caption()" />
+                                              </Bindings>
+                                              <CssClass>
+                                                <CssClassConditional>
+                                                  <ClassName value="{theme}-textbox" />
+                                                  <IsThemedStyle value="True" />
+                                                </CssClassConditional>
+                                              </CssClass>
+                                            </TextBox>
+                                            <TextBox>
+                                              <Name value="textBox_Unit" />
+                                              <IsEnabled value="False" />
+                                              <Panel.Height value="#" />
+                                              <Panel.Width value="25%" />
+                                              <Bindings>
+                                                <Binding SourceProperty="Data" Expression="Unit" />
+                                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="Unit.isRequired()" />
+                                                <Binding SourceProperty="Caption" Expression="Unit.caption()" />
+                                              </Bindings>
+                                              <CssClass>
+                                                <CssClassConditional>
+                                                  <ClassName value="{theme}-textbox" />
+                                                  <IsThemedStyle value="True" />
+                                                </CssClassConditional>
+                                              </CssClass>
+                                            </TextBox>
+                                            <TextBox>
+                                              <Name value="textBox_PeriodDuration" />
+                                              <IsEnabled value="False" />
+                                              <Panel.Height value="#" />
+                                              <Panel.Width value="25%" />
+                                              <Bindings>
+                                                <Binding SourceProperty="Data" Expression="PeriodDuration" />
+                                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="PeriodDuration.isRequired()" />
+                                                <Binding SourceProperty="Caption" Expression="PeriodDuration.caption()" />
+                                              </Bindings>
+                                              <CssClass>
+                                                <CssClassConditional>
+                                                  <ClassName value="{theme}-textbox" />
+                                                  <IsThemedStyle value="True" />
+                                                </CssClassConditional>
+                                              </CssClass>
+                                            </TextBox>
+                                            <Button>
+                                              <Name value="button_deletePeriod" />
+                                              <Caption value="Smazat lhůtu" />
+                                              <Panel.Height value="#" />
+                                              <Panel.Width value="150px" />
+                                              <OnClick>
+                                                <ActionEvent ReferencedAction="~handler_button_deletePeriod_OnClick" />
+                                              </OnClick>
+                                              <Bindings>
+                                                <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                                              </Bindings>
+                                              <CssClass>
+                                                <CssClassConditional>
+                                                  <ClassName value="{theme}-button" />
+                                                  <IsThemedStyle value="True" />
+                                                </CssClassConditional>
+                                              </CssClass>
+                                            </Button>
+                                          </Children>
+                                          <CssClass>
+                                            <CssClassConditional>
+                                              <ClassName value="{theme}-panel" />
+                                              <IsThemedStyle value="True" />
+                                            </CssClassConditional>
+                                          </CssClass>
+                                        </Panel>
+                                      </Content>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-groupbox" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="counter-child" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </GroupBox>
+                                  </Children>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-panel" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Panel>
+                              </Content>
+                              <Bindings>
+                                <Binding SourceProperty="DataItems" Expression="form.model.modelStructure.ASEO.Event.Period" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-repeater" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                                <CssClassConditional>
+                                  <ClassName value="counter-parent" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Repeater>
                           </Content>
                           <CssClass>
                             <CssClassConditional>
                               <ClassName value="{theme}-groupbox" />
                               <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                            <CssClassConditional>
-                              <ClassName value="counter-child" />
                             </CssClassConditional>
                           </CssClass>
                         </GroupBox>
@@ -2811,19 +2844,13 @@
                       </CssClass>
                     </Panel>
                   </Content>
-                  <Bindings>
-                    <Binding SourceProperty="DataItems" Expression="form.model.modelStructure.ASEO.Event.Period" />
-                  </Bindings>
                   <CssClass>
                     <CssClassConditional>
-                      <ClassName value="{theme}-repeater" />
+                      <ClassName value="{theme}-groupbox" />
                       <IsThemedStyle value="True" />
                     </CssClassConditional>
-                    <CssClassConditional>
-                      <ClassName value="counter-parent" />
-                    </CssClassConditional>
                   </CssClass>
-                </Repeater>
+                </GroupBox>
                 <GroupBox>
                   <Name value="box_documents" />
                   <Caption value="Povolení druhu vydávaných dokladů" />
@@ -2932,7 +2959,7 @@
                   </CssClass>
                 </GroupBox>
                 <GroupBox>
-                  <Name value="groupBox_payback" />
+                  <Name value="box_payback" />
                   <Caption value="Druh výpočtu lhůty splatnosti dle délky zúčtovacího období" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
@@ -2997,13 +3024,13 @@
                   </CssClass>
                 </GroupBox>
                 <GroupBox>
-                  <Name value="groupBox_guarantee" />
+                  <Name value="box_guarantee" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
                   <Content>
                     <Panel>
                       <Name value="panel41" />
-                      <Orientation value="Horizontal" />
+                      <Orientation value="Vertical" />
                       <Children>
                         <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
                           <Name value="pagingRepeaterCtrl_Guarantee" />
@@ -3023,7 +3050,7 @@
                           <Content>
                             <Panel>
                               <Name value="panel42" />
-                              <Orientation value="Horizontal" />
+                              <Orientation value="Vertical" />
                               <Children>
                                 <Panel>
                                   <Name value="panel44" />
@@ -3036,7 +3063,7 @@
                                       <DisplayMember value="_description" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="33.33%" />
-                                      <ReferenceList reference="~ZJPZAJIST" />
+                                      <ReferenceList reference="~filteredCodelist_ZJPZAJIST" />
                                       <Bindings>
                                         <Binding SourceProperty="Data" Expression="GuaranteeType" />
                                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="GuaranteeType.isRequired()" />
@@ -3052,13 +3079,14 @@
                                     </ReferenceCombo>
                                     <TextBox>
                                       <Name value="textBox_GuaranteeID" />
-                                      <CaptionPosition value="Top" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="33.33%" />
+                                      <Tooltip value="&quot; 19CZ520000F000080 &quot;" />
                                       <Bindings>
-                                        <Binding SourceProperty="Data" Expression="" />
-                                        <Binding SourceProperty="Caption" Expression="GuaranteeID" />
+                                        <Binding SourceProperty="Data" Expression="GuaranteeID" />
+                                        <Binding SourceProperty="Caption" Expression="GuaranteeID.caption()" />
                                         <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="GuaranteeID.isRequired()" />
                                       </Bindings>
                                       <CssClass>
                                         <CssClassConditional>
@@ -3072,9 +3100,10 @@
                                       <Panel.Height value="#" />
                                       <Panel.Width value="33.33%" />
                                       <Bindings>
-                                        <Binding SourceProperty="Data" Expression="" />
-                                        <Binding SourceProperty="Caption" Expression="GuaranteeState" />
+                                        <Binding SourceProperty="Data" Expression="GuaranteeState" />
+                                        <Binding SourceProperty="Caption" Expression="GuaranteeState.caption()" />
                                         <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="GuaranteeState.isRequired()" />
                                       </Bindings>
                                       <CssClass>
                                         <CssClassConditional>
@@ -3113,6 +3142,18 @@
                                         </CssClassConditional>
                                       </CssClass>
                                     </Button>
+                                    <Label>
+                                      <Name value="label1" />
+                                      <Data value="test GRN: 19CZ520000F000080" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="150px" />
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-label" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Label>
                                   </Children>
                                   <CssClass>
                                     <CssClassConditional>
@@ -4558,6 +4599,13 @@
             <AttributeType>
               <BaseType value="Bool" />
             </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="lifeCycleMode" />
+          <Caption value="Life cycle mode" />
+          <DeclaredType>
+            <AttributeType />
           </DeclaredType>
         </Attribute>
         <Complex>
@@ -6978,6 +7026,30 @@ false]]></ExpressionText>
             </Computed>
           </Children>
         </Modifier>
+        <Modifier>
+          <Name value="modifier_274ED0FC_Key" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key" />
+          <Validators>
+            <Validator Name="val1">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pro toto povolení je povinná hodnota MES"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(form.lifeCycleMode in ["authorize", "authorizeModify"]) and ( form.authorizationType = "SAR" ) and ( this.key.hasValue() ) ? 
+	(isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "MES") ) ? true : false 
+	: 
+	true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
@@ -7063,11 +7135,7 @@ else
 	endIf
 	
 	form.actions.prepareButtonActionText()
-	
-	if form.model.modelStructure.ASEO.AuthorizationType.POVOLTYP.hasValue() then
-		form.authorizationType = form.model.modelStructure.ASEO.AuthorizationType.POVOLTYP
-	endIf	
-	
+		
 	form.isEditOn = false
 	
 endIf
@@ -7171,7 +7239,7 @@ form.apiobjects.CEL_UR.startLoadingData(currentDate)
 
 form.apiobjects.CELUPLAT_R.setDateTime(currentDate)
 form.apiobjects.CELUTVAR.setDateTime(currentDate)
-form.apiobjects.ZJPZAJIST.setDateTime(currentDate)
+form.apiobjects.ZJPZAJIST.startLoadingData(currentDate)
 form.apiobjects.TypeOfPaybackPeriodEnum.setDateTime(currentDate)
 
 //custom codelist for SuspendingReason
@@ -8753,23 +8821,25 @@ form.formState.lifeCycle.actionConfirm.actionName = actionName]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
-var tabs = form.components.tabsMenu
- tabs.Tab01obecne.isVisible = false
- tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab03celniUrady.isVisible = false
- tabs.Tab04zbozi.isVisible = false
- tabs.Tab05rozsirene.isVisible = false
- tabs.Tab06prilohy.isVisible = false
- tabs.Tab07prehodnoceni.isVisible = false
- tabs.Tab08lhutyAzajisteni.isVisible = false
- tabs.Tab09rezimy.isVisible = false
- tabs.Tab10lifecycle_applicationRejection.isVisible = false
- tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
- tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-
-form.actions.prepareTabsForAction("Upravit žádost")
-form.actions.prepareFormForEdit()
-form.actions.initTabMenu()
+	var tabs = form.components.tabsMenu
+	 tabs.Tab01obecne.isVisible = false
+	 tabs.Tab02lifecycle_authorisation.isVisible = false
+	 tabs.Tab03celniUrady.isVisible = false
+	 tabs.Tab04zbozi.isVisible = false
+	 tabs.Tab05rozsirene.isVisible = false
+	 tabs.Tab06prilohy.isVisible = false
+	 tabs.Tab07prehodnoceni.isVisible = false
+	 tabs.Tab08lhutyAzajisteni.isVisible = false
+	 tabs.Tab09rezimy.isVisible = false
+	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
+	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+	
+	form.actions.prepareTabsForAction("Upravit žádost")
+	form.actions.prepareFormForEdit()
+	form.actions.initTabMenu()
+	
+	form.lifeCycleMode = "applicationModify"
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -8786,26 +8856,28 @@ endIf
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
-var tabs = form.components.tabsMenu
- tabs.Tab01obecne.isVisible = false
- tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab03celniUrady.isVisible = false
- tabs.Tab04zbozi.isVisible = false
- tabs.Tab05rozsirene.isVisible = false
- tabs.Tab06prilohy.isVisible = false
- tabs.Tab07prehodnoceni.isVisible = false
- tabs.Tab08lhutyAzajisteni.isVisible = false
- tabs.Tab09rezimy.isVisible = false
- tabs.Tab10lifecycle_applicationRejection.isVisible = false
- tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
- tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
- 
-form.actions.prepareTabsForAction("Zamítnout žádost")
-form.actions.prepareFormForEdit()
-form.actions.initTabMenu()
-
-form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
-form.components.tabsMenu.SelectedTab = 10
+	var tabs = form.components.tabsMenu
+	 tabs.Tab01obecne.isVisible = false
+	 tabs.Tab02lifecycle_authorisation.isVisible = false
+	 tabs.Tab03celniUrady.isVisible = false
+	 tabs.Tab04zbozi.isVisible = false
+	 tabs.Tab05rozsirene.isVisible = false
+	 tabs.Tab06prilohy.isVisible = false
+	 tabs.Tab07prehodnoceni.isVisible = false
+	 tabs.Tab08lhutyAzajisteni.isVisible = false
+	 tabs.Tab09rezimy.isVisible = false
+	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
+	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+	 
+	form.actions.prepareTabsForAction("Zamítnout žádost")
+	form.actions.prepareFormForEdit()
+	form.actions.initTabMenu()
+	
+	form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
+	form.components.tabsMenu.SelectedTab = 10
+	
+	form.lifeCycleMode = "applicationReject"
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -8821,27 +8893,29 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
-var tabs = form.components.tabsMenu
- tabs.Tab01obecne.isVisible = false
- tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab03celniUrady.isVisible = false
- tabs.Tab04zbozi.isVisible = false
- tabs.Tab05rozsirene.isVisible = false
- tabs.Tab06prilohy.isVisible = false
- tabs.Tab07prehodnoceni.isVisible = false
- tabs.Tab08lhutyAzajisteni.isVisible = false
- tabs.Tab09rezimy.isVisible = false
- tabs.Tab10lifecycle_applicationRejection.isVisible = false
- tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
- tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-
-form.actions.prepareFormForEdit()
-form.actions.initTabMenu()
-form.actions.prepareTabsForAction("Upravit zamítnutí")
-
-form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
-form.components.tabsMenu.SelectedTab = 10
-//
+	var tabs = form.components.tabsMenu
+	 tabs.Tab01obecne.isVisible = false
+	 tabs.Tab02lifecycle_authorisation.isVisible = false
+	 tabs.Tab03celniUrady.isVisible = false
+	 tabs.Tab04zbozi.isVisible = false
+	 tabs.Tab05rozsirene.isVisible = false
+	 tabs.Tab06prilohy.isVisible = false
+	 tabs.Tab07prehodnoceni.isVisible = false
+	 tabs.Tab08lhutyAzajisteni.isVisible = false
+	 tabs.Tab09rezimy.isVisible = false
+	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
+	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+	
+	form.actions.prepareFormForEdit()
+	form.actions.initTabMenu()
+	form.actions.prepareTabsForAction("Upravit zamítnutí")
+	
+	form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
+	form.components.tabsMenu.SelectedTab = 10
+	
+	
+	form.lifeCycleMode = "applicationRejectModify"
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -8854,7 +8928,7 @@ endIf]]></Script>
     <ActionBlock>
       <Name value="handler_send_ASEOSPAuthorization_OnClick" />
       <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
 	var tabs = form.components.tabsMenu
@@ -8894,7 +8968,11 @@ endIf]]></Script>
 	if form.authorizationType in ["SAR"] then
 		form.actions.prepareCOsupervising()
 		form.model.sekce2celniUrady.model_addNewSupervisingCO.switchInsertNewCOsupervising = true
+		form.actions.filteredcodeListForSAR()
 	endIf
+	
+	form.lifeCycleMode = "authorize"
+	
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
 endIf
@@ -8910,33 +8988,35 @@ endIf
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
-var tabs = form.components.tabsMenu
- tabs.Tab01obecne.isVisible = false
- tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab03celniUrady.isVisible = false
- tabs.Tab04zbozi.isVisible = false
- tabs.Tab05rozsirene.isVisible = false
- tabs.Tab06prilohy.isVisible = false
- tabs.Tab07prehodnoceni.isVisible = false
- tabs.Tab08lhutyAzajisteni.isVisible = false
- tabs.Tab09rezimy.isVisible = false
- tabs.Tab10lifecycle_applicationRejection.isVisible = false
- tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
- tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-
-form.actions.prepareFormForEdit()
-form.actions.initTabMenu()
-form.actions.prepareTabsForAction("Upravit povolení")
-
-tabs.Tab02lifecycle_authorisation.isVisible = true
-tabs.SelectedTab = 2
-
-tabs.Tab04zbozi.isVisible = True
-
-if form.authorizationType in ["ACP"] then
-	tabs.Tab03celniUrady.isVisible = true
-	tabs.Tab05rozsirene.isVisible = true
-endIf
+	var tabs = form.components.tabsMenu
+	 tabs.Tab01obecne.isVisible = false
+	 tabs.Tab02lifecycle_authorisation.isVisible = false
+	 tabs.Tab03celniUrady.isVisible = false
+	 tabs.Tab04zbozi.isVisible = false
+	 tabs.Tab05rozsirene.isVisible = false
+	 tabs.Tab06prilohy.isVisible = false
+	 tabs.Tab07prehodnoceni.isVisible = false
+	 tabs.Tab08lhutyAzajisteni.isVisible = false
+	 tabs.Tab09rezimy.isVisible = false
+	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
+	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+	
+	form.actions.prepareFormForEdit()
+	form.actions.initTabMenu()
+	form.actions.prepareTabsForAction("Upravit povolení")
+	
+	tabs.Tab02lifecycle_authorisation.isVisible = true
+	tabs.SelectedTab = 2
+	
+	tabs.Tab04zbozi.isVisible = True
+	
+	if form.authorizationType in ["ACP"] then
+		tabs.Tab03celniUrady.isVisible = true
+		tabs.Tab05rozsirene.isVisible = true
+	endIf
+	
+	form.lifeCycleMode = "authorizeModify"
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -8952,28 +9032,30 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
-var tabs = form.components.tabsMenu
- tabs.Tab01obecne.isVisible = false
- tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab06prilohy.isVisible = false
- tabs.Tab07prehodnoceni.isVisible = false
- tabs.Tab08lhutyAzajisteni.isVisible = false
- tabs.Tab09rezimy.isVisible = false
- tabs.Tab10lifecycle_applicationRejection.isVisible = false
- tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
- tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-
-form.actions.initTabMenu()
-form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Zrušit povolení")
-
-tabs.Tab03celniUrady.isVisible = false
-tabs.Tab04zbozi.isVisible = false
-tabs.Tab05rozsirene.isVisible = false
-
-tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
-tabs.SelectedTab = 11
-tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"
+	var tabs = form.components.tabsMenu
+	 tabs.Tab01obecne.isVisible = false
+	 tabs.Tab02lifecycle_authorisation.isVisible = false
+	 tabs.Tab06prilohy.isVisible = false
+	 tabs.Tab07prehodnoceni.isVisible = false
+	 tabs.Tab08lhutyAzajisteni.isVisible = false
+	 tabs.Tab09rezimy.isVisible = false
+	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
+	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+	
+	form.actions.initTabMenu()
+	form.actions.prepareFormForEdit()
+	form.actions.prepareTabsForAction("Zrušit povolení")
+	
+	tabs.Tab03celniUrady.isVisible = false
+	tabs.Tab04zbozi.isVisible = false
+	tabs.Tab05rozsirene.isVisible = false
+	
+	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
+	tabs.SelectedTab = 11
+	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"
+	
+	form.lifeCycleMode = "authorizeWithdrawal"
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -8989,28 +9071,30 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
-var tabs = form.components.tabsMenu
- tabs.Tab01obecne.isVisible = false
- tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab06prilohy.isVisible = false
- tabs.Tab07prehodnoceni.isVisible = false
- tabs.Tab08lhutyAzajisteni.isVisible = false
- tabs.Tab09rezimy.isVisible = false
- tabs.Tab10lifecycle_applicationRejection.isVisible = false
- tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
- tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-
-form.actions.initTabMenu()
-form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Upravit zrušení")
-
-tabs.Tab03celniUrady.isVisible = false
-tabs.Tab04zbozi.isVisible = false
-tabs.Tab05rozsirene.isVisible = false
-
-tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
-tabs.SelectedTab = 11
-tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"
+	var tabs = form.components.tabsMenu
+	 tabs.Tab01obecne.isVisible = false
+	 tabs.Tab02lifecycle_authorisation.isVisible = false
+	 tabs.Tab06prilohy.isVisible = false
+	 tabs.Tab07prehodnoceni.isVisible = false
+	 tabs.Tab08lhutyAzajisteni.isVisible = false
+	 tabs.Tab09rezimy.isVisible = false
+	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
+	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+	
+	form.actions.initTabMenu()
+	form.actions.prepareFormForEdit()
+	form.actions.prepareTabsForAction("Upravit zrušení")
+	
+	tabs.Tab03celniUrady.isVisible = false
+	tabs.Tab04zbozi.isVisible = false
+	tabs.Tab05rozsirene.isVisible = false
+	
+	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
+	tabs.SelectedTab = 11
+	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"
+	
+	form.lifeCycleMode = "authorizeWithdrawalModify"
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9026,27 +9110,29 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
-var tabs = form.components.tabsMenu
- tabs.Tab01obecne.isVisible = false
- tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab06prilohy.isVisible = false
- tabs.Tab07prehodnoceni.isVisible = false
- tabs.Tab08lhutyAzajisteni.isVisible = false
- tabs.Tab09rezimy.isVisible = false
- tabs.Tab10lifecycle_applicationRejection.isVisible = false
- tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
- tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-
-form.actions.initTabMenu()
-form.actions.prepareTabsForAction("Pozastavit")
-form.actions.prepareFormForEdit()
-
-tabs.Tab03celniUrady.isVisible = false
-tabs.Tab04zbozi.isVisible = false
-tabs.Tab05rozsirene.isVisible = false
-
-form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible = True
-form.components.tabsMenu.SelectedTab = 12
+	var tabs = form.components.tabsMenu
+	 tabs.Tab01obecne.isVisible = false
+	 tabs.Tab02lifecycle_authorisation.isVisible = false
+	 tabs.Tab06prilohy.isVisible = false
+	 tabs.Tab07prehodnoceni.isVisible = false
+	 tabs.Tab08lhutyAzajisteni.isVisible = false
+	 tabs.Tab09rezimy.isVisible = false
+	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
+	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+	
+	form.actions.initTabMenu()
+	form.actions.prepareTabsForAction("Pozastavit")
+	form.actions.prepareFormForEdit()
+	
+	tabs.Tab03celniUrady.isVisible = false
+	tabs.Tab04zbozi.isVisible = false
+	tabs.Tab05rozsirene.isVisible = false
+	
+	form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible = True
+	form.components.tabsMenu.SelectedTab = 12
+	
+	form.lifeCycleMode = "authorizeSuspending"
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9062,27 +9148,29 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
-var tabs = form.components.tabsMenu
- tabs.Tab01obecne.isVisible = false
- tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab06prilohy.isVisible = false
- tabs.Tab07prehodnoceni.isVisible = false
- tabs.Tab08lhutyAzajisteni.isVisible = false
- tabs.Tab09rezimy.isVisible = false
- tabs.Tab10lifecycle_applicationRejection.isVisible = false
- tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
- tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-
-form.actions.initTabMenu()
-form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Upravit pozastavení")
-
-tabs.Tab03celniUrady.isVisible = false
-tabs.Tab04zbozi.isVisible = false
-tabs.Tab05rozsirene.isVisible = false
-
-form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible = True
-form.components.tabsMenu.SelectedTab = 12
+	var tabs = form.components.tabsMenu
+	 tabs.Tab01obecne.isVisible = false
+	 tabs.Tab02lifecycle_authorisation.isVisible = false
+	 tabs.Tab06prilohy.isVisible = false
+	 tabs.Tab07prehodnoceni.isVisible = false
+	 tabs.Tab08lhutyAzajisteni.isVisible = false
+	 tabs.Tab09rezimy.isVisible = false
+	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
+	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+	
+	form.actions.initTabMenu()
+	form.actions.prepareFormForEdit()
+	form.actions.prepareTabsForAction("Upravit pozastavení")
+	
+	tabs.Tab03celniUrady.isVisible = false
+	tabs.Tab04zbozi.isVisible = false
+	tabs.Tab05rozsirene.isVisible = false
+	
+	form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible = True
+	form.components.tabsMenu.SelectedTab = 12
+	
+	form.lifeCycleMode = "authorizeSuspendingModify"
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9120,6 +9208,8 @@ endIf]]></Script>
 	form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 	form.components.tabsMenu.SelectedTab = 11
 	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zneplatnění"
+	
+	form.lifeCycleMode = "authorizeCancellation"
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9135,28 +9225,30 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
-var tabs = form.components.tabsMenu
- tabs.Tab01obecne.isVisible = false
- tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab06prilohy.isVisible = false
- tabs.Tab07prehodnoceni.isVisible = false
- tabs.Tab08lhutyAzajisteni.isVisible = false
- tabs.Tab09rezimy.isVisible = false
- tabs.Tab10lifecycle_applicationRejection.isVisible = false
- tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
- tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-
-form.actions.initTabMenu()
-form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Upravit zneplatnění")
-
-tabs.Tab03celniUrady.isVisible = false
-tabs.Tab04zbozi.isVisible = false
-tabs.Tab05rozsirene.isVisible = false
-
-form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisible = true
-form.components.tabsMenu.SelectedTab = 11
-tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zneplatnění"
+	var tabs = form.components.tabsMenu
+	 tabs.Tab01obecne.isVisible = false
+	 tabs.Tab02lifecycle_authorisation.isVisible = false
+	 tabs.Tab06prilohy.isVisible = false
+	 tabs.Tab07prehodnoceni.isVisible = false
+	 tabs.Tab08lhutyAzajisteni.isVisible = false
+	 tabs.Tab09rezimy.isVisible = false
+	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
+	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+	
+	form.actions.initTabMenu()
+	form.actions.prepareFormForEdit()
+	form.actions.prepareTabsForAction("Upravit zneplatnění")
+	
+	tabs.Tab03celniUrady.isVisible = false
+	tabs.Tab04zbozi.isVisible = false
+	tabs.Tab05rozsirene.isVisible = false
+	
+	form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisible = true
+	form.components.tabsMenu.SelectedTab = 11
+	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zneplatnění"
+	
+	form.lifeCycleMode = "authorizeCancellationModify"
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9802,28 +9894,30 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
-var tabs = form.components.tabsMenu
- tabs.Tab01obecne.isVisible = false
- tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab06prilohy.isVisible = false
- tabs.Tab07prehodnoceni.isVisible = false
- tabs.Tab08lhutyAzajisteni.isVisible = false
- tabs.Tab09rezimy.isVisible = false
- tabs.Tab10lifecycle_applicationRejection.isVisible = false
- tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
- tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-
-form.actions.initTabMenu()
-form.actions.prepareFormForEdit()
-form.actions.prepareTabsForAction("Zrušit povolení.")
-
-tabs.Tab03celniUrady.isVisible = false
-tabs.Tab04zbozi.isVisible = false
-tabs.Tab05rozsirene.isVisible = false
-
-tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
-tabs.SelectedTab = 11
- tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"
+	var tabs = form.components.tabsMenu
+	 tabs.Tab01obecne.isVisible = false
+	 tabs.Tab02lifecycle_authorisation.isVisible = false
+	 tabs.Tab06prilohy.isVisible = false
+	 tabs.Tab07prehodnoceni.isVisible = false
+	 tabs.Tab08lhutyAzajisteni.isVisible = false
+	 tabs.Tab09rezimy.isVisible = false
+	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
+	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+	
+	form.actions.initTabMenu()
+	form.actions.prepareFormForEdit()
+	form.actions.prepareTabsForAction("Zrušit povolení.")
+	
+	tabs.Tab03celniUrady.isVisible = false
+	tabs.Tab04zbozi.isVisible = false
+	tabs.Tab05rozsirene.isVisible = false
+	
+	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
+	tabs.SelectedTab = 11
+	 tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"
+	 
+	 form.lifeCycleMode = "authorizeWithdrawal"
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9919,12 +10013,19 @@ if co.count() > 0 then
 	
 	var mySupervisingCustomsOffice = form.model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice.selectFirst()
 	mySupervisingCustomsOffice.CustomsOfficeReferenceNumber.fromJson(json)
-	
-	//test
-	system.console(form.model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice.toJson())
-	//test
 
 endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="filteredcodeListForSAR" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var filter = form.apiobjects.filteredCodelist_ZJPZAJIST.getFilter()
+filter.includeItemsByStringColumn("POVOLTYP", form.authorizationType)
+filter.commit()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -10211,5 +10312,9 @@ endIf]]></Script>
         </CodelistColumn>
       </columns>
     </Codelist>
+    <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="filteredCodelist_ZJPZAJIST" />
+      <codelistSource reference="~ZJPZAJIST" />
+    </FilteredCodelist>
   </ApiObjects>
 </Form>
