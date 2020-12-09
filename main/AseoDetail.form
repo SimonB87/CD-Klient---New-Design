@@ -3129,6 +3129,9 @@
                                       <Caption value="Zaslat dotaz na záruku" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="150px" />
+                                      <OnClick>
+                                        <ActionEvent ReferencedAction="~sendGuaranteeRequest" />
+                                      </OnClick>
                                       <Bindings>
                                         <Binding SourceProperty="IsVisible" Expression="form.isEditOn" />
                                         <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
@@ -10066,6 +10069,85 @@ endIf]]></Script>
         <Script><![CDATA[var filter = form.apiobjects.filteredCodelist_ZJPZAJIST.getFilter()
 filter.includeItemsByStringColumn("POVOLTYP", form.authorizationType)
 filter.commit()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="sendGuaranteeRequest" />
+      <Category value="sendGuaranteeRequest" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+form.actions.sendGuaranteeRequest_clearResReqData()
+form.actions.sendGuaranteeRequest_prepareReqMessage()
+
+var response = apiobjects.ServerKomunikace.postAsync("ASEOGuaranteeRequest", form.requests.guaranteeReq.toJson())
+
+if response.isError() or (response.getMessageType() = "IN906A") then
+
+	system.console(response.getErrorMessage())
+	
+	form.actions.showErorrNotificationMessage("Nastala chyba. Dotaz na záruku se nezdařil.", true)
+	
+	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+
+else
+
+	var respJson = response.getJsonString()
+    form.requests.guaranteeRes.fromJson(respJson)
+    
+    //test
+    system.console(respJson)
+    //test
+    
+    form.actions.sendGuaranteeRequest_getReqData()
+    
+    form.actions.showErorrNotificationMessage("Dotaz na záruku byl úspěšný.", false)
+
+endIf
+
+form.actions.sendGuaranteeRequest_clearResReqData()
+
+globals.IsBusy = False]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="sendGuaranteeRequest_clearResReqData" />
+      <Category value="sendGuaranteeRequest" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.requests.guaranteeReq.clear()
+form.requests.guaranteeRes.clear()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="sendGuaranteeRequest_prepareReqMessage" />
+      <Category value="sendGuaranteeRequest" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.requests.guaranteeReq.Guarantee.addItem()
+var prepareGrn = form.requests.guaranteeReq.Guarantee.selectFirst()
+var choosenGuaratee = form.model.modelStructure.ASEO.Event.Guarantee.selectFirst(Current.index() = form.formState.indexes._index_guarantee)
+prepareGrn.GRN = choosenGuaratee.GuaranteeID]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="sendGuaranteeRequest_getReqData" />
+      <Category value="sendGuaranteeRequest" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var targetGuarantee = form.model.modelStructure.ASEO.Event.Guarantee.selectFirst(Current.index() = form.formState.indexes._index_guarantee)
+var responseGuarantee = form.requests.guaranteeRes.Guarantee.selectFirst()
+
+targetGuarantee.GuaranteeState = toString(responseGuarantee.Valid)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
