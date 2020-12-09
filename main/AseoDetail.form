@@ -2219,9 +2219,6 @@
                       <Orientation value="Vertical" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
-                      <Bindings>
-                        <Binding SourceProperty="IsVisible" Expression="form.model.sekce2celniUrady.model_addNewSupervisingCO.switchInsertNewCOsupervising" />
-                      </Bindings>
                       <Children>
                         <Repeater>
                           <Name value="repeater4" />
@@ -5899,7 +5896,7 @@
                   <Name value="isAuthorisationSAR" />
                   <Caption value="Is authorisation SAR" />
                   <Expression IsValid="True">
-                    <ExpressionText><![CDATA[form.authorizationType = "SAR" ? true : false]]></ExpressionText>
+                    <ExpressionText><![CDATA[isTrue(form.authorizationType = "SAR") ? true : false]]></ExpressionText>
                     <ResultType>
                       <BaseType value="Bool" />
                     </ResultType>
@@ -7490,7 +7487,12 @@ var stateCode = form.formState.lifeCycle.stateCode
 tabs.Tab01obecne.Title = "Obecné"
 tabs.Tab03celniUrady.Title = "Celní úřady"
 tabs.Tab04zbozi.Title = "Zboží"
-tabs.Tab05rozsirene.Title = "Rozšířené"
+
+if form.authorizationType in ["SAR"] then
+	tabs.Tab05rozsirene.Title = "Lhůty a zajištění"
+else
+	tabs.Tab05rozsirene.Title = "Rozšířené"
+endIf
 
 var currentAnnex = form.model.modelStructure.ASEO.Event.File.count()
 var newAnnex = form.model.sekce5prilohy.newFilesCollection.File.count()
@@ -9187,7 +9189,11 @@ endIf
 	tabs.Tab02lifecycle_authorisation.isVisible = true
 	tabs.SelectedTab = 2
 	
-	tabs.Tab04zbozi.isVisible = True
+	if (form.authorizationType in ["SAR"]) then
+		tabs.Tab04zbozi.isVisible = False
+	else
+		tabs.Tab04zbozi.isVisible = True
+	endIF
 	
 	if form.authorizationType in ["ACP"] then
 		tabs.Tab03celniUrady.isVisible = true
@@ -10180,19 +10186,26 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var co = form.model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice
 
-if co.count() < 1 then
+if form.model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice.exists(Current.hasValue() ) then
 	co.addItem()
 endIf
 
-if co.count() > 0 then
+if form.model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice.count() < 1 then
+	co.addItem()
+endIf
 
-	var stredoceskyKraj = form.apiobjects.CELUTVAR.getItemByStringColumnAsync("CELUTVAR", "CZ610000", getDateTime(), defaultBool())	
-	var json = stredoceskyKraj.getJsonString()
+var stredoceskyKraj = form.apiobjects.CELUTVAR.getItemByStringColumnAsync("CELUTVAR", "CZ610000", getDateTime(), defaultBool())	
+var json = stredoceskyKraj.getJsonString()
 	
-	var mySupervisingCustomsOffice = form.model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice.selectFirst()
-	mySupervisingCustomsOffice.CustomsOfficeReferenceNumber.fromJson(json)
+var mySupervisingCustomsOffice = form.model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice.selectFirst()
+mySupervisingCustomsOffice.CustomsOfficeReferenceNumber.fromJson(json)
 
-endIf]]></Script>
+//test
+if json = defaultString() then
+	mySupervisingCustomsOffice.CustomsOfficeReferenceNumber.CELUTVAR = "CZ610000"
+	mySupervisingCustomsOffice.CustomsOfficeReferenceNumber.POPIS = "pro Středočeský kraj, Praha 1"
+endif
+//test]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -10357,7 +10370,8 @@ endFor]]></Script>
 			system.console("incoming GuaranteeType: " + g.GuaranteeState)
 			//test
 			
-			var item = form.apiobjects.ZJPZAJIST.getItemByStringColumnAsync("ZJPZAJIST", g.GuaranteeType, getDateTime(), false)
+			var item = form.apiobjects.ZJPZAJIST.getItemByStringColumnAsync("ZJPZAJIST", "9110", getDateTime(), false)
+			//var item = form.apiobjects.ZJPZAJIST.getItemByStringColumnAsync("ZJPZAJIST", g.GuaranteeType, getDateTime(), false)
 			
 			if item.isFound() then
 				add_g.GuaranteeType.fromJson(item.getJsonString())
