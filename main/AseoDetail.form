@@ -6227,6 +6227,15 @@ false]]></ExpressionText>
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Attribute>
+              <Name value="invalidGuarantee" />
+              <Caption value="Invalid guarantee" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
           </Children>
         </Complex>
         <Complex>
@@ -7093,6 +7102,32 @@ false]]></ExpressionText>
             </Validator>
           </Validators>
         </Modifier>
+        <Modifier>
+          <Name value="modifier_ED3795B0_GuaranteeState" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.Guarantee.GuaranteeState" />
+          <Validators>
+            <Validator Name="validGuarantee">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Záruka musí být platná"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(form.lifeCycleMode in ["authorize", "authorizeModify"]) and ( form.authorizationType = "SAR" ) and ( this.GuaranteeType.ZJPZAJIST.hasValue() ) ? 
+	(isTrue(this.GuaranteeState.hasValue()) ) ? 
+		(isTrue(this.GuaranteeState = "Platná") ? true : false) 
+		: false 
+	: 
+	true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
@@ -7720,44 +7755,54 @@ form.actions.editDataBeforePosting("ASEOSPAuthorization")
 
 form.actions.validErr_clearPrevious()	
 
-var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form.requests.ASEOmegaMessage.toJson())
-var responseResult = defaultBool()
-result = responseResult
+form.actions.checkGuaranteeValidity()
 
-if response.isError() then
-	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Nemohlo být vydání povolení provedeno.", true)
-	
-	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
-	
-	if ( (form.authorizationType = "TIR") and (not form.requests.ASEOmegaMessage.ASEO.Event.SPTIR.TIRHolder.hasValue()) ) then
-		form.model.modelStructure.ASEO.Event.SPTIR.setTouched(true)
-		form.actions.showErorrNotificationMessage("Doplňte Údaj \"ID držitele karnetu TIR\" v záložce \"Povolení\".", true)
-	endIf
-	
-	if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
-		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Povolení\".", true)
-	endIf
-	
-	if ( form.authorizationType in ["ACP", "SAR"] ) and (not form.requests.ASEOmegaMessage.ASEO.Event.Period.hasValue()) then
-		form.actions.showErorrNotificationMessage("Doplňte aspoň jednu položku \"Lhůty\" v záložce \"Rozšířené\".", true)
-	endIf
-	
-	// setTouch so the user sees, what si missing from submission
-	form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
-	form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
-	responseResult = false
+var responseResult = defaultBool()
+
+if form.formState.invalidGuarantee then
+
+	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form.requests.ASEOmegaMessage.toJson())
+
 	result = responseResult
+	
+	if response.isError() then
+		system.console(response.getErrorMessage())
+		form.actions.showErorrNotificationMessage("Nastala chyba. Nemohlo být vydání povolení provedeno.", true)
+		
+		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+		
+		if ( (form.authorizationType = "TIR") and (not form.requests.ASEOmegaMessage.ASEO.Event.SPTIR.TIRHolder.hasValue()) ) then
+			form.model.modelStructure.ASEO.Event.SPTIR.setTouched(true)
+			form.actions.showErorrNotificationMessage("Doplňte Údaj \"ID držitele karnetu TIR\" v záložce \"Povolení\".", true)
+		endIf
+		
+		if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Povolení\".", true)
+		endIf
+		
+		if ( form.authorizationType in ["ACP", "SAR"] ) and (not form.requests.ASEOmegaMessage.ASEO.Event.Period.hasValue()) then
+			form.actions.showErorrNotificationMessage("Doplňte aspoň jednu položku \"Lhůty\" v záložce \"Rozšířené\".", true)
+		endIf
+		
+		// setTouch so the user sees, what si missing from submission
+		form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
+		form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
+		responseResult = false
+		result = responseResult
+	else
+		form.model.modelStructure.ASEO.clear()
+		
+		var messageString = form.actions.getAuthorisationMessage()
+		
+		form.actions.showErorrNotificationMessage(messageString, false)
+		form.VersionGUID = defaultString()
+		form.actions.loadAseoData(form.GUID)
+		responseResult = true
+		result = responseResult
+	endIf
 else
-	form.model.modelStructure.ASEO.clear()
-	
-	var messageString = form.actions.getAuthorisationMessage()
-	
-	form.actions.showErorrNotificationMessage(messageString, false)
-	form.VersionGUID = defaultString()
-	form.actions.loadAseoData(form.GUID)
-	responseResult = true
-	result = responseResult
+	form.actions.showErorrNotificationMessage("Nastala chyba. Jedna ze záruk nejsou validní.", true)
+
 endIf
 
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
@@ -8459,28 +8504,40 @@ form.actions.editDataBeforePosting("ASEOSPAuthorizationModification")
 
 form.actions.validErr_clearPrevious()
 
-var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationModification", form.requests.ASEOmegaMessage.toJson())
-var responseResult = defaultBool()
-result = responseResult
 
-if response.isError() then
-	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být úpraveno.", true)
+form.actions.checkGuaranteeValidity()
+
+var responseResult = defaultBool()
+
+if form.formState.invalidGuarantee then
 	
-	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
-	
-	// setTouch so the user sees, what si missing from submission
-	form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
-	form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
-	responseResult = false
+	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationModification", form.requests.ASEOmegaMessage.toJson())
 	result = responseResult
+	
+	if response.isError() then
+		system.console(response.getErrorMessage())
+		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být úpraveno.", true)
+		
+		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+		
+		// setTouch so the user sees, what si missing from submission
+		form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
+		form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
+		responseResult = false
+		result = responseResult
+	else
+		form.model.modelStructure.ASEO.clear()
+		form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno k úpravě povolení.", false)
+		form.VersionGUID = defaultString()
+		form.actions.loadAseoData(form.GUID, form.VersionGUID)
+		responseResult = true
+		result = responseResult
+	endIf
+
 else
-	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno k úpravě povolení.", false)
-	form.VersionGUID = defaultString()
-	form.actions.loadAseoData(form.GUID, form.VersionGUID)
-	responseResult = true
-	result = responseResult
+
+	form.actions.showErorrNotificationMessage("Nastala chyba. Jedna ze záruk nejsou validní.", true)
+
 endIf
 
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
@@ -10147,7 +10204,37 @@ prepareGrn.GRN = choosenGuaratee.GuaranteeID]]></Script>
         <Script><![CDATA[var targetGuarantee = form.model.modelStructure.ASEO.Event.Guarantee.selectFirst(Current.index() = form.formState.indexes._index_guarantee)
 var responseGuarantee = form.requests.guaranteeRes.Guarantee.selectFirst()
 
-targetGuarantee.GuaranteeState = toString(responseGuarantee.Valid)]]></Script>
+if responseGuarantee.Valid then
+	targetGuarantee.GuaranteeState  = "Platná"
+else
+	targetGuarantee.GuaranteeState  = "Neplatná"
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="checkGuaranteeValidity" />
+      <Category value="lifeCyclePostingSetUp" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.authorizationType in ["SAR"] then
+	if form.requests.ASEOmegaMessage.ASEO.Event.Guarantee.exists(Current.hasValue()) then
+		if form.requests.ASEOmegaMessage.ASEO.Event.Guarantee.count() > 0 then
+		
+			form.formState.invalidGuarantee = defaultBool()
+			
+			if form.requests.ASEOmegaMessage.ASEO.Event.Guarantee.exists(Current.GuaranteeState = "Neplatná") then
+				form.formState.invalidGuarantee = true
+			else
+				form.formState.invalidGuarantee = false
+			endIf
+			
+		endIf
+	endIf
+else
+	form.formState.invalidGuarantee = true
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
