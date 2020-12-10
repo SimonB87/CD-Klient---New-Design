@@ -3091,13 +3091,13 @@
                                     </TextBox>
                                     <TextBox>
                                       <Name value="textBox_GuaranteeState" />
+                                      <Caption value="Stav záruky" />
                                       <IsEnabled value="False" />
+                                      <IsRequiredMarkVisible value="True" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="33.33%" />
                                       <Bindings>
-                                        <Binding SourceProperty="Data" Expression="GuaranteeState" />
-                                        <Binding SourceProperty="Caption" Expression="GuaranteeState.caption()" />
-                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="GuaranteeState.isRequired()" />
+                                        <Binding SourceProperty="Data" Expression="_editedGuaranteeState" />
                                       </Bindings>
                                       <CssClass>
                                         <CssClassConditional>
@@ -5086,7 +5086,7 @@
                               <IsValid IsValid="True">
                                 <ExpressionText><![CDATA[(form.lifeCycleMode in ["authorize", "authorizeModify"]) and ( form.authorizationType = "SAR" ) and ( this.GuaranteeType.ZJPZAJIST.hasValue() ) ? 
 	(isTrue(this.GuaranteeState.hasValue()) ) ? 
-		(isTrue(this.GuaranteeState = "Platná") ? true : false) 
+		(isTrue(this.GuaranteeState = "1") ? true : false) 
 		: false 
 	: 
 	true]]></ExpressionText>
@@ -5097,6 +5097,18 @@
                             </Validator>
                           </Validators>
                         </Attribute>
+                        <Computed>
+                          <Name value="_editedGuaranteeState" />
+                          <Caption value="_ edited guarantee state" />
+                          <Expression IsValid="True">
+                            <ExpressionText><![CDATA[isTrue(this.GuaranteeState = "1") ? "Záruka je planá" 
+: 
+	isTrue(this.GuaranteeState = "0") ? "Záruka není planá" : "...odešlete dotaz na záruku"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </Expression>
+                        </Computed>
                       </Children>
                     </Collection>
                   </Children>
@@ -7256,7 +7268,7 @@ globals.IsBusy = false]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="loadAseoData" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[form.requests.initReq.ASEO.GUID = decisionGuid
 form.requests.initReq.ASEO.Event.GUID = decisionVersionGuid
 
@@ -7394,7 +7406,10 @@ form.apiobjects.CEL_UR.startLoadingData(currentDate)
 
 form.apiobjects.CELUPLAT_R.setDateTime(currentDate)
 form.apiobjects.CELUTVAR.setDateTime(currentDate)
+
+//form.apiobjects.ZJPZAJIST.startLoadingData(currentDate)
 form.apiobjects.ZJPZAJIST.startLoadingData(currentDate)
+
 form.apiobjects.TypeOfPaybackPeriodEnum.setDateTime(currentDate)
 
 //custom codelist for SuspendingReason
@@ -7841,9 +7856,11 @@ form.actions.checkGuaranteeValidity()
 
 var responseResult = defaultBool()
 
+/*
 if not form.formState.invalidGuarantee then
 	form.actions.showErorrNotificationMessage("Jedna ze záruk není validní.", false)
 endIf
+*/
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form.requests.ASEOmegaMessage.toJson())
 
@@ -8593,9 +8610,11 @@ form.actions.checkGuaranteeValidity()
 
 var responseResult = defaultBool()
 
+/*
 if not form.formState.invalidGuarantee then
 	form.actions.showErorrNotificationMessage("Jedna ze záruk není validní.", false)
 endIf
+*/
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationModification", form.requests.ASEOmegaMessage.toJson())
 result = responseResult
@@ -9191,6 +9210,7 @@ endIf
 	
 	if (form.authorizationType in ["SAR"]) then
 		tabs.Tab04zbozi.isVisible = False
+		form.actions.filteredcodeListForSAR()
 	else
 		tabs.Tab04zbozi.isVisible = True
 	endIF
@@ -9678,7 +9698,10 @@ form.actions.editValidityStartDate()]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[//get current date time
 form.formState.currentDateTime = getDateTime()
-]]></Script>
+
+if isTrue(form.authorizationType in ["SAR"]) then
+	form.actions.filteredcodeListForSAR()
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -9930,7 +9953,7 @@ endIf]]></Script>
     <ActionBlock>
       <Name value="preloadLastAuthorisationData" />
       <Category value="authorisationPreload" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[form.requests.initReq.ASEO.GUID = form.GUID
 form.requests.initReq.ASEO.Event.GUID = lastAuthorisationGuid
 
@@ -9956,6 +9979,9 @@ else
 		form.actions.preloadDataForTIR()
 	else if form.authorizationType = "ACP" then
 		form.actions.preloadDataForACP()
+	else if form.authorizationType = "SAR" then
+		form.actions.preloadDataForSAR()
+	endIf
 	endIf endIf
 	//delete afterwards support structure
 	form.requests.ASEOmegaMessage.clear()
@@ -10186,7 +10212,7 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var co = form.model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice
 
-if form.model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice.exists(Current.hasValue() ) then
+if form.model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice.exists(Current.hasValue() = false) then
 	co.addItem()
 endIf
 
@@ -10250,7 +10276,7 @@ else
         
     form.actions.sendGuaranteeRequest_getReqData()
     
-    form.actions.showErorrNotificationMessage("Dotaz na záruku byl úspěšný.", false)
+    //form.actions.showErorrNotificationMessage("Dotaz na záruku byl úspěšný.", false)
 
 endIf
 
@@ -10294,9 +10320,11 @@ prepareGrn.GRN = choosenGuaratee.GuaranteeID]]></Script>
 var responseGuarantee = form.requests.guaranteeRes.Guarantee.selectFirst()
 
 if (isTrue(responseGuarantee.Valid = "1")) then
-	targetGuarantee.GuaranteeState  = "Platná"
+	targetGuarantee.GuaranteeState  = "1"
 else
-	targetGuarantee.GuaranteeState  = "Neplatná"
+	if (isTrue(responseGuarantee.Valid = "0")) then
+		targetGuarantee.GuaranteeState  = "1"
+	endIf
 endIf]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -10394,6 +10422,39 @@ endFor]]></Script>
 		endFor
 	endIf
 endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="preloadDataForSAR" />
+      <Category value="authorisationPreload" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var modelPath = form.model.modelStructure.ASEO.Event
+var preloadedPath = form.requests.ASEOmegaMessage.ASEO.Event
+
+//Celní úřady:
+modelPath.CustomsOffices.fromJson(preloadedPath.CustomsOffices.toJson())
+
+//Rozšířené:
+modelPath.Period.fromJson(preloadedPath.Period.toJson())
+
+modelPath.Guarantee.fromJson( preloadedPath.Guarantee.toJson() )
+
+form.model.sekce4rozsirene.newGarantee.Guarantee.clear()
+
+forEach g in form.requests.ASEOmegaMessage.ASEO.Event.Guarantee do
+	var add_g = form.model.sekce4rozsirene.newGarantee.Guarantee.addItem()
+	add_g.GuaranteeType.ZJPZAJIST = g.GuaranteeType
+	add_g.GuaranteeState = g.GuaranteeState
+	add_g.GuaranteeID = g.GuaranteeID
+	
+endFor
+
+modelPath.SPSI.fromJson(preloadedPath.SPSI.toJson())
+
+modelPath.CustomsProcedure.fromJson(preloadedPath.CustomsProcedure.toJson())]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
