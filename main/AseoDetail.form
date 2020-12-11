@@ -2616,7 +2616,7 @@
                               <DisplayMember value="_description" />
                               <Panel.Height value="#" />
                               <Panel.Width value="25%" />
-                              <ReferenceList reference="~filtered_ZJPLHUTA" />
+                              <ReferenceList reference="~TypeOfPeriod" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.sekce4rozsirene.newPeriod._ZJPLHUTYP" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce4rozsirene.newPeriod._ZJPLHUTYP.isRequired()" />
@@ -3058,7 +3058,7 @@
                                       <DisplayMember value="_description" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="33.33%" />
-                                      <ReferenceList reference="~filteredCodelist_ZJPZAJIST" />
+                                      <ReferenceList reference="~ZJPZAJIST" />
                                       <Bindings>
                                         <Binding SourceProperty="Data" Expression="GuaranteeType" />
                                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="GuaranteeType.isRequired()" />
@@ -7407,11 +7407,10 @@ form.apiobjects.CEL_UR.startLoadingData(currentDate)
 form.apiobjects.CELUPLAT_R.setDateTime(currentDate)
 form.apiobjects.CELUTVAR.setDateTime(currentDate)
 
-//form.apiobjects.ZJPZAJIST.startLoadingData(currentDate)
-form.apiobjects.ZJPZAJIST.startLoadingData(currentDate)
-
-form.apiobjects.TypeOfPaybackPeriodEnum.setDateTime(currentDate)
-
+if isTrue(form.authorizationType in ["SAR"]) then
+	form.actions.filteredcodeListForSAR()
+	form.apiobjects.TypeOfPaybackPeriodEnum.setDateTime(currentDate)
+endIf
 //custom codelist for SuspendingReason
 var dataCustomCodelist = "[{\"authorizationSuspendingReason\":\"J\", \"description\":  \"Pozastavení povolení z jiného důvodu\"}]"
 form.apiobjects.authorizationSuspendingReasonCodelist.fillFromJson(dataCustomCodelist)
@@ -7723,10 +7722,6 @@ else
 	form.apiobjects.ZJPLHUTA.loadDataAsync(getDateTime())
 	form.apiobjects.ZJPLHUTA.setDate(getDate())
 endIf
-
-var filter = form.apiobjects.filtered_ZJPLHUTA.getFilter()
-filter.includeItemsByStringColumn("POVOLTYP", form.authorizationType)
-filter.commit()
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -9953,7 +9948,7 @@ endIf]]></Script>
     <ActionBlock>
       <Name value="preloadLastAuthorisationData" />
       <Category value="authorisationPreload" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[form.requests.initReq.ASEO.GUID = form.GUID
 form.requests.initReq.ASEO.Event.GUID = lastAuthorisationGuid
 
@@ -10240,9 +10235,10 @@ endif
     <ActionBlock>
       <Name value="filteredcodeListForSAR" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var filter = form.apiobjects.filteredCodelist_ZJPZAJIST.getFilter()
-filter.includeItemsByStringColumn("POVOLTYP", form.authorizationType)
-filter.commit()]]></Script>
+        <Script><![CDATA[form.apiobjects.ZJPZAJIST.setDateTime(getDateTime())
+var filter = "POVOLTYP eq '" + form.authorizationType + "'"  
+form.apiobjects.ZJPZAJIST.setFilter(filter)
+form.apiobjects.ZJPZAJIST.startLoadingData(getDateTime())]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -10553,10 +10549,6 @@ modelPath.CustomsProcedure.fromJson(preloadedPath.CustomsProcedure.toJson())]]><
         </CodelistColumn>
       </columns>
     </Codelist>
-    <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
-      <Name value="filtered_ZJPLHUTA" />
-      <codelistSource reference="~ZJPLHUTA" />
-    </FilteredCodelist>
     <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
       <Name value="zaduzam" />
       <filterByDate value="False" />
