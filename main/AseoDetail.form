@@ -2616,7 +2616,7 @@
                               <DisplayMember value="_description" />
                               <Panel.Height value="#" />
                               <Panel.Width value="25%" />
-                              <ReferenceList reference="~TypeOfPeriod" />
+                              <ReferenceList reference="~filtered_ZJPLHUTA" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.sekce4rozsirene.newPeriod._ZJPLHUTYP" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce4rozsirene.newPeriod._ZJPLHUTYP.isRequired()" />
@@ -7722,7 +7722,10 @@ else
 	form.apiobjects.ZJPLHUTA.loadDataAsync(getDateTime())
 	form.apiobjects.ZJPLHUTA.setDate(getDate())
 endIf
-]]></Script>
+
+var filter = form.apiobjects.filtered_ZJPLHUTA.getFilter()
+filter.includeItemsByStringColumn("POVOLTYP", form.authorizationType)
+filter.commit()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -10736,6 +10739,10 @@ modelPath.CustomsProcedure.fromJson(preloadedPath.CustomsProcedure.toJson())]]><
     <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
       <Name value="filteredCodelist_ZJPZAJIST" />
       <codelistSource reference="~ZJPZAJIST" />
+    </FilteredCodelist>
+    <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="filtered_ZJPLHUTA" />
+      <codelistSource reference="~ZJPLHUTA" />
     </FilteredCodelist>
   </ApiObjects>
 </Form>
