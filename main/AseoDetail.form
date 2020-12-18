@@ -2274,6 +2274,9 @@
                                   <OnClick>
                                     <ActionEvent ReferencedAction="~handler_button_deleteCOSupervising_OnClick" />
                                   </OnClick>
+                                  <Bindings>
+                                    <Binding SourceProperty="IsVisible" Expression="not form.formState.visibilities.isAuthorisationSAR" />
+                                  </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
                                       <ClassName value="{theme}-button" />
@@ -4064,19 +4067,17 @@
                   </CssClass>
                 </Label>
                 <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
-                  <Name value="pagingRepeaterCtrl1" />
+                  <Name value="pagingRepeaterCtrl_CustomsProcedureCombination" />
                   <KeepArrowsTogether value="True" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
                   <Bindings>
                     <Binding SourceProperty="Data" Expression="form.model.modelStructure.ASEO.Event.CustomsProcedure.CustomsProcedureCombination" />
                     <Binding SourceProperty="Index" Expression="form.formState.indexes._index_CustomsProcedure" />
-                    <Binding SourceProperty="AllowRemove" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                    <Binding SourceProperty="AllowAdd" Expression="globals.OverenyUzivatel.hasWritePermission" />
                   </Bindings>
                 </PagingRepeaterCtrl>
                 <PagingRepeater identity="pagingRepeater.36d02d015fb0460b9372e4a46959c4bf">
-                  <Name value="pagingRepeater1" />
+                  <Name value="pagingRepeater_CustomsProcedureCombination" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
                   <Content>
@@ -4087,6 +4088,7 @@
                         <ReferenceCombo>
                           <Name value="referenceCombo_cel_eu" />
                           <DisplayMember value="_description" />
+                          <IsEnabled value="False" />
                           <Panel.Height value="#" />
                           <Panel.Width value="50%" />
                           <ReferenceList reference="~CEL_UR" />
@@ -4094,7 +4096,6 @@
                             <Binding SourceProperty="Data" Expression="CustomsProcedureCode" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="CustomsProcedureCode.isRequired()" />
                             <Binding SourceProperty="Caption" Expression="CustomsProcedureCode.caption()" />
-                            <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -4106,6 +4107,7 @@
                         <ReferenceCombo>
                           <Name value="referenceCombo_REZIM4" />
                           <DisplayMember value="_description" />
+                          <IsEnabled value="False" />
                           <Panel.Height value="#" />
                           <Panel.Width value="50%" />
                           <ReferenceList reference="~REZIM4" />
@@ -4113,7 +4115,6 @@
                             <Binding SourceProperty="Data" Expression="CustomsProcedureCombinationCode" />
                             <Binding SourceProperty="Caption" Expression="CustomsProcedureCombinationCode.caption()" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="CustomsProcedureCombinationCode.isRequired()" />
-                            <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -9125,7 +9126,7 @@ endIf]]></Script>
     <ActionBlock>
       <Name value="handler_send_ASEOSPAuthorization_OnClick" />
       <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
 	var tabs = form.components.tabsMenu
@@ -9166,6 +9167,7 @@ endIf]]></Script>
 		form.actions.prepareCOsupervising()
 		form.model.sekce2celniUrady.model_addNewSupervisingCO.switchInsertNewCOsupervising = true
 		form.actions.filteredcodeListForSAR()
+		form.actions.setCustomsRegimesForSAR()
 	endIf
 	
 	form.lifeCycleMode = "authorize"
@@ -10224,12 +10226,11 @@ var json = stredoceskyKraj.getJsonString()
 var mySupervisingCustomsOffice = form.model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice.selectFirst()
 mySupervisingCustomsOffice.CustomsOfficeReferenceNumber.fromJson(json)
 
-//test
 if json = defaultString() then
 	mySupervisingCustomsOffice.CustomsOfficeReferenceNumber.CELUTVAR = "CZ610000"
 	mySupervisingCustomsOffice.CustomsOfficeReferenceNumber.POPIS = "pro Středočeský kraj, Praha 1"
 endif
-//test]]></Script>
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -10454,6 +10455,46 @@ endFor
 modelPath.SPSI.fromJson(preloadedPath.SPSI.toJson())
 
 modelPath.CustomsProcedure.fromJson(preloadedPath.CustomsProcedure.toJson())]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setCustomsRegimesForSAR" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.model.modelStructure.ASEO.Event.CustomsProcedure.CustomsProcedureCombination.exists(Current.hasValue()) = false then
+	form.model.modelStructure.ASEO.Event.CustomsProcedure.CustomsProcedureCombination.addItem()
+endIf
+
+//a) CustomsProcedureCombinationCode
+var regime = form.apiobjects.REZIM4.getItemByStringColumnAsync("REZIM4", "4000", getDateTime(), defaultBool())
+
+var json = regime.getJsonString()
+
+var caption = "Kód celního režimu"
+
+if (form.model.modelStructure.ASEO.Event.CustomsProcedure.CustomsProcedureCombination.count() = 1) and ( regime.isFound() ) then
+	var target = form.model.modelStructure.ASEO.Event.CustomsProcedure.CustomsProcedureCombination.selectFirst()
+	target.CustomsProcedureCombinationCode.fromJson(json)
+else
+	form.actions.showErorrNotificationMessage(caption + " vykazuje chybu, kontaktujte správce aplikace.", true) 
+endIf
+
+//b) CustomsProcedureCode
+regime = form.apiobjects.CEL_UR.getItemByStringColumnAsync("CEL_UR", "40", getDateTime(), defaultBool())
+
+json = regime.getJsonString()
+
+caption = "Kód kombinace celních režimů"
+
+if (form.model.modelStructure.ASEO.Event.CustomsProcedure.CustomsProcedureCombination.count() = 1) and ( regime.isFound()  ) then
+	var target = form.model.modelStructure.ASEO.Event.CustomsProcedure.CustomsProcedureCombination.selectFirst()
+	target.CustomsProcedureCode.fromJson(json)
+else
+	form.actions.showErorrNotificationMessage(caption + " vykazuje chybu, kontaktujte správce aplikace.", true)
+endIf
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
