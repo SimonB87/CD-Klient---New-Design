@@ -3037,8 +3037,8 @@
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="model.sekce4rozsirene.newGarantee.Guarantee" />
                             <Binding SourceProperty="Index" Expression="form.formState.indexes._index_guarantee" />
-                            <Binding SourceProperty="AllowAdd" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                            <Binding SourceProperty="AllowRemove" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                            <Binding SourceProperty="AllowAdd" Expression="form.isEditOn" />
+                            <Binding SourceProperty="AllowRemove" Expression="form.isEditOn" />
                           </Bindings>
                         </PagingRepeaterCtrl>
                         <PagingRepeater identity="pagingRepeater.36d02d015fb0460b9372e4a46959c4bf">
@@ -3125,7 +3125,7 @@
                                   <Children>
                                     <Button>
                                       <Name value="button_sendGuaranteeQuestion" />
-                                      <Caption value="Zaslat dotaz na záruku" />
+                                      <Caption value="Zaslat dotaz na platnost záruky" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="150px" />
                                       <OnClick>
@@ -3140,6 +3140,30 @@
                                           <ClassName value="{theme}-button" />
                                           <IsThemedStyle value="True" />
                                         </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="float_left" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Button>
+                                    <Button>
+                                      <Name value="button_updateAllguaranteeStatus" />
+                                      <Caption value="Aktualizovat platnost všech záruk" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="150px" />
+                                      <OnClick>
+                                        <ActionEvent ReferencedAction="~updateGuaranteeStatus" />
+                                      </OnClick>
+                                      <Bindings>
+                                        <Binding SourceProperty="IsVisible" Expression="not form.isEditOn" />
+                                      </Bindings>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-button" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="float_left" />
+                                        </CssClassConditional>
                                       </CssClass>
                                     </Button>
                                   </Children>
@@ -3147,6 +3171,12 @@
                                     <CssClassConditional>
                                       <ClassName value="{theme}-panel" />
                                       <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                    <CssClassConditional>
+                                      <ClassName value="controlBtns" />
+                                    </CssClassConditional>
+                                    <CssClassConditional>
+                                      <ClassName value="float_left" />
                                     </CssClassConditional>
                                   </CssClass>
                                 </Panel>
@@ -7261,6 +7291,8 @@ form.formState.currentDateTime = getDateTime()
 //globals.OverenyUzivatel.hasRoleAdmin = false
 //test
 
+form.isEditOn = false
+
 globals.IsBusy = false]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -7830,6 +7862,7 @@ if reloadAction then
 	form.components.tabsMenu.Tab07prehodnoceni.isVisible = true
 	form.error.serverValidationErrors.clear()
 	form.formState.currentDateTime = getDateTime()
+	form.isEditOn = false
 endIf
 
 form.formState.lifeCycle.showActionButtonPanel = true
@@ -7855,58 +7888,57 @@ form.actions.checkGuaranteeValidity()
 
 var responseResult = defaultBool()
 
-/*
 if not form.formState.invalidGuarantee then
 	form.actions.showErorrNotificationMessage("Jedna ze záruk není validní.", false)
-endIf
-*/
-
-var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form.requests.ASEOmegaMessage.toJson())
-
-result = responseResult
-	
-if response.isError() then
-	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Nemohlo být vydání povolení provedeno.", true)
-		
-	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
-		
-	if ( (form.authorizationType = "TIR") and (not form.requests.ASEOmegaMessage.ASEO.Event.SPTIR.TIRHolder.hasValue()) ) then
-		form.model.modelStructure.ASEO.Event.SPTIR.setTouched(true)
-		form.actions.showErorrNotificationMessage("Doplňte Údaj \"ID držitele karnetu TIR\" v záložce \"Povolení\".", true)
-	endIf
-		
-	if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
-		form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Povolení\".", true)
-	endIf
-		
-	if ( form.authorizationType in ["ACP", "SAR"] ) and (not form.requests.ASEOmegaMessage.ASEO.Event.Period.hasValue()) then
-		form.actions.showErorrNotificationMessage("Doplňte aspoň jednu položku \"Lhůty\" v záložce \"Rozšířené\".", true)
-	endIf
-		
-	// setTouch so the user sees, what si missing from submission
-	form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
-	form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
-	responseResult = false
-	result = responseResult
 else
-	form.model.modelStructure.ASEO.clear()
-		
-	var messageString = form.actions.getAuthorisationMessage()
-		
-	form.actions.showErorrNotificationMessage(messageString, false)
-	form.VersionGUID = defaultString()
-	form.actions.loadAseoData(form.GUID)
-	responseResult = true
+
+	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form.requests.ASEOmegaMessage.toJson())
+	
 	result = responseResult
+		
+	if response.isError() then
+		system.console(response.getErrorMessage())
+		form.actions.showErorrNotificationMessage("Nastala chyba. Nemohlo být vydání povolení provedeno.", true)
+			
+		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+			
+		if ( (form.authorizationType = "TIR") and (not form.requests.ASEOmegaMessage.ASEO.Event.SPTIR.TIRHolder.hasValue()) ) then
+			form.model.modelStructure.ASEO.Event.SPTIR.setTouched(true)
+			form.actions.showErorrNotificationMessage("Doplňte Údaj \"ID držitele karnetu TIR\" v záložce \"Povolení\".", true)
+		endIf
+			
+		if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Povolení\".", true)
+		endIf
+			
+		if ( form.authorizationType in ["ACP", "SAR"] ) and (not form.requests.ASEOmegaMessage.ASEO.Event.Period.hasValue()) then
+			form.actions.showErorrNotificationMessage("Doplňte aspoň jednu položku \"Lhůty\" v záložce \"Rozšířené\".", true)
+		endIf
+			
+		// setTouch so the user sees, what si missing from submission
+		form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
+		form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
+		responseResult = false
+		result = responseResult
+	else
+		form.model.modelStructure.ASEO.clear()
+			
+		var messageString = form.actions.getAuthorisationMessage()
+			
+		form.actions.showErorrNotificationMessage(messageString, false)
+		form.VersionGUID = defaultString()
+		form.actions.loadAseoData(form.GUID)
+		responseResult = true
+		result = responseResult
+	endIf
+	
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+	
+	form.actions.editDataAfterPosting("ASEOSPAuthorization", responseResult)
+
 endIf
 
-form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
-
-form.actions.editDataAfterPosting("ASEOSPAuthorization", responseResult)
-
-globals.IsBusy = False
-]]></Script>
+globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -9036,7 +9068,7 @@ form.formState.lifeCycle.actionConfirm.actionName = actionName]]></Script>
 	form.actions.prepareTabsForAction("Upravit žádost")
 	form.actions.prepareFormForEdit()
 	form.actions.initTabMenu()
-	
+		
 	form.lifeCycleMode = "applicationModify"
 
 else
@@ -9112,7 +9144,6 @@ endIf]]></Script>
 	form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
 	form.components.tabsMenu.SelectedTab = 10
 	
-	
 	form.lifeCycleMode = "applicationRejectModify"
 
 else
@@ -9126,7 +9157,7 @@ endIf]]></Script>
     <ActionBlock>
       <Name value="handler_send_ASEOSPAuthorization_OnClick" />
       <IsPrivate value="True" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
 	var tabs = form.components.tabsMenu
@@ -9170,6 +9201,7 @@ endIf]]></Script>
 		form.actions.setCustomsRegimesForSAR()
 	endIf
 	
+	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 	form.lifeCycleMode = "authorize"
 	
 else
@@ -9220,6 +9252,13 @@ endIf
 		tabs.Tab05rozsirene.isVisible = true
 	endIf
 	
+	if form.authorizationType in ["SAR"] then
+		form.actions.prepareCOsupervising()
+		form.actions.filteredcodeListForSAR()
+		form.actions.setCustomsRegimesForSAR()
+	endIf
+	
+	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 	form.lifeCycleMode = "authorizeModify"
 
 else
@@ -9258,6 +9297,8 @@ endIf]]></Script>
 	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 	tabs.SelectedTab = 11
 	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"
+	
+	tabs.Tab09rezimy.isVisible = false
 	
 	form.lifeCycleMode = "authorizeWithdrawal"
 
@@ -9298,6 +9339,8 @@ endIf]]></Script>
 	tabs.SelectedTab = 11
 	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"
 	
+	tabs.Tab09rezimy.isVisible = false
+	
 	form.lifeCycleMode = "authorizeWithdrawalModify"
 
 else
@@ -9336,6 +9379,8 @@ endIf]]></Script>
 	form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible = True
 	form.components.tabsMenu.SelectedTab = 12
 	
+	tabs.Tab09rezimy.isVisible = false
+	
 	form.lifeCycleMode = "authorizeSuspending"
 
 else
@@ -9373,6 +9418,8 @@ endIf]]></Script>
 	
 	form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible = True
 	form.components.tabsMenu.SelectedTab = 12
+	
+	tabs.Tab09rezimy.isVisible = false
 	
 	form.lifeCycleMode = "authorizeSuspendingModify"
 
@@ -9413,6 +9460,8 @@ endIf]]></Script>
 	form.components.tabsMenu.SelectedTab = 11
 	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zneplatnění"
 	
+	tabs.Tab09rezimy.isVisible = false
+	
 	form.lifeCycleMode = "authorizeCancellation"
 
 else
@@ -9451,6 +9500,8 @@ endIf]]></Script>
 	form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 	form.components.tabsMenu.SelectedTab = 11
 	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zneplatnění"
+	
+	tabs.Tab09rezimy.isVisible = false
 	
 	form.lifeCycleMode = "authorizeCancellationModify"
 
@@ -10127,6 +10178,8 @@ endIf]]></Script>
 	tabs.SelectedTab = 11
 	 tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"
 	 
+	 tabs.Tab09rezimy.isVisible = false
+	 
 	 form.lifeCycleMode = "authorizeWithdrawal"
 
 else
@@ -10323,7 +10376,7 @@ if (isTrue(responseGuarantee.Valid = "1")) then
 	targetGuarantee.GuaranteeState  = "1"
 else
 	if (isTrue(responseGuarantee.Valid = "0")) then
-		targetGuarantee.GuaranteeState  = "1"
+		targetGuarantee.GuaranteeState  = "0"
 	endIf
 endIf]]></Script>
       </ActionLangBody>
@@ -10341,7 +10394,7 @@ endIf]]></Script>
 		
 			form.formState.invalidGuarantee = defaultBool()
 			
-			if form.requests.ASEOmegaMessage.ASEO.Event.Guarantee.exists(Current.GuaranteeState = "Neplatná") then
+			if form.requests.ASEOmegaMessage.ASEO.Event.Guarantee.exists(Current.GuaranteeState = "0") then
 				form.formState.invalidGuarantee = true
 			else
 				form.formState.invalidGuarantee = false
@@ -10390,33 +10443,17 @@ endFor]]></Script>
 			add_g.GuaranteeID = g.GuaranteeID
 			add_g.GuaranteeState = g.GuaranteeState
 			
-			//test
-			system.console(g.toJson())
-			
-			system.console("incoming GuaranteeType: " + g.GuaranteeType)
-			system.console("incoming GuaranteeType: " + g.GuaranteeID)
-			system.console("incoming GuaranteeType: " + g.GuaranteeState)
-			//test
-			
 			var item = form.apiobjects.ZJPZAJIST.getItemByStringColumnAsync("ZJPZAJIST", "9110", getDateTime(), false)
 			//var item = form.apiobjects.ZJPZAJIST.getItemByStringColumnAsync("ZJPZAJIST", g.GuaranteeType, getDateTime(), false)
 			
 			if item.isFound() then
 				add_g.GuaranteeType.fromJson(item.getJsonString())
 				
-				//test
-				system.console("item found: " + item.getJsonString())
-				system.console("add_g.GuaranteeType: " + add_g.GuaranteeType.toJson())
-				//test
-				
 			else
 				//form.actions.showErorrNotificationMessage("Vybraný Typ zajištění celního dluhu nemá aktuální platnou hodnotu v číselníku. ", false)
 				add_g.GuaranteeType.ZJPZAJIST = "9110"
 				add_g.GuaranteeType.POPIS = "Souborná jistota pro jiné operace než režim tranzitu"
-				
-				//test
-				system.console(add_g.toJson())
-				//test
+
 			endIf
 		
 		endFor
@@ -10495,6 +10532,83 @@ else
 	form.actions.showErorrNotificationMessage(caption + " vykazuje chybu, kontaktujte správce aplikace.", true)
 endIf
 ]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="updateGuaranteeStatus" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+form.actions.sendGuaranteeRequest_clearResReqData()
+form.actions.sendGuaranteeUpdateRequest_prepareReqMessage()
+
+var response = apiobjects.ServerKomunikace.postAsync("ASEOGuaranteeRequest", form.requests.guaranteeReq.toJson())
+
+if response.isError() or (response.getMessageType() = "IN906A") then
+
+	system.console(response.getErrorMessage())
+	
+	form.actions.showErorrNotificationMessage("Nastala chyba. Dotaz na záruku se nezdařil.", true)
+	
+	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+
+else
+
+	form.requests.guaranteeRes.Guarantee.addItem()
+
+	var respJson = response.getJsonString()
+    form.requests.guaranteeRes.fromJson(respJson)
+        
+    form.actions.sendGuaranteeUpdateRequest_getReqData()
+    //form.actions.showErorrNotificationMessage("Dotaz na záruku byl úspěšný.", false)
+
+endIf
+
+form.actions.sendGuaranteeRequest_clearResReqData()
+
+globals.IsBusy = False]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="sendGuaranteeUpdateRequest_prepareReqMessage" />
+      <Category value="sendGuaranteeRequest" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[forEach guarantee in form.model.modelStructure.ASEO.Event.Guarantee do
+
+	var reqGuarantee = form.requests.guaranteeReq.Guarantee.addItem()
+	reqGuarantee.GRN = guarantee.GuaranteeID
+
+endFor]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="sendGuaranteeUpdateRequest_getReqData" />
+      <Category value="sendGuaranteeRequest" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[forEach item in form.requests.guaranteeRes.Guarantee do
+	
+	var updatedItem = form.model.sekce4rozsirene.newGarantee.Guarantee.selectFirst( Current.index() = item.index() ) 
+	
+	//var data = item.toJson()
+	//updatedItem.fromJson(data)
+	
+	if (isTrue( item.Valid.hasValue() )) then
+		updatedItem.GuaranteeState = item.Valid
+	else
+		updatedItem.GuaranteeState = "0"
+	endIf
+	
+		
+endFor]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
