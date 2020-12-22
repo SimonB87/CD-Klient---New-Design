@@ -2070,8 +2070,13 @@ else
 		
 	endif
 	
-	form.apiobjects.listCtrl.setPageSize(15)
+	form.apiobjects.listCtrl.setReady(false)
 	form.apiobjects.listCtrl.setReady(true)
+	
+	form.apiobjects.DatasetNoticesFull.setReady(false)
+	form.apiobjects.DatasetNoticesFull.clearInvisibleColumnsFilters()
+	form.apiobjects.DatasetNoticesFull.clearVisibleFilters()
+	form.apiobjects.DatasetNoticesFull.setReady(true)
 	
 	//set up form variables
 	form.uiState.isSelectedMyCUoffice = False
@@ -2458,7 +2463,6 @@ form.newsGroup.visibility_addNewNews = False
 		system.console(response.getErrorMessage())
 		system.alert("Zprávy nebyla nahrána.")
 	else
-		system.console("Zpráva uložena")
 		form.newsGroup.newNewsItem.Notice.clear()
 		form.apiobjects.DatasetNoticesFull.setReady(false)
 		form.apiobjects.DatasetNoticesFull.setReady(True)
