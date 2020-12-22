@@ -6352,6 +6352,15 @@ false]]></ExpressionText>
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Attribute>
+              <Name value="responseResult" />
+              <Caption value="Response result" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
           </Children>
         </Complex>
         <Complex>
@@ -7886,15 +7895,20 @@ form.actions.validErr_clearPrevious()
 
 form.actions.checkGuaranteeValidity()
 
-var responseResult = defaultBool()
+form.formState.responseResult = defaultBool()
 
-if not form.formState.invalidGuarantee then
+var validationSucess = defaultBool()
+
+if isTrue(form.formState.invalidGuarantee = true) then
 	form.actions.showErorrNotificationMessage("Jedna ze záruk není validní.", false)
+	validationSucess = false
 else
+
+	validationSucess = true
 
 	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form.requests.ASEOmegaMessage.toJson())
 	
-	result = responseResult
+	result = form.formState.responseResult
 		
 	if response.isError() then
 		system.console(response.getErrorMessage())
@@ -7918,8 +7932,8 @@ else
 		// setTouch so the user sees, what si missing from submission
 		form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
 		form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
-		responseResult = false
-		result = responseResult
+		form.formState.responseResult = false
+		result = form.formState.responseResult
 	else
 		form.model.modelStructure.ASEO.clear()
 			
@@ -7928,14 +7942,23 @@ else
 		form.actions.showErorrNotificationMessage(messageString, false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID)
-		responseResult = true
-		result = responseResult
+		form.formState.responseResult = true
+		result = form.formState.responseResult
 	endIf
 	
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 	
-	form.actions.editDataAfterPosting("ASEOSPAuthorization", responseResult)
+endIf
 
+if form.formState.responseResult = defaultBool() then
+	form.formState.responseResult = false
+endIf
+
+form.actions.editDataAfterPosting("ASEOSPAuthorization", form.formState.responseResult)
+
+if validationSucess = false then
+	form.formState.lifeCycle.showActionButtonPanel = false
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = true
 endIf
 
 globals.IsBusy = False]]></Script>
@@ -8639,43 +8662,56 @@ form.actions.validErr_clearPrevious()
 
 form.actions.checkGuaranteeValidity()
 
-var responseResult = defaultBool()
+form.formState.responseResult = defaultBool()
 
-/*
-if not form.formState.invalidGuarantee then
+var validationSucess = defaultBool()
+
+if isTrue(form.formState.invalidGuarantee = true) then
 	form.actions.showErorrNotificationMessage("Jedna ze záruk není validní.", false)
-endIf
-*/
-
-var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationModification", form.requests.ASEOmegaMessage.toJson())
-result = responseResult
+	validationSucess = true
 	
-if response.isError() then
-	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být úpraveno.", true)
-	
-	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
-	
-	// setTouch so the user sees, what si missing from submission
-	form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
-	form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
-	responseResult = false
-	result = responseResult
 else
-	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno k úpravě povolení.", false)
-	form.VersionGUID = defaultString()
-	form.actions.loadAseoData(form.GUID, form.VersionGUID)
-	responseResult = true
-	result = responseResult
+	validationSucess = false
+
+	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationModification", form.requests.ASEOmegaMessage.toJson())
+	result = form.formState.responseResult
+		
+	if response.isError() then
+		system.console(response.getErrorMessage())
+		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být úpraveno.", true)
+		
+		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+		
+		// setTouch so the user sees, what si missing from submission
+		form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
+		form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
+		form.formState.responseResult = false
+		result = form.formState.responseResult
+	else
+		form.model.modelStructure.ASEO.clear()
+		form.actions.showErorrNotificationMessage("Povolení bylo úspěšně předáno k úpravě povolení.", false)
+		form.VersionGUID = defaultString()
+		form.actions.loadAseoData(form.GUID, form.VersionGUID)
+		form.formState.responseResult = true
+		result = form.formState.responseResult
+	endIf
+	
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+
 endIf
 
-form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+if form.formState.responseResult = defaultBool() then
+	form.formState.responseResult = false
+endIf
 
-form.actions.editDataAfterPosting("ASEOSPAuthorizationModification", responseResult)
+form.actions.editDataAfterPosting("ASEOSPAuthorizationModification", form.formState.responseResult)
 
-globals.IsBusy = False
-]]></Script>
+if validationSucess = false then
+	form.formState.lifeCycle.showActionButtonPanel = false
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = true
+endIf
+
+globals.IsBusy = False]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -10389,12 +10425,12 @@ endIf]]></Script>
       <Category value="lifeCyclePostingSetUp" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if isTrue(form.authorizationType in ["SAR"]) then
-	if form.requests.ASEOmegaMessage.ASEO.Event.Guarantee.exists(Current.hasValue()) then
-		if form.requests.ASEOmegaMessage.ASEO.Event.Guarantee.count() > 0 then
+	if form.model.sekce4rozsirene.newGarantee.Guarantee.exists(Current.hasValue()) then
+		if form.model.sekce4rozsirene.newGarantee.Guarantee.count() > 0 then
 		
 			form.formState.invalidGuarantee = defaultBool()
 			
-			if form.requests.ASEOmegaMessage.ASEO.Event.Guarantee.exists(Current.GuaranteeState = "0") then
+			if form.model.sekce4rozsirene.newGarantee.Guarantee.exists(Current.GuaranteeState = "1") then
 				form.formState.invalidGuarantee = true
 			else
 				form.formState.invalidGuarantee = false
@@ -10403,7 +10439,7 @@ endIf]]></Script>
 		endIf
 	endIf
 else
-	form.formState.invalidGuarantee = true
+	form.formState.invalidGuarantee = false
 endIf]]></Script>
       </ActionLangBody>
       <DataContext>
