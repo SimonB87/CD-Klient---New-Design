@@ -1526,7 +1526,48 @@
             </Collection>
           </Children>
         </Complex>
+        <Complex>
+          <Name value="formState" />
+          <Caption value="Form state" />
+          <Children>
+            <Attribute>
+              <Name value="isTestEnvironment" />
+              <Caption value="Is test environment" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </Complex>
       </Children>
+      <Modifiers>
+        <Modifier>
+          <Name value="modifier_6B8A4E7E_POVOLTYP" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="aseoApplication.ASEO.AuthorizationType.POVOLTYP" />
+          <Validators>
+            <Validator Name="validateAuthTypeSAR">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pouze úřady pro Středočeský kraj mohou vydat povolení typu SAR."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[( (this.POVOLTYP = "SAR") and 
+  (SubString(form.uiState.selectedCustomsOffice.Key,1,4) <> "CZ61") 
+) ? 
+false : true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+      </Modifiers>
     </DataContext>
   </DataContext>
   <OnActivate>
@@ -1536,8 +1577,10 @@
     <ActionBlock>
       <Name value="initForm" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.apiobjects.zeme_o.startLoadingData( getDateTime() )
+        <Script><![CDATA[var currentTime = getDateTime()
+form.apiobjects.zeme_o.startLoadingData( currentTime )
 
+form.formState.isTestEnvironment = form.actions.editCustomOfficeForTest()
 form.actions.setUserCustomsOffice()
 form.actions.setCodelistPovolTyp()
 form.actions.setDecidingOfficeAndPerson()
@@ -1567,6 +1610,14 @@ forEach organisation in userData.organisation do
 	endFor
 	
 endFor
+
+if form.formState.isTestEnvironment then
+	var addCO = form.uiState.userCustomsOffice.addItem()
+	addCO.Key = "CZ610000"
+	addCO.Description = "pro Středočeský kraj, Praha 1"
+else
+	//system.console("not test")	
+endIf
 
 var jsonString = form.uiState.userCustomsOffice.toJson()
 form.apiobjects.userCustomsOffice.fillFromJson(jsonString)
@@ -1642,7 +1693,7 @@ if form.aseoApplication.isValid() then
 	endIf
 
 else
-	apiobjects.notificationsCtrl.addWarning("Nejsou vyplněny všechny povinné položky.")
+	apiobjects.notificationsCtrl.addWarning("Formulář vykazuje chybu. Nejsou vyplněny všechny povinné položky, nebo některé jsou vyplněny chybně.")
 	
 endIf
 
@@ -1908,6 +1959,43 @@ endIf]]></Script>
         </ActionDataContext>
       </DataContext>
     </ActionBlock>
+    <ActionBlock>
+      <Name value="editCustomOfficeForTest" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.apiobjects.CD_Client_Config.startLoadingData( getDateTime() )
+
+result = defaultBool() 
+
+var isTest = form.apiobjects.CD_Client_Config.getItemByStringColumnAsync("IsTest", "true", getDateTime(), false)
+			
+if isTest.isFound() then
+
+	result = true
+
+else
+
+	result = false
+
+endIf
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
   </Actions>
   <ApiObjects>
     <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
@@ -1965,5 +2053,20 @@ endIf]]></Script>
       <Name value="fltPovolTyp" />
       <codelistSource reference="~povolTyp" />
     </FilteredCodelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="CD_Client_Config" />
+      <name value="CD_Client_Config" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="Key" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="IsTest" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
   </ApiObjects>
 </Form>
