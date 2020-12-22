@@ -6,15 +6,35 @@ var sffw;
         (function (notifications) {
             var NotificationsCtrl = /** @class */ (function () {
                 function NotificationsCtrl(datacontext, args) {
+                    var _this = this;
                     this.datacontext = datacontext;
                     this.notifications = ko.observableArray();
                     this.panelVisibility = ko.observable(false);
                     this.growlNotificationsOn = ko.observable(true);
+                    this.subscriptions = [];
                     this.ordering = args.ordering;
-                    var handler = sffw.extractEventHandlerFromApiArgs(datacontext, args, 'OnGrowlNotificationsToggle');
-                    if (handler) {
-                        this.onGrowlNotificationsToggleHandler = handler;
+                    var gntcHandler = sffw.extractEventHandlerFromApiArgs(datacontext, args, 'OnGrowlNotificationsToggle');
+                    if (gntcHandler) {
+                        this.onGrowlNotificationsToggleHandler = gntcHandler;
                     }
+                    var pvcHandler = sffw.extractEventHandlerFromApiArgs(datacontext, args, 'OnPanelVisibilityChanged');
+                    if (pvcHandler) {
+                        this.onPanelVisibilityChangedHandler = pvcHandler;
+                    }
+                    var ncHandler = sffw.extractEventHandlerFromApiArgs(datacontext, args, 'OnNotificationsChanged');
+                    if (ncHandler) {
+                        this.onNotificationsChangedHandler = ncHandler;
+                    }
+                    this.subscriptions.push(this.panelVisibility.subscribe(function (newValue) {
+                        if (_this.onPanelVisibilityChangedHandler) {
+                            _this.onPanelVisibilityChangedHandler(_this, null, { isVisible: newValue });
+                        }
+                    }));
+                    this.subscriptions.push(this.notifications.subscribe(function () {
+                        if (_this.onNotificationsChangedHandler) {
+                            _this.onNotificationsChangedHandler(_this, null, { notificationCount: _this.notifications().length });
+                        }
+                    }, this, 'arrayChange'));
                 }
                 NotificationsCtrl.prototype.addItem = function (type, message) {
                     var newItem = { type: type, message: message };
@@ -52,8 +72,16 @@ var sffw;
                         }
                     }
                 };
+                NotificationsCtrl.prototype.setPanelVisibility = function (args) {
+                    if (typeof args.isVisible !== 'undefined' && args.isVisible !== null) {
+                        this.panelVisibility(args.isVisible);
+                    }
+                };
                 NotificationsCtrl.prototype.dispose = function () {
                     this.notifications = null;
+                    _.each(this.subscriptions, function (sub) {
+                        sub.dispose();
+                    });
                 };
                 return NotificationsCtrl;
             }());

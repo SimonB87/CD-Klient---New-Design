@@ -17,7 +17,7 @@ var sffw;
     (function (components) {
         var validationSummary;
         (function (validationSummary) {
-            var viewTemplate = "\n    <div class=\"sffw-validation-summary\">\n        <!-- ko if: ko.unwrap(isVisible) && validationSummaryItems().length > 0 -->\n        <table>\n            <thead>\n                <tr>\n                <!-- ko foreach: columns -->\n                    <th data-bind=\"style: { width: columnWidth }, text: isCaptionLocalized === true ?  $root.$localize(columnCaption) :  columnCaption\"></th>\n                <!-- /ko -->\n                </tr>\n            </thead>\n            <tbody>\n                <!-- ko foreach: validationSummaryItems -->\n                <tr>\n                    <!-- ko foreach: columnValues -->\n                        <!-- ko if: ($parent.pointerSourceComponent && $parent.columns[$index()].columnRole === 'pointer') -->\n                        <td>\n                            <a href=\"#\" data-bind=\"text: $data,\n                                click: function(data, event) { return $parent.viewModel.onItemClicked($parent.pointer, event); },\n                                attr: { 'aria-label': $root.$localize('ValidationSummary$$showFormElement') + ' - ' + $data }\">\n                            </a>\n                        </td>\n                        <!-- /ko -->\n                        <!-- ko ifnot: ($parent.pointerSourceComponent && $parent.columns[$index()].columnRole === 'pointer') -->\n                        <td data-bind=\"text: $data\"></td>\n                        <!-- /ko -->\n                    <!-- /ko -->\n                </tr>\n                <!-- /ko -->\n            </tbody>\n        </table>\n        <!-- /ko -->\n    </div>";
+            var viewTemplate = "\n    <div class=\"sffw-validation-summary\">\n    <!-- ko if: ko.unwrap(isVisible) && validationSummaryItems().length > 0 -->\n        <table>\n            <thead>\n                <tr>\n                <!-- ko foreach: columns -->\n                    <th data-bind=\"style: { width: columnWidth }, text: isCaptionLocalized === true ?  $root.$localize(columnCaption) :  columnCaption\"></th>\n                <!-- /ko -->\n                </tr>\n            </thead>\n            <tbody>\n                <!-- ko foreach: validationSummaryItems -->\n                <tr>\n                    <!-- ko foreach: columnValues -->\n                        <!-- ko if: ($parent.pointerSourceComponent && $parent.columns[$index()].columnRole === 'pointer') -->\n                        <td>\n                            <a href=\"#\" data-bind=\"text: $data,\n                                click: function(data, event) { return $parent.viewModel.onItemClicked($parent.pointer, event); },\n                                attr: { 'aria-label': $root.$localize('ValidationSummary$$showFormElement') + ' - ' + $data }\">\n                            </a>\n                        </td>\n                        <!-- /ko -->\n                        <!-- ko ifnot: ($parent.pointerSourceComponent && $parent.columns[$index()].columnRole === 'pointer') -->\n                        <td data-bind=\"text: $data\"></td>\n                        <!-- /ko -->\n                    <!-- /ko -->\n                </tr>\n                <!-- /ko -->\n            </tbody>\n        </table>\n        <!-- /ko -->\n    </div>";
             if (!ko.components.isRegistered('sffw-clientvalidation-summary')) {
                 ko.components.register('sffw-clientvalidation-summary', {
                     viewModel: {
@@ -48,7 +48,7 @@ var sffw;
         var validationSummary;
         (function (validationSummary) {
             var ServerValidationSummaryModel = /** @class */ (function () {
-                function ServerValidationSummaryModel(params, componentInfo) {
+                function ServerValidationSummaryModel(params, _componentInfo) {
                     var _this = this;
                     this.subscriptions = [];
                     this.validationSummaryItems = ko.observableArray();
@@ -111,7 +111,7 @@ var sffw;
         var validationSummary;
         (function (validationSummary) {
             var ClientValidationSummaryModel = /** @class */ (function () {
-                function ClientValidationSummaryModel(params, componentInfo) {
+                function ClientValidationSummaryModel(params, _componentInfo) {
                     var _this = this;
                     this.subscriptions = [];
                     this.validationSummaryItems = ko.observableArray();
@@ -148,7 +148,14 @@ var sffw;
                         }
                     };
                     this.delayedValidationErrors = ko.pureComputed(function () {
-                        return _this.validationRoot.$validationErrors();
+                        if (typeof _this.validationRoot['$isReportingErrors'] === 'function') {
+                            // IDataCollection<IDataStruct>
+                            return _this.validationRoot['$isReportingErrors']() ? _this.validationRoot.$validationErrors() : [];
+                        }
+                        else {
+                            // IDataParent
+                            return _this.validationRoot.$shouldChildAttributesReportErrors() ? _this.validationRoot.$validationErrors() : [];
+                        }
                     }).extend({ rateLimit: { timeout: 200, method: 'notifyWhenChangesStop' } });
                     this.createValidationSummaryItems();
                     this.subscriptions.push(this.delayedValidationErrors.subscribe(function () {
@@ -191,7 +198,7 @@ var sffw;
                     });
                     return promiseChain;
                 };
-                // vrátí cestu k atributu relativně od root v XPath notaci; s IDataParentynecháním _ na začátku jmen a s indexy položek od 1
+                // vrátí cestu k atributu relativně od root v XPath notaci; s vynecháním _ na začátku jmen a s indexy položek od 1
                 ClientValidationSummaryModel.prototype.getPointer = function (attribute) {
                     var result = attribute.$name;
                     var x = attribute;

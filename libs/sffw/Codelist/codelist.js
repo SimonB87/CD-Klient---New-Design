@@ -538,6 +538,7 @@ var sffw;
     (function (api) {
         var codelist;
         (function (codelist) {
+            codelist.MAX_FILTER_VALUE_LENGTH = 300;
             var CodelistReqUrl = /** @class */ (function () {
                 // public expectLinebreaksInValues = false;
                 function CodelistReqUrl(args) {
@@ -560,7 +561,7 @@ var sffw;
                     return result;
                 };
                 CodelistReqUrl.prototype.addDisplayMemberFilter = function (keyColumn, descColumn, lookupValue, displayMemberMethod, useContains, expectLinebreaksInValues) {
-                    var trimmedValue = lookupValue.trim();
+                    var trimmedValue = lookupValue.trim().substr(0, codelist.MAX_FILTER_VALUE_LENGTH);
                     if (trimmedValue.length === 0) {
                         return;
                     }
@@ -572,7 +573,8 @@ var sffw;
                     return "replace(replace(replace(" + column + ",%20%27%0A%27,%27%27),%20%27%0D%27,%27%27),%20%27%09%27,%27%27)";
                 };
                 CodelistReqUrl.prototype.addLookupAttFilter = function (column, value, useContains, expectLinebreaksInValues) {
-                    var trimmedValue = value.trim();
+                    var trimmedValue = value.trim().substr(0, codelist.MAX_FILTER_VALUE_LENGTH);
+                    ;
                     if (trimmedValue.length === 0) {
                         return;
                     }
@@ -610,6 +612,7 @@ var sffw;
                     if (this.language && this.language.length > 0) {
                         params.push("language=" + this.language.toUpperCase());
                     }
+                    params.push('distinct=allpages');
                     return "" + this.codelistsUrl + this.codelistName + "?" + params.join('&');
                 };
                 return CodelistReqUrl;

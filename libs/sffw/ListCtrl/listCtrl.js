@@ -978,7 +978,7 @@ var sffw;
                                         _this.columnFilters.push(new listCtrl.TextColumnFilter(filterCol.name, filterCol.value));
                                         break;
                                     case 'boolean':
-                                        _this.columnFilters.push(new listCtrl.BoolColumnFilter(filterCol.name, filterCol.value === 'true' ? true : false));
+                                        _this.columnFilters.push(new listCtrl.BoolColumnFilter(filterCol.name, filterCol.value === true ? true : false));
                                         break;
                                     case 'date':
                                         var start = null;

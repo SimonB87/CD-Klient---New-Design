@@ -92,7 +92,25 @@
 
 				if (def.validatorTypeAttName) {
 					paramsParts.push('validatorTypeAttName: \'' + def.validatorTypeAttName + '\'');
-				}
+                }
+
+                if (def.conditionalCssClass) {
+                    valSummary.cssBinding = valSummary.cssBinding || {};
+                    _.each(def.conditionalCssClass, function (c) {
+                        var condition;
+                        if (c.ClassName) {
+                            if (c.Condition === false) {
+                                condition =  c.Condition;
+                            } else if (c.Condition) {
+                                condition = c.Condition.Binding ? processBinding(c.Condition.Binding) : '\'' + c.Condition.replace(/\"/g, '&quot;') + '\'';
+                            } else {
+                                condition = true;
+                            }
+                        }
+
+                        valSummary.cssBinding[c.ClassName] = condition;
+                    });
+                }
 
 				if (def.OnItemClick) {
 					paramsParts.push('OnItemClick: ' + componentGen.processActionReference(def.OnItemClick));
