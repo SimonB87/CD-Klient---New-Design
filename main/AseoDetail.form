@@ -735,34 +735,6 @@
             <Binding SourceProperty="IsVisible" Expression="form.formState.visibilities.isValidationsVisible" />
           </Bindings>
           <Children>
-            <ClientValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
-              <Name value="clientValidationSummary" />
-              <isVisible value="False" />
-              <Panel.Height value="#" />
-              <Panel.Width value="*" />
-              <OnItemClick>
-                <ActionEvent ReferencedAction="~handler_clientValidationSummary_OnItemClick" />
-              </OnItemClick>
-              <Bindings>
-                <Binding SourceProperty="validationErrors" Expression="error.clientValidationErrors" />
-                <Binding SourceProperty="validationRoot" Expression="model" />
-              </Bindings>
-              <columns>
-                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
-                  <Name value="validationSummaryColumn2" />
-                  <columnCaption value="Validační zpráva klienta" />
-                  <columnWidth value="60%" />
-                  <propertyName value="Message" />
-                </validationSummaryColumn>
-                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
-                  <Name value="validationSummaryColumn1" />
-                  <columnCaption value="Cesta" />
-                  <columnRole value="pointer" />
-                  <columnWidth value="40%" />
-                  <propertyName value="Pointer" />
-                </validationSummaryColumn>
-              </columns>
-            </ClientValidationSummary>
             <ServerValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
               <Name value="serverValidationSummary" />
               <Panel.Height value="#" />
@@ -6361,6 +6333,15 @@ false]]></ExpressionText>
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Attribute>
+              <Name value="validationSucess" />
+              <Caption value="Validation sucess" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
           </Children>
         </Complex>
         <Complex>
@@ -6859,43 +6840,6 @@ false]]></ExpressionText>
           <Name value="error" />
           <Caption value="Error" />
           <Children>
-            <Collection>
-              <Name value="clientValidationErrors" />
-              <Caption value="Client validation errors" />
-              <Children>
-                <Attribute>
-                  <Name value="Message" />
-                  <Caption value="Message" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="Pointer" />
-                  <Caption value="Pointer" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="Type" />
-                  <Caption value="Type" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Computed>
-                  <Name value="FocusTo" />
-                  <Caption value="Focus to" />
-                  <Expression IsValid="True">
-                    <ExpressionText><![CDATA[Pointer = "a" ? "textBox1" : defaultString()]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="String" />
-                    </ResultType>
-                  </Expression>
-                </Computed>
-              </Children>
-            </Collection>
             <Collection>
               <Name value="serverValidationErrors" />
               <Caption value="Server validation errors" />
@@ -7896,15 +7840,14 @@ form.actions.validErr_clearPrevious()
 form.actions.checkGuaranteeValidity()
 
 form.formState.responseResult = defaultBool()
-
-var validationSucess = defaultBool()
+form.formState.validationSucess = defaultBool()
 
 if isTrue(form.formState.invalidGuarantee = true) then
 	form.actions.showErorrNotificationMessage("Jedna ze záruk není validní.", false)
-	validationSucess = false
+	form.formState.validationSucess = false
 else
 
-	validationSucess = true
+	form.formState.validationSucess = true
 
 	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form.requests.ASEOmegaMessage.toJson())
 	
@@ -7956,9 +7899,10 @@ endIf
 
 form.actions.editDataAfterPosting("ASEOSPAuthorization", form.formState.responseResult)
 
-if validationSucess = false then
+if isTrue(form.formState.validationSucess = false) then
 	form.formState.lifeCycle.showActionButtonPanel = false
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = true
+		
 endIf
 
 globals.IsBusy = False]]></Script>
@@ -8006,8 +7950,7 @@ form.actions.editDataAfterPosting_editSetTouchedOfReasonsCombos(messagePostSuces
 
 form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 form.formState.currentDateTime = getDateTime()
-form.formState.visibilities.showHistorySesctions = true
-]]></Script>
+form.formState.visibilities.showHistorySesctions = true]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -8663,15 +8606,14 @@ form.actions.validErr_clearPrevious()
 form.actions.checkGuaranteeValidity()
 
 form.formState.responseResult = defaultBool()
-
-var validationSucess = defaultBool()
+form.formState.validationSucess = defaultBool()
 
 if isTrue(form.formState.invalidGuarantee = true) then
 	form.actions.showErorrNotificationMessage("Jedna ze záruk není validní.", false)
-	validationSucess = true
+	form.formState.validationSucess = false
 	
 else
-	validationSucess = false
+	form.formState.validationSucess = true
 
 	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationModification", form.requests.ASEOmegaMessage.toJson())
 	result = form.formState.responseResult
@@ -8706,9 +8648,10 @@ endIf
 
 form.actions.editDataAfterPosting("ASEOSPAuthorizationModification", form.formState.responseResult)
 
-if validationSucess = false then
+if isTrue(form.formState.validationSucess = false) then
 	form.formState.lifeCycle.showActionButtonPanel = false
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = true
+	
 endIf
 
 globals.IsBusy = False]]></Script>
@@ -9043,7 +8986,11 @@ if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.Validi
 		form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 	endIf
 	
-	form.formState.lifeCycle.showActionButtonPanel = true
+	if isTrue(form.formState.validationSucess) then
+		form.formState.lifeCycle.showActionButtonPanel = true
+	else
+		form.formState.lifeCycle.showActionButtonPanel = false
+	endIf
 
 else
 	var message = "V záložce \"Obecné\" nesmí být údaj \"Počátek platnosti rozhodnutí od\" nastaven na čas v minulosti. Současný čas je: \"" + toString(form.formState.currentDateTime) + "\"" 
@@ -9965,7 +9912,6 @@ tabs.SelectedTab = 1
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if not messagePostSucess then
 	
-	form.error.clientValidationErrors.clear()
 	form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(false)
 	form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(false)
 	form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.setTouched(false)
@@ -10003,20 +9949,6 @@ endIf]]></Script>
             </Attribute>
           </Children>
         </ActionDataContext>
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="handler_clientValidationSummary_OnItemClick" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[// original client validation errors summary set up
-// visibility set: form.formState.visibilities.isValidationsVisible
-// validation errors: error.clientValidationErrors
-// validationRoot: model
-system.console("isValidationsVisible: " + toString(form.formState.visibilities.isValidationsVisible))]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
       </DataContext>
     </ActionBlock>
     <ActionBlock>
@@ -10430,7 +10362,7 @@ endIf]]></Script>
 		
 			form.formState.invalidGuarantee = defaultBool()
 			
-			if form.model.sekce4rozsirene.newGarantee.Guarantee.exists(Current.GuaranteeState = "1") then
+			if form.model.sekce4rozsirene.newGarantee.Guarantee.exists(Current.GuaranteeState <> "1") then
 				form.formState.invalidGuarantee = true
 			else
 				form.formState.invalidGuarantee = false
