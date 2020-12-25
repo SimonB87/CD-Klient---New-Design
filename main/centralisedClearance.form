@@ -7783,10 +7783,10 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
   <Actions>
     <ActionBlock>
       <Name value="initMain_ALANG" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = true
 
-
+form.actions.setUrlRouter()
 actions.commonLoadData(form.GUID)
 
 if globals.dataLoadingSpace.success then
@@ -8678,6 +8678,21 @@ if globals.uiGlobalState.annex.annexDetail.response.customsDecisionAuthorisation
 	endIf
 	
 endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setUrlRouter" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var url = apiobjects.urlRouter.findFormUrl(navigation.main.centralisedClearance.fullName)
+
+if (form.guid.hasValue()) then
+	url.addString("guid", form.guid)
+endif
+
+url.updatePageUrl()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

@@ -4398,8 +4398,6 @@
                                             <Panel>
                                               <Name value="panel75" />
                                               <Orientation value="Vertical" />
-                                              <Panel.Height value="#" />
-                                              <Panel.Width value="*" />
                                               <Children>
                                                 <Panel>
                                                   <Name value="panel76" />
@@ -5137,8 +5135,6 @@
                                             <Panel>
                                               <Name value="panel72_parent" />
                                               <Orientation value="Vertical" />
-                                              <Panel.Height value="#" />
-                                              <Panel.Width value="*" />
                                               <Children>
                                                 <Panel>
                                                   <Name value="panel72" />
@@ -6980,8 +6976,6 @@
                                             <Panel>
                                               <Name value="panel81" />
                                               <Orientation value="Vertical" />
-                                              <Panel.Height value="#" />
-                                              <Panel.Width value="*" />
                                               <Children>
                                                 <Panel>
                                                   <Name value="panel82" />
@@ -8327,8 +8321,6 @@
                                             <Panel>
                                               <Name value="panel85" />
                                               <Orientation value="Vertical" />
-                                              <Panel.Height value="#" />
-                                              <Panel.Width value="*" />
                                               <Children>
                                                 <Panel>
                                                   <Name value="panel86" />
@@ -14289,8 +14281,9 @@ and (customsDecisionStatus.STAVROZH in ["01"])]]></ExpressionText>
   <Actions>
     <ActionBlock>
       <Name value="initMain_ALANG" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = true
+form.actions.setUrlRouter()
 actions.commonLoadData(form.GUID)
 form.apiobjects.pageEconImpact.scrollToTop()
 if globals.dataLoadingSpace.success then
@@ -16508,6 +16501,21 @@ endif
 //refresh declist of GoodsItems
 form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
 form.apiobjects.enhancementDeclistGoodsItems.setReady(false)]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setUrlRouter" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var url = apiobjects.urlRouter.findFormUrl(navigation.main.econImpactRegime.fullName)
+
+if (form.guid.hasValue()) then
+	url.addString("guid", form.guid)
+endif
+
+url.updatePageUrl()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

@@ -2025,8 +2025,12 @@
   <Actions>
     <ActionBlock>
       <Name value="decllistOnCreate" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[If not globals.IsAuthorized then 
+      <ActionLangBody>
+        <Script><![CDATA[globals.IsBusy = true
+
+form.actions.setUrlRouter()
+
+If not globals.IsAuthorized then 
 	var user = globals.OverenyUzivatel
 	
 	if globals.errorMsgType = 1 then 
@@ -2350,6 +2354,7 @@ else
 	form.uiState.newsCount = toInt(responseContent, -1)
 endIf
 
+
 /*
 // NonLastIncomplete - not being used in 2020
 url = basicUrl + "NonLastIncomplete')"
@@ -2525,7 +2530,6 @@ if userInput then
 		system.console(response.getErrorMessage())
 		system.alert("Novinka nemohla být smazána.")
 	else
-		system.console("Novinka byla smazána.")
 		form.apiobjects.DatasetNoticesFull.setReady(false)
 		form.apiobjects.DatasetNoticesFull.setReady(True)
 	endIf
@@ -2653,6 +2657,17 @@ else
 	newSubBool.userCreatedNewSubmission = not newSubBool.userCreatedNewSubmission
 endIf
 ]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setUrlRouter" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var url = apiobjects.urlRouter.findFormUrl(navigation.main.decllistForm.fullName)
+
+url.updatePageUrl()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

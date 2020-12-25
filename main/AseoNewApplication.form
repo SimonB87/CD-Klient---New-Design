@@ -1576,8 +1576,9 @@ false : true]]></ExpressionText>
   <Actions>
     <ActionBlock>
       <Name value="initForm" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var currentTime = getDateTime()
+      <ActionLangBody>
+        <Script><![CDATA[form.actions.setUrlRouter()
+var currentTime = getDateTime()
 form.apiobjects.zeme_o.startLoadingData( currentTime )
 
 form.formState.isTestEnvironment = form.actions.editCustomOfficeForTest()
@@ -1994,6 +1995,17 @@ endIf
             </Attribute>
           </Children>
         </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setUrlRouter" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var url = apiobjects.urlRouter.findFormUrl(navigation.main.AseoNewApplication.fullName)
+
+url.updatePageUrl()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>
