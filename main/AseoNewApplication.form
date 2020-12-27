@@ -1576,7 +1576,7 @@ false : true]]></ExpressionText>
   <Actions>
     <ActionBlock>
       <Name value="initForm" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[form.actions.setUrlRouter()
 var currentTime = getDateTime()
 form.apiobjects.zeme_o.startLoadingData( currentTime )
@@ -1601,6 +1601,7 @@ form.uiState.annexModel.IsFulltext = false
       <Name value="setUserCustomsOffice" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var userData = globals.LoginResult.user.selectFirst()
+var uradStredocesky = defaultBool()
 
 forEach organisation in userData.organisation do
 	
@@ -1608,16 +1609,23 @@ forEach organisation in userData.organisation do
 		var storeData = form.uiState.userCustomsOffice.addItem()
 		storeData.Key = office.code
 		storeData.Description = office.description
+				
+		if isTrue(storeData.Key = "CZ610000") then
+			uradStredocesky = true
+		else
+			uradStredocesky = false
+		endIf
+		
 	endFor
 	
 endFor
 
-if form.formState.isTestEnvironment then
+if (form.formState.isTestEnvironment and (uradStredocesky = false)) then
+	
 	var addCO = form.uiState.userCustomsOffice.addItem()
 	addCO.Key = "CZ610000"
 	addCO.Description = "pro Středočeský kraj, Praha 1"
-else
-	//system.console("not test")	
+		
 endIf
 
 var jsonString = form.uiState.userCustomsOffice.toJson()
