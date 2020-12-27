@@ -7257,21 +7257,12 @@ globals.IsBusy = false]]></Script>
     <ActionBlock>
       <Name value="loadAseoData" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[//test
-system.console("load Aseo Detail")
-//test
-
-form.requests.initReq.ASEO.GUID = decisionGuid
+        <Script><![CDATA[form.requests.initReq.ASEO.GUID = decisionGuid
 form.requests.initReq.ASEO.Event.GUID = decisionVersionGuid
 
 if decisionVersionGuid = defaultString() then
 	form.requests.initReq.ASEO.Event.GUID = defaultString()
 endIf
-
-//test
-system.console(form.GUID)
-system.console(form.authorizationType)
-//test
 
 var resp = apiobjects.ServerKomunikace.postAsync("ASEOSPDataRequestEx", form.requests.initReq.toJson(true))
   
@@ -10323,10 +10314,21 @@ form.requests.guaranteeRes.clear()]]></Script>
       <Name value="sendGuaranteeRequest_prepareReqMessage" />
       <Category value="sendGuaranteeRequest" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.requests.guaranteeReq.Guarantee.addItem()
-var prepareGrn = form.requests.guaranteeReq.Guarantee.selectFirst()
-var choosenGuaratee = form.model.sekce4rozsirene.newGarantee.Guarantee.selectFirst(Current.index() = form.formState.indexes._index_guarantee)
-prepareGrn.GRN = choosenGuaratee.GuaranteeID]]></Script>
+        <Script><![CDATA[forEach guarantee in form.model.sekce4rozsirene.newGarantee.Guarantee do
+	
+	var reqGuarantee = form.requests.guaranteeReq.Guarantee.addItem()
+
+	if guarantee.GuaranteeID.hasValue() then
+
+		reqGuarantee.GRN = guarantee.GuaranteeID
+	
+	else
+			
+		reqGuarantee.GRN = "01"	
+	
+	endIf
+
+endFor]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -10336,16 +10338,23 @@ prepareGrn.GRN = choosenGuaratee.GuaranteeID]]></Script>
       <Name value="sendGuaranteeRequest_getReqData" />
       <Category value="sendGuaranteeRequest" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var targetGuarantee = form.model.sekce4rozsirene.newGarantee.Guarantee.selectFirst(Current.index() = form.formState.indexes._index_guarantee)
-var responseGuarantee = form.requests.guaranteeRes.Guarantee.selectFirst()
+        <Script><![CDATA[forEach guaranteeRes in form.requests.guaranteeRes.Guarantee do
 
-if (isTrue(responseGuarantee.Valid = "1")) then
-	targetGuarantee.GuaranteeState  = "1"
-else
-	if (isTrue(responseGuarantee.Valid = "0")) then
-		targetGuarantee.GuaranteeState  = "0"
+	var targetCollectionItem = form.model.sekce4rozsirene.newGarantee.Guarantee.selectFirst(Current.index() = guaranteeRes.index() )
+		
+	if targetCollectionItem.GuaranteeID.hasValue() then
+		
+		if guaranteeRes.Valid in ["0","1"] then
+			targetCollectionItem.GuaranteeState = guaranteeRes.Valid
+		else
+			form.actions.showErorrNotificationMessage("Platnost záruky \"" + targetCollectionItem.GuaranteeID + "\" není možné nyní zjistit.", true )
+		endIf
+	
 	endIf
-endIf]]></Script>
+
+endFor
+
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
