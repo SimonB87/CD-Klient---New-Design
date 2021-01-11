@@ -486,13 +486,13 @@
           </Bindings>
           <Children>
             <Panel>
-              <Name value="newsList" />
-              <Orientation value="Vertical" />
+              <Name value="newListRegular" />
+              <Orientation value="Horizontal" />
               <Panel.Height value="#" />
-              <Panel.Width value="50%" />
+              <Panel.Width value="*" />
               <Children>
                 <Panel>
-                  <Name value="panel4" />
+                  <Name value="panelCaptionRegular" />
                   <Orientation value="Horizontal" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
@@ -518,12 +518,53 @@
                     </CssClassConditional>
                   </CssClass>
                 </Panel>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+            <Panel>
+              <Name value="newsList" />
+              <Orientation value="Vertical" />
+              <Panel.Height value="#" />
+              <Panel.Width value="50%" />
+              <Children>
+                <Panel>
+                  <Name value="panelCaptionAdmin" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Children>
+                    <Label>
+                      <Name value="label2" />
+                      <Data value="Aktuální novinky" />
+                      <Heading value="h3" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
                 <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
                   <Name value="listNoticesFull" />
                   <allowFilterClearIcon value="True" />
-                  <controller reference="~DatasetNoticesFull" />
+                  <controller reference="~DatasetNoticesFullAdmin" />
                   <lastClickedRowSelectWhenCheckboxesOff value="True" />
-                  <listName value="DatasetNoticesFull" />
+                  <listName value="DatasetNoticesFullAdmin" />
                   <pagingTemplate value="$first|$previous|$next|$last|$refresh|$editableCurrentPage|$records|$pageSize" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
@@ -2025,10 +2066,11 @@
   <Actions>
     <ActionBlock>
       <Name value="decllistOnCreate" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = true
 
-form.actions.setUrlRouter()
+//url router
+//form.actions.setUrlRouter()
 
 If not globals.IsAuthorized then 
 	var user = globals.OverenyUzivatel
@@ -2061,7 +2103,7 @@ else
 		   form.tabFilter.SelectedTab = (globals.OverenyUzivatel.hasWritePermission and (form.incompleteCounts.last > 0)) ? 1 : 2
 		else
 		   form.tabFilter.SelectedTab = 9
-		   form.apiobjects.DatasetNoticesFull.setSorting("Checked:desc")
+		   form.apiobjects.DatasetNoticesFullAdmin.setSorting("Checked:desc")
 		endIf
 		
 		form.actions.tabFilter(false)
@@ -2077,10 +2119,10 @@ else
 	form.apiobjects.listCtrl.setReady(false)
 	form.apiobjects.listCtrl.setReady(true)
 	
-	form.apiobjects.DatasetNoticesFull.setReady(false)
-	form.apiobjects.DatasetNoticesFull.clearInvisibleColumnsFilters()
-	form.apiobjects.DatasetNoticesFull.clearVisibleFilters()
-	form.apiobjects.DatasetNoticesFull.setReady(true)
+	form.apiobjects.DatasetNoticesFullAdmin.setReady(false)
+	form.apiobjects.DatasetNoticesFullAdmin.clearInvisibleColumnsFilters()
+	form.apiobjects.DatasetNoticesFullAdmin.clearVisibleFilters()
+	form.apiobjects.DatasetNoticesFullAdmin.setReady(true)
 	
 	//set up form variables
 	form.uiState.isSelectedMyCUoffice = False
@@ -2469,8 +2511,8 @@ form.newsGroup.visibility_addNewNews = False
 		system.alert("Zprávy nebyla nahrána.")
 	else
 		form.newsGroup.newNewsItem.Notice.clear()
-		form.apiobjects.DatasetNoticesFull.setReady(false)
-		form.apiobjects.DatasetNoticesFull.setReady(True)
+		form.apiobjects.DatasetNoticesFullAdmin.setReady(false)
+		form.apiobjects.DatasetNoticesFullAdmin.setReady(True)
 	endIf
 
 	globals.IsBusy = False
@@ -2498,8 +2540,8 @@ endIf]]></Script>
 	else
 		system.console("Zprávy byla změněna na přečtenou.")
 		form.newsGroup.newNewsItem.Notice.clear()
-		form.apiobjects.DatasetNoticesFull.setReady(false)
-		form.apiobjects.DatasetNoticesFull.setReady(True)
+		form.apiobjects.DatasetNoticesFullAdmin.setReady(false)
+		form.apiobjects.DatasetNoticesFullAdmin.setReady(True)
 	endIf
 
 	globals.IsBusy = False
@@ -2530,8 +2572,8 @@ if userInput then
 		system.console(response.getErrorMessage())
 		system.alert("Novinka nemohla být smazána.")
 	else
-		form.apiobjects.DatasetNoticesFull.setReady(false)
-		form.apiobjects.DatasetNoticesFull.setReady(True)
+		form.apiobjects.DatasetNoticesFullAdmin.setReady(false)
+		form.apiobjects.DatasetNoticesFullAdmin.setReady(True)
 	endIf
 
 	globals.IsBusy = False
@@ -2580,8 +2622,8 @@ endIf]]></Script>
 		system.console("Zpráva byla úspěšně upravena.")
 		form.newsGroup.newNewsItem.clear()
 		form.newsGroup.newsEdit.clear()
-		form.apiobjects.DatasetNoticesFull.setReady(false)
-		form.apiobjects.DatasetNoticesFull.setReady(True)
+		form.apiobjects.DatasetNoticesFullAdmin.setReady(false)
+		form.apiobjects.DatasetNoticesFullAdmin.setReady(True)
 	endIf
 
 	globals.IsBusy = False
@@ -2595,17 +2637,17 @@ endIf]]></Script>
     <ActionBlock>
       <Name value="newsChangeSeeNew" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.apiobjects.DatasetNoticesFull.setReady(false)
-form.apiobjects.DatasetNoticesFull.clearVisibleFilters()
+        <Script><![CDATA[form.apiobjects.DatasetNoticesFullAdmin.setReady(false)
+form.apiobjects.DatasetNoticesFullAdmin.clearVisibleFilters()
 
 if tabNumber = 8 then
-	form.apiobjects.DatasetNoticesFull.setTextFilter("Checked","Ne")
+	form.apiobjects.DatasetNoticesFullAdmin.setTextFilter("Checked","Ne")
 else if tabNumber = 9 then
-	form.apiobjects.DatasetNoticesFull.setTextFilter("Checked","Ano,Ne")
+	form.apiobjects.DatasetNoticesFullAdmin.setTextFilter("Checked","Ano,Ne")
 endIf endIf
 
-form.apiobjects.DatasetNoticesFull.focusFirstRecord()
-form.apiobjects.DatasetNoticesFull.setReady(true)]]></Script>
+form.apiobjects.DatasetNoticesFullAdmin.focusFirstRecord()
+form.apiobjects.DatasetNoticesFullAdmin.setReady(true)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -2680,7 +2722,7 @@ url.updatePageUrl()]]></Script>
       <server reference="+GlobalApiObjects.ServerKomunikace" />
     </ListCtrl>
     <ListCtrl identity="ListCtrl.459ff3780ab145df985191cfc1336ce1">
-      <Name value="DatasetNoticesFull" />
+      <Name value="DatasetNoticesFullAdmin" />
       <server reference="+GlobalApiObjects.ServerKomunikace" />
     </ListCtrl>
   </ApiObjects>
