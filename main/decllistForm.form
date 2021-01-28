@@ -2161,8 +2161,8 @@ else
 		
 	else
 		// load serialized state saved in some global variable
-		form.actions.tabFilter(false)
 		form.tabFilter.SelectedTab = globals.fromTab
+		form.actions.tabFilter(false)
 		form.apiobjects.listCtrl.loadState(globals.listState)
 		
 	endif
@@ -2730,8 +2730,10 @@ form.apiobjects.DatasetNoticesFullAdmin.setReady(true)]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.uiGlobalState.aseoNewSubmission.userCreatedNewSubmission = true
 
-globals.fromTab = form.tabFilter.SelectedTab
-
+globals.fromTab = 3
+form.apiobjects.listCtrl.clearState()
+form.apiobjects.listCtrl.setSorting("CustomsDecisionIssueDate:desc")
+form.apiobjects.listCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq 'APA' or CustomsDecisionStatus eq 'FUR' or CustomsDecisionStatus eq 'FUA')")
 globals.listState = form.apiobjects.listCtrl.saveState(defaultString())
 
 navigation.main.AseoNewApplication.go()]]></Script>
