@@ -487,6 +487,7 @@
           <Children>
             <Panel>
               <Name value="newListRegular" />
+              <IsVisible value="False" />
               <Orientation value="Horizontal" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
@@ -498,7 +499,7 @@
                   <Panel.Width value="*" />
                   <Children>
                     <Label>
-                      <Name value="label2" />
+                      <Name value="label21" />
                       <Data value="Seznam novinek" />
                       <Heading value="h3" />
                       <Panel.Height value="#" />
@@ -539,7 +540,7 @@
                   <Panel.Width value="*" />
                   <Children>
                     <Label>
-                      <Name value="label2" />
+                      <Name value="label22" />
                       <Data value="Aktuální novinky" />
                       <Heading value="h3" />
                       <Panel.Height value="#" />
@@ -2058,6 +2059,50 @@
           </Children>
         </Complex>
       </Children>
+      <Modifiers>
+        <Modifier>
+          <Name value="modifier_32FF43A2_ValidFrom" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="newsGroup.newNewsItem.Notice.ValidFrom" />
+          <Validators>
+            <Validator Name="validFrom">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Hodnota tohoto času musí být dřív než Platnost do"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(this.ValidFrom.hasValue() and this.ValidTo.hasValue() ) ? ( this.ValidFrom < this.ValidTo ) : true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_24950987_ValidTo" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="newsGroup.newNewsItem.Notice.ValidTo" />
+          <Validators>
+            <Validator Name="validTo">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Hodnota tohoto času musí být později než Platnost od"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(this.ValidFrom.hasValue() and this.ValidTo.hasValue() ) ? ( this.ValidFrom < this.ValidTo ) : true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+      </Modifiers>
     </DataContext>
   </DataContext>
   <OnCreate>
@@ -2516,6 +2561,10 @@ form.newsGroup.visibility_addNewNews = False
 	endIf
 
 	globals.IsBusy = False
+
+else
+
+	system.alert("Novinku není možné zaslat, protože její údaje nejsou validní.")
 
 endIf]]></Script>
       </ActionLangBody>
