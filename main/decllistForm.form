@@ -2140,15 +2140,21 @@ else
 	
 	form.actions.refreshIncompleteCounts()
 	
-	if globals.listState = defaultString() then
+	if isTrue(globals.listState = defaultString()) then
 		// set defaults
 		form.apiobjects.listCtrl.setSorting("CustomsDecisionIssueDate:desc")
 		
-		if form.uiState.newsCount < 1 then
+		if isTrue(form.uiState.newsCount < 1) then
 		   form.tabFilter.SelectedTab = (globals.OverenyUzivatel.hasWritePermission and (form.incompleteCounts.last > 0)) ? 1 : 2
+		   globals.newSession = false
 		else
-		   form.tabFilter.SelectedTab = 9
-		   form.apiobjects.DatasetNoticesFullAdmin.setSorting("Checked:desc")
+		   if isTrue(globals.newSession in [true, defaultBool()]) then
+		     form.tabFilter.SelectedTab = 9
+		     form.apiobjects.DatasetNoticesFullAdmin.setSorting("Checked:desc")
+		   else
+		     form.tabFilter.SelectedTab = 2
+		   endIf
+		   globals.newSession = false
 		endIf
 		
 		form.actions.tabFilter(false)
