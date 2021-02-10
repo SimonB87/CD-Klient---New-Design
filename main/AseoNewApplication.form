@@ -1565,6 +1565,23 @@ false : true]]></ExpressionText>
                 </ResultType>
               </IsValid>
             </Validator>
+            <Validator Name="validateAuthTypeTIR">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pouze Celní úřad pro Moravskoslezský kraj může vydat povolení typu TIR."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[( (this.POVOLTYP = "TIR") and 
+  (SubString(form.uiState.selectedCustomsOffice.Key,1,4) <> "CZ57") 
+) ? 
+false : true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
           </Validators>
         </Modifier>
       </Modifiers>
@@ -1622,11 +1639,38 @@ forEach organisation in userData.organisation do
 	
 endFor
 
-if (form.formState.isTestEnvironment and (uradStredocesky = false)) then
+var uradMoravskoslezsky = defaultBool()
+
+forEach organisation in userData.organisation do
 	
-	var addCO = form.uiState.userCustomsOffice.addItem()
-	addCO.Key = "CZ610000"
-	addCO.Description = "pro Středočeský kraj, Praha 1"
+	forEach office in organisation.code do
+		var storeData = form.uiState.userCustomsOffice.addItem()
+		storeData.Key = office.code
+		storeData.Description = office.description
+				
+		if isTrue(storeData.Key = "CZ570000") then
+			uradMoravskoslezsky = true
+		else
+			uradMoravskoslezsky = false
+		endIf
+		
+	endFor
+	
+endFor
+
+if (isTrue(form.formState.isTestEnvironment) and isFalse(uradStredocesky) ) then
+	
+	var addCO61 = form.uiState.userCustomsOffice.addItem()
+	addCO61.Key = "CZ610000"
+	addCO61.Description = "pro Středočeský kraj, Praha 1"
+		
+endIf
+
+if (isTrue(form.formState.isTestEnvironment) and isFalse(uradMoravskoslezsky) ) then
+	
+	var addCO57 = form.uiState.userCustomsOffice.addItem()
+	addCO57.Key = "CZ570000"
+	addCO57.Description = "pro Moravskoslezský kraj"
 		
 endIf
 
