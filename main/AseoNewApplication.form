@@ -1620,7 +1620,9 @@ form.uiState.annexModel.IsFulltext = false
       <Name value="setUserCustomsOffice" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var userData = globals.LoginResult.user.selectFirst()
+
 var uradStredocesky = defaultBool()
+var uradMoravskoslezsky = defaultBool()
 
 forEach organisation in userData.organisation do
 	
@@ -1635,19 +1637,6 @@ forEach organisation in userData.organisation do
 			uradStredocesky = false
 		endIf
 		
-	endFor
-	
-endFor
-
-var uradMoravskoslezsky = defaultBool()
-
-forEach organisation in userData.organisation do
-	
-	forEach office in organisation.code do
-		var storeData = form.uiState.userCustomsOffice.addItem()
-		storeData.Key = office.code
-		storeData.Description = office.description
-				
 		if isTrue(storeData.Key = "CZ570000") then
 			uradMoravskoslezsky = true
 		else
