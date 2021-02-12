@@ -3361,6 +3361,7 @@
                                     <Button>
                                       <Name value="button_deleteAnnex" />
                                       <Caption value="Smazat" />
+                                      <IsVisible value="False" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="100px" />
                                       <OnClick>
@@ -3368,7 +3369,6 @@
                                       </OnClick>
                                       <Bindings>
                                         <Binding SourceProperty="IsEnabled" Expression="form.formState.editCapabilities.isEditAllowedNow" />
-                                        <Binding SourceProperty="IsVisible" Expression="globals.OverenyUzivatel.hasWritePermission" />
                                       </Bindings>
                                       <CssClass>
                                         <CssClassConditional>
@@ -4181,6 +4181,7 @@
                               <IsEnabled value="False" />
                               <Panel.Height value="#" />
                               <Panel.Width value="50%" />
+                              <Tooltip value="Hodnoty: J - Pozastavení povolení z jiného důvodu" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionReason" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionReason.isRequired()" />
@@ -4309,6 +4310,7 @@
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason.isRequired()" />
+                            <Binding SourceProperty="Tooltip" Expression="form.formState.customTooltip.tooltip_referenceCombo_POVOLDUOD" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -4425,6 +4427,7 @@
                               <IsEnabled value="False" />
                               <Panel.Height value="#" />
                               <Panel.Width value="50%" />
+                              <Tooltip value="Hodnota: J - Pozastavení povolení z jiného důvodu" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason.isRequired()" />
@@ -6282,6 +6285,29 @@ false]]></ExpressionText>
                     </Attribute>
                   </Children>
                 </Complex>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="customTooltip" />
+              <Caption value="Custom tooltip" />
+              <Children>
+                <Computed>
+                  <Name value="tooltip_referenceCombo_POVOLDUOD" />
+                  <Caption value="Tooltip _ reference combo _ POVOLDUOD" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[hasValue(form.model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason) ? 
+	(form.model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason = "J" ? 
+		"Hodnota: J - Odnětí povolení z jiného důvodu" : 
+		(form.model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason = "N") ? 
+		"N - Odnětí povolení z důvodu nesplněných hospodářských podmínek/hospodářské odůvodněnosti" : 
+			(form.model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason = "Z") ? 
+			"Hodnota:  Z - Odňato na základě žádosti (§66 SŘ)" : defaultString() ) : 
+	defaultString()]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
               </Children>
             </Complex>
             <Attribute>
@@ -9713,6 +9739,7 @@ form.formState.currentDateTime = getDateTime()
 form.actions.editValidityStartDate()
 form.actions.clearOtherRejectionTabs()
 form.model.sekce5prilohy.addNewAnnex.IsFulltext = false
+form.model.modelStructure.ASEO.Event.Note.clear()
 
 form.actions.editValidityStartDate()]]></Script>
       </ActionLangBody>
