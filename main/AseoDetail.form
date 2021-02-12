@@ -6134,8 +6134,7 @@ false]]></ExpressionText>
                       <Name value="futureChangeWillHappen" />
                       <Caption value="Future change will happen" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[(this.owner().stateCode in ["FUR", "FUA", "FWA", "FUW", "FCA"]) ? true :
-	form.model.modelStructure.ASEO.LastEventValidityStartDate > this.owner().owner().currentDateTime ? true : false]]></ExpressionText>
+                        <ExpressionText><![CDATA[isTrue(form.model.modelStructure.ASEO.Event.ValidityStartDate > form.formState.currentDateTime) ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -8045,16 +8044,22 @@ form.components.tabsMenu.Tab06prilohy.Title = "Text a přílohy (" + toString(cu
 
 form.actions.checkPreferCd()
 
-if messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification"] then
+form.authorizationType = form.model.modelStructure.ASEO.AuthorizationType.POVOLTYP
+
+if isTrue(messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification"]) then
 	form.formState.modelJson = form.model.modelStructure.toJson()
 	form.model.modelStructure.clear()
 	aseoMegaMessage.clear()
 	aseoMegaMessage.fromJson(form.formState.modelJson)
 	aseoMegaMessage.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage()
+	
 	if isTrue(form.authorizationType in ["TIR", "ACP"]) then
 		aseoMegaMessage.ASEO.Event.GoodsList.GoodsListType = false
-	endIf		
+	else if isTrue(form.authorizationType = "SAR") then
+		form.actions.setGuarantee()
+	endIf endIf
+	
 	if aseoMegaMessage.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.isEmpty() then
 		aseoMegaMessage.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified = false
 	endIf
@@ -8062,15 +8067,11 @@ if messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification"] then
 		aseoMegaMessage.ASEO.Event.Authorization.LimitedAuthorizationValidity = false
 	endIf
 
-	if isTrue(form.authorizationType = "SAR") then
-		form.actions.setGuarantee()
-	endIf
-
 	aseoMegaMessage.ASEO.ASEOID.clear()
 
 endIf
 
-if messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification"] then
+if isTrue(messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification"]) then
 	form.formState.modelJson = form.model.modelStructure.toJson()
 	form.model.modelStructure.clear()
 	aseoMegaMessage.clear()
@@ -8080,7 +8081,7 @@ if messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModi
 	aseoMegaMessage.ASEO.Event.ApplicationRejection.ApplicationRejectionReason = form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM
 endIf
 
-if messageType in ["ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawalModification"] then
+if isTrue(messageType in ["ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawalModification"]) then
 	form.formState.modelJson = form.model.modelStructure.toJson()
 	form.model.modelStructure.clear()
 	aseoMegaMessage.clear()
@@ -8090,7 +8091,7 @@ if messageType in ["ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationCancella
 	aseoMegaMessage.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason = form. model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.POVOLDUOD
 endIf
 
-if messageType in ["ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification"] then
+if isTrue(messageType in ["ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification"]) then
 	form.formState.modelJson = form.model.modelStructure.toJson()
 	form.model.modelStructure.clear()
 	aseoMegaMessage.clear()
@@ -8100,7 +8101,7 @@ if messageType in ["ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendi
 	aseoMegaMessage.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason = form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason
 endIf
 
-if messageType in ["ASEOSPApplicationModification"] then
+if isTrue(messageType in ["ASEOSPApplicationModification"]) then
 	form.formState.modelJson = form.model.modelStructure.toJson()
 	form.model.modelStructure.clear()
 	form.requests.applicationModification.clear()
@@ -8110,7 +8111,7 @@ if messageType in ["ASEOSPApplicationModification"] then
 endIf
 
 //check client errors in form
-if form.Model.validationErrorsCount() > 0 then
+if isTrue(form.Model.validationErrorsCount() > 0) then
 	form.formState.visibilities.isValidationsVisible = True 
 endIf
 
