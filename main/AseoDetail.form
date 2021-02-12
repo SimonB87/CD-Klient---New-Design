@@ -3891,6 +3891,9 @@
                       <ClassName value="{theme}-panel" />
                       <IsThemedStyle value="True" />
                     </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="declistWordWrap" />
+                    </CssClassConditional>
                   </CssClass>
                 </Panel>
                 <Panel>
@@ -4023,6 +4026,9 @@
                     <CssClassConditional>
                       <ClassName value="{theme}-panel" />
                       <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="declistWordWrap" />
                     </CssClassConditional>
                   </CssClass>
                 </Panel>
@@ -8046,7 +8052,7 @@ if messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification"] then
 	aseoMegaMessage.fromJson(form.formState.modelJson)
 	aseoMegaMessage.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage()
-	if form.authorizationType in ["TIR", "ACP"] then
+	if isTrue(form.authorizationType in ["TIR", "ACP"]) then
 		aseoMegaMessage.ASEO.Event.GoodsList.GoodsListType = false
 	endIf		
 	if aseoMegaMessage.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.isEmpty() then
@@ -8055,9 +8061,8 @@ if messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification"] then
 	if aseoMegaMessage.ASEO.Event.Authorization.LimitedAuthorizationValidity.isEmpty() then
 		aseoMegaMessage.ASEO.Event.Authorization.LimitedAuthorizationValidity = false
 	endIf
-		
-	if form.authorizationType = "SAR" then
 
+	if isTrue(form.authorizationType = "SAR") then
 		form.actions.setGuarantee()
 	endIf
 
