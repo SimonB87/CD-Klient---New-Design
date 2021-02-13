@@ -4588,6 +4588,7 @@
           <Name value="authorizationType" />
           <Caption value="Authorization type" />
           <DataContextParameter.IsInput value="True" />
+          <DataContextParameter.IsInputRequired value="True" />
           <DeclaredType>
             <AttributeType />
           </DeclaredType>
@@ -7320,6 +7321,10 @@ else
 		form.VersionGUID = form.model.modelStructure.ASEO.Event.GUID
 	endIf
 	
+	if (isFalse( form.authorizationType in ["ACP","TIR","SAR"] ) AND (isTrue(form.model.modelStructure.ASEO.AuthorizationType.POVOLTYP.hasValue())))then
+		form.authorizationType = form.model.modelStructure.ASEO.AuthorizationType.POVOLTYP
+	endIf
+	
 	form.actions.prepareButtonActionText()
 	
 	if form.authorizationType = "SAR" then
@@ -8044,7 +8049,9 @@ form.components.tabsMenu.Tab06prilohy.Title = "Text a přílohy (" + toString(cu
 
 form.actions.checkPreferCd()
 
-form.authorizationType = form.model.modelStructure.ASEO.AuthorizationType.POVOLTYP
+if (isFalse( form.authorizationType in ["ACP","TIR","SAR"] ) AND (isTrue(form.model.modelStructure.ASEO.AuthorizationType.POVOLTYP.hasValue())))then
+	form.authorizationType = form.model.modelStructure.ASEO.AuthorizationType.POVOLTYP
+endIf
 
 if isTrue(messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification"]) then
 	form.formState.modelJson = form.model.modelStructure.toJson()
