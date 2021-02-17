@@ -1727,7 +1727,7 @@ if form.aseoApplication.isValid() then
 	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplication", form.aseoApplication.toJson())
 	
 	//check server reply
-	if response.isError() then
+	if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
 		system.console(response.getErrorMessage())
 		apiobjects.notificationsCtrl.addError("Žádost nebyla uložena v centru.")
 	else	
