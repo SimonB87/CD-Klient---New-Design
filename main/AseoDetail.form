@@ -7886,7 +7886,7 @@ else
 	
 	result = form.formState.responseResult
 		
-	if response.isError() then
+	if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
 		system.console(response.getErrorMessage())
 		form.actions.showErorrNotificationMessage("Nastala chyba. Nemohlo být vydání povolení provedeno.", true)
 			
@@ -7966,11 +7966,14 @@ if  messageType in ["ASEOSPAuthorization", "ASEOSPAuthorizationModification","AS
 	form.requests.ASEOmegaMessage.clear()
 	form.requests.applicationModification.clear()
 	
-	if not messagePostSucess then
-		form.model.modelStructure.fromJson(form.formState.modelJson)
+	if isTrue( messagePostSucess = false) then
+		//form.model.modelStructure.fromJson(form.formState.modelJson)
+	else
+		if isTrue( messagePostSucess = true) then
+			form.formState.modelJson.clear()
+		endIf	
 	endIf
-	
-	form.formState.modelJson.clear()
+
 endIf
 
 form.actions.editDataAfterPosting_editSetTouchedOfReasonsCombos(messagePostSucess, messageType)
@@ -8046,7 +8049,7 @@ endIf
 
 if isTrue(messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification"]) then
 	form.formState.modelJson = form.model.modelStructure.toJson()
-	form.model.modelStructure.clear()
+	//form.model.modelStructure.clear()
 	aseoMegaMessage.clear()
 	aseoMegaMessage.fromJson(form.formState.modelJson)
 	aseoMegaMessage.ASEO.Event.File.clear()
@@ -8071,7 +8074,7 @@ endIf
 
 if isTrue(messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification"]) then
 	form.formState.modelJson = form.model.modelStructure.toJson()
-	form.model.modelStructure.clear()
+	//form.model.modelStructure.clear()
 	aseoMegaMessage.clear()
 	aseoMegaMessage.fromJson(form.formState.modelJson)
 	aseoMegaMessage.ASEO.Event.File.clear()
@@ -8081,7 +8084,7 @@ endIf
 
 if isTrue(messageType in ["ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawalModification"]) then
 	form.formState.modelJson = form.model.modelStructure.toJson()
-	form.model.modelStructure.clear()
+	//form.model.modelStructure.clear()
 	aseoMegaMessage.clear()
 	aseoMegaMessage.fromJson(form.formState.modelJson)
 	aseoMegaMessage.ASEO.Event.File.clear()
@@ -8091,7 +8094,7 @@ endIf
 
 if isTrue(messageType in ["ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification"]) then
 	form.formState.modelJson = form.model.modelStructure.toJson()
-	form.model.modelStructure.clear()
+	//form.model.modelStructure.clear()
 	aseoMegaMessage.clear()
 	aseoMegaMessage.fromJson(form.formState.modelJson)
 	aseoMegaMessage.ASEO.Event.File.clear()
@@ -8101,7 +8104,7 @@ endIf
 
 if isTrue(messageType in ["ASEOSPApplicationModification"]) then
 	form.formState.modelJson = form.model.modelStructure.toJson()
-	form.model.modelStructure.clear()
+	//form.model.modelStructure.clear()
 	form.requests.applicationModification.clear()
 	form.requests.applicationModification.fromJson(form.formState.modelJson)
 	form.requests.applicationModification.ASEO.Event.File.clear()
@@ -8150,7 +8153,7 @@ var response = apiobjects.ServerKomunikace.postAsync("ASEOFutureRemoval", form.r
 var responseResult = defaultBool()
 result = responseResult
 
-if response.isError() then
+if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Odstranění budoucí změny nemohlo být provedeno.", true)
 	
@@ -8198,14 +8201,15 @@ form.actions.editDataBeforePosting("ASEOSPApplicationRejection")
 
 form.actions.validErr_clearPrevious()	
 
-var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejection", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
 result = responseResult
 var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
-if checkNecessaryReason = true then
+if isTrue(checkNecessaryReason = true) then
 
-	if response.isError() then
+	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejection", form.requests.ASEOmegaMessage.toJson())
+
+	if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
 		system.console(response.getErrorMessage())
 		form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohlo být zamítnutí uděleno.", true)
 		
@@ -8230,7 +8234,6 @@ if checkNecessaryReason = true then
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 	
 else
-	form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
 	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 endIf
 
@@ -8265,15 +8268,16 @@ form.actions.editDataBeforePosting("ASEOSPApplicationRejectionModification")
 
 form.actions.validErr_clearPrevious()	
 
-var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejectionModification", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
 result = responseResult
 
 var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
-if checkNecessaryReason = true then
+if isTrue(checkNecessaryReason = true) then
 
-	if response.isError() then
+	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejectionModification", form.requests.ASEOmegaMessage.toJson())
+
+	if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
 		system.console(response.getErrorMessage())
 		form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být modifikace zamítnutí udělena.", true)
 	
@@ -8298,7 +8302,6 @@ if checkNecessaryReason = true then
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 	
 else
-	form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
 	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 endIf
 
@@ -8347,15 +8350,16 @@ form.actions.editDataBeforePosting("ASEOSPAuthorizationWithdrawal")
 form.error.clear()
 form.formState.visibilities.isValidationsVisible = False	
 
-var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationWithdrawal", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
 result = responseResult
 
 var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
-if checkNecessaryReason = true then
+if isTrue(checkNecessaryReason = true) then
 
-	if response.isError() then
+	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationWithdrawal", form.requests.ASEOmegaMessage.toJson())
+	
+	if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
 		system.console(response.getErrorMessage())
 		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být zrušení uděleno.", true)
 		
@@ -8385,7 +8389,6 @@ if checkNecessaryReason = true then
 	endIf
 
 else
-	form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
 	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 endIf
 
@@ -8424,15 +8427,15 @@ form.actions.editDataBeforePosting("ASEOSPAuthorizationSuspending")
 
 form.actions.validErr_clearPrevious()	
 
-var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationSuspending", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
 result = responseResult
 
 var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
-if checkNecessaryReason = true then
+if isTrue(checkNecessaryReason = true) then
+	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationSuspending", form.requests.ASEOmegaMessage.toJson())
 
-	if response.isError() then
+	if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
 		system.console(response.getErrorMessage())
 		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být předáno k pozastavení.", true)
 		
@@ -8466,7 +8469,6 @@ if checkNecessaryReason = true then
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 	
 else
-	form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
 	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 endIf
 
@@ -8502,15 +8504,16 @@ form.actions.editDataBeforePosting("ASEOSPAuthorizationCancellation")
 
 form.actions.validErr_clearPrevious()	
 
-var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationCancellation", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
 result = responseResult
 
 var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
-if checkNecessaryReason = true then
+if isTrue(checkNecessaryReason = true) then
 
-	if response.isError() then
+	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationCancellation", form.requests.ASEOmegaMessage.toJson())
+
+	if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
 		system.console(response.getErrorMessage())
 		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být předáno ke zneplatnění.", true)
 		
@@ -8542,7 +8545,6 @@ if checkNecessaryReason = true then
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 	
 else
-	form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
 	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 endIf
 
@@ -8582,7 +8584,7 @@ result = defaultBool()
 
 var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationModification", form.requests.applicationModification.toJson())
 var responseResult = defaultBool()
-if response.isError() then
+if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
 	system.console(response.getErrorMessage())
 	form.actions.showErorrNotificationMessage("Nastala chyba. Úprava žádosti nemohla být provedena.", true)
 	
@@ -8596,6 +8598,7 @@ else
 	form.actions.loadAseoData(form.GUID, form.VersionGUID)
 	responseResult = true
 	result = true
+	
 endIf
 
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
@@ -8648,7 +8651,7 @@ else
 	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationModification", form.requests.ASEOmegaMessage.toJson())
 	result = form.formState.responseResult
 		
-	if response.isError() then
+	if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
 		system.console(response.getErrorMessage())
 		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být úpraveno.", true)
 		
@@ -8707,15 +8710,16 @@ form.actions.editDataBeforePosting("ASEOSPAuthorizationWithdrawalModification")
 
 form.actions.validErr_clearPrevious()	
 
-var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationWithdrawalModification", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
 result = responseResult
 
 var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
-if checkNecessaryReason = true then
+if isTrue(checkNecessaryReason = true) then
+
+	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationWithdrawalModification", form.requests.ASEOmegaMessage.toJson())
 	
-	if response.isError() then
+	if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
 		system.console(response.getErrorMessage())
 		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být předáno k úpravě zrušení.", true)
 		
@@ -8747,7 +8751,6 @@ if checkNecessaryReason = true then
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 	
 else
-	form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
 	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 endIf
 
@@ -8783,15 +8786,16 @@ form.actions.editDataBeforePosting("ASEOSPAuthorizationCancellationModification"
 
 form.actions.validErr_clearPrevious()	
 
-var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationCancellationModification", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
 result = responseResult
 
 var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
-if checkNecessaryReason = true then
+if isTrue(checkNecessaryReason = true) then
 
-	if response.isError() then
+	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationCancellationModification", form.requests.ASEOmegaMessage.toJson())
+
+	if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
 		system.console(response.getErrorMessage())
 		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být předáno k úpravě zneplatnění.", true)
 		
@@ -8823,7 +8827,6 @@ if checkNecessaryReason = true then
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 	
 else
-	form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
 	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 endIf
 
@@ -8859,15 +8862,16 @@ form.actions.editDataBeforePosting("ASEOSPAuthorizationSuspendingModification")
 
 form.actions.validErr_clearPrevious()
 
-var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationSuspendingModification", form.requests.ASEOmegaMessage.toJson())
 var responseResult = defaultBool()
 result = responseResult
 
 var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
-if checkNecessaryReason = true then
+if isTrue(checkNecessaryReason = true) then
 
-	if response.isError() then
+	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationSuspendingModification", form.requests.ASEOmegaMessage.toJson())
+
+	if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
 		system.console(response.getErrorMessage())
 		form.actions.showErorrNotificationMessage("Nastala chyba. Povolení nemohlo být předáno k úpravě pozastavení.", true)
 		
@@ -8901,7 +8905,6 @@ if checkNecessaryReason = true then
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 	
 else
-	form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
 	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 endIf
 
@@ -8977,7 +8980,9 @@ form.formState.visibilities.isValidationsVisible = True
 var postingSuccess = defaultBool()
 
 if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.ValidityStartDate then
-
+	
+	form.actions.clearPreviousNotifications()
+	
 	if form.formState.lifeCycle.actionConfirm.actionName = "Upravit žádost" then
 		postingSuccess = form.actions.lifeCycle_applicationModification()
 	else if form.formState.lifeCycle.actionConfirm.actionName = "Zamítnout žádost" then
@@ -9004,10 +9009,15 @@ if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.Validi
 		postingSuccess = form.actions.lifeCycle_futureRemoval()	
 	endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf
 	
-	if postingSuccess then
+	if isTrue(postingSuccess) then
 		form.isEditOn = false
+		form.formState.validationSucess = true
 	else
 		form.isEditOn = globals.OverenyUzivatel.hasWritePermission
+		form.formState.validationSucess = false
+		//leave previous action buttons
+		form.formState.lifeCycle.showActionButtonPanel = false
+		form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = true
 	endIf
 	
 	if isTrue(form.formState.validationSucess) then
@@ -9672,7 +9682,7 @@ form.requests.requestCRS.Duvod = "Vydávání povolení v ASEO"
 
 var response = apiobjects.ServerKomunikace.postAsync("SubjektPodleIdentifikatoruRequestCIC", form.requests.requestCRS.toJson())
 
-if response.isError() then
+if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
 	system.console(response.getErrorMessage())
 	apiobjects.notificationsCtrl.addError("Došlo k chybě při komunikaci s Centrem.")
 
@@ -9791,18 +9801,49 @@ result = defaultBool()
 
 result = true
 
-if 	( (lcPath.applicationRejection.ApplicationRejectionReason = "J" )
-	and ( not lcPath.ApplicationRejection.ApplicationRejectionDescription.hasValue() ) )
-	then
+if isTrue(form.formState.lifeCycle.actionConfirm.actionName in ["Zamítnout žádost", "Upravit zamítnutí"]) then 
+	
+	if isTrue(lcPath.applicationRejection.ApplicationRejectionReason.hasValue() = false) then
+		result = false
+		form.actions.showErorrNotificationMessage("Vyberte kód důvodu v \"Upravit Důvod zamítnuté žádosti\".", true)
+	endIf	
+	
+	if		( isTrue(lcPath.applicationRejection.ApplicationRejectionReason = "J" )
+		and ( isFalse( lcPath.ApplicationRejection.ApplicationRejectionDescription.hasValue() ) ) ) then
 			result = false
-else if  ( (lcPath.AuthorizationWithdrawal.AuthorizationWithdrawalReason = "J") 
-	and ( not lcPath.AuthorizationWithdrawal.AuthorizationWithdrawalDescription.hasValue() ) )
-	then
+			form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
+	endIf
+
+else
+
+if isTrue(form.formState.lifeCycle.actionConfirm.actionName in ["Zrušit povolení", "Zrušit povolení.", "Upravit zrušení", "Zneplatit povolení", "Upravit zneplatnění"]) then
+
+	if isTrue(lcPath.AuthorizationWithdrawal.AuthorizationWithdrawalReason.hasValue() = false) then
+		result = false
+		form.actions.showErorrNotificationMessage("Vyberte kód důvodu v \"Změnit typ Důvodu\".*", true)
+	endIf
+	
+	if  	( isTrue(lcPath.AuthorizationWithdrawal.AuthorizationWithdrawalReason = "J") 
+		and ( isFalse( lcPath.AuthorizationWithdrawal.AuthorizationWithdrawalDescription.hasValue() )) ) then
+		result = false
+		form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
+	endIf
+
+else
+
+if isTrue(form.formState.lifeCycle.actionConfirm.actionName in ["Pozastavit", "Upravit pozastavení"]) then
+
+	if isTrue(lcPath.AuthorizationSuspending.AuthorizationSuspendingReason.hasValue() = false) then
+		result = false
+		form.actions.showErorrNotificationMessage("Vyberte kód důvodu v \"Upravit Důvod pozastavení povolení\".", true)
+	endIf
+	
+	if 		( isTrue(lcPath.AuthorizationSuspending.AuthorizationSuspendingReason = "J" )
+		and ( isFalse( lcPath.AuthorizationSuspending.AuthorizationSuspendingDescription.hasValue() )) ) then
 			result = false
-else if ( (lcPath.AuthorizationSuspending.AuthorizationSuspendingReason = "J" )
-	and ( not lcPath.AuthorizationSuspending.AuthorizationSuspendingDescription.hasValue() ) )
-	then
-			result = false
+			form.actions.showErorrNotificationMessage("Vyplňte text popisu důvodu v případě důvodu typu \"J\".", true)
+	endIf
+
 endIf endIf endIf
 ]]></Script>
       </ActionLangBody>
@@ -10646,6 +10687,16 @@ url.updatePageUrl()]]></Script>
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
+    <ActionBlock>
+      <Name value="clearPreviousNotifications" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.formState.notifications.operationResultMessage.clear()
+form.formState.notifications.visibleNoticeWindow = false]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
   </Actions>
   <ApiObjects>
     <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
@@ -10856,6 +10907,10 @@ url.updatePageUrl()]]></Script>
         </CodelistColumn>
       </columns>
     </Codelist>
+    <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="filtered_ZJPLHUTA" />
+      <codelistSource reference="~ZJPLHUTA" />
+    </FilteredCodelist>
     <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
       <Name value="CELUTVAR" />
       <name value="CELUTVAR" />
@@ -10926,10 +10981,6 @@ url.updatePageUrl()]]></Script>
     <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
       <Name value="filteredCodelist_ZJPZAJIST" />
       <codelistSource reference="~ZJPZAJIST" />
-    </FilteredCodelist>
-    <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
-      <Name value="filtered_ZJPLHUTA" />
-      <codelistSource reference="~ZJPLHUTA" />
     </FilteredCodelist>
   </ApiObjects>
 </Form>
