@@ -2191,6 +2191,8 @@ If not globals.IsAuthorized then
 else
 	form.actions.refreshIncompleteCounts()
 	
+	form.apiobjects.listCtrl.setReady(false)
+	
 	if isTrue(globals.listState = defaultString()) then
 		// set defaults
 		form.apiobjects.listCtrl.setSorting("CustomsDecisionIssueDate:desc")
@@ -2198,10 +2200,10 @@ else
 		if isTrue(form.uiState.newsCount < 1) then
 		   form.tabFilter.SelectedTab = (globals.OverenyUzivatel.hasWritePermission and (form.incompleteCounts.last > 0)) ? 1 : 2
 		   globals.newSession = false
+		   
 		else
 		   if isTrue(globals.newSession in [true, defaultBool()]) then
 		     form.tabFilter.SelectedTab = 10
-		     form.apiobjects.DatasetNoticesFullAdmin.setSorting("Checked:desc")
 		   else
 		     form.tabFilter.SelectedTab = 2
 		   endIf
@@ -2218,7 +2220,6 @@ else
 		
 	endif
 	
-	form.apiobjects.listCtrl.setReady(false)
 	form.apiobjects.listCtrl.setReady(true)
 	
 	form.apiobjects.DatasetNoticesFullAdmin.setReady(false)
@@ -2445,7 +2446,7 @@ if form.tabFilter.SelectedTab.hasValue() then
 
 endif
 
-if (not (form.tabFilter.SelectedTab in [8, 9])) then 
+if (not (form.tabFilter.SelectedTab in [10, 11])) then 
 	if refreshCounts then
 	  form.actions.refreshIncompleteCounts()
 	endif
@@ -2485,7 +2486,7 @@ var resp = apiobjects.ServerKomunikace.getAsync(url)
 
 var respContent = resp.getJsonString()
 
-if resp.isError() then
+if (isTrue(resp.isError()) OR (isTrue(resp.getMessageType() = "IN906A"))) then
   form.incompleteCounts.last = 0
   system.consoleError(resp.getErrorMessage())
   system.consoleError("Response content: " + respContent)
@@ -2758,6 +2759,7 @@ else if tabNumber = 9 then
 	form.apiobjects.DatasetNoticesFullAdmin.setTextFilter("Checked","Ano,Ne")
 endIf endIf
 
+form.apiobjects.DatasetNoticesFullAdmin.setSorting("Checked:desc")
 form.apiobjects.DatasetNoticesFullAdmin.focusFirstRecord()
 form.apiobjects.DatasetNoticesFullAdmin.setReady(true)]]></Script>
       </ActionLangBody>
