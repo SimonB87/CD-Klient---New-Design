@@ -9,7 +9,7 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new sffw.components.tabControl.TabControlModel(params, componentInfo); }
                     },
-                    template: "\n<div class=\"sffw-tabs\">\n    <!-- ko if: tabs -->\n        <ul data-bind=\"foreach: tabs\" role=\"tablist\">\n            <li role=\"presentation\" data-bind=\"css: cssClass, visible: isVisible\">\n                <a role=\"tab\" href=\"#\" data-bind=\"text: (isTitleLocalized() === true ? $root.$localize(title) : title),\n                    attr: { id: tabId, 'aria-selected': isSelected() ? 'true' : 'false', 'aria-controls': ariaControlsId },\n                    click: onTabClicked\"></a>\n            </li>\n        </ul>\n    <!-- /ko -->\n</div>\n"
+                    template: "\n<div class=\"sffw-tabs\">\n    <ul data-bind=\"foreach: tabs\" role=\"tablist\">\n        <li role=\"presentation\" data-bind=\"css: cssClass, visible: isVisible\">\n            <a role=\"tab\" href=\"#\" data-bind=\"text: (isTitleLocalized() === true ? $root.$localize(title) : title),\n                attr: { id: tabId, 'aria-selected': isSelected() ? 'true' : 'false', 'aria-controls': ariaControlsId },\n                click: onTabClicked\"></a>\n        </li>\n    </ul>\n</div>\n"
                 });
             }
         })(tabControl = components.tabControl || (components.tabControl = {}));
@@ -37,7 +37,7 @@ var sffw;
                 }
                 TabControlModel.prototype.createTabs = function (tabs) {
                     var _this = this;
-                    var collectionOfTabs = typeof tabs === 'function' ? tabs() : tabs;
+                    var collectionOfTabs = ko.unwrap(tabs);
                     _(collectionOfTabs).each(function (t) {
                         var tab = new tabControl.TabModel(t, tabs.indexOf(t) + 1, _this);
                         _this.tabs.push(tab);

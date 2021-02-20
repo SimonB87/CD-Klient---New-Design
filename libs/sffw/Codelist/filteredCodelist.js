@@ -31,6 +31,10 @@ var sffw;
                     }
                     return _(items).filter(function (item) {
                         return !_.some(_this.excludeByKey.items, function (filterRule) {
+                            if (filterRule.type === 'regex') {
+                                var regExp = new RegExp("" + filterRule.value);
+                                return regExp.test(item[filterRule.columnName]);
+                            }
                             return item[filterRule.columnName] === filterRule.value;
                         });
                     }).value();
@@ -46,6 +50,10 @@ var sffw;
                     }
                     return _(items).filter(function (item) {
                         return _.some(_this.includeByKey.items, function (filterRule) {
+                            if (filterRule.type === 'regex') {
+                                var regExp = new RegExp("" + filterRule.value);
+                                return regExp.test(item[filterRule.columnName]);
+                            }
                             return item[filterRule.columnName] === filterRule.value;
                         });
                     }).value();
@@ -83,6 +91,9 @@ var sffw;
                 CodelistFilterApi.prototype.excludeItemsByStringColumn = function (args) {
                     this.filter.excludeByKey.add(args.columnName, args.value, 'string');
                 };
+                CodelistFilterApi.prototype.excludeItemsByRegex = function (args) {
+                    this.filter.excludeByKey.add(args.columnName, args.regex, 'regex');
+                };
                 CodelistFilterApi.prototype.excludeItemsByIntColumn = function (args) {
                     this.filter.excludeByKey.add(args.columnName, args.value, 'int');
                 };
@@ -91,6 +102,9 @@ var sffw;
                 };
                 CodelistFilterApi.prototype.includeItemsByStringColumn = function (args) {
                     this.filter.includeByKey.add(args.columnName, args.value, 'string');
+                };
+                CodelistFilterApi.prototype.includeItemsByRegex = function (args) {
+                    this.filter.includeByKey.add(args.columnName, args.regex, 'regex');
                 };
                 CodelistFilterApi.prototype.includeItemsByIntColumn = function (args) {
                     this.filter.includeByKey.add(args.columnName, args.value, 'int');
@@ -270,6 +284,10 @@ var sffw;
                     this.filter.reset(args.applyImmediately);
                     this.filterItems();
                     return this.filter.api;
+                };
+                FilteredCodelist.prototype.getCount = function () {
+                    var items = this.items && this.items();
+                    return items ? items.length : 0;
                 };
                 FilteredCodelist.prototype.getItemByColumnValue = function (columnName, columnValue) {
                     var items = this.items && this.items();

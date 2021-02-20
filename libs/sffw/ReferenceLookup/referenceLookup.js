@@ -23,7 +23,7 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new sffw.components.referenceLookup.ReferenceLookupViewModel(params, componentInfo); }
                     },
-                    template: "   <!-- ko if: isEnabled -->\n            <input data-bind=\"referenceLookup: data,\n                attr: { 'aria-controls': listboxContainerId, 'aria-owns': listboxContainerId, 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" aria-autocomplete=\"list\">\n        <!-- /ko -->\n        <!-- ko ifnot: isEnabled -->\n            <input data-bind=\"value: data[displayMember].$asString,\n                attr: { 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" disabled/>\n        <!-- /ko -->"
+                    template: "   <!-- ko if: isEnabled -->\n            <input data-bind=\"referenceLookup: data,\n                attr: { 'aria-controls': listboxContainerId, 'aria-owns': listboxContainerId, 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" aria-autocomplete=\"list\" role=\"combobox\">\n        <!-- /ko -->\n        <!-- ko ifnot: isEnabled -->\n            <input data-bind=\"value: data[displayMember].$asString,\n                attr: { 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" disabled/>\n        <!-- /ko -->"
                 });
             }
             if (!ko.components.isRegistered('sffw-tariclookup')) {
@@ -31,7 +31,7 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new sffw.components.referenceLookup.TaricLookupViewModel(params, componentInfo); }
                     },
-                    template: "   <!-- ko if: isEnabled -->\n            <input data-bind=\"taricLookup: data,\n                attr: { 'aria-controls': listboxContainerId, 'aria-owns': listboxContainerId, 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" aria-autocomplete=\"list\">\n        <!-- /ko -->\n        <!-- ko ifnot: isEnabled -->\n            <input data-bind=\"value: data[displayMember].$asString,\n                attr: { 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" disabled/>\n        <!-- /ko -->"
+                    template: "   <!-- ko if: isEnabled -->\n            <input data-bind=\"taricLookup: data,\n                attr: { 'aria-controls': listboxContainerId, 'aria-owns': listboxContainerId, 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" aria-autocomplete=\"list\" role=\"combobox\">\n        <!-- /ko -->\n        <!-- ko ifnot: isEnabled -->\n            <input data-bind=\"value: data[displayMember].$asString,\n                attr: { 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" disabled/>\n        <!-- /ko -->"
                 });
             }
         })(referenceLookup = components.referenceLookup || (components.referenceLookup = {}));
@@ -87,13 +87,13 @@ var sffw;
                         source: findOptions,
                         messages: {
                             noResults: function () {
-                                return vm.localizeFn('ReferenceLookup$$noResultsFound');
+                                return vm.localizeFn('referenceLookup$$noResultsFound');
                             },
                             results: function (count) {
-                                var items = vm.localizeFn('ReferenceLookup$$numberOfFoundItems');
-                                var chooseOptText = vm.localizeFn('ReferenceLookup$$chooseOptionText');
+                                var items = vm.localizeFn('referenceLookup$$numberOfFoundItems');
+                                var chooseOptText = vm.localizeFn('referenceLookup$$chooseOptionText');
                                 var elementValue = $(element).val().trim();
-                                var tabKeyText = elementValue.length > 0 ? vm.localizeFn('ReferenceLookup$$tabSelectsTheFirstOption') : '';
+                                var tabKeyText = elementValue.length > 0 ? vm.localizeFn('referenceLookup$$tabSelectsTheFirstOption') : '';
                                 return items + " " + count + ". " + chooseOptText + " " + tabKeyText;
                             }
                         },
@@ -134,17 +134,22 @@ var sffw;
                             $(element).data('ui-autocomplete').menu.bindings = $();
                         },
                         close: function (event, ui) {
+                            var _a;
                             if (vm.panelClass != null && vm.panelClass !== '') {
                                 scrollPosition = -1;
                             }
                             $(element).attr('aria-expanded', 'false');
+                            var menu = $(element).data('ui-autocomplete').menu;
+                            (_a = menu.activeMenu) === null || _a === void 0 ? void 0 : _a.attr('aria-activedescendant', '');
+                            menu.activeMenu.find('.ui-menu-item').attr('aria-selected', 'false');
                         },
                         focus: function (event, ui) {
-                            var focused = $(element).data('ui-autocomplete').menu.active.children('.ui-menu-item-wrapper');
+                            var menu = $(element).data('ui-autocomplete').menu;
+                            var focused = menu.active;
                             if (focused.length > 0) {
                                 var focusid = focused.attr('id');
-                                $(element).attr('aria-activedescendant', focusid);
-                                $('.ui-autocomplete div').attr('aria-selected', 'false');
+                                menu.activeMenu.attr('aria-activedescendant', focusid);
+                                menu.activeMenu.find('.ui-menu-item').attr('aria-selected', 'false');
                                 focused.attr('aria-selected', 'true');
                             }
                         }
@@ -154,6 +159,12 @@ var sffw;
                     $ul.attr('role', 'listbox');
                     widget._itemIsSelectable = function (item) {
                         return true;
+                    };
+                    widget._renderMenu = function (ul, items) {
+                        $.each(items, function (index, item) {
+                            var li = widget._renderItemData(ul, item);
+                            li.attr('id', vm.listboxContainerId + "-" + index);
+                        });
                     };
                     function SetWarningTimeout(el) {
                         $(el).addClass('notifyRefusal');
@@ -169,7 +180,7 @@ var sffw;
                             sffw.safeWriteToAriaLiveRegion(message);
                         });
                     }
-                    $('.' + vm.panelClass).scroll(function (event) {
+                    $('.' + vm.panelClass).on('scroll', function (event) {
                         if (vm.panelClass !== null && vm.panelClass !== '' && typeof vm.panelClass !== 'undefined') {
                             var st = $(this).scrollTop();
                             if (scrollPosition !== -1) {
@@ -182,7 +193,7 @@ var sffw;
                         }
                     });
                     if (vm.minChars === 0) {
-                        $(element).focus(function () {
+                        $(element).on('focus', function () {
                             if ($(element).val() !== null && $(element).val() !== '') {
                                 $(element).autocomplete('search', $(element).val());
                             }
@@ -191,7 +202,7 @@ var sffw;
                             }
                         });
                     }
-                    $(element).blur(function (event, ui) {
+                    $(element).on('blur', function (event, ui) {
                         var referenceAtt = vm.data;
                         var descAtt = referenceAtt[vm.displayMember];
                         var elementValue = $(element).val().trim();
@@ -273,9 +284,10 @@ var sffw;
                     widget._renderMenu = function (ul, items) {
                         $.each(items, function (index, item) {
                             var li = widget._renderItemData(ul, item);
+                            li.attr('id', vm.listboxContainerId + "-" + index);
                             li.toggleClass('ui-state-disabled', item.disabled);
                             if (item.disabled) {
-                                li.attr('aria-label', item.label + " (" + vm.localizeFn('ReferenceLookup$$disabled') + ")");
+                                li.attr('aria-label', item.label + " (" + vm.localizeFn('referenceLookup$$disabled') + ")");
                             }
                         });
                     };

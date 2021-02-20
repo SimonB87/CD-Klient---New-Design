@@ -228,6 +228,9 @@ var sffw;
                 ListCtrlApi.prototype.getODataOrderByQueryParam = function () {
                     return this.listCtrlCore.getODataOrderByQueryParam();
                 };
+                ListCtrlApi.prototype.focusRecordByKey = function (args) {
+                    this.ctrlCore.focusRecordByKey(args.columnName, args.value);
+                };
                 ListCtrlApi.prototype.dispose = function () {
                     this.listCtrlCore.dispose();
                     this.listCtrlCore = null;
@@ -276,7 +279,7 @@ var sffw;
                     this.server = server;
                 }
                 // page number starting index is 1
-                ListDataProvider.prototype.loadData = function (listName, columns, pageSize, activePage, sortColumn, columnFilters, oDataFilter) {
+                ListDataProvider.prototype.loadData = function (listName, columns, pageSize, activePage, sortColumn, columnFilters, oDataFilter, inlineSearch) {
                     var _this = this;
                     return new Promise(function (resolve, reject) {
                         var baseUrl = (_this.server.listsUrl || '') + listName;
@@ -286,7 +289,7 @@ var sffw;
                         oDataParams.push('$select=' + _.map(columns, 'Name').join(','));
                         // paging
                         oDataParams.push("$top=" + pageSize);
-                        if (activePage > 1) {
+                        if (!inlineSearch && activePage > 1) {
                             oDataParams.push('$skip=' + (pageSize * (activePage - 1)));
                         }
                         oDataParams.push('$inlinecount=allpages');
@@ -315,6 +318,10 @@ var sffw;
                         }
                         if (oDataQueryFilter.length > 0) {
                             oDataParams.push('$filter=' + oDataQueryFilter.join(' and '));
+                        }
+                        if (inlineSearch) {
+                            var uriEncodedValue = sffw.replaceUriParamSpecialChars(inlineSearch.value);
+                            oDataParams.push("inlinesearch=(" + inlineSearch.columnName + " eq '" + uriEncodedValue + "')");
                         }
                         _this.server.sendRequest(baseUrl + '?' + oDataParams.join('&'))
                             .then(function (response) {
@@ -471,7 +478,7 @@ var sffw;
                         return '$filter=' + oDataQueryFilter.join(' and ');
                     }
                     else {
-                        return "";
+                        return '';
                     }
                 };
                 ListDataProvider.prototype.getODataOrderByQueryParam = function (sortColumn) {
@@ -483,7 +490,7 @@ var sffw;
                         return orderByParam;
                     }
                     else {
-                        return "";
+                        return '';
                     }
                 };
                 return ListDataProvider;
@@ -539,6 +546,7 @@ var sffw;
                     this.pageSize = ko.observable(20);
                     this.rowCount = ko.observable(0);
                     this.focusedRecordIndex = ko.observable();
+                    this.inlineSearch = ko.observable();
                     this.isViewSettingsComponentAvailable = ko.observable(false);
                     this.isViewSettingsComponentEnabled = ko.observable(false);
                     this.dataContext = dc;
@@ -626,12 +634,12 @@ var sffw;
                         this.isInitialized = true;
                     }
                     else {
-                        var tmpCols = [];
+                        var tmpCols_1 = [];
                         _(columns).each(function (c) {
                             var dCol = new DataColumn(c.Name, c.Caption, c.IsCaptionLocalized, c.DataType || 'string', c.FilterOperatorType || 'startswith', c.IsVisible !== false, c.DisplayColumnName, c.DisplayDataType, c.DisableRemove === true, c.AlwaysInvisible === true);
-                            tmpCols.push(dCol);
+                            tmpCols_1.push(dCol);
                         });
-                        var diff = _.differenceWith(tmpCols, this.originalColumns, _.isEqual);
+                        var diff = _.differenceWith(tmpCols_1, this.originalColumns, _.isEqual);
                         if (diff.length > 0) {
                             console.error('Attempt to initialize list controller from multiple list components.');
                         }
@@ -673,42 +681,25 @@ var sffw;
                     }
                     this.isLoading(true);
                     this.error(null);
-                    this.dataProvider.loadData(this.listName, this.columns, this.pageSize(), this.activePage(), this.sortColumn(), this.columnFilters(), this.oDataFilter())
+                    this.dataProvider.loadData(this.listName, this.columns, this.pageSize(), this.activePage(), this.sortColumn(), this.columnFilters(), this.oDataFilter(), this.inlineSearch())
                         .then(function (dataPage) {
-                        _this.rowCount(dataPage.count);
-                        _this.rows.removeAll();
-                        _.each(dataPage.records, function (r) {
-                            if (_this.autoPrefixReservedColumnNames) {
-                                for (var prop in r) {
-                                    if (Object.prototype.hasOwnProperty.call(r, prop)) {
-                                        // if prop name is reserved keyword, prefix it with underscore
-                                        if (sffw.isReservedKeyword(prop)) {
-                                            r["_" + prop] = r[prop];
-                                            delete r[prop];
-                                        }
-                                    }
-                                }
-                            }
-                            _this.rows.push(r);
-                        });
+                        _this.fillRows(dataPage, _this.inlineSearch());
+                        // inlinesearch nenalezl hledaný záznam - asi je mimo rozsah filtrů
+                        if (ko.unwrap(_this.inlineSearch) && dataPage.count > 0 && _this.rows().length === 0) {
+                            _this.loadFromProviderAndFillRows(_this.listName, _this.columns, _this.pageSize(), _this.activePage(), _this.sortColumn(), _this.columnFilters(), _this.oDataFilter());
+                        }
                         // skip na stránku 1 pokud při nastavení page nebo filtrů se dostaneme mimo rozsah
                         if (_this.rows().length === 0 && _this.activePage() > 1) {
                             _this.activePage(1);
-                            _this.dataProvider.loadData(_this.listName, _this.columns, _this.pageSize(), _this.activePage(), _this.sortColumn(), _this.columnFilters(), _this.oDataFilter())
-                                .then(function (dataPage1) {
-                                _this.rowCount(dataPage1.count);
-                                _.each(dataPage1.records, function (r) {
-                                    _this.rows.push(r);
-                                });
-                            });
+                            _this.loadFromProviderAndFillRows(_this.listName, _this.columns, _this.pageSize(), _this.activePage(), _this.sortColumn(), _this.columnFilters(), _this.oDataFilter());
                         }
                         var pageOffset = (_this.activePage() - 1) * _this.pageSize();
                         var rowCount = _this.rowCount();
                         var rowFrom = pageOffset + 1;
                         var rowTo = pageOffset + _this.pageSize();
                         rowTo = rowTo > rowCount ? rowCount : rowTo;
-                        var msg = _this.dataContext.$localize("ListCtrl$$showingDataAnnouncement");
-                        msg = msg.replace("{rowFrom}", rowFrom.toString()).replace("{rowTo}", rowTo.toString()).replace("{rowCount}", rowCount.toString());
+                        var msg = _this.dataContext.$localize('ListCtrl$$showingDataAnnouncement');
+                        msg = msg.replace('{rowFrom}', rowFrom.toString()).replace('{rowTo}', rowTo.toString()).replace('{rowCount}', rowCount.toString());
                         sffw.safeWriteToAriaLiveRegion(msg);
                         _this.isLoading(false);
                     })
@@ -728,6 +719,41 @@ var sffw;
                         _this.error(errorText);
                         sffw.safeWriteToAriaLiveRegion(errorText);
                         _this.isLoading(false);
+                    });
+                };
+                ListCtrlCore.prototype.loadFromProviderAndFillRows = function (listName, columns, pageSize, activePage, sortColumn, columnFilters, oDataFilter, inlineSearch) {
+                    var _this = this;
+                    this.dataProvider.loadData(listName, columns, pageSize, activePage, sortColumn, columnFilters, oDataFilter)
+                        .then(function (dataPage) {
+                        _this.fillRows(dataPage, inlineSearch);
+                    });
+                };
+                ListCtrlCore.prototype.fillRows = function (dataPage, inlineSearch) {
+                    var _this = this;
+                    this.rowCount(dataPage.count);
+                    this.rows.removeAll();
+                    _.each(dataPage.records, function (r) {
+                        if (_this.autoPrefixReservedColumnNames) {
+                            for (var prop in r) {
+                                if (Object.prototype.hasOwnProperty.call(r, prop)) {
+                                    // if prop name is reserved keyword, prefix it with underscore
+                                    if (sffw.isReservedKeyword(prop)) {
+                                        r["_" + prop] = r[prop];
+                                        delete r[prop];
+                                    }
+                                }
+                            }
+                        }
+                        if (inlineSearch) {
+                            var searchedRecord = _.find(dataPage.records, function (rr) {
+                                return rr['odata.search'] === true;
+                            });
+                            if (searchedRecord) {
+                                var idx = dataPage.records.indexOf(searchedRecord);
+                                _this.focusedRecordIndex(idx);
+                            }
+                        }
+                        _this.rows.push(r);
                     });
                 };
                 ListCtrlCore.prototype.clearStateObservables = function () {
@@ -1036,8 +1062,10 @@ var sffw;
                                     break;
                                 case 'paging':
                                     objState.paging = {};
-                                    objState.paging['activePage'] = _this.activePage();
-                                    objState.paging['pageSize'] = _this.pageSize();
+                                    var sname = 'activePage';
+                                    objState.paging[sname] = _this.activePage();
+                                    sname = 'pageSize';
+                                    objState.paging[sname] = _this.pageSize();
                                     break;
                             }
                         });
@@ -1235,6 +1263,11 @@ var sffw;
                 };
                 ListCtrlCore.prototype.getODataOrderByQueryParam = function () {
                     return this.dataProvider.getODataOrderByQueryParam(this.sortColumn());
+                };
+                ListCtrlCore.prototype.focusRecordByKey = function (columnName, value) {
+                    if (columnName && value && columnName.length > 0 && columnName.length > 0) {
+                        this.inlineSearch({ columnName: columnName, value: value });
+                    }
                 };
                 // #endregion
                 ListCtrlCore.prototype.getVisibleColumnsCore = function (allUnremovableFirst) {
