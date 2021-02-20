@@ -2399,10 +2399,15 @@ form.tabFilter.Tab11.Title = "Správa novinek"]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = true
 
+if isTrue(refreshCounts) then
+	form.apiobjects.listCtrl.setReady(false)
+endIf
+
 if form.tabFilter.SelectedTab.hasValue() then
 
 	if isTrue(form.tabFilter.SelectedTab = 1) then
         var basicIncompleteFilter = "(CustomsDecisionType eq 'OPO' or CustomsDecisionType eq 'IPO' or CustomsDecisionType eq 'TEA' or CustomsDecisionType eq 'CW1' or CustomsDecisionType eq 'CW2' or CustomsDecisionType eq 'CWP' or CustomsDecisionType eq 'EUS' or CustomsDecisionType eq 'CCL') and (EnhancementCompleteness eq '"
+        form.apiobjects.listCtrl.clearState()
         form.apiobjects.listCtrl.setInvisibleODataFilter(basicIncompleteFilter + "LastIncomplete')")
     endif
     if isTrue(form.tabFilter.SelectedTab = 2) then
@@ -2443,15 +2448,19 @@ if form.tabFilter.SelectedTab.hasValue() then
     if isTrue(form.tabFilter.SelectedTab = 11) then
         form.actions.newsChangeSeeNew(form.tabFilter.SelectedTab)
     endIf
-
+    
 endif
 
 if (not (form.tabFilter.SelectedTab in [10, 11])) then 
-	if refreshCounts then
+	if isTrue(refreshCounts) then
 	  form.actions.refreshIncompleteCounts()
 	endif
 	
 	form.apiobjects.listCtrl.setSorting("CustomsDecisionIssueDate:desc")
+endIf
+
+if isTrue(refreshCounts) then
+	form.apiobjects.listCtrl.setReady(true)
 endIf
 
 globals.fromTab = form.tabFilter.SelectedTab
@@ -2486,7 +2495,7 @@ var resp = apiobjects.ServerKomunikace.getAsync(url)
 
 var respContent = resp.getJsonString()
 
-if (isTrue(resp.isError()) OR (isTrue(resp.getMessageType() = "IN906A"))) then
+if (isTrue(resp.isError()) ) then
   form.incompleteCounts.last = 0
   system.consoleError(resp.getErrorMessage())
   system.consoleError("Response content: " + respContent)
@@ -2499,7 +2508,7 @@ var checkedUrl = "datasets/DatasetNoticesFull/$count/?$filter=(Checked eq 'Ne')"
 var response = apiobjects.ServerKomunikace.getAsync(checkedUrl)
 var responseContent = response.getJsonString()
 
-if (isTrue(response.isError()) OR (response.getMessageType() = "IN906A")) then
+if (isTrue(response.isError())) then
 	form.uiState.newsCount = 0
 else
 	form.uiState.newsCount = toInt(responseContent, -1)
