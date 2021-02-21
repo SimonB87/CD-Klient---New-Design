@@ -4,7 +4,7 @@
 > - **Autor**: Solitea a.s.
 > - **Tým**: Vojáček Petr, Šimon Buryan, Kopernický Filip, Metelka Tomáš
 
-## Interní
+## Interní infromace
 
 | **Edit Verze**       | "1.09.04"                  |
 | -------------------- | -------------------------- |
@@ -12,17 +12,64 @@
 | **Název**            | "Klient Customs Decisions" |
 | **Titul**            | "CD Klient"                |
 
-## 1.07.02 - 02.04.2020 20:00 Šimon
+## Verze
 
-### #RFC07442:
+- 1.09.04 - 17.02.2021 15:30 Šimon
 
-- v detailu povolení změněno chování záložky "Přílohy":
-  - zobrazena vždy, popisek záložky ukazuje celkový počet přiožených příloh
-  - pracovník CS může nahrávat nové přílohy, přikládat přílohy ze starších verzí povolení, přikládat přílohy od stejného držitele celního rozhodnutí z jiných povolení
+- 1.09.03 - 15.02.2021 08:30 Šimon
 
-### #RFC07441:
+- 1.09.02 - 21.01.2021 16:55 Šimon
 
-- úpravy části "Národní údaje" pro obohacení
-  - dodány podrobnější infromace pro uživatele o výsledku procesu validace obohacení
-  - přidání odchozí zprávy do centra v případě, kdy obohacení vykáže chybu
-  - přehlednější rozložení sekce obohacení na obrazovce
+- 1.09.01 - 22.12.2020 17:55 Šimon
+
+- 1.09.00 - 04.12.2020 11:55 Šimon
+
+- 1.08.06 - 05.10.2020 13:29 Šimon
+
+- 1.08.05 - 25.09.2020 11:15 Šimon
+
+- 1.08.04 - 24.09.2020 11:59 Šimon
+
+- 1.08.03 - 22.09.2020 11:59 Šimon
+
+- 1.08.02 - 15.09.2020 23:55 Šimon
+
+- 1.08.01 - 07.09.2020 23:55 Šimon
+
+- 1.08.00 - 30.08.2020 11:15 Šimon
+
+- 1.07.06 - 19.06.2020 11:55 Šimon
+
+- 1.07.05 - 01.06.2020 16:00 Šimon
+
+- 1.07.04 - 26.05.2020 16:00 Šimon
+
+- 1.07.03 - 15.05.2020 08:30 Šimon
+
+- 1.07.02 - 02.04.2020 20:00 Šimon
+
+- 1.07.01 - 16.12.2019 12:05 Metalíza
+
+- 1.07.00 - 10.12.2019 12:00 Metalíza
+
+- 1.06.01 - 16.04.2019 12:10 Metalíza
+
+- 1.06.00 - 28.03.2019 20:45 Metalíza
+
+- 1.05.01 - 05.12.2018 10:00 Metalíza
+
+- 1.05.00 - 28.11.2018 21:00 Metalíza
+
+- 1.04.00 - 02.11.2018 12:30 Metalíza
+
+- 1.03.04 - 12.07.2018 16:30 xion
+
+- 1.03.03 - 12.06.2018 14:00 xion
+
+- 1.03.02 - 15.05.2018 10:30 xion
+
+- 1.03.01 - 20.04.2018 12:15 xion
+
+- 1.03.00 - 17.04.2018 15:15 xion
+
+- 1.02.11 - 27.03.2018 16:00 xion
