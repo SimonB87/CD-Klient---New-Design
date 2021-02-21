@@ -2194,7 +2194,6 @@ else
 	form.actions.initTabFilter()
 	
 	form.actions.refreshIncompleteCounts()
-	//form.actions.startWithIncompleteCounts()
 	
 	if isTrue(globals.listState = defaultString()) then
 		// set defaults
@@ -2842,16 +2841,6 @@ endIf
         <Script><![CDATA[var url = apiobjects.urlRouter.findFormUrl(navigation.main.decllistForm.fullName)
 
 url.updatePageUrl()]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="startWithIncompleteCounts" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var basicIncompleteFilter = "(CustomsDecisionType eq 'OPO' or CustomsDecisionType eq 'IPO' or CustomsDecisionType eq 'TEA' or CustomsDecisionType eq 'CW1' or CustomsDecisionType eq 'CW2' or CustomsDecisionType eq 'CWP' or CustomsDecisionType eq 'EUS' or CustomsDecisionType eq 'CCL') and (EnhancementCompleteness eq '"
-form.apiobjects.listCtrl.setInvisibleODataFilter(basicIncompleteFilter + "LastIncomplete')")]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
