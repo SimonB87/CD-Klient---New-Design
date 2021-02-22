@@ -739,7 +739,7 @@
             <ServerValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
               <Name value="serverValidationSummary" />
               <Panel.Height value="#" />
-              <Panel.Width value="*" />
+              <Panel.Width value="50%" />
               <Bindings>
                 <Binding SourceProperty="validationErrors" Expression="form.error.serverValidationErrors" />
                 <Binding SourceProperty="isVisible" Expression="form.formState.visibilities.isValidationsVisible" />
@@ -753,6 +753,35 @@
                 </validationSummaryColumn>
               </columns>
             </ServerValidationSummary>
+            <ClientValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+              <Name value="clientValidationSummary" />
+              <Panel.Height value="#" />
+              <Panel.Width value="50%" />
+              <Bindings>
+                <Binding SourceProperty="validationErrors" Expression="form.error.clientValidationErrors" />
+                <Binding SourceProperty="validationRoot" Expression="form.model" />
+                <Binding SourceProperty="isVisible" Expression="form.formState.visibilities.isValidationsVisible" />
+              </Bindings>
+              <columns>
+                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                  <Name value="clientValCol_message" />
+                  <columnCaption value="Zpráva" />
+                  <propertyName value="Message" />
+                </validationSummaryColumn>
+                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                  <Name value="clientValCol_pointer" />
+                  <columnCaption value="Místo" />
+                  <columnRole value="pointer" />
+                  <propertyName value="Pointer" />
+                </validationSummaryColumn>
+              </columns>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-clientvalidationsummary" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </ClientValidationSummary>
           </Children>
           <CssClass>
             <CssClassConditional>
@@ -812,7 +841,7 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
-                        <ActionEvent ReferencedAction="~action1" />
+                        <ActionEvent ReferencedAction="~clearUserNotifications" />
                       </OnClick>
                       <CssClass>
                         <CssClassConditional>
@@ -4608,9 +4637,7 @@
         <Attribute>
           <Name value="lifeCycleMode" />
           <Caption value="Life cycle mode" />
-          <DeclaredType>
-            <AttributeType />
-          </DeclaredType>
+          <MetaType reference="+MetaTypes.decisionsState" />
         </Attribute>
         <Complex>
           <Name value="model" />
@@ -4636,7 +4663,6 @@
                     <Reference>
                       <Name value="ZADUZAM" />
                       <Caption value="ZADUZAM" />
-                      <IsRequired value="True" />
                       <Children>
                         <Attribute>
                           <Name value="ZADUZAM" />
@@ -4663,6 +4689,24 @@
                           </Expression>
                         </Computed>
                       </Children>
+                      <Validators>
+                        <Validator Name="requiredRejectionReason">
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Pro Zrušení žádosti je nutné vyplnit Důvod"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(form.lifeCycleMode in [ enums.decisionsState.applicationReject , enums.decisionsState.applicationRejectModify ]) ? 
+	(this.ZADUZAM.isEmpty() ? false : true ) : 
+	true]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Reference>
                     <Computed>
                       <Name value="requiredMarkAR" />
@@ -4683,7 +4727,6 @@
                     <Reference>
                       <Name value="POVOLDUOD" />
                       <Caption value="POVOLDUOD" />
-                      <IsRequired value="True" />
                       <Children>
                         <Attribute>
                           <Name value="POVOLDUOD" />
@@ -4710,6 +4753,24 @@
                           </Expression>
                         </Computed>
                       </Children>
+                      <Validators>
+                        <Validator Name="requiredWithdrawalReason">
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Pro Zneplatnění povolení je nutné vyplnit Důvod"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(form.lifeCycleMode in [ enums.decisionsState.authorizeWithdrawal , enums.decisionsState.authorizeWithdrawalModify, enums.decisionsState.authorizeCancellation, enums.decisionsState.authorizeCancellationModify ]) ? 
+	(this.POVOLDUOD.isEmpty() ? false : true ) : 
+	true]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Reference>
                     <Computed>
                       <Name value="requiredMarkAW" />
@@ -4730,7 +4791,6 @@
                     <Reference>
                       <Name value="authorizationSuspendingReasonReference" />
                       <Caption value="Upravit Důvod pozastavení povolení" />
-                      <IsRequired value="True" />
                       <Children>
                         <Attribute>
                           <Name value="authorizationSuspendingReason" />
@@ -4757,6 +4817,24 @@
                           </Expression>
                         </Computed>
                       </Children>
+                      <Validators>
+                        <Validator Name="requiredSuspendingReason">
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Pro Pozastavení povolení je nutné vyplnit Důvod"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(form.lifeCycleMode in [ enums.decisionsState.authorizeSuspending , enums.decisionsState.authorizeSuspendingModify ]) ? 
+	(this.authorizationSuspendingReasonReference.isEmpty() ? false : true ) : 
+	true]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Reference>
                     <Computed>
                       <Name value="requiredMarkAS" />
@@ -5073,7 +5151,7 @@
                                 </ResultType>
                               </ErrorMessage>
                               <IsValid IsValid="True">
-                                <ExpressionText><![CDATA[(form.lifeCycleMode in ["authorize", "authorizeModify"]) and ( form.authorizationType = "SAR" ) and ( this.GuaranteeType.ZJPZAJIST.hasValue() ) ? 
+                                <ExpressionText><![CDATA[(form.lifeCycleMode in [enums.decisionsState.authorize , enums.decisionsState.authorizeModify]) and ( form.authorizationType = "SAR" ) and ( this.GuaranteeType.ZJPZAJIST.hasValue() ) ? 
 	(isTrue(this.GuaranteeID.hasValue()) ) ? true : false 
 	: 
 	true]]></ExpressionText>
@@ -5103,7 +5181,7 @@
                                 </ResultType>
                               </ErrorMessage>
                               <IsValid IsValid="True">
-                                <ExpressionText><![CDATA[(form.lifeCycleMode in ["authorize", "authorizeModify"]) and ( form.authorizationType = "SAR" ) and ( this.GuaranteeType.ZJPZAJIST.hasValue() ) ? 
+                                <ExpressionText><![CDATA[(form.lifeCycleMode in [enums.decisionsState.authorize , enums.decisionsState.authorizeModify]) and ( form.authorizationType = "SAR" ) and ( this.GuaranteeType.ZJPZAJIST.hasValue() ) ? 
 	(isTrue(this.GuaranteeState.hasValue()) ) ? 
 		(isTrue(this.GuaranteeState = "1") ? true : false) 
 		: false 
@@ -5145,7 +5223,6 @@
                     <Attribute>
                       <Name value="IsFulltext" />
                       <Caption value="Je plný text či jen doplněk plného textu?" />
-                      <IsRequired value="True" />
                       <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/File/IsFulltext" />
                       <MtsImportOptions.MTS.Type value="element" />
                       <DeclaredType>
@@ -5153,11 +5230,26 @@
                           <BaseType value="Bool" />
                         </AttributeType>
                       </DeclaredType>
+                      <Validators>
+                        <Validator Name="requiredIsFulltext">
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Vyplňte všechny náležitosti pro přidání přílohy"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[( hasvalue(this.FileContent) = true ) AND ( hasValue(attr) = true ) ? false : true]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                     <Attribute>
                       <Name value="FileName" />
                       <Caption value="Název souboru" />
-                      <IsRequired value="True" />
                       <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/File/FileName" />
                       <MtsImportOptions.MTS.Type value="element" />
                       <DeclaredType>
@@ -5165,11 +5257,26 @@
                           <StrMaxLength value="255" />
                         </AttributeType>
                       </DeclaredType>
+                      <Validators>
+                        <Validator Name="requiredFileName">
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Vyplňte všechny náležitosti pro přidání přílohy"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[( hasvalue(this.FileContent) = true ) AND ( hasValue(attr) = true ) ? false : true]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                     <Attribute>
                       <Name value="FileType" />
                       <Caption value="Typ souboru" />
-                      <IsRequired value="True" />
                       <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/File/FileType" />
                       <MtsImportOptions.MTS.Type value="element" />
                       <DeclaredType>
@@ -5181,7 +5288,6 @@
                     <Attribute>
                       <Name value="FileContent" />
                       <Caption value="Obsah souboru" />
-                      <IsRequired value="True" />
                       <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileContent" />
                       <MtsImportOptions.MTS.Type value="element" />
                       <DeclaredType>
@@ -6307,6 +6413,24 @@
                 </Computed>
               </Children>
             </Complex>
+            <Complex>
+              <Name value="validations" />
+              <Caption value="Validations" />
+              <Children>
+                <Computed>
+                  <Name value="periodsErrorMessage_ACP_SAR" />
+                  <Caption value="Periods error message _ ACP _ SAR" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[isTrue(form.authorizationType = "SAR") ? 
+	"Doplňte aspoň jednu položku \"Lhůty\" na záložce \"Lhůty a zajištění\" v sekci \"Lhůty\"." : 
+	(isTrue(form.authorizationType = "ACP") ? "Doplňte aspoň jednu položku \"Lhůty\" na záložce \"Rozšířené\" v sekci \"Lhůty\"." : "")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
             <Attribute>
               <Name value="modelJson" />
               <Caption value="Model json" />
@@ -6898,6 +7022,33 @@
                 </Collection>
               </Children>
             </Complex>
+            <Collection>
+              <Name value="clientValidationErrors" />
+              <Caption value="Client validation errors" />
+              <Children>
+                <Attribute>
+                  <Name value="Message" />
+                  <Caption value="Message" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Pointer" />
+                  <Caption value="Pointer" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Type" />
+                  <Caption value="Type" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Collection>
           </Children>
         </Complex>
       </Children>
@@ -6963,7 +7114,29 @@
         </Modifier>
         <Modifier>
           <Name value="modifier_7DC72A68_Period" />
+          <ShowAsChanges value="True" />
           <SourcePath value="model.modelStructure.ASEO.Event.Period" />
+          <CollectionValidators>
+            <Validator Name="requiredPeriods">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA[form.formState.validations.periodsErrorMessage_ACP_SAR]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(form.lifeCycleMode in [ enums.decisionsState.authorize, enums.decisionsState.authorizeModify ]) ? 
+	(isTrue( (form.authorizationType in ["ACP","SAR"]) ) ? 
+		( ((this.Period.exists(current.hasValue()) = false ) ? false : 
+			(this.Period.count() < 1) ? false : true) ) : 
+		true ) : 
+	true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </CollectionValidators>
         </Modifier>
         <Modifier>
           <Name value="modifier_DA3EC415_ASEO" />
@@ -7078,7 +7251,11 @@
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[substring(this.ResponsiblePersonPhone, 1, 1) = "+"]]></ExpressionText>
+                <ExpressionText><![CDATA[isTrue(form.lifeCycleMode in [ enums.decisionsState.authorize, enums.decisionsState.authorizeModify ]) ? 
+	( isTrue(hasValue(this.ResponsiblePersonPhone)) ? 
+		( isTrue(substring(this.ResponsiblePersonPhone, 1, 1) = "+") ? true : false ) : 
+	true) : 
+true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -7100,6 +7277,22 @@
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$") : true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+            <Validator Name="val1">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Email je povinný, pokud \"Zodpovědná osoba chce být notifikována\"."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(form.lifeCycleMode in [ enums.decisionsState.authorize, enums.decisionsState.authorizeModify ]) ? 
+	((isTrue(this.ResponsiblePersonWantsToBeNotified) AND (hasValue(this.ResponsiblePersonEMail) = false)) ? false : true) : 
+	true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -7162,7 +7355,7 @@
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(form.lifeCycleMode in ["authorize", "authorizeModify"]) and ( form.authorizationType = "SAR" ) and ( this.key.hasValue() ) ? 
+                <ExpressionText><![CDATA[(form.lifeCycleMode in [ enums.decisionsState.authorize , enums.decisionsState.authorizeModify ]) and ( form.authorizationType = "SAR" ) and ( this.key.hasValue() ) ? 
 	(isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "MES") ) ? true : false 
 	: 
 	true]]></ExpressionText>
@@ -7186,7 +7379,7 @@
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(form.lifeCycleMode in ["authorize", "authorizeModify"]) and ( form.authorizationType = "SAR" ) and ( this.GuaranteeType.hasValue() ) ? 
+                <ExpressionText><![CDATA[(form.lifeCycleMode in [enums.decisionsState.authorize , enums.decisionsState.authorizeModify]) and ( form.authorizationType = "SAR" ) and ( this.GuaranteeType.hasValue() ) ? 
 	(isTrue(this.GuaranteeID.hasValue()) ) ? true : false 
 	: 
 	true]]></ExpressionText>
@@ -7210,7 +7403,7 @@
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(form.lifeCycleMode in ["authorize", "authorizeModify"]) and ( form.authorizationType = "SAR" ) and ( this.GuaranteeType.hasValue() ) ? 
+                <ExpressionText><![CDATA[(form.lifeCycleMode in [enums.decisionsState.authorize , enums.decisionsState.authorizeModify]) and ( form.authorizationType = "SAR" ) and ( this.GuaranteeType.hasValue() ) ? 
 	(isTrue(this.GuaranteeState.hasValue()) ) ? 
 		(isTrue(this.GuaranteeState = "Platná") ? true : false) 
 		: false 
@@ -7222,6 +7415,154 @@
               </IsValid>
             </Validator>
           </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_F97E7430_TIRHolder" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.SPTIR.TIRHolder" />
+          <Validators>
+            <Validator Name="requiredTIRHolder">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["ID držitele karnetu TIR je pro toto povolení povinné."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[( 
+	(form.lifeCycleMode in [ enums.decisionsState.authorize, enums.decisionsState.authorizeModify ]) AND
+	(isTrue(form.authorizationType = "TIR")) AND
+	(hasValue(form.model.modelStructure.ASEO.Event.SPTIR.TIRHolder) = false ) 
+) ? 
+	false : 
+	true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_928F4AB5_ApplicationRejectionDescription" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription" />
+          <Validators>
+            <Validator Name="validateRejectionDesciptionCodeJ">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Vyplňte \"Popis důvodu zamítnutí\", pokud je kód pro \"Upravit Důvod zamítnuté žádosti\" roven J"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(isTrue(form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM = "J") AND
+(length(form.model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription) < 2 ) ) ?
+ 	false : true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_7C1DEB8D_AuthorizationWithdrawalDescription" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription" />
+          <Validators>
+            <Validator Name="validateWithdrawalCancellationDescriptionCodeJ">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Vyplňte \"Popis Důvodu\", pokud je kód pro \"Změnit typ Důvodu\" roven J"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(isTrue(form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.POVOLDUOD = "J") AND
+(length(form.model.modelStructure.ASEO.Event.authorizationWithdrawal.AuthorizationWithdrawalDescription ) < 2 ) ) ?
+ 	false : true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_69759DCD_AuthorizationSuspendingDescription" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription" />
+          <Validators>
+            <Validator Name="validateSuspendingDescriptionCodeJ">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Vyplňte \"Důvod pozastavení povolení\", pokud je kód pro \"Upravit Důvod pozastavení povolení\" roven J"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(isTrue(form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason = "J") AND
+(length(form.model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription ) < 2 ) ) ?
+ 	false : true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_99A80F3D_SPTIR" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.SPTIR" />
+          <Validators>
+            <Validator Name="requiredTIRcarnetID">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["ID držitele karnetu TIR je pro toto povolení povinné."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(form.lifeCycleMode in [ enums.decisionsState.authorize, enums.decisionsState.authorizeModify ]) ? 
+	(isTrue( form.authorizationType in ["TIR"] ) ? 
+			((this.SPTIR.isEmpty() ) ? false : true ) : 
+		true) :
+	true
+	]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_63849DBF_Guarantee" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.Guarantee" />
+          <CollectionValidators>
+            <Validator Name="requiredGuaranteeSAR">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Doplňte aspoň 1 záznam do sekce \"Zajištění celního dluhu\" na záložce \"Lhůty a zajištění\"."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(form.lifeCycleMode in [ enums.decisionsState.authorize, enums.decisionsState.authorizeModify ]) ? 
+	(isTrue( (form.authorizationType in ["SAR"]) ) ? 
+		( ( this.Guarantee.exists(current.hasValue() = false ) ? false : 
+			(this.Guarantee.count() < 1) ? false : true) ) : 
+		true ) : 
+	true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </CollectionValidators>
         </Modifier>
       </Modifiers>
     </DataContext>
@@ -7254,6 +7595,7 @@ form.actions.prepareButtonActionText()
 form.formState.visibilities.showVersionHistory = false
 form.isLastVersionSelected = true
 form.components.tabsMenu.SelectedTab = 1
+form.lifeCycleMode = enums.decisionsState.detail
 
 if form.authorizationType in ["TIR", "ACP"] then
 	form.model.sekce3zbozi.negativeCollectionView = false
@@ -7875,55 +8217,52 @@ form.actions.checkGuaranteeValidity()
 form.formState.responseResult = defaultBool()
 form.formState.validationSucess = defaultBool()
 
-if isTrue(form.formState.invalidGuarantee = true) then
-	form.actions.showErorrNotificationMessage("Jedna ze záruk není validní.", false)
-	form.formState.validationSucess = false
-else
+if isTrue(form.model.isValid()) then
 
-	form.formState.validationSucess = true
-
-	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form.requests.ASEOmegaMessage.toJson())
-	
-	result = form.formState.responseResult
-		
-	if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
-		system.console(response.getErrorMessage())
-		form.actions.showErorrNotificationMessage("Nastala chyba. Nemohlo být vydání povolení provedeno.", true)
-			
-		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
-			
-		if ( (form.authorizationType = "TIR") and (not form.requests.ASEOmegaMessage.ASEO.Event.SPTIR.TIRHolder.hasValue()) ) then
-			form.model.modelStructure.ASEO.Event.SPTIR.setTouched(true)
-			form.actions.showErorrNotificationMessage("Doplňte Údaj \"ID držitele karnetu TIR\" v záložce \"Povolení\".", true)
-		endIf
-			
-		if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
-			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Povolení\".", true)
-		endIf
-			
-		if ( form.authorizationType in ["ACP", "SAR"] ) and (not form.requests.ASEOmegaMessage.ASEO.Event.Period.hasValue()) then
-			form.actions.showErorrNotificationMessage("Doplňte aspoň jednu položku \"Lhůty\" v záložce \"Rozšířené\".", true)
-		endIf
-			
-		// setTouch so the user sees, what si missing from submission
-		form.model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.setTouched(true)
-		form.model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.setTouched(true)
-		form.formState.responseResult = false
-		result = form.formState.responseResult
+	if isTrue(form.formState.invalidGuarantee = true) then
+		form.actions.showErorrNotificationMessage("Jedna ze záruk není validní.", false)
+		form.formState.validationSucess = false
 	else
-		form.model.modelStructure.ASEO.clear()
-			
-		var messageString = form.actions.getAuthorisationMessage()
-			
-		form.actions.showErorrNotificationMessage(messageString, false)
-		form.VersionGUID = defaultString()
-		form.actions.loadAseoData(form.GUID)
-		form.formState.responseResult = true
+	
+		form.formState.validationSucess = true
+	
+		var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form.requests.ASEOmegaMessage.toJson())
+		
 		result = form.formState.responseResult
+			
+		if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
+			system.console(response.getErrorMessage())
+			form.actions.showErorrNotificationMessage("Nastala chyba. Nemohlo být vydání povolení provedeno.", true)
+				
+			form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+
+				
+			if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
+				form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Povolení\".", true)
+			endIf
+
+			form.formState.responseResult = false
+			result = form.formState.responseResult
+		else
+			form.model.modelStructure.ASEO.clear()
+				
+			var messageString = form.actions.getAuthorisationMessage()
+				
+			form.actions.showErorrNotificationMessage(messageString, false)
+			form.VersionGUID = defaultString()
+			form.actions.loadAseoData(form.GUID)
+			form.formState.responseResult = true
+			result = form.formState.responseResult
+		endIf
+		
+		form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+		
 	endIf
-	
-	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
-	
+
+else
+	form.actions.validErr_clearPrevious()
+	form.formState.visibilities.isValidationsVisible = True	
+	form.actions.showErorrNotificationMessage("Povolení vykazuje chyby. Opravte je před zasláním", true)
 endIf
 
 if form.formState.responseResult = defaultBool() then
@@ -8201,43 +8540,51 @@ form.actions.editDataBeforePosting("ASEOSPApplicationRejection")
 
 form.actions.validErr_clearPrevious()	
 
-var responseResult = defaultBool()
-result = responseResult
-var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
-
-if isTrue(checkNecessaryReason = true) then
-
-	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejection", form.requests.ASEOmegaMessage.toJson())
-
-	if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
-		system.console(response.getErrorMessage())
-		form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohlo být zamítnutí uděleno.", true)
-		
-		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
-		
-		if not form.model.lifeCycleSupport.applicationRejection.hasValue() then
-			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zamítnuti žádosti\".", true)
+if form.model.isValid() then
+	
+	var responseResult = defaultBool()
+	result = responseResult
+	var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
+	
+	if isTrue(checkNecessaryReason = true) then
+	
+		var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejection", form.requests.ASEOmegaMessage.toJson())
+	
+		if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
+			system.console(response.getErrorMessage())
+			form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohlo být zamítnutí uděleno.", true)
+			
+			form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+			
+			if not form.model.lifeCycleSupport.applicationRejection.hasValue() then
+				form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zamítnuti žádosti\".", true)
+			endIf
+			
+			form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(true)
+			responseResult = false
+			result = responseResult
+		else
+			form.model.modelStructure.ASEO.clear()
+			form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k zamítnutí žádosti.", false)
+			form.VersionGUID = defaultString()
+			form.actions.loadAseoData(form.GUID, form.VersionGUID)
+			responseResult = true
+			result = responseResult
 		endIf
 		
-		form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(true)
-		responseResult = false
-		result = responseResult
+		form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+		
 	else
-		form.model.modelStructure.ASEO.clear()
-		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k zamítnutí žádosti.", false)
-		form.VersionGUID = defaultString()
-		form.actions.loadAseoData(form.GUID, form.VersionGUID)
-		responseResult = true
-		result = responseResult
+		form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 	endIf
 	
-	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
-	
-else
-	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
-endIf
+	form.actions.editDataAfterPosting("ASEOSPApplicationRejection", responseResult)
 
-form.actions.editDataAfterPosting("ASEOSPApplicationRejection", responseResult)
+else
+	form.actions.validErr_clearPrevious()
+	form.formState.visibilities.isValidationsVisible = True	
+	form.actions.showErorrNotificationMessage("Povolení vykazuje chyby. Opravte je před zasláním", true)
+endIf
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
@@ -8324,18 +8671,6 @@ globals.IsBusy = False]]></Script>
             </Attribute>
           </Children>
         </ActionDataContext>
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="action1" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.formState.notifications.operationResultMessage.clear()
-form.formState.notifications.visibleNoticeWindow = false
-form.formState.currentDateTime = getDateTime()]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
       </DataContext>
     </ActionBlock>
     <ActionBlock>
@@ -8933,7 +9268,7 @@ globals.IsBusy = False]]></Script>
       <Name value="validErr_clearPrevious" />
       <Category value="lifeCyclePostingSetUp" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.error.clear()
+        <Script><![CDATA[form.error.serverValidationErrors.clear()
 form.formState.visibilities.isValidationsVisible = False]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -8980,6 +9315,10 @@ form.formState.visibilities.isValidationsVisible = True
 var postingSuccess = defaultBool()
 
 if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.ValidityStartDate then
+
+//test
+form.formState.visibilities.isValidationsVisible = True	
+//test
 	
 	form.actions.clearPreviousNotifications()
 	
@@ -9088,7 +9427,7 @@ form.formState.lifeCycle.actionConfirm.actionName = actionName]]></Script>
 	form.actions.prepareFormForEdit()
 	form.actions.initTabMenu()
 		
-	form.lifeCycleMode = "applicationModify"
+	form.lifeCycleMode = enums.decisionsState.applicationModify
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9126,7 +9465,7 @@ endIf
 	form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
 	form.components.tabsMenu.SelectedTab = 10
 	
-	form.lifeCycleMode = "applicationReject"
+	form.lifeCycleMode = enums.decisionsState.applicationReject
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9163,7 +9502,7 @@ endIf]]></Script>
 	form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
 	form.components.tabsMenu.SelectedTab = 10
 	
-	form.lifeCycleMode = "applicationRejectModify"
+	form.lifeCycleMode = enums.decisionsState.applicationRejectModify
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9221,7 +9560,7 @@ endIf]]></Script>
 	endIf
 	
 	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
-	form.lifeCycleMode = "authorize"
+	form.lifeCycleMode = enums.decisionsState.authorize
 	
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9278,7 +9617,7 @@ endIf
 	endIf
 	
 	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
-	form.lifeCycleMode = "authorizeModify"
+	form.lifeCycleMode = enums.decisionsState.authorizeModify
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9319,7 +9658,7 @@ endIf]]></Script>
 	
 	tabs.Tab09rezimy.isVisible = false
 	
-	form.lifeCycleMode = "authorizeWithdrawal"
+	form.lifeCycleMode = enums.decisionsState.authorizeWithdrawal
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9360,7 +9699,7 @@ endIf]]></Script>
 	
 	tabs.Tab09rezimy.isVisible = false
 	
-	form.lifeCycleMode = "authorizeWithdrawalModify"
+	form.lifeCycleMode = enums.decisionsState.authorizeWithdrawalModify
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9400,7 +9739,7 @@ endIf]]></Script>
 	
 	tabs.Tab09rezimy.isVisible = false
 	
-	form.lifeCycleMode = "authorizeSuspending"
+	form.lifeCycleMode = enums.decisionsState.authorizeSuspending
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9440,7 +9779,7 @@ endIf]]></Script>
 	
 	tabs.Tab09rezimy.isVisible = false
 	
-	form.lifeCycleMode = "authorizeSuspendingModify"
+	form.lifeCycleMode = enums.decisionsState.authorizeSuspendingModify
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9481,7 +9820,7 @@ endIf]]></Script>
 	
 	tabs.Tab09rezimy.isVisible = false
 	
-	form.lifeCycleMode = "authorizeCancellation"
+	form.lifeCycleMode = enums.decisionsState.authorizeCancellation
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9522,7 +9861,7 @@ endIf]]></Script>
 	
 	tabs.Tab09rezimy.isVisible = false
 	
-	form.lifeCycleMode = "authorizeCancellationModify"
+	form.lifeCycleMode = enums.decisionsState.authorizeCancellationModify
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9599,6 +9938,8 @@ form.formState.visibilities.showHistorySesctions = true
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 form.components.tabsMenu.Tab07prehodnoceni.isVisible = True
 form.formState.lifeCycle.showActionButtonPanel = true
+
+form.actions.clearUserNotifications()
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
@@ -10212,11 +10553,11 @@ endIf]]></Script>
 	
 	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 	tabs.SelectedTab = 11
-	 tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"
+	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"
 	 
-	 tabs.Tab09rezimy.isVisible = false
+	tabs.Tab09rezimy.isVisible = false
 	 
-	 form.lifeCycleMode = "authorizeWithdrawal"
+	form.lifeCycleMode = enums.decisionsState.authorizeWithdrawal
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -10692,6 +11033,17 @@ url.updatePageUrl()]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.formState.notifications.operationResultMessage.clear()
 form.formState.notifications.visibleNoticeWindow = false]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="clearUserNotifications" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.formState.notifications.operationResultMessage.clear()
+form.formState.notifications.visibleNoticeWindow = false
+form.formState.currentDateTime = getDateTime()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
