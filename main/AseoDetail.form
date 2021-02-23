@@ -4662,7 +4662,7 @@
                   <Children>
                     <Reference>
                       <Name value="ZADUZAM" />
-                      <Caption value="ZADUZAM" />
+                      <Caption value="Upravit Důvod zamítnuté žádosti" />
                       <Children>
                         <Attribute>
                           <Name value="ZADUZAM" />
@@ -4692,15 +4692,16 @@
                       <Validators>
                         <Validator Name="requiredRejectionReason">
                           <ErrorMessage IsValid="True">
-                            <ExpressionText><![CDATA["Pro Zrušení žádosti je nutné vyplnit Důvod"]]></ExpressionText>
+                            <ExpressionText><![CDATA["Pro Zamítnutí žádosti je nutné povinně vyplnit \"Upravit Důvod zamítnuté žádosti\""]]></ExpressionText>
                             <ResultType>
                               <BaseType value="String" />
                             </ResultType>
                           </ErrorMessage>
                           <IsValid IsValid="True">
-                            <ExpressionText><![CDATA[(form.lifeCycleMode in [ enums.decisionsState.applicationReject , enums.decisionsState.applicationRejectModify ]) ? 
+                            <ExpressionText><![CDATA[true /*
+(form.lifeCycleMode in [ enums.decisionsState.applicationReject , enums.decisionsState.applicationRejectModify ]) ? 
 	(this.ZADUZAM.isEmpty() ? false : true ) : 
-	true]]></ExpressionText>
+	true*/]]></ExpressionText>
                             <ResultType>
                               <BaseType value="Bool" />
                             </ResultType>
@@ -4719,6 +4720,25 @@
                       </Expression>
                     </Computed>
                   </Children>
+                  <Validators>
+                    <Validator Name="requiredValidSupportRejection">
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Tato akce vyžaduje doplnění důvodu (uvedeno v níže specifikované validaci)."]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(form.lifeCycleMode in 
+	[enums.decisionsState.applicationReject, enums.decisionsState.applicationRejectModify] ) ? 
+	(form.model.lifeCycleSupport.applicationRejection.isEmpty() ? false : true) : 
+	true]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
                 </Complex>
                 <Complex>
                   <Name value="authorizationWithdrawal" />
@@ -4726,7 +4746,7 @@
                   <Children>
                     <Reference>
                       <Name value="POVOLDUOD" />
-                      <Caption value="POVOLDUOD" />
+                      <Caption value="Změnit typ Důvodu" />
                       <Children>
                         <Attribute>
                           <Name value="POVOLDUOD" />
@@ -4756,15 +4776,16 @@
                       <Validators>
                         <Validator Name="requiredWithdrawalReason">
                           <ErrorMessage IsValid="True">
-                            <ExpressionText><![CDATA["Pro Zneplatnění povolení je nutné vyplnit Důvod"]]></ExpressionText>
+                            <ExpressionText><![CDATA["Pro Zneplatnění povolení je nutné vyplnit \"Změnit typ Důvodu\"."]]></ExpressionText>
                             <ResultType>
                               <BaseType value="String" />
                             </ResultType>
                           </ErrorMessage>
                           <IsValid IsValid="True">
-                            <ExpressionText><![CDATA[(form.lifeCycleMode in [ enums.decisionsState.authorizeWithdrawal , enums.decisionsState.authorizeWithdrawalModify, enums.decisionsState.authorizeCancellation, enums.decisionsState.authorizeCancellationModify ]) ? 
+                            <ExpressionText><![CDATA[true /*
+(form.lifeCycleMode in [ enums.decisionsState.authorizeWithdrawal , enums.decisionsState.authorizeWithdrawalModify, enums.decisionsState.authorizeCancellation, enums.decisionsState.authorizeCancellationModify ]) ? 
 	(this.POVOLDUOD.isEmpty() ? false : true ) : 
-	true]]></ExpressionText>
+	true*/]]></ExpressionText>
                             <ResultType>
                               <BaseType value="Bool" />
                             </ResultType>
@@ -4783,6 +4804,26 @@
                       </Expression>
                     </Computed>
                   </Children>
+                  <Validators>
+                    <Validator Name="requiredValidSupportWithdraw">
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Tato akce vyžaduje doplnění důvodu (uvedeno v níže specifikované validaci)."]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(form.lifeCycleMode in 
+	[enums.decisionsState.authorizeWithdrawal, enums.decisionsState.authorizeWithdrawalModify, 
+	enums.decisionsState.authorizeCancellation, enums.decisionsState.authorizeCancellationModify] ) ? 
+	(form.model.lifeCycleSupport.authorizationWithdrawal.isEmpty() ? false : true) : 
+	true]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
                 </Complex>
                 <Complex>
                   <Name value="authorizationSuspending" />
@@ -4820,15 +4861,16 @@
                       <Validators>
                         <Validator Name="requiredSuspendingReason">
                           <ErrorMessage IsValid="True">
-                            <ExpressionText><![CDATA["Pro Pozastavení povolení je nutné vyplnit Důvod"]]></ExpressionText>
+                            <ExpressionText><![CDATA["Pro Pozastavení povolení je nutné vyplnit \"Upravit Důvod pozastavení povolení\"."]]></ExpressionText>
                             <ResultType>
                               <BaseType value="String" />
                             </ResultType>
                           </ErrorMessage>
                           <IsValid IsValid="True">
-                            <ExpressionText><![CDATA[(form.lifeCycleMode in [ enums.decisionsState.authorizeSuspending , enums.decisionsState.authorizeSuspendingModify ]) ? 
+                            <ExpressionText><![CDATA[true /*
+(form.lifeCycleMode in [ enums.decisionsState.authorizeSuspending , enums.decisionsState.authorizeSuspendingModify ]) ? 
 	(this.authorizationSuspendingReasonReference.isEmpty() ? false : true ) : 
-	true]]></ExpressionText>
+	true*/]]></ExpressionText>
                             <ResultType>
                               <BaseType value="Bool" />
                             </ResultType>
@@ -4847,8 +4889,50 @@
                       </Expression>
                     </Computed>
                   </Children>
+                  <Validators>
+                    <Validator Name="requiredValidSupportSuspending">
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Tato akce vyžaduje doplnění důvodu (uvedeno v níže specifikované validaci)."]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(form.lifeCycleMode in 
+	[enums.decisionsState.authorizeSuspending , enums.decisionsState.authorizeSuspendingModify] ) ? 
+	(form.model.lifeCycleSupport.authorizationSuspending.isEmpty() ? false : true) : 
+	true]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
                 </Complex>
               </Children>
+              <Validators>
+                <Validator Name="requiredForLifecycleDenialPhases">
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["Tato akce vyžaduje doplnění důvodu (uvedeno v níže specifikované validaci)."]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[true /*
+(form.lifeCycleMode in 
+	[enums.decisionsState.applicationReject, enums.decisionsState.applicationRejectModify, 
+	enums.decisionsState.authorizeWithdrawal, enums.decisionsState.authorizeWithdrawalModify, 
+	enums.decisionsState.authorizeCancellation, enums.decisionsState.authorizeCancellation,
+	enums.decisionsState.authorizeSuspending, enums.decisionsState.authorizeSuspendingModify] ) ? 
+	(form.model.lifeCycleSupport.isEmpty() ? false : true) : 
+	true*/]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
             </Complex>
             <Complex>
               <Name value="sekcePrehodnoceni" />
@@ -7457,7 +7541,7 @@ true]]></ExpressionText>
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(isTrue(form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM = "J") AND
-(length(form.model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription) < 2 ) ) ?
+(hasValue(form.model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription) = false ) ) ?
  	false : true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -7480,7 +7564,7 @@ true]]></ExpressionText>
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(isTrue(form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.POVOLDUOD = "J") AND
-(length(form.model.modelStructure.ASEO.Event.authorizationWithdrawal.AuthorizationWithdrawalDescription ) < 2 ) ) ?
+(hasValue(form.model.modelStructure.ASEO.Event.authorizationWithdrawal.AuthorizationWithdrawalDescription ) = false ) ) ?
  	false : true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -7503,7 +7587,7 @@ true]]></ExpressionText>
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(isTrue(form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason = "J") AND
-(length(form.model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription ) < 2 ) ) ?
+(hasValue(form.model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription ) = false ) ) ?
  	false : true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -7563,6 +7647,79 @@ true]]></ExpressionText>
               </IsValid>
             </Validator>
           </CollectionValidators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_B0A891F2_ApplicationRejection" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.ApplicationRejection" />
+          <Validators>
+            <Validator Name="requiredRejectObject">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pro zamítnutí žádosti vyplňte \"Důvod zamítnutí žádosti\"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(form.lifeCycleMode in 
+	[enums.decisionsState.applicationReject, enums.decisionsState.applicationRejectModify] ) ? 
+	(this.ApplicationRejection.isEmpty() ? false : true) : 
+	true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_A81801F5_AuthorizationWithdrawal" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.AuthorizationWithdrawal" />
+          <Validators>
+            <Validator Name="requiredObjectCancelWithdraw">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pro zrušení/zneplatnění povolení vyplňte \"Důvod zamítnutí žádosti\"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(form.lifeCycleMode in 
+	[enums.decisionsState.authorizeWithdrawal, enums.decisionsState.authorizeWithdrawalModify, 
+	enums.decisionsState.authorizeCancellation, enums.decisionsState.authorizeCancellationModify] ) ? 
+	(this.AuthorizationWithdrawal.isEmpty() ? false : true) : 
+	true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_C01560C8_AuthorizationSuspending" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.AuthorizationSuspending" />
+          <Validators>
+            <Validator Name="requiredObjectSuspening">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pro pozastavení povolení vyplňte \"Upravit Důvod pozastavení povolení\"."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(form.lifeCycleMode in 
+	[enums.decisionsState.authorizeSuspending, enums.decisionsState.authorizeSuspendingModify ] ) ? 
+	(this.AuthorizationSuspending.isEmpty() ? false : true) : 
+	true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
         </Modifier>
       </Modifiers>
     </DataContext>
@@ -8260,9 +8417,9 @@ if isTrue(form.model.isValid()) then
 	endIf
 
 else
-	form.actions.validErr_clearPrevious()
-	form.formState.visibilities.isValidationsVisible = True	
-	form.actions.showErorrNotificationMessage("Povolení vykazuje chyby. Opravte je před zasláním", true)
+
+	form.actions.clientValidationErrorsShow()
+	
 endIf
 
 if form.formState.responseResult = defaultBool() then
@@ -8419,6 +8576,8 @@ if isTrue(messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationReject
 	aseoMegaMessage.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage()
 	aseoMegaMessage.ASEO.Event.ApplicationRejection.ApplicationRejectionReason = form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM
+	//for valdiations
+	form.model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionReason = form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM 
 endIf
 
 if isTrue(messageType in ["ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawalModification"]) then
@@ -8429,6 +8588,8 @@ if isTrue(messageType in ["ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationC
 	aseoMegaMessage.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage()
 	aseoMegaMessage.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason = form. model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.POVOLDUOD
+	//for valdiations
+	form.model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason = form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM
 endIf
 
 if isTrue(messageType in ["ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification"]) then
@@ -8439,6 +8600,8 @@ if isTrue(messageType in ["ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationS
 	aseoMegaMessage.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage()
 	aseoMegaMessage.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason = form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason
+	//for valdiations
+	form.model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason = form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason
 endIf
 
 if isTrue(messageType in ["ASEOSPApplicationModification"]) then
@@ -8540,11 +8703,11 @@ form.actions.editDataBeforePosting("ASEOSPApplicationRejection")
 
 form.actions.validErr_clearPrevious()	
 
+var responseResult = defaultBool()
+result = responseResult
+var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
+
 if form.model.isValid() then
-	
-	var responseResult = defaultBool()
-	result = responseResult
-	var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 	
 	if isTrue(checkNecessaryReason = true) then
 	
@@ -8578,13 +8741,11 @@ if form.model.isValid() then
 		form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 	endIf
 	
-	form.actions.editDataAfterPosting("ASEOSPApplicationRejection", responseResult)
-
 else
-	form.actions.validErr_clearPrevious()
-	form.formState.visibilities.isValidationsVisible = True	
-	form.actions.showErorrNotificationMessage("Povolení vykazuje chyby. Opravte je před zasláním", true)
+	form.actions.clientValidationErrorsShow()
 endIf
+
+form.actions.editDataAfterPosting("ASEOSPApplicationRejection", responseResult)
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
@@ -8620,36 +8781,42 @@ result = responseResult
 
 var checkNecessaryReason = form.actions.checkReasonCodeTypeJ()
 
-if isTrue(checkNecessaryReason = true) then
+if isTrue(form.model.isValid()) then
 
-	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejectionModification", form.requests.ASEOmegaMessage.toJson())
-
-	if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
-		system.console(response.getErrorMessage())
-		form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být modifikace zamítnutí udělena.", true)
+	if isTrue(checkNecessaryReason = true) then
 	
-		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+		var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationRejectionModification", form.requests.ASEOmegaMessage.toJson())
+	
+		if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
+			system.console(response.getErrorMessage())
+			form.actions.showErorrNotificationMessage("Nastala chyba. Žádosti nemohla být modifikace zamítnutí udělena.", true)
 		
-		if not form.model.lifeCycleSupport.applicationRejection.hasValue() then
-			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zamítnuti žádosti\".", true)
+			form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+			
+			if not form.model.lifeCycleSupport.applicationRejection.hasValue() then
+				form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zamítnuti žádosti\".", true)
+			endIf
+			// setTouch so the user sees, what si missing from submission
+			form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(true)
+			responseResult = false
+			result = responseResult
+		else
+			form.model.modelStructure.ASEO.clear()
+			form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci zamítnutí.", false)
+			form.VersionGUID = defaultString()
+			form.actions.loadAseoData(form.GUID, form.VersionGUID)
+			responseResult = true
+			result = responseResult
 		endIf
-		// setTouch so the user sees, what si missing from submission
-		form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(true)
-		responseResult = false
-		result = responseResult
+		
+		form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+		
 	else
-		form.model.modelStructure.ASEO.clear()
-		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k modifikaci zamítnutí.", false)
-		form.VersionGUID = defaultString()
-		form.actions.loadAseoData(form.GUID, form.VersionGUID)
-		responseResult = true
-		result = responseResult
+		form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 	endIf
-	
-	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
-	
+
 else
-	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
+	form.actions.clientValidationErrorsShow()
 endIf
 
 form.actions.editDataAfterPosting("ASEOSPApplicationRejectionModification", responseResult)
@@ -11044,6 +11211,17 @@ form.formState.notifications.visibleNoticeWindow = false]]></Script>
         <Script><![CDATA[form.formState.notifications.operationResultMessage.clear()
 form.formState.notifications.visibleNoticeWindow = false
 form.formState.currentDateTime = getDateTime()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="clientValidationErrorsShow" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.actions.validErr_clearPrevious()
+form.formState.visibilities.isValidationsVisible = True	
+form.actions.showErorrNotificationMessage("Povolení vykazuje chyby. Opravte je před zasláním", true)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
