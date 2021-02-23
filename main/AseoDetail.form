@@ -7635,12 +7635,11 @@ true]]></ExpressionText>
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(form.lifeCycleMode in [ enums.decisionsState.authorize, enums.decisionsState.authorizeModify ]) ? 
-	(isTrue( (form.authorizationType in ["SAR"]) ) ? 
-		( ( this.Guarantee.exists(current.hasValue() = false ) ? false : 
-			(this.Guarantee.count() < 1) ? false : true) ) : 
-		true ) : 
-	true]]></ExpressionText>
+                <ExpressionText><![CDATA[(form.lifeCycleMode in [ enums.decisionsState.authorize, enums.decisionsState.authorizeModify ]) AND 
+(isTrue( (form.authorizationType in ["SAR"])) ? 
+		( ( form.model.sekce4rozsirene.newGarantee.Guarantee.exists(current.hasValue() = false ) ? false : 
+			(form.model.sekce4rozsirene.newGarantee.Guarantee.count() = 0) ? false : true) ) : 
+		true )]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -7663,7 +7662,7 @@ true]]></ExpressionText>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(form.lifeCycleMode in 
 	[enums.decisionsState.applicationReject, enums.decisionsState.applicationRejectModify] ) ? 
-	(this.ApplicationRejection.isEmpty() ? false : true) : 
+	(hasValue(form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM) ? true : false) : 
 	true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -7688,7 +7687,7 @@ true]]></ExpressionText>
                 <ExpressionText><![CDATA[(form.lifeCycleMode in 
 	[enums.decisionsState.authorizeWithdrawal, enums.decisionsState.authorizeWithdrawalModify, 
 	enums.decisionsState.authorizeCancellation, enums.decisionsState.authorizeCancellationModify] ) ? 
-	(this.AuthorizationWithdrawal.isEmpty() ? false : true) : 
+	(hasValue(form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.POVOLDUOD) ? true : false ) : 
 	true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -7712,7 +7711,7 @@ true]]></ExpressionText>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(form.lifeCycleMode in 
 	[enums.decisionsState.authorizeSuspending, enums.decisionsState.authorizeSuspendingModify ] ) ? 
-	(this.AuthorizationSuspending.isEmpty() ? false : true) : 
+	(hasValue(form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason) ?  true : false) : 
 	true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
