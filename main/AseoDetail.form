@@ -736,52 +736,112 @@
             <Binding SourceProperty="IsVisible" Expression="form.formState.visibilities.isValidationsVisible" />
           </Bindings>
           <Children>
-            <ServerValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
-              <Name value="serverValidationSummary" />
+            <Panel>
+              <Name value="panel47" />
+              <Orientation value="Horizontal" />
               <Panel.Height value="#" />
               <Panel.Width value="50%" />
-              <Bindings>
-                <Binding SourceProperty="validationErrors" Expression="form.error.serverValidationErrors" />
-                <Binding SourceProperty="isVisible" Expression="form.formState.visibilities.isValidationsVisible" />
-              </Bindings>
-              <columns>
-                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
-                  <Name value="validationSummaryColumn4" />
-                  <columnCaption value="Validační zpráva Centra" />
-                  <columnWidth value="100%" />
-                  <propertyName value="Reason" />
-                </validationSummaryColumn>
-              </columns>
-            </ServerValidationSummary>
-            <ClientValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
-              <Name value="clientValidationSummary" />
-              <Panel.Height value="#" />
-              <Panel.Width value="50%" />
-              <Bindings>
-                <Binding SourceProperty="validationErrors" Expression="form.error.clientValidationErrors" />
-                <Binding SourceProperty="validationRoot" Expression="form.model" />
-                <Binding SourceProperty="isVisible" Expression="form.formState.visibilities.isValidationsVisible" />
-              </Bindings>
-              <columns>
-                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
-                  <Name value="clientValCol_message" />
-                  <columnCaption value="Zpráva" />
-                  <propertyName value="Message" />
-                </validationSummaryColumn>
-                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
-                  <Name value="clientValCol_pointer" />
-                  <columnCaption value="Místo" />
-                  <columnRole value="pointer" />
-                  <propertyName value="Pointer" />
-                </validationSummaryColumn>
-              </columns>
-              <conditionalCssClass>
+              <Children>
+                <Label>
+                  <Name value="errors_server" />
+                  <Data value="Validace Centra" />
+                  <Heading value="h3" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-label" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Label>
+                <ServerValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                  <Name value="serverValidationSummary" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Bindings>
+                    <Binding SourceProperty="validationErrors" Expression="form.error.serverValidationErrors" />
+                    <Binding SourceProperty="isVisible" Expression="form.formState.visibilities.isValidationsVisible" />
+                  </Bindings>
+                  <columns>
+                    <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                      <Name value="validationSummaryColumn4" />
+                      <columnCaption value="Validační zpráva Centra" />
+                      <columnWidth value="100%" />
+                      <propertyName value="Reason" />
+                    </validationSummaryColumn>
+                  </columns>
+                  <conditionalCssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-servervalidationsummary" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </conditionalCssClass>
+                </ServerValidationSummary>
+              </Children>
+              <CssClass>
                 <CssClassConditional>
-                  <ClassName value="{theme}-clientvalidationsummary" />
+                  <ClassName value="{theme}-panel" />
                   <IsThemedStyle value="True" />
                 </CssClassConditional>
-              </conditionalCssClass>
-            </ClientValidationSummary>
+              </CssClass>
+            </Panel>
+            <Panel>
+              <Name value="panel48" />
+              <Orientation value="Horizontal" />
+              <Panel.Height value="#" />
+              <Panel.Width value="50%" />
+              <Children>
+                <Label>
+                  <Name value="errors_client" />
+                  <Data value="Validace Klienta" />
+                  <Heading value="h3" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-label" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Label>
+                <ClientValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                  <Name value="clientValidationSummary" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Bindings>
+                    <Binding SourceProperty="validationErrors" Expression="form.error.clientValidationErrors" />
+                    <Binding SourceProperty="validationRoot" Expression="form.model" />
+                    <Binding SourceProperty="isVisible" Expression="form.formState.visibilities.isValidationsVisible" />
+                  </Bindings>
+                  <columns>
+                    <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                      <Name value="clientValCol_message" />
+                      <columnCaption value="Zpráva" />
+                      <propertyName value="Message" />
+                    </validationSummaryColumn>
+                    <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                      <Name value="clientValCol_pointer" />
+                      <columnCaption value="Místo" />
+                      <columnRole value="pointer" />
+                      <propertyName value="Pointer" />
+                    </validationSummaryColumn>
+                  </columns>
+                  <conditionalCssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-clientvalidationsummary" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </conditionalCssClass>
+                </ClientValidationSummary>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
           </Children>
           <CssClass>
             <CssClassConditional>
@@ -2594,8 +2654,8 @@
                       <Orientation value="Vertical" />
                       <Children>
                         <Button>
-                          <Name value="button1_addPeriod" />
-                          <Caption value="Přidat lhůtu" />
+                          <Name value="button_insertPeriods" />
+                          <Caption value="Přidat nové lhůty" />
                           <Panel.Height value="#" />
                           <Panel.Width value="150px" />
                           <OnClick>
@@ -5259,7 +5319,7 @@
                           <Validators>
                             <Validator Name="validGuarantee">
                               <ErrorMessage IsValid="True">
-                                <ExpressionText><![CDATA["Záruka musí být platná"]]></ExpressionText>
+                                <ExpressionText><![CDATA["Číslo zajištění v sekci \"Zajištění celního dluhu\" musí být platné"]]></ExpressionText>
                                 <ResultType>
                                   <BaseType value="String" />
                                 </ResultType>
@@ -6550,15 +6610,6 @@
               </DeclaredType>
             </Attribute>
             <Attribute>
-              <Name value="invalidGuarantee" />
-              <Caption value="Invalid guarantee" />
-              <DeclaredType>
-                <AttributeType>
-                  <BaseType value="Bool" />
-                </AttributeType>
-              </DeclaredType>
-            </Attribute>
-            <Attribute>
               <Name value="responseResult" />
               <Caption value="Response result" />
               <DeclaredType>
@@ -7475,32 +7526,6 @@ true]]></ExpressionText>
           </Validators>
         </Modifier>
         <Modifier>
-          <Name value="modifier_ED3795B0_GuaranteeState" />
-          <ShowAsChanges value="True" />
-          <SourcePath value="model.modelStructure.ASEO.Event.Guarantee.GuaranteeState" />
-          <Validators>
-            <Validator Name="validGuarantee">
-              <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Záruka musí být platná"]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </ErrorMessage>
-              <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(form.lifeCycleMode in [enums.decisionsState.authorize , enums.decisionsState.authorizeModify]) and ( form.authorizationType = "SAR" ) and ( this.GuaranteeType.hasValue() ) ? 
-	(isTrue(this.GuaranteeState.hasValue()) ) ? 
-		(isTrue(this.GuaranteeState = "Platná") ? true : false) 
-		: false 
-	: 
-	true]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="Bool" />
-                </ResultType>
-              </IsValid>
-            </Validator>
-          </Validators>
-        </Modifier>
-        <Modifier>
           <Name value="modifier_F97E7430_TIRHolder" />
           <ShowAsChanges value="True" />
           <SourcePath value="model.modelStructure.ASEO.Event.SPTIR.TIRHolder" />
@@ -7637,8 +7662,8 @@ true]]></ExpressionText>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(form.lifeCycleMode in [ enums.decisionsState.authorize, enums.decisionsState.authorizeModify ]) AND 
 (isTrue( (form.authorizationType in ["SAR"])) ? 
-		( ( form.model.sekce4rozsirene.newGarantee.Guarantee.exists(current.hasValue() = false ) ? false : 
-			(form.model.sekce4rozsirene.newGarantee.Guarantee.count() = 0) ? false : true) ) : 
+		( ( form.model.sekce4rozsirene.newGarantee.Guarantee.exists(current.hasValue() ) ? 
+				true : false )) : 
 		true )]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -8368,56 +8393,48 @@ form.actions.editDataBeforePosting("ASEOSPAuthorization")
 
 form.actions.validErr_clearPrevious()	
 
-form.actions.checkGuaranteeValidity()
-
 form.formState.responseResult = defaultBool()
 form.formState.validationSucess = defaultBool()
 
 if isTrue(form.model.isValid()) then
-
-	if isTrue(form.formState.invalidGuarantee = true) then
-		form.actions.showErorrNotificationMessage("Jedna ze záruk není validní.", false)
-		form.formState.validationSucess = false
-	else
 	
-		form.formState.validationSucess = true
+	form.formState.validationSucess = true
 	
-		var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form.requests.ASEOmegaMessage.toJson())
+	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form.requests.ASEOmegaMessage.toJson())
 		
-		result = form.formState.responseResult
+	result = form.formState.responseResult
 			
-		if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
-			system.console(response.getErrorMessage())
-			form.actions.showErorrNotificationMessage("Nastala chyba. Nemohlo být vydání povolení provedeno.", true)
+	if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
+		system.console(response.getErrorMessage())
+		form.actions.showErorrNotificationMessage("Nastala chyba. Nemohlo být vydání povolení provedeno.", true)
 				
-			form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
 
 				
-			if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
-				form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Povolení\".", true)
-			endIf
-
-			form.formState.responseResult = false
-			result = form.formState.responseResult
-		else
-			form.model.modelStructure.ASEO.clear()
-				
-			var messageString = form.actions.getAuthorisationMessage()
-				
-			form.actions.showErorrNotificationMessage(messageString, false)
-			form.VersionGUID = defaultString()
-			form.actions.loadAseoData(form.GUID)
-			form.formState.responseResult = true
-			result = form.formState.responseResult
+		if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
+			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Povolení\".", true)
 		endIf
-		
-		form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
-		
+
+		form.formState.responseResult = false
+		result = form.formState.responseResult
+	else
+		form.model.modelStructure.ASEO.clear()
+				
+		var messageString = form.actions.getAuthorisationMessage()
+				
+		form.actions.showErorrNotificationMessage(messageString, false)
+		form.VersionGUID = defaultString()
+		form.actions.loadAseoData(form.GUID)
+		form.formState.responseResult = true
+		result = form.formState.responseResult
 	endIf
+		
+	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
 
 else
 
 	form.actions.clientValidationErrorsShow()
+	result = false
 	
 endIf
 
@@ -8450,14 +8467,14 @@ globals.IsBusy = False]]></Script>
       <Name value="editDataAfterPosting" />
       <Category value="lifeCyclePostingSetUp" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if not messagePostSucess then
+        <Script><![CDATA[if isFalse(messagePostSucess) then
 	form.model.sekce5prilohy.newFilesCollection.File.fromJson(form.model.sekce5prilohy.newFilesCollectionJson)
 	form.model.sekce5prilohy.newFilesCollectionJson.clear()
 else
 	form.model.sekce5prilohy.newFilesCollectionJson.clear()
 endIf
 
-if  messageType in ["ASEOSPAuthorization", "ASEOSPAuthorizationModification","ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification", "ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification","ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationWithdrawalModification", "ASEOSPApplicationModification"]  then	
+if  isTrue(messageType in ["ASEOSPAuthorization", "ASEOSPAuthorizationModification","ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification", "ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification","ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationWithdrawalModification", "ASEOSPApplicationModification"])  then	
 	form.requests.ASEOmegaMessage.clear()
 	form.requests.applicationModification.clear()
 	
@@ -9082,24 +9099,32 @@ form.actions.editDataBeforePosting("ASEOSPApplicationModification")
 form.actions.validErr_clearPrevious()		
 
 result = defaultBool()
-
-var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationModification", form.requests.applicationModification.toJson())
 var responseResult = defaultBool()
-if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
-	system.console(response.getErrorMessage())
-	form.actions.showErorrNotificationMessage("Nastala chyba. Úprava žádosti nemohla být provedena.", true)
-	
-	form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
-	responseResult = false
-	result = false
+
+if isTrue(form.model.isValid()) then
+
+	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPApplicationModification", form.requests.applicationModification.toJson())
+	if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
+		system.console(response.getErrorMessage())
+		form.actions.showErorrNotificationMessage("Nastala chyba. Úprava žádosti nemohla být provedena.", true)
+		
+		form.actions.validErr_prepareServerErr(response.extractJson("QERR"))
+		responseResult = false
+		result = false
+	else
+		form.model.modelStructure.ASEO.clear()
+		form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k úpravě.", false)
+		form.VersionGUID = defaultString()
+		form.actions.loadAseoData(form.GUID, form.VersionGUID)
+		responseResult = true
+		result = true
+		
+	endIf
+
 else
-	form.model.modelStructure.ASEO.clear()
-	form.actions.showErorrNotificationMessage("Žádost byla úspěšně předána k úpravě.", false)
-	form.VersionGUID = defaultString()
-	form.actions.loadAseoData(form.GUID, form.VersionGUID)
-	responseResult = true
-	result = true
-	
+	form.actions.clientValidationErrorsShow()
+	responseResult = false
+	result = responseResult
 endIf
 
 form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
@@ -9137,16 +9162,11 @@ form.actions.editDataBeforePosting("ASEOSPAuthorizationModification")
 
 form.actions.validErr_clearPrevious()
 
-form.actions.checkGuaranteeValidity()
-
 form.formState.responseResult = defaultBool()
 form.formState.validationSucess = defaultBool()
 
-if isTrue(form.formState.invalidGuarantee = true) then
-	form.actions.showErorrNotificationMessage("Jedna ze záruk není validní.", false)
-	form.formState.validationSucess = false
-	
-else
+if isTrue(form.model.isValid()) then
+
 	form.formState.validationSucess = true
 
 	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorizationModification", form.requests.ASEOmegaMessage.toJson())
@@ -9173,7 +9193,8 @@ else
 	endIf
 	
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
-
+else
+	form.actions.clientValidationErrorsShow()
 endIf
 
 if form.formState.responseResult = defaultBool() then
@@ -9481,10 +9502,6 @@ form.formState.visibilities.isValidationsVisible = True
 var postingSuccess = defaultBool()
 
 if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.ValidityStartDate then
-
-//test
-form.formState.visibilities.isValidationsVisible = True	
-//test
 	
 	form.actions.clearPreviousNotifications()
 	
@@ -9825,47 +9842,6 @@ endIf]]></Script>
 	tabs.Tab09rezimy.isVisible = false
 	
 	form.lifeCycleMode = enums.decisionsState.authorizeWithdrawal
-
-else
-	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
-endIf]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="handler_send_ASEOSPAuthorizationWithdrawalModification_OnClick" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.isLastVersionSelected = true then
-
-	var tabs = form.components.tabsMenu
-	 tabs.Tab01obecne.isVisible = false
-	 tabs.Tab02lifecycle_authorisation.isVisible = false
-	 tabs.Tab06prilohy.isVisible = false
-	 tabs.Tab07prehodnoceni.isVisible = false
-	 tabs.Tab08lhutyAzajisteni.isVisible = false
-	 tabs.Tab09rezimy.isVisible = false
-	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
-	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
-	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-	
-	form.actions.initTabMenu()
-	form.actions.prepareFormForEdit()
-	form.actions.prepareTabsForAction("Upravit zrušení")
-	
-	tabs.Tab03celniUrady.isVisible = false
-	tabs.Tab04zbozi.isVisible = false
-	tabs.Tab05rozsirene.isVisible = false
-	
-	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
-	tabs.SelectedTab = 11
-	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"
-	
-	tabs.Tab09rezimy.isVisible = false
-	
-	form.lifeCycleMode = enums.decisionsState.authorizeWithdrawalModify
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -10485,7 +10461,7 @@ tabs.SelectedTab = 1
       <Category value="lifeCyclePostingSetUp" />
       <Description value="used only in action editDataAfterPosting" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if not messagePostSucess then
+        <Script><![CDATA[if isFalse(messagePostSucess) then
 	
 	form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(false)
 	form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(false)
@@ -10946,32 +10922,6 @@ endFor
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="checkGuaranteeValidity" />
-      <Category value="lifeCyclePostingSetUp" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[if isTrue(form.authorizationType in ["SAR"]) then
-	if form.model.sekce4rozsirene.newGarantee.Guarantee.exists(Current.hasValue()) then
-		if form.model.sekce4rozsirene.newGarantee.Guarantee.count() > 0 then
-		
-			form.formState.invalidGuarantee = defaultBool()
-			
-			if form.model.sekce4rozsirene.newGarantee.Guarantee.exists(Current.GuaranteeState <> "1") then
-				form.formState.invalidGuarantee = true
-			else
-				form.formState.invalidGuarantee = false
-			endIf
-			
-		endIf
-	endIf
-else
-	form.formState.invalidGuarantee = false
-endIf]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="setGuarantee" />
       <Category value="lifeCyclePostingSetUp" />
       <ActionLangBody IsValid="True">
@@ -11198,7 +11148,8 @@ url.updatePageUrl()]]></Script>
       <Name value="clearPreviousNotifications" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.formState.notifications.operationResultMessage.clear()
-form.formState.notifications.visibleNoticeWindow = false]]></Script>
+form.formState.notifications.visibleNoticeWindow = false
+form.actions.clearUserNotifications()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -11219,8 +11170,48 @@ form.formState.currentDateTime = getDateTime()]]></Script>
       <Name value="clientValidationErrorsShow" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.actions.validErr_clearPrevious()
-form.formState.visibilities.isValidationsVisible = True	
-form.actions.showErorrNotificationMessage("Povolení vykazuje chyby. Opravte je před zasláním", true)]]></Script>
+form.formState.visibilities.isValidationsVisible = True	]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_send_ASEOSPAuthorizationWithdrawalModification_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.isLastVersionSelected = true then
+
+	var tabs = form.components.tabsMenu
+	 tabs.Tab01obecne.isVisible = false
+	 tabs.Tab02lifecycle_authorisation.isVisible = false
+	 tabs.Tab06prilohy.isVisible = false
+	 tabs.Tab07prehodnoceni.isVisible = false
+	 tabs.Tab08lhutyAzajisteni.isVisible = false
+	 tabs.Tab09rezimy.isVisible = false
+	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
+	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+	
+	form.actions.initTabMenu()
+	form.actions.prepareFormForEdit()
+	form.actions.prepareTabsForAction("Upravit zrušení")
+	
+	tabs.Tab03celniUrady.isVisible = false
+	tabs.Tab04zbozi.isVisible = false
+	tabs.Tab05rozsirene.isVisible = false
+	
+	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
+	tabs.SelectedTab = 11
+	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"
+	
+	tabs.Tab09rezimy.isVisible = false
+	
+	form.lifeCycleMode = enums.decisionsState.authorizeWithdrawalModify
+
+else
+	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
