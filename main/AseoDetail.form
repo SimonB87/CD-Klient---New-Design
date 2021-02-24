@@ -738,7 +738,7 @@
           <Children>
             <Panel>
               <Name value="panel47" />
-              <Orientation value="Horizontal" />
+              <Orientation value="Vertical" />
               <Panel.Height value="#" />
               <Panel.Width value="50%" />
               <Children>
@@ -748,6 +748,9 @@
                   <Heading value="h3" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
+                  <Bindings>
+                    <Binding SourceProperty="IsVisible" Expression="error.serverErrorExists" />
+                  </Bindings>
                   <CssClass>
                     <CssClassConditional>
                       <ClassName value="{theme}-label" />
@@ -788,7 +791,7 @@
             </Panel>
             <Panel>
               <Name value="panel48" />
-              <Orientation value="Horizontal" />
+              <Orientation value="Vertical" />
               <Panel.Height value="#" />
               <Panel.Width value="50%" />
               <Children>
@@ -798,6 +801,9 @@
                   <Heading value="h3" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
+                  <Bindings>
+                    <Binding SourceProperty="IsVisible" Expression="error.clientErrorExists" />
+                  </Bindings>
                   <CssClass>
                     <CssClassConditional>
                       <ClassName value="{theme}-label" />
@@ -7184,6 +7190,26 @@
                 </Attribute>
               </Children>
             </Collection>
+            <Computed>
+              <Name value="serverErrorExists" />
+              <Caption value="Server error exists" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[form.error.serverValidationErrors.exists(Current.hasValue())]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="clientErrorExists" />
+              <Caption value="Client error exists" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[form.error.clientValidationErrors.exists(Current.hasValue())]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
           </Children>
         </Complex>
       </Children>
