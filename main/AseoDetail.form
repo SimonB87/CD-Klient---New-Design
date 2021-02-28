@@ -1474,7 +1474,7 @@
                               <Panel.Width value="33.33%" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.ReferenceNumber" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.ReferenceNumber.isRequired()" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.formState.validations.isNotDeclarationModeDetail" />
                                 <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.ReferenceNumber.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
@@ -1539,7 +1539,7 @@
                               <Panel.Width value="33.33%" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.DecisionDate" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.DecisionDate.isRequired()" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.formState.validations.isNotDeclarationModeDetail" />
                                 <Binding SourceProperty="Caption" Expression="formState.lifeCycle.DecisionDateLabel.DecisionDateLabelComputed" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
@@ -1557,7 +1557,7 @@
                               <Panel.Width value="33.33%" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.DecidingCustomsOffice" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.DecidingCustomsOffice.isRequired()" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.formState.validations.isNotDeclarationModeDetail" />
                                 <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.DecidingCustomsOffice.caption()" />
                               </Bindings>
                               <CssClass>
@@ -1574,8 +1574,8 @@
                               <Panel.Width value="33.33%" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.DecidingPerson" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.DecidingPerson.isRequired()" />
                                 <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.DecidingPerson.caption()" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.formState.validations.isNotDeclarationModeDetail" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -1623,7 +1623,7 @@
                               <Panel.Width value="33.33%" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.EvidenceDate" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.EvidenceDate.isRequired()" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.formState.validations.isNotDeclarationModeDetail" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -1641,7 +1641,7 @@
                               <Tooltip value="Zde uživatel zadá, od kdy se mají projevit změny po zaslání nové úpravy. Běžně bude povolení upraveno až po 60 minutách od odeslání. Tuto lhůtu lze snížit na aktuální čas (pozn.: k tomu je vhodné přidat 5 vteřin pro rezervu na vyřešení komunikace klienta a Centra)." />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.ValidityStartDate" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.ValidityStartDate.isRequired()" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.formState.validations.isNotDeclarationModeDetail" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -6579,6 +6579,16 @@
                     </ResultType>
                   </Expression>
                 </Computed>
+                <Computed>
+                  <Name value="isNotDeclarationModeDetail" />
+                  <Caption value="Is not declaration mode detail" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[isFalse(form.lifeCycleMode in [enums.decisionsState.detail])]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
               </Children>
             </Complex>
             <Attribute>
@@ -7194,7 +7204,7 @@
               <Name value="serverErrorExists" />
               <Caption value="Server error exists" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA[form.error.serverValidationErrors.exists(Current.hasValue())]]></ExpressionText>
+                <ExpressionText><![CDATA[form.error.serverValidationErrors.exists(Current.hasValue()) AND form.formState.visibilities.isValidationsVisible]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -7204,7 +7214,7 @@
               <Name value="clientErrorExists" />
               <Caption value="Client error exists" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA[form.error.clientValidationErrors.exists(Current.hasValue())]]></ExpressionText>
+                <ExpressionText><![CDATA[form.error.clientValidationErrors.exists(Current.hasValue()) AND form.formState.visibilities.isValidationsVisible]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -7357,10 +7367,12 @@
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[not this.collection().exists(
+                <ExpressionText><![CDATA[this.collection().exists(
 	this.index() <> current.index())
 	AND
-	(subString(this.CNCode, 1, (Length(this.CNCode)-2)) = this.CNCode)]]></ExpressionText>
+	(subString(this.CNCode, 1, (Length(this.CNCode)-2)) = this.CNCode) ?
+		false :
+		true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -7718,6 +7730,23 @@ true]]></ExpressionText>
                 </ResultType>
               </IsValid>
             </Validator>
+            <Validator Name="val1">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Při vybrání důvodu typu \"J\" je nutné vyplnit \"Popis důvodu zamítnutí\"."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(form.lifeCycleMode in 
+	[enums.decisionsState.applicationReject, enums.decisionsState.applicationRejectModify] ) ? 
+	((form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM = "J") AND (hasvalue(form.model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription) = false) ? false : true) : 
+	true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
           </Validators>
         </Modifier>
         <Modifier>
@@ -7743,6 +7772,24 @@ true]]></ExpressionText>
                 </ResultType>
               </IsValid>
             </Validator>
+            <Validator Name="requiredDesriptionReason">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pokud je vybrán typ Důvodu \"J\" je nutné doplnit popis Důvodu."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(form.lifeCycleMode in 
+	[enums.decisionsState.authorizeWithdrawal , enums.decisionsState.authorizeWithdrawalModify, 
+	 enums.decisionsState.authorizeCancellation , enums.decisionsState.authorizeCancellationModify ] ) ? 
+	((form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.POVOLDUOD = "J") AND (hasvalue(form.model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription) = false) ? false : true) : 
+	true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
           </Validators>
         </Modifier>
         <Modifier>
@@ -7762,6 +7809,46 @@ true]]></ExpressionText>
 	[enums.decisionsState.authorizeSuspending, enums.decisionsState.authorizeSuspendingModify ] ) ? 
 	(hasValue(form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason) ?  true : false) : 
 	true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+            <Validator Name="requiredSuspendingDescription">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pokud je vybrán typ Důvodu \"J\" je nutné doplnit popis Důvodu."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(form.lifeCycleMode in 
+	[enums.decisionsState.authorizeSuspending , enums.decisionsState.authorizeSuspendingModify] ) ? 
+	((form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason = "J") AND (hasvalue(form.model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription) = false) ? false : true) : 
+	true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_DE6C5E25_ReferenceNumber" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.ReferenceNumber" />
+          <Validators>
+            <Validator Name="requiredReferenceNumber">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pole \"Číslo jednací\" v záložce \"Obecné\" je povinné."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[isTrue(form.lifeCycleMode in [enums.decisionsState.detail]) ? 
+	true : 
+	((isTrue(this.ReferenceNumber.isEmpty() = true)) ? false : true)]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
