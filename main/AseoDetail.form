@@ -5191,6 +5191,22 @@
                       <MetaType reference="+MetaTypes.PeriodDuration" />
                       <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/Period/PeriodDuration" />
                       <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="requiredDuration">
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Hodnota délky lhůty musí být vyšší jak \"0\"."]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr > 0)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
                     </Attribute>
                     <Reference>
                       <Name value="_ZJPLHUTYP" />
@@ -6583,7 +6599,7 @@
                   <Name value="isNotDeclarationModeDetail" />
                   <Caption value="Is not declaration mode detail" />
                   <Expression IsValid="True">
-                    <ExpressionText><![CDATA[isFalse(form.lifeCycleMode in [enums.decisionsState.detail])]]></ExpressionText>
+                    <ExpressionText><![CDATA[isFalse(form.lifeCycleMode in [enums.decisionsState.detail]) ? true : false]]></ExpressionText>
                     <ResultType>
                       <BaseType value="Bool" />
                     </ResultType>
@@ -7389,6 +7405,44 @@
           <Name value="modifier_6EE83AA5_ZBOZIKOD" />
           <ShowAsChanges value="True" />
           <SourcePath value="model.sekce3zbozi.CNCode.ZBOZIKOD" />
+          <Validators>
+            <Validator Name="norepeatCodeItem">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Již existuje přidaný kód zboží."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(this.ZBOZIKOD.hasValue() 
+AND
+(form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.exists(current.CNCode = this.ZBOZIKOD))) ?
+false : true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+            <Validator Name="uniquieCodeItem">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Již existuje přidaná skupina zboží vyšší úrovně."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(this.ZBOZIKOD.hasValue() 
+AND
+(form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.exists(
+	current.CNCode = 
+	subString(this.ZBOZIKOD,1, length(this.ZBOZIKOD) - 2)))) ?
+false : true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
         </Modifier>
         <Modifier>
           <Name value="modifier_8B2E161A_CELUPLAT_R" />
@@ -7597,7 +7651,7 @@ true]]></ExpressionText>
           <Validators>
             <Validator Name="validateRejectionDesciptionCodeJ">
               <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Vyplňte \"Popis důvodu zamítnutí\", pokud je kód pro \"Upravit Důvod zamítnuté žádosti\" roven J"]]></ExpressionText>
+                <ExpressionText><![CDATA["Vyplňte \"Popis důvodu zamítnutí\", pokud je kód pro \"Upravit Důvod zamítnuté žádosti\" roven \"J\"."]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
@@ -7732,7 +7786,7 @@ true]]></ExpressionText>
             </Validator>
             <Validator Name="val1">
               <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Při vybrání důvodu typu \"J\" je nutné vyplnit \"Popis důvodu zamítnutí\"."]]></ExpressionText>
+                <ExpressionText><![CDATA["Vyplňte \"Popis důvodu zamítnutí \", pokud je kód pro \"Upravit Důvod zamítnuté žádosti\" roven \"J\"."]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
@@ -7846,9 +7900,7 @@ true]]></ExpressionText>
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[isTrue(form.lifeCycleMode in [enums.decisionsState.detail]) ? 
-	true : 
-	((isTrue(this.ReferenceNumber.isEmpty() = true)) ? false : true)]]></ExpressionText>
+                <ExpressionText><![CDATA[isFalse(form.lifeCycleMode in [enums.decisionsState.detail]) AND (isTrue(this.ReferenceNumber.isEmpty() = true)) ? false : true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -8287,7 +8339,7 @@ endIf
 var targetIsValid = form.model.sekce3zbozi.CNCode.isValid()
 var targetHasValue = form.model.sekce3zbozi.CNCode.hasValue()
 
-if targetIsValid and targetHasValue then
+if isTrue(targetIsValid and targetHasValue) then
 	
 	var newItem = form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.addItem()
 	newItem.CNCode = form.model.sekce3zbozi.CNCode.ZBOZIKOD
@@ -11214,7 +11266,8 @@ form.actions.clearUserNotifications()]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.formState.notifications.operationResultMessage.clear()
 form.formState.notifications.visibleNoticeWindow = false
-form.formState.currentDateTime = getDateTime()]]></Script>
+form.formState.currentDateTime = getDateTime()
+form.formState.visibilities.isValidationsVisible = false]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
