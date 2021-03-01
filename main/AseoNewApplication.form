@@ -1288,11 +1288,11 @@
             <Complex>
               <Name value="annexModel" />
               <Caption value="Annex model" />
+              <IsRequired value="True" />
               <Children>
                 <Attribute>
                   <Name value="FileContent" />
                   <Caption value="Obsah souboru" />
-                  <IsRequired value="True" />
                   <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileContent" />
                   <MtsImportOptions.MTS.Type value="element" />
                   <DeclaredType>
@@ -1302,7 +1302,6 @@
                 <Attribute>
                   <Name value="FileName" />
                   <Caption value="Název souboru" />
-                  <IsRequired value="True" />
                   <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileName" />
                   <MtsImportOptions.MTS.Type value="element" />
                   <DeclaredType>
@@ -1310,11 +1309,28 @@
                       <StrMaxLength value="255" />
                     </AttributeType>
                   </DeclaredType>
+                  <Validators>
+                    <Validator Name="requiredFileName">
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Vyberte soubor s validním názvem."]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[this.FileContent.hasValue() ? 
+	(attr.hasValue() ? true : false) : 
+	true]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
                 </Attribute>
                 <Attribute>
                   <Name value="FileType" />
                   <Caption value="Typ souboru" />
-                  <IsRequired value="True" />
                   <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/FileType" />
                   <MtsImportOptions.MTS.Type value="element" />
                   <DeclaredType>
@@ -1322,11 +1338,28 @@
                       <StrMaxLength value="255" />
                     </AttributeType>
                   </DeclaredType>
+                  <Validators>
+                    <Validator Name="requiredFileType">
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Vyberte soubor s validním typem souboru."]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[this.FileContent.hasValue() ? 
+	(attr.hasValue() ? true : false) : 
+	true]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
                 </Attribute>
                 <Attribute>
                   <Name value="IsFulltext" />
                   <Caption value="Je plný text či jen doplněk plného textu?" />
-                  <IsRequired value="True" />
                   <MtsImportOptions.MTS.ID value="/ASEOSPApplication/ASEO/Event/File/IsFulltext" />
                   <MtsImportOptions.MTS.Type value="element" />
                   <DeclaredType>
@@ -1334,6 +1367,24 @@
                       <BaseType value="Bool" />
                     </AttributeType>
                   </DeclaredType>
+                  <Validators>
+                    <Validator Name="requiredIsFulltext">
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Není nastaven na ano/ne údaj \"Je plný text či jen doplněk plného textu?\"."]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[this.FileContent.hasValue() ? 
+	(attr.hasValue() ? true : false) : 
+	true]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
                 </Attribute>
               </Children>
             </Complex>
