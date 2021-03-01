@@ -6816,9 +6816,12 @@
                           <Name value="commonNationalData" />
                           <Orientation value="Vertical" />
                           <Children>
-                            <TextBox>
-                              <Name value="customsOfficeOfRelease" />
+                            <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
+                              <Name value="CELU_referenceLookup" />
                               <Caption value="Propouštějící CÚ" />
+                              <DataApiObject reference="~CELU" />
+                              <DisplayMember value="_description" />
+                              <MinChars value="3" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
                               <Bindings>
@@ -6827,7 +6830,7 @@
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
+                                  <ClassName value="{theme}-referencelookup" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                                 <CssClassConditional>
@@ -6840,7 +6843,7 @@
                                   </Bindings>
                                 </CssClassConditional>
                               </CssClass>
-                            </TextBox>
+                            </ReferenceLookup>
                           </Children>
                           <CssClass>
                             <CssClassConditional>
@@ -7774,6 +7777,10 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
             </Computed>
           </Children>
         </Modifier>
+        <Modifier>
+          <Name value="modifier_882DEE29_customsAuthorityReferenceNumber" />
+          <SourcePath value="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.customsAuthorityReferenceNumber" />
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
@@ -7783,7 +7790,7 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
   <Actions>
     <ActionBlock>
       <Name value="initMain_ALANG" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = true
 
 //url router
@@ -7819,6 +7826,8 @@ globals.uiGlobalState.annex.addOtherAnnex.isSelectedAnnexForHolder = false
 
 globals.uiGlobalState.isLastCDversionSelected = True
 
+form.actions.setUpCodeLists()
+form.actions.handleReceivedData()
 form.actions.adjustVisibilityOfSaspAccountsGb()
 
 
@@ -7997,47 +8006,53 @@ form.actions.initCdEnhancementSaspAccounts()
         <Script><![CDATA[// Prepare for long run
 globals.IsBusy = true
 
+form.actions.clearPreviousNotificationsFromGUI()
+
 var enh = form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ
 var valid = enh.customsOfficeOfRelease.isValid()
 
-if valid then
+var errorCount = 0
+
+if isTrue(valid) then
   var fullyEnh = true
   // let's make check for validity of accounts data - in case they are filled in!
+  
   foreach sasp in enh.SASP do
+  
     var acc = sasp.Account
-    if acc.AccountNumber.hasValue() then
-      if not acc.AccountNumber.isValid() then
+    if ( (acc.AccountNumber.hasValue() = false) or (acc.AccountNumber.isValid() = false)) then
         valid = false
         fullyEnh = false
         form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + "\"Číslo účtu IBAN\" není správné. "
 		form.modelEnhancement.clientMsg.sendRequest = True
-		
-      endif
-    else
-      fullyEnh = false
+		errorCount = errorCount + 1
     endif
-    if acc.BankCode.hasValue() then
-      if not acc.BankCode.isValid() then
+    
+    if ((acc.BankCode.hasValue() = false) OR (acc.BankCode.isValid() = false) ) then
         valid = false
         fullyEnh = false
         form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " \"Kód banky BIC\" není správný. "
 		form.modelEnhancement.clientMsg.sendRequest = True
-		
-      endif
-    else
-      fullyEnh = false
+		errorCount = errorCount + 1
     endif
+    
   endfor
-  
-  if form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced and not (fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid()) then
-    valid = false
-    form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Povolení vykazuje stav 'Neúplné obohacení' nebo údaj \"Poznámka k editaci\" nemá správnou hodnotu. "
-	form.modelEnhancement.clientMsg.sendRequest = True
-	
+    
+  if isTrue(form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced and isTrue(fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid())) then
+    	valid = true
+  else
+    	valid = false
+    	form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Povolení vykazuje stav 'Neúplné obohacení' nebo údaj \"Poznámka k editaci\" nemá správnou hodnotu. "
+    	form.modelEnhancement.clientMsg.sendRequest = True
   endif
 endif
 
-if valid then
+//check if there was erro at any point
+if (errorCount = 0) or isTrue( valid = false) then
+	valid = false
+endIf
+
+if isTrue(valid) then
   form.actions.fillCdeReq()
   
   // value shouldn't matter - IC calculates this on it's own - but it's required to be set
@@ -8074,11 +8089,15 @@ if valid then
     form.uiState.visibilities.operationResult = true
     
     form.actions.afterVersionLoad()
+    
+    form.uiState.mode = enums.DetailMode.show
+    
+    form.modelEnhancement.clientMsg.sendRequest = false
+    
   endif
   
 else
   form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Tyto údaje nejde uložit. Zkontrolujte správnost dat."
-  form.modelEnhancement.clientMsg.sendRequest = True
   
   form.uiState.operationResultError = true
   // Show user message - fail - on form validation
@@ -8700,6 +8719,57 @@ url.updatePageUrl()]]></Script>
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
+    <ActionBlock>
+      <Name value="handleReceivedData" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var dataCO = form.CD.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.toJson()
+
+if isFalse(dataCO = defaultString()) then
+
+	var code = form.CD.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.CELU	
+
+	var findCustomsOffice = form.apiobjects.CELU.getItemByStringColumnAsync("CELU", code, getDateTime(), defaultBool())
+	
+	if isTrue(findCustomsOffice.isFound() ) then
+	
+		form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.fromJson(findCustomsOffice.getJsonString())
+		
+	else
+	
+		var description = form.CD.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.POPIS
+		
+		form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.CELU = code
+		form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.POPIS = description
+		
+	endIf	
+
+endIf
+
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setUpCodeLists" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.apiobjects.CELU.setDateTime(getDateTime())]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="clearPreviousNotificationsFromGUI" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.uiState.visibilities.operationResult = false
+form.modelEnhancement.operationResultMessage.clear()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
   </Actions>
   <ApiObjects>
     <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
@@ -9037,6 +9107,29 @@ url.updatePageUrl()]]></Script>
           <columnName value="DO" />
           <columnRole value="ValidityEnd" />
           <dataType value="date" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="CELU" />
+      <name value="CELU" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="CELU" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POPIS" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="OD" />
+          <columnRole value="ValidityStart" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="DO" />
+          <columnRole value="ValidityEnd" />
         </CodelistColumn>
       </columns>
     </Codelist>
