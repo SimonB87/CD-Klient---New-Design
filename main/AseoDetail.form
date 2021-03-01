@@ -1619,12 +1619,11 @@
                             <DatePicker>
                               <Name value="datePicker_evidenceDate" />
                               <Caption value="Datum Evidence" />
+                              <IsEnabled value="False" />
                               <Panel.Height value="#" />
                               <Panel.Width value="33.33%" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.EvidenceDate" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.formState.validations.isNotDeclarationModeDetail" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -5157,6 +5156,7 @@
                     <Complex>
                       <Name value="TypeOfPeriod" />
                       <Caption value="Type of period" />
+                      <IsRequired value="True" />
                       <Children>
                         <Attribute>
                           <Name value="Key" />
@@ -5188,6 +5188,7 @@
                     <Attribute>
                       <Name value="PeriodDuration" />
                       <Caption value="Délka lhůty" />
+                      <IsRequired value="True" />
                       <MetaType reference="+MetaTypes.PeriodDuration" />
                       <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/Period/PeriodDuration" />
                       <MtsImportOptions.MTS.Type value="element" />
@@ -8452,15 +8453,43 @@ modelNewPeriod.PeriodDuration = modelNewPeriod._ZJPLHUTYP.DOPDELKA
     <ActionBlock>
       <Name value="insertPeriod" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var newPeriod = form.model.modelStructure.ASEO.Event.Period.addItem()
+        <Script><![CDATA[var valid = defaultBool()
+var myPeriod = form.model.sekce4rozsirene.newPeriod
 
-newPeriod.TypeOfPeriod.Key = form.model.sekce4rozsirene.newPeriod._ZJPLHUTYP.ZJPLHUTYP
-newPeriod.TypeOfPeriod.Description = form.model.sekce4rozsirene.newPeriod._ZJPLHUTYP.POPIS
-newPeriod.Unit = form.model.sekce4rozsirene.newPeriod.Unit
-newPeriod.PeriodDuration = form.model.sekce4rozsirene.newPeriod.PeriodDuration
+if 	form.model.modelStructure.ASEO.Event.Period.exists( 
+	(Current.TypeOfPeriod.Key = myPeriod._ZJPLHUTYP.ZJPLHUTYP) AND 
+	(Current.Unit = myPeriod.Unit) AND 
+	(Current.PeriodDuration = myPeriod.PeriodDuration)) then
+	
+	valid = false	
+else
 
-form.model.sekce4rozsirene.newPeriod.clear()
-]]></Script>
+	valid = true
+
+endIf
+
+if (form.model.sekce4rozsirene.newPeriod.isValid() AND isTrue(valid)) then
+
+	var newPeriod = form.model.modelStructure.ASEO.Event.Period.addItem()
+	
+	newPeriod.TypeOfPeriod.Key = myPeriod._ZJPLHUTYP.ZJPLHUTYP
+	newPeriod.TypeOfPeriod.Description = myPeriod._ZJPLHUTYP.POPIS
+	newPeriod.Unit = myPeriod.Unit
+	newPeriod.PeriodDuration = myPeriod.PeriodDuration
+
+	form.model.sekce4rozsirene.newPeriod.clear()
+	
+else
+	
+	myPeriod.setTouched(true)
+	myPeriod.TypeOfPeriod.setTouched(true) 
+	myPeriod.Unit.setTouched(true)
+	myPeriod.PeriodDuration.setTouched(true)
+	
+	//show error in GUI
+	form.formState.visibilities.isValidationsVisible = true
+
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
