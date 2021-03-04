@@ -7790,7 +7790,7 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
   <Actions>
     <ActionBlock>
       <Name value="initMain_ALANG" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = true
 
 //url router
@@ -8012,101 +8012,85 @@ var enh = form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ
 var valid = enh.customsOfficeOfRelease.isValid()
 
 var errorCount = 0
+var fullyEnh = true
 
 if isTrue(valid) then
-  var fullyEnh = true
   // let's make check for validity of accounts data - in case they are filled in!
   
-  foreach sasp in enh.SASP do
-  
-    var acc = sasp.Account
-    if ( (acc.AccountNumber.hasValue() = false) or (acc.AccountNumber.isValid() = false)) then
-        valid = false
-        fullyEnh = false
-        form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + "\"Číslo účtu IBAN\" není správné. "
-		form.modelEnhancement.clientMsg.sendRequest = True
-		errorCount = errorCount + 1
-    endif
+	if isTrue(form.uiState.visibilities.visibilityOfSaspAccountsGb) then
+	  	errorCount = form.actions.saveEnhancement_validateSaspAccounts()
+	endIf
     
-    if ((acc.BankCode.hasValue() = false) OR (acc.BankCode.isValid() = false) ) then
-        valid = false
-        fullyEnh = false
-        form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " \"Kód banky BIC\" není správný. "
-		form.modelEnhancement.clientMsg.sendRequest = True
-		errorCount = errorCount + 1
-    endif
-    
-  endfor
-    
-  if isTrue(form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced and isTrue(fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid())) then
-    	valid = true
-  else
-    	valid = false
-    	form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Povolení vykazuje stav 'Neúplné obohacení' nebo údaj \"Poznámka k editaci\" nemá správnou hodnotu. "
-    	form.modelEnhancement.clientMsg.sendRequest = True
-  endif
+	if isTrue(form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced and isTrue(fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid())) then
+	    valid = true
+	else
+	    valid = false
+	    form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Povolení vykazuje stav 'Neúplné obohacení' nebo údaj \"Poznámka k editaci\" nemá správnou hodnotu. "
+	    form.modelEnhancement.clientMsg.sendRequest = True
+	endif
+
 endif
 
 //check if there was erro at any point
-if (errorCount = 0) or isTrue( valid = false) then
-	valid = false
-endIf
+var conditionValidity_bool = (isTrue(errorCount > 0) OR isTrue(valid = false))
+valid = (isTrue(conditionValidity_bool )) ? false : true
+fullyEnh = valid
 
 if isTrue(valid) then
-  form.actions.fillCdeReq()
-  
-  // value shouldn't matter - IC calculates this on it's own - but it's required to be set
-  enh.fullyEnhanced = false
-  
-  var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.model.cdeReq.toJson(true))
-  
-  if resp.isError() or (resp.getMessageType() = "IN906A") then
-    form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Odesílání zprávy selhalo. Změny se nepovedlo uložit. "
-    form.modelEnhancement.clientMsg.sendRequest = True
-    
-    var errorMsg = resp.getErrorMessage()
-    system.consoleError(errorMsg)
-    errorMsg = resp.getJsonString()
-    system.consoleError("Response content: " + errorMsg)
-    
-    form.uiState.operationResultError = true
-    // Show user message - fail - on message sending
-    form.uiState.visibilities.operationResult = true
-  else
-    var respJson = resp.getJsonString()
-    form.CD.clear()
-    form.CD.fromJson(respJson)
-    
-    var msg = " Změny byly uloženy."
-    if form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced then
-      msg = msg + " Verze byla v centru označena jako \"kompletní\"."
-      form.uiState.mode = enums.DetailMode.show
-    endif
-    
-    form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + msg
-    form.uiState.operationResultError = false
-    // Show user message - success
-    form.uiState.visibilities.operationResult = true
-    
-    form.actions.afterVersionLoad()
-    
-    form.uiState.mode = enums.DetailMode.show
-    
-    form.modelEnhancement.clientMsg.sendRequest = false
-    
-  endif
-  
+	  form.actions.fillCdeReq()
+	  
+	  // value shouldn't matter - IC calculates this on it's own - but it's required to be set
+	  enh.fullyEnhanced = false
+	  
+	  var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.model.cdeReq.toJson(true))
+	  
+	  if resp.isError() or (resp.getMessageType() = "IN906A") then
+		    form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Odesílání zprávy selhalo. Změny se nepovedlo uložit. "
+		    form.modelEnhancement.clientMsg.sendRequest = True
+		    
+		    var errorMsg = resp.getErrorMessage()
+		    system.consoleError(errorMsg)
+		    errorMsg = resp.getJsonString()
+		    system.consoleError("Response content: " + errorMsg)
+		    
+		    form.uiState.operationResultError = true
+		    // Show user message - fail - on message sending
+		    form.uiState.visibilities.operationResult = true
+	  else
+		    var respJson = resp.getJsonString()
+		    form.CD.clear()
+		    form.CD.fromJson(respJson)
+		    
+		    var msg = " Změny byly uloženy."
+		    if form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced then
+		      msg = msg + " Verze byla v centru označena jako \"kompletní\"."
+		      form.uiState.mode = enums.DetailMode.show
+		    endif
+		    
+		    form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + msg
+		    form.uiState.operationResultError = false
+		    // Show user message - success
+		    form.uiState.visibilities.operationResult = true
+		    
+		    form.actions.afterVersionLoad()
+		    
+		    form.uiState.mode = enums.DetailMode.show
+		    
+		    form.modelEnhancement.clientMsg.sendRequest = false
+	    
+	  endif
+	  
 else
-  form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Tyto údaje nejde uložit. Zkontrolujte správnost dat."
-  
-  form.uiState.operationResultError = true
-  // Show user message - fail - on form validation
-  form.uiState.visibilities.operationResult = true
+	  form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Tyto údaje nejde uložit. Zkontrolujte správnost dat."
+	  
+	  form.uiState.operationResultError = true
+	  // Show user message - fail - on form validation
+	  form.uiState.visibilities.operationResult = true
   
 endif
 
 if form.modelEnhancement.clientMsg.sendRequest = True then
-  form.actions.sendErrorAsClientMsgCcl()
+	form.actions.sendErrorAsClientMsgCcl()
 endif
 
 // End of heavy operation
@@ -8768,6 +8752,47 @@ form.modelEnhancement.operationResultMessage.clear()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="saveEnhancement_validateSaspAccounts" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var enh = form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ
+var errorCount = 0
+
+foreach sasp in enh.SASP do
+	 		  
+	var acc = sasp.Account
+		    		    
+	if ( isTrue(acc.AccountNumber.hasValue() = false) or isTrue(acc.AccountNumber.isValid() = false)) then
+		        form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + "\"Číslo účtu IBAN\" není správné. "
+				errorCount = errorCount + 1
+	endif
+		    		    
+	if (isTrue(acc.BankCode.hasValue() = false) OR isTrue(acc.BankCode.isValid() = false) ) then
+		        form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " \"Kód banky BIC\" není správný. "
+				errorCount = errorCount + 1
+	endif
+	    
+endfor
+
+result = errorCount]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
   </Actions>
