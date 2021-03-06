@@ -8128,7 +8128,7 @@ if isTrue(valid) then
 	  	errorCount = form.actions.saveEnhancement_validateSaspAccounts()
 	endIf
     
-	if isTrue(form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced and isTrue(fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid())) then
+	if isTrue(fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid()) then
 	    valid = true
 	else
 	    valid = false
@@ -8945,6 +8945,7 @@ var downloadDataSucess = actions.commonLoadData(myGuid)
 if isTrue(downloadDataSucess) then
 	var savedDetailData = globals.dataLoadingSpace.cdDetailJson
 	form.CD.fromJson(savedDetailData)
+	globals.dataLoadingSpace.cdDetailJson.clear()
 	
 	form.actions.setUpCodeLists()
 	form.actions.handleReceivedData()
