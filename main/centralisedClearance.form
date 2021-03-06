@@ -209,7 +209,7 @@
         </Panel>
         <Panel>
           <Name value="operationResultStatus" />
-          <Orientation value="Horizontal" />
+          <Orientation value="Vertical" />
           <Panel.Height value="#" />
           <Panel.Width value="*" />
           <Bindings>
@@ -235,6 +235,63 @@
                   </CssClass>
                 </Label>
               </Content>
+            </GroupBox>
+            <GroupBox>
+              <Name value="validaceCentraGb" />
+              <Caption value="Validace centra" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="panel17" />
+                  <Orientation value="Vertical" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="50%" />
+                  <Children>
+                    <ServerValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                      <Name value="serverValidationSummary" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="validationErrors" Expression="form.error.serverValidationErrors" />
+                        <Binding SourceProperty="isVisible" Expression="form.uiState.visibilities.isValidationsVisible" />
+                      </Bindings>
+                      <columns>
+                        <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                          <Name value="validationSummaryColumn4" />
+                          <columnCaption value="Validační zpráva Centra" />
+                          <columnWidth value="100%" />
+                          <propertyName value="Reason" />
+                        </validationSummaryColumn>
+                      </columns>
+                      <conditionalCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-servervalidationsummary" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </conditionalCssClass>
+                    </ServerValidationSummary>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="IsVisible" Expression="form.uiState.visibilities.isValidationsVisible" />
+              </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-groupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="serverValidationSection" />
+                </CssClassConditional>
+              </CssClass>
             </GroupBox>
           </Children>
           <CssClass>
@@ -3731,7 +3788,7 @@
                           <Caption value="Identifikace orgánů příslušných pro DPH, SPD a statistiku" />
                           <Content>
                             <Panel>
-                              <Name value="panel47" />
+                              <Name value="panel49" />
                               <Orientation value="Vertical" />
                               <Children>
                                 <Repeater>
@@ -7606,6 +7663,15 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                     </AttributeType>
                   </DeclaredType>
                 </Attribute>
+                <Attribute>
+                  <Name value="isValidationsVisible" />
+                  <Caption value="Is validations visible" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
               </Children>
             </Complex>
             <Computed>
@@ -7689,6 +7755,44 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
               <Caption value="Mode" />
               <MetaType reference="+MetaTypes.DetailMode" />
             </Attribute>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="error" />
+          <Caption value="Error" />
+          <Children>
+            <Collection>
+              <Name value="serverValidationErrors" />
+              <Caption value="Server validation errors" />
+              <Children>
+                <Attribute>
+                  <Name value="Reason" />
+                  <Caption value="Reason" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Collection>
+            <Complex>
+              <Name value="serverValidationComplex" />
+              <Caption value="Server validation complex" />
+              <Children>
+                <Collection>
+                  <Name value="QEI" />
+                  <Caption value="QEI" />
+                  <Children>
+                    <Attribute>
+                      <Name value="QEI01" />
+                      <Caption value="QEI 01" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Collection>
+              </Children>
+            </Complex>
           </Children>
         </Complex>
       </Children>
@@ -7817,7 +7921,6 @@ actions.prepareFormAnnexPannel()
 globals.uiGlobalState.annex.addOtherAnnex.annexTableToSelect.attachedDocumentsCZ.clear()
 
 //set up variables
-
 if form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.exists(current.hasValue()) then
 globals.uiGlobalState.CDversionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.selectFirst(current.index() = 1).customsDecisionVersionGUID
 endIf
@@ -8007,12 +8110,16 @@ form.actions.initCdEnhancementSaspAccounts()
 globals.IsBusy = true
 
 form.actions.clearPreviousNotificationsFromGUI()
+form.uiState.visibilities.isValidationsVisible = false
 
 var enh = form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ
-var valid = enh.customsOfficeOfRelease.isValid()
 
 var errorCount = 0
+var valid = defaultBool()
 var fullyEnh = true
+
+errorCount = form.actions.saveEnhancement_checkValidityOfCO()
+valid = isTrue(errorCount = 0) ? true : false
 
 if isTrue(valid) then
   // let's make check for validity of accounts data - in case they are filled in!
@@ -8032,19 +8139,22 @@ if isTrue(valid) then
 endif
 
 //check if there was erro at any point
-var conditionValidity_bool = (isTrue(errorCount > 0) OR isTrue(valid = false))
-valid = (isTrue(conditionValidity_bool )) ? false : true
+var conditionValidity_bool = (isTrue(errorCount = 0) AND isTrue(valid = true))
+valid = (isTrue(conditionValidity_bool )) ? true : false
 fullyEnh = valid
 
 if isTrue(valid) then
 	  form.actions.fillCdeReq()
 	  
 	  // value shouldn't matter - IC calculates this on it's own - but it's required to be set
-	  enh.fullyEnhanced = false
+	  if isTrue(enh.fullyEnhanced in [false, defaultBool()]) then
+	  	enh.fullyEnhanced = false
+	  endIf
 	  
 	  var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.model.cdeReq.toJson(true))
 	  
 	  if resp.isError() or (resp.getMessageType() = "IN906A") then
+	  		form.actions.validErr_prepareServerErr(resp.extractJson("QERR"))
 		    form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Odesílání zprávy selhalo. Změny se nepovedlo uložit. "
 		    form.modelEnhancement.clientMsg.sendRequest = True
 		    
@@ -8056,6 +8166,7 @@ if isTrue(valid) then
 		    form.uiState.operationResultError = true
 		    // Show user message - fail - on message sending
 		    form.uiState.visibilities.operationResult = true
+		    form.uiState.visibilities.isValidationsVisible = true
 	  else
 		    var respJson = resp.getJsonString()
 		    form.CD.clear()
@@ -8072,11 +8183,13 @@ if isTrue(valid) then
 		    // Show user message - success
 		    form.uiState.visibilities.operationResult = true
 		    
-		    form.actions.afterVersionLoad()
+		    //form.actions.afterVersionLoad()
+		    form.actions.saveEnhancement_checkCurrentData()
 		    
 		    form.uiState.mode = enums.DetailMode.show
 		    
 		    form.modelEnhancement.clientMsg.sendRequest = false
+		    form.uiState.visibilities.isValidationsVisible = false
 	    
 	  endif
 	  
@@ -8089,7 +8202,7 @@ else
   
 endif
 
-if form.modelEnhancement.clientMsg.sendRequest = True then
+if isTrue(form.modelEnhancement.clientMsg.sendRequest) then
 	form.actions.sendErrorAsClientMsgCcl()
 endif
 
@@ -8765,12 +8878,12 @@ foreach sasp in enh.SASP do
 	var acc = sasp.Account
 		    		    
 	if ( isTrue(acc.AccountNumber.hasValue() = false) or isTrue(acc.AccountNumber.isValid() = false)) then
-		        form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + "\"Číslo účtu IBAN\" není správné. "
+		        form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Pro člen kolekce " + toString(sasp.index()) + "\"Číslo účtu IBAN\" není správné. "
 				errorCount = errorCount + 1
 	endif
 		    		    
 	if (isTrue(acc.BankCode.hasValue() = false) OR isTrue(acc.BankCode.isValid() = false) ) then
-		        form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " \"Kód banky BIC\" není správný. "
+		        form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Pro člen kolekce " + toString(sasp.index()) + " \"Kód banky BIC\" není správný. "
 				errorCount = errorCount + 1
 	endif
 	    
@@ -8789,6 +8902,85 @@ result = errorCount]]></Script>
                 <AttributeType>
                   <BaseType value="Integer" />
                 </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="saveEnhancement_checkValidityOfCO" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var enh = form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ
+if isTrue(enh.customsOfficeOfRelease.isValid()) then
+	result = 0
+else
+	result = 1
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="saveEnhancement_checkCurrentData" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var myGuid = (form.GUID.hasValue()) ? form.GUID : form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+
+var downloadDataSucess = actions.commonLoadData(myGuid)
+
+if isTrue(downloadDataSucess) then
+	var savedDetailData = globals.dataLoadingSpace.cdDetailJson
+	form.CD.fromJson(savedDetailData)
+	
+	form.actions.setUpCodeLists()
+	form.actions.handleReceivedData()
+	form.actions.adjustVisibilityOfSaspAccountsGb()
+	
+else
+	form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Nastala chyba při stahování dat aktuálně platného povolení."
+	form.uiState.visibilities.operationResult = true
+endIf
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="validErr_prepareServerErr" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.error.serverValidationComplex.fromJson(extractJsonErrorMessage)
+
+forEach error in form.error.serverValidationComplex.QEI do
+	var newErrorItem = form.error.serverValidationErrors.addItem()
+	newErrorItem.Reason = error.QEI01
+endFor
+
+form.error.serverValidationComplex.clear()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="extractJsonErrorMessage" />
+              <Caption value="Extract json error message" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType />
               </DeclaredType>
             </Attribute>
           </Children>
