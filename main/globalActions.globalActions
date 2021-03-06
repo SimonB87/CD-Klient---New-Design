@@ -52,6 +52,7 @@ if resp.isError() or (resp.getMessageType() = "IN906A") then
   system.consoleError("Response content: " + errorMsg)
   
   globals.dataLoadingSpace.success = false
+  result = false
 else
   globals.dataLoadingSpace.cdDetailJson = resp.getJsonString()
   globals.dataLoadingSpace.success = true
@@ -59,7 +60,7 @@ else
     //Store data into response entity - just load data for annexes
   globals.dataLoadingSpace.annexLoadedData.clear()
   globals.dataLoadingSpace.annexLoadedData.fromJson(resp.getJsonString())
-  
+  result = true
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -86,6 +87,16 @@ endif]]></Script>
               <Caption value="Version guid" />
               <DataContextParameter.IsInput value="True" />
               <MetaType reference="+MetaTypes.Guid" />
+            </Attribute>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
             </Attribute>
           </Children>
         </ActionDataContext>
