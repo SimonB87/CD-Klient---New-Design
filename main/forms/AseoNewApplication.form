@@ -162,41 +162,24 @@
                     <Binding SourceProperty="IsVisible" Expression="globals.OverenyUzivatel.hasWritePermission" />
                   </Bindings>
                   <Children>
-                    <Panel>
-                      <Name value="panel9" />
-                      <Orientation value="Horizontal" />
+                    <Button>
+                      <Name value="buttonLoadSubjectRegisterData" />
+                      <Caption value=" Načíst z registru" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="33.33%" />
-                      <Children>
-                        <Button>
-                          <Name value="buttonLoadSubjectRegisterData" />
-                          <Caption value=" Načíst z registru" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="150px" />
-                          <OnClick>
-                            <ActionEvent ReferencedAction="~loadRegisterData" />
-                          </OnClick>
-                          <Bindings>
-                            <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-button" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </Button>
-                      </Children>
+                      <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~loadRegisterData" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
-                          <ClassName value="{theme}-panel" />
+                          <ClassName value="{theme}-button" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
-                        <CssClassConditional>
-                          <ClassName value="floatRigth" />
-                        </CssClassConditional>
                       </CssClass>
-                    </Panel>
+                    </Button>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
@@ -1952,25 +1935,13 @@ endIf]]></Script>
       <Name value="loadRegisterData" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
-form.request.HodnotaIdentifikatoru = form.aseoApplication.ASEO.TIN
-form.request.KodTypuIdentifikatoru = "EORI"
-form.request.JenUrcujiciIdentifikator = false
-form.request.ZiskatAdresy = false
-form.request.ZiskatIdentifikatory = true
-form.request.ZiskatNespravneUdaje = false
-form.request.ZiskatZpochybneneUdaje = false
-form.request.ZiskatProvozovny = false
-form.request.ZeZakladnichRegistru = true
-form.request.KodEvidence = "ASEO"
-form.request.KodAgendoveRole = "CR328"
-form.request.KodUtvaru = form.aseoApplication.ASEO.Event.DecidingCustomsOffice
-form.request.Uzivatel = globals.OverenyUzivatel.userName
-form.request.IP = "172.0.0.1"
-form.request.Duvod = "Vydávání povolení v ASEO"
+
+form.actions.loadRegisterData_clearPreviousData()
+form.actions.loadRegisterData_setUpVariables()
 
 var response = apiobjects.ServerKomunikace.postAsync("SubjektPodleIdentifikatoruRequestCIC", form.request.toJson())
 
-if response.isError() then
+if response.isError() or isTrue(response.getMessageType() = "IN906A") then
 	system.console(response.getErrorMessage())
 	apiobjects.notificationsCtrl.addError("Došlo k chybě při komunikaci s Centrem.")
 
@@ -1979,7 +1950,7 @@ else
 	form.responseCrs.fromJson(jsonData) 
 		
 	if form.responseCrs.Subjekty.isEmpty() then
-		
+				
 		form.responseCrs.fromJson(response.getJsonString())
 	
 		var warningMessage = "Nepodařilo se najít žádné odpovídající subjekty."
@@ -1994,24 +1965,31 @@ else
 		
 		apiobjects.notificationsCtrl.addWarning(warningMessage)
 	else
+			
+		if form.responseCrs.Subjekty.exists(current.hasValue()) then
 		
-	var mainCol = form.responseCrs.Subjekty.selectFirst()
-	if not mainCol.Subjekt.isEmpty() then
-		var innerCol = mainCol.Subjekt.selectFirst()
-			if not innerCol.SloucenaAdresa.isEmpty() then
-				var targetCol = innerCol.SloucenaAdresa.selectFirst()
-					form.aseoApplication.ASEO.Event.OperatorName = targetCol.PlnyNazev
-					form.aseoApplication.ASEO.Event.OperatorStreetAndNr = targetCol.UliceACislo
-					form.aseoApplication.ASEO.Event.OperatorCity = targetCol.Mesto
-					form.aseoApplication.ASEO.Event.OperatorPostCode = targetCol.PSC
-					form.actions.getOperatorCountry(targetCol.Zeme)
-					apiobjects.notificationsCtrl.addSuccess("Podařilo se získat data z CRS.")
+			var mainCol = form.responseCrs.Subjekty.selectFirst()
+			if not mainCol.Subjekt.isEmpty() then
+			var innerCol = mainCol.Subjekt.selectFirst()
+				if not innerCol.SloucenaAdresa.isEmpty() then
+					var targetCol = innerCol.SloucenaAdresa.selectFirst()
+						form.aseoApplication.ASEO.Event.OperatorName = targetCol.PlnyNazev
+						form.aseoApplication.ASEO.Event.OperatorStreetAndNr = targetCol.UliceACislo
+						form.aseoApplication.ASEO.Event.OperatorCity = targetCol.Mesto
+						form.aseoApplication.ASEO.Event.OperatorPostCode = targetCol.PSC
+						form.actions.getOperatorCountry(targetCol.Zeme)
+						apiobjects.notificationsCtrl.addSuccess("Podařilo se získat data z CRS.")
+				else
+					apiobjects.notificationsCtrl.addError("Došlo k chybě načítání dat.")
+				endIf
 			else
 				apiobjects.notificationsCtrl.addError("Došlo k chybě načítání dat.")
 			endIf
+			
 		else
+		
 			apiobjects.notificationsCtrl.addError("Došlo k chybě načítání dat.")
-		endIf	
+		endIf
 		
 	endIf
 endIf
@@ -2099,6 +2077,44 @@ endIf
         <Script><![CDATA[var url = apiobjects.urlRouter.findFormUrl(navigation.main.AseoNewApplication.fullName)
 
 url.updatePageUrl()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="loadRegisterData_setUpVariables" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.request.HodnotaIdentifikatoru = form.aseoApplication.ASEO.TIN
+form.request.KodTypuIdentifikatoru = "EORI"
+form.request.JenUrcujiciIdentifikator = false
+form.request.ZiskatAdresy = false
+form.request.ZiskatIdentifikatory = true
+form.request.ZiskatNespravneUdaje = false
+form.request.ZiskatZpochybneneUdaje = false
+form.request.ZiskatProvozovny = false
+form.request.ZeZakladnichRegistru = true
+form.request.KodEvidence = "ASEO"
+form.request.KodAgendoveRole = "CR328"
+form.request.KodUtvaru = form.aseoApplication.ASEO.Event.DecidingCustomsOffice
+form.request.Uzivatel = globals.OverenyUzivatel.userName
+form.request.IP = "172.0.0.1"
+form.request.Duvod = "Vydávání povolení v ASEO"]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="loadRegisterData_clearPreviousData" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.responseCrs.Subjekty.clear()
+
+form.aseoApplication.ASEO.Event.OperatorName.clear()
+form.aseoApplication.ASEO.Event.OperatorStreetAndNr.clear()
+form.aseoApplication.ASEO.Event.OperatorCity.clear()
+form.aseoApplication.ASEO.Event.OperatorPostCode.clear()
+form.aseoApplication.ASEO.Event.OperatorCountry.clear()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
