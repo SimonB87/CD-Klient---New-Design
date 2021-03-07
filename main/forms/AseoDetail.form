@@ -174,7 +174,7 @@
           </CssClass>
         </Panel>
         <Panel>
-          <Name value="manageDeclarationButtons" />
+          <Name value="buttonsManageDeclaration" />
           <Orientation value="Vertical" />
           <Panel.Height value="#" />
           <Panel.Width value="*" />
@@ -4284,10 +4284,10 @@
                               <IsEnabled value="False" />
                               <Panel.Height value="#" />
                               <Panel.Width value="50%" />
-                              <Tooltip value="Hodnoty: J - Pozastavení povolení z jiného důvodu" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionReason" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionReason.isRequired()" />
+                                <Binding SourceProperty="Tooltip" Expression="form.formState.customTooltip.tooltip_ReferenceCombo_Zaduzam" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -5156,7 +5156,6 @@
                     <Complex>
                       <Name value="TypeOfPeriod" />
                       <Caption value="Type of period" />
-                      <IsRequired value="True" />
                       <Children>
                         <Attribute>
                           <Name value="Key" />
@@ -6573,6 +6572,20 @@
 			(form.model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason = "Z") ? 
 			"Hodnota:  Z - Odňato na základě žádosti (§66 SŘ)" : defaultString() ) : 
 	defaultString()]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="tooltip_ReferenceCombo_Zaduzam" />
+                  <Caption value="Tooltip _ reference combo _ zaduzam" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[isTrue(form.model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionReason = "J" ) ? 
+	"J - Zamítnutí žádosti z jiného důvodu" : 
+	(isTrue(form.model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionReason = "N") ? 
+	"N - Zamítnutí žádosti z důvodu nesplněných hospodářských podmínek/hospodářské odůvodněnosti" 
+	: (isTrue(form.model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionReason = "Z") ? "Z - Řízení zastaveno (§66 SŘ)" : defaultString() ) )]]></ExpressionText>
                     <ResultType>
                       <BaseType value="String" />
                     </ResultType>
@@ -8456,17 +8469,19 @@ modelNewPeriod.PeriodDuration = modelNewPeriod._ZJPLHUTYP.DOPDELKA
         <Script><![CDATA[var valid = defaultBool()
 var myPeriod = form.model.sekce4rozsirene.newPeriod
 
-if 	form.model.modelStructure.ASEO.Event.Period.exists( 
+if 	( form.model.modelStructure.ASEO.Event.Period.exists( 
 	(Current.TypeOfPeriod.Key = myPeriod._ZJPLHUTYP.ZJPLHUTYP) AND 
 	(Current.Unit = myPeriod.Unit) AND 
-	(Current.PeriodDuration = myPeriod.PeriodDuration)) then
+	(Current.PeriodDuration = myPeriod.PeriodDuration)) ) and (form.model.modelStructure.ASEO.Event.Period.count() > 0 )  then
 	
-	valid = false	
+	valid = false
+	
 else
 
 	valid = true
 
 endIf
+
 
 if (form.model.sekce4rozsirene.newPeriod.isValid() AND isTrue(valid)) then
 
@@ -9741,6 +9756,7 @@ if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.Validi
 	if isTrue(postingSuccess) then
 		form.isEditOn = false
 		form.formState.validationSucess = true
+		form.model.lifeCycleSupport.clear()
 	else
 		form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 		form.formState.validationSucess = false
@@ -9952,6 +9968,8 @@ endIf]]></Script>
 	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 	form.lifeCycleMode = enums.decisionsState.authorize
 	
+	form.actions.prepareFormData(form.authorizationType)
+	
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
 endIf
@@ -9981,6 +9999,7 @@ endIf
 	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
 	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 	
+	form.actions.prepareFormData(form.authorizationType)
 	form.actions.prepareFormForEdit()
 	form.actions.initTabMenu()
 	form.actions.prepareTabsForAction("Upravit povolení")
@@ -10289,6 +10308,7 @@ form.components.tabsMenu.Tab07prehodnoceni.isVisible = True
 form.formState.lifeCycle.showActionButtonPanel = true
 
 form.actions.clearUserNotifications()
+form.model.lifeCycleSupport.clear()
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
@@ -11351,6 +11371,51 @@ endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="prepareFormData" />
+      <Category value="lifeCyclePostingSetUp" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var declarationData = form.model.modelStructure.ASEO.Event
+
+if isTrue(form.lifeCycleMode in [ enums.decisionsState.authorize, enums.decisionsState.authorizeModify ]) then
+
+	if (declarationData.Authorization.ResponsiblePersonWantsToBeNotified.isEmpty() ) then
+		declarationData.Authorization.ResponsiblePersonWantsToBeNotified = false
+	endIf
+
+	if isTrue(authorisationType in ["ACP"]) then
+	
+		if (declarationData.SPACP.ProducesT2L.isEmpty() ) then
+			declarationData.SPACP.ProducesT2L = false
+			
+		endIf
+		
+		if (declarationData.SPACP.ProducesInvoiceTransportDocument.isEmpty() ) then
+			declarationData.SPACP.ProducesInvoiceTransportDocument = false
+
+		endIf		
+	
+	endIf
+
+endIf
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="authorisationType" />
+              <Caption value="Authorisation type" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
   </Actions>
