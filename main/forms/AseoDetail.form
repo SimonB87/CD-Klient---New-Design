@@ -395,7 +395,7 @@
                     </Button>
                     <Button>
                       <Name value="send_ASEOSPAuthorizationSuspending" />
-                      <Caption value="Pozastavit" />
+                      <Caption value="Pozastavit povolení" />
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
@@ -10027,6 +10027,8 @@ endIf
 	
 	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 	form.lifeCycleMode = enums.decisionsState.authorizeModify
+	
+	form.actions.prepareFormData(form.authorizationType)
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
