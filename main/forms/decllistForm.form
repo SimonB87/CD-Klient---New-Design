@@ -143,65 +143,108 @@
               <Panel.Height value="#" />
               <Panel.Width value="*" />
               <Children>
-                <CheckBox>
-                  <Name value="checkBox_isSelectedMyOffice" />
-                  <Caption value="Pouze moje CÚ" />
+                <Panel>
+                  <Name value="panel7" />
+                  <Orientation value="Horizontal" />
                   <Panel.Height value="#" />
-                  <Panel.Width value="150px" />
-                  <Bindings>
-                    <Binding SourceProperty="Data" Expression="uiState.isSelectedMyCUoffice" />
-                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="uiState.isSelectedMyCUoffice.isRequired()" />
-                    <Binding SourceProperty="IsVisible" Expression="form.tabFilter.Tab01.IsSelected" />
-                  </Bindings>
+                  <Panel.Width value="200px" />
+                  <Children>
+                    <CheckBox>
+                      <Name value="checkBox_isSelectedMyOffice" />
+                      <Caption value="Pouze moje CÚ" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="200px" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="uiState.isSelectedMyCUoffice" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="uiState.isSelectedMyCUoffice.isRequired()" />
+                        <Binding SourceProperty="IsVisible" Expression="form.tabFilter.Tab01.IsSelected" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-checkbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </CheckBox>
+                  </Children>
                   <CssClass>
                     <CssClassConditional>
-                      <ClassName value="{theme}-checkbox" />
+                      <ClassName value="{theme}-panel" />
                       <IsThemedStyle value="True" />
                     </CssClassConditional>
                   </CssClass>
-                </CheckBox>
-                <Button>
-                  <Name value="btnOpenDetail" />
-                  <Caption value="Zobrazit detail" />
+                </Panel>
+                <Panel>
+                  <Name value="panel8" />
+                  <Orientation value="Vertical" />
                   <Panel.Height value="#" />
-                  <Panel.HorizontalAlignment value="Right" />
-                  <Panel.Width value="150px" />
-                  <OnClick>
-                    <ActionEvent ReferencedAction="~zobrazDetail_ALANG" />
-                  </OnClick>
-                  <Bindings>
-                    <Binding SourceProperty="IsEnabled" Expression="form.openDetailButtonActive" />
-                    <Binding SourceProperty="IsVisible" Expression="uiState.declListItemSelected" />
-                  </Bindings>
+                  <Panel.Width value="*" />
+                  <Children>
+                    <Panel>
+                      <Name value="panel9" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.HorizontalAlignment value="Right" />
+                      <Panel.Width value="310px" />
+                      <Children>
+                        <Button>
+                          <Name value="btnOpenDetail" />
+                          <Caption value="Zobrazit detail" />
+                          <Panel.Height value="#" />
+                          <Panel.HorizontalAlignment value="Right" />
+                          <Panel.Width value="150px" />
+                          <OnClick>
+                            <ActionEvent ReferencedAction="~zobrazDetail_ALANG" />
+                          </OnClick>
+                          <Bindings>
+                            <Binding SourceProperty="IsEnabled" Expression="form.openDetailButtonActive" />
+                            <Binding SourceProperty="IsVisible" Expression="uiState.declListItemSelected" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-button" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Button>
+                        <Button>
+                          <Name value="btnNewApplication1" />
+                          <Caption value="Přidat nové" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="150px" />
+                          <OnClick>
+                            <ActionEvent ReferencedAction="~action2" />
+                          </OnClick>
+                          <Bindings>
+                            <Binding SourceProperty="IsVisible" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                            <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-button" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                            <CssClassConditional>
+                              <ClassName value="greenBtn" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Button>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Children>
                   <CssClass>
                     <CssClassConditional>
-                      <ClassName value="{theme}-button" />
+                      <ClassName value="{theme}-panel" />
                       <IsThemedStyle value="True" />
                     </CssClassConditional>
                   </CssClass>
-                </Button>
-                <Button>
-                  <Name value="btnNewApplication1" />
-                  <Caption value="Přidat nové" />
-                  <Panel.Height value="#" />
-                  <Panel.Width value="150px" />
-                  <OnClick>
-                    <ActionEvent ReferencedAction="~handler_btnNewApplication_OnClick" />
-                  </OnClick>
-                  <Bindings>
-                    <Binding SourceProperty="IsVisible" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                    <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                  </Bindings>
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-button" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                    <CssClassConditional>
-                      <ClassName value="greenBtn" />
-                    </CssClassConditional>
-                  </CssClass>
-                </Button>
+                </Panel>
               </Children>
               <CssClass>
                 <CssClassConditional>
@@ -486,7 +529,7 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="150px" />
                       <OnClick>
-                        <ActionEvent ReferencedAction="~handler_btnNewApplication_OnClick" />
+                        <ActionEvent ReferencedAction="~action1" />
                       </OnClick>
                       <Bindings>
                         <Binding SourceProperty="IsVisible" Expression="globals.OverenyUzivatel.hasWritePermission" />
@@ -2856,7 +2899,7 @@ form.apiobjects.DatasetNoticesFullAdmin.setReady(true)]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="handler_btnNewApplication_OnClick" />
+      <Name value="action1" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.uiGlobalState.aseoNewSubmission.userCreatedNewSubmission = true
@@ -2909,7 +2952,7 @@ url.updatePageUrl()]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="handler_btnNewApplication_OnClick" />
+      <Name value="action2" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.uiGlobalState.aseoNewSubmission.userCreatedNewSubmission = true
