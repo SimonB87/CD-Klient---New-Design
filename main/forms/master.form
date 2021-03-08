@@ -344,11 +344,11 @@ globals.IsBusy = true
 globals.newSession = true //only for the new session start
 
 // Login + uživatelské role
-system.console("posting LoginRequest")
+//system.console("posting LoginRequest")
 var response = apiobjects.ServerKomunikace.postAsync("loginRequestASEO", "")
 //system.console("response " + response.getMessageType() + ":" + response.getJsonString())
 
-if isTrue(response.isError()) then
+if isTrue(response.isError()) or isTrue(response.getMessageType() = "IN906A") then
 	var errMsg = response.getErrorMessage()
 	system.consoleError("Chyba komunikace se serverem: " + errMsg + " (" + response.getMessageType() + ")")
 	
@@ -382,7 +382,7 @@ else
 		globals.errorMsg = "Chyba - neočekávaný typ odpovědi: " + msgType
 	endif
 endif
-system.console("OverenyUzivatel: " + globals.OverenyUzivatel.toJson())
+//system.console("OverenyUzivatel: " + globals.OverenyUzivatel.toJson())
 
 globals.IsBusy = false
 
