@@ -3102,8 +3102,7 @@ form.CustomsDecisionDetailRequest.customsDecisionAuthorisationData.customsDecisi
 // promise!
 
 var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionDetailRequest",form.CustomsDecisionDetailRequest.toJson())
-if response.isError()
-then
+if response.isError()  then
     system.consoleError("Error in Post: " + response.getErrorMessage() + " (" + response.getMessageType() + ")")
 else
     form.CD.fromJson(response.getJsonString())
@@ -3208,8 +3207,7 @@ form.CustomsDecisionDetailRequest.customsDecisionAuthorisationData.customsDecisi
 system.console(form.CustomsDecisionDetailRequest.customsDecisionAuthorisationData.toJson())
 
 var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionDetailRequest",form.CustomsDecisionDetailRequest.toJson())
-if response.isError()
-then
+if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
     system.consoleError("Error in Post: " + response.getErrorMessage() + " (" + response.getMessageType() + ")")
 else
     form.CD.fromJson(response.getJsonString())
@@ -3318,7 +3316,7 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 
 	var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionAnnexDetailRequest", globals.uiGlobalState.annex.annexDetail.request.toJson())
 	
-	if response.isError() then
+	if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 		system.console(response.getErrorMessage())
 	else
 		
@@ -3447,7 +3445,7 @@ endif
 		//Do the request call to link individual selected CZ annex
 		var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionAnnexLink", globals.uiGlobalState.annex.addOtherAnnex.linkAnnexToCurrentCD.toJson())
 		//check server reply
-		if response.isError() then
+		if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 			system.console(response.getErrorMessage())
 			system.console("Příloha - Identifikátor dokumentu: [" + ToString(selectedAnnex.documentIdentifier) + "] nemohla být nahrána!")
 		else

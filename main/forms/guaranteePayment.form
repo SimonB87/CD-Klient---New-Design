@@ -3876,11 +3876,11 @@
       <Name value="initMain_ALANG" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = true
+
 form.CustomsDecisionDetailRequest.customsDecisionAuthorisationData.customsDecisionGUID = form.GUID
-// promise!
+
 var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionDetailRequest",form.CustomsDecisionDetailRequest.toJson())
-if response.isError()
-then
+if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
     system.consoleError("Error in Post: " + response.getErrorMessage() + " (" + response.getMessageType() + ")")
 else
     form.CD.fromJson(response.getJsonString())
@@ -3889,10 +3889,11 @@ endif
 form.actions.initTabMenu_ALANG()
 form.actions.zjistitTyp_ALANG()
 form.tabsMenu.SelectedTab = 1
-globals.IsBusy = false
 
 actions.prepareFormAnnexPannel()
-form.actions.prepareFormForAnnexInteraction()]]></Script>
+form.actions.prepareFormForAnnexInteraction()
+
+globals.IsBusy = false]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

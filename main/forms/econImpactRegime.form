@@ -15496,7 +15496,7 @@ endif
 		//Do the request call to link individual selected CZ annex
 		var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionAnnexLink", globals.uiGlobalState.annex.addOtherAnnex.linkAnnexToCurrentCD.toJson())
 		//check server reply
-		if response.isError() then
+		if response.isError()  then
 			system.console(response.getErrorMessage())
 			system.console("Příloha - Identifikátor dokumentu: [" + ToString(selectedAnnex.documentIdentifier) + "] nemohla být nahrána!")
 		else
@@ -15742,7 +15742,7 @@ endif
 //Send a message to Center
 var responseReq = apiobjects.ServerKomunikace.postAsync("ClientMsg", form.enhancement.clientMsg.request.toJson())
 
-if responseReq.isError() then
+if responseReq.isError() OR isTrue(responseReq.getMessageType() = "IN906A") then
   system.console(responseReq.getErrorMessage())
   // Tell user that the error message sending failed.
   form.actions.showEnhancementErrorMessage(" Dle kontroly není obohacení úplné (další kontroly obohacení mohou být provedeny ještě v Centru). ", true)
@@ -15880,7 +15880,7 @@ form.dataSetGoodsItems.response.clear()
 
 var response = apiobjects.ServerKomunikace.postAsync("EconomicImpactRegimeSingleGoodsItemDetailRequest", form.dataSetGoodsItems.request.toJson())
 	
-if response.isError() then
+if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 	system.console(response.getErrorMessage())
 
 else
@@ -15910,7 +15910,7 @@ form.dataSetGoodsItems.response.clear()
 
 var response = apiobjects.ServerKomunikace.postAsync("EconomicImpactRegimeSingleGoodsItemDetailRequest", form.dataSetGoodsItems.request.toJson())
 	
-if response.isError() then
+if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 	system.console(response.getErrorMessage())
 	
 else
@@ -15944,7 +15944,7 @@ form.dataSetGoodsItems.response.clear()
 
 var response = apiobjects.ServerKomunikace.postAsync("EconomicImpactRegimeSingleGoodsItemDetailRequest", form.dataSetGoodsItems.request.toJson())
 	
-if response.isError() then
+if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 	system.console(response.getErrorMessage())
 	
 else
@@ -16094,7 +16094,7 @@ form.cdeReq.customsDecisionAuthorisationData.customsDecisionVersionGUID = form.e
 
 var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionEnhancement", form.cdeReq.toJson())
 
-if response.isError() then
+if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 	system.console(response.getErrorMessage())
 else
 	form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
@@ -16330,7 +16330,7 @@ var columnNames = "completed, combinedNomenclatureCode, cnCodeForSecuringExists"
 
 var response = form.apiobjects.declListQuery.getResultAsync(columnNames, filter)
 
-if response.isError() then
+if isTrue(response.isError()) then
 	system.console(response.getErrorMessage())
 else
 	var output = response.getStringValue("combinedNomenclatureCode")

@@ -40,7 +40,7 @@ navigation.main.decllistForm.go()]]></Script>
         <Script><![CDATA[cddReq.customsDecisionAuthorisationData.customsDecisionGUID = guid
 cddReq.customsDecisionAuthorisationData.customsDecisionVersionGUID = versionGuid
 
-system.console(cddReq.customsDecisionAuthorisationData.toJson())
+//system.console(cddReq.customsDecisionAuthorisationData.toJson())
 
 var resp = apiobjects.ServerKomunikace.postAsync("CustomsDecisionDetailRequest", cddReq.toJson())
 
@@ -133,7 +133,7 @@ if globals.uiGlobalState.annex.annexCZdelete.request.customsDecisionAuthorisatio
 	var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionAnnexRemove", globals.uiGlobalState.annex.annexCZdelete.request.toJson())
 
 	//check server reply
-	if response.isError() then
+	if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 		system.console(response.getErrorMessage())
 	endif
 
@@ -172,7 +172,7 @@ if globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.f
 			var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionAnnexStore", globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.toJson())
 		
 			//check server reply
-			if response.isError() then
+			if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 				system.console(response.getErrorMessage())
 				system.alert("Příloha nahrána nebyla.")
 			else
@@ -212,7 +212,7 @@ endif]]></Script>
 var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionAnnexDetailRequest", globals.uiGlobalState.annex.annexDetail.request.toJson())
 		
 //check server reply
-if response.isError() then
+if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 	system.console(response.getErrorMessage())
 else
 
@@ -267,7 +267,7 @@ endif
 //send request
 var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionCZAnnexesForHolderRequest", requestObject.toJson())
 
-if response.isError() then
+if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 	system.console("Error message - CustomsDecisionCZAnnexesForHolderRequest")
 	system.console(response.getErrorMessage())
 else
@@ -304,7 +304,7 @@ globals.uiGlobalState.annex.addOtherAnnex.annexFromOtherCDverions.request.custom
 //send request
 var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionCZAnnexesForAuthorizationRequest", globals.uiGlobalState.annex.addOtherAnnex.annexFromOtherCDverions.request.toJson())
 
-if response.isError() then
+if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 	system.console("Error message - CustomsDecisionCZAnnexesForAuthorizationRequest")
 	system.console(response.getErrorMessage())
 else
