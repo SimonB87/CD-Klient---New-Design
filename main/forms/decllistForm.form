@@ -278,6 +278,7 @@
                   <Name value="cmpd_CustomsDecisionReferenceNumber" />
                   <Caption value="Referenční číslo rozhodnutí" />
                   <ColumnName value="cmpd_CustomsDecisionReferenceNumber" />
+                  <ColumnWidth value="240px" />
                   <IsHtml value="True" />
                   <UnderlyingColumnName value="CustomsDecisionReferenceNumber" />
                 </listColumn>
@@ -2603,7 +2604,7 @@ var resp = apiobjects.ServerKomunikace.getAsync(url)
 
 var respContent = resp.getJsonString()
 
-if resp.isError() then
+if resp.isError() OR isTrue(resp.getMessageType() = "IN906A") then
   form.incompleteCounts.last = 0
   system.consoleError(resp.getErrorMessage())
   system.consoleError("Response content: " + respContent)
@@ -2622,23 +2623,7 @@ else
 	form.uiState.newsCount = toInt(responseContent, -1)
 endIf
 
-
-/*
-// NonLastIncomplete - not being used in 2020
-url = basicUrl + "NonLastIncomplete')"
-resp = apiobjects.ServerKomunikace.getAsync(url)
-
-respContent = resp.getJsonString()
-
-if resp.isError() then
-  form.incompleteCounts.last = 0
-  system.consoleError(resp.getErrorMessage())
-  system.consoleError("Response content: " + respContent)
-else
-  form.incompleteCounts.nonLast = toInt(respContent, -1)
-  form.tabFilter.Tab08.Title = "Historické k doplnění (" + toString(form.incompleteCounts.nonLast) + ")"
-endif
-*/]]></Script>
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -2732,7 +2717,7 @@ form.newsGroup.visibility_addNewNews = False
 	
 	var response = apiobjects.ServerKomunikace.postAsync("KN001A", form.newsGroup.newNewsItem.toJson())
 			
-	if response.isError() then
+	if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 		system.console(response.getErrorMessage())
 		system.alert("Zprávy nebyla nahrána.")
 	else
@@ -2764,7 +2749,7 @@ endIf]]></Script>
 
 	var response = apiobjects.ServerKomunikace.postAsync("KN002A", data)
 
-	if response.isError() then
+	if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 		system.console(response.getErrorMessage())
 		system.alert("Zprávy nebyla změněna na přečtenou.")
 	else
@@ -2798,7 +2783,7 @@ if userInput then
 
 	var response = apiobjects.ServerKomunikace.postAsync("KN004A", data)
 
-	if response.isError() then
+	if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 		system.console(response.getErrorMessage())
 		system.alert("Novinka nemohla být smazána.")
 	else
@@ -2845,7 +2830,7 @@ endIf]]></Script>
 	
 	var response = apiobjects.ServerKomunikace.postAsync("KN005A", form.newsGroup.newsEdit.toJson())
 			
-	if response.isError() then
+	if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 		system.console(response.getErrorMessage())
 		system.alert("Zprávy nebyla upravena.")
 	else
