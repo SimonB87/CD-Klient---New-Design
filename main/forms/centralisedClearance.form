@@ -7082,18 +7082,6 @@
             </CssClassConditional>
           </CssClass>
         </Panel>
-        <Panel>
-          <Name value="pnlNarodniUdaje2" />
-          <Orientation value="Vertical" />
-          <Panel.Height value="#" />
-          <Panel.Width value="*" />
-          <CssClass>
-            <CssClassConditional>
-              <ClassName value="{theme}-panel" />
-              <IsThemedStyle value="True" />
-            </CssClassConditional>
-          </CssClass>
-        </Panel>
       </Children>
       <CssClass>
         <CssClassConditional>
@@ -8556,7 +8544,7 @@ endif]]></Script>
 		//Do the request call to link individual selected CZ annex
 		var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionAnnexLink", globals.uiGlobalState.annex.addOtherAnnex.linkAnnexToCurrentCD.toJson())
 		//check server reply
-		if response.isError() then
+		if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 			system.console(response.getErrorMessage())
 			system.console("Příloha - Identifikátor dokumentu: [" + ToString(selectedAnnex.documentIdentifier) + "] nemohla být nahrána!")
 		else
@@ -8663,7 +8651,7 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 
 	var response = apiobjects.ServerKomunikace.postAsync("CustomsDecisionAnnexDetailRequest", globals.uiGlobalState.annex.annexDetail.request.toJson())
 	
-	if response.isError() then
+	if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 		system.console(response.getErrorMessage())
 	else
 
@@ -8744,7 +8732,7 @@ endif
 //Send a message to Center
 var responseReq = apiobjects.ServerKomunikace.postAsync("ClientMsg", form.modelEnhancement.clientMsg.request.toJson())
 
-if responseReq.isError() then
+if responseReq.isError() OR isTrue(responseReq.getMessageType() = "IN906A") then
   system.console(responseReq.getErrorMessage())
   // Tell user that the error message sending failed.
   form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Odeslání tohoto chybového hlášení se nezdařilo. "
@@ -8817,28 +8805,22 @@ url.updatePageUrl()]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var dataCO = form.CD.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.toJson()
 
-if isFalse(dataCO = defaultString()) then
+var code = form.CD.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.CELU	
 
-	var code = form.CD.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.CELU	
+var findCustomsOffice = form.apiobjects.CELU.getItemByStringColumnAsync("CELU", code, getDateTime(), defaultBool())
 
-	var findCustomsOffice = form.apiobjects.CELU.getItemByStringColumnAsync("CELU", code, getDateTime(), defaultBool())
+if isTrue(findCustomsOffice.isFound() ) then
 	
-	if isTrue(findCustomsOffice.isFound() ) then
+	form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.fromJson(findCustomsOffice.getJsonString())
+		
+else
 	
-		form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.fromJson(findCustomsOffice.getJsonString())
+	var description = form.CD.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.POPIS
 		
-	else
-	
-		var description = form.CD.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.POPIS
-		
-		form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.CELU = code
-		form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.POPIS = description
-		
-	endIf	
-
-endIf
-
-]]></Script>
+	form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.CELU = code
+	form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.POPIS = description
+				
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
