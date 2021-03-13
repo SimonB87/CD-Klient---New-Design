@@ -3066,6 +3066,7 @@
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPSI.DaysOfPayback.isRequired()" />
                             <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPSI.DaysOfPayback.caption()" />
                             <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                            <Binding SourceProperty="IsVisible" Expression="form.formState.visibilities.isVisibleDaysOfPayback" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -6224,6 +6225,18 @@
                     </AttributeType>
                   </DeclaredType>
                 </Attribute>
+                <Computed>
+                  <Name value="isVisibleDaysOfPayback" />
+                  <Caption value="Is visible days of payback" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[isTrue(form.lifeCycleMode in [enums.decisionsState.authorize, enums.decisionsState.authorizeModify])
+AND isTrue(form.authorizationType = "SAR")
+AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "JIN")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
               </Children>
             </Complex>
             <Complex>
@@ -7569,7 +7582,11 @@ true]]></ExpressionText>
         </Modifier>
         <Modifier>
           <Name value="modifier_CA98C8C9_TypeOfPaybackPeriod" />
+          <ShowAsChanges value="True" />
           <SourcePath value="model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod" />
+          <OnChange>
+            <ActionEvent ReferencedAction="+UiParts.AseoDetail.handler_modifier_CA98C8C9_TypeOfPaybackPeriod_OnChange" />
+          </OnChange>
           <Children>
             <Computed>
               <Name value="_description" />
@@ -11418,6 +11435,21 @@ endIf
             </Attribute>
           </Children>
         </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_modifier_CA98C8C9_TypeOfPaybackPeriod_OnChange" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var condition = isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "JIN")
+
+if isTrue(condition = false) then
+	form.model.modelStructure.ASEO.Event.SPSI.DaysOfPayback.clear()
+		
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>
