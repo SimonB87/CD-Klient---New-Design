@@ -7688,7 +7688,9 @@ true]]></ExpressionText>
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(isTrue(form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM = "J") AND
+                <ExpressionText><![CDATA[isTrue(form.lifeCycleMode in 
+	[ enums.decisionsState.applicationReject , enums.decisionsState.applicationRejectModify] ) AND
+(isTrue(form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM = "J") AND
 (hasValue(form.model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription) = false ) ) ?
  	false : true]]></ExpressionText>
                 <ResultType>
@@ -7711,8 +7713,10 @@ true]]></ExpressionText>
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(isTrue(form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.POVOLDUOD = "J") AND
-(hasValue(form.model.modelStructure.ASEO.Event.authorizationWithdrawal.AuthorizationWithdrawalDescription ) = false ) ) ?
+                <ExpressionText><![CDATA[(isTrue(form.lifeCycleMode in 
+	[ enums.decisionsState.authorizeWithdrawal, enums.decisionsState.authorizeWithdrawalModify, enums.decisionsState.authorizeCancellation, enums.decisionsState.authorizeCancellationModify ] ) AND
+(isTrue(form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.POVOLDUOD = "J") AND
+(hasValue(form.model.modelStructure.ASEO.Event.authorizationWithdrawal.AuthorizationWithdrawalDescription ) = false ) ) ) ?
  	false : true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -7734,8 +7738,9 @@ true]]></ExpressionText>
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(isTrue(form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason = "J") AND
-(hasValue(form.model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription ) = false ) ) ?
+                <ExpressionText><![CDATA[(isTrue(form.lifeCycleMode in [ enums.decisionsState.authorizeSuspending, enums.decisionsState.authorizeSuspendingModify ] ) AND
+(isTrue(form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason = "J") AND
+(hasValue(form.model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription ) = false ) ) ) ?
  	false : true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -8310,19 +8315,27 @@ else if stateCode in ["FUA", "AUA", "AUE", "FCA", "FWA"] then
 		tabs.Tab09rezimy.isVisible = true
 		tabs.Tab04zbozi.isVisible = false
 	endIf	
-else if stateCode in ["AUC", "FUW", "AUW"] then 
-	
-	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
-	
-else if stateCode in ["AUS"] then 
+endIf endif
 
-	tabs.Tab12lifecycle_authorizationSuspending.isVisible = true
+var lifeCycleMode_notAuthorize = isTrue((form.lifeCycleMode in [enums.decisionsState.authorize]) = false)
 
-else if stateCode in ["APA", "FUA"] then 
+if isTrue(stateCode in ["AUC", "FUW", "AUW"]) AND isTrue(lifeCycleMode_notAuthorize) then 	
+	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true	
+else 
+	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+endIf
 
+if isTrue(stateCode in ["AUS"]) AND isTrue(lifeCycleMode_notAuthorize) then 
+	tabs.Tab12lifecycle_authorizationSuspending.isVisible = true	
+else 
+	tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
+endIf
+
+if isTrue(stateCode in ["APA", "FUA"]) then 
 	tabs.Tab07prehodnoceni.isVisible = false
-
-endIf endIf endIf endIf endIf
+else
+	tabs.Tab07prehodnoceni.isVisible = true
+endIf
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -9856,26 +9869,12 @@ form.formState.lifeCycle.actionConfirm.actionName = actionName]]></Script>
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
-
-	var tabs = form.components.tabsMenu
-	 tabs.Tab01obecne.isVisible = false
-	 tabs.Tab02lifecycle_authorisation.isVisible = false
-	 tabs.Tab03celniUrady.isVisible = false
-	 tabs.Tab04zbozi.isVisible = false
-	 tabs.Tab05rozsirene.isVisible = false
-	 tabs.Tab06prilohy.isVisible = false
-	 tabs.Tab07prehodnoceni.isVisible = false
-	 tabs.Tab08lhutyAzajisteni.isVisible = false
-	 tabs.Tab09rezimy.isVisible = false
-	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
-	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
-	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-	
+	 
+	form.lifeCycleMode = enums.decisionsState.applicationModify 	
+	form.actions.clearVisibleTabs()
 	form.actions.prepareTabsForAction("Upravit žádost")
 	form.actions.prepareFormForEdit()
 	form.actions.initTabMenu()
-		
-	form.lifeCycleMode = enums.decisionsState.applicationModify
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9892,28 +9891,13 @@ endIf
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
-	var tabs = form.components.tabsMenu
-	 tabs.Tab01obecne.isVisible = false
-	 tabs.Tab02lifecycle_authorisation.isVisible = false
-	 tabs.Tab03celniUrady.isVisible = false
-	 tabs.Tab04zbozi.isVisible = false
-	 tabs.Tab05rozsirene.isVisible = false
-	 tabs.Tab06prilohy.isVisible = false
-	 tabs.Tab07prehodnoceni.isVisible = false
-	 tabs.Tab08lhutyAzajisteni.isVisible = false
-	 tabs.Tab09rezimy.isVisible = false
-	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
-	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
-	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-	 
+	form.lifeCycleMode = enums.decisionsState.applicationReject
+
+	form.actions.clearVisibleTabs()
 	form.actions.prepareTabsForAction("Zamítnout žádost")
 	form.actions.prepareFormForEdit()
 	form.actions.initTabMenu()
-	
-	form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
-	form.components.tabsMenu.SelectedTab = 10
-	
-	form.lifeCycleMode = enums.decisionsState.applicationReject
+	form.actions.editTabMenu(form.lifeCycleMode)
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -9929,29 +9913,14 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
-	var tabs = form.components.tabsMenu
-	 tabs.Tab01obecne.isVisible = false
-	 tabs.Tab02lifecycle_authorisation.isVisible = false
-	 tabs.Tab03celniUrady.isVisible = false
-	 tabs.Tab04zbozi.isVisible = false
-	 tabs.Tab05rozsirene.isVisible = false
-	 tabs.Tab06prilohy.isVisible = false
-	 tabs.Tab07prehodnoceni.isVisible = false
-	 tabs.Tab08lhutyAzajisteni.isVisible = false
-	 tabs.Tab09rezimy.isVisible = false
-	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
-	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
-	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-	
+	form.lifeCycleMode = enums.decisionsState.applicationRejectModify
+
+	form.actions.clearVisibleTabs()
 	form.actions.prepareFormForEdit()
 	form.actions.initTabMenu()
 	form.actions.prepareTabsForAction("Upravit zamítnutí")
+	form.actions.editTabMenu(form.lifeCycleMode)
 	
-	form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
-	form.components.tabsMenu.SelectedTab = 10
-	
-	form.lifeCycleMode = enums.decisionsState.applicationRejectModify
-
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
 endIf]]></Script>
@@ -9965,21 +9934,11 @@ endIf]]></Script>
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
-
-	var tabs = form.components.tabsMenu
-	 tabs.Tab01obecne.isVisible = false
-	 tabs.Tab02lifecycle_authorisation.isVisible = false
-	 tabs.Tab03celniUrady.isVisible = false
-	 tabs.Tab04zbozi.isVisible = false
-	 tabs.Tab05rozsirene.isVisible = false
-	 tabs.Tab06prilohy.isVisible = false
-	 tabs.Tab07prehodnoceni.isVisible = false
-	 tabs.Tab08lhutyAzajisteni.isVisible = false
-	 tabs.Tab09rezimy.isVisible = false
-	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
-	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
-	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 	
+	form.lifeCycleMode = enums.decisionsState.authorize
+	var tabs = form.components.tabsMenu
+	
+	form.actions.clearVisibleTabs()
 	form.actions.initTabMenu()
 	form.actions.prepareFormForEdit()
 	form.actions.prepareTabsForAction(form.formState.lifeCycle.pastAuthorisation.authorisationButtonText)//"Autorizovat"
@@ -10008,7 +9967,6 @@ endIf]]></Script>
 	endIf
 	
 	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
-	form.lifeCycleMode = enums.decisionsState.authorize
 	
 	form.actions.prepareFormData(form.authorizationType)
 	
@@ -10027,20 +9985,10 @@ endIf
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
+	form.lifeCycleMode = enums.decisionsState.authorizeModify
 	var tabs = form.components.tabsMenu
-	 tabs.Tab01obecne.isVisible = false
-	 tabs.Tab02lifecycle_authorisation.isVisible = false
-	 tabs.Tab03celniUrady.isVisible = false
-	 tabs.Tab04zbozi.isVisible = false
-	 tabs.Tab05rozsirene.isVisible = false
-	 tabs.Tab06prilohy.isVisible = false
-	 tabs.Tab07prehodnoceni.isVisible = false
-	 tabs.Tab08lhutyAzajisteni.isVisible = false
-	 tabs.Tab09rezimy.isVisible = false
-	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
-	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
-	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 	
+	form.actions.clearVisibleTabs()
 	form.actions.prepareFormData(form.authorizationType)
 	form.actions.prepareFormForEdit()
 	form.actions.initTabMenu()
@@ -10068,7 +10016,6 @@ endIf
 	endIf
 	
 	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
-	form.lifeCycleMode = enums.decisionsState.authorizeModify
 	
 	form.actions.prepareFormData(form.authorizationType)
 
@@ -10086,32 +10033,13 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
-	var tabs = form.components.tabsMenu
-	 tabs.Tab01obecne.isVisible = false
-	 tabs.Tab02lifecycle_authorisation.isVisible = false
-	 tabs.Tab06prilohy.isVisible = false
-	 tabs.Tab07prehodnoceni.isVisible = false
-	 tabs.Tab08lhutyAzajisteni.isVisible = false
-	 tabs.Tab09rezimy.isVisible = false
-	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
-	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
-	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-	
+	form.lifeCycleMode = enums.decisionsState.authorizeWithdrawal
+
+	form.actions.clearVisibleTabs()
 	form.actions.initTabMenu()
 	form.actions.prepareFormForEdit()
 	form.actions.prepareTabsForAction("Zrušit povolení")
-	
-	tabs.Tab03celniUrady.isVisible = false
-	tabs.Tab04zbozi.isVisible = false
-	tabs.Tab05rozsirene.isVisible = false
-	
-	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
-	tabs.SelectedTab = 11
-	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"
-	
-	tabs.Tab09rezimy.isVisible = false
-	
-	form.lifeCycleMode = enums.decisionsState.authorizeWithdrawal
+	form.actions.editTabMenu(form.lifeCycleMode)
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -10127,31 +10055,14 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
+	form.lifeCycleMode = enums.decisionsState.authorizeSuspending
 	var tabs = form.components.tabsMenu
-	 tabs.Tab01obecne.isVisible = false
-	 tabs.Tab02lifecycle_authorisation.isVisible = false
-	 tabs.Tab06prilohy.isVisible = false
-	 tabs.Tab07prehodnoceni.isVisible = false
-	 tabs.Tab08lhutyAzajisteni.isVisible = false
-	 tabs.Tab09rezimy.isVisible = false
-	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
-	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
-	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-	
+
+	form.actions.clearVisibleTabs()
 	form.actions.initTabMenu()
 	form.actions.prepareTabsForAction("Pozastavit")
 	form.actions.prepareFormForEdit()
-	
-	tabs.Tab03celniUrady.isVisible = false
-	tabs.Tab04zbozi.isVisible = false
-	tabs.Tab05rozsirene.isVisible = false
-	
-	form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible = True
-	form.components.tabsMenu.SelectedTab = 12
-	
-	tabs.Tab09rezimy.isVisible = false
-	
-	form.lifeCycleMode = enums.decisionsState.authorizeSuspending
+	form.actions.editTabMenu(form.lifeCycleMode)
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -10167,32 +10078,15 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
+	form.lifeCycleMode = enums.decisionsState.authorizeSuspendingModify
 	var tabs = form.components.tabsMenu
-	 tabs.Tab01obecne.isVisible = false
-	 tabs.Tab02lifecycle_authorisation.isVisible = false
-	 tabs.Tab06prilohy.isVisible = false
-	 tabs.Tab07prehodnoceni.isVisible = false
-	 tabs.Tab08lhutyAzajisteni.isVisible = false
-	 tabs.Tab09rezimy.isVisible = false
-	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
-	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
-	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 	
+	form.actions.clearVisibleTabs()
 	form.actions.initTabMenu()
 	form.actions.prepareFormForEdit()
 	form.actions.prepareTabsForAction("Upravit pozastavení")
+	form.actions.editTabMenu(form.lifeCycleMode)
 	
-	tabs.Tab03celniUrady.isVisible = false
-	tabs.Tab04zbozi.isVisible = false
-	tabs.Tab05rozsirene.isVisible = false
-	
-	form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible = True
-	form.components.tabsMenu.SelectedTab = 12
-	
-	tabs.Tab09rezimy.isVisible = false
-	
-	form.lifeCycleMode = enums.decisionsState.authorizeSuspendingModify
-
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
 endIf]]></Script>
@@ -10207,33 +10101,15 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
+	form.lifeCycleMode = enums.decisionsState.authorizeCancellation
 	var tabs = form.components.tabsMenu
-	 tabs.Tab01obecne.isVisible = false
-	 tabs.Tab02lifecycle_authorisation.isVisible = false
-	 tabs.Tab06prilohy.isVisible = false
-	 tabs.Tab07prehodnoceni.isVisible = false
-	 tabs.Tab08lhutyAzajisteni.isVisible = false
-	 tabs.Tab09rezimy.isVisible = false
-	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
-	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
-	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 	
+	form.actions.clearVisibleTabs()
 	form.actions.initTabMenu()
 	form.actions.prepareFormForEdit()
 	form.actions.prepareTabsForAction("Zneplatit povolení")
+	form.actions.editTabMenu(form.lifeCycleMode)
 	
-	tabs.Tab03celniUrady.isVisible = false
-	tabs.Tab04zbozi.isVisible = false
-	tabs.Tab05rozsirene.isVisible = false
-	
-	form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisible = true
-	form.components.tabsMenu.SelectedTab = 11
-	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zneplatnění"
-	
-	tabs.Tab09rezimy.isVisible = false
-	
-	form.lifeCycleMode = enums.decisionsState.authorizeCancellation
-
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
 endIf]]></Script>
@@ -10248,33 +10124,16 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
+	form.lifeCycleMode = enums.decisionsState.authorizeCancellationModify
+
 	var tabs = form.components.tabsMenu
-	 tabs.Tab01obecne.isVisible = false
-	 tabs.Tab02lifecycle_authorisation.isVisible = false
-	 tabs.Tab06prilohy.isVisible = false
-	 tabs.Tab07prehodnoceni.isVisible = false
-	 tabs.Tab08lhutyAzajisteni.isVisible = false
-	 tabs.Tab09rezimy.isVisible = false
-	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
-	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
-	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 	
+	form.actions.clearVisibleTabs()
 	form.actions.initTabMenu()
 	form.actions.prepareFormForEdit()
 	form.actions.prepareTabsForAction("Upravit zneplatnění")
+	form.actions.editTabMenu(form.lifeCycleMode)
 	
-	tabs.Tab03celniUrady.isVisible = false
-	tabs.Tab04zbozi.isVisible = false
-	tabs.Tab05rozsirene.isVisible = false
-	
-	form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisible = true
-	form.components.tabsMenu.SelectedTab = 11
-	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zneplatnění"
-	
-	tabs.Tab09rezimy.isVisible = false
-	
-	form.lifeCycleMode = enums.decisionsState.authorizeCancellationModify
-
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
 endIf
@@ -10290,24 +10149,14 @@ endIf
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
-var tabs = form.components.tabsMenu
- tabs.Tab01obecne.isVisible = false
- tabs.Tab02lifecycle_authorisation.isVisible = false
- tabs.Tab03celniUrady.isVisible = false
- tabs.Tab04zbozi.isVisible = false
- tabs.Tab05rozsirene.isVisible = false
- tabs.Tab06prilohy.isVisible = false
- tabs.Tab07prehodnoceni.isVisible = false
- tabs.Tab08lhutyAzajisteni.isVisible = false
- tabs.Tab09rezimy.isVisible = false
- tabs.Tab10lifecycle_applicationRejection.isVisible = false
- tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
- tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-
-form.actions.initTabMenu()
-form.actions.prepareTabsForAction("Odstranit budoucí změnu")
-form.actions.prepareFormForEdit()
-
+	form.lifeCycleMode = enums.decisionsState.detail
+	form.isEditOn = false
+	
+	form.actions.clearVisibleTabs()
+	form.actions.initTabMenu()
+	form.actions.prepareTabsForAction("Odstranit budoucí změnu")
+	form.actions.prepareFormForEdit()
+	
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
 endIf
@@ -10873,32 +10722,13 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
-	var tabs = form.components.tabsMenu
-	 tabs.Tab01obecne.isVisible = false
-	 tabs.Tab02lifecycle_authorisation.isVisible = false
-	 tabs.Tab06prilohy.isVisible = false
-	 tabs.Tab07prehodnoceni.isVisible = false
-	 tabs.Tab08lhutyAzajisteni.isVisible = false
-	 tabs.Tab09rezimy.isVisible = false
-	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
-	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
-	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-	
+	form.lifeCycleMode = enums.decisionsState.authorizeWithdrawal
+
+	form.actions.clearVisibleTabs()	
 	form.actions.initTabMenu()
 	form.actions.prepareFormForEdit()
 	form.actions.prepareTabsForAction("Zrušit povolení.")
-	
-	tabs.Tab03celniUrady.isVisible = false
-	tabs.Tab04zbozi.isVisible = false
-	tabs.Tab05rozsirene.isVisible = false
-	
-	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
-	tabs.SelectedTab = 11
-	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"
-	 
-	tabs.Tab09rezimy.isVisible = false
-	 
-	form.lifeCycleMode = enums.decisionsState.authorizeWithdrawal
+	form.actions.editTabMenu(form.lifeCycleMode)
 
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -11382,33 +11212,15 @@ form.formState.visibilities.isValidationsVisible = True	]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.isLastVersionSelected = true then
 
+	form.lifeCycleMode = enums.decisionsState.authorizeWithdrawalModify
 	var tabs = form.components.tabsMenu
-	 tabs.Tab01obecne.isVisible = false
-	 tabs.Tab02lifecycle_authorisation.isVisible = false
-	 tabs.Tab06prilohy.isVisible = false
-	 tabs.Tab07prehodnoceni.isVisible = false
-	 tabs.Tab08lhutyAzajisteni.isVisible = false
-	 tabs.Tab09rezimy.isVisible = false
-	 tabs.Tab10lifecycle_applicationRejection.isVisible = false
-	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
-	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-	
+
+	form.actions.clearVisibleTabs()
 	form.actions.initTabMenu()
 	form.actions.prepareFormForEdit()
 	form.actions.prepareTabsForAction("Upravit zrušení")
+	form.actions.editTabMenu(form.lifeCycleMode)
 	
-	tabs.Tab03celniUrady.isVisible = false
-	tabs.Tab04zbozi.isVisible = false
-	tabs.Tab05rozsirene.isVisible = false
-	
-	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
-	tabs.SelectedTab = 11
-	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"
-	
-	tabs.Tab09rezimy.isVisible = false
-	
-	form.lifeCycleMode = enums.decisionsState.authorizeWithdrawalModify
-
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
 endIf]]></Script>
@@ -11475,6 +11287,83 @@ endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="clearVisibleTabs" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var tabs = form.components.tabsMenu
+tabs.Tab01obecne.isVisible = false
+tabs.Tab02lifecycle_authorisation.isVisible = false
+tabs.Tab03celniUrady.isVisible = false
+tabs.Tab04zbozi.isVisible = false
+tabs.Tab05rozsirene.isVisible = false
+tabs.Tab06prilohy.isVisible = false
+tabs.Tab07prehodnoceni.isVisible = false
+tabs.Tab08lhutyAzajisteni.isVisible = false
+tabs.Tab09rezimy.isVisible = false
+tabs.Tab10lifecycle_applicationRejection.isVisible = false
+tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
+tabs.Tab12lifecycle_authorizationSuspending.isVisible = false]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="editTabMenu" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var tabs = form.components.tabsMenu
+
+if isTrue(lifeCycleMode in [enums.decisionsState.applicationReject, enums.decisionsState.applicationRejectModify]) then
+	
+	form.components.tabsMenu.Tab10lifecycle_applicationRejection.isVisible = true
+	form.components.tabsMenu.SelectedTab = 10
+
+else if isTrue(lifeCycleMode in [enums.decisionsState.authorizeWithdrawal, enums.decisionsState.authorizeWithdrawalModify]) then
+	
+	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
+	tabs.SelectedTab = 11
+	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"	
+	
+else if isTrue(lifeCycleMode in [enums.decisionsState.authorizeSuspending, enums.decisionsState.authorizeSuspendingModify]) then
+
+	form.components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible = True
+	form.components.tabsMenu.SelectedTab = 12
+
+else if isTrue(lifeCycleMode in [enums.decisionsState.authorizeCancellation, enums.decisionsState.authorizeCancellationModify]) then
+
+	form.components.tabsMenu.Tab11lifecycle_authorizationWithdrawal.isVisible = true
+	form.components.tabsMenu.SelectedTab = 11
+	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zneplatnění"
+
+endIf endIf endIf endIf
+
+
+if isTrue(lifeCycleMode in 
+	[enums.decisionsState.authorizeWithdrawal, enums.decisionsState.authorizeWithdrawalModify,
+	 enums.decisionsState.authorizeSuspending, enums.decisionsState.authorizeSuspendingModify,
+	 enums.decisionsState.authorizeCancellation, enums.decisionsState.authorizeCancellationModify]) then
+	 
+	tabs.Tab03celniUrady.isVisible = false
+	tabs.Tab04zbozi.isVisible = false
+	tabs.Tab05rozsirene.isVisible = false
+	tabs.Tab09rezimy.isVisible = false	 
+
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="lifeCycleMode" />
+              <Caption value="Life cycle mode" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <MetaType reference="+MetaTypes.decisionsState" />
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
   </Actions>
