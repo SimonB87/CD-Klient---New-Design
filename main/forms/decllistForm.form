@@ -2440,12 +2440,12 @@ if type = "SAS" then
   navigation.main.selfAssessment.withGUID(guid).go()
 endif
 
-if ((type = "ACP") and (customsDecisionOrigin = "CD")) then
+if (isTrue(type = "ACP") and isTrue(customsDecisionOrigin = "CD")) then
   unSupported = false
   navigation.main.issuerDetail.withGUID(guid).go()
 endif
 
-if (isAseoDetail and (customsDecisionOrigin = "SP")) then
+if (isTrue(isAseoDetail) and isTrue(customsDecisionOrigin = "SP")) then
   unSupported = false
   navigation.main.AseoDetail.withGUID(guid).go(type)
 endif
@@ -2453,7 +2453,7 @@ endif
 globals.IsBusy = false
 
 if unSupported then 
-	system.alert("Tento typ rozhodnutí není aplikací podporován.")
+	apiobjects.notificationsCtrl.addWarning("Tento typ rozhodnutí není aplikací podporován.")
 	globals.mainPage = false
 endif
 
