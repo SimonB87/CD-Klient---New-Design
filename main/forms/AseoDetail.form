@@ -4286,8 +4286,8 @@
                               <Panel.Height value="#" />
                               <Panel.Width value="50%" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionReason" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionReason.isRequired()" />
+                                <Binding SourceProperty="Data" Expression="model.lifeCycleSupport.applicationRejection.ApplicationRejectionReason.ZADUZAM" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.applicationRejection.ApplicationRejectionReason.ZADUZAM.isRequired()" />
                                 <Binding SourceProperty="Tooltip" Expression="form.formState.customTooltip.tooltip_ReferenceCombo_Zaduzam" />
                               </Bindings>
                               <CssClass>
@@ -4306,8 +4306,8 @@
                               <Panel.Width value="50%" />
                               <ReferenceList reference="~zaduzam" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.lifeCycleSupport.applicationRejection.ZADUZAM" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.applicationRejection.ZADUZAM.isRequired()" />
+                                <Binding SourceProperty="Data" Expression="model.lifeCycleSupport.applicationRejection.ApplicationRejectionReason" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.applicationRejection.ApplicationRejectionReason.isRequired()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -4412,8 +4412,8 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="50%" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason.isRequired()" />
+                            <Binding SourceProperty="Data" Expression="model.lifeCycleSupport.authorizationWithdrawal.AuthorizationWithdrawalReason.POVOLDUOD" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.authorizationWithdrawal.AuthorizationWithdrawalReason.POVOLDUOD.isRequired()" />
                             <Binding SourceProperty="Tooltip" Expression="form.formState.customTooltip.tooltip_referenceCombo_POVOLDUOD" />
                           </Bindings>
                           <CssClass>
@@ -4431,8 +4431,8 @@
                           <Panel.Width value="50%" />
                           <ReferenceList reference="~pOVOLDUOD" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression=" model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression=" model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.isRequired()" />
+                            <Binding SourceProperty="Data" Expression="model.lifeCycleSupport.authorizationWithdrawal.AuthorizationWithdrawalReason" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.authorizationWithdrawal.AuthorizationWithdrawalReason.isRequired()" />
                             <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                           </Bindings>
                           <CssClass>
@@ -4726,65 +4726,25 @@
                   <Name value="applicationRejection" />
                   <Caption value="Application rejection" />
                   <Children>
-                    <Reference>
-                      <Name value="ZADUZAM" />
-                      <Caption value="Upravit Důvod zamítnuté žádosti" />
-                      <Children>
-                        <Attribute>
-                          <Name value="ZADUZAM" />
-                          <Caption value="ZADUZAM" />
-                          <DeclaredType>
-                            <AttributeType />
-                          </DeclaredType>
-                        </Attribute>
-                        <Attribute>
-                          <Name value="POPIS" />
-                          <Caption value="POPIS" />
-                          <DeclaredType>
-                            <AttributeType />
-                          </DeclaredType>
-                        </Attribute>
-                        <Computed>
-                          <Name value="_description" />
-                          <Caption value="_description" />
-                          <Expression IsValid="True">
-                            <ExpressionText><![CDATA[functions.codeListDescription(ZADUZAM,POPIS)]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="String" />
-                            </ResultType>
-                          </Expression>
-                        </Computed>
-                      </Children>
-                      <Validators>
-                        <Validator Name="requiredRejectionReason">
-                          <ErrorMessage IsValid="True">
-                            <ExpressionText><![CDATA["Pro Zamítnutí žádosti je nutné povinně vyplnit \"Upravit Důvod zamítnuté žádosti\""]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="String" />
-                            </ResultType>
-                          </ErrorMessage>
-                          <IsValid IsValid="True">
-                            <ExpressionText><![CDATA[true /*
-(form.lifeCycleMode in [ enums.decisionsState.applicationReject , enums.decisionsState.applicationRejectModify ]) ? 
-	(this.ZADUZAM.isEmpty() ? false : true ) : 
-	true*/]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="Bool" />
-                            </ResultType>
-                          </IsValid>
-                        </Validator>
-                      </Validators>
-                    </Reference>
                     <Computed>
                       <Name value="requiredMarkAR" />
                       <Caption value="Required mark AR" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[this.ZADUZAM.ZADUZAM = "J" ? true : false]]></ExpressionText>
+                        <ExpressionText><![CDATA[this.ApplicationRejectionReason.ZADUZAM = "J" ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
                       </Expression>
                     </Computed>
+                    <Reference>
+                      <Name value="ApplicationRejectionReason" />
+                      <Caption value="Application rejection reason" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.ZADUZAM" />
+                        </Include>
+                      </Children>
+                    </Reference>
                   </Children>
                   <Validators>
                     <Validator Name="requiredValidSupportRejection">
@@ -4810,65 +4770,25 @@
                   <Name value="authorizationWithdrawal" />
                   <Caption value="Authorization withdrawal" />
                   <Children>
-                    <Reference>
-                      <Name value="POVOLDUOD" />
-                      <Caption value="Změnit typ Důvodu" />
-                      <Children>
-                        <Attribute>
-                          <Name value="POVOLDUOD" />
-                          <Caption value="POVOLDUOD" />
-                          <DeclaredType>
-                            <AttributeType />
-                          </DeclaredType>
-                        </Attribute>
-                        <Attribute>
-                          <Name value="POPIS" />
-                          <Caption value="POPIS" />
-                          <DeclaredType>
-                            <AttributeType />
-                          </DeclaredType>
-                        </Attribute>
-                        <Computed>
-                          <Name value="_description" />
-                          <Caption value="_description" />
-                          <Expression IsValid="True">
-                            <ExpressionText><![CDATA[functions.codeListDescription(POVOLDUOD,POPIS)]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="String" />
-                            </ResultType>
-                          </Expression>
-                        </Computed>
-                      </Children>
-                      <Validators>
-                        <Validator Name="requiredWithdrawalReason">
-                          <ErrorMessage IsValid="True">
-                            <ExpressionText><![CDATA["Pro Zneplatnění povolení je nutné vyplnit \"Změnit typ Důvodu\"."]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="String" />
-                            </ResultType>
-                          </ErrorMessage>
-                          <IsValid IsValid="True">
-                            <ExpressionText><![CDATA[true /*
-(form.lifeCycleMode in [ enums.decisionsState.authorizeWithdrawal , enums.decisionsState.authorizeWithdrawalModify, enums.decisionsState.authorizeCancellation, enums.decisionsState.authorizeCancellationModify ]) ? 
-	(this.POVOLDUOD.isEmpty() ? false : true ) : 
-	true*/]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="Bool" />
-                            </ResultType>
-                          </IsValid>
-                        </Validator>
-                      </Validators>
-                    </Reference>
                     <Computed>
                       <Name value="requiredMarkAW" />
                       <Caption value="Required mark AW" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[this.POVOLDUOD.POVOLDUOD = "J" ? true : false]]></ExpressionText>
+                        <ExpressionText><![CDATA[this.AuthorizationWithdrawalReason.POVOLDUOD = "J" ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
                       </Expression>
                     </Computed>
+                    <Reference>
+                      <Name value="AuthorizationWithdrawalReason" />
+                      <Caption value="Authorization withdrawal reason" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.POVOLDUOD" />
+                        </Include>
+                      </Children>
+                    </Reference>
                   </Children>
                   <Validators>
                     <Validator Name="requiredValidSupportWithdraw">
@@ -7363,10 +7283,32 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
         <Modifier>
           <Name value="modifier_BADEE68C_ApplicationRejection" />
           <SourcePath value="requests.ASEOmegaMessage.ASEO.Event.ApplicationRejection" />
+          <Children>
+            <Complex>
+              <Name value="ApplicationRejectionReason" />
+              <Caption value="Application rejection reason" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ZADUZAM" />
+                </Include>
+              </Children>
+            </Complex>
+          </Children>
         </Modifier>
         <Modifier>
           <Name value="modifier_1FDB7ECF_AuthorizationWithdrawal" />
           <SourcePath value="requests.ASEOmegaMessage.ASEO.Event.AuthorizationWithdrawal" />
+          <Children>
+            <Complex>
+              <Name value="AuthorizationWithdrawalReason" />
+              <Caption value="Authorization withdrawal reason" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.POVOLDUOD" />
+                </Include>
+              </Children>
+            </Complex>
+          </Children>
         </Modifier>
         <Modifier>
           <Name value="modifier_5EEFBCF1_File" />
@@ -7690,7 +7632,7 @@ true]]></ExpressionText>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[isTrue(form.lifeCycleMode in 
 	[ enums.decisionsState.applicationReject , enums.decisionsState.applicationRejectModify] ) AND
-(isTrue(form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM = "J") AND
+(isTrue(form.model.lifeCycleSupport.applicationRejection.ApplicationRejectionReason.ZADUZAM = "J") AND
 (hasValue(form.model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription) = false ) ) ?
  	false : true]]></ExpressionText>
                 <ResultType>
@@ -7715,7 +7657,7 @@ true]]></ExpressionText>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(isTrue(form.lifeCycleMode in 
 	[ enums.decisionsState.authorizeWithdrawal, enums.decisionsState.authorizeWithdrawalModify, enums.decisionsState.authorizeCancellation, enums.decisionsState.authorizeCancellationModify ] ) AND
-(isTrue(form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.POVOLDUOD = "J") AND
+(isTrue(form.model.lifeCycleSupport.authorizationWithdrawal.AuthorizationWithdrawalReason.POVOLDUOD = "J") AND
 (hasValue(form.model.modelStructure.ASEO.Event.authorizationWithdrawal.AuthorizationWithdrawalDescription ) = false ) ) ) ?
  	false : true]]></ExpressionText>
                 <ResultType>
@@ -7802,6 +7744,15 @@ true]]></ExpressionText>
           <Name value="modifier_B0A891F2_ApplicationRejection" />
           <ShowAsChanges value="True" />
           <SourcePath value="model.modelStructure.ASEO.Event.ApplicationRejection" />
+          <Children>
+            <Attribute>
+              <Name value="ApplicationRejectionReason" />
+              <Caption value="Application rejection reason" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
           <Validators>
             <Validator Name="requiredRejectObject">
               <ErrorMessage IsValid="True">
@@ -7813,7 +7764,7 @@ true]]></ExpressionText>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(form.lifeCycleMode in 
 	[enums.decisionsState.applicationReject, enums.decisionsState.applicationRejectModify] ) ? 
-	(hasValue(form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM) ? true : false) : 
+	(hasValue(form.model.lifeCycleSupport.applicationRejection.ApplicationRejectionReason.ZADUZAM ) ? true : false) : 
 	true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -7830,7 +7781,7 @@ true]]></ExpressionText>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(form.lifeCycleMode in 
 	[enums.decisionsState.applicationReject, enums.decisionsState.applicationRejectModify] ) ? 
-	((form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM = "J") AND (hasvalue(form.model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription) = false) ? false : true) : 
+	((form.model.lifeCycleSupport.applicationRejection.ApplicationRejectionReason.ZADUZAM = "J") AND (hasvalue(form.model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionDescription) = false) ? false : true) : 
 	true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -7843,6 +7794,15 @@ true]]></ExpressionText>
           <Name value="modifier_A81801F5_AuthorizationWithdrawal" />
           <ShowAsChanges value="True" />
           <SourcePath value="model.modelStructure.ASEO.Event.AuthorizationWithdrawal" />
+          <Children>
+            <Attribute>
+              <Name value="AuthorizationWithdrawalReason" />
+              <Caption value="Authorization withdrawal reason" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
           <Validators>
             <Validator Name="requiredObjectCancelWithdraw">
               <ErrorMessage IsValid="True">
@@ -7855,7 +7815,7 @@ true]]></ExpressionText>
                 <ExpressionText><![CDATA[(form.lifeCycleMode in 
 	[enums.decisionsState.authorizeWithdrawal, enums.decisionsState.authorizeWithdrawalModify, 
 	enums.decisionsState.authorizeCancellation, enums.decisionsState.authorizeCancellationModify] ) ? 
-	(hasValue(form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.POVOLDUOD) ? true : false ) : 
+	(hasValue(form.model.lifeCycleSupport.authorizationWithdrawal.AuthorizationWithdrawalReason.POVOLDUOD) ? true : false ) : 
 	true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -7873,7 +7833,7 @@ true]]></ExpressionText>
                 <ExpressionText><![CDATA[(form.lifeCycleMode in 
 	[enums.decisionsState.authorizeWithdrawal , enums.decisionsState.authorizeWithdrawalModify, 
 	 enums.decisionsState.authorizeCancellation , enums.decisionsState.authorizeCancellationModify ] ) ? 
-	((form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.POVOLDUOD = "J") AND (hasvalue(form.model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription) = false) ? false : true) : 
+	((form.model.lifeCycleSupport.authorizationWithdrawal.AuthorizationWithdrawalReason.POVOLDUOD = "J") AND (hasvalue(form.model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription) = false) ? false : true) : 
 	true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -8853,9 +8813,9 @@ if isTrue(messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationReject
 	aseoMegaMessage.fromJson(form.formState.modelJson)
 	aseoMegaMessage.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage()
-	aseoMegaMessage.ASEO.Event.ApplicationRejection.ApplicationRejectionReason = form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM
+	aseoMegaMessage.ASEO.Event.ApplicationRejection.ApplicationRejectionReason.fromJson( form.model.lifeCycleSupport.applicationRejection.ApplicationRejectionReason.toJson() )  
 	//for valdiations
-	form.model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionReason = form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM 
+	form.model.modelStructure.ASEO.Event.ApplicationRejection.ApplicationRejectionReason = form.model.lifeCycleSupport.applicationRejection.ApplicationRejectionReason.ZADUZAM
 endIf
 
 if isTrue(messageType in ["ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawalModification"]) then
@@ -8865,9 +8825,9 @@ if isTrue(messageType in ["ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationC
 	aseoMegaMessage.fromJson(form.formState.modelJson)
 	aseoMegaMessage.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage()
-	aseoMegaMessage.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason = form. model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.POVOLDUOD
+	aseoMegaMessage.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason.fromJson( form.model.lifeCycleSupport.authorizationWithdrawal.AuthorizationWithdrawalReason.toJson() )  
 	//for valdiations
-	form.model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason = form.model.lifeCycleSupport.applicationRejection.ZADUZAM.ZADUZAM
+	form.model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason = form.model.lifeCycleSupport.authorizationWithdrawal.AuthorizationWithdrawalReason.POVOLDUOD
 endIf
 
 if isTrue(messageType in ["ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification"]) then
@@ -8999,7 +8959,7 @@ if form.model.isValid() then
 				form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zamítnuti žádosti\".", true)
 			endIf
 			
-			form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(true)
+			form.model.lifeCycleSupport.applicationRejection.ApplicationRejectionReason.setTouched(true)
 			responseResult = false
 			result = responseResult
 	else
@@ -9070,7 +9030,7 @@ if isTrue(form.model.isValid()) then
 				form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zamítnuti žádosti\".", true)
 			endIf
 			// setTouch so the user sees, what si missing from submission
-			form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(true)
+			form.model.lifeCycleSupport.applicationRejection.ApplicationRejectionReason.setTouched(true)
 			responseResult = false
 			result = responseResult
 	else
@@ -9149,7 +9109,7 @@ if isTrue(form.model.isValid()) then
 				form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zrušení\".", true)
 			endIf
 			// setTouch so the user sees, what si missing from submission
-			form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
+			form.model.lifeCycleSupport.authorizationWithdrawal.AuthorizationWithdrawalReason.setTouched(true)
 			responseResult = false
 			result = responseResult
 	else
@@ -9303,7 +9263,7 @@ if isTrue(form.model.isValid()) then
 			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zneplatnění\".", true)
 		endIf
 		// setTouch so the user sees, what si missing from submission
-		form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
+		form.model.lifeCycleSupport.authorizationWithdrawal.AuthorizationWithdrawalReason.setTouched(true)
 		
 		if not form.requests.ASEOmegaMessage.ASEO.Event.Authorization.hasValue() then
 			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Povolení\".", true)
@@ -9526,7 +9486,7 @@ if isTrue(form.model.isValid()) then
 			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zrušení\".", true)
 		endIf
 		// setTouch so the user sees, what si missing from submission
-		form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
+		form.model.lifeCycleSupport.authorizationWithdrawal.AuthorizationWithdrawalReason.setTouched(true)
 		responseResult = false
 		result = responseResult
 	else
@@ -9606,7 +9566,7 @@ if isTrue(form.model.isValid()) then
 			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Zneplatnění\".", true)
 		endIf
 		// setTouch so the user sees, what si missing from submission
-		form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
+		form.model.lifeCycleSupport.authorizationWithdrawal.AuthorizationWithdrawalReason.setTouched(true)
 		responseResult = false
 		result = responseResult
 	else
@@ -10401,14 +10361,14 @@ var modelStr = form.model.modelStructure.ASEO.Event
 var support = form.model.lifeCycleSupport
 
 if name in ["Zamítnout žádost", "Modifikace zamítnutí"] then
-		support.authorizationWithdrawal.POVOLDUOD.clear()
+		support.authorizationWithdrawal.AuthorizationWithdrawalReason.clear()
 		modelStr.AuthorizationWithdrawal.AuthorizationWithdrawalDescription.clear()
 		support.authorizationSuspending.authorizationSuspendingReasonReference.clear()
 		modelStr.AuthorizationSuspending.AuthorizationSuspendingDescription.clear()
 
 else if name in ["Odejmout povolení", "Modifikovat odnětí", "Zrušit povolení", "Modifikovat zrušení"] then
 	
-		support.applicationRejection.ZADUZAM.clear()
+		support.applicationRejection.ApplicationRejectionReason.clear()
 		modelStr.ApplicationRejection.ApplicationRejectionDescription.clear()
 		support.authorizationSuspending.authorizationSuspendingReasonReference.clear()
 		modelStr.AuthorizationSuspending.AuthorizationSuspendingDescription.clear()
@@ -10416,9 +10376,9 @@ else if name in ["Odejmout povolení", "Modifikovat odnětí", "Zrušit povolen�
 	
 else if name in ["Pozastavit", "Upravit pozastavení"] then
 		
-		support.applicationRejection.ZADUZAM.clear()
+		support.applicationRejection.ApplicationRejectionReason.clear()
 		modelStr.ApplicationRejection.ApplicationRejectionDescription.clear()
-		support.authorizationWithdrawal.POVOLDUOD.clear()
+		support.authorizationWithdrawal.AuthorizationWithdrawalReason.clear()
 		modelStr.AuthorizationWithdrawal.AuthorizationWithdrawalDescription.clear()
 
 endIf endIf endIf
@@ -10508,14 +10468,14 @@ tabs.SelectedTab = 1
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if isFalse(messagePostSucess) then
 	
-	form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(false)
-	form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(false)
+	form.model.lifeCycleSupport.applicationRejection.ApplicationRejectionReason.setTouched(false)
+	form.model.lifeCycleSupport.authorizationWithdrawal.AuthorizationWithdrawalReason.setTouched(false)
 	form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.setTouched(false)
 	
 	if messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification"] then
-		form.model.lifeCycleSupport.applicationRejection.ZADUZAM.setTouched(true)
+		form.model.lifeCycleSupport.applicationRejection.ApplicationRejectionReason.setTouched(true)
 	else if messageType in ["ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawalModification"] then
-		form.model.lifeCycleSupport.authorizationWithdrawal.POVOLDUOD.setTouched(true)
+		form.model.lifeCycleSupport.authorizationWithdrawal.AuthorizationWithdrawalReason.setTouched(true)
 	else if messageType in ["ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification"] then
 		form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.setTouched(false)
 	endIf endIf endIf
