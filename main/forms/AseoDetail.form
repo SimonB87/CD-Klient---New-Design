@@ -2939,6 +2939,7 @@
                             <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPACP.ProducesT2L" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPACP.ProducesT2L.isRequired()" />
                             <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPACP.ProducesT2L.caption()" />
+                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -2955,6 +2956,7 @@
                             <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPACP.ProducesInvoiceTransportDocument" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPACP.ProducesInvoiceTransportDocument.isRequired()" />
                             <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPACP.ProducesInvoiceTransportDocument.caption()" />
+                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -3001,6 +3003,7 @@
                             <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPACP.AuthorisedIssuerCode" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPACP.AuthorisedIssuerCode.isRequired()" />
                             <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPACP.AuthorisedIssuerCode.caption()" />
+                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -5093,13 +5096,15 @@
                       <Validators>
                         <Validator Name="requiredIsFulltext">
                           <ErrorMessage IsValid="True">
-                            <ExpressionText><![CDATA["Vyplňte všechny náležitosti pro přidání přílohy"]]></ExpressionText>
+                            <ExpressionText><![CDATA["Pro přidání přílohy musíte uvézt, zda je text příloh plný."]]></ExpressionText>
                             <ResultType>
                               <BaseType value="String" />
                             </ResultType>
                           </ErrorMessage>
                           <IsValid IsValid="True">
-                            <ExpressionText><![CDATA[( hasvalue(this.FileContent) = true ) AND ( hasValue(attr) = true ) ? false : true]]></ExpressionText>
+                            <ExpressionText><![CDATA[(this.isEmpty()) ? 
+	true : 
+	( hasValue(this.FileContent) ? (hasValue(this.IsFulltext)) : true )]]></ExpressionText>
                             <ResultType>
                               <BaseType value="Bool" />
                             </ResultType>
