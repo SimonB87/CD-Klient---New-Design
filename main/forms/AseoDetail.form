@@ -4283,7 +4283,7 @@
                           <Children>
                             <ReferenceCombo>
                               <Name value="referenceCombo_zaduzam" />
-                              <Caption value="Upravit Důvod zamítnuté žádosti" />
+                              <Caption value="Upravit důvod zamítnuté žádosti" />
                               <CaptionPosition value="Top" />
                               <DisplayMember value="_description" />
                               <Panel.Height value="#" />
@@ -4391,7 +4391,7 @@
                       <Children>
                         <ReferenceCombo>
                           <Name value="referenceCombo_POVOLDUOD" />
-                          <Caption value="Změnit typ Důvodu" />
+                          <Caption value="Změnit typ důvodu" />
                           <DisplayMember value="_description" />
                           <Panel.Height value="#" />
                           <Panel.Width value="50%" />
@@ -4424,12 +4424,12 @@
                       <Children>
                         <TextBox>
                           <Name value="textBox34" />
-                          <Caption value="Popis Důvodu" />
+                          <Caption value="Popis důvodu" />
                           <InputType value="Multiline" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="formState.lifeCycle.AuthorizationWithdrawal.requiredMark" />
+                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalDescription" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.lifeCycle.AuthorizationWithdrawal.requiredMark" />
                             <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                           </Bindings>
@@ -4531,7 +4531,7 @@
                               <Panel.Width value="*" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.authorizationSuspending.requiredMarkAS" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.lifeCycle.authorizationSuspending.requiredMarkAS" />
                                 <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription.caption()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
@@ -4665,119 +4665,6 @@
                   <Include reference="+DataEntities.ASEOSPDataResponseEx" />
                 </Include>
               </Children>
-            </Complex>
-            <Complex>
-              <Name value="lifeCycleSupport" />
-              <Caption value="Life cycle support" />
-              <Children>
-                <Complex>
-                  <Name value="authorizationSuspending" />
-                  <Caption value="Authorization suspending" />
-                  <Children>
-                    <Reference>
-                      <Name value="authorizationSuspendingReasonReference" />
-                      <Caption value="Upravit Důvod pozastavení povolení" />
-                      <Children>
-                        <Attribute>
-                          <Name value="authorizationSuspendingReason" />
-                          <Caption value="Authorization suspending reason" />
-                          <DeclaredType>
-                            <AttributeType />
-                          </DeclaredType>
-                        </Attribute>
-                        <Attribute>
-                          <Name value="description" />
-                          <Caption value="Description" />
-                          <DeclaredType>
-                            <AttributeType />
-                          </DeclaredType>
-                        </Attribute>
-                        <Computed>
-                          <Name value="_description" />
-                          <Caption value="_description" />
-                          <Expression IsValid="True">
-                            <ExpressionText><![CDATA[functions.codeListDescription(authorizationSuspendingReason,description)]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="String" />
-                            </ResultType>
-                          </Expression>
-                        </Computed>
-                      </Children>
-                      <Validators>
-                        <Validator Name="requiredSuspendingReason">
-                          <ErrorMessage IsValid="True">
-                            <ExpressionText><![CDATA["Pro Pozastavení povolení je nutné vyplnit \"Upravit Důvod pozastavení povolení\"."]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="String" />
-                            </ResultType>
-                          </ErrorMessage>
-                          <IsValid IsValid="True">
-                            <ExpressionText><![CDATA[true /*
-(form.lifeCycleMode in [ enums.decisionsState.authorizeSuspending , enums.decisionsState.authorizeSuspendingModify ]) ? 
-	(this.authorizationSuspendingReasonReference.isEmpty() ? false : true ) : 
-	true*/]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="Bool" />
-                            </ResultType>
-                          </IsValid>
-                        </Validator>
-                      </Validators>
-                    </Reference>
-                    <Computed>
-                      <Name value="requiredMarkAS" />
-                      <Caption value="Required mark AS" />
-                      <Expression IsValid="True">
-                        <ExpressionText><![CDATA[this.authorizationSuspendingReasonReference.authorizationSuspendingReason = "J" ? true : false]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="Bool" />
-                        </ResultType>
-                      </Expression>
-                    </Computed>
-                  </Children>
-                  <Validators>
-                    <Validator Name="requiredValidSupportSuspending">
-                      <ErrorMessage IsValid="True">
-                        <ExpressionText><![CDATA["Tato akce vyžaduje doplnění důvodu (uvedeno v níže specifikované validaci)."]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="String" />
-                        </ResultType>
-                      </ErrorMessage>
-                      <IsValid IsValid="True">
-                        <ExpressionText><![CDATA[(form.lifeCycleMode in 
-	[enums.decisionsState.authorizeSuspending , enums.decisionsState.authorizeSuspendingModify] ) ? 
-	(form.model.lifeCycleSupport.authorizationSuspending.isEmpty() ? false : true) : 
-	true]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="Bool" />
-                        </ResultType>
-                      </IsValid>
-                    </Validator>
-                  </Validators>
-                </Complex>
-              </Children>
-              <Validators>
-                <Validator Name="requiredForLifecycleDenialPhases">
-                  <ErrorMessage IsValid="True">
-                    <ExpressionText><![CDATA["Tato akce vyžaduje doplnění důvodu (uvedeno v níže specifikované validaci)."]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="String" />
-                    </ResultType>
-                  </ErrorMessage>
-                  <IsValid IsValid="True">
-                    <ExpressionText><![CDATA[true /*
-(form.lifeCycleMode in 
-	[enums.decisionsState.applicationReject, enums.decisionsState.applicationRejectModify, 
-	enums.decisionsState.authorizeWithdrawal, enums.decisionsState.authorizeWithdrawalModify, 
-	enums.decisionsState.authorizeCancellation, enums.decisionsState.authorizeCancellation,
-	enums.decisionsState.authorizeSuspending, enums.decisionsState.authorizeSuspendingModify] ) ? 
-	(form.model.lifeCycleSupport.isEmpty() ? false : true) : 
-	true*/]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="Bool" />
-                    </ResultType>
-                  </IsValid>
-                </Validator>
-              </Validators>
             </Complex>
             <Complex>
               <Name value="sekcePrehodnoceni" />
@@ -6270,6 +6157,22 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
                     </Computed>
                   </Children>
                 </Complex>
+                <Complex>
+                  <Name value="authorizationSuspending" />
+                  <Caption value="Authorization suspending" />
+                  <Children>
+                    <Computed>
+                      <Name value="requiredMarkAS" />
+                      <Caption value="Required mark AS" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason.Key = "J" ? true : false]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
             <Complex>
@@ -7432,7 +7335,8 @@ true]]></ExpressionText>
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(isTrue(form.lifeCycleMode in 
-	[ enums.decisionsState.authorizeWithdrawal, enums.decisionsState.authorizeWithdrawalModify, enums.decisionsState.authorizeCancellation, enums.decisionsState.authorizeCancellationModify ] ) AND
+	[ enums.decisionsState.authorizeWithdrawal, enums.decisionsState.authorizeWithdrawalModify, 
+	enums.decisionsState.authorizeCancellation, enums.decisionsState.authorizeCancellationModify ] ) AND
 (isTrue(form.model.modelStructure.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason.POVOLDUOD = "J") AND
 (hasValue(form.model.modelStructure.ASEO.Event.authorizationWithdrawal.AuthorizationWithdrawalDescription ) = false ) ) ) ?
  	false : true]]></ExpressionText>
@@ -7457,7 +7361,7 @@ true]]></ExpressionText>
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(isTrue(form.lifeCycleMode in [ enums.decisionsState.authorizeSuspending, enums.decisionsState.authorizeSuspendingModify ] ) AND
-(isTrue(form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason = "J") AND
+(isTrue(form.model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason.Key = "J") AND
 (hasValue(form.model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription ) = false ) ) ) ?
  	false : true]]></ExpressionText>
                 <ResultType>
@@ -7667,7 +7571,7 @@ true]]></ExpressionText>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(form.lifeCycleMode in 
 	[enums.decisionsState.authorizeSuspending, enums.decisionsState.authorizeSuspendingModify ] ) ? 
-	(hasValue(form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason) ?  true : false) : 
+	(hasValue(form.model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason.Key) ?  true : false) : 
 	true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -7684,7 +7588,7 @@ true]]></ExpressionText>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(form.lifeCycleMode in 
 	[enums.decisionsState.authorizeSuspending , enums.decisionsState.authorizeSuspendingModify] ) ? 
-	((form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason = "J") AND (hasvalue(form.model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription) = false) ? false : true) : 
+	((form.model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason.Key = "J") AND (hasvalue(form.model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingDescription) = false) ? false : true) : 
 	true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -7944,7 +7848,6 @@ if isTrue(form.authorizationType in ["SAR"]) then
 	form.actions.filteredcodeListForSAR()
 	form.apiobjects.TypeOfPaybackPeriodEnum.setDateTime(currentDate)
 endIf
-
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -8497,11 +8400,10 @@ else
 	form.model.sekce5prilohy.newFilesCollectionJson.clear()
 endIf
 
-form.actions.editDataAfterPosting_editSetTouchedOfReasonsCombos(messagePostSucess, messageType)
-
 form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 form.formState.currentDateTime = getDateTime()
-form.formState.visibilities.showHistorySesctions = true]]></Script>
+form.formState.visibilities.showHistorySesctions = true
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -8588,28 +8490,19 @@ if isTrue(messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification
 
 endIf
 
-if isTrue(messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification"]) then
+if isTrue(messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationRejectionModification", "ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawalModification", "ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification"]) then
 
 	aseoMegaMessage.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage()
-endIf
-
-if isTrue(messageType in ["ASEOSPAuthorizationWithdrawal", "ASEOSPAuthorizationCancellation",  "ASEOSPAuthorizationCancellationModification", "ASEOSPAuthorizationWithdrawalModification"]) then
-	aseoMegaMessage.ASEO.Event.File.clear()
-	form.actions.setNewAnnexBeforeSendingMessage()
-endIf
-
-if isTrue(messageType in ["ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification"]) then
 	
-	aseoMegaMessage.ASEO.Event.File.clear()
-	form.actions.setNewAnnexBeforeSendingMessage()
-
 endIf
+
 
 if isTrue(messageType in ["ASEOSPApplicationModification"]) then
 	
 	form.requests.applicationModification.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage("ASEOSPApplicationModification")
+	
 endIf
 
 //check client errors in form
@@ -8926,12 +8819,6 @@ if isTrue(form.model.isValid()) then
 		authorisation.LimitedAuthorizationValidity.setTouched(true)
 		authorisation.ResponsiblePersonWantsToBeNotified.setTouched(true)
 
-		var suspendingPath = form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference
-		if not suspendingPath.authorizationSuspendingReason.hasValue() then
-			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Pozastavení\".", true)
-		endIf
-		// setTouch so the user sees, what si missing from submission
-		suspendingPath.authorizationSuspendingReason.setTouched(true)
 		responseResult = false
 		result = responseResult
 	else
@@ -9344,12 +9231,6 @@ if isTrue(form.model.isValid()) then
 		authorisation.LimitedAuthorizationValidity.setTouched(true)
 		authorisation.ResponsiblePersonWantsToBeNotified.setTouched(true)
 		
-		var suspendingPath = form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference
-		if not suspendingPath.authorizationSuspendingReason.hasValue() then
-			form.actions.showErorrNotificationMessage("Vyplňte povinné údaje v záložce \"Pozastavení\".", true)
-		endIf
-		// setTouch so the user sees, what si missing from submission
-		suspendingPath.authorizationSuspendingReason.setTouched(true)
 		responseResult = false
 		result = responseResult
 	else
@@ -9475,7 +9356,6 @@ if form.formState.currentDateTime <= form.model.modelStructure.ASEO.Event.Validi
 	if isTrue(postingSuccess) then
 		form.isEditOn = false
 		form.formState.validationSucess = true
-		form.model.lifeCycleSupport.clear()
 	else
 		form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 		form.formState.validationSucess = false
@@ -9861,7 +9741,6 @@ form.components.tabsMenu.Tab07prehodnoceni.isVisible = True
 form.formState.lifeCycle.showActionButtonPanel = true
 
 form.actions.clearUserNotifications()
-form.model.lifeCycleSupport.clear()
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
@@ -10061,7 +9940,6 @@ form.model.modelStructure.ASEO.Event.ValidityStartDate = addHours(form.model.mod
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var name = form.formState.lifeCycle.actionConfirm.actionName
 var modelStr = form.model.modelStructure.ASEO.Event
-var support = form.model.lifeCycleSupport
 
 if name in ["Zamítnout žádost", "Modifikace zamítnutí"] then
 
@@ -10071,7 +9949,6 @@ if name in ["Zamítnout žádost", "Modifikace zamítnutí"] then
 else if name in ["Odejmout povolení", "Modifikovat odnětí", "Zrušit povolení", "Modifikovat zrušení"] then
 	
 		modelStr.ApplicationRejection.ApplicationRejectionDescription.clear()
-		support.authorizationSuspending.authorizationSuspendingReasonReference.clear()
 		modelStr.AuthorizationSuspending.AuthorizationSuspendingDescription.clear()
 	
 else if name in ["Pozastavit", "Upravit pozastavení"] then
@@ -10157,46 +10034,6 @@ tabs.SelectedTab = 1
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="editDataAfterPosting_editSetTouchedOfReasonsCombos" />
-      <Category value="lifeCyclePostingSetUp" />
-      <Description value="used only in action editDataAfterPosting" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[if isFalse(messagePostSucess) then
-
-	if messageType in ["ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationSuspendingModification"] then
-	
-		form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.setTouched(false)
-		
-	endIf 
-
-endIf]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext>
-          <Children>
-            <Attribute>
-              <Name value="messagePostSucess" />
-              <Caption value="Message post sucess" />
-              <DataContextParameter.IsInput value="True" />
-              <DeclaredType>
-                <AttributeType>
-                  <BaseType value="Bool" />
-                </AttributeType>
-              </DeclaredType>
-            </Attribute>
-            <Attribute>
-              <Name value="messageType" />
-              <Caption value="Message type" />
-              <DataContextParameter.IsInput value="True" />
-              <DeclaredType>
-                <AttributeType />
-              </DeclaredType>
-            </Attribute>
-          </Children>
-        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
