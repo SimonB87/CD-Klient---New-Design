@@ -544,31 +544,18 @@
               <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/AuthorizationSuspending" />
               <MtsImportOptions.MTS.Type value="group" />
               <Children>
-                <Attribute>
+                <Reference>
                   <Name value="AuthorizationSuspendingReason" />
                   <Caption value="Důvod pozastavení povolení" />
-                  <MetaType reference="+MetaTypes.AuthorizationSuspendingReason" />
+                  <IsRequired value="True" />
                   <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/AuthorizationSuspending/AuthorizationSuspendingReason" />
                   <MtsImportOptions.MTS.Type value="element" />
-                  <Validators>
-                    <Validator Name="regex">
-                      <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
-                      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
-                      <ErrorMessage IsValid="True">
-                        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="String" />
-                        </ResultType>
-                      </ErrorMessage>
-                      <IsValid IsValid="True">
-                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="Bool" />
-                        </ResultType>
-                      </IsValid>
-                    </Validator>
-                  </Validators>
-                </Attribute>
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.SuspendingReason" />
+                    </Include>
+                  </Children>
+                </Reference>
                 <Attribute>
                   <Name value="AuthorizationSuspendingDescription" />
                   <Caption value="Důvod pozastavení povolení" />

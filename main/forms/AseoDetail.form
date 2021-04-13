@@ -4491,34 +4491,16 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Children>
-                            <TextBox>
-                              <Name value="textBox35" />
-                              <Caption value="Uložený Důvod pozastavení povolení" />
-                              <IsEnabled value="False" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="50%" />
-                              <Tooltip value="Hodnota: J - Pozastavení povolení z jiného důvodu" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason.isRequired()" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </TextBox>
                             <ReferenceCombo>
                               <Name value="authorizationSuspendingReasonRefCombo" />
                               <DisplayMember value="_description" />
                               <Panel.Height value="#" />
                               <Panel.Width value="50%" />
-                              <ReferenceList reference="~authorizationSuspendingReasonCodelist" />
+                              <ReferenceList reference="~SuspendingReason" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference" />
-                                <Binding SourceProperty="Caption" Expression="model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.caption()" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.isRequired()" />
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason.caption()" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason.isRequired()" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -5131,7 +5113,7 @@
                             </ResultType>
                           </ErrorMessage>
                           <IsValid IsValid="True">
-                            <ExpressionText><![CDATA[( hasvalue(this.FileContent) = true ) AND ( hasValue(attr) = true ) ? false : true]]></ExpressionText>
+                            <ExpressionText><![CDATA[hasvalue(this.FileContent) ? (hasValue(attr)) : true]]></ExpressionText>
                             <ResultType>
                               <BaseType value="Bool" />
                             </ResultType>
@@ -7956,14 +7938,13 @@ form.apiobjects.CEL_UR.startLoadingData(currentDate)
 
 form.apiobjects.CELUPLAT_R.setDateTime(currentDate)
 form.apiobjects.CELUTVAR.setDateTime(currentDate)
+form.apiobjects.SuspendingReason.setDateTime(currentDate)
 
 if isTrue(form.authorizationType in ["SAR"]) then
 	form.actions.filteredcodeListForSAR()
 	form.apiobjects.TypeOfPaybackPeriodEnum.setDateTime(currentDate)
 endIf
-//custom codelist for SuspendingReason
-var dataCustomCodelist = "[{\"authorizationSuspendingReason\":\"J\", \"description\":  \"Pozastavení povolení z jiného důvodu\"}]"
-form.apiobjects.authorizationSuspendingReasonCodelist.fillFromJson(dataCustomCodelist)
+
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -8622,9 +8603,7 @@ if isTrue(messageType in ["ASEOSPAuthorizationSuspending", "ASEOSPAuthorizationS
 	
 	aseoMegaMessage.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage()
-	aseoMegaMessage.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason = form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason
-	//for valdiations
-	form.model.modelStructure.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason = form.model.lifeCycleSupport.authorizationSuspending.authorizationSuspendingReasonReference.authorizationSuspendingReason
+
 endIf
 
 if isTrue(messageType in ["ASEOSPApplicationModification"]) then
@@ -10992,22 +10971,6 @@ endIf]]></Script>
       </columns>
     </Codelist>
     <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
-      <Name value="authorizationSuspendingReasonCodelist" />
-      <autoLoad value="False" />
-      <filterByDate value="False" />
-      <name value="authorizationSuspendingReasonCodelist" />
-      <columns>
-        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
-          <columnName value="authorizationSuspendingReason" />
-          <columnRole value="Key" />
-        </CodelistColumn>
-        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
-          <columnName value="description" />
-          <columnRole value="Description" />
-        </CodelistColumn>
-      </columns>
-    </Codelist>
-    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
       <Name value="REZIM4" />
       <name value="REZIM4" />
       <server reference="+GlobalApiObjects.ServerKomunikace" />
@@ -11151,5 +11114,21 @@ endIf]]></Script>
       <Name value="filteredCodelist_ZJPZAJIST" />
       <codelistSource reference="~ZJPZAJIST" />
     </FilteredCodelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="SuspendingReason" />
+      <filterByDate value="False" />
+      <name value="SuspendingReason" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="Key" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="Description" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
   </ApiObjects>
 </Form>
