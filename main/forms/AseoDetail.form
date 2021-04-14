@@ -2541,6 +2541,32 @@
                     </CssClassConditional>
                   </CssClass>
                 </Panel>
+                <Panel>
+                  <Name value="pnl_agreedLocation" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Children>
+                    <GroupBox>
+                      <Name value="pnl_agreedLocation_grpBox" />
+                      <Caption value="Schválené místo" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-groupbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </GroupBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
               </Children>
               <CssClass>
                 <CssClassConditional>
@@ -3372,7 +3398,7 @@
                   </Content>
                   <Bindings>
                     <Binding SourceProperty="Caption" Expression="form.model.modelStructure.ASEO.Event.Guarantee.caption()" />
-                    <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationSAR" />
+                    <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationSAR_ACR" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -3383,7 +3409,7 @@
                 </GroupBox>
                 <GroupBox>
                   <Name value="box_ACRdetails" />
-                  <Caption value="Box _ AC rdetails" />
+                  <Caption value="Volby povolení" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
                   <Content>
@@ -5187,6 +5213,39 @@
                     </Attribute>
                   </Children>
                 </Complex>
+                <Complex>
+                  <Name value="model_agreedLocation" />
+                  <Caption value="Model _ agreed location" />
+                  <Children>
+                    <Collection>
+                      <Name value="AuthorizedAgreedLocation" />
+                      <Caption value="Authorized agreed location" />
+                      <Children>
+                        <Attribute>
+                          <Name value="Country" />
+                          <Caption value="Country" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="PlaceID" />
+                          <Caption value="Place ID" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="CountryPlaceID" />
+                          <Caption value="Country place ID" />
+                          <DeclaredType>
+                            <AttributeType />
+                          </DeclaredType>
+                        </Attribute>
+                      </Children>
+                    </Collection>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
             <Complex>
@@ -6201,6 +6260,16 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
                   <Caption value="Is authorisation ACR" />
                   <Expression IsValid="True">
                     <ExpressionText><![CDATA[isTrue(form.authorizationType = "ACR") ? true : false]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="isAuthorisationSAR_ACR" />
+                  <Caption value="Is authorisation SAR _ ACR" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[isTrue(form.authorizationType in ["SAR","ACR"]) ? true : false]]></ExpressionText>
                     <ResultType>
                       <BaseType value="Bool" />
                     </ResultType>
@@ -8213,10 +8282,11 @@ form.apiobjects.CELUTVAR.setDateTime(currentDate)
 form.apiobjects.SuspendingReason.setDateTime(currentDate)
 
 if isTrue(form.authorizationType in ["SAR"]) then
-	form.actions.filteredcodeListForSAR()
+	form.actions.filteredcodeList__ZJPZAJIST()
 	form.apiobjects.TypeOfPaybackPeriodEnum.setDateTime(currentDate)
 else if isTrue(form.authorizationType in ["ACR"]) then
 	form.apiobjects.ZPZAST.setDateTime(currentDate)
+	form.actions.filteredcodeList__ZJPZAJIST()
 endIf endIf
 ]]></Script>
       </ActionLangBody>
@@ -8802,7 +8872,7 @@ if isTrue(messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification
 
 	aseoMegaMessage.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage()
-	
+		
 	if isTrue(form.authorizationType in ["TIR", "ACP", "ACR"]) then
 		aseoMegaMessage.ASEO.Event.GoodsList.GoodsListType = false
 	endIf
@@ -9834,7 +9904,7 @@ endIf]]></Script>
 	if form.authorizationType in ["SAR"] then
 		form.actions.prepareCOsupervising()
 		form.model.sekce2celniUrady.model_addNewSupervisingCO.switchInsertNewCOsupervising = true
-		form.actions.filteredcodeListForSAR()
+		form.actions.filteredcodeList__ZJPZAJIST()
 		form.actions.setCustomsRegimesForSAR()
 	endIf
 	
@@ -9871,7 +9941,7 @@ endIf
 	
 	if (form.authorizationType in ["SAR"]) then
 		tabs.Tab04zbozi.isVisible = False
-		form.actions.filteredcodeListForSAR()
+		form.actions.filteredcodeList__ZJPZAJIST()
 	endIf
 	
 	if form.authorizationType in ["TIR", "ACP", "ACR"] then
@@ -9885,7 +9955,7 @@ endIf
 	
 	if form.authorizationType in ["SAR"] then
 		form.actions.prepareCOsupervising()
-		form.actions.filteredcodeListForSAR()
+		form.actions.filteredcodeList__ZJPZAJIST()
 		form.actions.setCustomsRegimesForSAR()
 	endIf
 	
@@ -10243,7 +10313,7 @@ form.actions.editValidityStartDate()]]></Script>
 form.formState.currentDateTime = getDateTime()
 
 if isTrue(form.authorizationType in ["SAR"]) then
-	form.actions.filteredcodeListForSAR()
+	form.actions.filteredcodeList__ZJPZAJIST()
 endIf]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -10575,7 +10645,7 @@ endif
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="filteredcodeListForSAR" />
+      <Name value="filteredcodeList__ZJPZAJIST" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.apiobjects.ZJPZAJIST.setDateTime(getDateTime())
 var filter = "POVOLTYP eq '" + form.authorizationType + "'"  
