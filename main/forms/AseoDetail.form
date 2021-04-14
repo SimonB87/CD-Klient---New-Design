@@ -2613,24 +2613,22 @@
                     <DataTable>
                       <Name value="tableGoodsItems" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="50%" />
+                      <Panel.Width value="100%" />
                       <Bindings>
                         <Binding SourceProperty="DataItems" Expression="form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem" />
                       </Bindings>
                       <Columns>
                         <DataColumn>
-                          <Name value="dataColumn1_CNCode" />
-                          <Caption value="Kód KN" />
+                          <Name value="goodsColumn1" />
+                          <Caption value="Goods column 1" />
+                          <Width value="50%" />
                           <Content>
                             <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
-                              <Name value="refLookUp_CNCode" />
+                              <Name value="CNcode_referenceLookup" />
                               <Caption value="Kód KN" />
                               <DataApiObject reference="+GlobalApiObjects.cnCodeCl" />
                               <DisplayMember value="_description" />
-                              <IsRequiredMarkVisible value="True" />
                               <MinChars value="2" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="300px" />
                               <useContains value="False" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="CNCode" />
@@ -2652,8 +2650,9 @@
                           </HeaderCssClass>
                         </DataColumn>
                         <DataColumn>
-                          <Name value="dataColumn2" />
+                          <Name value="goodsColumn2" />
                           <Caption value="Povolené" />
+                          <Width value="25%" />
                           <Content>
                             <Label>
                               <Name value="label3_Allowed" />
@@ -2676,8 +2675,9 @@
                           </HeaderCssClass>
                         </DataColumn>
                         <DataColumn>
-                          <Name value="dataColumn1" />
+                          <Name value="goodsColumn3" />
                           <Caption value="Akce" />
+                          <Width value="25%" />
                           <Content>
                             <Button>
                               <Name value="buttonDeteleGood" />
@@ -3497,7 +3497,7 @@
                                       <Name value="button_add_country" />
                                       <Caption value="Přidat zemi" />
                                       <Panel.Height value="#" />
-                                      <Panel.Width value="250px" />
+                                      <Panel.Width value="150px" />
                                       <OnClick>
                                         <ActionEvent ReferencedAction="~handler_button_add_representation_OnClick" />
                                       </OnClick>
@@ -7458,46 +7458,6 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
           <SourcePath value="model.modelStructure.ASEO.Event.GoodsList.GoodsItem" />
         </Modifier>
         <Modifier>
-          <Name value="modifier_6EE83AA5_ZBOZIKOD" />
-          <ShowAsChanges value="True" />
-          <SourcePath value="model.sekce3zbozi.CNCode.ZBOZIKOD" />
-          <Validators>
-            <Validator Name="norepeatCodeItem">
-              <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Již existuje přidaný kód zboží."]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </ErrorMessage>
-              <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(this.ZBOZIKOD.hasValue() 
-AND
-(form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.exists(current.CNCode.ZBOZIKOD = this.ZBOZIKOD))) ?
-false : true]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="Bool" />
-                </ResultType>
-              </IsValid>
-            </Validator>
-            <Validator Name="uniquieCodeItem">
-              <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Již existuje přidaná skupina zboží vyšší úrovně."]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </ErrorMessage>
-              <IsValid>
-                <ExpressionText><![CDATA[(this.ZBOZIKOD.hasValue() 
-AND
-(form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.exists(
-	current.CNCode = 
-	subString(this.ZBOZIKOD,1, length(this.ZBOZIKOD) - 2)))) ?
-false : true]]></ExpressionText>
-              </IsValid>
-            </Validator>
-          </Validators>
-        </Modifier>
-        <Modifier>
           <Name value="modifier_8B2E161A_CELUPLAT_R" />
           <ShowAsChanges value="True" />
           <SourcePath value="model.sekce2celniUrady.model_addNewCO.CustomsOfficeReferenceNumber.CELUPLAT_R" />
@@ -8840,7 +8800,7 @@ if isTrue(messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification
 	aseoMegaMessage.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage()
 	
-	if isTrue(form.authorizationType in ["TIR", "ACP"]) then
+	if isTrue(form.authorizationType in ["TIR", "ACP", "ACR"]) then
 		aseoMegaMessage.ASEO.Event.GoodsList.GoodsListType = false
 	endIf
 	
@@ -8859,7 +8819,7 @@ if isTrue(messageType in ["ASEOSPApplicationRejection", "ASEOSPApplicationReject
 
 	aseoMegaMessage.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage()
-	
+
 endIf
 
 
@@ -8867,7 +8827,7 @@ if isTrue(messageType in ["ASEOSPApplicationModification"]) then
 	
 	form.requests.applicationModification.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage("ASEOSPApplicationModification")
-	
+
 endIf
 
 //check client errors in form

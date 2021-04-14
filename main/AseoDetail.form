@@ -2579,7 +2579,6 @@
                               <Panel.Width value="300px" />
                               <useContains value="False" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="form.model.sekce3zbozi.CNCode" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                               </Bindings>
                               <CssClass>
@@ -7403,49 +7402,6 @@
           <SourcePath value="model.modelStructure.ASEO.Event.GoodsList.GoodsItem" />
         </Modifier>
         <Modifier>
-          <Name value="modifier_6EE83AA5_ZBOZIKOD" />
-          <ShowAsChanges value="True" />
-          <SourcePath value="model.sekce3zbozi.CNCode.ZBOZIKOD" />
-          <Validators>
-            <Validator Name="norepeatCodeItem">
-              <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Již existuje přidaný kód zboží."]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </ErrorMessage>
-              <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(this.ZBOZIKOD.hasValue() 
-AND
-(form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.exists(current.CNCode = this.ZBOZIKOD))) ?
-false : true]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="Bool" />
-                </ResultType>
-              </IsValid>
-            </Validator>
-            <Validator Name="uniquieCodeItem">
-              <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Již existuje přidaná skupina zboží vyšší úrovně."]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </ErrorMessage>
-              <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(this.ZBOZIKOD.hasValue() 
-AND
-(form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.exists(
-	current.CNCode = 
-	subString(this.ZBOZIKOD,1, length(this.ZBOZIKOD) - 2)))) ?
-false : true]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="Bool" />
-                </ResultType>
-              </IsValid>
-            </Validator>
-          </Validators>
-        </Modifier>
-        <Modifier>
           <Name value="modifier_8B2E161A_CELUPLAT_R" />
           <ShowAsChanges value="True" />
           <SourcePath value="model.sekce2celniUrady.model_addNewCO.CustomsOfficeReferenceNumber.CELUPLAT_R" />
@@ -8326,33 +8282,6 @@ endIf]]></Script>
 else
 	form.model.sekce3zbozi.switchInsertNewGoodsItem = not form.model.sekce3zbozi.switchInsertNewGoodsItem
 endIf
-]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="insertNewGoodsItem" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[globals.IsBusy = True
-
-var targetIsValid = form.model.sekce3zbozi.CNCode.isValid()
-var targetHasValue = form.model.sekce3zbozi.CNCode.hasValue()
-
-if isTrue(targetIsValid and targetHasValue) then
-	
-	var newItem = form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.addItem()
-	newItem.CNCode = form.model.sekce3zbozi.CNCode.ZBOZIKOD
-	newItem.Allowed = form.model.sekce3zbozi.negativeCollectionView
-	
-	var sortedColl = form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.orderBy(current.CNCode, true)
-	form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.fromJson(sortedColl.toJson())
-	
-	form.model.sekce3zbozi.CNCode.clear()
-endIf
-
-globals.IsBusy = False
 ]]></Script>
       </ActionLangBody>
       <DataContext>
