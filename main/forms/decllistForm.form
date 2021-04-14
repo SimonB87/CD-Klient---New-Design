@@ -2410,7 +2410,7 @@ if type in ["CGU", "DPO"] then
   navigation.main.guaranteePayment.withGUID(guid).go()
 endif
 
-if type in ["ACE", "ACT", "ACR"] then
+if (type in ["ACE", "ACT", "ACR"]) and (isFalse(isAseoDetail)) then
   navigation.main.simplifiedProcedures.withGUID(guid).go()
   unSupported = false
 endif
