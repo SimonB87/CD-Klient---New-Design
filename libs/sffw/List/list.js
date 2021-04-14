@@ -628,11 +628,12 @@ var sffw;
         (function (list) {
             'use strict';
             var ListDataRecord = /** @class */ (function () {
-                function ListDataRecord($dataStruct, columns, rowSelectedPropName, rowMarkedPropName, checkboxInRowAttName) {
+                function ListDataRecord($dataStruct, columns, rowSelectedPropName, rowMarkedPropName, colorIndicatorPropName, checkboxInRowAttName) {
                     var _this = this;
                     this.$dataStruct = $dataStruct;
                     this.rowSelectedPropName = rowSelectedPropName;
                     this.rowMarkedPropName = rowMarkedPropName;
+                    this.colorIndicatorPropName = colorIndicatorPropName;
                     this.checkboxInRowAttName = checkboxInRowAttName;
                     this.$rowCss = ko.pureComputed(function () {
                         var classes = [];
@@ -668,7 +669,12 @@ var sffw;
                     else {
                         this.$checkbox = ko.observable();
                     }
-                    this.$colorIndicator = ko.observable();
+                    if (typeof ($dataStruct[this.colorIndicatorPropName]) !== 'undefined') {
+                        this.$colorIndicator = $dataStruct[this.colorIndicatorPropName].$value;
+                    }
+                    else {
+                        this.$colorIndicator = ko.observable();
+                    }
                     var culture = window.sf.localization.currentCulture();
                     _.forEach(columns, function (column) {
                         var attValue = $dataStruct[column.dispName];
@@ -714,14 +720,6 @@ var sffw;
                                 break;
                             default:
                                 throw new Error("Unknown column type " + column.dataType + " in ListGridDataRecord constructor");
-                        }
-                        if (column.dispName === 'ColorIndicator' && attValue) {
-                            if (typeof (attValue.$asString) === 'function') {
-                                _this.$colorIndicator(attValue.$asString());
-                            }
-                            else {
-                                _this.$colorIndicator(attValue);
-                            }
                         }
                     });
                 }
@@ -913,7 +911,6 @@ var sffw;
                     };
                     this.$element = $(componentInfo.element);
                     this.dataContext = params.$parentData;
-                    this.listName = params.listName;
                     this.selectionChangeHandler = params.onSelectionChange;
                     this.ctrlCore = params.controller.ctrlCore;
                     this.maxVisibleFilterOptions = params.maxVisibleFilterOptions;
@@ -935,6 +932,7 @@ var sffw;
                     this.allowSelectAll = params.allowSelectAll;
                     this.rowSelectedPropName = params.isRowSelectedAttName || '_selected';
                     this.rowMarkedPropName = params.isRowMarkedAttName || '_marked';
+                    this.colorIndicatorAttName = params.colorIndicatorAttName || '_colorIndicator';
                     this.checkboxInRowAttName = params.showCheckboxInRowAttName || '_checkbox';
                     this.lastClickedRowSelectWhenCheckboxesOff = params.lastClickedRowSelectWhenCheckboxesOff;
                     this.pagingControlsPosition = params.pagingControlsPosition || 'bottom';
@@ -967,7 +965,8 @@ var sffw;
                     this.page = ko.observable(_.isNumber(this.pageNumber()) ? this.pageNumber().toString() : '');
                     this.error = this.ctrlCore.error;
                     this.isLoading = this.ctrlCore.isLoading;
-                    this.ctrlCore.listName = params.listName;
+                    if (params.listName)
+                        this.ctrlCore.listName = params.listName;
                     this.recordsCount = this.ctrlCore.rowCount;
                     this.pageSize = this.ctrlCore.pageSize;
                     this.isViewSettingsComponentAvailable(this.ctrlCore.isViewSettingsComponentAvailable());
@@ -1029,7 +1028,7 @@ var sffw;
                     var newDataRecords = [];
                     var promiseChain = this.dataCollection.$fromJson(this.ctrlCore.rows()).then(function () {
                         newDataRecords = _.map(_this.dataCollection.$items(), function (obj) {
-                            return new list.ListDataRecord(obj, _this.columns, _this.rowSelectedPropName, _this.rowMarkedPropName, _this.checkboxInRowAttName);
+                            return new list.ListDataRecord(obj, _this.columns, _this.rowSelectedPropName, _this.rowMarkedPropName, _this.colorIndicatorAttName, _this.checkboxInRowAttName);
                         });
                         _.each(newDataRecords, function (r) {
                             _this.records.push(r);

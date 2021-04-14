@@ -74,27 +74,54 @@ var sffw;
                         return isValid;
                     };
                     if (args.dataSourceCollectionReference) {
-                        var dataPathRoot = void 0;
-                        if (args.dataSourceCollectionReference.indexOf('::') !== -1) {
-                            var parts = args.dataSourceCollectionReference.split('::');
-                            sffw.assert(parts.length === 2);
-                            dataPathRoot = dc.$globals[parts[0]];
-                            this.dataSourceCollection = this.traverseContext(dataPathRoot, parts[1]);
-                        }
-                        else {
-                            dataPathRoot = dc;
-                            this.dataSourceCollection = this.traverseContext(dataPathRoot, args.dataSourceCollectionReference);
-                        }
-                        sffw.assert(this.dataSourceCollection, 'dataSourceCollection not found');
+                        this.setCollectionReference(dc, args.dataSourceCollectionReference);
                     }
                 }
+                CollectionDataProvider2.prototype.setCollection = function (args) {
+                    if (args.dataSourceCollectionReference) {
+                        this.setCollectionReference(this.dc, args.dataSourceCollectionReference);
+                    }
+                };
+                CollectionDataProvider2.prototype.setCollectionReference = function (dc, refString) {
+                    var dataPathRoot;
+                    if (refString.indexOf('::') !== -1) {
+                        var parts = refString.split('::');
+                        sffw.assert(parts.length === 2);
+                        dataPathRoot = dc.$globals[parts[0]];
+                        this.dataSourceCollection = this.traverseContext(dataPathRoot, parts[1]);
+                    }
+                    else {
+                        dataPathRoot = dc;
+                        this.dataSourceCollection = this.traverseContext(dataPathRoot, refString);
+                    }
+                    sffw.assert(this.dataSourceCollection, 'dataSourceCollection not found');
+                };
                 CollectionDataProvider2.prototype.traverseContext = function (dataPathRoot, path) {
                     var parts = path.split('.');
                     if (parts.length === 1) {
                         return dataPathRoot[path];
                     }
                     else if (parts[0].length > 0 && parts[1].length > 0) {
-                        var childContext = dataPathRoot[parts[0]];
+                        var context = void 0;
+                        var matches = parts[0].match('.*\[[0-9]*\]');
+                        // Kontrola, zda se jedná o kolekci pomocí [] notace
+                        if (matches !== null && matches.length > 0) {
+                            var propertyAndIndex = parts[0].split('[');
+                            var property = propertyAndIndex[0];
+                            var index = Number(propertyAndIndex[1].split(']')[0]);
+                            if (isNaN(index) || index < 1)
+                                sffw.assert(false, 'Index is not number or is less than zero.');
+                            else
+                                index = index - 1;
+                            var items = dataPathRoot[property].$items();
+                            if (index > 0)
+                                sffw.assert(items.length >= index, "Collection has lesser items (" + items.length + ") than index: " + (index + 1));
+                            context = dataPathRoot[property].$items()[index];
+                        }
+                        else {
+                            context = dataPathRoot[parts[0]];
+                        }
+                        var childContext = context;
                         if (childContext) {
                             return this.traverseContext(childContext, path.substring(path.indexOf('.') + 1));
                         }

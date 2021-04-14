@@ -231,6 +231,12 @@ var sffw;
                 ListCtrlApi.prototype.focusRecordByKey = function (args) {
                     this.ctrlCore.focusRecordByKey(args.columnName, args.value);
                 };
+                ListCtrlApi.prototype.getListName = function () {
+                    return this.ctrlCore.listName;
+                };
+                ListCtrlApi.prototype.setListName = function (args) {
+                    this.ctrlCore.listName = args.listName;
+                };
                 ListCtrlApi.prototype.dispose = function () {
                     this.listCtrlCore.dispose();
                     this.listCtrlCore = null;
