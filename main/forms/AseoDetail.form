@@ -1892,192 +1892,344 @@
             </Panel>
             <Panel>
               <Name value="pnlLifeCycle_authorisation" />
-              <Orientation value="Horizontal" />
+              <Orientation value="Vertical" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
               <Bindings>
                 <Binding SourceProperty="IsVisible" Expression="components.tabsMenu.Tab02lifecycle_authorisation.IsSelected" />
               </Bindings>
               <Children>
-                <GroupBox>
-                  <Name value="box_contact" />
-                  <Caption value="Kontaktní osoba držitele povolení" />
-                  <Panel.Height value="100%" />
-                  <Panel.Width value="50%" />
-                  <Content>
-                    <Panel>
-                      <Name value="panel6" />
-                      <Orientation value="Vertical" />
-                      <Children>
-                        <TextBox>
-                          <Name value="textBox12" />
-                          <Caption value="Jméno zodpovědné osoby na straně držitele povolení" />
-                          <CaptionVAlign value="Middle" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="*" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonName" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonName.isRequired()" />
-                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                          </Bindings>
+                <Panel>
+                  <Name value="pnlLifeCycle_authorisation_row1" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Children>
+                    <GroupBox>
+                      <Name value="box_contact" />
+                      <Caption value="Kontaktní osoba držitele povolení" />
+                      <Panel.Height value="100%" />
+                      <Panel.Width value="50%" />
+                      <Content>
+                        <Panel>
+                          <Name value="panel6" />
+                          <Orientation value="Vertical" />
+                          <Children>
+                            <TextBox>
+                              <Name value="textBox12" />
+                              <Caption value="Jméno zodpovědné osoby na straně držitele povolení" />
+                              <CaptionVAlign value="Middle" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonName" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonName.isRequired()" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox13" />
+                              <Caption value="Telefon na zodpovědnou osobu na straně držitele povolení" />
+                              <CaptionVAlign value="Middle" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Tooltip value="Formát telefonního čísla je &quot;+420...&quot;, &quot;+33&quot; atd. Číslo musí začínat symbolem &quot;+&quot;." />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonPhone" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonPhone.isRequired()" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <CheckBox>
+                              <Name value="checkBox_ResponsiblePersonWantsToBeNotified" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.caption()" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-checkbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </CheckBox>
+                            <TextBox>
+                              <Name value="textBox14" />
+                              <Caption value="Email osoby" />
+                              <CaptionVAlign value="Middle" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonEMail" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                          </Children>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
+                              <ClassName value="{theme}-panel" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </TextBox>
-                        <TextBox>
-                          <Name value="textBox13" />
-                          <Caption value="Telefon na zodpovědnou osobu na straně držitele povolení" />
-                          <CaptionVAlign value="Middle" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="*" />
-                          <Tooltip value="Formát telefonního čísla je &quot;+420...&quot;, &quot;+33&quot; atd. Číslo musí začínat symbolem &quot;+&quot;." />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonPhone" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonPhone.isRequired()" />
-                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </TextBox>
-                        <CheckBox>
-                          <Name value="checkBox_ResponsiblePersonWantsToBeNotified" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="*" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified.caption()" />
-                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-checkbox" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </CheckBox>
-                        <TextBox>
-                          <Name value="textBox14" />
-                          <Caption value="Email osoby" />
-                          <CaptionVAlign value="Middle" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="*" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonEMail" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.ResponsiblePersonWantsToBeNotified" />
-                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </TextBox>
-                      </Children>
+                        </Panel>
+                      </Content>
                       <CssClass>
                         <CssClassConditional>
-                          <ClassName value="{theme}-panel" />
+                          <ClassName value="{theme}-groupbox" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
                       </CssClass>
-                    </Panel>
-                  </Content>
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-groupbox" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                  </CssClass>
-                </GroupBox>
-                <GroupBox>
-                  <Name value="box_authorisation" />
-                  <Caption value="Vydání povolení" />
-                  <Panel.Height value="100%" />
-                  <Panel.Width value="50%" />
-                  <Content>
-                    <Panel>
-                      <Name value="panel24" />
-                      <Orientation value="Vertical" />
-                      <Children>
-                        <CheckBox>
-                          <Name value="checkBox3" />
-                          <Caption value="Omezit délku platnosti" />
-                          <IsVisible value="False" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="*" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.isRequired()" />
-                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                          </Bindings>
+                    </GroupBox>
+                    <GroupBox>
+                      <Name value="box_authorisation" />
+                      <Caption value="Vydání povolení" />
+                      <Panel.Height value="100%" />
+                      <Panel.Width value="50%" />
+                      <Content>
+                        <Panel>
+                          <Name value="panel24" />
+                          <Orientation value="Vertical" />
+                          <Children>
+                            <CheckBox>
+                              <Name value="checkBox3" />
+                              <Caption value="Omezit délku platnosti" />
+                              <IsVisible value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.isRequired()" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-checkbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </CheckBox>
+                            <DatePicker>
+                              <Name value="datePicker_AuthorizationValidUntil" />
+                              <IsVisible value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil.caption()" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-datepicker" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </DatePicker>
+                            <TextBox>
+                              <Name value="textBox_TIRHolderID" />
+                              <CaptionVAlign value="Middle" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="100%" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPTIR.TIRHolder" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPTIR.TIRHolder.caption()" />
+                                <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationTir" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.visibilities.isAuthorisationTir" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                          </Children>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-checkbox" />
+                              <ClassName value="{theme}-panel" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </CheckBox>
-                        <DatePicker>
-                          <Name value="datePicker_AuthorizationValidUntil" />
-                          <IsVisible value="False" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="*" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil.caption()" />
-                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-datepicker" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </DatePicker>
-                        <TextBox>
-                          <Name value="textBox_TIRHolderID" />
-                          <CaptionVAlign value="Middle" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="100%" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPTIR.TIRHolder" />
-                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPTIR.TIRHolder.caption()" />
-                            <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationTir" />
-                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.visibilities.isAuthorisationTir" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </TextBox>
-                      </Children>
+                        </Panel>
+                      </Content>
                       <CssClass>
                         <CssClassConditional>
-                          <ClassName value="{theme}-panel" />
+                          <ClassName value="{theme}-groupbox" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
                       </CssClass>
-                    </Panel>
-                  </Content>
+                    </GroupBox>
+                  </Children>
                   <CssClass>
                     <CssClassConditional>
-                      <ClassName value="{theme}-groupbox" />
+                      <ClassName value="{theme}-panel" />
                       <IsThemedStyle value="True" />
                     </CssClassConditional>
                   </CssClass>
-                </GroupBox>
+                </Panel>
+                <Panel>
+                  <Name value="pnlLifeCycle_authorisation_row2" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Bindings>
+                    <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationACR" />
+                  </Bindings>
+                  <Children>
+                    <GroupBox>
+                      <Name value="box_representation" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="50%" />
+                      <Content>
+                        <Panel>
+                          <Name value="box_representation_pnl" />
+                          <Orientation value="Vertical" />
+                          <Children>
+                            <Button>
+                              <Name value="button_add_representation" />
+                              <Caption value="Přidat typ zastoupení" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="250px" />
+                              <OnClick>
+                                <ActionEvent ReferencedAction="~action1" />
+                              </OnClick>
+                              <Bindings>
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-button" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Button>
+                            <DataTable>
+                              <Name value="representation_table" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="DataItems" Expression="model.modelStructure.ASEO.Event.Representation" />
+                              </Bindings>
+                              <Columns>
+                                <DataColumn>
+                                  <Name value="dataColumn3" />
+                                  <Caption value=" " />
+                                  <Width value="85%" />
+                                  <Content>
+                                    <ReferenceCombo>
+                                      <Name value="referenceCombo1" />
+                                      <DisplayMember value="_description" />
+                                      <ReferenceList reference="~ZPZAST" />
+                                      <Bindings>
+                                        <Binding SourceProperty="Data" Expression="TypeOfRepresentation" />
+                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="TypeOfRepresentation.isRequired()" />
+                                        <Binding SourceProperty="Caption" Expression="TypeOfRepresentation.caption()" />
+                                        <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                                      </Bindings>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-referencecombo" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </ReferenceCombo>
+                                  </Content>
+                                  <HeaderCssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-datacolumn" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </HeaderCssClass>
+                                </DataColumn>
+                                <DataColumn>
+                                  <Name value="dataColumn5" />
+                                  <Caption value=" " />
+                                  <Width value="15%" />
+                                  <Content>
+                                    <Button>
+                                      <Name value="button_delete_representation" />
+                                      <Caption value="Smaž" />
+                                      <OnClick>
+                                        <ActionEvent ReferencedAction="~action2" />
+                                      </OnClick>
+                                      <Bindings>
+                                        <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                                      </Bindings>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-button" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Button>
+                                  </Content>
+                                  <HeaderCssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-datacolumn" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </HeaderCssClass>
+                                </DataColumn>
+                              </Columns>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-datatable" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </DataTable>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                      </Content>
+                      <Bindings>
+                        <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Representation.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-groupbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </GroupBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
               </Children>
               <CssClass>
                 <CssClassConditional>
@@ -2439,10 +2591,25 @@
                 </Label>
                 <Panel>
                   <Name value="panel12" />
-                  <Orientation value="Horizontal" />
+                  <Orientation value="Vertical" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
                   <Children>
+                    <Button>
+                      <Name value="addGoods_button" />
+                      <Caption value="Přidat zboží" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_addGoods_button_OnClick" />
+                      </OnClick>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
                     <DataTable>
                       <Name value="tableGoodsItems" />
                       <Panel.Height value="#" />
@@ -2455,18 +2622,27 @@
                           <Name value="dataColumn1_CNCode" />
                           <Caption value="Kód KN" />
                           <Content>
-                            <Label>
-                              <Name value="label2_CNCode" />
+                            <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
+                              <Name value="refLookUp_CNCode" />
+                              <Caption value="Kód KN" />
+                              <DataApiObject reference="+GlobalApiObjects.cnCodeCl" />
+                              <DisplayMember value="_description" />
+                              <IsRequiredMarkVisible value="True" />
+                              <MinChars value="2" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="300px" />
+                              <useContains value="False" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="CNCode" />
+                                <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-label" />
+                                  <ClassName value="{theme}-referencelookup" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </Label>
+                            </ReferenceLookup>
                           </Content>
                           <HeaderCssClass>
                             <CssClassConditional>
@@ -2535,94 +2711,6 @@
                         </CssClassConditional>
                       </CssClass>
                     </DataTable>
-                    <Panel>
-                      <Name value="panel17" />
-                      <Orientation value="Vertical" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="50%" />
-                      <Children>
-                        <Button>
-                          <Name value="buttonAddGoodsItem" />
-                          <Caption value="Přidat zboží" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="150px" />
-                          <OnClick>
-                            <ActionEvent ReferencedAction="~handler_buttonAddGoodsItem_OnClick" />
-                          </OnClick>
-                          <Bindings>
-                            <Binding SourceProperty="IsEnabled" Expression="form.formState.lifeCycle.canClickBtn" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-button" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </Button>
-                        <Panel>
-                          <Name value="panel19" />
-                          <Orientation value="Horizontal" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="160px" />
-                          <Bindings>
-                            <Binding SourceProperty="IsVisible" Expression="form.model.sekce3zbozi.switchInsertNewGoodsItem" />
-                          </Bindings>
-                          <Children>
-                            <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
-                              <Name value="refLookUp_CNCode" />
-                              <Caption value="Kód KN" />
-                              <DataApiObject reference="+GlobalApiObjects.cnCodeCl" />
-                              <DisplayMember value="_description" />
-                              <IsRequiredMarkVisible value="True" />
-                              <MinChars value="2" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="300px" />
-                              <useContains value="False" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="form.model.sekce3zbozi.CNCode" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-referencelookup" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </ReferenceLookup>
-                            <Button>
-                              <Name value="buttonInsetGoodsItem" />
-                              <Caption value="Přidat položku zboží" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="150px" />
-                              <OnClick>
-                                <ActionEvent ReferencedAction="~insertNewGoodsItem" />
-                              </OnClick>
-                              <Bindings>
-                                <Binding SourceProperty="IsEnabled" Expression="globals.OverenyUzivatel.hasWritePermission" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-button" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </Button>
-                          </Children>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-panel" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </Panel>
-                      </Children>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-panel" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </Panel>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
@@ -3282,6 +3370,327 @@
                   <Bindings>
                     <Binding SourceProperty="Caption" Expression="form.model.modelStructure.ASEO.Event.Guarantee.caption()" />
                     <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationSAR" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-groupbox" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </GroupBox>
+                <GroupBox>
+                  <Name value="box_ACRdetails" />
+                  <Caption value="Box _ AC rdetails" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Content>
+                    <Panel>
+                      <Name value="box_ACRdetails_pnl" />
+                      <Orientation value="Horizontal" />
+                      <Children>
+                        <Panel>
+                          <Name value="box_ACRdetails_row1" />
+                          <Orientation value="Vertical" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="50%" />
+                          <Children>
+                            <CheckBox>
+                              <Name value="SPSealsSpecTypeAllowed_chB" />
+                              <CaptionHAlign value="Right" />
+                              <CaptionPosition value="Right" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-checkbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </CheckBox>
+                            <CheckBox>
+                              <Name value="SPFreeFromBindingItineraryAllowed_chB" />
+                              <CaptionHAlign value="Right" />
+                              <CaptionPosition value="Right" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPAx.SPFreeFromBindingItineraryAllowed" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPAx.SPFreeFromBindingItineraryAllowed.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPAx.SPFreeFromBindingItineraryAllowed.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-checkbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </CheckBox>
+                            <CheckBox>
+                              <Name value="ExportDeclarationDischargeByTDAllowed_chB" />
+                              <CaptionHAlign value="Right" />
+                              <CaptionPosition value="Right" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPAx.ExportDeclarationDischargeByTDAllowed" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPAx.ExportDeclarationDischargeByTDAllowed.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPAx.ExportDeclarationDischargeByTDAllowed.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-checkbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </CheckBox>
+                            <CheckBox>
+                              <Name value="TDDTBDDFormFallbackProcedureAllowed_chB" />
+                              <CaptionHAlign value="Right" />
+                              <CaptionPosition value="Right" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPAx.TDDTBDDFormFallbackProcedureAllowed" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPAx.TDDTBDDFormFallbackProcedureAllowed.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPAx.TDDTBDDFormFallbackProcedureAllowed.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-checkbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </CheckBox>
+                            <CheckBox>
+                              <Name value="SensitiveGoodsAllowed_chB" />
+                              <CaptionHAlign value="Right" />
+                              <CaptionPosition value="Right" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPAx.SensitiveGoodsAllowed" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPAx.SensitiveGoodsAllowed.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPAx.SensitiveGoodsAllowed.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-checkbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </CheckBox>
+                            <GroupBox>
+                              <Name value="allowedCountry_grpBox" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Content>
+                                <Panel>
+                                  <Name value="countries_pnl" />
+                                  <Orientation value="Vertical" />
+                                  <Children>
+                                    <Button>
+                                      <Name value="button_add_country" />
+                                      <Caption value="Přidat zemi" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="250px" />
+                                      <OnClick>
+                                        <ActionEvent ReferencedAction="~handler_button_add_representation_OnClick" />
+                                      </OnClick>
+                                      <Bindings>
+                                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                                      </Bindings>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-button" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Button>
+                                    <DataTable>
+                                      <Name value="allowedCountry_table" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="*" />
+                                      <Bindings>
+                                        <Binding SourceProperty="DataItems" Expression="model.modelStructure.ASEO.Event.Countries.AllowedCountry" />
+                                      </Bindings>
+                                      <Columns>
+                                        <DataColumn>
+                                          <Name value="dataColumn4" />
+                                          <Caption value=" " />
+                                          <Width value="85%" />
+                                          <Content>
+                                            <ReferenceCombo>
+                                              <Name value="referenceCombo2" />
+                                              <DisplayMember value="_description" />
+                                              <ReferenceList reference="~ZAKZEME" />
+                                              <Bindings>
+                                                <Binding SourceProperty="Data" Expression="CountryCode" />
+                                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="CountryCode.isRequired()" />
+                                                <Binding SourceProperty="Caption" Expression="CountryCode.caption()" />
+                                                <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                                              </Bindings>
+                                              <CssClass>
+                                                <CssClassConditional>
+                                                  <ClassName value="{theme}-referencecombo" />
+                                                  <IsThemedStyle value="True" />
+                                                </CssClassConditional>
+                                              </CssClass>
+                                            </ReferenceCombo>
+                                          </Content>
+                                          <HeaderCssClass>
+                                            <CssClassConditional>
+                                              <ClassName value="{theme}-datacolumn" />
+                                              <IsThemedStyle value="True" />
+                                            </CssClassConditional>
+                                          </HeaderCssClass>
+                                        </DataColumn>
+                                        <DataColumn>
+                                          <Name value="dataColumn6" />
+                                          <Caption value=" " />
+                                          <Width value="15%" />
+                                          <Content>
+                                            <Button>
+                                              <Name value="button_delete_country" />
+                                              <Caption value="Smaž" />
+                                              <OnClick>
+                                                <ActionEvent ReferencedAction="~handler_button_delete_representation_OnClick" />
+                                              </OnClick>
+                                              <Bindings>
+                                                <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                                              </Bindings>
+                                              <CssClass>
+                                                <CssClassConditional>
+                                                  <ClassName value="{theme}-button" />
+                                                  <IsThemedStyle value="True" />
+                                                </CssClassConditional>
+                                              </CssClass>
+                                            </Button>
+                                          </Content>
+                                          <HeaderCssClass>
+                                            <CssClassConditional>
+                                              <ClassName value="{theme}-datacolumn" />
+                                              <IsThemedStyle value="True" />
+                                            </CssClassConditional>
+                                          </HeaderCssClass>
+                                        </DataColumn>
+                                      </Columns>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-datatable" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </DataTable>
+                                  </Children>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-panel" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Panel>
+                              </Content>
+                              <Bindings>
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Countries.AllowedCountry.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-groupbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </GroupBox>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                        <Panel>
+                          <Name value="box_ACRdetails_row2" />
+                          <Orientation value="Vertical" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="50%" />
+                          <Children>
+                            <CheckBox>
+                              <Name value="phase1_chB" />
+                              <CaptionHAlign value="Right" />
+                              <CaptionPosition value="Right" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPAx.Phase1" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPAx.Phase1.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPAx.Phase1.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-checkbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </CheckBox>
+                            <CheckBox>
+                              <Name value="phase2_chB" />
+                              <CaptionHAlign value="Right" />
+                              <CaptionPosition value="Right" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPAx.Phase2" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPAx.Phase2.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPAx.Phase2.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-checkbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </CheckBox>
+                            <TextBox>
+                              <Name value="SPHolderCode_textBox" />
+                              <CaptionVAlign value="Middle" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.SPHolderCode" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.SPHolderCode.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.SPHolderCode.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Content>
+                  <Bindings>
+                    <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationACR" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -4790,17 +5199,6 @@
                     </AttributeType>
                   </DeclaredType>
                 </Attribute>
-                <Reference>
-                  <Name value="CNCode" />
-                  <Caption value="Zbožový kód pro dozajištění" />
-                  <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponse/customsDecisionAuthorisationData/universalCustomsDecisionInformation/goodsCZ/goodsItemCZ/cnCodeForSecuring" />
-                  <MtsImportOptions.MTS.Type value="element" />
-                  <Children>
-                    <Include>
-                      <Include reference="+DataEntities.ZBOZIKOD" />
-                    </Include>
-                  </Children>
-                </Reference>
                 <Attribute>
                   <Name value="negativeCollectionView" />
                   <Caption value="Pozitivní výčet (Ano/Ne)" />
@@ -5790,6 +6188,16 @@
                     <ExpressionText><![CDATA[isTrue(form.lifeCycleMode in [enums.decisionsState.authorize, enums.decisionsState.authorizeModify])
 AND isTrue(form.authorizationType = "SAR")
 AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "JIN")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="isAuthorisationACR" />
+                  <Caption value="Is authorisation ACR" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[isTrue(form.authorizationType = "ACR") ? true : false]]></ExpressionText>
                     <ResultType>
                       <BaseType value="Bool" />
                     </ResultType>
@@ -7034,7 +7442,7 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
                 <ExpressionText><![CDATA[this.collection().exists(
 	this.index() <> current.index())
 	AND
-	(subString(this.CNCode, 1, (Length(this.CNCode)-2)) = this.CNCode) ?
+	(subString(this.CNCode.ZBOZIKOD, 1, (Length(this.CNCode.ZBOZIKOD)-2)) = this.CNCode.ZBOZIKOD) ?
 		false :
 		true]]></ExpressionText>
                 <ResultType>
@@ -7064,7 +7472,7 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(this.ZBOZIKOD.hasValue() 
 AND
-(form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.exists(current.CNCode = this.ZBOZIKOD))) ?
+(form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.exists(current.CNCode.ZBOZIKOD = this.ZBOZIKOD))) ?
 false : true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -7078,16 +7486,13 @@ false : true]]></ExpressionText>
                   <BaseType value="String" />
                 </ResultType>
               </ErrorMessage>
-              <IsValid IsValid="True">
+              <IsValid>
                 <ExpressionText><![CDATA[(this.ZBOZIKOD.hasValue() 
 AND
 (form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.exists(
 	current.CNCode = 
 	subString(this.ZBOZIKOD,1, length(this.ZBOZIKOD) - 2)))) ?
 false : true]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="Bool" />
-                </ResultType>
               </IsValid>
             </Validator>
           </Validators>
@@ -7676,7 +8081,7 @@ form.isLastVersionSelected = true
 form.components.tabsMenu.SelectedTab = 1
 form.lifeCycleMode = enums.decisionsState.detail
 
-if form.authorizationType in ["TIR", "ACP"] then
+if form.authorizationType in ["TIR", "ACP", "ACR"] then
 	form.model.sekce3zbozi.negativeCollectionView = false
 endIf
 
@@ -7847,7 +8252,9 @@ form.apiobjects.SuspendingReason.setDateTime(currentDate)
 if isTrue(form.authorizationType in ["SAR"]) then
 	form.actions.filteredcodeListForSAR()
 	form.apiobjects.TypeOfPaybackPeriodEnum.setDateTime(currentDate)
-endIf
+else if isTrue(form.authorizationType in ["ACR"]) then
+	form.apiobjects.ZPZAST.setDateTime(currentDate)
+endIf endIf
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -7973,7 +8380,7 @@ else if stateCode in ["FUA", "AUA", "AUE", "FCA", "FWA"] then
 
 	tabs.Tab02lifecycle_authorisation.isVisible = true
 	
-	if form.authorizationType in ["ACP", "SAR"] then
+	if form.authorizationType in ["ACP", "SAR", "ACR"] then
 		tabs.Tab03celniUrady.isVisible = true
 		tabs.Tab05rozsirene.isVisible = true
 		tabs.Tab04zbozi.isVisible = true
@@ -8048,48 +8455,6 @@ if targetIsValid and targetHasValue then
 	newCo.CustomsOfficeReferenceNumber.fromJson(target.toJson())
 	form.model.sekce2celniUrady.model_addNewCO.CustomsOfficeReferenceNumber.clear()
 endIf]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="handler_buttonAddGoodsItem_OnClick" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.model.sekce3zbozi.switchInsertNewGoodsItem = defaultBool() then
-	form.model.sekce3zbozi.switchInsertNewGoodsItem = true
-else
-	form.model.sekce3zbozi.switchInsertNewGoodsItem = not form.model.sekce3zbozi.switchInsertNewGoodsItem
-endIf
-]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="insertNewGoodsItem" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[globals.IsBusy = True
-
-var targetIsValid = form.model.sekce3zbozi.CNCode.isValid()
-var targetHasValue = form.model.sekce3zbozi.CNCode.hasValue()
-
-if isTrue(targetIsValid and targetHasValue) then
-	
-	var newItem = form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.addItem()
-	newItem.CNCode = form.model.sekce3zbozi.CNCode.ZBOZIKOD
-	newItem.Allowed = form.model.sekce3zbozi.negativeCollectionView
-	
-	var sortedColl = form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.orderBy(current.CNCode, true)
-	form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.fromJson(sortedColl.toJson())
-	
-	form.model.sekce3zbozi.CNCode.clear()
-endIf
-
-globals.IsBusy = False
-]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -9544,11 +9909,13 @@ endIf
 	if (form.authorizationType in ["SAR"]) then
 		tabs.Tab04zbozi.isVisible = False
 		form.actions.filteredcodeListForSAR()
-	else
-		tabs.Tab04zbozi.isVisible = True
-	endIF
+	endIf
 	
-	if form.authorizationType in ["ACP"] then
+	if form.authorizationType in ["TIR", "ACP", "ACR"] then
+		tabs.Tab04zbozi.isVisible = True
+	endIf
+	
+	if form.authorizationType in ["ACP", "ACR"] then
 		tabs.Tab03celniUrady.isVisible = true
 		tabs.Tab05rozsirene.isVisible = true
 	endIf
@@ -10165,13 +10532,13 @@ endIf]]></Script>
 
 tabs.Tab02lifecycle_authorisation.isVisible = true
 
-if form.authorizationType in ["ACP", "TIR"] then
+if form.authorizationType in ["ACP", "TIR", "ACR"] then
 	tabs.Tab04zbozi.isVisible = True
 else
 	tabs.Tab04zbozi.isVisible = False
 endIf
 
-if form.authorizationType in ["ACP", "SAR"] then
+if form.authorizationType in ["ACP", "SAR", "ACR"] then
 	tabs.Tab03celniUrady.isVisible = true
 	tabs.Tab05rozsirene.isVisible = true
 endIf
@@ -10682,6 +11049,62 @@ endIf]]></Script>
         </ActionDataContext>
       </DataContext>
     </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_button_add_representation_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.model.modelStructure.ASEO.Event.Countries.AllowedCountry.addItem()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_button_delete_representation_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var confirm = system.confirm("Chcete skutečně smazat danou položku?")
+if confirm then
+	params.data.removeMe()
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="action1" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.model.modelStructure.ASEO.Event.Representation.addItem()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="action2" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var confirm = system.confirm("Chcete skutečně smazat danou položku?")
+if confirm then
+	params.data.removeMe()
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_addGoods_button_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.addItem()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
   </Actions>
   <ApiObjects>
     <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
@@ -10964,6 +11387,52 @@ endIf]]></Script>
         <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
           <columnName value="Description" />
           <columnRole value="Description" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="ZPZAST" />
+      <name value="ZPZAST" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="ZPZAST" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POPIS" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="OD" />
+          <columnRole value="ValidityStart" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="DO" />
+          <columnRole value="ValidityEnd" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="ZAKZEME" />
+      <name value="ZAKZEME" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="ZAKZEME" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POPIS" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="OD" />
+          <columnRole value="ValidityStart" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="DO" />
+          <columnRole value="ValidityEnd" />
         </CodelistColumn>
       </columns>
     </Codelist>
