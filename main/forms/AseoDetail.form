@@ -1398,6 +1398,20 @@
                         <Binding SourceProperty="Visible" Expression="components.tabsMenu.Tab12lifecycle_authorizationSuspending.isVisible" />
                       </Bindings>
                     </tab>
+                    <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                      <Name value="tabZavery" />
+                      <Bindings>
+                        <Binding SourceProperty="Title" Expression="components.tabsMenu.Tab13zavery.Title" />
+                        <Binding SourceProperty="Visible" Expression="components.tabsMenu.Tab13zavery.isVisible" />
+                      </Bindings>
+                    </tab>
+                    <tab identity="TabControl.060fd7850ded45d3aceb7bf1f53aebb6">
+                      <Name value="tabOdpovedneOsoby" />
+                      <Bindings>
+                        <Binding SourceProperty="Title" Expression="components.tabsMenu.Tab14odpovedneOsosby.Title" />
+                        <Binding SourceProperty="Visible" Expression="components.tabsMenu.Tab14odpovedneOsosby.isVisible" />
+                      </Bindings>
+                    </tab>
                   </Tabs>
                 </TabControl>
               </Children>
@@ -2304,8 +2318,6 @@
                                       <DataApiObject reference="~CELUPLAT_R" />
                                       <DisplayMember value="_description" />
                                       <MinChars value="3" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="33%" />
                                       <Bindings>
                                         <Binding SourceProperty="Data" Expression="CustomsOfficeReferenceNumber" />
                                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="CustomsOfficeReferenceNumber.isRequired()" />
@@ -2337,8 +2349,6 @@
                                     <Button>
                                       <Name value="buttonDeleteCO" />
                                       <Caption value="Smaž" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="150px" />
                                       <OnClick>
                                         <ActionEvent ReferencedAction="~handler_button1_OnClick" />
                                       </OnClick>
@@ -4672,22 +4682,7 @@
               </CssClass>
             </Panel>
             <Panel>
-              <Name value="sekce7lhutyAzajisteni" />
-              <Orientation value="Horizontal" />
-              <Panel.Height value="#" />
-              <Panel.Width value="*" />
-              <Bindings>
-                <Binding SourceProperty="IsVisible" Expression="components.tabsMenu.Tab08lhutyAzajisteni.IsSelected" />
-              </Bindings>
-              <CssClass>
-                <CssClassConditional>
-                  <ClassName value="{theme}-panel" />
-                  <IsThemedStyle value="True" />
-                </CssClassConditional>
-              </CssClass>
-            </Panel>
-            <Panel>
-              <Name value="sekce8rezimy" />
+              <Name value="sekce7rezimy" />
               <Orientation value="Vertical" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
@@ -4779,6 +4774,290 @@
                     <Binding SourceProperty="Index" Expression="form.formState.indexes._index_CustomsProcedure" />
                   </Bindings>
                 </PagingRepeater>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+            <Panel>
+              <Name value="sekce8zavery" />
+              <Orientation value="Vertical" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="IsVisible" Expression="components.tabsMenu.Tab13zavery.IsSelected" />
+              </Bindings>
+              <Children>
+                <Button>
+                  <Name value="add_Seal_button" />
+                  <Caption value="Přidat závěru" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="150px" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~handler_add_Seal_button_OnClick" />
+                  </OnClick>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-button" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Button>
+                <DataTable>
+                  <Name value="seals_dataTable" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Bindings>
+                    <Binding SourceProperty="DataItems" Expression="form.model.modelStructure.ASEO.Event.Seals.Seal" />
+                  </Bindings>
+                  <Columns>
+                    <DataColumn>
+                      <Name value="sealsColumn" />
+                      <Caption value="Závěry" />
+                      <Content>
+                        <TextBox>
+                          <Name value="sealID_textBox" />
+                          <CaptionPosition value="Hide" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="SealID" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="SealID.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="SealID.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn7" />
+                      <Caption value=" " />
+                      <Content>
+                        <Button>
+                          <Name value="removeSeal_button" />
+                          <Caption value="Smaž" />
+                          <OnClick>
+                            <ActionEvent ReferencedAction="~handler_removeSeal_button_OnClick" />
+                          </OnClick>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-button" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Button>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                  </Columns>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-datatable" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </DataTable>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+            <Panel>
+              <Name value="sekce9odpovedneOsoby" />
+              <Orientation value="Vertical" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="IsVisible" Expression="components.tabsMenu.Tab14odpovedneOsosby.IsSelected" />
+              </Bindings>
+              <Children>
+                <Button>
+                  <Name value="addPerson_button" />
+                  <Caption value="Přidat zodpovědnou osobu" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="250px" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~handler_addPerson_button_OnClick" />
+                  </OnClick>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-button" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Button>
+                <DataTable>
+                  <Name value="responsiblePerson_dataTable" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Bindings>
+                    <Binding SourceProperty="DataItems" Expression="form.model.modelStructure.ASEO.Event.ResponsiblePerson" />
+                  </Bindings>
+                  <Columns>
+                    <DataColumn>
+                      <Name value="dataColumn8" />
+                      <Caption value="Příjmení a jméno" />
+                      <Content>
+                        <TextBox>
+                          <Name value="textBox17" />
+                          <CaptionPosition value="Hide" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="ResponsiblePersonFullName" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="ResponsiblePersonFullName.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="ResponsiblePersonFullName.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn9" />
+                      <Content>
+                        <TextBox>
+                          <Name value="textBox21" />
+                          <CaptionPosition value="Hide" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="ResponsiblePersonBirthDate" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="ResponsiblePersonBirthDate.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="ResponsiblePersonBirthDate.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                      </Content>
+                      <Bindings>
+                        <Binding SourceProperty="Caption" Expression="ResponsiblePersonBirthDate.caption()" />
+                      </Bindings>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn10" />
+                      <Content>
+                        <TextBox>
+                          <Name value="textBox26" />
+                          <CaptionPosition value="Hide" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="CheckDate" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="CheckDate.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="CheckDate.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                      </Content>
+                      <Bindings>
+                        <Binding SourceProperty="Caption" Expression="CheckDate.caption()" />
+                      </Bindings>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn11" />
+                      <Content>
+                        <CheckBox>
+                          <Name value="checkBox7" />
+                          <CaptionPosition value="Hide" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="CheckResult" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="CheckResult.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="CheckResult.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                      </Content>
+                      <Bindings>
+                        <Binding SourceProperty="Caption" Expression="CheckResult.caption()" />
+                      </Bindings>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn12" />
+                      <Caption value=" " />
+                      <Content>
+                        <Button>
+                          <Name value="removePerson_button" />
+                          <Caption value="Smazat" />
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-button" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Button>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                  </Columns>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-datatable" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </DataTable>
               </Children>
               <CssClass>
                 <CssClassConditional>
@@ -7366,6 +7645,84 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
                     </Attribute>
                   </Children>
                 </Complex>
+                <Complex>
+                  <Name value="Tab13zavery" />
+                  <Caption value="Tab 13 zavery" />
+                  <Children>
+                    <Attribute>
+                      <Name value="Title" />
+                      <Caption value="Title" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="CustomCssClass" />
+                      <Caption value="Custom css class" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Computed>
+                      <Name value="IsSelected" />
+                      <Caption value="Is selected" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[this.owner().SelectedTab = 13 ? true : false]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Attribute>
+                      <Name value="isVisible" />
+                      <Caption value="Is visible" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="Tab14odpovedneOsosby" />
+                  <Caption value="Tab 14 odpovedne ososby" />
+                  <Children>
+                    <Attribute>
+                      <Name value="Title" />
+                      <Caption value="Title" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="CustomCssClass" />
+                      <Caption value="Custom css class" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Computed>
+                      <Name value="IsSelected" />
+                      <Caption value="Is selected" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[this.owner().SelectedTab = 14 ? true : false]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Attribute>
+                      <Name value="isVisible" />
+                      <Caption value="Is visible" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
           </Children>
@@ -8526,6 +8883,9 @@ endIf endIf
 
 tabs.Tab12lifecycle_authorizationSuspending.Title = "Pozastavení"
 
+tabs.Tab13zavery.Title = "Závěry"
+tabs.Tab14odpovedneOsosby.Title = "Odpovědné osoby"
+
 tabs.Tab01obecne.isVisible = true
 tabs.Tab07prehodnoceni.isVisible = true
 tabs.Tab06prilohy.isVisible = true
@@ -8544,10 +8904,16 @@ else if stateCode in ["FUA", "AUA", "AUE", "FCA", "FWA"] then
 		tabs.Tab04zbozi.isVisible = true
 	endIf
 	
+	if form.authorizationType in ["ACR"] then
+		tabs.Tab13zavery.isVisible = true
+		tabs.Tab14odpovedneOsosby.isVisible = true
+	endIf
+	
 	if form.authorizationType in ["SAR"] then
 		tabs.Tab09rezimy.isVisible = true
 		tabs.Tab04zbozi.isVisible = false
-	endIf	
+	endIf
+
 endIf endif
 
 var lifeCycleMode_notAuthorize = isTrue((form.lifeCycleMode in [enums.decisionsState.authorize]) = false)
@@ -10696,7 +11062,12 @@ if form.authorizationType in ["ACP", "SAR", "ACR"] then
 	tabs.Tab03celniUrady.isVisible = true
 	tabs.Tab05rozsirene.isVisible = true
 endIf
-	
+
+if form.authorizationType in ["ACR"] then
+	tabs.Tab13zavery.isVisible = true
+	tabs.Tab14odpovedneOsosby.isVisible = true	
+endIf
+
 if form.authorizationType in ["SAR"] then
 	tabs.Tab09rezimy.isVisible = true
 endIf]]></Script>
@@ -11358,6 +11729,42 @@ form.apiobjects.ASEOPlace.startLoadingData(getDateTime())]]></Script>
             </Attribute>
           </Children>
         </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_add_Seal_button_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.model.modelStructure.ASEO.Event.Seals.Seal.addItem()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_removeSeal_button_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var confirm = system.confirm("Chcete smazat závěru?")
+
+if isTrue(confirm) then
+
+	params.data.removeMe()
+
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_addPerson_button_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.model.modelStructure.ASEO.Event.ResponsiblePerson.addItem()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>
