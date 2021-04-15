@@ -2552,24 +2552,53 @@
                           <Name value="panel18" />
                           <Orientation value="Vertical" />
                           <Children>
-                            <Button>
-                              <Name value="add_location_button" />
-                              <Caption value="Přidat místo" />
+                            <Panel>
+                              <Name value="panel15" />
+                              <Orientation value="Horizontal" />
                               <Panel.Height value="#" />
-                              <Panel.Width value="150px" />
-                              <OnClick>
-                                <ActionEvent ReferencedAction="~handler_add_location_button_OnClick" />
-                              </OnClick>
-                              <Bindings>
-                                <Binding SourceProperty="IsEnabled" Expression="form.model.sekce2celniUrady.model_agreedLocation.selectedCOReleaseExists" />
-                              </Bindings>
+                              <Panel.Width value="*" />
+                              <Children>
+                                <Button>
+                                  <Name value="add_location_button" />
+                                  <Caption value="Přidat místo" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="150px" />
+                                  <OnClick>
+                                    <ActionEvent ReferencedAction="~handler_add_location_button_OnClick" />
+                                  </OnClick>
+                                  <Bindings>
+                                    <Binding SourceProperty="IsEnabled" Expression="form.model.sekce2celniUrady.model_agreedLocation.selectedCOReleaseExists" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-button" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Button>
+                                <Button>
+                                  <Name value="saveLocation_button" />
+                                  <Caption value="Uložit místa" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="150px" />
+                                  <OnClick>
+                                    <ActionEvent ReferencedAction="~fillInEditedCO" />
+                                  </OnClick>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-button" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Button>
+                              </Children>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-button" />
+                                  <ClassName value="{theme}-panel" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </Button>
+                            </Panel>
                             <DataTable>
                               <Name value="agreedLocation_table" />
                               <Panel.Height value="#" />
@@ -8552,9 +8581,6 @@ AND (this.DaysOfPayback.isEmpty() OR isTrue(this.DaysOfPayback < 1) ) ?
           <Name value="modifier_57CA72B5_CountryPlaceID" />
           <ShowAsChanges value="True" />
           <SourcePath value="model.sekce2celniUrady.model_agreedLocation.AuthorizedAgreedLocation.PlaceID.CountryPlaceID" />
-          <OnChange>
-            <ActionEvent ReferencedAction="+UiParts.AseoDetail.fillInEditedCO" />
-          </OnChange>
         </Modifier>
       </Modifiers>
     </DataContext>
