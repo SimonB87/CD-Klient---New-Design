@@ -3057,6 +3057,7 @@
                             </CheckBox>
                             <GroupBox>
                               <Name value="allowedCountry_grpBox" />
+                              <Caption value="Zěm vždy vyloučené ze ZJP" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
                               <Content>
@@ -3166,9 +3167,6 @@
                                   </CssClass>
                                 </Panel>
                               </Content>
-                              <Bindings>
-                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Countries.AllowedCountry.caption()" />
-                              </Bindings>
                               <CssClass>
                                 <CssClassConditional>
                                   <ClassName value="{theme}-groupbox" />
@@ -8728,6 +8726,55 @@ AND (this.DaysOfPayback.isEmpty() OR isTrue(this.DaysOfPayback < 1) ) ?
               </IsValid>
             </Validator>
           </CollectionValidators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_437A8B97_SPAx" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.SPAx" />
+          <Validators>
+            <Validator Name="requiredPhase">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pokud je vybráno \"Povolena možnost ukončení vývozního celního prohlášení propuštěním TCP ve ZJP\", musí být vybrána \"Fáze I\", nebo \"Fáze II\"."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(isTrue(form.lifeCycleMode in [enums.decisionsState.authorize, enums.decisionsState.authorizeModify]) AND
+isTrue(form.authorizationType = "ACR")) ? 
+	( isTrue(form.model.modelStructure.ASEO.Event.SPAx.ExportDeclarationDischargeByTDAllowed) AND 
+	  (isFalse(form.model.modelStructure.ASEO.Event.SPAx.Phase1) AND
+	  isFalse(form.model.modelStructure.ASEO.Event.SPAx.Phase2)) ? false : true
+	  ) 
+	: 
+	true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+            <Validator Name="notAllowedPhase">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pokud není vybráno \"Povolena možnost ukončení vývozního celního prohlášení propuštěním TCP ve ZJP\", nesmí být vybrána \"Fáze I\", ani \"Fáze II\"."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(isTrue(form.lifeCycleMode in [enums.decisionsState.authorize, enums.decisionsState.authorizeModify]) AND
+isTrue(form.authorizationType = "ACR")) ? 
+	( isFalse(form.model.modelStructure.ASEO.Event.SPAx.ExportDeclarationDischargeByTDAllowed) AND 
+	  (isTrue(form.model.modelStructure.ASEO.Event.SPAx.Phase1) OR
+	  isTrue(form.model.modelStructure.ASEO.Event.SPAx.Phase2)) ? false : true
+	  ) 
+	: 
+	true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
         </Modifier>
       </Modifiers>
     </DataContext>
