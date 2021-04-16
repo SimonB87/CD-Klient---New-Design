@@ -2718,42 +2718,76 @@
                 <Binding SourceProperty="IsVisible" Expression="components.tabsMenu.Tab04zbozi.IsSelected" />
               </Bindings>
               <Children>
-                <CheckBox>
-                  <Name value="checkBox2" />
-                  <CaptionPosition value="Right" />
-                  <IsEnabled value="False" />
-                  <IsVisible value="False" />
-                  <Panel.Height value="#" />
-                  <Panel.Width value="*" />
-                  <Bindings>
-                    <Binding SourceProperty="Data" Expression="model.sekce3zbozi.negativeCollectionView" />
-                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce3zbozi.negativeCollectionView.isRequired()" />
-                    <Binding SourceProperty="Caption" Expression="model.sekce3zbozi.negativeCollectionView.caption()" />
-                  </Bindings>
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-checkbox" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                  </CssClass>
-                </CheckBox>
-                <Label>
-                  <Name value="label_onlyNegativeList" />
-                  <Data value="V tomto povolení je možné uvést pouze negativní výčet zboží" />
-                  <Panel.Height value="#" />
-                  <Panel.Width value="*" />
-                  <Bindings>
-                    <Binding SourceProperty="IsVisible" Expression="not form.model.sekce3zbozi.negativeCollectionView" />
-                  </Bindings>
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-label" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                  </CssClass>
-                </Label>
                 <Panel>
-                  <Name value="panel12" />
+                  <Name value="zboziCheckboxes_pnl" />
+                  <Orientation value="Vertical" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Children>
+                    <CheckBox>
+                      <Name value="checkBox2" />
+                      <CaptionPosition value="Right" />
+                      <IsEnabled value="False" />
+                      <IsVisible value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.sekce3zbozi.negativeCollectionView" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce3zbozi.negativeCollectionView.isRequired()" />
+                        <Binding SourceProperty="Caption" Expression="model.sekce3zbozi.negativeCollectionView.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-checkbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </CheckBox>
+                    <Label>
+                      <Name value="label_onlyNegativeList" />
+                      <Data value="V tomto povolení je možné uvést pouze negativní výčet zboží" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="form.model.sekce3zbozi.negativeCollectionView" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                    <CheckBox>
+                      <Name value="goodsListType_chBox" />
+                      <CaptionHAlign value="Right" />
+                      <CaptionPosition value="Right" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.GoodsList.GoodsListType" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.GoodsList.GoodsListType.isRequired()" />
+                        <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.GoodsList.GoodsListType.caption()" />
+                        <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationACR" />
+                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-checkbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </CheckBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+                <Panel>
+                  <Name value="zboziTable_pnl" />
                   <Orientation value="Vertical" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
@@ -2822,12 +2856,13 @@
                           <Content>
                             <CheckBox>
                               <Name value="allowed_checkbox" />
-                              <Caption value="Allowed _ checkbox" />
-                              <CaptionPosition value="Hide" />
+                              <CaptionHAlign value="Right" />
+                              <CaptionPosition value="Right" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="Allowed" />
                                 <Binding SourceProperty="IsEnabled" Expression="form.formState.isEditOnAndIsTypeACR" />
                                 <Binding SourceProperty="Tooltip" Expression="Allowed" />
+                                <Binding SourceProperty="Caption" Expression="Allowed.caption()" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -9498,7 +9533,7 @@ if isTrue(messageType in ["ASEOSPAuthorization","ASEOSPAuthorizationModification
 	aseoMegaMessage.ASEO.Event.File.clear()
 	form.actions.setNewAnnexBeforeSendingMessage()
 		
-	if isTrue(form.authorizationType in ["TIR", "ACP", "ACR"]) then
+	if isTrue(form.authorizationType in ["TIR", "ACP"]) then
 		aseoMegaMessage.ASEO.Event.GoodsList.GoodsListType = false
 	endIf
 	
@@ -11696,7 +11731,9 @@ endIf]]></Script>
         <Script><![CDATA[var addItem = form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.addItem()
 if isTrue(form.authorizationType in ["ACP"]) then
 	addItem.Allowed = false
-endIf]]></Script>
+else if isTrue(form.authorizationType in ["ACR"]) then
+	addItem.Allowed = true
+endIf endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -11869,6 +11906,10 @@ if pathAuth.Authorization.LimitedAuthorizationValidity.isEmpty() then
 endIf
 
 if isTrue(form.authorizationType in ["ACR"]) then
+
+	if pathAuth.GoodsList.GoodsListType.isEmpty() then
+		pathAuth.GoodsList.GoodsListType = false
+	endIf
 
 	if pathAuth.Seals.SPSealsSpecTypeAllowed.isEmpty() then
 		pathAuth.Seals.SPSealsSpecTypeAllowed = false
