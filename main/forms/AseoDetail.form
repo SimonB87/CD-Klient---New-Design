@@ -4973,8 +4973,8 @@
                     <DataColumn>
                       <Name value="dataColumn9" />
                       <Content>
-                        <TextBox>
-                          <Name value="textBox21" />
+                        <DatePicker>
+                          <Name value="ResponsiblePersonBirthDate_datePicker" />
                           <CaptionPosition value="Hide" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="ResponsiblePersonBirthDate" />
@@ -4983,11 +4983,11 @@
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
+                              <ClassName value="{theme}-datepicker" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </TextBox>
+                        </DatePicker>
                       </Content>
                       <Bindings>
                         <Binding SourceProperty="Caption" Expression="ResponsiblePersonBirthDate.caption()" />
@@ -5002,8 +5002,8 @@
                     <DataColumn>
                       <Name value="dataColumn10" />
                       <Content>
-                        <TextBox>
-                          <Name value="textBox26" />
+                        <DatePicker>
+                          <Name value="CheckDate_datePicker" />
                           <CaptionPosition value="Hide" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="CheckDate" />
@@ -5012,11 +5012,11 @@
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
+                              <ClassName value="{theme}-datepicker" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </TextBox>
+                        </DatePicker>
                       </Content>
                       <Bindings>
                         <Binding SourceProperty="Caption" Expression="CheckDate.caption()" />
@@ -7923,6 +7923,59 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
 		( ((this.Period.exists(current.hasValue()) = false ) ? false : 
 			(this.Period.count() < 1) ? false : true) ) : 
 		true ) : 
+	true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+            <Validator Name="SPPeriodAuthType">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pokud má pole \"Povolena možnost ukončení vývozního celního prohlášení propuštěním TCP ve ZJP\" hodnotu \"Ano\", je nutné vyplnění lhůty pro VYSTUP. Pokud má pole hodnotu \"Ne\" nesmí být vyplněna lhůta pro VYSTUP."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(isTrue(form.lifeCycleMode in [enums.decisionsState.authorize, enums.decisionsState.authorizeModify]) AND
+isTrue(form.authorizationType = "ACR")) ? 
+
+	( isTrue(form.model.modelStructure.ASEO.Event.SPAx.ExportDeclarationDischargeByTDAllowed) ? 
+		isTrue(this.Period.exists(Current.TypeOfPeriod.Key = "VYSTUP")) :
+		isFalse(this.Period.exists(Current.TypeOfPeriod.Key = "VYSTUP"))
+	) 
+	: 
+	true
+]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+            <Validator Name="SPPeriodCount">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Je nutné vyplnit všechny nabízené lhůty. Výjimka je pouze u povolení ACR, kde je vyplnění lhůty VYSTUP podmíněna specifickým pravidlem."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(isTrue(form.lifeCycleMode in [enums.decisionsState.authorize, enums.decisionsState.authorizeModify]) AND
+isTrue(form.authorizationType = "ACR")) ? 
+
+	( isTrue(form.model.modelStructure.ASEO.Event.SPAx.ExportDeclarationDischargeByTDAllowed) ? 
+
+		( isTrue(this.Period.exists(Current.TypeOfPeriod.Key = "DOKONCENI")) AND
+		  isTrue(this.Period.exists(Current.TypeOfPeriod.Key = "POVOLENI")) AND
+		  isTrue(this.Period.exists(Current.TypeOfPeriod.Key = "VYSTUP")) )	
+		
+				:
+		
+		( isTrue(this.Period.exists(Current.TypeOfPeriod.Key = "DOKONCENI")) AND
+		  isTrue(this.Period.exists(Current.TypeOfPeriod.Key = "POVOLENI")) ) 
+		 
+		 ) 
+	: 
 	true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
