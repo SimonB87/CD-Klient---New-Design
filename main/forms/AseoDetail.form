@@ -5064,6 +5064,9 @@
                         <Button>
                           <Name value="removePerson_button" />
                           <Caption value="Smazat" />
+                          <OnClick>
+                            <ActionEvent ReferencedAction="~handler_removePerson_button_OnClick" />
+                          </OnClick>
                           <CssClass>
                             <CssClassConditional>
                               <ClassName value="{theme}-button" />
@@ -10405,15 +10408,9 @@ endIf]]></Script>
 		var lastAuthorisationGuid = form.formState.lifeCycle.pastAuthorisation.pastAuthorisationGuidVersion
 		form.actions.preloadLastAuthorisationData(lastAuthorisationGuid)
 	endIf
-	//set by default variables as false
-	var pathAuth = form.model.modelStructure.ASEO.Event.Authorization
-	if pathAuth.ResponsiblePersonWantsToBeNotified.isEmpty() then
-		pathAuth.ResponsiblePersonWantsToBeNotified = false
-	endIf
-	if pathAuth.LimitedAuthorizationValidity.isEmpty() then
-		pathAuth.LimitedAuthorizationValidity = false
-	endIf
 	
+	form.actions.setUpDefaultBooleansAsFalse()
+		
 	if form.authorizationType in ["SAR"] then
 		form.actions.prepareCOsupervising()
 		form.model.sekce2celniUrady.model_addNewSupervisingCO.switchInsertNewCOsupervising = true
@@ -10422,8 +10419,6 @@ endIf]]></Script>
 	endIf
 	
 	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
-	
-	form.actions.prepareFormData(form.authorizationType)
 	
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
@@ -10444,38 +10439,22 @@ endIf
 	var tabs = form.components.tabsMenu
 	
 	form.actions.clearVisibleTabs()
-	form.actions.prepareFormData(form.authorizationType)
+	form.actions.setUpDefaultBooleansAsFalse()
 	form.actions.prepareFormForEdit()
 	form.actions.initTabMenu()
 	form.actions.prepareTabsForAction("Upravit povolení")
-	
-	tabs.Tab02lifecycle_authorisation.isVisible = true
-	tabs.SelectedTab = 2
-	
-	if (form.authorizationType in ["SAR"]) then
-		tabs.Tab04zbozi.isVisible = False
-		form.actions.filteredcodeList__ZJPZAJIST()
-	endIf
-	
-	if form.authorizationType in ["TIR", "ACP", "ACR"] then
-		tabs.Tab04zbozi.isVisible = True
-	endIf
-	
-	if form.authorizationType in ["ACP", "ACR"] then
-		tabs.Tab03celniUrady.isVisible = true
-		tabs.Tab05rozsirene.isVisible = true
-	endIf
-	
+		
 	if form.authorizationType in ["SAR"] then
-		form.actions.prepareCOsupervising()
 		form.actions.filteredcodeList__ZJPZAJIST()
+		form.actions.prepareCOsupervising()
 		form.actions.setCustomsRegimesForSAR()
 	endIf
 	
+	tabs.SelectedTab = 2
+	form.actions.showTabsFor_Authorisation()
+	
 	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 	
-	form.actions.prepareFormData(form.authorizationType)
-
 else
 	form.actions.showErorrNotificationMessage("Není vybrána aktuální verze povolení", true)
 endIf]]></Script>
@@ -11464,51 +11443,6 @@ endIf]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="prepareFormData" />
-      <Category value="lifeCyclePostingSetUp" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var declarationData = form.model.modelStructure.ASEO.Event
-
-if isTrue(form.lifeCycleMode in [ enums.decisionsState.authorize, enums.decisionsState.authorizeModify ]) then
-
-	if (declarationData.Authorization.ResponsiblePersonWantsToBeNotified.isEmpty() ) then
-		declarationData.Authorization.ResponsiblePersonWantsToBeNotified = false
-	endIf
-
-	if isTrue(authorisationType in ["ACP"]) then
-	
-		if (declarationData.SPACP.ProducesT2L.isEmpty() ) then
-			declarationData.SPACP.ProducesT2L = false
-			
-		endIf
-		
-		if (declarationData.SPACP.ProducesInvoiceTransportDocument.isEmpty() ) then
-			declarationData.SPACP.ProducesInvoiceTransportDocument = false
-
-		endIf		
-	
-	endIf
-
-endIf
-]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext>
-          <Children>
-            <Attribute>
-              <Name value="authorisationType" />
-              <Caption value="Authorisation type" />
-              <DataContextParameter.IsInput value="True" />
-              <DataContextParameter.IsInputRequired value="True" />
-              <DeclaredType>
-                <AttributeType />
-              </DeclaredType>
-            </Attribute>
-          </Children>
-        </ActionDataContext>
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="handler_modifier_CA98C8C9_TypeOfPaybackPeriod_OnChange" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
@@ -11720,6 +11654,11 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if isTrue(form.isEditOn) then
 
+	forEach location in form.model.sekce2celniUrady.model_agreedLocation.AuthorizedAgreedLocation do
+		location.Country = "CZ"
+		location.CountryPlaceID = "Česká republika"
+	endFor
+
 	var indexOfSelectedCO = form.model.sekce2celniUrady.model_agreedLocation.itemIndex
 
 	var selectedCORelease = form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.selectFirst(current.index() = indexOfSelectedCO)
@@ -11788,6 +11727,79 @@ endIf]]></Script>
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.model.modelStructure.ASEO.Event.ResponsiblePerson.addItem()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_removePerson_button_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var confirm = system.confirm("Chcete smazat osobu?")
+if isTrue(confirm) then
+	params.data.removeMe()
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setUpDefaultBooleansAsFalse" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var pathAuth = form.model.modelStructure.ASEO.Event
+if pathAuth.Authorization.ResponsiblePersonWantsToBeNotified.isEmpty() then
+	pathAuth.Authorization.ResponsiblePersonWantsToBeNotified = false
+endIf
+	
+if pathAuth.Authorization.LimitedAuthorizationValidity.isEmpty() then
+	pathAuth.Authorization.LimitedAuthorizationValidity = false
+endIf
+
+if isTrue(form.authorizationType in ["ACR"]) then
+
+	if pathAuth.Seals.SPSealsSpecTypeAllowed.isEmpty() then
+		pathAuth.Seals.SPSealsSpecTypeAllowed = false
+	endIf
+	
+	if pathAuth.SPAx.SPFreeFromBindingItineraryAllowed.isEmpty() then
+		pathAuth.SPAx.SPFreeFromBindingItineraryAllowed = false
+	endIf
+	
+	if pathAuth.SPAx.ExportDeclarationDischargeByTDAllowed.isEmpty() then
+		pathAuth.SPAx.ExportDeclarationDischargeByTDAllowed = false
+	endIf
+	
+	if pathAuth.SPAx.TDDTBDDFormFallbackProcedureAllowed.isEmpty() then
+		pathAuth.SPAx.TDDTBDDFormFallbackProcedureAllowed = false
+	endIf
+	
+	if pathAuth.SPAx.SensitiveGoodsAllowed.isEmpty() then
+		pathAuth.SPAx.SensitiveGoodsAllowed = false
+	endIf
+	
+	if pathAuth.SPAx.Phase1.isEmpty() then
+		pathAuth.SPAx.Phase1 = false
+	endIf
+	
+	if pathAuth.SPAx.Phase2.isEmpty() then
+		pathAuth.SPAx.Phase2 = false
+	endIf
+	
+endIf
+
+if isTrue(form.authorizationType in ["ACP"]) then
+	
+	if (pathAuth.SPACP.ProducesT2L.isEmpty() ) then
+		pathAuth.SPACP.ProducesT2L = false			
+	endIf
+		
+	if (pathAuth.SPACP.ProducesInvoiceTransportDocument.isEmpty() ) then
+		pathAuth.SPACP.ProducesInvoiceTransportDocument = false
+	endIf		
+
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
