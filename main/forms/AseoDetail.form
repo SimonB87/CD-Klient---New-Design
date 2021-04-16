@@ -2742,6 +2742,9 @@
                   <Data value="V tomto povolení je možné uvést pouze negativní výčet zboží" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
+                  <Bindings>
+                    <Binding SourceProperty="IsVisible" Expression="not form.model.sekce3zbozi.negativeCollectionView" />
+                  </Bindings>
                   <CssClass>
                     <CssClassConditional>
                       <ClassName value="{theme}-label" />
@@ -2783,12 +2786,13 @@
                       <Columns>
                         <DataColumn>
                           <Name value="goodsColumn1" />
-                          <Caption value="Goods column 1" />
+                          <Caption value="Kód KN" />
                           <Width value="50%" />
                           <Content>
                             <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
                               <Name value="CNcode_referenceLookup" />
                               <Caption value="Kód KN" />
+                              <CaptionPosition value="Hide" />
                               <DataApiObject reference="+GlobalApiObjects.cnCodeCl" />
                               <DisplayMember value="_description" />
                               <MinChars value="2" />
@@ -2814,22 +2818,28 @@
                         </DataColumn>
                         <DataColumn>
                           <Name value="goodsColumn2" />
-                          <Caption value="Povolené" />
                           <Width value="25%" />
                           <Content>
-                            <Label>
-                              <Name value="label3_Allowed" />
+                            <CheckBox>
+                              <Name value="allowed_checkbox" />
+                              <Caption value="Allowed _ checkbox" />
+                              <CaptionPosition value="Hide" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="Allowed" />
+                                <Binding SourceProperty="IsEnabled" Expression="form.formState.isEditOnAndIsTypeACR" />
+                                <Binding SourceProperty="Tooltip" Expression="Allowed" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-label" />
+                                  <ClassName value="{theme}-checkbox" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </Label>
+                            </CheckBox>
                           </Content>
+                          <Bindings>
+                            <Binding SourceProperty="Caption" Expression="Allowed.caption()" />
+                          </Bindings>
                           <HeaderCssClass>
                             <CssClassConditional>
                               <ClassName value="{theme}-datacolumn" />
@@ -2925,6 +2935,7 @@
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed.isRequired()" />
                                 <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed.caption()" />
+                                <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -2943,6 +2954,7 @@
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPAx.SPFreeFromBindingItineraryAllowed" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPAx.SPFreeFromBindingItineraryAllowed.isRequired()" />
                                 <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPAx.SPFreeFromBindingItineraryAllowed.caption()" />
+                                <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -2961,6 +2973,7 @@
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPAx.ExportDeclarationDischargeByTDAllowed" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPAx.ExportDeclarationDischargeByTDAllowed.isRequired()" />
                                 <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPAx.ExportDeclarationDischargeByTDAllowed.caption()" />
+                                <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -2979,6 +2992,7 @@
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPAx.TDDTBDDFormFallbackProcedureAllowed" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPAx.TDDTBDDFormFallbackProcedureAllowed.isRequired()" />
                                 <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPAx.TDDTBDDFormFallbackProcedureAllowed.caption()" />
+                                <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -2997,6 +3011,7 @@
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPAx.SensitiveGoodsAllowed" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPAx.SensitiveGoodsAllowed.isRequired()" />
                                 <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPAx.SensitiveGoodsAllowed.caption()" />
+                                <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -3150,6 +3165,7 @@
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPAx.Phase1" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPAx.Phase1.isRequired()" />
+                                <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -3168,6 +3184,7 @@
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPAx.Phase2" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.SPAx.Phase2.isRequired()" />
+                                <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -3179,6 +3196,7 @@
                             <TextBox>
                               <Name value="SPHolderCode_textBox" />
                               <CaptionVAlign value="Middle" />
+                              <IsEnabled value="False" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
                               <Bindings>
@@ -7194,6 +7212,16 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Computed>
+              <Name value="isEditOnAndIsTypeACR" />
+              <Caption value="Is edit on and is type ACR" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[( isTrue(form.isEditOn) AND isTrue(form.authorizationType = "ACR") ) ? true : false]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
           </Children>
         </Complex>
         <Complex>
@@ -11666,7 +11694,9 @@ endIf]]></Script>
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var addItem = form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.addItem()
-addItem.Allowed = false]]></Script>
+if isTrue(form.authorizationType in ["ACP"]) then
+	addItem.Allowed = false
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
