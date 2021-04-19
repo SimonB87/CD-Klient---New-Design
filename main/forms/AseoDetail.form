@@ -2333,7 +2333,7 @@
                                           <IsThemedStyle value="True" />
                                         </CssClassConditional>
                                         <CssClassConditional>
-                                          <ClassName value="marginAllSides" />
+                                          <ClassName value="marginBottom" />
                                         </CssClassConditional>
                                       </CssClass>
                                     </ReferenceLookup>
@@ -2628,8 +2628,6 @@
                                       <Name value="placeID_referenceCombo" />
                                       <CaptionPosition value="Hide" />
                                       <DisplayMember value="_description" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="*" />
                                       <ReferenceList reference="~ASEOPlace" />
                                       <Bindings>
                                         <Binding SourceProperty="Data" Expression="CountryPlaceID" />
@@ -5037,21 +5035,24 @@
                       <Name value="dataColumn8" />
                       <Caption value="Příjmení a jméno" />
                       <Content>
-                        <TextBox>
-                          <Name value="textBox17" />
+                        <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
+                          <Name value="ResponsiblePersonFullName_refCombo" />
                           <CaptionPosition value="Hide" />
+                          <DataApiObject reference="~ASEOPerson" />
+                          <DisplayMember value="_description" />
+                          <MinChars value="3" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="ResponsiblePersonFullName" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="ResponsiblePersonFullName.isRequired()" />
                             <Binding SourceProperty="Caption" Expression="ResponsiblePersonFullName.caption()" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="ResponsiblePersonFullName.isRequired()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
+                              <ClassName value="{theme}-referencelookup" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </TextBox>
+                        </ReferenceLookup>
                       </Content>
                       <HeaderCssClass>
                         <CssClassConditional>
@@ -8801,6 +8802,14 @@ isTrue(form.authorizationType = "ACR")) ?
             </Validator>
           </Validators>
         </Modifier>
+        <Modifier>
+          <Name value="modifier_C2FC61A3_ResponsiblePersonFullName" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.ResponsiblePerson.ResponsiblePersonFullName" />
+          <OnUserChange>
+            <ActionEvent ReferencedAction="+UiParts.AseoDetail.handler_modifier_C2FC61A3_ResponsiblePersonFullName_OnUserChange" />
+          </OnUserChange>
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
@@ -9007,10 +9016,11 @@ if isTrue(form.authorizationType in ["SAR"]) then
 	form.apiobjects.TypeOfPaybackPeriodEnum.setDateTime(currentDate)
 else if isTrue(form.authorizationType in ["ACR"]) then
 	form.apiobjects.ZPZAST.setDateTime(currentDate)
+	form.apiobjects.ASEOPlace.setDateTime(currentDate)
+	form.apiobjects.ASEOPerson.startLoadingData(currentDate)
 	
 	if form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.exists(current.hasValue()) then
-		var COnumber = form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.selectFirst()
-		form.actions.setFilteredCodelestAseoPlace(COnumber.CustomsOfficeReferenceNumber.CELUPLAT_R)
+		form.actions.setFilteredCodelestAseoPlace()
 	endIf
 	
 	form.actions.filteredcodeList__ZJPZAJIST()
@@ -11815,7 +11825,19 @@ endIf endIf]]></Script>
       <Name value="handler_add_location_button_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.model.sekce2celniUrady.model_agreedLocation.AuthorizedAgreedLocation.addItem()]]></Script>
+        <Script><![CDATA[form.model.sekce2celniUrady.model_agreedLocation.AuthorizedAgreedLocation.addItem()
+
+if form.model.sekce2celniUrady.model_agreedLocation.selectedCOrelease.hasValue() then
+	
+	var COrelease = form.model.sekce2celniUrady.model_agreedLocation.selectedCOrelease
+	var filter = "TIN eq '" + form.model.modelStructure.ASEO.TIN + "' and ResponsibleCustomsOffice eq '" + COrelease + "'"
+	
+	form.apiobjects.ASEOPlace.setFilter(filter)
+
+	form.apiobjects.ASEOPlace.startLoadingData(getDateTime())
+
+endIf
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -11890,7 +11912,26 @@ endIf]]></Script>
     <ActionBlock>
       <Name value="setFilteredCodelestAseoPlace" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var filter = "TIN eq '" + form.model.modelStructure.ASEO.TIN + "' and ResponsibleCustomsOffice eq '" + COnumber + "'"
+        <Script><![CDATA[var filter = defaultString()
+
+if isTrue(form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.count() = 1) then
+	filter = "TIN eq '" + form.model.modelStructure.ASEO.TIN + "' and ResponsibleCustomsOffice eq '" + COnumber + "'"
+else if isTrue(form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.count() > 1) then
+	filter = "TIN eq '" + form.model.modelStructure.ASEO.TIN + "' and ("
+	
+	forEach office in form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease do
+	
+		filter = filter + " ResponsibleCustomsOffice eq '" + office.CustomsOfficeReferenceNumber.CELUPLAT_R + "'"
+		if office.index() < form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.count() then
+			filter = filter + " or "
+		endIf
+	
+	endFor
+	
+	filter = filter + ")"
+	
+endIf endIf
+
 
 form.apiobjects.ASEOPlace.setFilter(filter)
 
@@ -11941,7 +11982,8 @@ endIf]]></Script>
       <Name value="handler_addPerson_button_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.model.modelStructure.ASEO.Event.ResponsiblePerson.addItem()]]></Script>
+        <Script><![CDATA[form.model.modelStructure.ASEO.Event.ResponsiblePerson.addItem()
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -12019,6 +12061,26 @@ if isTrue(form.authorizationType in ["ACP"]) then
 	endIf		
 
 endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_modifier_C2FC61A3_ResponsiblePersonFullName_OnUserChange" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//test
+system.console("running")
+//tets
+
+var item = params.data
+
+item.ResponsiblePersonGUID = params.data.ResponsiblePersonFullName.GUID
+item.ResponsiblePersonBirthDate = params.data.ResponsiblePersonFullName.BirthDate
+item.CheckDate = params.data.ResponsiblePersonFullName.CheckDate
+item.CheckResult = params.data.ResponsiblePersonFullName.CheckResult
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -12357,6 +12419,7 @@ endIf]]></Script>
     </Codelist>
     <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
       <Name value="ASEOPlace" />
+      <autoLoad value="False" />
       <name value="ASEOPlace" />
       <server reference="+GlobalApiObjects.ServerKomunikace" />
       <columns>
@@ -12375,6 +12438,41 @@ endIf]]></Script>
         <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
           <columnName value="DO" />
           <columnRole value="ValidityEnd" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="ASEOPerson" />
+      <name value="ASEOPerson" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="ASEOPerson" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="Description" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="OD" />
+          <columnRole value="ValidityStart" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="DO" />
+          <columnRole value="ValidityEnd" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="GUID" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="BirthDate" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="CheckDate" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="CheckResult" />
         </CodelistColumn>
       </columns>
     </Codelist>
