@@ -2628,11 +2628,13 @@
                                       <Name value="placeID_referenceCombo" />
                                       <CaptionPosition value="Hide" />
                                       <DisplayMember value="_description" />
+                                      <Panel.Height value="#" />
+                                      <Panel.Width value="*" />
                                       <ReferenceList reference="~ASEOPlace" />
                                       <Bindings>
-                                        <Binding SourceProperty="Data" Expression="PlaceID" />
-                                        <Binding SourceProperty="Caption" Expression="PlaceID.caption()" />
-                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="PlaceID.isRequired()" />
+                                        <Binding SourceProperty="Data" Expression="CountryPlaceID" />
+                                        <Binding SourceProperty="Caption" Expression="CountryPlaceID.caption()" />
+                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="CountryPlaceID.isRequired()" />
                                         <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
                                       </Bindings>
                                       <CssClass>
@@ -2644,7 +2646,7 @@
                                     </ReferenceCombo>
                                   </Content>
                                   <Bindings>
-                                    <Binding SourceProperty="Caption" Expression="PlaceID.caption()" />
+                                    <Binding SourceProperty="Caption" Expression="CountryPlaceID.caption()" />
                                   </Bindings>
                                   <HeaderCssClass>
                                     <CssClassConditional>
@@ -5706,17 +5708,10 @@
                       <Name value="AuthorizedAgreedLocation" />
                       <Caption value="Authorized agreed location" />
                       <Children>
-                        <Attribute>
-                          <Name value="Country" />
-                          <Caption value="Country" />
-                          <DeclaredType>
-                            <AttributeType />
-                          </DeclaredType>
-                        </Attribute>
                         <Reference>
-                          <Name value="PlaceID" />
-                          <Caption value="ID schváleného/sjednaného umístění" />
-                          <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/CustomsOffices/CustomsOfficeOfRelease/AuthorizedAgreedLocation/PlaceID" />
+                          <Name value="CountryPlaceID" />
+                          <Caption value="CountryPlaceID" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/CustomsOffices/CustomsOfficeOfRelease/AuthorizedAgreedLocation/CountryPlaceID" />
                           <MtsImportOptions.MTS.Type value="element" />
                           <Children>
                             <Include>
@@ -5724,13 +5719,6 @@
                             </Include>
                           </Children>
                         </Reference>
-                        <Attribute>
-                          <Name value="CountryPlaceID" />
-                          <Caption value="Country place ID" />
-                          <DeclaredType>
-                            <AttributeType />
-                          </DeclaredType>
-                        </Attribute>
                       </Children>
                     </Collection>
                     <Attribute>
@@ -11885,11 +11873,6 @@ endIf]]></Script>
       <Name value="fillInEditedCO" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if isTrue(form.isEditOn) then
-
-	forEach location in form.model.sekce2celniUrady.model_agreedLocation.AuthorizedAgreedLocation do
-		location.Country = "CZ"
-		location.CountryPlaceID = "Česká republika"
-	endFor
 
 	var indexOfSelectedCO = form.model.sekce2celniUrady.model_agreedLocation.itemIndex
 
