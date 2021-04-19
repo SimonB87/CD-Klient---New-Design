@@ -2982,25 +2982,60 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="50%" />
                           <Children>
-                            <CheckBox>
-                              <Name value="SPSealsSpecTypeAllowed_chB" />
-                              <CaptionHAlign value="Right" />
-                              <CaptionPosition value="Right" />
+                            <Panel>
+                              <Name value="panel12" />
+                              <Orientation value="Horizontal" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed.caption()" />
-                                <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
-                              </Bindings>
+                              <Children>
+                                <CheckBox>
+                                  <Name value="SPSealsSpecTypeAllowed_chB" />
+                                  <CaptionHAlign value="Right" />
+                                  <CaptionPosition value="Right" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed.isRequired()" />
+                                    <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed.caption()" />
+                                    <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-checkbox" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                    <CssClassConditional>
+                                      <ClassName value="float_left" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </CheckBox>
+                                <Button>
+                                  <Name value="validate_SPSealsSpecTypeAllowed_btn" />
+                                  <Caption value="Validovat" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="150px" />
+                                  <OnClick>
+                                    <ActionEvent ReferencedAction="~validateSPSealsSpecTypeAllowed" />
+                                  </OnClick>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-button" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                    <CssClassConditional>
+                                      <ClassName value="floatRigth" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Button>
+                              </Children>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-checkbox" />
+                                  <ClassName value="{theme}-panel" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </CheckBox>
+                            </Panel>
                             <CheckBox>
                               <Name value="SPFreeFromBindingItineraryAllowed_chB" />
                               <CaptionHAlign value="Right" />
@@ -5908,6 +5943,15 @@ form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.exist
                     </AttributeType>
                   </DeclaredType>
                 </Attribute>
+                <Attribute>
+                  <Name value="validSPSealsSpecTypeAllowed" />
+                  <Caption value="Valid SP seals spec type allowed" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
               </Children>
             </Complex>
             <Complex>
@@ -8809,6 +8853,32 @@ isTrue(form.authorizationType = "ACR")) ?
           <OnUserChange>
             <ActionEvent ReferencedAction="+UiParts.AseoDetail.handler_modifier_C2FC61A3_ResponsiblePersonFullName_OnUserChange" />
           </OnUserChange>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_1DDF02A1_Seals" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.Seals" />
+          <Validators>
+            <Validator Name="validSPSealsSpecType">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pro toto povolení není možné využít \"Povolení použití zvláštního typu celních závěr\" v záložce \"Rozšířené\"."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[isTrue(form.lifeCycleMode in [enums.decisionsState.authorize, enums.decisionsState.authorizeModify]) AND isTrue(form.authorizationType = "ACR") ?
+	(isTrue(form.model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed) ? 
+		isTrue(form.model.sekce4rozsirene.validSPSealsSpecTypeAllowed) : 
+		true) : 
+	true
+]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
         </Modifier>
       </Modifiers>
     </DataContext>
@@ -12082,6 +12152,113 @@ item.CheckResult = params.data.ResponsiblePersonFullName.CheckResult
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
+    <ActionBlock>
+      <Name value="validateSPSealsSpecTypeAllowed" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if isTrue(form.lifeCycleMode in [enums.decisionsState.authorize, enums.decisionsState.authorizeModify]) AND isTrue(form.authorizationType = "ACR") then
+
+form.apiobjects.ASEOZST.setDateTime(getDateTime())
+
+	// set filter to codelist ASEOZST
+	var filter = defaultString()
+	if isTrue(form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.count() = 1) then
+		var COfirst = form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.selectFirst()
+		filter = "TIN eq '" + form.model.modelStructure.ASEO.TIN + "' and ResponsibleCustomsOffice eq '" + COfirst.CustomsOfficeReferenceNumber.CELUPLAT_R + "'"
+		
+	else if isTrue(form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.count() > 1) then
+		filter = "TIN eq '" + form.model.modelStructure.ASEO.TIN + "' and ("
+		
+		forEach office in form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease do
+		
+			filter = filter + " ResponsibleCustomsOffice eq '" + office.CustomsOfficeReferenceNumber.CELUPLAT_R + "'"
+			if office.index() < form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.count() then
+				filter = filter + " or "
+			endIf
+		
+		endFor
+		
+		filter = filter + ")"
+		
+	endIf endIf
+	
+	form.apiobjects.ASEOZST.setFilter(filter)
+	
+	var data = form.apiobjects.ASEOZST.getDataAsJson()
+	codeListASEOZST.fromJson(data)
+
+	// find if there is a relevant CustomOffice for relewant TIN
+	if codeListASEOZST.exists(Current.TIN = form.model.modelStructure.ASEO.TIN) then
+		form.model.sekce4rozsirene.validSPSealsSpecTypeAllowed = true
+		apiobjects.notificationsCtrl.addSuccess("Lze povolit \"Povolení použití zvláštního typu celních závěr\".")
+	else
+		form.model.sekce4rozsirene.validSPSealsSpecTypeAllowed = false
+		apiobjects.notificationsCtrl.addWarning("Pro toto povolení není možné povolit \"Povolení použití zvláštního typu celních závěr\".")
+	endIf
+
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Collection>
+              <Name value="codeListASEOZST" />
+              <Caption value="Code list ASEOZST" />
+              <Children>
+                <Attribute>
+                  <Name value="IssuingCountry" />
+                  <Caption value="Issuing country" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="ASEOID" />
+                  <Caption value="ASEOID" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="TIN" />
+                  <Caption value="TIN" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="ValidityStartDate" />
+                  <Caption value="Validity start date" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="ValidityEndDate" />
+                  <Caption value="Validity end date" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="AuthorizationValidUntil" />
+                  <Caption value="Authorization valid until" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="CustomsOfficeReferenceNumber" />
+                  <Caption value="Customs office reference number" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Collection>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
   </Actions>
   <ApiObjects>
     <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
@@ -12469,6 +12646,37 @@ item.CheckResult = params.data.ResponsiblePersonFullName.CheckResult
         </CodelistColumn>
         <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
           <columnName value="CheckResult" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="ASEOZST" />
+      <createDescriptionOnClient value="No" />
+      <name value="ASEOZST" />
+      <server reference="+GlobalApiObjects.ServerKomunikace" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="IssuingCountry" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="ASEOID" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="TIN" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="ValidityStartDate" />
+          <columnRole value="ValidityStart" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="ValidityEndDate" />
+          <columnRole value="ValidityEnd" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="AuthorizationValidUntil" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="CustomsOfficeReferenceNumber" />
         </CodelistColumn>
       </columns>
     </Codelist>
