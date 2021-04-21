@@ -1673,6 +1673,59 @@
                           </CssClass>
                         </Panel>
                         <Panel>
+                          <Name value="panel16" />
+                          <Orientation value="Horizontal" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationACR" />
+                          </Bindings>
+                          <Children>
+                            <CheckBox>
+                              <Name value="checkBox3" />
+                              <Caption value="Omezit délku platnosti" />
+                              <IsVisible value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.isRequired()" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-checkbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </CheckBox>
+                            <DatePicker>
+                              <Name value="datePicker_AuthorizationValidUntil" />
+                              <IsVisible value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil.caption()" />
+                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-datepicker" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </DatePicker>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                        <Panel>
                           <Name value="panel31" />
                           <Orientation value="Horizontal" />
                           <Panel.Height value="#" />
@@ -2027,42 +2080,6 @@
                           <Name value="panel24" />
                           <Orientation value="Vertical" />
                           <Children>
-                            <CheckBox>
-                              <Name value="checkBox3" />
-                              <Caption value="Omezit délku platnosti" />
-                              <IsVisible value="False" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.isRequired()" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-checkbox" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </CheckBox>
-                            <DatePicker>
-                              <Name value="datePicker_AuthorizationValidUntil" />
-                              <IsVisible value="False" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil.isRequired()" />
-                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil.caption()" />
-                                <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-datepicker" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </DatePicker>
                             <TextBox>
                               <Name value="textBox_TIRHolderID" />
                               <CaptionVAlign value="Middle" />
@@ -2071,7 +2088,6 @@
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.SPTIR.TIRHolder" />
                                 <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.SPTIR.TIRHolder.caption()" />
-                                <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationTir" />
                                 <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="formState.visibilities.isAuthorisationTir" />
                               </Bindings>
@@ -2091,6 +2107,9 @@
                           </CssClass>
                         </Panel>
                       </Content>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationTir" />
+                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-groupbox" />
@@ -12089,6 +12108,10 @@ if pathAuth.Authorization.LimitedAuthorizationValidity.isEmpty() then
 endIf
 
 if isTrue(form.authorizationType in ["ACR"]) then
+
+	if  pathAuth.Authorization.LimitedAuthorizationValidity.isEmpty() then
+		pathAuth.Authorization.LimitedAuthorizationValidity = false
+	endIf
 
 	if pathAuth.GoodsList.GoodsListType.isEmpty() then
 		pathAuth.GoodsList.GoodsListType = false
