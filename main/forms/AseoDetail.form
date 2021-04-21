@@ -1684,9 +1684,8 @@
                             <CheckBox>
                               <Name value="checkBox3" />
                               <Caption value="Omezit délku platnosti" />
-                              <IsVisible value="False" />
                               <Panel.Height value="#" />
-                              <Panel.Width value="*" />
+                              <Panel.Width value="33.33%" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.LimitedAuthorizationValidity.isRequired()" />
@@ -1701,9 +1700,8 @@
                             </CheckBox>
                             <DatePicker>
                               <Name value="datePicker_AuthorizationValidUntil" />
-                              <IsVisible value="False" />
                               <Panel.Height value="#" />
-                              <Panel.Width value="*" />
+                              <Panel.Width value="33.33%" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Authorization.AuthorizationValidUntil.isRequired()" />
@@ -1967,16 +1965,16 @@
               </Bindings>
               <Children>
                 <Panel>
-                  <Name value="pnlLifeCycle_authorisation_row1" />
+                  <Name value="pnl_contact" />
                   <Orientation value="Horizontal" />
                   <Panel.Height value="#" />
-                  <Panel.Width value="*" />
+                  <Panel.Width value="50%" />
                   <Children>
                     <GroupBox>
                       <Name value="box_contact" />
                       <Caption value="Kontaktní osoba držitele povolení" />
-                      <Panel.Height value="100%" />
-                      <Panel.Width value="50%" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
                       <Content>
                         <Panel>
                           <Name value="panel6" />
@@ -2070,11 +2068,28 @@
                         </CssClassConditional>
                       </CssClass>
                     </GroupBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+                <Panel>
+                  <Name value="pnl_authorisationTIR" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="50%" />
+                  <Bindings>
+                    <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationTir" />
+                  </Bindings>
+                  <Children>
                     <GroupBox>
-                      <Name value="box_authorisation" />
+                      <Name value="box_authorisationTIR" />
                       <Caption value="Vydání povolení" />
-                      <Panel.Height value="100%" />
-                      <Panel.Width value="50%" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
                       <Content>
                         <Panel>
                           <Name value="panel24" />
@@ -2107,9 +2122,6 @@
                           </CssClass>
                         </Panel>
                       </Content>
-                      <Bindings>
-                        <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationTir" />
-                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-groupbox" />
@@ -2126,10 +2138,10 @@
                   </CssClass>
                 </Panel>
                 <Panel>
-                  <Name value="pnlLifeCycle_authorisation_row2" />
+                  <Name value="pnl_representation" />
                   <Orientation value="Horizontal" />
                   <Panel.Height value="#" />
-                  <Panel.Width value="*" />
+                  <Panel.Width value="50%" />
                   <Bindings>
                     <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isAuthorisationACR" />
                   </Bindings>
@@ -2137,7 +2149,7 @@
                     <GroupBox>
                       <Name value="box_representation" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="50%" />
+                      <Panel.Width value="*" />
                       <Content>
                         <Panel>
                           <Name value="box_representation_pnl" />
@@ -10728,7 +10740,7 @@ endIf]]></Script>
 		form.actions.preloadLastAuthorisationData(lastAuthorisationGuid)
 	endIf
 	
-	form.actions.setUpDefaultBooleansAsFalse()
+	form.actions.setUpDefaultFormData()
 		
 	if form.authorizationType in ["SAR"] then
 		form.actions.prepareCOsupervising()
@@ -10758,7 +10770,7 @@ endIf
 	var tabs = form.components.tabsMenu
 	
 	form.actions.clearVisibleTabs()
-	form.actions.setUpDefaultBooleansAsFalse()
+	form.actions.setUpDefaultFormData()
 	form.actions.prepareFormForEdit()
 	form.actions.initTabMenu()
 	form.actions.prepareTabsForAction("Upravit povolení")
@@ -12096,7 +12108,7 @@ endIf]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="setUpDefaultBooleansAsFalse" />
+      <Name value="setUpDefaultFormData" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var pathAuth = form.model.modelStructure.ASEO.Event
 if pathAuth.Authorization.ResponsiblePersonWantsToBeNotified.isEmpty() then
@@ -12110,7 +12122,11 @@ endIf
 if isTrue(form.authorizationType in ["ACR"]) then
 
 	if  pathAuth.Authorization.LimitedAuthorizationValidity.isEmpty() then
-		pathAuth.Authorization.LimitedAuthorizationValidity = false
+		pathAuth.Authorization.LimitedAuthorizationValidity = true
+	endIf
+	
+	if pathAuth.Authorization.AuthorizationValidUntil.isEmpty() then
+		pathAuth.Authorization.AuthorizationValidUntil = toDate("2999-12-30", defaultDate())
 	endIf
 
 	if pathAuth.GoodsList.GoodsListType.isEmpty() then
