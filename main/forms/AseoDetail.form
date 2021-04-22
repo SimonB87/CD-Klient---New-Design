@@ -3877,7 +3877,7 @@
                                         <Binding SourceProperty="Data" Expression="GuaranteeID" />
                                         <Binding SourceProperty="Caption" Expression="GuaranteeID.caption()" />
                                         <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
-                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.formState.visibilities.isAuthorisationSAR" />
+                                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="_guaranteeRequired" />
                                       </Bindings>
                                       <CssClass>
                                         <CssClassConditional>
@@ -8409,7 +8409,7 @@ true]]></ExpressionText>
           <ShowAsChanges value="True" />
           <SourcePath value="model.modelStructure.ASEO.Event.Guarantee.GuaranteeID" />
           <Validators>
-            <Validator Name="requiredGuaranteeID">
+            <Validator Name="SARrequiredGuaranteeID">
               <ErrorMessage IsValid="True">
                 <ExpressionText><![CDATA["Prvek je povinný pro vydání povolení"]]></ExpressionText>
                 <ResultType>
@@ -8420,6 +8420,22 @@ true]]></ExpressionText>
                 <ExpressionText><![CDATA[(form.lifeCycleMode in [enums.decisionsState.authorize , enums.decisionsState.authorizeModify]) and ( form.authorizationType = "SAR" ) and ( this.GuaranteeType.hasValue() ) ? 
 	(isTrue(this.GuaranteeID.hasValue()) ) ? true : false 
 	: 
+	true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+            <Validator Name="ACRrequiredGuaranteeID">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Prvek je povinný pro vydání povolení"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(form.lifeCycleMode in [enums.decisionsState.authorize , enums.decisionsState.authorizeModify]) and ( form.authorizationType = "ACR" ) ? 
+	(isTrue( this.GuaranteeType.ZJPZAJIST in ["0", "1"] ) AND isFalse(this.GuaranteeID.hasValue())  ? false : true) : 
 	true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -8570,6 +8586,19 @@ true]]></ExpressionText>
 		this.GuaranteeState = "0" ? "Záruka není platná" : defaultString()]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="_guaranteeRequired" />
+              <Caption value="_ guarantee required" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[isTrue(form.authorizationType in ["SAR"]) ? 
+	true : 
+	(isTrue(form.authorizationType in ["ACR"]) AND isTrue(this.GuaranteeType.ZJPZAJIST in ["0","1"] ))
+	]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
                 </ResultType>
               </Expression>
             </Computed>
