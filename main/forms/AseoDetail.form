@@ -3124,24 +3124,53 @@
                                   <Name value="countries_pnl" />
                                   <Orientation value="Vertical" />
                                   <Children>
-                                    <Button>
-                                      <Name value="button_add_country" />
-                                      <Caption value="Přidat zemi" />
+                                    <Panel>
+                                      <Name value="panel12" />
+                                      <Orientation value="Horizontal" />
                                       <Panel.Height value="#" />
-                                      <Panel.Width value="150px" />
-                                      <OnClick>
-                                        <ActionEvent ReferencedAction="~handler_button_add_representation_OnClick" />
-                                      </OnClick>
-                                      <Bindings>
-                                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                                      </Bindings>
+                                      <Panel.Width value="*" />
+                                      <Children>
+                                        <Button>
+                                          <Name value="btn_add_country" />
+                                          <Caption value="Přidat zemi" />
+                                          <Panel.Height value="#" />
+                                          <Panel.Width value="150px" />
+                                          <OnClick>
+                                            <ActionEvent ReferencedAction="~handler_button_add_representation_OnClick" />
+                                          </OnClick>
+                                          <Bindings>
+                                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                                          </Bindings>
+                                          <CssClass>
+                                            <CssClassConditional>
+                                              <ClassName value="{theme}-button" />
+                                              <IsThemedStyle value="True" />
+                                            </CssClassConditional>
+                                          </CssClass>
+                                        </Button>
+                                        <Button>
+                                          <Name value="btn_show_country" />
+                                          <Caption value="Zobrazit země" />
+                                          <Panel.Height value="#" />
+                                          <Panel.Width value="150px" />
+                                          <OnClick>
+                                            <ActionEvent ReferencedAction="~showData_ZAKZEME" />
+                                          </OnClick>
+                                          <CssClass>
+                                            <CssClassConditional>
+                                              <ClassName value="{theme}-button" />
+                                              <IsThemedStyle value="True" />
+                                            </CssClassConditional>
+                                          </CssClass>
+                                        </Button>
+                                      </Children>
                                       <CssClass>
                                         <CssClassConditional>
-                                          <ClassName value="{theme}-button" />
+                                          <ClassName value="{theme}-panel" />
                                           <IsThemedStyle value="True" />
                                         </CssClassConditional>
                                       </CssClass>
-                                    </Button>
+                                    </Panel>
                                     <DataTable>
                                       <Name value="allowedCountry_table" />
                                       <Panel.Height value="#" />
@@ -12307,6 +12336,17 @@ endIf]]></Script>
             </Collection>
           </Children>
         </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="showData_ZAKZEME" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var allowedCountryData = form.apiobjects.ZAKZEME.getDataAsJson()
+
+var outputFromModal = navigation.main.AseoDataVisualisation.withInputJsonData(allowedCountryData).withInputDataType("ZAKZEME").showDialog()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>
