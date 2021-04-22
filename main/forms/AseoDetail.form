@@ -3016,60 +3016,28 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="50%" />
                           <Children>
-                            <Panel>
-                              <Name value="panel12" />
-                              <Orientation value="Horizontal" />
+                            <CheckBox>
+                              <Name value="SPSealsSpecTypeAllowed_chB" />
+                              <CaptionHAlign value="Right" />
+                              <CaptionPosition value="Right" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
-                              <Children>
-                                <CheckBox>
-                                  <Name value="SPSealsSpecTypeAllowed_chB" />
-                                  <CaptionHAlign value="Right" />
-                                  <CaptionPosition value="Right" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed" />
-                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed.isRequired()" />
-                                    <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed.caption()" />
-                                    <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-checkbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                    <CssClassConditional>
-                                      <ClassName value="float_left" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </CheckBox>
-                                <Button>
-                                  <Name value="validate_SPSealsSpecTypeAllowed_btn" />
-                                  <Caption value="Validovat" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="150px" />
-                                  <OnClick>
-                                    <ActionEvent ReferencedAction="~validateSPSealsSpecTypeAllowed" />
-                                  </OnClick>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-button" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                    <CssClassConditional>
-                                      <ClassName value="floatRigth" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Button>
-                              </Children>
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed.caption()" />
+                                <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                              </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-panel" />
+                                  <ClassName value="{theme}-checkbox" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
+                                <CssClassConditional>
+                                  <ClassName value="float_left" />
+                                </CssClassConditional>
                               </CssClass>
-                            </Panel>
+                            </CheckBox>
                             <CheckBox>
                               <Name value="SPFreeFromBindingItineraryAllowed_chB" />
                               <CaptionHAlign value="Right" />
@@ -8944,6 +8912,14 @@ isTrue(form.authorizationType = "ACR")) ?
             </Validator>
           </Validators>
         </Modifier>
+        <Modifier>
+          <Name value="modifier_4398C8F1_SPSealsSpecTypeAllowed" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed" />
+          <OnChange>
+            <ActionEvent ReferencedAction="+UiParts.AseoDetail.validateSPSealsSpecTypeAllowed" />
+          </OnChange>
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
@@ -12227,9 +12203,11 @@ item.CheckResult = params.data.ResponsiblePersonFullName.CheckResult
     <ActionBlock>
       <Name value="validateSPSealsSpecTypeAllowed" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if isTrue(form.lifeCycleMode in [enums.decisionsState.authorize, enums.decisionsState.authorizeModify]) AND isTrue(form.authorizationType = "ACR") then
+        <Script><![CDATA[if 	isTrue(form.lifeCycleMode in [enums.decisionsState.authorize, enums.decisionsState.authorizeModify]) AND 
+	isTrue(form.authorizationType = "ACR")  AND
+	isTrue(form.model.modelStructure.ASEO.Event.Seals.SPSealsSpecTypeAllowed) then
 
-form.apiobjects.ASEOZST.setDateTime(getDateTime())
+	form.apiobjects.ASEOZST.setDateTime(getDateTime())
 
 	// set filter to codelist ASEOZST
 	var filter = defaultString()
@@ -12261,7 +12239,7 @@ form.apiobjects.ASEOZST.setDateTime(getDateTime())
 	// find if there is a relevant CustomOffice for relewant TIN
 	if codeListASEOZST.exists(Current.TIN = form.model.modelStructure.ASEO.TIN) then
 		form.model.sekce4rozsirene.validSPSealsSpecTypeAllowed = true
-		apiobjects.notificationsCtrl.addSuccess("Lze povolit \"Povolení použití zvláštního typu celních závěr\".")
+		//apiobjects.notificationsCtrl.addSuccess("Lze povolit \"Povolení použití zvláštního typu celních závěr\".")
 	else
 		form.model.sekce4rozsirene.validSPSealsSpecTypeAllowed = false
 		apiobjects.notificationsCtrl.addWarning("Pro toto povolení není možné povolit \"Povolení použití zvláštního typu celních závěr\".")
