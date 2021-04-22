@@ -15173,6 +15173,8 @@ form.prefillTemplate.versionGuid = versionGuid
       <ActionLangBody IsValid="True">
         <Script><![CDATA[//ToDO TODO to do -- new prefil from last version
 
+globals.IsBusy = true
+
 actions.commonLoadData(form.CD.customsDecisionAuthorisationData.customsDecisionGUID, form.prefillTemplate.versionGuid)
 
 if globals.dataLoadingSpace.success then
@@ -15193,7 +15195,8 @@ if globals.dataLoadingSpace.success then
 else
   form.actions.handleVersionDataLoadError(form.prefillTemplate.versionNum, form.prefillTemplate.versionGuid)
 endif
-]]></Script>
+
+globals.IsBusy = false]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -15577,14 +15580,17 @@ endIf]]></Script>
     <ActionBlock>
       <Name value="saveNumberOfItemsInList" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[//set number of displayed items in given List in one page
+        <Script><![CDATA[globals.IsBusy = true
+
+//set number of displayed items in given List in one page
 if form.tabsMenu.Tab16NationalData.IsSelected then	
 	//in development - enhancementDeclistGoodsItems
 	form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
 		form.apiobjects.enhancementDeclistGoodsItems.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
 	form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
 endif
-]]></Script>
+
+globals.IsBusy = false]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -15593,7 +15599,9 @@ endif
     <ActionBlock>
       <Name value="switch_isCompletedAllSelected" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.enhancement.completedAllSelected.ipoAllArticled86Fill.allArticles86True = True
+        <Script><![CDATA[globals.IsBusy = true
+
+form.enhancement.completedAllSelected.ipoAllArticled86Fill.allArticles86True = True
 
 var cdData = form.CD.customsDecisionAuthorisationData
 var messageData = "{\"customsDecisionAuthorisationData\": {\"customsDecisionGUID\": \"" + cdData.customsDecisionGUID + "\", \"customsDecisionVersionGUID\": \""+ cdData.customsDecisionVersionGUID +"\"}}"
@@ -15611,7 +15619,8 @@ else
     form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
     form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
 endif
-]]></Script>
+
+globals.IsBusy = false]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -15804,7 +15813,9 @@ endIf]]></Script>
     <ActionBlock>
       <Name value="switch_allItemArticles86toTrue" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.enhancement.completedAllSelected.ipoAllArticled86Fill.allArticles86True = True
+        <Script><![CDATA[globals.IsBusy = true
+
+form.enhancement.completedAllSelected.ipoAllArticled86Fill.allArticles86True = True
 
 var cdData = form.CD.customsDecisionAuthorisationData
 var messageData = form.enhancement.reqSetIpoArticlesToTrue.customsDecisionAuthorisationData
@@ -15825,7 +15836,8 @@ else
     form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
     form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
 endif
-]]></Script>
+
+globals.IsBusy = false]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -16464,7 +16476,9 @@ endIf  ]]></Script>
       <Name value="handler_originalSrotingBtn2_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var cdGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+        <Script><![CDATA[globals.IsBusy = true
+
+var cdGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
 var cdVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
 
 form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
@@ -16472,7 +16486,9 @@ form.apiobjects.enhancementDeclistGoodsItems.setInvisibleODataFilter("(customsDe
 form.apiobjects.enhancementDeclistGoodsItems.setSorting("combinedNomenclatureCode:asc")
 form.apiobjects.enhancementDeclistGoodsItems.setPageSize(form.enhancement.uiComponentSetting.listPageSize)
 form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
-form.apiobjects.enhancementDeclistGoodsItems.clearSorting()]]></Script>
+form.apiobjects.enhancementDeclistGoodsItems.clearSorting()
+
+globals.IsBusy = false]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
