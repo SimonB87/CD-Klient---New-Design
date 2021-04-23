@@ -8964,6 +8964,62 @@ this.owner().collection().exists(
             </Validator>
           </Validators>
         </Modifier>
+        <Modifier>
+          <Name value="modifier_3290EF88_CustomsOfficeReferenceNumber" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.CustomsOfficeReferenceNumber" />
+          <Validators>
+            <Validator Name="uniquCustomOffice">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Specifický celní úřad lze zadat jen jednou."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[this.collection().count(
+	(current.CustomsOfficeReferenceNumber.CELUPLAT_R = this.CustomsOfficeReferenceNumber.CELUPLAT_R)
+) > 1 ? false : true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_9CEA1AAC_CountryPlaceID" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.AuthorizedAgreedLocation.CountryPlaceID" />
+          <Validators>
+            <Validator Name="uniqueLocation">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Specifické místo může být zadáno pouze jednou."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[this.collection().count(
+	((current.CountryPlaceID.Name = attr.Name) OR 
+	 (current.CountryPlaceID.CountryPlaceID = attr.CountryPlaceID))
+) > 1 ? false : true
+
+/*
+
+this.collection().count(
+	((current.CountryPlaceID.Name = this.CountryPlaceID.Name) OR 
+	 (current.CountryPlaceID.CountryPlaceID = this.CountryPlaceID.CountryPlaceID))
+) > 1 ? false : true
+
+*/]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
