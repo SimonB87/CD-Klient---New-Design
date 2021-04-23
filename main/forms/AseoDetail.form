@@ -2620,24 +2620,6 @@
                                     </CssClassConditional>
                                   </CssClass>
                                 </Button>
-                                <Button>
-                                  <Name value="saveLocation_button" />
-                                  <Caption value="Uložit místa" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="150px" />
-                                  <OnClick>
-                                    <ActionEvent ReferencedAction="~fillInEditedCO" />
-                                  </OnClick>
-                                  <Bindings>
-                                    <Binding SourceProperty="IsEnabled" Expression="form.model.sekce2celniUrady.model_agreedLocation.selectedCOReleaseExists" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-button" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Button>
                               </Children>
                               <CssClass>
                                 <CssClassConditional>
@@ -4990,7 +4972,7 @@
                 <DataTable>
                   <Name value="seals_dataTable" />
                   <Panel.Height value="#" />
-                  <Panel.Width value="*" />
+                  <Panel.Width value="50%" />
                   <Bindings>
                     <Binding SourceProperty="DataItems" Expression="form.model.modelStructure.ASEO.Event.Seals.Seal" />
                   </Bindings>
@@ -4998,6 +4980,7 @@
                     <DataColumn>
                       <Name value="sealsColumn" />
                       <Caption value="Závěry" />
+                      <Width value="80%" />
                       <Content>
                         <TextBox>
                           <Name value="sealID_textBox" />
@@ -5025,6 +5008,7 @@
                     <DataColumn>
                       <Name value="dataColumn7" />
                       <Caption value=" " />
+                      <Width value="20%" />
                       <Content>
                         <Button>
                           <Name value="removeSeal_button" />
@@ -5781,6 +5765,9 @@
                           <Caption value="CountryPlaceID" />
                           <MtsImportOptions.MTS.ID value="/ASEOSPDataResponseEx/ASEO/Event/CustomsOffices/CustomsOfficeOfRelease/AuthorizedAgreedLocation/CountryPlaceID" />
                           <MtsImportOptions.MTS.Type value="element" />
+                          <OnUserChange>
+                            <ActionEvent ReferencedAction="+UiParts.AseoDetail.fillLocationToSelectedCO" />
+                          </OnUserChange>
                           <Children>
                             <Include>
                               <Include reference="+DataEntities.ASEOPlace" />
@@ -8231,8 +8218,7 @@ isTrue(form.authorizationType = "ACR")) ?
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[this.collection().exists(
-	this.index() <> current.index())
-	AND
+	this.index() <> current.index()) AND
 	(subString(this.CNCode.ZBOZIKOD, 1, (Length(this.CNCode.ZBOZIKOD)-2)) = this.CNCode.ZBOZIKOD) ?
 		false :
 		true]]></ExpressionText>
@@ -8242,11 +8228,6 @@ isTrue(form.authorizationType = "ACR")) ?
               </IsValid>
             </Validator>
           </Validators>
-        </Modifier>
-        <Modifier>
-          <Name value="modifier_51A26D18_GoodsItem" />
-          <ShowAsChanges value="True" />
-          <SourcePath value="model.modelStructure.ASEO.Event.GoodsList.GoodsItem" />
         </Modifier>
         <Modifier>
           <Name value="modifier_8B2E161A_CELUPLAT_R" />
@@ -8948,6 +8929,40 @@ isTrue(form.authorizationType = "ACR")) ?
           <OnChange>
             <ActionEvent ReferencedAction="+UiParts.AseoDetail.validateSPSealsSpecTypeAllowed" />
           </OnChange>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_C49E4182_ZBOZIKOD" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.GoodsList.GoodsItem.CNCode.ZBOZIKOD" />
+          <Validators>
+            <Validator Name="canNotIcludeCodeInIncludedParentGroup">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Nelze vkládat kód, který spadá do již přidané skupiny"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[/*
+this.owner().collection().exists(
+	(this.owner().index() <> current.index())
+		AND ( (substring(Current.CNCode.ZBOZIKOD, 1, Length(this.ZBOZIKOD)) = this.ZBOZIKOD) OR
+			  (substring(Current.CNCode.ZBOZIKOD, 1, Length(this.ZBOZIKOD)+2) = this.ZBOZIKOD) OR
+			  (substring(Current.CNCode.ZBOZIKOD, 1, Length(this.ZBOZIKOD)-2) = this.ZBOZIKOD)
+		) ) ? false : true
+*/
+
+(this.owner().collection().count(
+	  	(substring(Current.CNCode.ZBOZIKOD, 1, Length(this.ZBOZIKOD)) = this.ZBOZIKOD) OR
+		(substring(Current.CNCode.ZBOZIKOD, 1, Length(this.ZBOZIKOD)+2) = this.ZBOZIKOD) OR
+		(substring(Current.CNCode.ZBOZIKOD, 1, Length(this.ZBOZIKOD)-2) = this.ZBOZIKOD)
+	)) >= 2 ? false : true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
         </Modifier>
       </Modifiers>
     </DataContext>
@@ -12031,7 +12046,7 @@ endIf]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="fillInEditedCO" />
+      <Name value="fillLocationToSelectedCO" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if isTrue(form.isEditOn) then
 
