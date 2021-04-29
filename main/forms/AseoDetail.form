@@ -2893,9 +2893,9 @@
                               <Name value="allowed_checkbox" />
                               <CaptionHAlign value="Right" />
                               <CaptionPosition value="Right" />
+                              <IsEnabled value="False" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="Allowed" />
-                                <Binding SourceProperty="IsEnabled" Expression="form.formState.isEditOnAndIsTypeACR" />
                                 <Binding SourceProperty="Tooltip" Expression="Allowed" />
                                 <Binding SourceProperty="Caption" Expression="Allowed.caption()" />
                               </Bindings>
@@ -12021,11 +12021,9 @@ endIf]]></Script>
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var addItem = form.model.modelStructure.ASEO.Event.GoodsList.GoodsItem.addItem()
-if isTrue(form.authorizationType in ["ACP"]) then
+if isTrue(form.authorizationType in ["ACP", "ACR"]) then
 	addItem.Allowed = false
-else if isTrue(form.authorizationType in ["ACR"]) then
-	addItem.Allowed = true
-endIf endIf]]></Script>
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -12226,11 +12224,8 @@ endIf
 
 if isTrue(form.authorizationType in ["ACR"]) then
 
-	if  pathAuth.Authorization.LimitedAuthorizationValidity.isEmpty() then
+	if isTrue(form.lifeCycleMode in [enums.decisionsState.authorize, enums.decisionsState.authorizeModify]) then
 		pathAuth.Authorization.LimitedAuthorizationValidity = true
-	endIf
-	
-	if pathAuth.Authorization.AuthorizationValidUntil.isEmpty() then
 		pathAuth.Authorization.AuthorizationValidUntil = toDate("2999-12-30", defaultDate())
 	endIf
 
