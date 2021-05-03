@@ -9046,7 +9046,7 @@ this.collection().count(
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(form.lifeCycleMode in [enums.decisionsState.authorize , enums.decisionsState.authorizeModify]) and ( form.authorizationType = "ACR" ) ? 
-	(isTrue( this.GuaranteeType.ZJPZAJIST in ["0", "1"] ) AND isFalse(this.GuaranteeState.hasValue())  ? false : true) : 
+	(isTrue( this.GuaranteeType.ZJPZAJIST in ["0", "1"] ) AND (isFalse(this.GuaranteeState = "1") OR isFalse(this.GuaranteeState.hasValue()))  ? false : true) : 
 	true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
