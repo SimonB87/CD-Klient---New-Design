@@ -8401,7 +8401,7 @@ true]]></ExpressionText>
           <Validators>
             <Validator Name="SARrequiredGuaranteeID">
               <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Prvek je povinný pro vydání povolení"]]></ExpressionText>
+                <ExpressionText><![CDATA["Prvek \"Číslo zajištění\" je povinný pro vydání povolení"]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
@@ -8418,7 +8418,7 @@ true]]></ExpressionText>
             </Validator>
             <Validator Name="ACRrequiredGuaranteeID">
               <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Prvek je povinný pro vydání povolení"]]></ExpressionText>
+                <ExpressionText><![CDATA["Prvek \"Číslo zajištění\" je povinný pro vydání povolení"]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
@@ -8595,8 +8595,11 @@ true]]></ExpressionText>
           </Children>
           <CollectionValidators>
             <Validator Name="requiredGuaranteeSAR">
-              <ErrorMessage>
+              <ErrorMessage IsValid="True">
                 <ExpressionText><![CDATA[form.formState.validations.guaranteeErrorMessage_SAR_ACR]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(form.lifeCycleMode in [ enums.decisionsState.authorize, enums.decisionsState.authorizeModify ]) AND isTrue( (form.authorizationType in ["SAR","ACR"])) ?
@@ -9022,6 +9025,29 @@ this.collection().count(
 ) > 1 ? false : true
 
 */]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_ED3795B0_GuaranteeState" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.modelStructure.ASEO.Event.Guarantee.GuaranteeState" />
+          <Validators>
+            <Validator Name="ACRrequiredGuaranteeState">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Prvek \"Stav záruky\" povinný pro vydání povolení"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(form.lifeCycleMode in [enums.decisionsState.authorize , enums.decisionsState.authorizeModify]) and ( form.authorizationType = "ACR" ) ? 
+	(isTrue( this.GuaranteeType.ZJPZAJIST in ["0", "1"] ) AND isFalse(this.GuaranteeState.hasValue())  ? false : true) : 
+	true]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
