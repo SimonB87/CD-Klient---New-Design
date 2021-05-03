@@ -9265,7 +9265,7 @@ else if isTrue(form.authorizationType in ["ACR"]) then
 	form.apiobjects.ASEOPerson.startLoadingData(currentDate)
 	
 	if form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.exists(current.hasValue()) then
-		form.actions.setFilteredCodelestAseoPlace()
+		form.actions.setFilteredCodelestAseoPlace(defaultString())
 	endIf
 	
 	form.actions.filteredcodeList__ZJPZAJIST()
@@ -10888,7 +10888,7 @@ endIf]]></Script>
 		form.actions.filteredcodeList__ZJPZAJIST()
 		form.actions.setCustomsRegimesForSAR()
 	endIf
-	
+		
 	form.isEditOn = globals.OverenyUzivatel.hasWritePermission
 	
 else
@@ -12070,15 +12070,13 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.model.sekce2celniUrady.model_agreedLocation.AuthorizedAgreedLocation.addItem()
 
+
 if form.model.sekce2celniUrady.model_agreedLocation.selectedCOrelease.hasValue() then
 	
 	var COrelease = form.model.sekce2celniUrady.model_agreedLocation.selectedCOrelease
-	var filter = "TIN eq '" + form.model.modelStructure.ASEO.TIN + "' and ResponsibleCustomsOffice eq '" + COrelease + "'"
 	
-	form.apiobjects.ASEOPlace.setFilter(filter)
-
-	form.apiobjects.ASEOPlace.startLoadingData(getDateTime())
-
+	form.actions.setFilteredCodelestAseoPlace(COrelease)
+	
 endIf
 ]]></Script>
       </ActionLangBody>
@@ -12112,7 +12110,10 @@ endIf]]></Script>
 	
 	var itemIndex = params.data.index()
 	var selectedCORelease = CORelease.selectFirst(current.index() = itemIndex)
-	var COnumber = selectedCORelease.CustomsOfficeReferenceNumber.CELUPLAT_R
+	
+	//var COnumber = selectedCORelease.CustomsOfficeReferenceNumber.CELUPLAT_R
+	
+	var COnumber = params.data.CustomsOfficeReferenceNumber.CELUPLAT_R
 	
 	form.actions.setFilteredCodelestAseoPlace(COnumber)
 
@@ -12157,6 +12158,35 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var filter = defaultString()
 
+if isTrue(COnumber = defaultString()) then
+
+	filter = "TIN eq '" + form.model.modelStructure.ASEO.TIN + "'"
+
+else
+
+	if isTrue(form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.count() = 1) then
+		filter = "TIN eq '" + form.model.modelStructure.ASEO.TIN + "' and contains(ResponsibleCustomsOffice,'" + subString(COnumber,1,4) + "')"
+		
+	else if isTrue(form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.count() > 1) then
+		filter = "TIN eq '" + form.model.modelStructure.ASEO.TIN + "' and ("
+		
+		forEach office in form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease do
+		
+			filter = filter + " contains(ResponsibleCustomsOffice,'" + office.CustomsOfficeReferenceNumber.CELUPLAT_R + "')"
+			if office.index() < form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.count() then
+				filter = filter + " or "
+			endIf
+		
+		endFor
+		
+		filter = filter + ")"
+		
+	endIf endIf
+
+endIf
+
+/* // original
+
 if isTrue(form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.count() = 1) then
 	filter = "TIN eq '" + form.model.modelStructure.ASEO.TIN + "' and ResponsibleCustomsOffice eq '" + COnumber + "'"
 else if isTrue(form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.count() > 1) then
@@ -12175,7 +12205,7 @@ else if isTrue(form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOffice
 	
 endIf endIf
 
-
+*/
 form.apiobjects.ASEOPlace.setFilter(filter)
 
 form.apiobjects.ASEOPlace.startLoadingData(getDateTime())]]></Script>
@@ -12187,6 +12217,7 @@ form.apiobjects.ASEOPlace.startLoadingData(getDateTime())]]></Script>
               <Name value="COnumber" />
               <Caption value="C onumber" />
               <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
               <DeclaredType>
                 <AttributeType />
               </DeclaredType>
@@ -12801,7 +12832,7 @@ var outputFromModal = navigation.main.AseoDataVisualisation.withInputJsonData(al
         </CodelistColumn>
         <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
           <columnName value="DO" />
-          <columnRole value="ValidityEnd" />
+          <columnRole value="ValidityStart" />
         </CodelistColumn>
       </columns>
     </Codelist>
