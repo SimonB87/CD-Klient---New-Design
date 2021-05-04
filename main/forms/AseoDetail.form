@@ -2660,7 +2660,7 @@
                                     </ReferenceCombo>
                                   </Content>
                                   <Bindings>
-                                    <Binding SourceProperty="Caption" Expression="CountryPlaceID.caption()" />
+                                    <Binding SourceProperty="Caption" Expression="form.model.sekce2celniUrady.model_agreedLocation.tableCaptionLocationForSelectedCO" />
                                   </Bindings>
                                   <HeaderCssClass>
                                     <CssClassConditional>
@@ -5800,6 +5800,25 @@ form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.exist
                     <Attribute>
                       <Name value="selectedCOrelease" />
                       <Caption value="Selected C orelease" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Computed>
+                      <Name value="tableCaptionLocationForSelectedCO" />
+                      <Caption value="Table caption location for selected CO" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[(this.itemIndex.hasValue() and this.selectedCOReleaseCode.hasValue()) ? 
+	("Schválené místo pro " + this.selectedCOReleaseCode ) : 
+	"Schválené místo"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Attribute>
+                      <Name value="selectedCOReleaseCode" />
+                      <Caption value="Selected CO release code" />
                       <DeclaredType>
                         <AttributeType />
                       </DeclaredType>
@@ -9269,6 +9288,7 @@ else if isTrue(form.authorizationType in ["ACR"]) then
 	endIf
 	
 	form.actions.filteredcodeList__ZJPZAJIST()
+	form.actions.setFilteredCodelestAseoPlace(defaultString())
 endIf endIf
 ]]></Script>
       </ActionLangBody>
@@ -9713,13 +9733,13 @@ form.formState.validationSucess = defaultBool()
 var responseResult = defaultBool()
 
 if isTrue(form.model.isValid()) then
-	
+
 	form.formState.validationSucess = true
 	
 	var response = apiobjects.ServerKomunikace.postAsync("ASEOSPAuthorization", form.model.modelStructure.toJson(true))
 		
 	result = form.formState.responseResult
-			
+
 	if (isTrue(response.isError()) OR isTrue(response.getMessageType() = "IN906A")) then
 		system.console(response.getErrorMessage())
 		form.actions.showErorrNotificationMessage("Nastala chyba. Nemohlo být vydání povolení provedeno.", true)
@@ -9729,17 +9749,18 @@ if isTrue(form.model.isValid()) then
 		form.formState.responseResult = false
 		result = form.formState.responseResult
 		responseResult = false
+				
 	else
+
 		form.model.modelStructure.ASEO.clear()
-				
 		var messageString = form.actions.getAuthorisationMessage()
-				
 		form.actions.showErorrNotificationMessage(messageString, false)
 		form.VersionGUID = defaultString()
 		form.actions.loadAseoData(form.GUID)
 		form.formState.responseResult = true
 		result = form.formState.responseResult
 		responseResult = true
+	
 	endIf
 		
 	form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
@@ -9750,10 +9771,11 @@ else
 	result = false
 	form.formState.responseResult = false
 	responseResult = false
-	
+
 endIf
 
 form.actions.editDataAfterPosting("ASEOSPAuthorization", responseResult)
+
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
@@ -9851,7 +9873,7 @@ form.components.tabsMenu.Tab06prilohy.Title = "Text a přílohy (" + toString(cu
 
 var aseoMegaMessage = form.model.modelStructure
 
-if (isFalse( form.authorizationType in ["ACP","TIR","SAR"] ) AND (isTrue(form.model.modelStructure.ASEO.AuthorizationType.POVOLTYP.hasValue())))then
+if (isFalse( form.authorizationType in ["ACP","TIR","SAR", "ACR"] ) AND (isTrue(form.model.modelStructure.ASEO.AuthorizationType.POVOLTYP.hasValue())))then
 	form.authorizationType = form.model.modelStructure.ASEO.AuthorizationType.POVOLTYP
 endIf
 
@@ -12070,7 +12092,7 @@ endIf]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.model.sekce2celniUrady.model_agreedLocation.AuthorizedAgreedLocation.addItem()
 
-
+/*
 if form.model.sekce2celniUrady.model_agreedLocation.selectedCOrelease.hasValue() then
 	
 	var COrelease = form.model.sekce2celniUrady.model_agreedLocation.selectedCOrelease
@@ -12078,7 +12100,7 @@ if form.model.sekce2celniUrady.model_agreedLocation.selectedCOrelease.hasValue()
 	form.actions.setFilteredCodelestAseoPlace(COrelease)
 	
 endIf
-]]></Script>
+*/]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -12105,18 +12127,17 @@ endIf]]></Script>
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[if isTrue(form.authorizationType = "ACR") then
-
-	var CORelease = form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease
 	
-	var itemIndex = params.data.index()
-	var selectedCORelease = CORelease.selectFirst(current.index() = itemIndex)
-	
-	//var COnumber = selectedCORelease.CustomsOfficeReferenceNumber.CELUPLAT_R
-	
+	// - prepare codelist AseoPlace
 	var COnumber = params.data.CustomsOfficeReferenceNumber.CELUPLAT_R
-	
 	form.actions.setFilteredCodelestAseoPlace(COnumber)
 
+	// - fill in support collection
+	var CORelease = form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease
+	var itemIndex = params.data.index()
+	var selectedCORelease = CORelease.selectFirst(current.index() = itemIndex)
+	form.model.sekce2celniUrady.model_agreedLocation.selectedCOReleaseCode = params.data.CustomsOfficeReferenceNumber.CELUPLAT_R
+	
 	if CORelease.exists(Current.hasValue()) then
 		
 		//user chooses a CO by clicking
@@ -12156,7 +12177,9 @@ endIf]]></Script>
     <ActionBlock>
       <Name value="setFilteredCodelestAseoPlace" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var filter = defaultString()
+        <Script><![CDATA[globals.IsBusy = true
+
+var filter = defaultString()
 
 if isTrue(COnumber = defaultString()) then
 
@@ -12166,7 +12189,7 @@ else
 
 	if isTrue(form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.count() = 1) then
 		filter = "TIN eq '" + form.model.modelStructure.ASEO.TIN + "' and contains(ResponsibleCustomsOffice,'" + subString(COnumber,1,4) + "')"
-		
+		/*
 	else if isTrue(form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.count() > 1) then
 		filter = "TIN eq '" + form.model.modelStructure.ASEO.TIN + "' and ("
 		
@@ -12181,7 +12204,8 @@ else
 		
 		filter = filter + ")"
 		
-	endIf endIf
+	endIf */
+	endIf
 
 endIf
 
@@ -12208,7 +12232,9 @@ endIf endIf
 */
 form.apiobjects.ASEOPlace.setFilter(filter)
 
-form.apiobjects.ASEOPlace.startLoadingData(getDateTime())]]></Script>
+form.apiobjects.ASEOPlace.startLoadingData(getDateTime())
+
+globals.IsBusy = false]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
