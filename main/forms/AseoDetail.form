@@ -8420,7 +8420,7 @@ true]]></ExpressionText>
           <Validators>
             <Validator Name="SARrequiredGuaranteeID">
               <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Prvek \"Číslo zajištění\" je povinný pro vydání povolení"]]></ExpressionText>
+                <ExpressionText><![CDATA["Zkontrolujte záložku \"Rozšířené\". Prvek \"Číslo zajištění\" je povinný pro vydání povolení."]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
@@ -8437,7 +8437,7 @@ true]]></ExpressionText>
             </Validator>
             <Validator Name="ACRrequiredGuaranteeID">
               <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Prvek \"Číslo zajištění\" je povinný pro vydání povolení"]]></ExpressionText>
+                <ExpressionText><![CDATA["Zkontrolujte záložku \"Rozšířené\". Prvek \"Číslo zajištění\" je povinný pro vydání povolení."]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
@@ -8631,7 +8631,7 @@ true]]></ExpressionText>
             </Validator>
             <Validator Name="validGuarantee">
               <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Doplňte validní záruku nebo zašlete dotaz na platnost záruk."]]></ExpressionText>
+                <ExpressionText><![CDATA["Zkontrolujte záložku \"Lhůty a zajištění\". Doplňte validní záruku nebo zašlete dotaz na platnost záruk."]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
@@ -9058,7 +9058,7 @@ this.collection().count(
           <Validators>
             <Validator Name="ACRrequiredGuaranteeState">
               <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Prvek \"Stav záruky\" povinný pro vydání povolení"]]></ExpressionText>
+                <ExpressionText><![CDATA["Zkontrolujte záložku \"Rozšířené\". Prvek \"Stav záruky\" povinný pro vydání povolení."]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
@@ -9146,6 +9146,7 @@ endIf
 var resp = apiobjects.ServerKomunikace.postAsync("ASEOSPDataRequestEx", form.requests.initReq.toJson(true))
   
 if resp.isError() or (resp.getMessageType() = "IN906A") then
+
     apiobjects.notificationsCtrl.addError("Data povolení nebyla načtena.")
     form.actions.showErorrNotificationMessage("Data povolení nebyla načtena. ", true)
     
@@ -9153,9 +9154,9 @@ if resp.isError() or (resp.getMessageType() = "IN906A") then
     system.consoleError("Response content: " + errorMsg)
     
     form.actions.validErr_prepareServerErr(resp.extractJson("QERR"))
+    
 else
-	//form.actions.showErorrNotificationMessage("Data byla úspěšně načtena z Centra. ", false)
-	
+
     var respJson = resp.getJsonString()
     form.model.modelStructure.clear()
     form.model.modelStructure.fromJson(respJson)
@@ -9173,7 +9174,6 @@ else
 	form.isEditOn = false
 	
 endIf
-
 
 form.formState.currentDateTime = getDateTime()]]></Script>
       </ActionLangBody>
