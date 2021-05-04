@@ -9101,24 +9101,7 @@ form.actions.loadAseoData(form.GUID)
 form.actions.initTabMenu()
 form.actions.prepareButtonActionText()
 
-//variables set up
-form.formState.visibilities.showVersionHistory = false
-form.isLastVersionSelected = true
-form.components.tabsMenu.SelectedTab = 1
-form.lifeCycleMode = enums.decisionsState.detail
-
-if form.authorizationType in ["TIR", "ACP", "ACR"] then
-	form.model.sekce3zbozi.negativeCollectionView = false
-endIf
-
-//variable preparation
-form.formState.original_validityStartDate = form.model.modelStructure.ASEO.Event.ValidityStartDate //save this for GUI to display
-form.formState.header.prefixCZ = "CZ"
-form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
-form.formState.visibilities.showHistorySesctions = true
-form.formState.lifeCycle.showActionButtonPanel = true
-
-form.formState.currentDateTime = getDateTime()
+form.actions.prepareFormData()
 
 //test
 //globals.OverenyUzivatel.hasRoleWrite = false
@@ -9706,6 +9689,10 @@ if reloadAction then
 	form.components.tabsMenu.Tab07prehodnoceni.isVisible = true
 	form.error.serverValidationErrors.clear()
 	form.formState.currentDateTime = getDateTime()
+	
+	form.actions.validErr_clearPrevious()
+	form.actions.clearPreviousNotifications()
+	
 	form.isEditOn = false
 endIf
 
@@ -12502,6 +12489,32 @@ endIf]]></Script>
         <Script><![CDATA[var allowedCountryData = form.apiobjects.ZAKZEME.getDataAsJson()
 
 var outputFromModal = navigation.main.AseoDataVisualisation.withInputJsonData(allowedCountryData).withInputDataType("ZAKZEME").showDialog()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="prepareFormData" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//variables set up
+form.formState.visibilities.showVersionHistory = false
+form.isLastVersionSelected = true
+form.components.tabsMenu.SelectedTab = 1
+form.lifeCycleMode = enums.decisionsState.detail
+
+if form.authorizationType in ["TIR", "ACP", "ACR"] then
+	form.model.sekce3zbozi.negativeCollectionView = false
+endIf
+
+//variable preparation
+form.formState.original_validityStartDate = form.model.modelStructure.ASEO.Event.ValidityStartDate //save this for GUI to display
+form.formState.header.prefixCZ = "CZ"
+form.formState.lifeCycle.actionConfirm.actionConfirmPanelVisible = false
+form.formState.visibilities.showHistorySesctions = true
+form.formState.lifeCycle.showActionButtonPanel = true
+
+form.formState.currentDateTime = getDateTime()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
