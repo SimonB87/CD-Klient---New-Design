@@ -1,0 +1,671 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<Form>
+  <Name value="master" />
+  <Caption value="master" />
+  <Content>
+    <Panel>
+      <Name value="pnlMaster" />
+      <Orientation value="Vertical" />
+      <Panel.Height value="#" />
+      <Panel.Width value="*" />
+      <Children>
+        <Label>
+          <Name value="lblEnvironment" />
+          <Panel.Height value="#" />
+          <Panel.Width value="300px" />
+          <Bindings>
+            <Binding SourceProperty="Data" Expression="ui.environmentTypeDesc" />
+            <Binding SourceProperty="IsVisible" Expression="ui.isEnvironmentVisible" />
+          </Bindings>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-label" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="{theme}-test" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional />
+          </CssClass>
+        </Label>
+        <Panel>
+          <Name value="pnlMasterToggle" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <ImageButton identity="ImageButton.d5705fac3ef94ff185b0260525af877a">
+              <Name value="btn_toggleMenu" />
+              <Caption value=" {fa-bars}" />
+              <Panel.Height value="50px" />
+              <Panel.Width value="50px" />
+              <OnClick>
+                <ActionEvent ReferencedAction="~handler_btn_toggleMenu_OnClick" />
+              </OnClick>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-imagebutton" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </ImageButton>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="{theme}-nav-bar-controls" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="{theme}-navToggler" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="pnlMasterSplit" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <Panel>
+              <Name value="pnlMasterLeft" />
+              <Orientation value="Vertical" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="IsVisible" Expression="globals.forms.master.showMenu" />
+              </Bindings>
+              <Children>
+                <Panel>
+                  <Name value="pnlMasterMenu" />
+                  <Orientation value="Vertical" />
+                  <Panel.Height value="100%" />
+                  <Panel.Width value="*" />
+                  <Children>
+                    <Label>
+                      <Name value="lblAppName" />
+                      <Heading value="h2" />
+                      <Margin value="6, 6, 2, 6 px" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="globals.appInfo.appName" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                    <Label>
+                      <Name value="lblAppVersion" />
+                      <Margin value="2, 6, 6, 6 px" />
+                      <Panel.Height value="#" />
+                      <Panel.VerticalAlignment value="Bottom" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="globals.appInfo.appVersion" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                    <Panel>
+                      <Name value="pnlMasterNav" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="globals.forms.master.isNavigationTreeVisible" />
+                      </Bindings>
+                      <Children>
+                        <NavigationTree identity="NavigationTree.b87dd9f990504f86a481d689d499f644">
+                          <Name value="navigationTree" />
+                          <controller reference="+GlobalApiObjects.ntc" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <OnNodeActivated>
+                            <ActionEvent ReferencedAction="~handler_navigationTree_OnNodeActivated" />
+                          </OnNodeActivated>
+                        </NavigationTree>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                    <Panel>
+                      <Name value="pnlMasterExpired" />
+                      <Orientation value="Horizontal" />
+                      <OverflowHorizontal value="True" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="globals.forms.lists.selectedCdExpired" />
+                      </Bindings>
+                      <Children>
+                        <Label>
+                          <Name value="label_expired" />
+                          <Data value="Expirované" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="IsVisible" Expression="globals.forms.lists.selectedCdExpired" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                    <Panel>
+                      <Name value="pnlMasterNavBottom" />
+                      <Orientation value="Vertical" />
+                      <Panel.Height value="100%" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <Panel>
+                          <Name value="pnlMasterNavBottomContent" />
+                          <Orientation value="Vertical" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="262px" />
+                          <Children>
+                            <Label>
+                              <Name value="label2" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="globals.user.DisplayName" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-label" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Label>
+                            <HyperLink>
+                              <Name value="hyperLink_dokumentace" />
+                              <Data value="Dokumentace" />
+                              <Href value="resources/dokumentace.pdf" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-hyperlink" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </HyperLink>
+                            <HyperLink>
+                              <Name value="hlSticky" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <OnClick>
+                                <ActionEvent ReferencedAction="~handler_hlSticky_OnClick" />
+                              </OnClick>
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="ui.hlSticky.Text" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-hyperlink" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </HyperLink>
+                            <HyperLink>
+                              <Name value="hlHeader" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <OnClick>
+                                <ActionEvent ReferencedAction="~handler_hlHeader_OnClick" />
+                              </OnClick>
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="ui.hlHeader.Text" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-hyperlink" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </HyperLink>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="bottomAlign" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="{theme}-nav" />
+                  <IsThemedStyle value="True" />
+                  <Bindings>
+                    <Binding SourceProperty="Condition" Expression="globals.forms.master.showMenu" />
+                  </Bindings>
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="{theme}-larger" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="nav-logo" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+            <Panel>
+              <Name value="pnlMasterRightHelper" />
+              <Orientation value="Vertical" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Children>
+                <Panel>
+                  <Name value="pnlMasterRight" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Children>
+                    <FormPlaceholder>
+                      <Name value="formPlaceholder" />
+                      <InitialForm reference="+UiParts.login" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                    </FormPlaceholder>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-content" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="header-height-100" />
+                      <Bindings>
+                        <Binding SourceProperty="Condition" Expression="ui.headerHeight_100" />
+                      </Bindings>
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="use-sticky" />
+                      <Bindings>
+                        <Binding SourceProperty="Condition" Expression="globals.layout.sticky" />
+                      </Bindings>
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="pnlBusy" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <BusyIndicator identity="busyIndicator.4a8ce8836eb04d7bbc155c7119f0193e">
+              <Name value="busyIndicator" />
+              <IconCssClass value="fa fa-refresh fa-spin" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <StatusText value="Počkejte, prosím ..." />
+              <Bindings>
+                <Binding SourceProperty="IsVisible" Expression="globals.IsBusy" />
+              </Bindings>
+            </BusyIndicator>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <Condition value="False" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="busy-el" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="pnlNotifications" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <GrowlNotification identity="Notifications.7ff832fd4a2b4377bafd2e81a99bbcfc">
+              <Name value="growlNotification" />
+              <controller reference="+GlobalApiObjects.notificationsCtrl" />
+              <displayTime value="10000" />
+              <iconClassClose value="fa fa-times" />
+              <iconClassError value="fa fa-exclamation" />
+              <iconClassInfo value="fa fa-info-circle" />
+              <iconClassSuccess value="fa fa-check-circle" />
+              <iconClassWarning value="fa fa-exclamation-triangle" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+            </GrowlNotification>
+            <NotificationPanel identity="Notifications.7ff832fd4a2b4377bafd2e81a99bbcfc">
+              <Name value="notificationPanel" />
+              <controller reference="+GlobalApiObjects.notificationsCtrl" />
+              <iconClassClose value="fa fa-times" />
+              <iconClassDisplayGrowlNotifications value="fa fa-eye" />
+              <iconClassError value="fa fa-exclamation" />
+              <iconClassInfo value="fa fa-info-circle" />
+              <iconClassSuccess value="fa fa-check-circle" />
+              <iconClassWarning value="fa fa-exclamation-triangle" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+            </NotificationPanel>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+      </Children>
+      <CssClass>
+        <CssClassConditional>
+          <ClassName value="{theme}-panel" />
+          <IsThemedStyle value="True" />
+        </CssClassConditional>
+        <CssClassConditional>
+          <ClassName value="closedNav" />
+          <Bindings>
+            <Binding SourceProperty="Condition" Expression="not globals.forms.master.showMenu" />
+          </Bindings>
+        </CssClassConditional>
+      </CssClass>
+    </Panel>
+  </Content>
+  <DataContext>
+    <DataContext>
+      <Children>
+        <Complex>
+          <Name value="model" />
+          <Caption value="Model" />
+          <Children>
+            <Complex>
+              <Name value="event" />
+              <Caption value="Event" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.event" />
+                </Include>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="onNodeActivated" />
+              <Caption value="On node activated" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.onNodeActivatedEvent" />
+                </Include>
+              </Children>
+            </Complex>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="ui" />
+          <Caption value="Ui" />
+          <Children>
+            <Computed>
+              <Name value="isEnvironmentVisible" />
+              <Caption value="Is environment visible" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[isTrue(globals.appInfo.environmentType <> "PROVOZ")]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="environmentTypeDesc" />
+              <Caption value="Environment type desc" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[replaceString(globals.appInfo.environmentType, "_", " ")]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="headerHeight_100" />
+              <Caption value="Header height _100" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[globals.forms.currentForm in ["main_lists"]]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Complex>
+              <Name value="hlSticky" />
+              <Caption value="Hl sticky" />
+              <Children>
+                <Computed>
+                  <Name value="Text" />
+                  <Caption value="Text" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[globals.layout.sticky ? "Sticky -> Fixed" : "Fixed -> Sticky"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="hlHeader" />
+              <Caption value="Hl header" />
+              <Children>
+                <Computed>
+                  <Name value="Text" />
+                  <Caption value="Text" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[globals.layout.altHeader ? "Buttons Top -> Tabs Top" : "Tabs Top -> Buttons Top"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+          </Children>
+        </Complex>
+      </Children>
+    </DataContext>
+  </DataContext>
+  <OnCreate>
+    <ActionEvent ReferencedAction="~masterOnCreate" />
+  </OnCreate>
+  <Actions>
+    <ActionBlock>
+      <Name value="masterOnCreate" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[// Perform some general settings first
+var appInfo = globals.appInfo
+var master = globals.forms.master
+var layout = globals.layout
+
+master.showMenu = true
+master.newSession = true
+
+layout.sticky = false
+layout.altHeader = false
+
+// initial NavTree setup
+// To avoid console error later: Cannot process resetFinishedSetup of TreeNavigationController at this stage (0).
+ntc.beginSetup("navTrees::_ntMaster", defaultString())
+ntc.finishSetup()
+
+// Turn-on/off specific future-features flags
+globals.futureFeatures.nationalData = true
+globals.futureFeatures.versionHistory = true
+globals.futureFeatures.specificNationalData = true
+
+// Nastavit proměnné
+appInfo.appVersion = apiobjects.configValAppVersion.get()
+appInfo.environmentType = apiobjects.appEnvironmentType.get()
+appInfo.pageTitle = appInfo.appTitle
+
+apiobjects.pageAPI.setLang("cs")
+globals.forms.common.versionHistoryShown = false
+
+// Login a data
+apiobjects.cic.setVersion(globals.version)
+
+// Service URL from Server Connection
+globals.cicUrl = apiobjects.cic.getRootUrl()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btn_toggleMenu_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.forms.master.showMenu = not globals.forms.master.showMenu]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_navigationTree_OnNodeActivated" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var event = form.model.event
+var onNodeActivated = form.model.onNodeActivated
+
+onNodeActivated.id = params.id
+onNodeActivated.activatedByUser = params.activatedByUser
+
+event.type = "onNodeActivated"
+event.json = onNodeActivated.toJson()
+
+form.actions.js_invokeEvent(event.toJson())
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="js_invokeEvent" />
+      <IsJavascript value="True" />
+      <Script><![CDATA[if ($('.form-container').length > 0) {
+	var formContainer = $('.form-container')[0];
+	ko.dataContext = ko.contextFor(formContainer).$root;
+	
+	if (ko.dataContext.invokeEvent) {
+		ko.dataContext.invokeEvent.$value(params.str)
+	} else {
+		console.warn("Attribute 'invokeEvent' does not exist.")
+	}	
+} else {
+	ko.dataContext = null;
+	console.warn("Element with class 'formContainer' does not exist.")	
+}]]></Script>
+      <ActionLangBody IsValid="True" />
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="str" />
+              <Caption value="Str" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_hlSticky_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.layout.sticky = not globals.layout.sticky ]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_hlHeader_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.layout.altHeader = not globals.layout.altHeader ]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+  </Actions>
+</Form>

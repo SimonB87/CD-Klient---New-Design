@@ -1,0 +1,540 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<GlobalActions>
+  <Name value="globalActions" />
+  <Actions>
+    <ActionBlock>
+      <Name value="toggleVersionHistory" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.forms.common.versionHistoryShown = not globals.forms.common.versionHistoryShown
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="closeDetail_G" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = true
+globals.forms.lists.selectedCdExpired = false
+navigation.main.lists.go()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="commonLoadData" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[cddReq.customsDecisionAuthorisationData.customsDecisionGUID = guid
+cddReq.customsDecisionAuthorisationData.customsDecisionVersionGUID = versionGuid
+
+//system.console(cddReq.customsDecisionAuthorisationData.toJson())
+
+var resp = apiobjects.cic.postAsync("CustomsDecisionDetailRequest", cddReq.toJson())
+
+if resp.isError() or (resp.getMessageType() = "IN906A") then
+  system.consoleError("Error loading CD Detail - GUID: " + guid + ", version GUID: " + versionGuid + ".")
+  var errorMsg = resp.getErrorMessage()
+  system.consoleError(errorMsg)
+  errorMsg = resp.getJsonString()
+  system.consoleError("Response content: " + errorMsg)
+  
+  globals.dataLoadingSpace.success = false
+  result = false
+else
+  globals.dataLoadingSpace.cdDetailJson = resp.getJsonString()
+  globals.dataLoadingSpace.success = true
+    
+    //Store data into response entity - just load data for annexes
+  globals.dataLoadingSpace.annexLoadedData.clear()
+  globals.dataLoadingSpace.annexLoadedData.fromJson(resp.getJsonString())
+  result = true
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Complex>
+              <Name value="cddReq" />
+              <Caption value="Cdd req" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.CustomsDecisionDetailRequest" />
+                </Include>
+              </Children>
+            </Complex>
+            <Attribute>
+              <Name value="guid" />
+              <Caption value="Guid" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <MetaType reference="+MetaTypes.Guid" />
+            </Attribute>
+            <Attribute>
+              <Name value="versionGuid" />
+              <Caption value="Version guid" />
+              <DataContextParameter.IsInput value="True" />
+              <MetaType reference="+MetaTypes.Guid" />
+            </Attribute>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="prepareFormAnnexPannel" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.uiGlobalState.annex.isVisibleAddAnnexPanel = false
+globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.confirmFileDelete = false
+
+//set up state
+globals.uiGlobalState.annex.addOtherAnnex.annexTableToSelect.attachedDocumentsCZ.clear()
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="deleteSelectedAnnexCZ" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[// Fill in data for request
+globals.uiGlobalState.annex.annexCZdelete.request.customsDecisionAuthorisationData.customsDecisionGUID = globals.uiGlobalState.GUID
+
+if globals.uiGlobalState.CDversionGUID.hasValue() then
+	globals.uiGlobalState.annex.annexCZdelete.request.customsDecisionAuthorisationData.customsDecisionVersionGUID = globals.uiGlobalState.CDversionGUID
+endif
+
+globals.uiGlobalState.annex.annexCZdelete.request.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.documentGUID = globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.selectedDocumentGUID
+
+if globals.uiGlobalState.annex.annexCZdelete.request.customsDecisionAuthorisationData.customsDecisionVersionGUID.hasValue() then
+
+	var response = apiobjects.cic.postAsync("CustomsDecisionAnnexRemove", globals.uiGlobalState.annex.annexCZdelete.request.toJson())
+
+	//check server reply
+	if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
+		system.console(response.getErrorMessage())
+	endif
+
+else
+	system.alert("Vyberte verzi povolení před smazáním přílohy!")
+endif
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="storeNewAnnexCZ" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var path = globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData
+
+if globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.fileData.fileContent.hasValue() and globals.uiGlobalState.isLastCDversionSelected then
+
+	globals.IsBusy = True
+	
+	//globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.clear()
+	
+	if globals.uiGlobalState.GUID.hasValue() then
+		
+		path.customsDecisionGUID = globals.uiGlobalState.GUID
+		
+			if globals.uiGlobalState.CDversionGUID.hasValue() then
+				path.customsDecisionVersionGUID = globals.uiGlobalState.CDversionGUID
+			endif
+		
+		actions.validateAnnexInput()
+		
+		if globals.uiGlobalState.annex.annexCZaddNewFile.isThereErrorToDisplay = false then		
+		
+			var response = apiobjects.cic.postAsync("CustomsDecisionAnnexStore", globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.toJson())
+		
+			//check server reply
+			if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
+				system.console(response.getErrorMessage())
+				system.alert("Příloha nahrána nebyla.")
+			else
+				//clear old annex data
+				globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.clear()
+			
+				//set value for fill data with data on newly uploaded annex
+				globals.uiGlobalState.annex.annexCZuploadSuccess.clear()
+				globals.uiGlobalState.annex.annexCZuploadSuccess = True
+										
+				//clear form
+				var placeHolderStore = globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.selectedDocumentGUID
+				globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.clear()
+				//prepare form
+				globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.selectedDocumentGUID = placeHolderStore
+				
+				system.alert("Příloha byla nahrána!")
+				
+			endif
+		
+		endIf
+	
+	endif
+	
+	globals.IsBusy = False
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="getNewAnnexData" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//*** využít zprávu CustomsDecisionAnnexDetailRequest * CustomsDecisonAnnexDetailResponse
+
+var response = apiobjects.cic.postAsync("CustomsDecisionAnnexDetailRequest", globals.uiGlobalState.annex.annexDetail.request.toJson())
+		
+//check server reply
+if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
+	system.console(response.getErrorMessage())
+else
+
+	//clear old annex data
+	globals.uiGlobalState.annex.annexDetail.response.clear()
+	
+	//fill data with data on newly uploaded annex
+	globals.uiGlobalState.annex.annexDetail.response.fromJson(response.getJsonString())
+	
+	//kontrolovat jestli to nebude zbytečně padat, když se uživatel rozhodne smazat všechny přílohy	
+	if globals.uiGlobalState.annex.annexDetail.response.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) and globals.dataLoadingSpace.annexLoadedData.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.exists(current.hasValue()) then
+	
+		var collectionPlaceHolder = globals.uiGlobalState.annex.annexDetail.response.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst()
+		var sourceTarget = globals.dataLoadingSpace.annexLoadedData.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.selectFirst()
+	
+		sourceTarget.attachedDocumentsCZ.fromJson(collectionPlaceHolder.attachedDocumentsCZ.toJson())
+	else
+	
+		var pathToAnnex = globals.dataLoadingSpace.annexLoadedData.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex
+		
+		var pathToAnnexNewItem = pathToAnnex.addItem()
+		var pathToAnnexNewItemCZannex = pathToAnnexNewItem.attachedDocumentsCZ.addItem()
+	
+		globals.dataLoadingSpace.annexLoadedData.fromJson(response.getJsonString())
+
+		if globals.uiGlobalState.annex.isEconImpactSelected = True then
+			system.console("isEconImpactSelected - true")
+		endIf
+	endif
+	
+endif
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="getAnnexCZdataForHolder" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//prefil requrest data:: globals.uiGlobalState.annex.addOtherAnnex.otherAnnexForHolder.request
+
+var requestObject = globals.uiGlobalState.annex.addOtherAnnex.otherAnnexForHolder.request
+
+requestObject.customsDecisionAuthorisationData.holderInformation.holder.actorIdentification.eORINumber = eORINumber
+requestObject.customsDecisionAuthorisationData.customsDecisionGUID = globals.uiGlobalState.GUID
+
+if globals.uiGlobalState.CDversionGUID.hasValue() then
+	requestObject.customsDecisionAuthorisationData.customsDecisionVersionGUID = globals.uiGlobalState.CDversionGUID
+endif
+
+//send request
+var response = apiobjects.cic.postAsync("CustomsDecisionCZAnnexesForHolderRequest", requestObject.toJson())
+
+if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
+	system.console("Error message - CustomsDecisionCZAnnexesForHolderRequest")
+	system.console(response.getErrorMessage())
+else
+	globals.uiGlobalState.annex.addOtherAnnex.otherAnnexForHolder.response.clear()
+	globals.uiGlobalState.annex.addOtherAnnex.otherAnnexForHolder.response.fromJson(response.getJsonString())
+		
+	//fill the received data into table - uiGlobalState.annex.addOtherAnnex.annexTableToSelect
+	actions.fillReceivedDataToAnnexTable("CustomsDecisionCZAnnexesForHolderResponse")
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="eORINumber" />
+              <Caption value="E ORI number" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="getAnnexCZdataFromPreviousCDversions" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//prefil requrest data:: globals.uiGlobalState.annex.addOtherAnnex.annexFromOtherCDverions.request
+
+globals.uiGlobalState.annex.addOtherAnnex.annexFromOtherCDverions.request.customsDecisionAuthorisationData.customsDecisionGUID = globals.uiGlobalState.GUID
+
+//send request
+var response = apiobjects.cic.postAsync("CustomsDecisionCZAnnexesForAuthorizationRequest", globals.uiGlobalState.annex.addOtherAnnex.annexFromOtherCDverions.request.toJson())
+
+if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
+	system.console("Error message - CustomsDecisionCZAnnexesForAuthorizationRequest")
+	system.console(response.getErrorMessage())
+else
+	globals.uiGlobalState.annex.addOtherAnnex.annexFromOtherCDverions.response.clear()
+	globals.uiGlobalState.annex.addOtherAnnex.annexFromOtherCDverions.response.fromJson(response.getJsonString())
+	
+	//fill the received data into table - uiGlobalState.annex.addOtherAnnex.annexTableToSelect
+	actions.fillReceivedDataToAnnexTable("CustomsDecisionCZAnnexesForAuthorizationRequest")
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="fillReceivedDataToAnnexTable" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//selectedMessage = "CustomsDecisionCZAnnexesForHolderRequest"
+var pathPlaceHolder = globals.uiGlobalState.annex.addOtherAnnex.otherAnnexForHolder.response.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ
+
+if selectedMessage = "CustomsDecisionCZAnnexesForAuthorizationRequest" then
+	
+ 	pathPlaceHolder = globals.uiGlobalState.annex.addOtherAnnex.annexFromOtherCDverions.response.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ
+ 	
+endif
+
+forEach annexCZdata in pathPlaceHolder do
+
+	var addAnnexCZdata = globals.uiGlobalState.annex.addOtherAnnex.annexTableToSelect.attachedDocumentsCZ.addItem()
+	
+	addAnnexCZdata.isDocumentSelected = False //by defaul no files are selected, user must choose, which file to select
+	addAnnexCZdata.documentGUID = annexCZdata.documentGUID
+	addAnnexCZdata.documentType = annexCZdata.documentType
+	addAnnexCZdata.documentIdentifier = annexCZdata.documentIdentifier
+	addAnnexCZdata.numberOfDocuments = annexCZdata.numberOfDocuments
+	addAnnexCZdata.documentDate = annexCZdata.documentDate
+	addAnnexCZdata.fileReference = annexCZdata.fileReference
+	
+	addAnnexCZdata.customsDecisionGUID = globals.uiGlobalState.GUID
+	addAnnexCZdata.customsDecisionVersionGUID = globals.uiGlobalState.CDversionGUID
+	
+endFor]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="selectedMessage" />
+              <Caption value="Selected message" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="validateAnnexInput" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var pathToFile = globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile
+var pathToBooleans = globals.uiGlobalState.annex.annexCZaddNewFile
+
+pathToBooleans.isDocumentIdentifierMissing = False
+pathToBooleans.isSelectedFileToLarge = False
+pathToBooleans.isThereErrorToDisplay = False
+
+if pathToFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.documentIdentifier.isEmpty() then
+	pathToBooleans.isDocumentIdentifierMissing = True
+endIf
+
+if pathToFile.fileData.fileContent.isValid() then
+
+else
+	pathToBooleans.isSelectedFileToLarge = True
+
+endIf
+
+if pathToBooleans.isDocumentIdentifierMissing or pathToBooleans.isSelectedFileToLarge then
+	pathToBooleans.isThereErrorToDisplay = True
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="prepareVariablesForNewAnnexUpload" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.clear()
+
+globals.uiGlobalState.annex.annexCZaddNewFile.isSelectedFileToLarge = False
+globals.uiGlobalState.annex.annexCZaddNewFile.isDocumentIdentifierMissing = False
+globals.uiGlobalState.annex.annexCZaddNewFile.isThereErrorToDisplay = False
+
+globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.setTouched(False)
+globals.uiGlobalState.annex.annexCZaddNewFile.request_storeNewFile.customsDecisionAuthorisationData.customsDecisionParticulars.customsDecisionAnnex.attachedDocumentsCZ.numberOfDocuments = 1
+
+//this is set to true if annex got through and uploaded - reset this to default for the next upload
+globals.uiGlobalState.annex.annexCZuploadSuccess = defaultBool()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="js_split" />
+      <IsJavascript value="True" />
+      <Script><![CDATA[var arr = _.split(params.str, params.separator);
+
+for (var i = 0; i < arr.length; i++) {
+	arr[i] = { 'str': arr[i] };
+}
+
+return JSON.stringify(arr);]]></Script>
+      <ActionLangBody IsValid="True" />
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="str" />
+              <Caption value="Str" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="separator" />
+              <Caption value="Separator" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setStrings" />
+      <Description value="nastavi kolekci strings" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.strings.clear()
+globals.strings.fromJson(json)]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="json" />
+              <Caption value="Json" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <Description value="array of strings" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="getString" />
+      <Description value="vrati hodnotu z kolekce strings" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var strings = globals.strings
+
+if (index > 0) and (index <= strings.count()) then
+	var item = strings.selectFirst(Current.index() = index)
+	result = item.str
+else
+	result = defaultString()
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="index" />
+              <Caption value="Index" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <Description value="index v kolekci strings" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_pageTitle_OnChange" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[apiobjects.pageAPI.setTitle(params.data.pageTitle)]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_navigationObserver_OnAfterFormActivate" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var forms = globals.forms
+
+//system.console("formId: " + params.formId)
+// skipping login form bacause navigate is in login.OnActivate, thus it would overrides id of following form otherwise
+if params.formId <> "main_login" then
+	forms.currentForm = params.formId 
+	//system.console("currentForm:" + forms.currentForm)
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+  </Actions>
+</GlobalActions>

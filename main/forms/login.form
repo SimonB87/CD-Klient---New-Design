@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<Form>
+  <Name value="login" />
+  <Caption value="Login" />
+  <Content>
+    <Panel>
+      <Name value="pnlMain" />
+      <Orientation value="Vertical" />
+      <Panel.Height value="#" />
+      <Panel.Width value="*" />
+      <CssClass>
+        <CssClassConditional>
+          <ClassName value="{theme}-panel" />
+          <IsThemedStyle value="True" />
+        </CssClassConditional>
+      </CssClass>
+    </Panel>
+  </Content>
+  <DataContext>
+    <DataContext />
+  </DataContext>
+  <OnActivate>
+    <ActionEvent ReferencedAction="~handler_login_OnActivate" />
+  </OnActivate>
+  <Actions>
+    <ActionBlock>
+      <Name value="handler_login_OnActivate" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var appInfo = globals.appInfo
+var user = globals.user 
+
+// Login + uživatelské role
+globals.IsBusy = true
+var response = apiobjects.cic.getAsync("loginRequestASEO")
+globals.IsBusy = false
+
+var err = packages.main.globals.forms.error.params
+var type = response.getMessageType()
+
+err.Caption = "Error sending loginRequestASEO"
+
+if type in ["loginResponseASEO"] then
+	var responseData = response.getJsonString()
+	
+	user.LoginResult.fromJson(responseData)
+	if user.LoginResult.user.selectFirst().UserName.hasValue() then
+		//Zpráva vrátí obsah o uživateli
+		//Načte prostředí, ověřeného uživatele a role a vyhodnotí autorizaci 
+		var isAuthorized = form.actions.setUser()
+		appInfo.pageTitle = appInfo.appTitle + " - " + user.DisplayName
+		
+		if isAuthorized then
+			navigation.main.lists.go()
+		else
+			err.Caption = "Unauthorized access"
+			err.Message = "Uživatel "+ user.fullName + " s loginem '" + user.userName + "' nemá příslušná oprávnění pro spuštení aplikace."
+			system.consoleError(err.Message)
+			navigation.main.error.goAndBack()
+		endif		
+	endif
+else if response.getMessageType() in ["IN906A"] then
+	err.MsgType = type
+	err.Msg = response.getJsonString()
+	system.consoleError(err.MsgType)
+	system.consoleError(err.Msg)
+	navigation.main.error.goAndBack()
+else if response.isError() then
+	err.Message = response.getErrorMessage()
+	system.consoleError(err.Message)
+	navigation.main.error.goAndBack()
+else
+	err.Message = "Unexpected response message type: " + type
+	system.consoleError(err.Message)
+	navigation.main.error.goAndBack()
+endif endif endif
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setUser" />
+      <Description value="vraci true pokud ma uzivatel alespon jednu pristupovou roli CD" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var user = globals.user
+var lru = user.LoginResult.user.selectFirst()
+
+// Načteme Ověřeného Uživatele
+user.userName = lru.userName
+user.fullName = lru.fullName
+user.Mail = lru.Mail
+
+if lru.organisation.hasValue() then
+	var org = lru.organisation.selectFirst() 
+	var cu = org.code.selectFirst()
+	
+	user.CuCode = cu.code
+	
+	// Načteme role ověřeného uživatele	
+	if lru.organisation.selectFirst().applRole.hasValue() then
+		user.hasRoleRead = org.applRole.exists(current.applRoleCode = "CDklient_read")
+		user.hasRoleWrite = org.applRole.exists(current.applRoleCode = "CDklient_write")
+		user.hasRoleAdmin = org.applRole.exists(current.applRoleCode = "CDklient_admin")
+	endif	
+endif
+
+// Vyhodnocení autorizace - stačí libovolná role pro přístup
+if user.hasRoleRead or user.hasRoleWrite or user.hasRoleAdmin then 
+	result = true
+endif
+
+/*
+system.console("Role read : " + tostring(globals.user.hasRoleRead))
+system.console("Role write : " + tostring(globals.user.hasRoleWrite))
+system.console("Role admin : " + tostring(globals.user.hasRoleAdmin))	
+*/]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+  </Actions>
+</Form>

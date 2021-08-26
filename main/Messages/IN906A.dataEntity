@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<DataEntity>
+  <Name value="IN906A" />
+  <Caption value="Chybová zpráva pro klienta" />
+  <MtsImportOptions.MTS.Acronym value="I_ERR" />
+  <MtsImportOptions.MTS.ID value="/IN906A" />
+  <MtsImportOptions.MTS.Type value="message" />
+  <Children>
+    <Complex>
+      <Name value="QH" />
+      <Caption value="IHLAVICKA" />
+      <MtsImportOptions.MTS.ID value="/IN906A/QH" />
+      <MtsImportOptions.MTS.Type value="group" />
+      <Children>
+        <Attribute>
+          <Name value="QH01" />
+          <Caption value="GUID" />
+          <Description value="GUID objektu, ke kterému se odmítaná zpráva vztahovala" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/IN906A/QH/QH01" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+      </Children>
+    </Complex>
+    <Collection>
+      <Name value="QVFK" />
+      <Caption value="VÝSLEDEK FORMÁLNÍ KONTROLY" />
+      <Description value="Chyby detekované formálními kontrolami - XSD, číselníky, podmínky/pravidla" />
+      <MaxCount value="99999" />
+      <MtsImportOptions.MTS.ID value="/IN906A/QVFK" />
+      <MtsImportOptions.MTS.Type value="group" />
+      <Children>
+        <Attribute>
+          <Name value="QVFK01" />
+          <Caption value="Ukazatel na datový prvek" />
+          <Description value="Pointer na konkrétní skupinu/element, ke kterému je hlášena chyba.&#xA;Ve WinForm klientech se zatím počítá s tečkovou notací shodnou s notací pointerů v EU NCTS/ECS zprávách (tj. např. &quot;G(1).GPD(2).GPD01&quot;.&#xA;V SilverLight klientech nad novým IC se používá XPATH pointer." />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/IN906A/QVFK/QVFK01" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType>
+              <StrMaxLength value="210" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="QVFK02" />
+          <Caption value="Podmínka nebo pravidlo nebo číselník" />
+          <Description value="Kód podmínky/pravidla, které bylo porušeno, nebo název číselníku, proti kterému skončila validace neúspěšně" />
+          <MtsImportOptions.MTS.ID value="/IN906A/QVFK/QVFK02" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType>
+              <StrMaxLength value="100" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="QVFK03" />
+          <Caption value="Popis kódu chyby (pro uživatele)" />
+          <Description value="např. &quot;Zpráva mimo pořadí&quot; nebo &quot;Příliš dlouhá hodnota&quot;" />
+          <MtsImportOptions.MTS.ID value="/IN906A/QVFK/QVFK03" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType>
+              <StrMaxLength value="99999" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="QVFK04" />
+          <Caption value="Debug info" />
+          <MtsImportOptions.MTS.ID value="/IN906A/QVFK/QVFK04" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType>
+              <StrMaxLength value="99999" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+      </Children>
+    </Collection>
+    <Complex>
+      <Name value="QERR" />
+      <Caption value="ERROR" />
+      <Description value="interní chyba - jiná než chyba z formálních kontrol" />
+      <IsRequired value="True" />
+      <MtsImportOptions.MTS.ID value="/IN906A/QERR" />
+      <MtsImportOptions.MTS.Type value="group" />
+      <Children>
+        <Attribute>
+          <Name value="QERR01" />
+          <Caption value="Message GUID" />
+          <Description value="GUID odmítnuté zpráy" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/IN906A/QERR/QERR01" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="QERR02" />
+          <Caption value="Time stamp" />
+          <Description value="Datum a čas chyby při zpracování zprávy" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/IN906A/QERR/QERR02" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType>
+              <StrMaxLength value="30" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="QERR03" />
+          <Caption value="AppName" />
+          <Description value="Název aplikace, kde k chybě došlo" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/IN906A/QERR/QERR03" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType>
+              <StrMaxLength value="999" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Collection>
+          <Name value="QEI" />
+          <Caption value="ERROR INFO" />
+          <Description value="Informace o interní chybě" />
+          <MaxCount value="99999" />
+          <MtsImportOptions.MTS.ID value="/IN906A/QERR/QEI" />
+          <MtsImportOptions.MTS.Type value="group" />
+          <Children>
+            <Attribute>
+              <Name value="QEI01" />
+              <Caption value="Popis" />
+              <Description value="Popis interní chyby" />
+              <IsRequired value="True" />
+              <MtsImportOptions.MTS.ID value="/IN906A/QERR/QEI/QEI01" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="99999" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="QEI02" />
+              <Caption value="Debug info" />
+              <Description value="Detailnější nformace k dané chybě" />
+              <MtsImportOptions.MTS.ID value="/IN906A/QERR/QEI/QEI02" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="99999" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </Collection>
+      </Children>
+    </Complex>
+  </Children>
+</DataEntity>

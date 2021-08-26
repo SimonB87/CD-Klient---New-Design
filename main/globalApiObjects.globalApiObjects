@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<GlobalApiObjects>
+  <Name value="globalApiObjects" />
+  <ApiObjects>
+    <ServerConnection identity="ServerConnection.db7b3eef075548988df768923691922c">
+      <Name value="cic" />
+      <rootUrl value="http://w2012.ad2003.aquasoft.inside/ASEOCIC/RESTService.svc/" />
+      <withCredentials value="True" />
+    </ServerConnection>
+    <Page identity="Page.f7aa0c151c64407daef13910dcf7b72a">
+      <Name value="pageAPI" />
+    </Page>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="CDVersions" />
+      <autoLoad value="False" />
+      <filterByDate value="False" />
+      <name value="CDVersions" />
+      <server reference="~cic" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="CDVersions" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POPIS" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="OD" />
+          <columnRole value="ValidityStart" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="DO" />
+          <columnRole value="ValidityEnd" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="woMeasureUnitCl" />
+      <filterByDate value="False" />
+      <name value="JMODPIS_ASEO" />
+      <server reference="~cic" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="JMODPIS" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POPIS" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
+    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="cnCodeCl" />
+      <autoLoad value="False" />
+      <name value="ZBOZIKOD" />
+      <server reference="~cic" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="ZBOZIKOD" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POPIS" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="OD" />
+          <columnRole value="ValidityStart" />
+          <dataType value="date" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="DO" />
+          <columnRole value="ValidityEnd" />
+          <dataType value="date" />
+        </CodelistColumn>
+      </columns>
+    </Codelist>
+    <ConfigValue>
+      <Name value="configValAppVersion" />
+      <Value value="v. 1.10.00 (210504_0800)" />
+      <Value_comment value="//place version &quot;v N.NN.NN&quot; followed by date in &quot;(YYMMDD_TIME)&quot;" />
+    </ConfigValue>
+    <NotificationsCtrl identity="Notifications.7ff832fd4a2b4377bafd2e81a99bbcfc">
+      <Name value="notificationsCtrl" />
+    </NotificationsCtrl>
+    <UrlRouter identity="UrlRouter.69a71809c45249cbb2999d13bb9100c0">
+      <Name value="urlRouter" />
+      <routes>
+        <UrlRouteCfg identity="UrlRouter.69a71809c45249cbb2999d13bb9100c0">
+          <form reference="+UiParts.AseoNewApplication" />
+          <url value="NewApplication" />
+        </UrlRouteCfg>
+        <UrlRouteCfg identity="UrlRouter.69a71809c45249cbb2999d13bb9100c0">
+          <form reference="+UiParts.AseoDetail" />
+          <params value="authorizationType,GUID?" />
+          <url value="Detail" />
+        </UrlRouteCfg>
+        <UrlRouteCfg identity="UrlRouter.69a71809c45249cbb2999d13bb9100c0">
+          <form reference="+UiParts.econImpactRegime" />
+          <params value="GUID?" />
+          <url value="econImpact" />
+        </UrlRouteCfg>
+        <UrlRouteCfg identity="UrlRouter.69a71809c45249cbb2999d13bb9100c0">
+          <form reference="+UiParts.centralisedClearance" />
+          <params value="GUID?" />
+          <url value="centralisedClearance" />
+        </UrlRouteCfg>
+        <UrlRouteCfg identity="UrlRouter.69a71809c45249cbb2999d13bb9100c0">
+          <form reference="+UiParts.lists" />
+          <url value="main" />
+        </UrlRouteCfg>
+      </routes>
+    </UrlRouter>
+    <NavigationTreeController identity="NavigationTree.b87dd9f990504f86a481d689d499f644">
+      <Name value="ntc" />
+    </NavigationTreeController>
+    <PlainObject identity="PlainObject.2933617ce1714fe38ef01785a5a6492f">
+      <Name value="po" />
+    </PlainObject>
+    <ConfigValue>
+      <Name value="appEnvironmentType" />
+      <Value value="TEST_SOLITEA" />
+      <Value_comment value="appEnvironmentType: TEST_SOLITEA | TEST_CS | PROVOZ" />
+    </ConfigValue>
+    <NavigationObserver identity="NavigationObserver.a6850f60a9dd4afcb8b8289571bbfbb4">
+      <Name value="navigationObserver" />
+      <OnAfterFormActivate>
+        <ActionEvent ReferencedAction="+GlobalActions.handler_navigationObserver_OnAfterFormActivate" />
+      </OnAfterFormActivate>
+    </NavigationObserver>
+  </ApiObjects>
+</GlobalApiObjects>

@@ -1,0 +1,367 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<DataEntity>
+  <Name value="CustomsDecisionEnhancement" />
+  <Caption value="CustomsDecisionEnhancement" />
+  <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement" />
+  <MtsImportOptions.MTS.Type value="message" />
+  <Children>
+    <Complex>
+      <Name value="customsDecisionAuthorisationData" />
+      <Caption value="customsDecisionAuthorisationData" />
+      <IsRequired value="True" />
+      <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData" />
+      <MtsImportOptions.MTS.Type value="group" />
+      <Children>
+        <Attribute>
+          <Name value="customsDecisionGUID" />
+          <Caption value="customsDecisionGUID" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/customsDecisionGUID" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="customsDecisionVersionGUID" />
+          <Caption value="customsDecisionVersionGUID" />
+          <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/customsDecisionVersionGUID" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Complex>
+          <Name value="enhancementCZ" />
+          <Caption value="Obohacení" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ" />
+          <MtsImportOptions.MTS.Type value="group" />
+          <Children>
+            <Attribute>
+              <Name value="periodForClearance" />
+              <Caption value="Lhůta pro zúčtování" />
+              <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/periodForClearance" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                  <IntMax value="99999" />
+                  <IntMin value="0" />
+                </AttributeType>
+              </DeclaredType>
+              <Validators>
+                <Validator Name="CDEnhancementForRHU">
+                  <MtsImportOptions.MTS.ID value="CDEnhancementForRHU" />
+                  <MtsImportOptions.MTS.Type value="condition-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["CDEnhancementForRHU"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[true /*Pokud je typ povolení "CW1", "CW2", "CWP", "EUS", "IPO", "OPO", "TEA", "TST", pak může být použit, jinak nesmí být použit*/]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
+            </Attribute>
+            <Attribute>
+              <Name value="simplifiedEntryProcedure" />
+              <Caption value="simplifiedEntryProcedure" />
+              <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/simplifiedEntryProcedure" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+              <Validators>
+                <Validator Name="CDEnhancementForRHU">
+                  <MtsImportOptions.MTS.ID value="CDEnhancementForRHU" />
+                  <MtsImportOptions.MTS.Type value="condition-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["CDEnhancementForRHU"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[true /*Pokud je typ povolení "CW1", "CW2", "CWP", "EUS", "IPO", "OPO", "TEA", "TST", pak může být použit, jinak nesmí být použit*/]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
+            </Attribute>
+            <Attribute>
+              <Name value="simplifiedReleaseProcedure" />
+              <Caption value="simplifiedReleaseProcedure" />
+              <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/simplifiedReleaseProcedure" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+              <Validators>
+                <Validator Name="CDEnhancementForRHU">
+                  <MtsImportOptions.MTS.ID value="CDEnhancementForRHU" />
+                  <MtsImportOptions.MTS.Type value="condition-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["CDEnhancementForRHU"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[true /*Pokud je typ povolení "CW1", "CW2", "CWP", "EUS", "IPO", "OPO", "TEA", "TST", pak může být použit, jinak nesmí být použit*/]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
+            </Attribute>
+            <Reference>
+              <Name value="customsOfficeOfRelease" />
+              <Caption value="Číslo celního úřadu propuštění" />
+              <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/customsOfficeOfRelease" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.CELU" />
+                </Include>
+              </Children>
+              <Validators>
+                <Validator Name="CDEnhancementForCCL">
+                  <MtsImportOptions.MTS.ID value="CDEnhancementForCCL" />
+                  <MtsImportOptions.MTS.Type value="condition-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["CDEnhancementForCCL"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[true /*Pokud je typ povolení "CCL", pak může být použit, jinak nesmí být použit*/]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
+            </Reference>
+            <Attribute>
+              <Name value="fullyEnhanced" />
+              <Caption value="Rozšíření kompletní" />
+              <IsRequired value="True" />
+              <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/fullyEnhanced" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="editNote" />
+              <Caption value="Poznámka" />
+              <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/editNote" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="10000" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Collection>
+              <Name value="goodsItemCZ" />
+              <Caption value="Sjednocená položka zboží" />
+              <MaxCount value="2147483647" />
+              <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/goodsItemCZ" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="guid" />
+                  <Caption value="GUID sjednoceného záznamu" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/goodsItemCZ/guid" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Reference>
+                  <Name value="cnCodeForSecuring" />
+                  <Caption value="Zbožový kód pro dozajištění" />
+                  <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/goodsItemCZ/cnCodeForSecuring" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ZBOZIKOD" />
+                    </Include>
+                  </Children>
+                </Reference>
+                <Reference>
+                  <Name value="writeOffMeasureUnit" />
+                  <Caption value="Odpisová měrná jednotka" />
+                  <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/goodsItemCZ/writeOffMeasureUnit" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.JMODPIS_ASEO" />
+                    </Include>
+                  </Children>
+                </Reference>
+                <Attribute>
+                  <Name value="article863UCC" />
+                  <Caption value="Použití článku 86/3 UCC" />
+                  <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/goodsItemCZ/article863UCC" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="article864UCC" />
+                  <Caption value="Použití článku 86/4 UCC" />
+                  <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/goodsItemCZ/article864UCC" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Reference>
+                  <Name value="cnCodeArticle73DA" />
+                  <Caption value="Kód KN při použití čl. 73 DA" />
+                  <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/goodsItemCZ/cnCodeArticle73DA" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ZBOZIKOD" />
+                    </Include>
+                  </Children>
+                </Reference>
+                <Attribute>
+                  <Name value="completed" />
+                  <Caption value="Obohacení položky zboží je kompletní" />
+                  <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/goodsItemCZ/completed" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+              <ItemValidators>
+                <Validator Name="CDEnhancementForRHU">
+                  <MtsImportOptions.MTS.ID value="CDEnhancementForRHU" />
+                  <MtsImportOptions.MTS.Type value="condition-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["CDEnhancementForRHU"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[true /*Pokud je typ povolení "CW1", "CW2", "CWP", "EUS", "IPO", "OPO", "TEA", "TST", pak může být použit, jinak nesmí být použit*/]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </ItemValidators>
+            </Collection>
+            <Collection>
+              <Name value="SASP" />
+              <Caption value="SASP" />
+              <MaxCount value="2147483647" />
+              <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/SASP" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Complex>
+                  <Name value="Account" />
+                  <Caption value="Účet daného CÚ" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/SASP/Account" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Attribute>
+                      <Name value="CustomsOffice" />
+                      <Caption value="Celní úřad" />
+                      <IsRequired value="True" />
+                      <MetaType reference="+MetaTypes.CU" />
+                      <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/SASP/Account/CustomsOffice" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="AccountNumber" />
+                      <Caption value="Číslo účtu" />
+                      <MetaType reference="+MetaTypes.IBAN" />
+                      <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/SASP/Account/AccountNumber" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                    <Attribute>
+                      <Name value="BankCode" />
+                      <Caption value="Kód banky" />
+                      <MetaType reference="+MetaTypes.BIC" />
+                      <MtsImportOptions.MTS.ID value="/CustomsDecisionEnhancement/customsDecisionAuthorisationData/enhancementCZ/SASP/Account/BankCode" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                  </Children>
+                </Complex>
+              </Children>
+              <ItemValidators>
+                <Validator Name="CDEnhancementForCCL">
+                  <MtsImportOptions.MTS.ID value="CDEnhancementForCCL" />
+                  <MtsImportOptions.MTS.Type value="condition-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["CDEnhancementForCCL"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[true /*Pokud je typ povolení "CCL", pak může být použit, jinak nesmí být použit*/]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </ItemValidators>
+            </Collection>
+          </Children>
+        </Complex>
+      </Children>
+    </Complex>
+  </Children>
+</DataEntity>
