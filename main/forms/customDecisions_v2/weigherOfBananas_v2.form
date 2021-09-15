@@ -3165,155 +3165,6 @@
             </Include>
           </Children>
         </Complex>
-        <Complex>
-          <Name value="tabsMenu" />
-          <Children>
-            <Attribute>
-              <Name value="SelectedTab" />
-              <Caption value="Selected tab" />
-              <DeclaredType>
-                <AttributeType>
-                  <BaseType value="Integer" />
-                </AttributeType>
-              </DeclaredType>
-            </Attribute>
-            <Complex>
-              <Name value="Tab01Zakladni" />
-              <Caption value="Tab 01 zakladni" />
-              <Children>
-                <Attribute>
-                  <Name value="Title" />
-                  <Caption value="Title" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="CustomCssClass" />
-                  <Caption value="Custom css class" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Computed>
-                  <Name value="IsSelected" />
-                  <Caption value="Is selected" />
-                  <Expression IsValid="True">
-                    <ExpressionText><![CDATA[this.owner().SelectedTab = 1 ? true : false]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="Bool" />
-                    </ResultType>
-                  </Expression>
-                </Computed>
-              </Children>
-            </Complex>
-            <Complex>
-              <Name value="Tab02Podrobnosti" />
-              <Caption value="Tab 02" />
-              <Children>
-                <Attribute>
-                  <Name value="Title" />
-                  <Caption value="Title" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="CustomCssClass" />
-                  <Caption value="Custom css class" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Computed>
-                  <Name value="IsSelected" />
-                  <Caption value="Is selected" />
-                  <Expression IsValid="True">
-                    <ExpressionText><![CDATA[this.owner().SelectedTab = 2 ? true : false]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="Bool" />
-                    </ResultType>
-                  </Expression>
-                </Computed>
-              </Children>
-            </Complex>
-            <Complex>
-              <Name value="Tab03LocOfGoods" />
-              <Caption value="Tab 03" />
-              <Children>
-                <Attribute>
-                  <Name value="Title" />
-                  <Caption value="Title" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="CustomCssClass" />
-                  <Caption value="Custom css class" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Computed>
-                  <Name value="IsSelected" />
-                  <Caption value="Is selected" />
-                  <Expression IsValid="True">
-                    <ExpressionText><![CDATA[this.owner().SelectedTab = 3 ? true : false]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="Bool" />
-                    </ResultType>
-                  </Expression>
-                </Computed>
-              </Children>
-            </Complex>
-            <Complex>
-              <Name value="Tab04Prilohy" />
-              <Caption value="Tab 04 prilohy" />
-              <Children>
-                <Attribute>
-                  <Name value="Title" />
-                  <Caption value="Title" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="CustomCssClass" />
-                  <Caption value="Custom css class" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Computed>
-                  <Name value="IsSelected" />
-                  <Caption value="Is selected" />
-                  <Expression IsValid="True">
-                    <ExpressionText><![CDATA[this.owner().SelectedTab = 4 ? true : false]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="Bool" />
-                    </ResultType>
-                  </Expression>
-                </Computed>
-                <Complex>
-                  <Name value="annexCountInTab" />
-                  <Caption value="Annex count in tab" />
-                  <Children>
-                    <Attribute>
-                      <Name value="annexCountNumber" />
-                      <Caption value="Annex count number" />
-                      <DeclaredType>
-                        <AttributeType>
-                          <BaseType value="Integer" />
-                        </AttributeType>
-                      </DeclaredType>
-                    </Attribute>
-                  </Children>
-                </Complex>
-              </Children>
-            </Complex>
-          </Children>
-        </Complex>
         <Attribute>
           <Name value="VersionGUID" />
           <Caption value="Version GUID" />
@@ -3474,21 +3325,6 @@ globals.IsBusy = false
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="initTabMenu_ALANG" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.actions.setAnnexTabLabel()
-
-form.tabsMenu.Tab01Zakladni.Title = "Základní informace"
-form.tabsMenu.Tab02Podrobnosti.Title = "Podrobnosti"
-form.tabsMenu.Tab03LocOfGoods.Title = "Umístění zboží"
-form.tabsMenu.Tab04Prilohy.Title = "Přílohy: " + toString(form.tabsMenu.Tab04Prilohy.annexCountInTab.annexCountNumber)
-]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="buttonAktualniVerze" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.forms.common.versionHistoryShown = false]]></Script>
@@ -3610,8 +3446,7 @@ else
 	globals.IsBusy = False
 	system.alert("Vybraná CZ příloha nemohla být smazána!")
 endif
-
-form.actions.setAnnexTabLabel()]]></Script>
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -3686,7 +3521,7 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 
 endif
 
-form.actions.setAnnexTabLabel()
+form.actions.initNavigationTree()
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
@@ -3794,7 +3629,6 @@ endif
 		else
 			//system.alert("Příloha - Identifikátor dokumentu: [" + ToString(selectedCZannex.documentIdentifier) + "] byla úspěšně přidána!")
 			numberOfAddedAnnex = numberOfAddedAnnex + 1
-			form.actions.setAnnexTabLabel()
 		endif
 		
 	endFor
@@ -3805,6 +3639,7 @@ endif
 	//dodělat update seznamu příloh nahraných k poslední verzi povolení
 	actions.getNewAnnexData()//get updated data for the annex information
 	form.actions.getNewDataToForm()
+	form.actions.initNavigationTree()
 	globals.uiGlobalState.annex.addOtherAnnex.annexTableToSelect.clear() //clear annex table	
 	
 	
@@ -3816,27 +3651,6 @@ else
 	system.alert("Vyberte současnou verzi povolení!")
 endif
 ]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="setAnnexTabLabel" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var countOfAnnexEU = 0
-var countOfAnnexCZ = 0
-
-if form.CD.customsDecisionAuthorisationData.customsDecisionInformation.customsDecisionAnnex.hasValue() = true then
-
-countOfAnnexEU = form.CD.customsDecisionAuthorisationData.customsDecisionInformation.customsDecisionAnnex.attachedDocuments.count()
-countOfAnnexCZ = form.CD.customsDecisionAuthorisationData.customsDecisionInformation.customsDecisionAnnex.attachedDocumentsCZ.count()
-
-endIf
-
-form.tabsMenu.Tab04Prilohy.annexCountInTab.annexCountNumber = countOfAnnexEU + countOfAnnexCZ
-
-form.tabsMenu.Tab04Prilohy.Title = "Přílohy: " + toString(form.tabsMenu.Tab04Prilohy.annexCountInTab.annexCountNumber)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

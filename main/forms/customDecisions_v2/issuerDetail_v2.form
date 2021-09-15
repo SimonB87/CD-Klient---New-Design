@@ -3165,155 +3165,6 @@
             </Include>
           </Children>
         </Complex>
-        <Complex>
-          <Name value="tabsMenu" />
-          <Children>
-            <Attribute>
-              <Name value="SelectedTab" />
-              <Caption value="Selected tab" />
-              <DeclaredType>
-                <AttributeType>
-                  <BaseType value="Integer" />
-                </AttributeType>
-              </DeclaredType>
-            </Attribute>
-            <Complex>
-              <Name value="Tab01Zakladni" />
-              <Caption value="Tab 01 zakladni" />
-              <Children>
-                <Attribute>
-                  <Name value="Title" />
-                  <Caption value="Title" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="CustomCssClass" />
-                  <Caption value="Custom css class" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Computed>
-                  <Name value="IsSelected" />
-                  <Caption value="Is selected" />
-                  <Expression IsValid="True">
-                    <ExpressionText><![CDATA[this.owner().SelectedTab = 1 ? true : false]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="Bool" />
-                    </ResultType>
-                  </Expression>
-                </Computed>
-              </Children>
-            </Complex>
-            <Complex>
-              <Name value="Tab02Podrobnosti" />
-              <Caption value="Tab 02" />
-              <Children>
-                <Attribute>
-                  <Name value="Title" />
-                  <Caption value="Title" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="CustomCssClass" />
-                  <Caption value="Custom css class" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Computed>
-                  <Name value="IsSelected" />
-                  <Caption value="Is selected" />
-                  <Expression IsValid="True">
-                    <ExpressionText><![CDATA[this.owner().SelectedTab = 2 ? true : false]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="Bool" />
-                    </ResultType>
-                  </Expression>
-                </Computed>
-              </Children>
-            </Complex>
-            <Complex>
-              <Name value="Tab03LocOfGoods" />
-              <Caption value="Tab 03" />
-              <Children>
-                <Attribute>
-                  <Name value="Title" />
-                  <Caption value="Title" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="CustomCssClass" />
-                  <Caption value="Custom css class" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Computed>
-                  <Name value="IsSelected" />
-                  <Caption value="Is selected" />
-                  <Expression IsValid="True">
-                    <ExpressionText><![CDATA[this.owner().SelectedTab = 3 ? true : false]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="Bool" />
-                    </ResultType>
-                  </Expression>
-                </Computed>
-              </Children>
-            </Complex>
-            <Complex>
-              <Name value="Tab04Prilohy" />
-              <Caption value="Tab 04 prilohy" />
-              <Children>
-                <Attribute>
-                  <Name value="Title" />
-                  <Caption value="Title" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="CustomCssClass" />
-                  <Caption value="Custom css class" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Computed>
-                  <Name value="IsSelected" />
-                  <Caption value="Is selected" />
-                  <Expression IsValid="True">
-                    <ExpressionText><![CDATA[this.owner().SelectedTab = 4 ? true : false]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="Bool" />
-                    </ResultType>
-                  </Expression>
-                </Computed>
-                <Complex>
-                  <Name value="annexCountInTab" />
-                  <Caption value="Annex count in tab" />
-                  <Children>
-                    <Attribute>
-                      <Name value="annexCountNumber" />
-                      <Caption value="Annex count number" />
-                      <DeclaredType>
-                        <AttributeType>
-                          <BaseType value="Integer" />
-                        </AttributeType>
-                      </DeclaredType>
-                    </Attribute>
-                  </Children>
-                </Complex>
-              </Children>
-            </Complex>
-          </Children>
-        </Complex>
         <Attribute>
           <Name value="VersionGUID" />
           <Caption value="Version GUID" />
@@ -3444,7 +3295,7 @@
   <Actions>
     <ActionBlock>
       <Name value="initMain_ALANG" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = true
 form.CustomsDecisionDetailRequest.customsDecisionAuthorisationData.customsDecisionGUID = form.GUID
 // promise!
@@ -3467,21 +3318,6 @@ form.actions.initNavigationTree()
 form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.locationWhereWeighingOfBananasTakesPlace.addItem()
 //test
 globals.IsBusy = false
-]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="initTabMenu_ALANG" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.actions.setAnnexTabLabel()
-
-form.tabsMenu.Tab01Zakladni.Title = "Základní informace"
-form.tabsMenu.Tab02Podrobnosti.Title = "Podrobnosti"
-form.tabsMenu.Tab03LocOfGoods.Title = "Umístění zboží"
-form.tabsMenu.Tab04Prilohy.Title = "Přílohy: " + toString(form.tabsMenu.Tab04Prilohy.annexCountInTab.annexCountNumber)
 ]]></Script>
       </ActionLangBody>
       <DataContext>
