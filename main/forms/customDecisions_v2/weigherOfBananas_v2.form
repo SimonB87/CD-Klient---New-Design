@@ -11,6 +11,81 @@
       <Panel.Width value="*" />
       <Children>
         <Panel>
+          <Name value="ControlPnl_buttons" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <Panel>
+              <Name value="ControlPnlHolder" />
+              <Orientation value="Horizontal" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Children>
+                <Panel>
+                  <Name value="panel13" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Children>
+                    <Button>
+                      <Name value="btn_back" />
+                      <Caption value="Zpět" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="100px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~goToDecList" />
+                      </OnClick>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="btn-secondary" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="flright" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="{theme}-nav-bar-controls" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="{theme}-nav-bar" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="{theme}-header" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
           <Name value="hlavicka" />
           <Orientation value="Vertical" />
           <Panel.Height value="#" />
@@ -78,7 +153,6 @@
                           <Panel.Width value="33.33%" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.customsDecisionInformation.applicationDecisionCodeType" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="CD.customsDecisionAuthorisationData.customsDecisionInformation.applicationDecisionCodeType.isRequired()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -260,500 +334,486 @@
               <Panel.Width value="50%" />
               <Children>
                 <Panel>
-                  <Name value="KontaktniInfo" />
-                  <Orientation value="Vertical" />
+                  <Name value="rowL1" />
+                  <Orientation value="Horizontal" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
                   <Children>
-                    <Panel>
-                      <Name value="panel20" />
-                      <Orientation value="Horizontal" />
+                    <GroupBox>
+                      <Name value="holder" />
+                      <Caption value="Držitel" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="*" />
-                      <Children>
-                        <GroupBox>
-                          <Name value="holder" />
-                          <Caption value="Držitel" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="50%" />
-                          <Content>
-                            <Panel>
-                              <Name value="panel6" />
-                              <Orientation value="Vertical" />
-                              <Children>
-                                <TextBox>
-                                  <Name value="textBox10" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.actorIdentification.eORINumber" />
-                                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.actorIdentification.eORINumber.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox5" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.name" />
-                                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.name.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox6" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.streetAndNumber" />
-                                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.streetAndNumber.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox7" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.postcode" />
-                                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.postcode.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox8" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.city" />
-                                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.city.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox9" />
-                                  <Caption value="Země" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.country._description" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                              </Children>
+                      <Panel.Width value="50%" />
+                      <Content>
+                        <Panel>
+                          <Name value="panel6" />
+                          <Orientation value="Vertical" />
+                          <Children>
+                            <TextBox>
+                              <Name value="textBox10" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.actorIdentification.eORINumber" />
+                                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.actorIdentification.eORINumber.caption()" />
+                              </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-panel" />
+                                  <ClassName value="{theme}-textbox" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </Panel>
-                          </Content>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-groupbox" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </GroupBox>
-                        <GroupBox>
-                          <Name value="representative" />
-                          <Caption value="Zástupce" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="50%" />
-                          <Content>
-                            <Panel>
-                              <Name value="panel18" />
-                              <Orientation value="Vertical" />
-                              <Children>
-                                <TextBox>
-                                  <Name value="textBox16" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.actorIdentification.eORINumber" />
-                                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.actorIdentification.eORINumber.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox11" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.name" />
-                                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.name.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox12" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.streetAndNumber" />
-                                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.streetAndNumber.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox13" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.postcode" />
-                                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.postcode.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox14" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.city" />
-                                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.city.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox15" />
-                                  <Caption value="Země" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.country._description" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                              </Children>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox5" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.name" />
+                                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.name.caption()" />
+                              </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-panel" />
+                                  <ClassName value="{theme}-textbox" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </Panel>
-                          </Content>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox6" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.streetAndNumber" />
+                                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.streetAndNumber.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox7" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.postcode" />
+                                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.postcode.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox8" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.city" />
+                                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.city.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox9" />
+                              <Caption value="Země" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.holder.nameAndAddress.country._description" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                          </Children>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-groupbox" />
+                              <ClassName value="{theme}-panel" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </GroupBox>
-                      </Children>
+                        </Panel>
+                      </Content>
                       <CssClass>
                         <CssClassConditional>
-                          <ClassName value="{theme}-panel" />
+                          <ClassName value="{theme}-groupbox" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
                       </CssClass>
-                    </Panel>
-                    <Panel>
-                      <Name value="panel26" />
-                      <Orientation value="Horizontal" />
+                    </GroupBox>
+                    <GroupBox>
+                      <Name value="representative" />
+                      <Caption value="Zástupce" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="*" />
-                      <Children>
-                        <GroupBox>
-                          <Name value="celniUrad" />
-                          <Caption value="Celní úřad" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="50%" />
-                          <Content>
-                            <Panel>
-                              <Name value="panel7" />
-                              <Orientation value="Vertical" />
-                              <Children>
-                                <TextBox>
-                                  <Name value="textBox60" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.customsAuthorityReferenceNumber.CELU" />
-                                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.customsAuthorityReferenceNumber.CELU.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox18" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.name" />
-                                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.name.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox19" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.streetAndNumber" />
-                                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.streetAndNumber.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox20" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.postcode" />
-                                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.postcode.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox21" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.city" />
-                                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.city.caption()" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox17" />
-                                  <Caption value="Země" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.country._description" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                              </Children>
+                      <Panel.Width value="50%" />
+                      <Content>
+                        <Panel>
+                          <Name value="panel18" />
+                          <Orientation value="Vertical" />
+                          <Children>
+                            <TextBox>
+                              <Name value="textBox16" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.actorIdentification.eORINumber" />
+                                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.actorIdentification.eORINumber.caption()" />
+                              </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-panel" />
+                                  <ClassName value="{theme}-textbox" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </Panel>
-                          </Content>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-groupbox" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </GroupBox>
-                        <GroupBox>
-                          <Name value="stav" />
-                          <Caption value="Stav" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="50%" />
-                          <Content>
-                            <Panel>
-                              <Name value="panel9" />
-                              <Orientation value="Vertical" />
-                              <Children>
-                                <TextBox>
-                                  <Name value="textBox23" />
-                                  <Caption value="Stav celního rozhodnutí" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.customsDecisionStatus.POPIS" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox55" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.customsDecisionStatusDate" />
-                                    <Binding SourceProperty="Caption" Expression="localized.common_ucc_dates_cdStartDate" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                                <TextBox>
-                                  <Name value="textBox56" />
-                                  <CaptionPosition value="Top" />
-                                  <IsEnabled value="False" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.customsDecisionStatusEndDate" />
-                                    <Binding SourceProperty="Caption" Expression="localized.common_ucc_dates_cdEndDate" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-textbox" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </TextBox>
-                              </Children>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox11" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.name" />
+                                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.name.caption()" />
+                              </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-panel" />
+                                  <ClassName value="{theme}-textbox" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </Panel>
-                          </Content>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox12" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.streetAndNumber" />
+                                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.streetAndNumber.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox13" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.postcode" />
+                                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.postcode.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox14" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.city" />
+                                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.city.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox15" />
+                              <Caption value="Země" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.holderInformation.representative.nameAndAddress.country._description" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                          </Children>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-groupbox" />
+                              <ClassName value="{theme}-panel" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </GroupBox>
-                      </Children>
+                        </Panel>
+                      </Content>
                       <CssClass>
                         <CssClassConditional>
-                          <ClassName value="{theme}-panel" />
+                          <ClassName value="{theme}-groupbox" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
                       </CssClass>
-                    </Panel>
+                    </GroupBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+                <Panel>
+                  <Name value="rowL2" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Children>
+                    <GroupBox>
+                      <Name value="celniUrad" />
+                      <Caption value="Celní úřad" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="50%" />
+                      <Content>
+                        <Panel>
+                          <Name value="panel7" />
+                          <Orientation value="Vertical" />
+                          <Children>
+                            <TextBox>
+                              <Name value="textBox60" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.customsAuthorityReferenceNumber.CELU" />
+                                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.customsAuthorityReferenceNumber.CELU.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox18" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.name" />
+                                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.name.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox19" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.streetAndNumber" />
+                                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.streetAndNumber.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox20" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.postcode" />
+                                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.postcode.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox21" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.city" />
+                                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.city.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox17" />
+                              <Caption value="Země" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.decisionTakingCustomsAuthority.decisionTakingCustomsAuthorityNameAndAddress.country._description" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                      </Content>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-groupbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </GroupBox>
+                    <GroupBox>
+                      <Name value="stav" />
+                      <Caption value="Stav" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="50%" />
+                      <Content>
+                        <Panel>
+                          <Name value="panel9" />
+                          <Orientation value="Vertical" />
+                          <Children>
+                            <TextBox>
+                              <Name value="textBox23" />
+                              <Caption value="Stav celního rozhodnutí" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.customsDecisionStatus.POPIS" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox55" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.customsDecisionStatusDate" />
+                                <Binding SourceProperty="Caption" Expression="localized.common_ucc_dates_cdStartDate" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox56" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.customsDecisionStatusEndDate" />
+                                <Binding SourceProperty="Caption" Expression="localized.common_ucc_dates_cdEndDate" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                      </Content>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-groupbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </GroupBox>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
@@ -777,7 +837,7 @@
               <Panel.Width value="50%" />
               <Children>
                 <Panel>
-                  <Name value="panel12" />
+                  <Name value="rowR1" />
                   <Orientation value="Horizontal" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
@@ -963,7 +1023,7 @@
                   </CssClass>
                 </Panel>
                 <Panel>
-                  <Name value="levelOfReduction" />
+                  <Name value="rowR2" />
                   <Orientation value="Horizontal" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
@@ -1038,66 +1098,72 @@
                           <Name value="panel27" />
                           <Orientation value="Vertical" />
                           <Children>
-                            <Repeater>
-                              <Name value="repeater5" />
+                            <DataTable>
+                              <Name value="dataTable2" />
                               <Panel.Height value="#" />
                               <Panel.Width value="*" />
-                              <Content>
-                                <Panel>
-                                  <Name value="panel13" />
-                                  <Orientation value="Vertical" />
-                                  <Children>
-                                    <TextBox>
-                                      <Name value="textBox4" />
-                                      <IsEnabled value="False" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="*" />
-                                      <Bindings>
-                                        <Binding SourceProperty="Data" Expression="guaranteeReduction.POPIS" />
-                                        <Binding SourceProperty="Caption" Expression="guaranteeReduction.POPIS.caption()" />
-                                      </Bindings>
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-textbox" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </TextBox>
-                                    <TextBox>
-                                      <Name value="textBox29" />
-                                      <IsEnabled value="False" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="*" />
-                                      <Bindings>
-                                        <Binding SourceProperty="Data" Expression="guaranteeDescription.text" />
-                                        <Binding SourceProperty="Caption" Expression="guaranteeDescription.text.caption()" />
-                                      </Bindings>
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-textbox" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </TextBox>
-                                  </Children>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-panel" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Panel>
-                              </Content>
                               <Bindings>
                                 <Binding SourceProperty="DataItems" Expression="CD.customsDecisionAuthorisationData.levelOfReduction.levelOfGuarantee" />
                               </Bindings>
+                              <Columns>
+                                <DataColumn>
+                                  <Name value="dataColumn9" />
+                                  <Caption value="Snížení záruky - popis" />
+                                  <Panel.Width value="*" />
+                                  <Content>
+                                    <Label>
+                                      <Name value="label4" />
+                                      <Bindings>
+                                        <Binding SourceProperty="Data" Expression="guaranteeReduction.POPIS" />
+                                      </Bindings>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-label" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Label>
+                                  </Content>
+                                  <HeaderCssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-datacolumn" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </HeaderCssClass>
+                                </DataColumn>
+                                <DataColumn>
+                                  <Name value="dataColumn10" />
+                                  <Caption value="Popis záruky - text" />
+                                  <Panel.Width value="*" />
+                                  <Content>
+                                    <Label>
+                                      <Name value="label5" />
+                                      <Bindings>
+                                        <Binding SourceProperty="Data" Expression="guaranteeDescription.text" />
+                                      </Bindings>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-label" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Label>
+                                  </Content>
+                                  <HeaderCssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-datacolumn" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </HeaderCssClass>
+                                </DataColumn>
+                              </Columns>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-repeater" />
+                                  <ClassName value="{theme}-datatable" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </Repeater>
+                            </DataTable>
                           </Children>
                           <CssClass>
                             <CssClassConditional>
@@ -1123,7 +1189,7 @@
                   </CssClass>
                 </Panel>
                 <Panel>
-                  <Name value="komentar" />
+                  <Name value="rowR3" />
                   <Orientation value="Vertical" />
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
@@ -3133,6 +3199,9 @@
           <ClassName value="{theme}-panel" />
           <IsThemedStyle value="True" />
         </CssClassConditional>
+        <CssClassConditional>
+          <ClassName value="paddingSmall" />
+        </CssClassConditional>
       </CssClass>
     </Panel>
   </Content>
@@ -3316,6 +3385,9 @@ form.actions.initNavigationTree()
 
 //test
 form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.locationWhereWeighingOfBananasTakesPlace.addItem()
+form.CD.customsDecisionAuthorisationData.levelOfReduction.levelOfGuarantee.addItem()
+form.CD.customsDecisionAuthorisationData.involvedMemberStates.addItem()
+form.CD.customsDecisionAuthorisationData.customsDecisionInformation.applicationDecisionCodeType = "AWB - V2"
 //test
 globals.IsBusy = false
 ]]></Script>
@@ -3742,7 +3814,7 @@ if czAnnexData.exists(Current.hasValue()) then
 	czAnnex = czAnnexData.count()
 endIf
 
-result = "Přílohy: (" + toString(euAnnex + czAnnex) + ")"]]></Script>
+result = "Přílohy (" + toString(euAnnex + czAnnex) + ")"]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -3757,6 +3829,15 @@ result = "Přílohy: (" + toString(euAnnex + czAnnex) + ")"]]></Script>
             </Attribute>
           </Children>
         </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="goToDecList" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[navigation.main.lists.go()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>
