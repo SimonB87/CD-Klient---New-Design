@@ -49,6 +49,9 @@
                   <ClassName value="{theme}-imagebutton" />
                   <IsThemedStyle value="True" />
                 </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="mainMenu" />
+                </CssClassConditional>
               </CssClass>
             </ImageButton>
           </Children>
@@ -91,7 +94,7 @@
                     <Label>
                       <Name value="lblAppName" />
                       <Heading value="h2" />
-                      <Margin value="6, 6, 2, 6 px" />
+                      <Margin value="16, 6, 2, 6 px" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Bindings>
@@ -185,81 +188,70 @@
                       <Panel.Height value="100%" />
                       <Panel.Width value="*" />
                       <Children>
-                        <Panel>
-                          <Name value="pnlMasterNavBottomContent" />
-                          <Orientation value="Vertical" />
+                        <Label>
+                          <Name value="lblUser" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="262px" />
-                          <Children>
-                            <Label>
-                              <Name value="label2" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="globals.user.DisplayName" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-label" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </Label>
-                            <HyperLink>
-                              <Name value="hyperLink_dokumentace" />
-                              <Data value="Dokumentace" />
-                              <Href value="resources/dokumentace.pdf" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-hyperlink" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </HyperLink>
-                            <HyperLink>
-                              <Name value="hlSticky" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <OnClick>
-                                <ActionEvent ReferencedAction="~handler_hlSticky_OnClick" />
-                              </OnClick>
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="ui.hlSticky.Text" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-hyperlink" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </HyperLink>
-                            <HyperLink>
-                              <Name value="hlHeader" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <OnClick>
-                                <ActionEvent ReferencedAction="~handler_hlHeader_OnClick" />
-                              </OnClick>
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="ui.hlHeader.Text" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-hyperlink" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </HyperLink>
-                          </Children>
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="globals.user.DisplayName" />
+                          </Bindings>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-panel" />
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                            <CssClassConditional>
+                              <ClassName value="subMenu" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                        <Label>
+                          <Name value="lblCu" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="globals.user.CuCode" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                            <CssClassConditional>
+                              <ClassName value="subMenu" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                        <Label>
+                          <Name value="lblRoles" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="globals.user.rolesDesc" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                            <CssClassConditional>
+                              <ClassName value="subMenu" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                        <HyperLink>
+                          <Name value="hyperLink_dokumentace" />
+                          <Data value="Dokumentace" />
+                          <Href value="resources/dokumentace.pdf" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-hyperlink" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </Panel>
+                        </HyperLink>
                       </Children>
                       <CssClass>
                         <CssClassConditional>
@@ -267,7 +259,7 @@
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
                         <CssClassConditional>
-                          <ClassName value="bottomAlign" />
+                          <ClassName value="asideMenuBox" />
                         </CssClassConditional>
                       </CssClass>
                     </Panel>
@@ -276,6 +268,9 @@
                     <CssClassConditional>
                       <ClassName value="{theme}-panel" />
                       <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="nav-menu" />
                     </CssClassConditional>
                   </CssClass>
                 </Panel>
@@ -295,9 +290,6 @@
                 <CssClassConditional>
                   <ClassName value="{theme}-larger" />
                   <IsThemedStyle value="True" />
-                </CssClassConditional>
-                <CssClassConditional>
-                  <ClassName value="nav-logo" />
                 </CssClassConditional>
               </CssClass>
             </Panel>
@@ -330,16 +322,7 @@
                       <IsThemedStyle value="True" />
                     </CssClassConditional>
                     <CssClassConditional>
-                      <ClassName value="header-height-100" />
-                      <Bindings>
-                        <Binding SourceProperty="Condition" Expression="ui.headerHeight_100" />
-                      </Bindings>
-                    </CssClassConditional>
-                    <CssClassConditional>
                       <ClassName value="use-sticky" />
-                      <Bindings>
-                        <Binding SourceProperty="Condition" Expression="globals.layout.sticky" />
-                      </Bindings>
                     </CssClassConditional>
                   </CssClass>
                 </Panel>
@@ -381,9 +364,6 @@
               <ClassName value="{theme}-panel" />
               <Condition value="False" />
               <IsThemedStyle value="True" />
-            </CssClassConditional>
-            <CssClassConditional>
-              <ClassName value="busy-el" />
             </CssClassConditional>
           </CssClass>
         </Panel>
@@ -491,48 +471,6 @@
                 </ResultType>
               </Expression>
             </Computed>
-            <Computed>
-              <Name value="headerHeight_100" />
-              <Caption value="Header height _100" />
-              <Expression IsValid="True">
-                <ExpressionText><![CDATA[globals.forms.currentForm in ["main_lists"]]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="Bool" />
-                </ResultType>
-              </Expression>
-            </Computed>
-            <Complex>
-              <Name value="hlSticky" />
-              <Caption value="Hl sticky" />
-              <Children>
-                <Computed>
-                  <Name value="Text" />
-                  <Caption value="Text" />
-                  <Expression IsValid="True">
-                    <ExpressionText><![CDATA[globals.layout.sticky ? "Sticky -> Fixed" : "Fixed -> Sticky"]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="String" />
-                    </ResultType>
-                  </Expression>
-                </Computed>
-              </Children>
-            </Complex>
-            <Complex>
-              <Name value="hlHeader" />
-              <Caption value="Hl header" />
-              <Children>
-                <Computed>
-                  <Name value="Text" />
-                  <Caption value="Text" />
-                  <Expression IsValid="True">
-                    <ExpressionText><![CDATA[globals.layout.altHeader ? "Buttons Top -> Tabs Top" : "Tabs Top -> Buttons Top"]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="String" />
-                    </ResultType>
-                  </Expression>
-                </Computed>
-              </Children>
-            </Complex>
           </Children>
         </Complex>
       </Children>
@@ -552,9 +490,6 @@ var layout = globals.layout
 
 master.showMenu = true
 master.newSession = true
-
-layout.sticky = false
-layout.altHeader = false
 
 // initial NavTree setup
 // To avoid console error later: Cannot process resetFinishedSetup of TreeNavigationController at this stage (0).
@@ -607,7 +542,13 @@ onNodeActivated.activatedByUser = params.activatedByUser
 event.type = "onNodeActivated"
 event.json = onNodeActivated.toJson()
 
-form.actions.js_invokeEvent(event.toJson())
+var js = event.toJson()
+
+system.console("Master NavigationTree - Invoking onNodeActivated: ")
+system.console(js)
+form.actions.js_invokeEvent(js)
+system.console("Master NavigationTree - Invocation completed")
+
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -621,15 +562,26 @@ form.actions.js_invokeEvent(event.toJson())
 	var formContainer = $('.form-container')[0];
 	ko.dataContext = ko.contextFor(formContainer).$root;
 	
-	if (ko.dataContext.invokeEvent) {
-		ko.dataContext.invokeEvent.$value(params.str)
+	if (ko.dataContext.$actions.invokeEvent) {
+        return Promise.resolve()
+            .then(function () {
+                var combinedParams = _.assign({}, params, {
+                    json: params.str
+                });
+                return ko.dataContext.$actions.invokeEvent(ko.dataContext, event, combinedParams);
+            })
+            .catch(function (err) {
+                console.error('js_invokeEvent:' + err.stack || err);
+                debugger;
+            })
 	} else {
-		console.warn("Attribute 'invokeEvent' does not exist.")
+		console.warn("Action 'invokeEvent' does not exist.")
 	}	
 } else {
 	ko.dataContext = null;
-	console.warn("Element with class 'formContainer' does not exist.")	
-}]]></Script>
+	console.warn("Element with class 'form-container' does not exist.")	
+}
+]]></Script>
       <ActionLangBody IsValid="True" />
       <DataContext>
         <ActionDataContext>
@@ -645,26 +597,6 @@ form.actions.js_invokeEvent(event.toJson())
             </Attribute>
           </Children>
         </ActionDataContext>
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="handler_hlSticky_OnClick" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[globals.layout.sticky = not globals.layout.sticky ]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="handler_hlHeader_OnClick" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[globals.layout.altHeader = not globals.layout.altHeader ]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>

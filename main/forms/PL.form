@@ -1,0 +1,1561 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<Form>
+  <Name value="PL" />
+  <Caption value="Detail schváleného místa" />
+  <Content>
+    <Panel>
+      <Name value="pnlMain" />
+      <Orientation value="Vertical" />
+      <Panel.Height value="#" />
+      <Panel.Width value="*" />
+      <Children>
+        <Panel>
+          <Name value="pnl_actionBtns" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <Panel>
+              <Name value="pnl_actionBtns_left_parent" />
+              <Orientation value="Vertical" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Children>
+                <Panel>
+                  <Name value="pnl_actionBtns_left" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Children>
+                    <Button>
+                      <Name value="btn_OK" />
+                      <Caption value="OK" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="cd-header-button" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
+                      <Name value="btn_Modify" />
+                      <Caption value="Modifikace" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="cd-header-button" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
+                      <Name value="btn_Delete" />
+                      <Caption value="Zrušení" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="cd-header-button" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
+                      <Name value="btn_Validate" />
+                      <Caption value="Validace" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="cd-header-button" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
+                      <Name value="btn_ReloadCodelists" />
+                      <Caption value="Obnovit číselníky" />
+                      <IsVisible value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="cd-header-button" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="width-auto" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="display-flex" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="padding-menuspacer-long" />
+                      <Bindings>
+                        <Binding SourceProperty="Condition" Expression="not globals.forms.master.showMenu" />
+                      </Bindings>
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+            <Panel>
+              <Name value="pnl_actionBtns_right" />
+              <Orientation value="Horizontal" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Children>
+                <Button>
+                  <Name value="button_close" />
+                  <Caption value="Zavřít" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="150px" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~handler_button_close_OnClick" />
+                  </OnClick>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-button" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Button>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="flright" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="width-auto" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="{theme}-header" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="no-border-left" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="{theme}-nav-bar-controls" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="pnlBody" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="cgbPlace" />
+              <caption value="Evidence" />
+              <collapsedIconClass value="fa fa-plus-square-o" />
+              <nonCollapsedIconClass value="fa fa-minus-square-o" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="pnlPlace" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <Panel>
+                      <Name value="pnlPlaceId" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <TextBox>
+                          <Name value="edb_PlaceCountry" />
+                          <Caption value="Evid." />
+                          <CaptionPosition value="Top" />
+                          <IsEnabled value="False" />
+                          <Margin value="6, 0, 6, 6 px" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="10%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.msg.Country" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                        <TextBox>
+                          <Name value="edb_PlaceID" />
+                          <Caption value="číslo schváleného místa" />
+                          <CaptionPosition value="Top" />
+                          <IsEnabled value="False" />
+                          <Margin value="6, 6, 6, 0 px" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="90%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.msg.PlaceID" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                    <TextBox>
+                      <Name value="edb_ResponsibleCustomsOffice" />
+                      <Caption value="Celní úřad zapisující" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.ResponsibleCustomsOfiice" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ResponsibleCustomsOfiice.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbPlace.IsVisible" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="cgbTin" />
+              <caption value="Osoba" />
+              <collapsedIconClass value="fa fa-plus-square-o" />
+              <nonCollapsedIconClass value="fa fa-minus-square-o" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="pnlTin" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <TextBox>
+                      <Name value="edb_TIN" />
+                      <Caption value="Osoba, které bylo místo schváleno (EORI)" />
+                      <CaptionPosition value="Top" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.TIN" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.TIN.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <TextBox>
+                      <Name value="edb_TinName" />
+                      <Caption value="Název / jméno subjektu" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.TinName" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.TinName.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbTin.IsVisible" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="cgbAddress" />
+              <caption value="Adresa" />
+              <collapsedIconClass value="fa fa-plus-square-o" />
+              <nonCollapsedIconClass value="fa fa-minus-square-o" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="pnlAddress" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <TextBox>
+                      <Name value="edb_Name" />
+                      <Caption value="Označení místa" />
+                      <CaptionPosition value="Top" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.Name" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.PlaceDetail.Name.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <TextBox>
+                      <Name value="edb_StreetAndNr" />
+                      <Caption value="Ulice a č.p." />
+                      <CaptionPosition value="Top" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.StreetAndNr" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.PlaceDetail.StreetAndNr.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <Panel>
+                      <Name value="pnlCity" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <TextBox>
+                          <Name value="edb_City" />
+                          <Caption value="Město" />
+                          <CaptionPosition value="Top" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.City" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.PlaceDetail.City.isRequired()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                        <TextBox>
+                          <Name value="edb_PostCode" />
+                          <Caption value="PSČ" />
+                          <CaptionPosition value="Top" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.PostCode" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.PlaceDetail.PostCode.isRequired()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbAddress.IsVisible" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="cgbSpec" />
+              <caption value="Specifikace" />
+              <collapsedIconClass value="fa fa-plus-square-o" />
+              <nonCollapsedIconClass value="fa fa-minus-square-o" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="pnlSpec" />
+                  <Orientation value="Horizontal" />
+                  <Children>
+                    <TextBox>
+                      <Name value="edb_PlaceSpecification" />
+                      <Caption value="Specifikace místa" />
+                      <CaptionPosition value="Top" />
+                      <InputType value="Multiline" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Rows value="4" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbSpec.IsVisible" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="cgbCuAndPerson" />
+              <caption value="CÚ" />
+              <collapsedIconClass value="fa fa-plus-square-o" />
+              <nonCollapsedIconClass value="fa fa-minus-square-o" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="pnlCuAndPerson" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <ReferenceCombo>
+                      <Name value="acb_ValidityCustomsOffice" />
+                      <Caption value="CÚ příslušný ke schválenému místu" />
+                      <CaptionPosition value="Top" />
+                      <DisplayMember value="POPIS" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <ReferenceList reference="~acb_ValidityCustomsOffice_FltCodelist" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail._ValidityCustomsOffice" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-referencecombo" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </ReferenceCombo>
+                    <TextBox>
+                      <Name value="edb_ResponsiblePerson" />
+                      <Caption value="Osobní číslo uživatele" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.ResponsiblePerson" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.PlaceDetail.ResponsiblePerson.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <ReferenceCombo>
+                      <Name value="cbb_Country" />
+                      <Caption value="Země" />
+                      <CaptionPosition value="Top" />
+                      <DisplayMember value="POPIS" />
+                      <IsVisible value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <ReferenceList reference="~cbb_Country_FltCodelist" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail._Country" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-referencecombo" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </ReferenceCombo>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbCuAndPerson.IsVisible" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="cgbValidity" />
+              <caption value="Platnost" />
+              <collapsedIconClass value="fa fa-plus-square-o" />
+              <nonCollapsedIconClass value="fa fa-minus-square-o" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="pnlValidity" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <DatePicker>
+                      <Name value="dtp_ValidityStartDate" />
+                      <Caption value="Datum zápisu schváleného místa" />
+                      <CaptionPosition value="Top" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.ValidityStartDate" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.PlaceDetail.ValidityStartDate.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datepicker" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </DatePicker>
+                    <DatePicker>
+                      <Name value="dtp_ValidityEndDate" />
+                      <Caption value="Zneplatnění od" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.ValidityEndDate" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.PlaceDetail.ValidityEndDate.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datepicker" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </DatePicker>
+                    <DatePicker>
+                      <Name value="dtp_EvidenceDate" />
+                      <Caption value="Datum zápisu do aplikace" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.EvidenceDate" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.PlaceDetail.EvidenceDate.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datepicker" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </DatePicker>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbValidity.IsVisible" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="cgbFiles" />
+              <caption value="Text a přílohy" />
+              <collapsedIconClass value="fa fa-plus-square-o" />
+              <nonCollapsedIconClass value="fa fa-minus-square-o" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="pnlFiles" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <DataTable>
+                      <Name value="tbl_File" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="DataItems" Expression="" />
+                      </Bindings>
+                      <Columns>
+                        <DataColumn>
+                          <Name value="edb_FGUIDCol" />
+                          <Caption value="edb_FGUID" />
+                          <IsVisible value="False" />
+                          <Content>
+                            <TextBox>
+                              <Name value="edb_FGUID" />
+                              <CaptionPosition value="Hide" />
+                              <IsEnabled value="False" />
+                              <IsVisible value="False" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                          </Content>
+                          <HeaderCssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-datacolumn" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </HeaderCssClass>
+                        </DataColumn>
+                        <DataColumn>
+                          <Name value="edb_FileNameCol" />
+                          <Caption value="Název souboru" />
+                          <Content>
+                            <TextBox>
+                              <Name value="edb_FileName" />
+                              <CaptionPosition value="Hide" />
+                              <IsEnabled value="False" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                          </Content>
+                          <HeaderCssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-datacolumn" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </HeaderCssClass>
+                        </DataColumn>
+                        <DataColumn>
+                          <Name value="edb_FileTypeCol" />
+                          <Caption value="Typ" />
+                          <Content>
+                            <TextBox>
+                              <Name value="edb_FileType" />
+                              <CaptionPosition value="Hide" />
+                              <IsEnabled value="False" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                          </Content>
+                          <HeaderCssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-datacolumn" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </HeaderCssClass>
+                        </DataColumn>
+                        <DataColumn>
+                          <Name value="dcFile_Show" />
+                          <Caption value="Zobrazit soubor" />
+                          <Content>
+                            <Button>
+                              <Name value="btn_ShowFile" />
+                              <Caption value="Zobrazit" />
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-button" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Button>
+                          </Content>
+                          <HeaderCssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-datacolumn" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </HeaderCssClass>
+                        </DataColumn>
+                      </Columns>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datatable" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </DataTable>
+                    <Button>
+                      <Name value="btn_AddFile" />
+                      <Caption value="Vložit soubor" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbFiles.IsVisible" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel-uniform" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="display-flex" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+      </Children>
+      <CssClass>
+        <CssClassConditional>
+          <ClassName value="{theme}-panel" />
+          <IsThemedStyle value="True" />
+        </CssClassConditional>
+        <CssClassConditional>
+          <ClassName value="form-container" />
+        </CssClassConditional>
+      </CssClass>
+    </Panel>
+  </Content>
+  <DataContext>
+    <DataContext>
+      <Children>
+        <Complex>
+          <Name value="params" />
+          <Caption value="Params" />
+          <Children>
+            <Include>
+              <Include reference="+DataEntities.PL_params" />
+            </Include>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="model" />
+          <Caption value="Model" />
+          <Children>
+            <Complex>
+              <Name value="event" />
+              <Caption value="Event" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.event" />
+                </Include>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="onNodeActivated" />
+              <Caption value="On node activated" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.onNodeActivatedEvent" />
+                </Include>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="msg" />
+              <Caption value="Msg" />
+              <Children>
+                <Attribute>
+                  <Name value="Country" />
+                  <Caption value="Kód země" />
+                  <MetaType reference="+MetaTypes.Zeme" />
+                  <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/Country" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Validators>
+                    <Validator Name="regex">
+                      <MtsImportOptions.MTS.Regex value="[A-Z]{2}" />
+                      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}$") : true)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Attribute>
+                <Attribute>
+                  <Name value="PlaceID" />
+                  <Caption value="Evidenční číslo" />
+                  <MetaType reference="+MetaTypes.ReferencniCisloRozhodnuti" />
+                  <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/PlaceID" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Validators>
+                    <Validator Name="regex">
+                      <MtsImportOptions.MTS.Regex value="(?s)^\S(.*\S)?$" />
+                      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\S(.*\\S)?$") : true)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Attribute>
+                <Attribute>
+                  <Name value="ResponsibleCustomsOfiice" />
+                  <Caption value="Vydávající a zodpovědný CÚ" />
+                  <MetaType reference="+MetaTypes.CU" />
+                  <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/ResponsibleCustomsOfiice" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Validators>
+                    <Validator Name="regex">
+                      <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+                      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Attribute>
+                <Attribute>
+                  <Name value="TIN" />
+                  <Caption value="TIN subjektu, pro nějž je místo platné" />
+                  <MetaType reference="+MetaTypes.TIN" />
+                  <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/TIN" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                </Attribute>
+                <Attribute>
+                  <Name value="TinName" />
+                  <Caption value="Název Subjektu" />
+                  <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/TinName" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="255" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="GUID" />
+                  <Caption value="GUID" />
+                  <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/GUID" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="State" />
+                  <Caption value="Stav" />
+                  <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/State" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="20" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Complex>
+                  <Name value="PlaceDetail" />
+                  <Caption value="Place detail" />
+                  <Children>
+                    <Attribute>
+                      <Name value="ValidityCustomsOffice" />
+                      <Caption value="CÚ platnosti" />
+                      <MetaType reference="+MetaTypes.CU" />
+                      <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/PlaceDetail/ValidityCustomsOffice" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <OnChange>
+                        <ActionEvent ReferencedAction="+UiParts.PL.handler_ValidityCustomsOffice_OnChange" />
+                      </OnChange>
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
+                    </Attribute>
+                    <Reference>
+                      <Name value="_ValidityCustomsOffice" />
+                      <Caption value="_ validity customs office" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.CELUPLAT_R" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                    <Attribute>
+                      <Name value="Name" />
+                      <Caption value="Označení místa" />
+                      <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/PlaceDetail/Name" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <StrMaxLength value="300" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="StreetAndNr" />
+                      <Caption value="Ulice a č.p." />
+                      <MetaType reference="+MetaTypes.StreetAndNr" />
+                      <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/PlaceDetail/StreetAndNr" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                    <Attribute>
+                      <Name value="City" />
+                      <Caption value="Město" />
+                      <MetaType reference="+MetaTypes.City" />
+                      <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/PlaceDetail/City" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                    <Attribute>
+                      <Name value="PostCode" />
+                      <Caption value="PSČ" />
+                      <MetaType reference="+MetaTypes.PostCode" />
+                      <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/PlaceDetail/PostCode" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                    <Attribute>
+                      <Name value="Country" />
+                      <Caption value="Země" />
+                      <MetaType reference="+MetaTypes.Zeme" />
+                      <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/PlaceDetail/Country" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Z]{2}" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
+                    </Attribute>
+                    <Reference>
+                      <Name value="_Country" />
+                      <Caption value="_ country" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.ZEME_O" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                    <Attribute>
+                      <Name value="ValidityStartDate" />
+                      <Caption value="Počátek platnosti" />
+                      <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/PlaceDetail/ValidityStartDate" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="DateTime" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="ValidityEndDate" />
+                      <Caption value="Konec platnosti" />
+                      <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/PlaceDetail/ValidityEndDate" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="DateTime" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="ResponsiblePerson" />
+                      <Caption value="Osoba CÚ zodpovědná za vydání/modifikaci místa" />
+                      <MetaType reference="+MetaTypes.Pracovnik" />
+                      <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/PlaceDetail/ResponsiblePerson" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                    <Attribute>
+                      <Name value="GUID" />
+                      <Caption value="GUID" />
+                      <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/PlaceDetail/GUID" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="EvidenceDate" />
+                      <Caption value="Datum evidence" />
+                      <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/PlaceDetail/EvidenceDate" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="DateTime" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="PlaceSpecification" />
+                      <Caption value="Specifikace místa" />
+                      <MtsImportOptions.MTS.ID value="/ASEOPLDataResponse/PlaceDetail/PlaceSpecification" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <StrMaxLength value="300" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Complex>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="AseoPLDataRequest" />
+              <Caption value="Aseo PL data request" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOPLDataRequest" />
+                </Include>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="AseoPLDataResponse" />
+              <Caption value="Aseo PL data response" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOPLDataResponse" />
+                </Include>
+              </Children>
+            </Complex>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="ui" />
+          <Caption value="Ui" />
+          <Children>
+            <Complex>
+              <Name value="navTree" />
+              <Caption value="Nav tree" />
+              <Children>
+                <Attribute>
+                  <Name value="selectedNode" />
+                  <Caption value="Selected node" />
+                  <Description value="vybrany node z navTree" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="groupBoxes" />
+              <Caption value="Group boxes" />
+              <Children>
+                <Complex>
+                  <Name value="cgbPlace" />
+                  <Caption value="Cgb place" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="Is visible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.ui.navTree.selectedNode in ["All", "Header"]]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="cgbTin" />
+                  <Caption value="Cgb tin" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="Is visible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.ui.navTree.selectedNode in ["All", "Header"]]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="cgbAddress" />
+                  <Caption value="Cgb address" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="Is visible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.ui.navTree.selectedNode in ["All", "Detail"]]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="cgbSpec" />
+                  <Caption value="Cgb spec" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="Is visible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.ui.navTree.selectedNode in ["All", "Detail"]]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="cgbCuAndPerson" />
+                  <Caption value="Cgb cu and person" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="Is visible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.ui.navTree.selectedNode in ["All", "Detail"]]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="cgbValidity" />
+                  <Caption value="Cgb validity" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="Is visible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.ui.navTree.selectedNode in ["All", "Detail"]]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="cgbFiles" />
+                  <Caption value="Cgb files" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="Is visible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.ui.navTree.selectedNode in ["All", "Files"]]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+              </Children>
+            </Complex>
+          </Children>
+        </Complex>
+      </Children>
+    </DataContext>
+  </DataContext>
+  <OnCreate>
+    <ActionEvent ReferencedAction="~init" />
+  </OnCreate>
+  <Actions>
+    <ActionBlock>
+      <Name value="handler_button_close_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[navigation.main.lists.go()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="init" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var master = globals.forms.master
+var model = form.model
+var msg = model.msg
+
+// # copy global parameters and clear them up
+var gp = globals.forms.PL.params
+var p = form.params
+p.fromJson(gp.toJson())
+gp.clear()
+
+// # navigation tree
+master.isNavigationTreeVisible = false
+ntc.resetFinishedSetup()
+master.isNavigationTreeVisible = true
+
+ntc.beginSetup("navTrees::_ntPL", defaultString())
+
+var all = ntc.addNode("All", "Vše")
+var header = ntc.addNode("Header", "Hlavička")
+var detail = ntc.addNode("Detail", "Informace o místu")
+var files = ntc.addNode("Files", "Text a přílohy")
+var history = ntc.addNode("History", "Historie")
+
+ntc.finishSetup()
+
+ntc.focusNode("All")
+
+// # codelists
+
+var dt = getDate()
+
+form.apiobjects.acb_ValidityCustomsOffice_FltCodelist.filterByValidityDateTime(dt)
+form.apiobjects.cbb_Country_FltCodelist.filterByValidityDateTime(dt)
+
+// #nacteni dat
+
+var response = model.AseoPLDataResponse
+
+if hasValue(p.Guid) then
+	form.actions.sendAseoPlDataRequest(p.Guid)
+	
+	if globals.sendResult.Valid then
+		var sr = globals.sendResult
+		
+		response.fromJson(sr.Message)
+
+		msg.fromJson(sr.Message)
+		
+		if response.PlaceDetail.count() > 0 then
+			var pd = response.PlaceDetail.selectFirst().toJson()
+			msg.PlaceDetail.fromJson(pd)
+		endif
+	else
+		navigation.main.lists.go()
+	endif
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="sendAseoPLDataRequest" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var request = form.model.AseoPLDataRequest
+request.clear()
+
+// prepare error in case we need it
+var err = packages.main.globals.forms.error.params
+err.Caption = "Error sending ASEOPLDataRequest"
+
+// clear send result
+globals.sendResult.clear()
+
+request.GUID = guid
+
+globals.IsBusy = true
+var response = apiobjects.cic.postAsync("ASEOPLDataRequest", request.toJson())
+globals.IsBusy = false
+
+var type = response.getMessageType()
+if type in ["ASEOPLDataResponse"] then
+	globals.sendResult.Valid = true
+	globals.sendResult.Type = type
+	globals.sendResult.Message = response.getJsonString()
+else if type in ["IN906A"] then
+	err.MsgType = type
+	err.Msg = response.getJsonString()
+	system.consoleError(err.MsgType)
+	system.consoleError(err.Msg)
+	navigation.main.error.goAndBack()
+else if response.isError() then
+	err.Message = response.getErrorMessage()
+	system.consoleError(err.Message)
+	navigation.main.error.goAndBack()
+else
+	err.Message = "Unexpected response message type: " + type
+	system.consoleError(err.Message)
+	navigation.main.error.goAndBack()
+endif endif endif
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="guid" />
+              <Caption value="Guid" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_ValidityCustomsOffice_OnChange" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var key = params.data.ValidityCustomsOffice
+var item = acb_ValidityCustomsOffice_FltCodelist.getItemByStringColumnAsync("CELUPLAT_R", key)
+
+params.data._ValidityCustomsOffice.fromJson(item.getJsonString())]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="invokeEvent" />
+      <Description value="akci vola master form pomoci js_invokeEvent" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var model = form.model
+var ui = form.ui
+var navTree = ui.navTree
+
+var event = model.event
+
+event.fromJson(json)
+
+if event.type = "onNodeActivated" then
+	var ev = model.onNodeActivated 
+	ev.fromJson(event.json)
+
+	navTree.selectedNode = ev.id
+
+	system.console(model.onNodeActivated.toJson())
+else
+	system.consoleError("Invalid event type " + event.type)
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="json" />
+              <Caption value="Json" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+  </Actions>
+  <ApiObjects>
+    <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="acb_ValidityCustomsOffice_FltCodelist" />
+      <codelistSource reference="+GlobalApiObjects.CELUPLAT_R" />
+    </FilteredCodelist>
+    <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="cbb_Country_FltCodelist" />
+      <codelistSource reference="+GlobalApiObjects.ZEME_O" />
+    </FilteredCodelist>
+  </ApiObjects>
+</Form>

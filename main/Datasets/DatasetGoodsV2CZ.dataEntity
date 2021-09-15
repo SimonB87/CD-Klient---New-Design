@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<DataEntity>
+  <Name value="DatasetGoodsV2CZ" />
+  <Caption value="GoodsV2 dataset" />
+  <MtsImportOptions.MTS.ID value="DatasetGoodsV2CZ" />
+  <MtsImportOptions.MTS.Type value="client-dataset" />
+  <Children>
+    <Attribute>
+      <Name value="customsDecisionGUID" />
+      <Caption value="customsDecisionGUID" />
+      <IsRequired value="True" />
+      <MtsImportOptions.MTS.ID value="DatasetGoodsV2CZ/customsDecisionGUID" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType />
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="customsDecisionVersionGUID" />
+      <Caption value="customsDecisionVersionGUID" />
+      <IsRequired value="True" />
+      <MtsImportOptions.MTS.ID value="DatasetGoodsV2CZ/customsDecisionVersionGUID" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType />
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="goodsCZGUID" />
+      <Caption value="GUID sjednoceného záznamu" />
+      <IsRequired value="True" />
+      <MtsImportOptions.MTS.ID value="DatasetGoodsV2CZ/goodsCZGUID" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType />
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="tARICCode" />
+      <Caption value="TARIC kód" />
+      <MetaType reference="+MetaTypes.TARICCodeContentTypeV2" />
+      <MtsImportOptions.MTS.ID value="DatasetGoodsV2CZ/tARICCode" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="[\p{IsBasicLatin}]*\S[\p{IsBasicLatin}]*" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[\\p{IsBasicLatin}]*\\S[\\p{IsBasicLatin}]*$") : true)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
+    </Attribute>
+    <Attribute>
+      <Name value="goodsQuantity" />
+      <Caption value="Množství zboží" />
+      <MetaType reference="+MetaTypes.QuantityContentTypeV2" />
+      <MtsImportOptions.MTS.ID value="DatasetGoodsV2CZ/goodsQuantity" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+    </Attribute>
+    <Attribute>
+      <Name value="measureUnit" />
+      <Caption value="Měrná jednotka" />
+      <MetaType reference="+MetaTypes.UnitContentTypeV2" />
+      <MtsImportOptions.MTS.ID value="DatasetGoodsV2CZ/measureUnit" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="[\p{IsBasicLatin}]*\S[\p{IsBasicLatin}]*" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[\\p{IsBasicLatin}]*\\S[\\p{IsBasicLatin}]*$") : true)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
+    </Attribute>
+    <Attribute>
+      <Name value="cnCodeForSecuring" />
+      <Caption value="Zbožový kód pro dozajištění" />
+      <MtsImportOptions.MTS.ID value="DatasetGoodsV2CZ/cnCodeForSecuring" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="10" />
+          <StrMinLength value="2" />
+        </AttributeType>
+      </DeclaredType>
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="[0-9][0-9]*" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[0-9][0-9]*$") : true)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
+    </Attribute>
+    <Attribute>
+      <Name value="cnCodeForSecuringExists" />
+      <Caption value="cnCodeForSecuring exists" />
+      <MtsImportOptions.MTS.ID value="DatasetGoodsV2CZ/cnCodeForSecuringExists" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="Bool" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="writeOffMeasureUnit" />
+      <Caption value="Odpisová měrná jednotka" />
+      <MtsImportOptions.MTS.ID value="DatasetGoodsV2CZ/writeOffMeasureUnit" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="3" />
+          <StrMinLength value="3" />
+        </AttributeType>
+      </DeclaredType>
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="[A-Z,#]*" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z,#]*$") : true)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
+    </Attribute>
+    <Attribute>
+      <Name value="article863UCC" />
+      <Caption value="Použití článku 86/3 UCC" />
+      <MtsImportOptions.MTS.ID value="DatasetGoodsV2CZ/article863UCC" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="Bool" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="article864UCC" />
+      <Caption value="Použití článku 86/4 UCC" />
+      <MtsImportOptions.MTS.ID value="DatasetGoodsV2CZ/article864UCC" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="Bool" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="cnCodeArticle73DA" />
+      <Caption value="Kód KN při použití čl. 73 DA" />
+      <MtsImportOptions.MTS.ID value="DatasetGoodsV2CZ/cnCodeArticle73DA" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="10" />
+          <StrMinLength value="2" />
+        </AttributeType>
+      </DeclaredType>
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="[0-9][0-9]*" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[0-9][0-9]*$") : true)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
+    </Attribute>
+    <Attribute>
+      <Name value="completed" />
+      <Caption value="Obohacení položky zboží je kompletní" />
+      <MtsImportOptions.MTS.ID value="DatasetGoodsV2CZ/completed" />
+      <MtsImportOptions.MTS.Type value="client-dataset-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="Bool" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+  </Children>
+</DataEntity>

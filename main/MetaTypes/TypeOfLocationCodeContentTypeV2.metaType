@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<MetaType>
+  <Name value="TypeOfLocationCodeContentTypeV2" />
+  <Caption value="TypeOfLocationCodeContentType V2" />
+  <MtsImportOptions.MTS.ID value="TypeOfLocationCodeContentTypeV2" />
+  <MtsImportOptions.MTS.Type value="metatype" />
+  <TypeSpec>
+    <AttributeType>
+      <StrMaxLength value="1" />
+    </AttributeType>
+  </TypeSpec>
+  <Validators>
+    <Validator Name="regex">
+      <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+      <ErrorMessage IsValid="True">
+        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+        <ResultType>
+          <BaseType value="String" />
+        </ResultType>
+      </ErrorMessage>
+      <IsValid IsValid="True">
+        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+        <ResultType>
+          <BaseType value="Bool" />
+        </ResultType>
+      </IsValid>
+    </Validator>
+  </Validators>
+</MetaType>

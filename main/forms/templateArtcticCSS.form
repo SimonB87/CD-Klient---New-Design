@@ -28,24 +28,6 @@
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
                   <Children>
-                    <Panel>
-                      <Name value="pnl_menuspacer" />
-                      <Orientation value="Vertical" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="*" />
-                      <Bindings>
-                        <Binding SourceProperty="IsVisible" Expression="not globals.forms.master.showMenu" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-panel" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                        <CssClassConditional>
-                          <ClassName value="menuspacer" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </Panel>
                     <Button>
                       <Name value="button_amend" />
                       <Caption value="Upravit" />
@@ -130,6 +112,12 @@
                     <CssClassConditional>
                       <ClassName value="display-flex" />
                     </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="padding-menuspacer-long" />
+                      <Bindings>
+                        <Binding SourceProperty="Condition" Expression="not globals.forms.master.showMenu" />
+                      </Bindings>
+                    </CssClassConditional>
                   </CssClass>
                 </Panel>
               </Children>
@@ -186,7 +174,7 @@
               <IsThemedStyle value="True" />
             </CssClassConditional>
             <CssClassConditional>
-              <ClassName value="fixed" />
+              <ClassName value="no-border-left" />
             </CssClassConditional>
             <CssClassConditional>
               <ClassName value="{theme}-nav-bar-controls" />
@@ -898,16 +886,6 @@
             <AttributeType />
           </DeclaredType>
         </Attribute>
-        <Attribute>
-          <Name value="invokeEvent" />
-          <Caption value="Invoke event" />
-          <DeclaredType>
-            <AttributeType />
-          </DeclaredType>
-          <OnChange>
-            <ActionEvent ReferencedAction="+UiParts.templateArtcticCSS.handler_event_OnChange" />
-          </OnChange>
-        </Attribute>
         <Complex>
           <Name value="event" />
           <Caption value="Event" />
@@ -952,7 +930,7 @@ var test = ntc.addNode("Test", "Test caption")
 
 ntc.finishSetup()
 
-ntc.focusNode("Header")
+ntc.focusNode("Header/Subheader")
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -970,10 +948,10 @@ ntc.focusNode("Header")
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="handler_event_OnChange" />
-      <IsPrivate value="True" />
+      <Name value="invokeEvent" />
+      <Description value="akci vola master form pomoci js_invokeEvent" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.event.fromJson(params.data.invokeEvent)
+        <Script><![CDATA[form.event.fromJson(json)
 
 if form.event.type = "onNodeActivated" then
 	form.onNodeActivated.fromJson(form.event.json)
@@ -984,7 +962,19 @@ else
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="json" />
+              <Caption value="Json" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
   </Actions>

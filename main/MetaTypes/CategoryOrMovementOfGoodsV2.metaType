@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<MetaType>
+  <Name value="CategoryOrMovementOfGoodsV2" />
+  <Caption value="CategoryOrMovementOfGoods V2" />
+  <MtsImportOptions.MTS.ID value="CategoryOrMovementOfGoodsV2" />
+  <MtsImportOptions.MTS.Type value="metatype" />
+  <TypeSpec>
+    <AttributeType>
+      <StrMaxLength value="6" />
+      <StrMinLength value="6" />
+    </AttributeType>
+  </TypeSpec>
+  <Validators>
+    <Validator Name="regex">
+      <MtsImportOptions.MTS.Regex value="\P{C}*\S\P{C}*" />
+      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+      <ErrorMessage IsValid="True">
+        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+        <ResultType>
+          <BaseType value="String" />
+        </ResultType>
+      </ErrorMessage>
+      <IsValid IsValid="True">
+        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\P{C}*\\S\\P{C}*$") : true)]]></ExpressionText>
+        <ResultType>
+          <BaseType value="Bool" />
+        </ResultType>
+      </IsValid>
+    </Validator>
+  </Validators>
+</MetaType>

@@ -11,4 +11,22 @@
       <StrMinLength value="6" />
     </AttributeType>
   </TypeSpec>
+  <Validators>
+    <Validator Name="regex">
+      <MtsImportOptions.MTS.Regex value="(?s)^\S(.*\S)?$" />
+      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+      <ErrorMessage IsValid="True">
+        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+        <ResultType>
+          <BaseType value="String" />
+        </ResultType>
+      </ErrorMessage>
+      <IsValid IsValid="True">
+        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\S(.*\\S)?$") : true)]]></ExpressionText>
+        <ResultType>
+          <BaseType value="Bool" />
+        </ResultType>
+      </IsValid>
+    </Validator>
+  </Validators>
 </MetaType>

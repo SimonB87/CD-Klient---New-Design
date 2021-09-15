@@ -6,26 +6,6 @@
     <Complex>
       <Name value="layout" />
       <Caption value="Layout" />
-      <Children>
-        <Attribute>
-          <Name value="sticky" />
-          <Caption value="Sticky" />
-          <DeclaredType>
-            <AttributeType>
-              <BaseType value="Bool" />
-            </AttributeType>
-          </DeclaredType>
-        </Attribute>
-        <Attribute>
-          <Name value="altHeader" />
-          <Caption value="Alt header" />
-          <DeclaredType>
-            <AttributeType>
-              <BaseType value="Bool" />
-            </AttributeType>
-          </DeclaredType>
-        </Attribute>
-      </Children>
     </Complex>
     <Complex>
       <Name value="appInfo" />
@@ -75,6 +55,16 @@
             <AttributeType />
           </DeclaredType>
         </Attribute>
+        <Computed>
+          <Name value="isTestSolitea" />
+          <Caption value="Is test solitea" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[environmentType = "TEST_SOLITEA"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
       </Children>
     </Complex>
     <Complex>
@@ -239,6 +229,19 @@
             </ResultType>
           </Expression>
         </Computed>
+        <Computed>
+          <Name value="rolesDesc" />
+          <Caption value="Roles desc" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA["Role:" +
+(hasRoleRead ? " Read" : "") +
+(hasRoleWrite ? " Write" : "") +
+(hasRoleAdmin ? " Admin" : "")]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </Expression>
+        </Computed>
       </Children>
     </Complex>
     <Complex>
@@ -283,6 +286,13 @@
           <Caption value="Lists" />
           <Children>
             <Attribute>
+              <Name value="fromNode" />
+              <Caption value="From node" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
               <Name value="fromTab" />
               <Caption value="From tab" />
               <DeclaredType>
@@ -325,6 +335,21 @@
           </Children>
         </Complex>
         <Complex>
+          <Name value="PL" />
+          <Caption value="PL" />
+          <Children>
+            <Complex>
+              <Name value="params" />
+              <Caption value="Params" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.PL_params" />
+                </Include>
+              </Children>
+            </Complex>
+          </Children>
+        </Complex>
+        <Complex>
           <Name value="common" />
           <Caption value="Common" />
           <Children>
@@ -354,6 +379,35 @@
           <Caption value="Current form" />
           <Comment value="format je package_form" />
           <Description value="nastavuje navigationObserver" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+      </Children>
+    </Complex>
+    <Complex>
+      <Name value="sendResult" />
+      <Caption value="Send result" />
+      <Children>
+        <Attribute>
+          <Name value="Valid" />
+          <Caption value="Valid" />
+          <DeclaredType>
+            <AttributeType>
+              <BaseType value="Bool" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="Type" />
+          <Caption value="Type" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="Message" />
+          <Caption value="Message" />
           <DeclaredType>
             <AttributeType />
           </DeclaredType>

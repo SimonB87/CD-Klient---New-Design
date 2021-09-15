@@ -129,7 +129,7 @@ var sffw;
                     get: function () {
                         return this.listCtrlCore;
                     },
-                    enumerable: true,
+                    enumerable: false,
                     configurable: true
                 });
                 ListCtrlApi.prototype.setSorting = function (args) {
@@ -683,11 +683,18 @@ var sffw;
                         return;
                     }
                     if (this.isLoading()) {
+                        this.loadDataPromise.then(function () {
+                            _this.createDataloadPromise();
+                        });
                         return;
                     }
                     this.isLoading(true);
                     this.error(null);
-                    this.dataProvider.loadData(this.listName, this.columns, this.pageSize(), this.activePage(), this.sortColumn(), this.columnFilters(), this.oDataFilter(), this.inlineSearch())
+                    this.loadDataPromise = this.createDataloadPromise();
+                };
+                ListCtrlCore.prototype.createDataloadPromise = function () {
+                    var _this = this;
+                    return this.dataProvider.loadData(this.listName, this.columns, this.pageSize(), this.activePage(), this.sortColumn(), this.columnFilters(), this.oDataFilter(), this.inlineSearch())
                         .then(function (dataPage) {
                         _this.fillRows(dataPage, _this.inlineSearch());
                         // inlinesearch nenalezl hledaný záznam - asi je mimo rozsah filtrů
@@ -952,6 +959,9 @@ var sffw;
                 ListCtrlCore.prototype.setInvisibleODataFilter = function (filter) {
                     if (filter) {
                         this.oDataFilter(filter);
+                    }
+                    else {
+                        this.oDataFilter(null);
                     }
                 };
                 ListCtrlCore.prototype.getInvisibleODataFilter = function () {
