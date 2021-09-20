@@ -1594,20 +1594,30 @@
         </Panel>
         <Panel>
           <Name value="locationOfGoods" />
-          <Orientation value="Horizontal" />
+          <Orientation value="Vertical" />
           <Panel.Height value="#" />
           <Panel.Width value="*" />
           <Bindings>
             <Binding SourceProperty="IsVisible" Expression="formState.isAnnexActive.isLocationOfGoodsActive" />
           </Bindings>
           <Children>
-            <Repeater>
-              <Name value="repeater2" />
+            <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
+              <Name value="pagingRepeaterCtrl_locationOfGoods" />
+              <KeepArrowsTogether value="True" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.locationWhereWeighingOfBananasTakesPlace" />
+                <Binding SourceProperty="Index" Expression="formState._index_locationOfGoods" />
+              </Bindings>
+            </PagingRepeaterCtrl>
+            <PagingRepeater identity="pagingRepeater.36d02d015fb0460b9372e4a46959c4bf">
+              <Name value="pagingRepeater_locationOfGoods" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
               <Content>
                 <Panel>
-                  <Name value="panel23" />
+                  <Name value="panel3" />
                   <Orientation value="Vertical" />
                   <Children>
                     <GroupBox>
@@ -1849,15 +1859,10 @@
                 </Panel>
               </Content>
               <Bindings>
-                <Binding SourceProperty="DataItems" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.locationWhereWeighingOfBananasTakesPlace" />
+                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.locationWhereWeighingOfBananasTakesPlace" />
+                <Binding SourceProperty="Index" Expression="formState._index_locationOfGoods" />
               </Bindings>
-              <CssClass>
-                <CssClassConditional>
-                  <ClassName value="{theme}-repeater" />
-                  <IsThemedStyle value="True" />
-                </CssClassConditional>
-              </CssClass>
-            </Repeater>
+            </PagingRepeater>
           </Children>
           <CssClass>
             <CssClassConditional>
@@ -3291,6 +3296,15 @@
                 </Computed>
               </Children>
             </Complex>
+            <Attribute>
+              <Name value="_index_locationOfGoods" />
+              <Caption value="_ index _ location of goods" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
           </Children>
         </Complex>
       </Children>
