@@ -291,6 +291,9 @@
                       <OnClick>
                         <ActionEvent ReferencedAction="~action1" />
                       </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="uiState.navTree.isTest" />
+                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-button" />
@@ -306,6 +309,9 @@
                       <OnClick>
                         <ActionEvent ReferencedAction="~action2" />
                       </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="uiState.navTree.isTest" />
+                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-button" />
@@ -321,6 +327,9 @@
                       <OnClick>
                         <ActionEvent ReferencedAction="~handler_test_btn_sse_OnClick" />
                       </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="uiState.navTree.isTest" />
+                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-button" />
@@ -336,6 +345,9 @@
                       <OnClick>
                         <ActionEvent ReferencedAction="~handler_test_btn_rss_OnClick" />
                       </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="uiState.navTree.isTest" />
+                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-button" />
@@ -1187,7 +1199,7 @@
                   <ColumnName value="CustomsAuthorityReferenceNumber" />
                   <DataType value="string" />
                   <FilterOperatorType value="eq" />
-                  <filterOptionSource reference="+GlobalApiObjects.CELURAD" />
+                  <filterOptionSource reference="~fcCELURAD" />
                   <filterOptionSourceDisplayMember value="_description" />
                 </listColumn>
                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
@@ -3360,6 +3372,16 @@ defaultString()]]></ExpressionText>
                     <AttributeType />
                   </DeclaredType>
                 </Attribute>
+                <Computed>
+                  <Name value="isTest" />
+                  <Caption value="Is test" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.uiState.navTree.selectedModule = "Test"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
               </Children>
             </Complex>
             <Computed>
@@ -4262,6 +4284,8 @@ endif
 
 ntc.finishSetup()
 
+fcCELURAD.filterByValidityDateTime(getdate())
+
 var tabs = form.tabs
 var uiState = form.uiState
 
@@ -4823,5 +4847,9 @@ defaultString()]]></Script>
       <Name value="placeCtrl" />
       <server reference="+GlobalApiObjects.cic" />
     </ListCtrl>
+    <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="fcCELURAD" />
+      <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.CELURAD" />
+    </FilteredCodelist>
   </ApiObjects>
 </Form>

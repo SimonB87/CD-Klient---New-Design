@@ -10796,7 +10796,7 @@
                                       <DisplayMember value="_description" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="250px" />
-                                      <ReferenceList reference="+GlobalApiObjects.woMeasureUnitCl" />
+                                      <ReferenceList reference="~fcJMODPIS_ASEO" />
                                       <Bindings>
                                         <Binding SourceProperty="Data" Expression="enhancement.modelServerEnhacement.writeOffMeasureUnit" />
                                         <Binding SourceProperty="Caption" Expression="enhancement.modelServerEnhacement.writeOffMeasureUnit.caption()" />
@@ -10814,7 +10814,7 @@
                                       <Name value="refLookUp_cnCodeForSecuring2" />
                                       <Caption value="Kód KN pro dozajištění" />
                                       <CaptionPosition value="Top" />
-                                      <DataApiObject reference="+GlobalApiObjects.cnCodeCl" />
+                                      <DataApiObject reference="~fcZBOZIKOD" />
                                       <DisplayMember value="_description" />
                                       <immediateUpdate value="True" />
                                       <MinChars value="6" />
@@ -10838,7 +10838,7 @@
                                       <Name value="refLookUp_cnCodeArticle73DA2" />
                                       <Caption value="Kód KN při použití čl. 73 DA" />
                                       <CaptionPosition value="Top" />
-                                      <DataApiObject reference="+GlobalApiObjects.cnCodeCl" />
+                                      <DataApiObject reference="~fcZBOZIKOD" />
                                       <DisplayMember value="_description" />
                                       <immediateUpdate value="True" />
                                       <MinChars value="6" />
@@ -14287,6 +14287,8 @@ and (customsDecisionStatus.STAVROZH in ["01"])]]></ExpressionText>
 //url router
 //form.actions.setUrlRouter()
 
+fcJMODPIS_ASEO.filterByValidityDateTime(getDateTime())
+
 actions.commonLoadData(form.GUID)
 form.apiobjects.pageEconImpact.scrollToTop()
 if globals.dataLoadingSpace.success then
@@ -14980,7 +14982,7 @@ endfor
 form.enhancement.isEnhancementEditOn = True
 
 if form.zobrazEUS or form.zobrazIPO then
-	apiobjects.cnCodeCl.setDateTime(getDateTime())
+	fcZBOZIKOD.filterByValidityDateTime(getDateTime())
 endIf]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -16002,10 +16004,10 @@ if form.enhancement.isEnhancementEditOn then
 		if form.zobrazIPO and form.enhancement.modelServerEnhacement.cnCodeArticle73DA.ZBOZIKOD.hasValue() then
 		
 			globals.IsBusy = True
-				apiobjects.cnCodeCl.setDateTime(getDateTime())
+				fcZBOZIKOD.filterByValidityDateTime(getDateTime())
 			globals.IsBusy = False
 		    
-		    var itemCn73da = apiobjects.cnCodeCl.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.modelServerEnhacement.cnCodeArticle73DA.ZBOZIKOD, getDateTime(), defaultBool())
+		    var itemCn73da = fcZBOZIKOD.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.modelServerEnhacement.cnCodeArticle73DA.ZBOZIKOD)
 		    
 		    if itemCn73da.isFound() then
 		       itemDataToUpdate.cnCodeArticle73DA.fromJson(itemCn73da.getJsonString())
@@ -16027,10 +16029,10 @@ if form.enhancement.isEnhancementEditOn then
 		if form.zobrazEUS and form.enhancement.modelServerEnhacement.cnCodeForSecuring.ZBOZIKOD.hasValue() then
 			
 			globals.IsBusy = True
-				apiobjects.cnCodeCl.setDateTime(getDateTime())
+				fcZBOZIKOD.filterByValidityDateTime(getDateTime())
 			globals.IsBusy = False
 				
-			var itemCn = apiobjects.cnCodeCl.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.modelServerEnhacement.cnCodeForSecuring.ZBOZIKOD , getDateTime(), defaultBool())
+			var itemCn = fcZBOZIKOD.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.modelServerEnhacement.cnCodeForSecuring.ZBOZIKOD)
 	
 			if itemCn.isFound() then
 				itemDataToUpdate.cnCodeForSecuring.fromJson(itemCn.getJsonString())
@@ -16995,5 +16997,13 @@ url.updatePageUrl()]]></Script>
     <Page identity="Page.f7aa0c151c64407daef13910dcf7b72a">
       <Name value="pageEconImpact" />
     </Page>
+    <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="fcZBOZIKOD" />
+      <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZBOZIKOD" />
+    </FilteredCodelist>
+    <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="fcJMODPIS_ASEO" />
+      <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.JMODPIS_ASEO" />
+    </FilteredCodelist>
   </ApiObjects>
 </Form>
