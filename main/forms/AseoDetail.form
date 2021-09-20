@@ -842,11 +842,9 @@
             </CssClassConditional>
           </CssClass>
         </Panel>
-        <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
-          <Name value="cgbVersions" />
-          <caption value="Historie stavů/verzí" />
-          <collapsedIconClass value="fa fa-plus-square-o" />
-          <nonCollapsedIconClass value="fa fa-minus-square-o" />
+        <GroupBox>
+          <Name value="groupBox1" />
+          <Caption value="Old versions" />
           <Panel.Height value="#" />
           <Panel.Width value="*" />
           <Content>
@@ -865,7 +863,7 @@
                   <IsVisible value="False" />
                   <Content>
                     <Label>
-                      <Name value="lblVersions_Guid" />
+                      <Name value="lblVersions_Guid1" />
                       <IsVisible value="False" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="GUID" />
@@ -894,7 +892,7 @@
                   <Width value="22%" />
                   <Content>
                     <Label>
-                      <Name value="lblVersions_Description" />
+                      <Name value="lblVersions_Description1" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="EventType.Description" />
                       </Bindings>
@@ -925,7 +923,7 @@
                   <Width value="13%" />
                   <Content>
                     <Label>
-                      <Name value="lblVersions_ValidityStartDate" />
+                      <Name value="lblVersions_ValidityStartDate1" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="ValidityStartDate" />
                       </Bindings>
@@ -956,7 +954,7 @@
                   <Width value="13%" />
                   <Content>
                     <Label>
-                      <Name value="lblVersions_EvidenceDate" />
+                      <Name value="lblVersions_EvidenceDate1" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="EvidenceDate" />
                       </Bindings>
@@ -987,7 +985,7 @@
                   <Width value="14%" />
                   <Content>
                     <Label>
-                      <Name value="lblVersions_DecidingCo" />
+                      <Name value="lblVersions_DecidingCo1" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="DecidingCustomsOffice" />
                       </Bindings>
@@ -1018,7 +1016,7 @@
                   <Width value="14%" />
                   <Content>
                     <Label>
-                      <Name value="lblVersions_ValidityEndDate" />
+                      <Name value="lblVersions_ValidityEndDate1" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="ValidityEndDate" />
                       </Bindings>
@@ -1049,7 +1047,7 @@
                   <Width value="12%" />
                   <Content>
                     <Label>
-                      <Name value="lblVersions_DecidingPerson" />
+                      <Name value="lblVersions_DecidingPerson1" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="DecidingPerson" />
                       </Bindings>
@@ -1080,7 +1078,7 @@
                   <Width value="14%" />
                   <Content>
                     <Label>
-                      <Name value="lblVersions_Note" />
+                      <Name value="lblVersions_Note1" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="computedNote" />
                       </Bindings>
@@ -1113,6 +1111,196 @@
                 </CssClassConditional>
               </CssClass>
             </DataTable>
+          </Content>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-groupbox" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </GroupBox>
+        <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+          <Name value="cgbVersions" />
+          <caption value="Historie stavů/verzí" />
+          <collapsedIconClass value="fa fa-plus-square-o" />
+          <nonCollapsedIconClass value="fa fa-minus-square-o" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Content>
+            <SelectionTable identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+              <Name value="stVersions" />
+              <Bindings>
+                <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.EventHistory" />
+                <Binding SourceProperty="Index" Expression="ui.tables.stVersions.Index" />
+              </Bindings>
+              <Columns>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcVersions_Guid" />
+                  <Caption value=" " />
+                  <IsVisible value="False" />
+                  <Content>
+                    <Label>
+                      <Name value="lblVersions_Guid" />
+                      <IsVisible value="False" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="GUID" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcVersions_Description" />
+                  <Caption value="Typ události/rozhodnutí" />
+                  <ColumnWidth value="22%" />
+                  <Content>
+                    <Label>
+                      <Name value="lblVersions_Description" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="EventType.Description" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcVersions_ValidityStartDate" />
+                  <Caption value="Platné od" />
+                  <ColumnWidth value="13%" />
+                  <Content>
+                    <Label>
+                      <Name value="lblVersions_ValidityStartDate" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="ValidityStartDate" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcVersions_EvidenceDate" />
+                  <Caption value="Datum evidence" />
+                  <ColumnWidth value="13%" />
+                  <Content>
+                    <Label>
+                      <Name value="lblVersions_EvidenceDate" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="EvidenceDate" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcVersions_DecidingCo" />
+                  <Caption value="Rozhodující celní úřad" />
+                  <ColumnWidth value="14%" />
+                  <Content>
+                    <Label>
+                      <Name value="lblVersions_DecidingCo" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="DecidingCustomsOffice" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcVersions_ValidityEndDate" />
+                  <Caption value="Konec platnosti této události" />
+                  <ColumnWidth value="14%" />
+                  <Content>
+                    <Label>
+                      <Name value="lblVersions_ValidityEndDate" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="ValidityEndDate" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcVersions_DecidingPerson" />
+                  <Caption value="Osobní číslo vydavatele rozhodnutí" />
+                  <ColumnWidth value="12%" />
+                  <Content>
+                    <Label>
+                      <Name value="lblVersions_DecidingPerson" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="DecidingPerson" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcVersions_Note" />
+                  <Caption value="Poznámka" />
+                  <ColumnWidth value="14%" />
+                  <Content>
+                    <Label>
+                      <Name value="lblVersions_Note" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="computedNote" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+              </Columns>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-selectiontable" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="clickable-rows" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="selected-bold" />
+                </CssClassConditional>
+              </CssClass>
+            </SelectionTable>
           </Content>
           <Bindings>
             <Binding SourceProperty="isExpanded" Expression="form.ui.visibilities.showVersionHistory" />
@@ -2039,6 +2227,60 @@
                         </CssClassConditional>
                       </CssClass>
                     </DataTable>
+                    <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
+                      <Name value="prcRepresentation" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Representation" />
+                        <Binding SourceProperty="Index" Expression="ui.tables.stRepresentation.Index" />
+                        <Binding SourceProperty="AllowAdd" Expression="form.isEditOn" />
+                        <Binding SourceProperty="AllowRemove" Expression="form.isEditOn" />
+                      </Bindings>
+                    </PagingRepeaterCtrl>
+                    <SelectionTable identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                      <Name value="stRepresentation" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.Representation" />
+                        <Binding SourceProperty="Index" Expression="ui.tables.stRepresentation.Index" />
+                      </Bindings>
+                      <Columns>
+                        <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                          <Name value="stcTypeOfRepresentation" />
+                          <Content>
+                            <ReferenceCombo>
+                              <Name value="cmbTypeOfRepresentation" />
+                              <CaptionPosition value="Hide" />
+                              <DisplayMember value="_description" />
+                              <ReferenceList reference="~ZPZAST" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="TypeOfRepresentation" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="TypeOfRepresentation.isRequired()" />
+                                <Binding SourceProperty="Caption" Expression="TypeOfRepresentation.caption()" />
+                                <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-referencecombo" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </ReferenceCombo>
+                          </Content>
+                          <Bindings>
+                            <Binding SourceProperty="Caption" Expression="TypeOfRepresentation.caption()" />
+                          </Bindings>
+                        </SelectionTableColumn>
+                      </Columns>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-selectiontable" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </SelectionTable>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
@@ -5105,8 +5347,6 @@
                 <Panel>
                   <Name value="pnlAuthorizationWithdrawal" />
                   <Orientation value="Vertical" />
-                  <Panel.Height value="#" />
-                  <Panel.Width value="*" />
                   <Children>
                     <ReferenceCombo>
                       <Name value="referenceCombo_POVOLDUOD" />
@@ -7585,6 +7825,45 @@ form.ui.visibilities.isAuthorisationSAR_ACR]]></ExpressionText>
               </Children>
             </Complex>
             <Complex>
+              <Name value="tables" />
+              <Caption value="Tables" />
+              <Children>
+                <Complex>
+                  <Name value="stVersions" />
+                  <Caption value="St versions" />
+                  <Children>
+                    <Attribute>
+                      <Name value="Index" />
+                      <Caption value="Index" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Integer" />
+                        </AttributeType>
+                      </DeclaredType>
+                      <OnUserChange>
+                        <ActionEvent ReferencedAction="+UiParts.AseoDetail.handler_Index_OnUserChange" />
+                      </OnUserChange>
+                    </Attribute>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="stRepresentation" />
+                  <Caption value="St representation" />
+                  <Children>
+                    <Attribute>
+                      <Name value="Index" />
+                      <Caption value="Index" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Integer" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Complex>
+              </Children>
+            </Complex>
+            <Complex>
               <Name value="notifications" />
               <Caption value="Notifications" />
               <Children>
@@ -10038,6 +10317,12 @@ else
 	form.actions.prepareButtonActionText()
 		
 	form.isEditOn = false
+	
+	// oznaci spravny radek v tabulce verzi
+	var selectedEvent = form.model.modelStructure.ASEO.EventHistory.selectFirst(Current.SelectedEvent)
+	if selectedEvent.hasValue() then
+		form.ui.tables.stVersions.Index = selectedEvent.index()
+	endif
 	
 endIf
 
@@ -13500,6 +13785,42 @@ nt.IsLastVersion = isLastVer]]></Script>
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[packages.navTrees.globals._ntAseoDetail.EventType = params.data.EventType.Key]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_Index_OnUserChange" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var index = params.data.Index
+var eventHistory = form.model.modelStructure.ASEO.EventHistory
+var selectedEvent = eventHistory.selectFirst(Current.index() = index)
+
+if selectedEvent.hasValue() then
+	var selecteEventVersion = selectedEvent.GUID
+	
+	globals.IsBusy = True
+	form.actions.loadAseoData(form.GUID, selecteEventVersion)
+	globals.IsBusy = False
+	
+	form.actions.checkIfLastVersionIsLoaded()
+	
+	var currentAnnex = form.model.modelStructure.ASEO.Event.File.count()
+	var newAnnex = form.model.sekce5prilohy.newFilesCollection.File.count()
+	form.components.tabsMenu.Tab06prilohy.Title = "Text a přílohy (" + toString(currentAnnex + newAnnex) + ")"
+	
+	if form.isLastVersionSelected = false then
+		form.isEditOn = false
+		form.ui.lifeCycle.showActionButtons = false
+		form.actions.setVisibleTabsAccordingToEventType()
+	else
+		form.ui.lifeCycle.showActionButtons = true
+		form.actions.initTabMenu()
+		form.components.tabsMenu.Tab07prehodnoceni.isVisible = true
+	endIf
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
