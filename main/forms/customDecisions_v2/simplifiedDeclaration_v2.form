@@ -1291,7 +1291,7 @@
           <Panel.Height value="#" />
           <Panel.Width value="*" />
           <Bindings>
-            <Binding SourceProperty="IsVisible" Expression="formState.isAnnexActive.isApplicableCustomsProceduresActive" />
+            <Binding SourceProperty="IsVisible" Expression="formState.isAnnexActive.isOtherActive" />
           </Bindings>
           <Children>
             <Panel>
@@ -1303,7 +1303,7 @@
                 <GroupBox>
                   <Name value="groupBox_customsProcedureConcerned" />
                   <Panel.Height value="#" />
-                  <Panel.Width value="*" />
+                  <Panel.Width value="50%" />
                   <Content>
                     <DataTable>
                       <Name value="dataTable_customsProcedureConcerned" />
@@ -1412,7 +1412,7 @@
                   <Name value="groupBox_subcontractor" />
                   <Caption value="Subdodavatel" />
                   <Panel.Height value="#" />
-                  <Panel.Width value="*" />
+                  <Panel.Width value="50%" />
                   <Content>
                     <Panel>
                       <Name value="panel25" />
@@ -1433,6 +1433,7 @@
                                 <TextBox>
                                   <Name value="textBox24" />
                                   <Caption value="EORI" />
+                                  <CaptionPosition value="Top" />
                                   <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="33.33%" />
@@ -1449,6 +1450,7 @@
                                 <TextBox>
                                   <Name value="textBox50" />
                                   <Caption value="Název" />
+                                  <CaptionPosition value="Top" />
                                   <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="66.66%" />
@@ -1479,6 +1481,7 @@
                                 <TextBox>
                                   <Name value="textBox51" />
                                   <Caption value="Ulice a číslo" />
+                                  <CaptionPosition value="Top" />
                                   <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="33.33%" />
@@ -1495,6 +1498,7 @@
                                 <TextBox>
                                   <Name value="textBox52" />
                                   <Caption value="PSČ" />
+                                  <CaptionPosition value="Top" />
                                   <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="16.66%" />
@@ -1511,6 +1515,7 @@
                                 <TextBox>
                                   <Name value="textBox53" />
                                   <Caption value="Město" />
+                                  <CaptionPosition value="Top" />
                                   <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="33.33%" />
@@ -1527,6 +1532,7 @@
                                 <TextBox>
                                   <Name value="textBox48" />
                                   <Caption value="Země" />
+                                  <CaptionPosition value="Top" />
                                   <IsEnabled value="False" />
                                   <Panel.Height value="#" />
                                   <Panel.Width value="16.66%" />
@@ -1599,13 +1605,13 @@
                       <Children>
                         <TextBox>
                           <Name value="textBox34" />
+                          <Caption value="Celní úřad dohledu" />
+                          <CaptionPosition value="Top" />
                           <IsEnabled value="False" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsOfficeOfSupervision" />
-                            <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsOfficeOfSupervision.caption()" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsOfficeOfSupervision.isRequired()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -1638,10 +1644,11 @@
                   <Content>
                     <TextBox>
                       <Name value="textBox57" />
+                      <Caption value="Lhůta pro podání DCP" />
+                      <CaptionPosition value="Top" />
                       <IsEnabled value="False" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.timeLimitForSubmissionOfASupplementaryDeclaration.timeLimit" />
-                        <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.timeLimitForSubmissionOfASupplementaryDeclaration.timeLimit.caption()" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -1666,6 +1673,103 @@
                 </CssClassConditional>
               </CssClass>
             </Panel>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="goods" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="formState.isAnnexActive.isGoodsTypeActive" />
+          </Bindings>
+          <Children>
+            <GroupBox>
+              <Name value="groupBox_goodsConcernedByTheSimplifiedDeclaration" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <DataTable>
+                  <Name value="dataTable_goodsConcernedByTheSimplifiedDeclaration" />
+                  <Bindings>
+                    <Binding SourceProperty="DataItems" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsConcernedByTheSimplifiedDeclaration" />
+                  </Bindings>
+                  <Columns>
+                    <DataColumn>
+                      <Name value="dataColumn15" />
+                      <Caption value="Popis - text" />
+                      <Width value="75%" />
+                      <Content>
+                        <Label>
+                          <Name value="label_text" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="descriptionOfGoods.text" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn17" />
+                      <Caption value="Popis - Jazyk" />
+                      <Width value="25%" />
+                      <Content>
+                        <Label>
+                          <Name value="label_language" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="descriptionOfGoods.language" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                  </Columns>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-datatable" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </DataTable>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="Caption" Expression="form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsConcernedByTheSimplifiedDeclaration.caption()" />
+              </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-groupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </GroupBox>
           </Children>
           <CssClass>
             <CssClassConditional>
