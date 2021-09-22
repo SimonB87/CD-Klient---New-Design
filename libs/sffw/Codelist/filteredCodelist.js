@@ -222,14 +222,15 @@ var sffw;
                         this.sourceSubscription = this.codelistSource.items.subscribe(this.onSourceItemsChange, this);
                     }
                 };
-                FilteredCodelist.prototype.getLookupData = function (startString, attributeName, useContains, _expectLinebreaksInValues, resultSorting) {
+                FilteredCodelist.prototype.getLookupData = function (startString, attributeName, useContains, _expectLinebreaksInValues, resultSorting, _fixedODataFilter, preferedAttName) {
                     var _this = this;
                     var attName = attributeName || this.getDisplayMemberName();
                     var startStringLower = (startString || '').toLowerCase();
                     var items = this.items && this.items();
                     var promiseChain = Promise.resolve();
                     if (items) {
-                        promiseChain = this.codelistSource.core.getLookupDataInLoadedItems(items, startStringLower, attName, useContains);
+                        var codelistCore = this.getCodelistSourceCore();
+                        promiseChain = codelistCore.getLookupDataInLoadedItems(items, startStringLower, attName, useContains);
                         // Advanced sorting of ReferenceLookup items lookup results makes sense only when
                         // display member is bound to client description column created with 'Key-Description' method
                         if (this.isDisplayMemberWithKeyDescMethod(attName)) {
@@ -240,8 +241,21 @@ var sffw;
                                 });
                             }
                         }
+                        if (preferedAttName && this.isPreferedColumn(preferedAttName)) {
+                            if (resultSorting === 'preferedTop') {
+                                promiseChain = promiseChain.then(function (results) {
+                                    return _this.sortResultsPreferedTop(results, preferedAttName);
+                                });
+                            }
+                        }
                     }
                     return promiseChain;
+                };
+                FilteredCodelist.prototype.getCodelistSourceCore = function () {
+                    if (this.codelistSource instanceof FilteredCodelist)
+                        return this.codelistSource.getCodelistSourceCore();
+                    else
+                        return this.codelistSource.core;
                 };
                 FilteredCodelist.prototype.getDataAsJson = function () {
                     if (this.items) {
@@ -311,8 +325,14 @@ var sffw;
                 FilteredCodelist.prototype.isDisplayMemberWithKeyDescMethod = function (attName) {
                     return this.codelistSource.isDisplayMemberWithKeyDescMethod(attName);
                 };
+                FilteredCodelist.prototype.isPreferedColumn = function (preferedAttName) {
+                    return this.codelistSource.isPreferedColumn(preferedAttName);
+                };
                 FilteredCodelist.prototype.sortResultsAdvanced = function (results, startStringLower, attName, lang) {
                     return this.codelistSource.sortResultsAdvanced(results, startStringLower, attName, lang);
+                };
+                FilteredCodelist.prototype.sortResultsPreferedTop = function (results, preferedAttName) {
+                    return this.codelistSource.sortResultsPreferedTop(results, preferedAttName);
                 };
                 return FilteredCodelist;
             }());

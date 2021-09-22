@@ -25,7 +25,7 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new sffw.components.referenceLookup.ReferenceLookupViewModel(params, componentInfo); }
                     },
-                    template: "   <!-- ko if: isEnabled -->\n            <input data-bind=\"referenceLookup: data,\n                attr: { 'aria-controls': listboxContainerId, 'aria-owns': listboxContainerId, 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" aria-autocomplete=\"list\" role=\"combobox\">\n        <!-- /ko -->\n        <!-- ko ifnot: isEnabled -->\n            <input data-bind=\"value: data[displayMember].$asString,\n                attr: { 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" disabled/>\n        <!-- /ko -->"
+                    template: "   <!-- ko if: isEnabled -->\n            <input data-bind=\"referenceLookup: data, invalidated: data.$isReportingErrors(), att:data,\n                attr: { 'aria-controls': listboxContainerId, 'aria-owns': listboxContainerId, 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" aria-autocomplete=\"list\" role=\"combobox\">\n        <!-- /ko -->\n        <!-- ko ifnot: isEnabled -->\n            <input data-bind=\"value: data[displayMember].$asString,\n                attr: { 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" disabled/>\n        <!-- /ko -->"
                 });
             }
             if (!ko.components.isRegistered('sffw-tariclookup')) {
@@ -33,7 +33,7 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new sffw.components.referenceLookup.TaricLookupViewModel(params, componentInfo); }
                     },
-                    template: "   <!-- ko if: isEnabled -->\n            <input data-bind=\"taricLookup: data,\n                attr: { 'aria-controls': listboxContainerId, 'aria-owns': listboxContainerId, 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" aria-autocomplete=\"list\" role=\"combobox\">\n        <!-- /ko -->\n        <!-- ko ifnot: isEnabled -->\n            <input data-bind=\"value: data[displayMember].$asString,\n                attr: { 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" disabled/>\n        <!-- /ko -->"
+                    template: "   <!-- ko if: isEnabled -->\n            <input data-bind=\"taricLookup: data, invalidated: data.$isReportingErrors(), att:data,\n                attr: { 'aria-controls': listboxContainerId, 'aria-owns': listboxContainerId, 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" aria-autocomplete=\"list\" role=\"combobox\">\n        <!-- /ko -->\n        <!-- ko ifnot: isEnabled -->\n            <input data-bind=\"value: data[displayMember].$asString,\n                attr: { 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" disabled/>\n        <!-- /ko -->"
                 });
             }
         })(referenceLookup = components.referenceLookup || (components.referenceLookup = {}));
@@ -66,8 +66,12 @@ var sffw;
                                 }
                             }
                         }).then(function () {
-                            var result = _(lookupData)
-                                .map(function (item) { return item[vm.displayMember]; })
+                            var itemsWrapper = _(lookupData);
+                            var lastPreferedItemIdx = itemsWrapper.findLastIndex(function (item) {
+                                return item[vm.codelistPreferedAttName] === true;
+                            });
+                            var result = itemsWrapper
+                                .map(function (item, index) { return ({ label: item[vm.displayMember], value: item[vm.displayMember], isLastPrefered: index === lastPreferedItemIdx }); })
                                 .value();
                             response(result);
                         });
@@ -166,6 +170,9 @@ var sffw;
                         $.each(items, function (index, item) {
                             var li = widget._renderItemData(ul, item);
                             li.attr('id', vm.listboxContainerId + "-" + index);
+                            if (item.isLastPrefered) {
+                                li.addClass('item-last-prefered');
+                            }
                         });
                     };
                     function SetWarningTimeout(el) {
@@ -330,6 +337,7 @@ var sffw;
                     this.immediateUpdate = params.immediateUpdate === true;
                     this.expectLinebreaksInValues = params.expectLinebreaksInValues === true;
                     this.resultSorting = params.resultSorting || 'advanced';
+                    this.codelistPreferedAttName = params.codelistPreferedAttName || 'IsPrefered';
                     this.listboxContainerId = "reference-lookup-listbox-container-" + sffw.generateRandomId();
                     if (typeof params.$localizeFn === 'function') {
                         this.localizeFn = params.$localizeFn;
@@ -339,7 +347,7 @@ var sffw;
                     }
                 }
                 ReferenceLookupViewModel.prototype.getLookupData = function (startString, attributeName) {
-                    return this.dataApiObject.getLookupData(startString, attributeName, this.useContains, this.expectLinebreaksInValues, this.resultSorting)
+                    return this.dataApiObject.getLookupData(startString, attributeName, this.useContains, this.expectLinebreaksInValues, this.resultSorting, undefined, this.codelistPreferedAttName)
                         .then(function (values) {
                         return values;
                     });

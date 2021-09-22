@@ -487,6 +487,8 @@ var sffw;
                         this.hasEnumFilter(true);
                     }
                     this.maxVisibleFilterOptions = maxVisibleFilterOptions;
+                    this.minDecimalPlaces = column.minDecimalPlaces;
+                    this.currencySymbol = column.currencySymbol;
                     this.filterEnabled = (this.dataType === 'string' || this.dataType === 'integer' || this.dataType === 'decimal' ||
                         this.dataType === 'bool' || this.dataType === 'date') && (column.EnableFilter !== false);
                     this.titleTextAttName = column.TitleTextAttName;
@@ -685,7 +687,7 @@ var sffw;
                                     _this[column.dispName] = '';
                                 }
                                 else if (column.formatAsAmount || column.formatAsCurrency) {
-                                    _this[column.dispName] = sffw.formatAsAmountOrCurrency(typeof (attValue.$asString) === 'function' ? attValue.$asString() : attValue, column.formatAsAmount, column.formatAsCurrency);
+                                    _this[column.dispName] = sffw.formatAsAmountOrCurrency(typeof (attValue.$asString) === 'function' ? attValue.$asString() : attValue, column.formatAsAmount, column.formatAsCurrency, column.minDecimalPlaces, column.currencySymbol);
                                 }
                                 else {
                                     _this[column.dispName] = typeof (attValue.$asString) === 'function' ? attValue.$asString() : attValue;
@@ -696,7 +698,7 @@ var sffw;
                                     _this[column.dispName] = '';
                                 }
                                 else if (column.formatAsAmount || column.formatAsCurrency) {
-                                    _this[column.dispName] = sffw.formatAsAmountOrCurrency(typeof (attValue.$asString) === 'function' ? attValue.$asString() : culture.decimalToStr(attValue), column.formatAsAmount, column.formatAsCurrency);
+                                    _this[column.dispName] = sffw.formatAsAmountOrCurrency(typeof (attValue.$asString) === 'function' ? attValue.$asString() : culture.decimalToStr(attValue), column.formatAsAmount, column.formatAsCurrency, column.minDecimalPlaces, column.currencySymbol);
                                 }
                                 else {
                                     _this[column.dispName] = typeof (attValue.$asString) === 'function' ? attValue.$asString() : culture.decimalToStr(attValue);
@@ -1410,7 +1412,7 @@ var sffw;
 })(sffw || (sffw = {}));
 var sffw;
 (function (sffw) {
-    function formatAsAmountOrCurrency(strValue, formatAsAmount, formatAsCurrency, minDecPlaces) {
+    function formatAsAmountOrCurrency(strValue, formatAsAmount, formatAsCurrency, minDecPlaces, currencySymbol) {
         if (!strValue) {
             return '';
         }
@@ -1426,7 +1428,7 @@ var sffw;
         if (formatAsAmount) {
             places = 6;
         }
-        var symbol = '\u20AC'; // euro znak
+        var symbol = ko.unwrap(currencySymbol) || '\u20AC'; // euro znak
         var normalizedNumberStr = strValue.replace(decimalSign, '.');
         if (_.isNaN(Number(normalizedNumberStr))) {
             return '';
@@ -1440,12 +1442,12 @@ var sffw;
         if (numberParts.length > 1) {
             var decPlacesStr = numberParts[1].substr(0, places);
             if (minDecPlaces && minDecPlaces > 0 && decPlacesStr.length < minDecPlaces) {
-                decPlacesStr = decPlacesStr.concat(Array(minDecPlaces - decPlacesStr.length + 1).join("0"));
+                decPlacesStr = decPlacesStr.concat(Array(minDecPlaces - decPlacesStr.length + 1).join('0'));
             }
             decimalPart = "" + decimalSign + decPlacesStr;
         }
         else if (minDecPlaces && minDecPlaces > 0) {
-            decimalPart = "" + decimalSign + Array(minDecPlaces + 1).join("0");
+            decimalPart = "" + decimalSign + Array(minDecPlaces + 1).join('0');
         }
         return sign + (leftover ? integralPart.substr(0, leftover) + thousandSign : '') + integralPart.substr(leftover).replace(/(\d{3})(?=\d)/g, '$1' + thousandSign)
             + decimalPart

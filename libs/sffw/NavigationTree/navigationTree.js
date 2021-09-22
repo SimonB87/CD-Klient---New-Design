@@ -14,6 +14,7 @@ var sffw;
                         this.generateAriaCurrent = params.generateAriaCurrent;
                     }
                     this.ariaLabel = params.ariaLabel || null;
+                    this.generatedNodesKind = params.generatedNodesKind || 'button';
                     this.onNodeActivated = params.OnNodeActivated;
                     if (this.ctrl) {
                         this.root = this.ctrl.rootNode;
@@ -91,28 +92,10 @@ var sffw;
                         return _this.node.markerText && _this.node.markerText();
                     });
                     this.ariaCurrentValue = params.ariaCurrentValue;
+                    this.generatedNodesKind = params.generatedNodesKind;
                 }
                 NodeModel.prototype.onClick = function () {
                     this.node.activateNode(true);
-                };
-                NodeModel.prototype.onKeyDown = function (data, event) {
-                    switch (event.key) {
-                        case ' ': // Chrome, Firefox, Edge
-                        case 'Spacebar': // Explorer
-                            // prevent Spacebar scrolling behaviour
-                            event.preventDefault();
-                            break;
-                    }
-                    return true; // without return true TAB not working
-                };
-                NodeModel.prototype.onKeyUp = function (data, event) {
-                    switch (event.key) {
-                        case ' ': // Chrome, Firefox, Edge
-                        case 'Spacebar': // Explorer
-                        case 'Enter': // Chrome, Firefox, Edge, Explorer
-                            this.node.activateNode(true);
-                            break;
-                    }
                 };
                 return NodeModel;
             }());
@@ -131,7 +114,7 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new sffw.components.navigationTree.NodeModel(params, componentInfo); }
                     },
-                    template: "\n<!-- ko if: !node.isNodeTextHidden() -->\n<div>\n    <span data-bind=\"text: node.caption, css: css, click: onClick, event: { keydown: onKeyDown, keyup: onKeyUp }, attr: { 'aria-current': node.isActive() === true ? ariaCurrentValue : null }\" tabindex=\"0\" role=\"button\"></span>\n    <!-- ko if: markerText --><span class=\"sffw-navigation-tree-node-marker-text\" data-bind=\"text: markerText\"></span><!-- /ko -->\n    <!-- ko if: markerCss --><span data-bind=\"css: markerCss\"></span><!-- /ko -->\n</div>\n<!-- /ko -->\n<!-- ko if: !node.isCollapsed() -->\n<ul>\n    <!-- ko foreach: node.children -->\n    <li  data-bind=\"component: { name: 'sffw-navigation-tree-node',\n        params: { node: $data, ariaCurrentValue: $parent.ariaCurrentValue } }\">\n    </li>\n    <!-- /ko -->\n</ul>\n<!-- /ko -->"
+                    template: "\n<!-- ko if: !node.isNodeTextHidden() -->\n<div>\n    <!-- ko if: generatedNodesKind === \"button\" -->\n        <button data-bind=\"text: node.caption, css: css, click: onClick, clickBubble: false\">\n        </button>\n    <!-- /ko -->\n    <!-- ko if: generatedNodesKind === \"hyperlink\" -->\n        <a href=\"#\" data-bind=\"text: node.caption, css: css, click: onClick, clickBubble: false\">\n        </a>\n    <!-- /ko -->\n    <!-- ko if: markerText --><span class=\"sffw-navigation-tree-node-marker-text\" data-bind=\"text: markerText\"></span><!-- /ko -->\n    <!-- ko if: markerCss --><span data-bind=\"css: markerCss\"></span><!-- /ko -->\n</div>\n<!-- /ko -->\n<!-- ko if: !node.isCollapsed() -->\n<ul>\n    <!-- ko foreach: node.children -->\n    <li data-bind=\"attr: { 'aria-current': $data.isActive() === true ? $parent.ariaCurrentValue : null }, component: { name: 'sffw-navigation-tree-node',\n        params: { node: $data, ariaCurrentValue: $parent.ariaCurrentValue, generatedNodesKind: $parent.generatedNodesKind } }\">\n    </li>\n    <!-- /ko -->\n</ul>\n<!-- /ko -->"
                 });
             }
         })(navigationTree = components.navigationTree || (components.navigationTree = {}));
@@ -148,7 +131,7 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new sffw.components.navigationTree.Model(params, componentInfo); }
                     },
-                    template: "\n<!-- ko if: root -->\n<nav data-bind=\"attr: { 'aria-label': ariaLabel }\">\n    <!-- ko if: (root.children().length > 0) -->\n    <ul>\n        <!-- ko foreach: root.children -->\n        <li  data-bind=\"component: { name: 'sffw-navigation-tree-node',\n            params: { node: $data, ariaCurrentValue: $parent.generateAriaCurrent } }\">\n        </li>\n        <!-- /ko -->\n    </ul>\n    <!-- /ko -->\n</nav>\n<!-- /ko -->\n<!-- ko if: !root -->\n<nav data-bind=\"attr: { 'aria-label': ariaLabel }\">Navigation tree</nav>\n<!-- /ko -->\n"
+                    template: "\n<!-- ko if: root -->\n<nav data-bind=\"attr: { 'aria-label': ariaLabel }\">\n    <!-- ko if: (root.children().length > 0) -->\n    <ul>\n        <!-- ko foreach: root.children -->\n        <li data-bind=\"attr: { 'aria-current': $data.isActive() === true ? $parent.generateAriaCurrent : null }, component: { name: 'sffw-navigation-tree-node',\n            params: { node: $data, ariaCurrentValue: $parent.generateAriaCurrent, generatedNodesKind: $parent.generatedNodesKind } }\">\n        </li>\n        <!-- /ko -->\n    </ul>\n    <!-- /ko -->\n</nav>\n<!-- /ko -->\n<!-- ko if: !root -->\n<nav data-bind=\"attr: { 'aria-label': ariaLabel }\">Navigation tree</nav>\n<!-- /ko -->\n"
                 });
             }
         })(navigationTree = components.navigationTree || (components.navigationTree = {}));

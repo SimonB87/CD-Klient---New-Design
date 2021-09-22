@@ -141,6 +141,18 @@
                             resultParts.push('filterOptionSourceDisplayMember: \''+ c.filterOptionSourceDisplayMember + '\'');
                         }
 
+                        if (c.minDecimalPlaces) {
+                            resultParts.push('minDecimalPlaces: ' + c.minDecimalPlaces);
+                        }
+
+                        if (c.currencySymbol) {
+							if (c.currencySymbol.Binding) {
+                                resultParts.push('currencySymbol: '+ componentGen.processBinding(c.currencySymbol.Binding));
+							} else {
+								resultParts.push('currencySymbol: \'' + c.currencySymbol.replace(/\"/g, '&quot;') + '\'');
+							}
+						}
+
 						return '{' + resultParts.join(', ') + '}';
 					});
 

@@ -18,6 +18,7 @@
       <Bindable value="True" />
       <IsRequired value="True" />
       <Type value="ApiObject" />
+      <UiDescription value="Reference list with codelist data" />
       <UiEditor value="contract/IReferenceList" />
     </PropertyManifest>
     <PropertyManifest>
@@ -70,8 +71,15 @@
       <Default value="advanced" />
       <Type value="string" />
       <UiCategory value="Behaviour" />
-      <UiDescription value="advanced (use only when DisplayMember is bound to client description column created with 'Key-Description' method, otherwise will be ignored): full match of code, then partial match of description from beginning, then partial match of description anywhere; basic: sorted on server (use for backward compatibility) " />
-      <UiEditor value="list/advanced|basic" />
+      <UiDescription value="-*advanced*&#xD;&#xA;Use only when DisplayMember is bound to client description column created with 'Key-Description' method, otherwise will be ignored.&#xD;&#xA;Sorting pattern: full match of code, then partial match of description from beginning, then partial match of description anywhere&#xD;&#xA;-*basic*&#xD;&#xA;Sorted on server (use for backward compatibility)&#xD;&#xA;-*preferedTop*&#xD;&#xA;TODO description" />
+      <UiEditor value="list/advanced|basic|preferedTop" />
+    </PropertyManifest>
+    <PropertyManifest>
+      <Name value="codelistPreferedAttName" />
+      <Default value="IsPrefered" />
+      <Type value="string" />
+      <UiCategory value="Controlling attributes" />
+      <UiDescription value="Name of boolean attribute of underlying Codelist, that contains true/false values to be used in conjunction with preferedTop result sorting method." />
     </PropertyManifest>
   </Properties>
 </ComponentManifest>

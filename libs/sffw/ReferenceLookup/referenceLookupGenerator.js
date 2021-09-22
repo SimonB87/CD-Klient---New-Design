@@ -66,6 +66,10 @@
 					params.push('resultSorting: \'' + def.resultSorting + '\'');
 				}
 
+				if (def.codelistPreferedAttName) {
+					params.push('codelistPreferedAttName: \'' + def.codelistPreferedAttName + '\'');
+				}
+
 				params.push('$parentData: $data');
 				params.push('$localizeFn: $root.$localize');
 

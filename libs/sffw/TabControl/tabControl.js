@@ -9,7 +9,7 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new sffw.components.tabControl.TabControlModel(params, componentInfo); }
                     },
-                    template: "\n<div class=\"sffw-tabs\">\n    <ul data-bind=\"foreach: tabs\" role=\"tablist\">\n        <li role=\"presentation\" data-bind=\"css: cssClass, visible: isVisible\">\n            <a role=\"tab\" href=\"#\" data-bind=\"text: (isTitleLocalized() === true ? $root.$localize(title) : title),\n                attr: { id: tabId, 'aria-selected': isSelected() ? 'true' : 'false', 'aria-controls': ariaControlsId },\n                click: onTabClicked\"></a>\n        </li>\n    </ul>\n</div>\n"
+                    template: "\n<div class=\"sffw-tabs\">\n    <ul data-bind=\"foreach: { data: tabs, as: 'tab' }, event: { keydown: function(data, event){ return onKeyDown(event); }}\" role=\"tablist\">\n        <li role=\"presentation\" data-bind=\"css: cssClass, visible: isVisible\">\n            <a role=\"tab\" href=\"#\" data-bind=\"text: (isTitleLocalized() === true ? $root.$localize(title) : title),\n                attr: { id: tabId, 'aria-selected': isSelected() ? 'true' : 'false', 'aria-controls': ariaControlsId },\n                click: onTabClicked\"></a>\n        </li>\n    </ul>\n</div>\n"
                 });
             }
         })(tabControl = components.tabControl || (components.tabControl = {}));
@@ -33,6 +33,7 @@ var sffw;
                     this.tabs = [];
                     this.selectedTab = params.SelectedTab;
                     this.tabClickHandler = params.OnTabClick;
+                    this.activateAutomatically = params.ActivateAutomatically;
                     this.createTabs(params.Tabs);
                 }
                 TabControlModel.prototype.createTabs = function (tabs) {
@@ -48,6 +49,37 @@ var sffw;
                     if (this.tabClickHandler) {
                         var tabClickParams = new TabControlClickParams(this.selectedTab());
                         this.tabClickHandler(null, event ? event : null, tabClickParams);
+                    }
+                };
+                TabControlModel.prototype.onKeyDown = function (event) {
+                    switch (event.keyCode) {
+                        case 32: // mezerník
+                            $(document.activeElement).trigger('click');
+                            break;
+                        case 37: // šipka doleva
+                            if (event.target) {
+                                event.preventDefault();
+                                var tab = $(event.target).parent().prev('li').children('a');
+                                tab.trigger('focus');
+                                if (this.activateAutomatically) {
+                                    tab.trigger('click');
+                                }
+                                return false;
+                            }
+                            break;
+                        case 39: // šipka doprava
+                            if (event.target) {
+                                event.preventDefault();
+                                var tab = $(event.target).parent().next('li').children('a').trigger('focus');
+                                tab.trigger('focus');
+                                if (this.activateAutomatically) {
+                                    tab.trigger('click');
+                                }
+                                return false;
+                            }
+                            break;
+                        default:
+                            return true;
                     }
                 };
                 TabControlModel.prototype.dispose = function () {

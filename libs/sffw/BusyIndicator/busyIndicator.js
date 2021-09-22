@@ -6,7 +6,10 @@ var sffw;
         (function (busyIndicator) {
             var BusyIndicatorModel = /** @class */ (function () {
                 function BusyIndicatorModel(params, componentInfo) {
+                    this.subscriptions = [];
+                    this.dataContext = params.$parentData;
                     this.isVisible = params.IsVisible;
+                    this.subscriptions.push(this.isVisible.subscribe(this.onVisibilityChange, this));
                     if (_.isNull(params.LoadingImageSource) || _.isUndefined(params.LoadingImageSource)) {
                         this.loadingImageSource = '';
                     }
@@ -15,7 +18,8 @@ var sffw;
                     }
                     this.statusText = ko.observable('');
                     if (_.isNull(params.StatusText) || _.isUndefined(params.StatusText)) {
-                        this.statusText('Loading, please wait...');
+                        var defaultStatusText = this.dataContext.$localize('BusyIndicator$$loadingPleaseWait');
+                        this.statusText(defaultStatusText);
                     }
                     else {
                         if (_.isFunction(params.StatusText)) {
@@ -32,6 +36,20 @@ var sffw;
                         this.iconCssClass = params.IconCssClass;
                     }
                 }
+                BusyIndicatorModel.prototype.onVisibilityChange = function (newValue) {
+                    if (newValue === true) {
+                        sffw.safeWriteToAriaLiveRegion(ko.unwrap(this.statusText));
+                    }
+                    else {
+                        var loadingFinishedText = this.dataContext.$localize('BusyIndicator$$loadingIsCompleted');
+                        sffw.safeWriteToAriaLiveRegion(loadingFinishedText);
+                    }
+                };
+                BusyIndicatorModel.prototype.dispose = function () {
+                    _.each(this.subscriptions, function (sub) {
+                        sub.dispose();
+                    });
+                };
                 return BusyIndicatorModel;
             }());
             busyIndicator.BusyIndicatorModel = BusyIndicatorModel;
@@ -54,10 +72,10 @@ var customsExt;
                 update: function (element, valueAccessor) {
                     var value = valueAccessor();
                     if (ko.unwrap(value)) {
-                        $(element).fadeIn("fast");
+                        $(element).fadeIn('fast');
                     }
                     else {
-                        $(element).fadeOut("fast");
+                        $(element).fadeOut('fast');
                     }
                 }
             };
@@ -74,8 +92,15 @@ var sffw;
             (function (inContent) {
                 var BusyIndicatorModel = /** @class */ (function () {
                     function BusyIndicatorModel(params, componentInfo) {
+                        this.subscriptions = [];
                         this.ctx = params.$parentData;
-                        this.isLoading = params.isLoading;
+                        if (ko.isObservable(params.isLoading)) {
+                            this.isLoading = params.isLoading;
+                        }
+                        else {
+                            this.isLoading = ko.observable(params.isLoading);
+                        }
+                        this.subscriptions.push(this.isLoading.subscribe(this.onIsLoadingChange, this));
                         if (_.isNull(params.loadingImageSource) || _.isUndefined(params.loadingImageSource)) {
                             this.loadingImageSource = '';
                         }
@@ -89,6 +114,21 @@ var sffw;
                             this.iconCssClass = params.iconCssClass;
                         }
                     }
+                    BusyIndicatorModel.prototype.onIsLoadingChange = function (newValue) {
+                        if (newValue === true) {
+                            var loadingStartText = this.ctx.$localize('BusyIndicator$$loadingPleaseWait');
+                            sffw.safeWriteToAriaLiveRegion(loadingStartText);
+                        }
+                        else {
+                            var loadingFinishedText = this.ctx.$localize('BusyIndicator$$loadingIsCompleted');
+                            sffw.safeWriteToAriaLiveRegion(loadingFinishedText);
+                        }
+                    };
+                    BusyIndicatorModel.prototype.dispose = function () {
+                        _.each(this.subscriptions, function (sub) {
+                            sub.dispose();
+                        });
+                    };
                     return BusyIndicatorModel;
                 }());
                 inContent.BusyIndicatorModel = BusyIndicatorModel;
@@ -120,4 +160,13 @@ var sffw;
             }
         })(busyIndicator = components.busyIndicator || (components.busyIndicator = {}));
     })(components = sffw.components || (sffw.components = {}));
+})(sffw || (sffw = {}));
+var sffw;
+(function (sffw) {
+    function safeWriteToAriaLiveRegion(message) {
+        if (message && window.sf.accessibility && window.sf.accessibility.ariaLiveRegion) {
+            window.sf.accessibility.ariaLiveRegion.append(message);
+        }
+    }
+    sffw.safeWriteToAriaLiveRegion = safeWriteToAriaLiveRegion;
 })(sffw || (sffw = {}));

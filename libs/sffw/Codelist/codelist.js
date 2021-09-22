@@ -32,8 +32,14 @@ var sffw;
                 CodelistApi.prototype.fillFromJson = function (args) {
                     this.core.fillFromJsonString(args.dataAsJson);
                 };
-                CodelistApi.prototype.getLookupData = function (startString, attributeName, useContains, expectLinebreaksInValues, resultSorting, fixedODataFilter) {
-                    return this.core.getLookupData(startString, attributeName, useContains, expectLinebreaksInValues, resultSorting, fixedODataFilter);
+                CodelistApi.prototype.fillFromArray = function (itemsArr) {
+                    return this.core.fillFromArray(itemsArr);
+                };
+                CodelistApi.prototype.getCodelistName = function () {
+                    return this.core.codelistName;
+                };
+                CodelistApi.prototype.getLookupData = function (startString, attributeName, useContains, expectLinebreaksInValues, resultSorting, fixedODataFilter, preferedAttName) {
+                    return this.core.getLookupData(startString, attributeName, useContains, expectLinebreaksInValues, resultSorting, fixedODataFilter, preferedAttName);
                 };
                 CodelistApi.prototype.getDataAsJson = function () {
                     return JSON.stringify(this.items());
@@ -71,11 +77,20 @@ var sffw;
                 CodelistApi.prototype.sortResultsAdvanced = function (results, startStringLower, attName, lang) {
                     return this.core.sortResultsAdvanced(results, startStringLower, attName, lang);
                 };
+                CodelistApi.prototype.isPreferedColumn = function (preferedAttName) {
+                    return this.core.isPreferedColumn(preferedAttName);
+                };
+                CodelistApi.prototype.sortResultsPreferedTop = function (results, preferedAttName) {
+                    return this.core.sortResultsPreferedTop(results, preferedAttName);
+                };
                 CodelistApi.prototype.setFilter = function (args) {
                     this.core.setFilter(args.filter);
                 };
                 CodelistApi.prototype.getFilter = function () {
                     return this.core.getFilter();
+                };
+                CodelistApi.prototype.getRequestUrl = function () {
+                    return this.core.getRequestUrl();
                 };
                 return CodelistApi;
             }());
@@ -96,21 +111,11 @@ var sffw;
                 function CodelistCore(dc, args) {
                     this.items = ko.observable();
                     this.filterByDate = true;
-                    this.loadingInProgress = false;
-                    this.dataLoaded = false;
-                    if (args.server) {
-                        if (args.server.IsGlobal) {
-                            this.server = dc.$globals.$api[args.server.Reference];
-                        }
-                        else {
-                            this.server = dc.$api[args.server.Reference];
-                        }
-                        sffw.assert(this.server, 'Failed to find ServerConnection');
-                    }
-                    // TODO: Split codelistName & API object name. Requires project migration in IDE.
+                    this.dataContext = dc;
+                    this.serverReference = args.server;
+                    // NOTE: Split codelistName & API object name. Requires project migration in IDE.
                     this.codelistName = args.name;
                     this.setFilter(args.filter);
-                    this.autoLoad = args.autoLoad !== false;
                     this.filterByDate = args.filterByDate !== false;
                     this.valueMember = this.getColumnDefByRole('Key', args.columns);
                     this.serverDescriptionColumnName = this.getColumnDefByRole('Description', args.columns);
@@ -127,18 +132,25 @@ var sffw;
                     this.displayMemberMethod = codelist.DisplayMemberMethodFactory.create(args.createDescriptionOnClient || 'Key-Description', this.displayMember, this.valueMember, this.serverDescriptionColumnName);
                     this.columns = args.columns;
                     this.language = args.language;
-                    if (this.autoLoad !== false) {
-                        if (this.filterByDate) {
-                            this.setRelevantDate(new Date());
-                        }
-                        this.loadDataInternal();
-                    }
                 }
+                CodelistCore.prototype.assertServer = function () {
+                    if (this.serverReference && !this.server) {
+                        if (this.serverReference.IsGlobal) {
+                            this.server = this.dataContext.$globals.$api[this.serverReference.Reference];
+                        }
+                        else {
+                            this.server = this.dataContext.$api[this.serverReference.Reference];
+                        }
+                        sffw.assert(this.server, 'Failed to find ServerConnection');
+                    }
+                    sffw.assert(this.server, "Cannot load data for codelist " + this.codelistName + ". Server connection is not set.");
+                };
                 CodelistCore.prototype.getColumnDefByRole = function (role, columnDefs) {
                     var def = _.find(columnDefs, { columnRole: role });
                     return def && def.columnName;
                 };
                 CodelistCore.prototype.dispose = function () {
+                    this.dataContext = null;
                     this.server = null;
                 };
                 CodelistCore.prototype.setRelevantDate = function (dt) {
@@ -146,20 +158,10 @@ var sffw;
                 };
                 CodelistCore.prototype.loadDataInternal = function () {
                     var _this = this;
-                    sffw.assert(this.server, "Cannot load data for codelist " + this.codelistName + ". Server connection is not set.");
-                    var reqUrl = new codelist.CodelistReqUrl({
-                        codelistsUrl: this.server.codelistsUrl,
-                        codelistName: this.codelistName,
-                        columns: this.columns,
-                        additionalODataFilter: this.additionalFilter,
-                        relevantDateFilter: this.filterByDate ? this.relevantDate : null,
-                        language: this.language
-                    });
-                    this.loadingInProgress = true;
-                    return this.server.getAsync({ url: reqUrl.toString() }).then(function (response) {
+                    this.assertServer();
+                    return this.server.getAsync({ url: this.getRequestUrl() }).then(function (response) {
                         if (response.isError()) {
                             console.error("Error when loading codelist " + _this.codelistName + "\n" + response.getErrorMessage());
-                            _this.loadingInProgress = false;
                             return;
                         }
                         else {
@@ -171,34 +173,46 @@ var sffw;
                                 _this.attachDisplayMemberOnItems(items);
                             }
                             _this.items(items);
-                            _this.loadingInProgress = false;
-                            _this.dataLoaded = true;
                         }
                     });
                 };
+                CodelistCore.prototype.getRequestUrl = function () {
+                    this.assertServer();
+                    return new codelist.CodelistReqUrl({
+                        codelistsUrl: this.server.codelistsUrl,
+                        codelistName: this.codelistName,
+                        columns: this.columns,
+                        additionalODataFilter: this.additionalFilter,
+                        relevantDateFilter: this.filterByDate ? this.relevantDate : null,
+                        language: this.language
+                    }).toString();
+                };
                 CodelistCore.prototype.fillFromJsonString = function (dataAsJson) {
-                    this.loadingInProgress = true;
                     try {
-                        var items = JSON.parse(dataAsJson);
-                        sffw.assert(_.isArray(items));
-                        if (this.displayMemberMethod) {
-                            this.attachDisplayMemberOnItems(items);
-                        }
-                        this.items(items);
-                        this.loadingInProgress = false;
-                        this.dataLoaded = true;
+                        this.fillFromArray(JSON.parse(dataAsJson));
                     }
                     catch (err) {
                         throw new Error("Failed to fill codelist " + this.codelistName + " from JSON.\n" + err);
                     }
                 };
-                CodelistCore.prototype.getLookupData = function (startString, attNamePar, useContains, expectLinebreaksInValues, resultSorting, fixedODataFilter) {
+                CodelistCore.prototype.fillFromArray = function (itemsArr) {
+                    sffw.assert(_.isArray(itemsArr), 'Codelist.fillFromArray expects param to be array');
+                    try {
+                        if (this.displayMemberMethod) {
+                            this.attachDisplayMemberOnItems(itemsArr);
+                        }
+                        this.items(itemsArr);
+                    }
+                    catch (err) {
+                        throw new Error("Failed to fill codelist " + this.codelistName + " from array.\n" + err);
+                    }
+                };
+                CodelistCore.prototype.getLookupData = function (startString, attNamePar, useContains, expectLinebreaksInValues, resultSorting, fixedODataFilter, preferedAttName) {
                     var _this = this;
                     var attName = attNamePar || this.displayMember;
                     var startStringLower = (startString || '').toLowerCase();
                     var promiseChain = Promise.resolve();
-                    if (this.dataLoaded) {
-                        // if autoloaded, Codelist.filter property should be set instead of using fixedODataFilter
+                    if (this.items() && this.items().length > 0) {
                         var items = void 0;
                         if (this.relevantDate) {
                             items = this.getItemsFilteredByValidityDate(this.relevantDate);
@@ -221,10 +235,23 @@ var sffw;
                             });
                         }
                     }
+                    if (preferedAttName && this.isPreferedColumn(preferedAttName)) {
+                        if (resultSorting === 'preferedTop') {
+                            promiseChain = promiseChain.then(function (results) {
+                                return _this.sortResultsPreferedTop(results, preferedAttName);
+                            });
+                        }
+                    }
                     return promiseChain;
                 };
                 CodelistCore.prototype.isDisplayMemberWithKeyDescMethod = function (attName) {
                     return attName === this.displayMember && this.displayMemberMethod && this.displayMemberMethod.name === 'Key-Description';
+                };
+                CodelistCore.prototype.isPreferedColumn = function (preferedAttName) {
+                    var prefCol = _.find(this.columns, function (col) {
+                        return col.columnName === preferedAttName && col.dataType === 'boolean';
+                    });
+                    return typeof prefCol !== undefined;
                 };
                 CodelistCore.prototype.sortResultsAdvanced = function (results, startStringLower, attName, lang) {
                     var _this = this;
@@ -249,6 +276,16 @@ var sffw;
                     // nothing should remain in results now, but for all cases it will be sorted and added to the end
                     this.sortPriorityGroupArray(results, lang);
                     var sortedResults = codeMatchPriorityGroup.concat(descStartPriorityGroup).concat(descContainsPriorityGroup).concat(results);
+                    return Promise.resolve(sortedResults);
+                };
+                CodelistCore.prototype.sortResultsPreferedTop = function (results, preferedAttName) {
+                    var preferedGroup = _.filter(results, function (item) {
+                        return item[preferedAttName] === true;
+                    });
+                    var othersGroup = _.filter(results, function (item) {
+                        return !(item[preferedAttName] === true);
+                    });
+                    var sortedResults = preferedGroup.concat(othersGroup);
                     return Promise.resolve(sortedResults);
                 };
                 CodelistCore.prototype.removeItemsFromArray = function (originalArray, itemsToRemove) {
@@ -290,6 +327,7 @@ var sffw;
                 };
                 CodelistCore.prototype.getRemoteLookupData = function (startString, attName, useContains, expectLinebreaksInValues, fixedODataFilter) {
                     var _this = this;
+                    this.assertServer();
                     var reqUrl = new codelist.CodelistReqUrl({
                         codelistsUrl: this.server.codelistsUrl,
                         codelistName: this.codelistName,
@@ -325,7 +363,7 @@ var sffw;
                 CodelistCore.prototype.getItemByColumnValue = function (columnName, columnValue, relevantDate, requeryIfLoadedAndNotFound) {
                     var _this = this;
                     return new Promise(function (resolve, reject) {
-                        if (_this.dataLoaded) {
+                        if (_this.items() && _this.items().length > 0) {
                             var result = _this.getLoadedItem(columnName, columnValue);
                             if (result.item || result.isError()) {
                                 resolve(result);
@@ -348,7 +386,7 @@ var sffw;
                     if (!columnName || columnName.length === 0) {
                         return new codelist.CodelistItem(null, null, 'Empty \'columnName\' parameter.');
                     }
-                    if (this.items().length > 0) {
+                    if (this.items() && this.items().length > 0) {
                         var first = this.items()[0];
                         if (!first.hasOwnProperty(columnName)) {
                             return new codelist.CodelistItem(null, null, "Invalid 'columnName': " + columnName);
@@ -361,6 +399,7 @@ var sffw;
                 };
                 CodelistCore.prototype.getItemFromServer = function (columnName, columnValue, relevantDate) {
                     var _this = this;
+                    this.assertServer();
                     return new Promise(function (resolve, reject) {
                         var reqUrl = new codelist.CodelistReqUrl({
                             codelistsUrl: _this.server.codelistsUrl,
@@ -432,7 +471,6 @@ var sffw;
                 };
                 CodelistCore.prototype.loadDescReplaceValues = function (replaceValuesJson) {
                     var _this = this;
-                    this.loadingInProgress = true;
                     try {
                         var replaceItems = JSON.parse(replaceValuesJson);
                         sffw.assert(_.isArray(replaceItems));
@@ -456,8 +494,6 @@ var sffw;
                         });
                         this.items([]);
                         this.items(arrItems_1);
-                        this.loadingInProgress = false;
-                        this.dataLoaded = true;
                     }
                     catch (err) {
                         throw new Error("Failed to load replace values for codelist " + this.codelistName + " from JSON.\n" + err);

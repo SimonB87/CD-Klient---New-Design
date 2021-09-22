@@ -39,6 +39,14 @@
                 paramsParts.push('MinDecimalPlaces: ' + def.MinDecimalPlaces);
             }
 
+            if (def.CurrencySymbol) {
+                if (def.CurrencySymbol.Binding) {
+                    paramsParts.push('CurrencySymbol: '+ componentGen.processBinding(def.CurrencySymbol.Binding));
+                } else {
+                    paramsParts.push('CurrencySymbol: \'' + def.CurrencySymbol.replace(/\"/g, '&quot;') + '\'');
+                }
+            }
+
 			editorValueTree.attributes.params = paramsParts.join(', ');
 
 

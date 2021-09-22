@@ -84,6 +84,10 @@
 			            paramsParts.push('SelectedTab: ' + componentGen.processBinding(def.SelectedTab.Binding));
 			        }
 			    }
+				
+				if (def.ActivateAutomatically) {					
+					paramsParts.push('ActivateAutomatically: \'' + def.ActivateAutomatically + '\'');			        
+			    }
 
 				if (def.OnTabClick) {
 					paramsParts.push('OnTabClick: ' + componentGen.processActionReference(def.OnTabClick));

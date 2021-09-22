@@ -9,7 +9,7 @@ var sffw;
                     this.displayedText = params.Data;
                     if (params.IsCurrency || params.IsAmount) {
                         this.displayedText = ko.pureComputed(function () {
-                            return sffw.formatAsAmountOrCurrency(params.Data(), params.IsAmount, params.IsCurrency, params.MinDecimalPlaces);
+                            return sffw.formatAsAmountOrCurrency(params.Data(), params.IsAmount, params.IsCurrency, params.MinDecimalPlaces, params.CurrencySymbol);
                         });
                     }
                     else {
@@ -41,7 +41,7 @@ var sffw;
 })(sffw || (sffw = {}));
 var sffw;
 (function (sffw) {
-    function formatAsAmountOrCurrency(strValue, formatAsAmount, formatAsCurrency, minDecPlaces) {
+    function formatAsAmountOrCurrency(strValue, formatAsAmount, formatAsCurrency, minDecPlaces, currencySymbol) {
         if (!strValue) {
             return '';
         }
@@ -57,7 +57,7 @@ var sffw;
         if (formatAsAmount) {
             places = 6;
         }
-        var symbol = '\u20AC'; // euro znak
+        var symbol = ko.unwrap(currencySymbol) || '\u20AC'; // euro znak
         var normalizedNumberStr = strValue.replace(decimalSign, '.');
         if (_.isNaN(Number(normalizedNumberStr))) {
             return '';
@@ -71,12 +71,12 @@ var sffw;
         if (numberParts.length > 1) {
             var decPlacesStr = numberParts[1].substr(0, places);
             if (minDecPlaces && minDecPlaces > 0 && decPlacesStr.length < minDecPlaces) {
-                decPlacesStr = decPlacesStr.concat(Array(minDecPlaces - decPlacesStr.length + 1).join("0"));
+                decPlacesStr = decPlacesStr.concat(Array(minDecPlaces - decPlacesStr.length + 1).join('0'));
             }
             decimalPart = "" + decimalSign + decPlacesStr;
         }
         else if (minDecPlaces && minDecPlaces > 0) {
-            decimalPart = "" + decimalSign + Array(minDecPlaces + 1).join("0");
+            decimalPart = "" + decimalSign + Array(minDecPlaces + 1).join('0');
         }
         return sign + (leftover ? integralPart.substr(0, leftover) + thousandSign : '') + integralPart.substr(leftover).replace(/(\d{3})(?=\d)/g, '$1' + thousandSign)
             + decimalPart

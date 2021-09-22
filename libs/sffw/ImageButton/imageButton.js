@@ -11,6 +11,7 @@ var sffw;
                     this.caption = params.Caption;
                     this.onClickHandler = params.OnClick;
                     this.isEnabled = params.IsEnabled !== undefined ? params.IsEnabled : true;
+                    this.ariaLabel = params.AriaLabel || null;
                     this.ctx = params.$parentData;
                     this.enabledBindingValue = ko.pureComputed(this.getEnabledBindingValue, this);
                     this.ariaDisabledBindingValue = ko.pureComputed(this.getAriaDisabledBindingValue, this);
@@ -71,7 +72,7 @@ var sffw;
                             // TODO: support images from resources
                             _.each(parts, function (p) {
                                 if (p.isFaIcon) {
-                                    htmlParts.push("<span><i class=\"fa fa-" + _.escape(p.text) + "\"></i></span>");
+                                    htmlParts.push("<span aria-hidden=\"true\"><i class=\"fa fa-" + _.escape(p.text) + "\"></i></span>");
                                 }
                                 else {
                                     if (p.isResImage) {
@@ -135,7 +136,7 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new imageButton.ImageButtonModel(params, componentInfo); }
                     },
-                    template: "\n<button data-bind=\"imageButton: caption, attr: { title: tooltip, 'aria-disabled': ariaDisabledBindingValue }, click: onClick, enable: enabledBindingValue\"></button>"
+                    template: "\n<button data-bind=\"imageButton: caption, attr: { title: tooltip, 'aria-disabled': ariaDisabledBindingValue, 'aria-label': ariaLabel }, click: onClick, enable: enabledBindingValue\"></button>"
                 });
             }
         })(imageButton = components.imageButton || (components.imageButton = {}));

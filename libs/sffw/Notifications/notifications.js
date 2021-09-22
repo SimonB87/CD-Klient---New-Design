@@ -9,24 +9,24 @@ var sffw;
                     this.type = notification.type;
                     this.message = notification.message;
                     switch (this.type) {
-                        case "info":
-                            this.role = "status";
-                            this.growlClass = "notification-info";
+                        case 'info':
+                            this.role = 'status';
+                            this.growlClass = 'notification-info';
                             this.iconClass = iconClasses.iconClassInfo;
                             break;
-                        case "success":
-                            this.role = "status";
-                            this.growlClass = "notification-success";
+                        case 'success':
+                            this.role = 'status';
+                            this.growlClass = 'notification-success';
                             this.iconClass = iconClasses.iconClassSuccess;
                             break;
-                        case "warning":
-                            this.role = "status";
-                            this.growlClass = "notification-warning";
+                        case 'warning':
+                            this.role = 'alert';
+                            this.growlClass = 'notification-warning';
                             this.iconClass = iconClasses.iconClassWarning;
                             break;
-                        case "error":
-                            this.role = "alert";
-                            this.growlClass = "notification-error";
+                        case 'error':
+                            this.role = 'alert';
+                            this.growlClass = 'notification-error';
                             this.iconClass = iconClasses.iconClassError;
                             break;
                     }
@@ -65,7 +65,7 @@ var sffw;
                         iconClassSuccess: params.iconClassSuccess || 'icon icon-tulli-checkmark',
                         iconClassWarning: params.iconClassWarning || 'icon icon-tulli-attention',
                         iconClassError: params.iconClassError || 'icon icon-tulli-attention',
-                        iconClassClose: params.iconClassClose || 'icon icon-tulli-close',
+                        iconClassClose: params.iconClassClose || 'icon icon-tulli-close'
                     };
                     var self = this;
                     self.closeNotification = function (item, event) {
@@ -93,7 +93,7 @@ var sffw;
                                 }
                             });
                         }
-                    }, null, "arrayChange"));
+                    }, null, 'arrayChange'));
                 }
                 GrowlNotificationModel.prototype.startGrowlDisplayInterval = function (growl, interval) {
                     var _this = this;
@@ -127,6 +127,7 @@ var sffw;
             var NotificationPanelModel = /** @class */ (function () {
                 function NotificationPanelModel(params, componentInfo) {
                     this.notifications = ko.observableArray();
+                    this.subscriptions = [];
                     if (params.controller) {
                         this.controller = params.controller;
                         this.notifications = this.controller.notifications;
@@ -141,40 +142,55 @@ var sffw;
                         iconClassSuccess: params.iconClassSuccess || 'icon icon-tulli-checkmark',
                         iconClassWarning: params.iconClassWarning || 'icon icon-tulli-attention',
                         iconClassError: params.iconClassError || 'icon icon-tulli-attention',
-                        iconClassClose: params.iconClassClose || 'icon icon-tulli-close',
+                        iconClassClose: params.iconClassClose || 'icon icon-tulli-close'
                     };
                     this.iconClassClear = params.iconClassClear || 'fa fa-bell-slash-o';
                     this.iconClassDisplayGrowlNotifications = params.iconClassDisplayGrowlNotifications || 'icon icon-tulli-eye';
                     this.cssDisplayGrowlNotifications = ko.pureComputed(this.getCssDisplayGrowlNotifications, this);
+                    this.autoFocusOnOpen = params.autoFocusOnOpen || false;
                     var self = this;
                     self.closeNotification = function (item, event) {
                         self.notifications.remove(item);
                     };
+                    self.subscriptions.push(this.controller.panelVisibility.subscribe(function (newValue) {
+                        if (self.autoFocusOnOpen) {
+                            if (newValue) {
+                                setTimeout(function () {
+                                    $('.notification-panel-header').children('button').first().trigger('focus');
+                                }, 200);
+                            }
+                            else {
+                                setTimeout(function () {
+                                    $('button.notification-trigger').trigger('focus');
+                                }, 200);
+                            }
+                        }
+                    }));
                 }
                 NotificationPanelModel.prototype.getCssDisplayGrowlNotifications = function () {
-                    return this.iconClassDisplayGrowlNotifications + (ko.unwrap(this.growlNotificationsOn) ? " turned-on" : "");
+                    return this.iconClassDisplayGrowlNotifications + (ko.unwrap(this.growlNotificationsOn) ? ' turned-on' : '');
                 };
                 NotificationPanelModel.prototype.getNotificationClass = function (item) {
                     switch (item.type) {
-                        case "info":
-                            return "notification-info";
-                        case "success":
-                            return "notification-success";
-                        case "warning":
-                            return "notification-warning";
-                        case "error":
-                            return "notification-error";
+                        case 'info':
+                            return 'notification-info';
+                        case 'success':
+                            return 'notification-success';
+                        case 'warning':
+                            return 'notification-warning';
+                        case 'error':
+                            return 'notification-error';
                     }
                 };
                 NotificationPanelModel.prototype.getIconClass = function (item) {
                     switch (item.type) {
-                        case "info":
+                        case 'info':
                             return this.iconClasses.iconClassInfo;
-                        case "success":
+                        case 'success':
                             return this.iconClasses.iconClassSuccess;
-                        case "warning":
+                        case 'warning':
                             return this.iconClasses.iconClassWarning;
-                        case "error":
+                        case 'error':
                             return this.iconClasses.iconClassError;
                     }
                 };
@@ -183,6 +199,14 @@ var sffw;
                 };
                 NotificationPanelModel.prototype.toggleGrowlNotifications = function () {
                     this.controller.setGrowlNotificationsOn({ isOn: !this.growlNotificationsOn() });
+                };
+                NotificationPanelModel.prototype.closeSelf = function () {
+                    this.isVisible(false);
+                };
+                NotificationPanelModel.prototype.dispose = function () {
+                    _.each(this.subscriptions, function (sub) {
+                        sub.dispose();
+                    });
                 };
                 return NotificationPanelModel;
             }());
@@ -267,7 +291,7 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new sffw.components.notifications.NotificationPanelModel(params, componentInfo); }
                     },
-                    template: "\n<div class=\"notification-panel\" data-bind=\"visible: isVisible\">\n    <div class=\"notification-panel-header\">\n        <button class=\"notification-panel-header-button\" data-bind=\"click: clearAll,\n            attr: {'title': $root.$localize('Notifications$$clearAll'), 'aria-label': $root.$localize('Notifications$$clearAll')}\">\n            <i data-bind=\"css: iconClassClear\" aria-hidden=\"true\"></i>\n        </button>\n        <button class=\"notification-panel-header-button button-toggle-growls\" data-bind=\"click: toggleGrowlNotifications,\n            attr: {'title': ko.unwrap(growlNotificationsOn) == true ? $root.$localize('Notifications$$turnGrowlsOff') : $root.$localize('Notifications$$turnGrowlsOn'),\n            'aria-label': ko.unwrap(growlNotificationsOn) == true ? $root.$localize('Notifications$$turnGrowlsOff') : $root.$localize('Notifications$$turnGrowlsOn')}\">\n            <i data-bind=\"css: cssDisplayGrowlNotifications\" aria-hidden=\"true\"></i>\n        </button>\n    </div>\n    <ul class=\"notifications\">\n        <!-- ko foreach: { data: notifications, as: 'notification' } -->\n            <li class=\"notification alert-dismissable\" data-bind=\"css: $parent.getNotificationClass(notification)\">\n                <div class=\"row\">\n                    <div class=\"notification-icon\">\n                        <span data-bind=\"css: $parent.getIconClass(notification)\"></span>\n                    </div>\n                    <div class=\"notification-message\">\n                        <span><p data-bind=\"text: message\"/></span>\n                    </div>\n                    <div class=\"notification-button\">\n                        <button data-bind=\"click: $parent.closeNotification, attr: {'aria-label': $root.$localize('Notifications$$close')}\" class=\"notification-button-close\">\n                            <span data-bind=\"css: $parent.iconClasses.iconClassClose\" aria-hidden=\"true\"/>\n                        </button>\n                    </div>\n                </div>\n            </li>\n        <!-- /ko -->\n    </ul>\n</div>\n"
+                    template: "\n<div class=\"notification-panel\" data-bind=\"visible: isVisible\">\n    <div class=\"notification-panel-header\">\n        <button class=\"notification-panel-header-button\" data-bind=\"click: clearAll,\n            attr: {'title': $root.$localize('Notifications$$clearAll'), 'aria-label': $root.$localize('Notifications$$clearAll')}\">\n            <i data-bind=\"css: iconClassClear\" aria-hidden=\"true\"></i>\n        </button>\n        <button class=\"notification-panel-header-button button-toggle-growls\" data-bind=\"click: toggleGrowlNotifications,\n            attr: {'title': ko.unwrap(growlNotificationsOn) == true ? $root.$localize('Notifications$$turnGrowlsOff') : $root.$localize('Notifications$$turnGrowlsOn'),\n            'aria-label': ko.unwrap(growlNotificationsOn) == true ? $root.$localize('Notifications$$turnGrowlsOff') : $root.$localize('Notifications$$turnGrowlsOn')}\">\n            <i data-bind=\"css: cssDisplayGrowlNotifications\" aria-hidden=\"true\"></i>\n        </button>\n        <button class=\"notification-panel-header-button button-panel-close\" data-bind=\"click: closeSelf,\n            attr: {'title': $root.$localize('Notifications$$closePanel'),\n            'aria-label': $root.$localize('Notifications$$closePanel')}\">\n            <i data-bind=\"css: iconClasses.iconClassClose\" aria-hidden=\"true\"></i>\n        </button>\n    </div>\n    <ul class=\"notifications\">\n        <!-- ko foreach: { data: notifications, as: 'notification' } -->\n            <li class=\"notification alert-dismissable\" data-bind=\"css: $parent.getNotificationClass(notification)\">\n                <div class=\"row\">\n                    <div class=\"notification-icon\">\n                        <span data-bind=\"css: $parent.getIconClass(notification)\"></span>\n                    </div>\n                    <div class=\"notification-message\">\n                        <span><p data-bind=\"text: message\"/></span>\n                    </div>\n                    <div class=\"notification-button\">\n                        <button data-bind=\"click: $parent.closeNotification, attr: {'aria-label': $root.$localize('Notifications$$close')}\" class=\"notification-button-close\">\n                            <span data-bind=\"css: $parent.iconClasses.iconClassClose\" aria-hidden=\"true\"/>\n                        </button>\n                    </div>\n                </div>\n            </li>\n        <!-- /ko -->\n    </ul>\n</div>\n"
                 });
             }
         })(notifications = components.notifications || (components.notifications = {}));
