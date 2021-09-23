@@ -35,24 +35,78 @@
           <Panel.Height value="#" />
           <Panel.Width value="*" />
           <Children>
-            <ImageButton identity="ImageButton.d5705fac3ef94ff185b0260525af877a">
-              <Name value="btn_toggleMenu" />
-              <Caption value=" {fa-bars}" />
-              <Panel.Height value="50px" />
-              <Panel.Width value="50px" />
-              <OnClick>
-                <ActionEvent ReferencedAction="~handler_btn_toggleMenu_OnClick" />
-              </OnClick>
+            <Panel>
+              <Name value="pnlMasterToggleContent" />
+              <Orientation value="Horizontal" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Children>
+                <ImageButton identity="ImageButton.d5705fac3ef94ff185b0260525af877a">
+                  <Name value="btn_toggleMenu" />
+                  <Accessibility.AriaLabel value="" />
+                  <Caption value=" {fa-bars}" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~handler_btn_toggleMenu_OnClick" />
+                  </OnClick>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-imagebutton" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="mainMenu" />
+                    </CssClassConditional>
+                  </CssClass>
+                </ImageButton>
+                <CustomHtml>
+                  <Name value="spinnerCodelistDownload" />
+                  <HtmlMarkup><![CDATA[<i class="fa fa-spinner fa-spin" aria-hidden="true"></i>]]></HtmlMarkup>
+                  <Panel.Height value="#" />
+                  <Panel.VerticalAlignment value="Middle" />
+                  <Panel.Width value="*" />
+                  <Bindings>
+                    <Binding SourceProperty="Data" Expression="" />
+                    <Binding SourceProperty="IsVisible" Expression="globals.forms.master.isDownloadingCodelists" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-customhtml" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="cd-download-spinner" />
+                    </CssClassConditional>
+                  </CssClass>
+                </CustomHtml>
+                <Label>
+                  <Name value="lblCodelistDownload" />
+                  <Data value="Probíhá stahování číselníků..." />
+                  <Panel.Height value="#" />
+                  <Panel.VerticalAlignment value="Middle" />
+                  <Panel.Width value="150px" />
+                  <Bindings>
+                    <Binding SourceProperty="IsVisible" Expression="globals.forms.master.isDownloadingCodelists" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-label" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Label>
+              </Children>
               <CssClass>
                 <CssClassConditional>
-                  <ClassName value="{theme}-imagebutton" />
+                  <ClassName value="{theme}-panel" />
                   <IsThemedStyle value="True" />
                 </CssClassConditional>
                 <CssClassConditional>
-                  <ClassName value="mainMenu" />
+                  <ClassName value="width-auto" />
                 </CssClassConditional>
               </CssClass>
-            </ImageButton>
+            </Panel>
           </Children>
           <CssClass>
             <CssClassConditional>
@@ -523,17 +577,14 @@ packages.codeLists.apiobjects.ASEOZST.loadDataAsync(defaultDateTime())
 */
 
 // Load codelists
-var time = defaultDateTime()
-globals.IsBusy = true
-packages.codeLists.apiobjects.aCodelistGroup.startBackgroundLoading(time)
+globals.forms.master.isDownloadingCodelists = true
+packages.codeLists.apiobjects.aCodelistGroup.startBackgroundLoading(defaultDateTime())
 
 // Zatim se nikde nepouzivaji
 /* 
 packages.codeLists.apiobjects.EventTypeEnum.loadDataAsync(defaultDateTime())
 packages.codeLists.apiobjects.POVOLTYP.loadDataAsync(defaultDateTime())
 */
-
-globals.IsBusy = false
 ]]></Script>
       </ActionLangBody>
       <DataContext>
