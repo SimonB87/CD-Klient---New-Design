@@ -1754,7 +1754,7 @@
                       </Bindings>
                       <Columns>
                         <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
-                          <Name value="sctCustomOfficeOfRelease" />
+                          <Name value="sctCustomOfficeReferenceNumber" />
                           <Content>
                             <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
                               <Name value="cmbCustomsOfficeOfRelease" />
@@ -1816,64 +1816,92 @@
               <Panel.Width value="*" />
               <Content>
                 <Panel>
-                  <Name value="pnlSupervisingCustomsOffice" />
+                  <Name value="panel19" />
                   <Orientation value="Vertical" />
                   <Children>
-                    <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
-                      <Name value="prcSupervisingCustomsOffice" />
+                    <Repeater>
+                      <Name value="repeater4" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice" />
-                        <Binding SourceProperty="Index" Expression="ui.tables.stSupervisingCustomsOffice.Index" />
-                        <Binding SourceProperty="AllowAdd" Expression="ui.repeaterControls.prcSupervisingCustomsOffice.AllowAdd" />
-                        <Binding SourceProperty="AllowRemove" Expression="ui.repeaterControls.prcSupervisingCustomsOffice.AllowRemove" />
-                      </Bindings>
-                    </PagingRepeaterCtrl>
-                    <SelectionTable identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
-                      <Name value="stSupervisingCustomsOffice" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="*" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice" />
-                        <Binding SourceProperty="Index" Expression="ui.tables.stSupervisingCustomsOffice.Index" />
-                      </Bindings>
-                      <Columns>
-                        <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
-                          <Name value="sctScoCustomsOfficeReferenceNumber" />
-                          <Content>
-                            <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
-                              <Name value="cmbScoCustomsOfficeReferenceNumber" />
-                              <CaptionPosition value="Hide" />
-                              <DataApiObject reference="~fcCELUTVAR" />
+                      <Content>
+                        <Panel>
+                          <Name value="panel43" />
+                          <Orientation value="Horizontal" />
+                          <Children>
+                            <ReferenceCombo>
+                              <Name value="referenceCombo_filledCustomsOfficeReferenceNumber" />
                               <DisplayMember value="_description" />
-                              <MinChars value="3" />
+                              <IsEnabled value="False" />
+                              <IsVisible value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <ReferenceList reference="~fcCELUTVAR" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="CustomsOfficeReferenceNumber" />
-                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="CustomsOfficeReferenceNumber.isRequired()" />
                                 <Binding SourceProperty="Caption" Expression="CustomsOfficeReferenceNumber.caption()" />
-                                <Binding SourceProperty="IsEnabled" Expression="form.ui.repeaterControls.prcSupervisingCustomsOffice.AllowAdd" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="CustomsOfficeReferenceNumber.isRequired()" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-referencelookup" />
+                                  <ClassName value="{theme}-referencecombo" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </ReferenceLookup>
-                          </Content>
-                          <Bindings>
-                            <Binding SourceProperty="Caption" Expression="CustomsOfficeReferenceNumber.caption()" />
-                          </Bindings>
-                        </SelectionTableColumn>
-                      </Columns>
+                            </ReferenceCombo>
+                            <TextBox>
+                              <Name value="textBox6" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CustomsOfficeReferenceNumber._description" />
+                                <Binding SourceProperty="Caption" Expression="CustomsOfficeReferenceNumber.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <Button>
+                              <Name value="button_deleteCOSupervising" />
+                              <Caption value="Smaž" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="150px" />
+                              <OnClick>
+                                <ActionEvent ReferencedAction="~handler_button_deleteCOSupervising_OnClick" />
+                              </OnClick>
+                              <Bindings>
+                                <Binding SourceProperty="IsVisible" Expression="not form.ui.visibilities.isAuthorisationSAR" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-button" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Button>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                      </Content>
+                      <Bindings>
+                        <Binding SourceProperty="DataItems" Expression="model.modelStructure.ASEO.Event.CustomsOffices.SupervisingCustomsOffice" />
+                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
-                          <ClassName value="{theme}-selectiontable" />
+                          <ClassName value="{theme}-repeater" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
                       </CssClass>
-                    </SelectionTable>
+                    </Repeater>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
@@ -2069,13 +2097,32 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Children>
+                        <CheckBox>
+                          <Name value="checkBox2" />
+                          <CaptionPosition value="Right" />
+                          <IsEnabled value="False" />
+                          <IsVisible value="False" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.sekce3zbozi.negativeCollectionView" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.sekce3zbozi.negativeCollectionView.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.sekce3zbozi.negativeCollectionView.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
                         <Label>
-                          <Name value="lblOnlyNegativeGoodsList" />
+                          <Name value="label_onlyNegativeList" />
                           <Data value="V tomto povolení je možné uvést pouze negativní výčet zboží" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
-                            <Binding SourceProperty="IsVisible" Expression="ui.labels.lblOnlyNegativeGoodsList.IsVisible" />
+                            <Binding SourceProperty="IsVisible" Expression="form.model.sekce3zbozi.negativeCollectionView" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -2085,14 +2132,17 @@
                           </CssClass>
                         </Label>
                         <CheckBox>
-                          <Name value="cbGoodsListType" />
-                          <Caption value="Pozitivní výčet zboží? (ANO = vyjmenované povoleny (s možností zakázání podskupin), ostatní zakázány,  NE = vyjmenované zakázány, ostatní povoleny)" />
+                          <Name value="goodsListType_chBox" />
+                          <CaptionHAlign value="Right" />
                           <CaptionPosition value="Right" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="model.modelStructure.ASEO.Event.GoodsList.GoodsListType" />
-                            <Binding SourceProperty="IsEnabled" Expression="ui.checkboxes.cbGoodsListType.IsEnabled" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.modelStructure.ASEO.Event.GoodsList.GoodsListType.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.modelStructure.ASEO.Event.GoodsList.GoodsListType.caption()" />
+                            <Binding SourceProperty="IsVisible" Expression="ui.visibilities.isAuthorisationACR" />
+                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -2166,10 +2216,12 @@
                               <Content>
                                 <CheckBox>
                                   <Name value="cbZbozi_Allowed" />
-                                  <CaptionPosition value="Hide" />
+                                  <CaptionHAlign value="Right" />
+                                  <CaptionPosition value="Right" />
+                                  <IsEnabled value="False" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="Allowed" />
-                                    <Binding SourceProperty="IsEnabled" Expression="form.model.modelStructure.ASEO.Event.GoodsList.GoodsListType" />
+                                    <Binding SourceProperty="Caption" Expression="Allowed.caption()" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -2426,7 +2478,7 @@
             </CollapsibleGroupBox>
             <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
               <Name value="cgbAllowedCountry" />
-              <caption value="Povolené země" />
+              <caption value="Zěmě vždy vyloučené ze ZJP" />
               <collapsedIconClass value="fa fa-plus-square-o" />
               <nonCollapsedIconClass value="fa fa-minus-square-o" />
               <Panel.Height value="#" />
@@ -2462,7 +2514,7 @@
                         </Button>
                         <Button>
                           <Name value="btn_show_country" />
-                          <Caption value="Zěmě vždy vyloučené ze ZJP" />
+                          <Caption value="Zobrazit země" />
                           <Panel.Height value="#" />
                           <Panel.Width value="150px" />
                           <OnClick>
@@ -5217,6 +5269,30 @@ form.model.modelStructure.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease.exist
               </Children>
             </Complex>
             <Complex>
+              <Name value="sekce3zbozi" />
+              <Caption value="Sekce 3 zbozi" />
+              <Children>
+                <Attribute>
+                  <Name value="switchInsertNewGoodsItem" />
+                  <Caption value="Switch insert new goods item" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="negativeCollectionView" />
+                  <Caption value="Pozitivní výčet (Ano/Ne)" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Complex>
               <Name value="sekce4rozsirene" />
               <Caption value="Sekce 4 rozsirene" />
               <Children>
@@ -7368,21 +7444,6 @@ form.ui.visibilities.isAuthorisationSAR_ACR]]></ExpressionText>
                   </Children>
                 </Complex>
                 <Complex>
-                  <Name value="stSupervisingCustomsOffice" />
-                  <Caption value="St supervising customs office" />
-                  <Children>
-                    <Attribute>
-                      <Name value="Index" />
-                      <Caption value="Index" />
-                      <DeclaredType>
-                        <AttributeType>
-                          <BaseType value="Integer" />
-                        </AttributeType>
-                      </DeclaredType>
-                    </Attribute>
-                  </Children>
-                </Complex>
-                <Complex>
                   <Name value="stZbozi" />
                   <Caption value="St zbozi" />
                   <Children>
@@ -7395,82 +7456,6 @@ form.ui.visibilities.isAuthorisationSAR_ACR]]></ExpressionText>
                         </AttributeType>
                       </DeclaredType>
                     </Attribute>
-                  </Children>
-                </Complex>
-              </Children>
-            </Complex>
-            <Complex>
-              <Name value="repeaterControls" />
-              <Caption value="Repeater controls" />
-              <Children>
-                <Complex>
-                  <Name value="prcSupervisingCustomsOffice" />
-                  <Caption value="Prc supervising customs office" />
-                  <Children>
-                    <Computed>
-                      <Name value="AllowAdd" />
-                      <Caption value="Allow add" />
-                      <Expression IsValid="True">
-                        <ExpressionText><![CDATA[form.isEditOn and isTrue(form.authorizationType <> "SAR")]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="Bool" />
-                        </ResultType>
-                      </Expression>
-                    </Computed>
-                    <Computed>
-                      <Name value="AllowRemove" />
-                      <Caption value="Allow remove" />
-                      <Expression IsValid="True">
-                        <ExpressionText><![CDATA[form.isEditOn and isTrue(form.authorizationType <> "SAR")]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="Bool" />
-                        </ResultType>
-                      </Expression>
-                    </Computed>
-                  </Children>
-                </Complex>
-              </Children>
-            </Complex>
-            <Complex>
-              <Name value="checkboxes" />
-              <Caption value="Checkboxes" />
-              <Children>
-                <Complex>
-                  <Name value="cbGoodsListType" />
-                  <Caption value="Cb goods list type" />
-                  <Children>
-                    <Computed>
-                      <Name value="IsEnabled" />
-                      <Caption value="Is enabled" />
-                      <Expression IsValid="True">
-                        <ExpressionText><![CDATA[form.isEditOn and isTrue(form.authorizationType in ["TIR", "ACP", "ACR"])]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="Bool" />
-                        </ResultType>
-                      </Expression>
-                    </Computed>
-                  </Children>
-                </Complex>
-              </Children>
-            </Complex>
-            <Complex>
-              <Name value="labels" />
-              <Caption value="Labels" />
-              <Children>
-                <Complex>
-                  <Name value="lblOnlyNegativeGoodsList" />
-                  <Caption value="Lbl only negative goods list" />
-                  <Children>
-                    <Computed>
-                      <Name value="IsVisible" />
-                      <Caption value="Is visible" />
-                      <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isFalse(form.authorizationType in ["TIR", "ACP", "ACR"])]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="Bool" />
-                        </ResultType>
-                      </Expression>
-                    </Computed>
                   </Children>
                 </Complex>
               </Children>
@@ -7663,7 +7648,7 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
                       <Name value="isCodeAPA" />
                       <Caption value="Is code APA" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "APA"))]]></ExpressionText>
+                        <ExpressionText><![CDATA[(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "APA")) ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -7673,7 +7658,7 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
                       <Name value="isCodeAUR" />
                       <Caption value="Is code AUR" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "AUR"))]]></ExpressionText>
+                        <ExpressionText><![CDATA[(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "AUR")) ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -7683,7 +7668,7 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
                       <Name value="isCodeAPA_AUS_AUC" />
                       <Caption value="Is code APA _ AUS _ AUC" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode in ["APA","AUS","AUC"]))]]></ExpressionText>
+                        <ExpressionText><![CDATA[(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode in ["APA","AUS","AUC"])) ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -7693,7 +7678,7 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
                       <Name value="isCodeAUA_AUS" />
                       <Caption value="Is code AUA _ AUS" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode in ["AUS","AUA"]))]]></ExpressionText>
+                        <ExpressionText><![CDATA[(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode in ["AUS","AUA"])) ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -7703,7 +7688,7 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
                       <Name value="isCodeAUA" />
                       <Caption value="Is code AUA" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "AUA"))]]></ExpressionText>
+                        <ExpressionText><![CDATA[(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "AUA")) ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -7713,7 +7698,7 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
                       <Name value="isCodeAUW" />
                       <Caption value="Is code AUW" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "AUW"))]]></ExpressionText>
+                        <ExpressionText><![CDATA[(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "AUW")) ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -7723,7 +7708,7 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
                       <Name value="isCodeAUS_AUE" />
                       <Caption value="Is code AUS _ AUE" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode in ["AUS","AUE"]))]]></ExpressionText>
+                        <ExpressionText><![CDATA[(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode in ["AUS","AUE"])) ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -7733,7 +7718,7 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
                       <Name value="isCodeAUC" />
                       <Caption value="Is code AUC" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "AUC"))]]></ExpressionText>
+                        <ExpressionText><![CDATA[(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "AUC")) ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -7743,7 +7728,7 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
                       <Name value="isCodeAPA_AUS_AUC_AUW" />
                       <Caption value="Is code APA _ AUS _ AUC _ AUW" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND (this.owner().stateCode in ["APA","AUS","AUC","AUW"]))]]></ExpressionText>
+                        <ExpressionText><![CDATA[(isFalse(this.futureChangeWillHappen) AND (this.owner().stateCode in ["APA","AUS","AUC","AUW"])) ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -7753,7 +7738,7 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
                       <Name value="isCodeAUA_AUE" />
                       <Caption value="isCodeAUA_AUE" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode in ["AUA","AUE"]))]]></ExpressionText>
+                        <ExpressionText><![CDATA[(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode in ["AUA","AUE"])) ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -7763,7 +7748,7 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
                       <Name value="isCodeAUS" />
                       <Caption value="Is code AUS" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "AUS"))]]></ExpressionText>
+                        <ExpressionText><![CDATA[(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "AUS")) ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -7773,7 +7758,7 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
                       <Name value="futureChangeWillHappen" />
                       <Caption value="Future change will happen" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(form.model.modelStructure.ASEO.Event.ValidityStartDate > form.ui.currentDateTime)]]></ExpressionText>
+                        <ExpressionText><![CDATA[isTrue(form.model.modelStructure.ASEO.Event.ValidityStartDate > form.ui.currentDateTime) ? true : false]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -8058,7 +8043,6 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
             <Attribute>
               <Name value="currentDateTime" />
               <Caption value="Current date time" />
-              <Description value="nastavuje se v ValidityStartDate a updatuje se pomoci timerCurrentDate (v pripade potreby)" />
               <DeclaredType>
                 <AttributeType>
                   <BaseType value="DateTime" />
@@ -8096,7 +8080,7 @@ AND isTrue(form.model.modelStructure.ASEO.Event.SPSI.TypeOfPaybackPeriod.Key = "
               <Name value="isEditOnAndIsTypeACR" />
               <Caption value="Is edit on and is type ACR" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA[isTrue(form.isEditOn) and isTrue(form.authorizationType = "ACR")]]></ExpressionText>
+                <ExpressionText><![CDATA[( isTrue(form.isEditOn) AND isTrue(form.authorizationType = "ACR") ) ? true : false]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -9835,7 +9819,7 @@ this.collection().count(
           <ShowAsChanges value="True" />
           <SourcePath value="model.modelStructure.ASEO.Event.ValidityStartDate" />
           <OnChange>
-            <ActionEvent ReferencedAction="+UiParts.AseoDetail.handler_modifier_85995103_ValidityStartDate_OnChange" />
+            <ActionEvent ReferencedAction="+UiParts.AseoDetail.setFilters" />
           </OnChange>
         </Modifier>
         <Modifier>
@@ -9970,7 +9954,9 @@ else
 		form.ui.tables.stVersions.Index = selectedEvent.index()
 	endif
 	
-endIf]]></Script>
+endIf
+
+form.ui.currentDateTime = getDateTime()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -10431,6 +10417,7 @@ if reloadAction then
 	form.ui.visibilities.showHistorySesctions = true
 	form.components.tabsMenu.Tab07prehodnoceni.isVisible = true
 	form.error.serverValidationErrors.clear()
+	form.ui.currentDateTime = getDateTime()
 	
 	form.actions.validErr_clearPrevious()
 	form.actions.clearPreviousNotifications()
@@ -10537,6 +10524,7 @@ else
 endIf
 
 form.isEditOn = globals.user.hasWritePermission
+form.ui.currentDateTime = getDateTime()
 form.ui.visibilities.showHistorySesctions = true
 ]]></Script>
       </ActionLangBody>
@@ -11454,7 +11442,9 @@ form.ui.visibilities.isValidationsVisible = True
       <Name value="sendLifeCycleMessage" />
       <Category value="lifeCyclePostingSetUp" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var postingSuccess = defaultBool()
+        <Script><![CDATA[form.ui.currentDateTime = getDateTime()
+
+var postingSuccess = defaultBool()
 
 if form.ui.currentDateTime <= form.model.modelStructure.ASEO.Event.ValidityStartDate then
 	
@@ -11507,6 +11497,8 @@ else
 	var message = "V záložce \"Obecné\" nesmí být údaj \"Počátek platnosti rozhodnutí od\" nastaven na čas v minulosti. Současný čas je: \"" + toString(form.ui.currentDateTime) + "\"" 
 	form.actions.showErorrNotificationMessage(message, true)
 endIf
+
+form.ui.currentDateTime = getDateTime()
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -12002,6 +11994,7 @@ form.ui.visibilities.showHistorySesctions = false
 form.components.tabsMenu.Tab07prehodnoceni.isVisible = false
 form.actions.loadDataFromRegister()
 form.actions.setDateAuthorisation()
+form.ui.currentDateTime = getDateTime()
 form.actions.editValidityStartDate()
 form.actions.clearOtherRejectionTabs()
 form.model.sekce5prilohy.addNewAnnex.IsFulltext = false
@@ -12300,6 +12293,19 @@ endIf]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
+      <Name value="handler_button_deleteCOSupervising_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var confirm = system.confirm("Chcete skutečně smazat Celní úřad?")
+if confirm then
+	params.data.removeMe()
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
       <Name value="prepareCOsupervising" />
       <Category value="lifeCyclePostingSetUp" />
       <ActionLangBody IsValid="True">
@@ -12579,6 +12585,7 @@ form.actions.clearUserNotifications()]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.ui.notifications.operationResultMessage.clear()
 form.ui.notifications.visibleNoticeWindow = false
+form.ui.currentDateTime = getDateTime()
 form.ui.visibilities.isValidationsVisible = false]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -12965,11 +12972,17 @@ form.isLastVersionSelected = true
 form.components.tabsMenu.SelectedTab = 1
 form.lifeCycleMode = enums.decisionsState.detail
 
+if form.authorizationType in ["TIR", "ACP", "ACR"] then
+	form.model.sekce3zbozi.negativeCollectionView = false
+endIf
+
 //variable preparation
 form.ui.original_validityStartDate = form.model.modelStructure.ASEO.Event.ValidityStartDate //save this for GUI to display
 form.ui.lifeCycle.actionConfirm.actionConfirmVisible = false
 form.ui.visibilities.showHistorySesctions = true
-form.ui.lifeCycle.showActionButtons = true]]></Script>
+form.ui.lifeCycle.showActionButtons = true
+
+form.ui.currentDateTime = getDateTime()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -12993,13 +13006,13 @@ if event.type = "onNodeActivated" then
 
 	navTree.selectedNode = ev.id
 	
+	/* tabs.OnTabClick - prevzato sem protoze tahle metoda je v podstate navTree ekvivalent */
+	//get current date time
+	form.ui.currentDateTime = getDateTime()
+	/* end - tabs.OnTabClick */
+	
 	if navTree.selectedNode = "Test" then
-		if form.model.modelStructure.isValid() then
-			form.ui.visibilities.isValidationsVisible = false
-		else
-			form.setTouched(true)
-			form.ui.visibilities.isValidationsVisible = true
-		endif			
+		system.console("Test!")
 	endif
 
 	system.console(model.onNodeActivated.toJson())
@@ -13332,49 +13345,6 @@ endif]]></Script>
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
-    <ActionBlock>
-      <Name value="handler_timer_OnTick" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var dt = getDateTime()
-var vdt = form.model.modelStructure.ASEO.Event.ValidityStartDate
-
-form.ui.currentDateTime = dt
-
-if dt >= vdt then
-	timerCurrentDate.stop()
-endif
-
-]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="handler_modifier_85995103_ValidityStartDate_OnChange" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var dt = getDateTime()
-var vdt = params.data.ValidityStartDate
-
-form.ui.currentDateTime = dt
-
-timerCurrentDate.stop()
-if dt < vdt then
-	var dif = secondsBetween(dt, vdt)
-	if dif < 7200 then // 2 hours
-		timerCurrentDate.start()
-	endif
-endif
-
-
-form.actions.setFilters()]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
   </Actions>
   <ApiObjects>
     <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
@@ -13448,13 +13418,5 @@ form.actions.setFilters()]]></Script>
       <Name value="fcASEOZST" />
       <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ASEOZST" />
     </FilteredCodelist>
-    <Timer identity="Timer.cee6b8357b9240469bd5d89cf64b0c9a">
-      <Name value="timerCurrentDate" />
-      <autoRepeat value="True" />
-      <interval value="1000" />
-      <OnTick>
-        <ActionEvent ReferencedAction="~handler_timer_OnTick" />
-      </OnTick>
-    </Timer>
   </ApiObjects>
 </Form>
