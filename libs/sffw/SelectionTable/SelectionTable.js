@@ -26,6 +26,7 @@ var sffw;
                     this.columns = [];
                     this.onRowClick = function (_data, event) {
                         _this.index(event.currentTarget.rowIndex);
+                        return true;
                     };
                     if (params.Data) {
                         this.items = params.Data.$items;
