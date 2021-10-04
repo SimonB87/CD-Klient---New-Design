@@ -1,0 +1,481 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<Form>
+  <Name value="file" />
+  <Caption value="File" />
+  <Content>
+    <Panel>
+      <Name value="pnlFile" />
+      <Orientation value="Vertical" />
+      <Panel.Height value="#" />
+      <Panel.Width value="*" />
+      <Children>
+        <Panel>
+          <Name value="pnlActionBtns" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <Panel>
+              <Name value="pnlActionBtnsLC" />
+              <Orientation value="Vertical" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Children>
+                <Panel>
+                  <Name value="pnlActionBtnsL" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Children>
+                    <Button>
+                      <Name value="btnConfirm" />
+                      <Caption value="Vložit soubor" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_btnConfirm_OnClick" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsEnabled" Expression="ui.fileReader.IsValid" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="cd-header-button" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="width-auto" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="display-flex" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="padding-menuspacer-long" />
+                      <Bindings>
+                        <Binding SourceProperty="Condition" Expression="not globals.forms.master.showMenu" />
+                      </Bindings>
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+            <Panel>
+              <Name value="pnlActionBtnsR" />
+              <Orientation value="Horizontal" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Children>
+                <Button>
+                  <Name value="btnBack" />
+                  <Caption value="Zpět" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~handler_btnBack_OnClick" />
+                  </OnClick>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-button" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="cd-header-button" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Button>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="flright" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="width-auto" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="{theme}-header" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="no-border-left" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="{theme}-nav-bar-controls" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="pnlBody" />
+          <Orientation value="Vertical" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <Label>
+              <Name value="lblCaption" />
+              <Heading value="h2" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="Data" Expression="ui.lblCaption.Text" />
+              </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-label" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Label>
+            <FileReader identity="FileReader.f457f0445b7e44b7a3a1134647eff385">
+              <Name value="fileReader" />
+              <Caption value="File reader" />
+              <CaptionPosition value="Hide" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <OnChange>
+                <ActionEvent ReferencedAction="~handler_fileReader_OnChange" />
+              </OnChange>
+              <Bindings>
+                <Binding SourceProperty="FileContent" Expression="ui.fileReader.FileContent" />
+                <Binding SourceProperty="FileName" Expression="ui.fileReader.FileName" />
+                <Binding SourceProperty="FileType" Expression="ui.fileReader.FileType" />
+                <Binding SourceProperty="Filter" Expression="ui.fileReader.Filter" />
+              </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-filereader" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </FileReader>
+            <LabeledText identity="labeledText.a92a691d6915448ebf9f0b804ce6a733">
+              <Name value="lblFilter" />
+              <Caption value="Povolené typy:" />
+              <CaptionLength value="100px" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="Data" Expression="params.Filter" />
+              </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-labeledtext" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </LabeledText>
+            <LabeledText identity="labeledText.a92a691d6915448ebf9f0b804ce6a733">
+              <Name value="lblType" />
+              <Caption value="Typ souboru:" />
+              <CaptionLength value="100px" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="Data" Expression="ui.fileReader.FileType" />
+                <Binding SourceProperty="IsVisible" Expression="ui.fileReader.FileContent.hasValue()" />
+              </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-labeledtext" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="labeledtext-text-align-left" />
+                </CssClassConditional>
+              </CssClass>
+            </LabeledText>
+            <LabeledText identity="labeledText.a92a691d6915448ebf9f0b804ce6a733">
+              <Name value="lblSize" />
+              <Caption value="Velikost souboru:" />
+              <CaptionLength value="100px" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="Data" Expression="ui.fileReader.FileSize" />
+                <Binding SourceProperty="IsVisible" Expression="ui.fileReader.FileContent.hasValue()" />
+              </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-labeledtext" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="labeledtext-text-align-left" />
+                </CssClassConditional>
+              </CssClass>
+            </LabeledText>
+            <CustomHtml>
+              <Name value="previewHtml" />
+              <HtmlMarkup><![CDATA[<div id="previewViewer" style="clear:both"></div>]]></HtmlMarkup>
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="Data" Expression="" />
+              </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-customhtml" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </CustomHtml>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+      </Children>
+      <CssClass>
+        <CssClassConditional>
+          <ClassName value="{theme}-panel" />
+          <IsThemedStyle value="True" />
+        </CssClassConditional>
+        <CssClassConditional>
+          <ClassName value="form-container" />
+        </CssClassConditional>
+      </CssClass>
+    </Panel>
+  </Content>
+  <DataContext>
+    <DataContext>
+      <Children>
+        <Complex>
+          <Name value="params" />
+          <Caption value="Params" />
+          <Children>
+            <Include>
+              <Include reference="+DataEntities.file_params" />
+            </Include>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="ui" />
+          <Caption value="Ui" />
+          <Children>
+            <Complex>
+              <Name value="lblCaption" />
+              <Caption value="Lbl caption" />
+              <Children>
+                <Computed>
+                  <Name value="Text" />
+                  <Caption value="Text" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.params.Caption.hasValue() ? form.params.Caption : "Vyberte soubor:" ]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="fileReader" />
+              <Caption value="File reader" />
+              <Children>
+                <Attribute>
+                  <Name value="FileContent" />
+                  <Caption value="File content" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="FileName" />
+                  <Caption value="File name" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="FileType" />
+                  <Caption value="File type" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="FileSize" />
+                  <Caption value="File size" />
+                  <Description value="plni se v js_previewFile" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Integer" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Computed>
+                  <Name value="Filter" />
+                  <Caption value="Filter" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.params.Filter.hasValue() ? form.params.Filter : defaultString()]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="IsValid" />
+                  <Caption value="Is valid" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[FileContent.hasValue() and
+form.params.Filter.isEmpty() ? true :
+	packages.utils.functions.contains(form.params.Filter, FileType)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+          </Children>
+        </Complex>
+      </Children>
+    </DataContext>
+  </DataContext>
+  <OnCreate>
+    <ActionEvent ReferencedAction="~init" />
+  </OnCreate>
+  <Actions>
+    <ActionBlock>
+      <Name value="handler_fileReader_OnChange" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.actions.js_previewFile()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="js_previewFile" />
+      <IsJavascript value="True" />
+      <Script><![CDATA[var reader = $('input[type="file"]')[0];
+var file = reader.files[0];
+var url = URL.createObjectURL(file);
+var viewer = $('#previewViewer'); 
+var fr = new FileReader();
+
+this.ui.fileReader.FileSize.$value(file.size);
+
+// cleans up previous doc, necessary because preview of images after pdf 
+// does not work in existing embed, for some reason
+viewer.empty();
+
+switch (file.type) {
+	case 'text/plain':
+	case 'text/xml':
+		viewer.append('<pre style="word-wrap: break-word; white-space: pre-wrap;border: 1px dashed lightgrey;"></pre>');
+		var child = viewer.children().first();
+		
+		fr.onload = function(e) {
+			child.append(document.createTextNode(e.target.result));
+		}
+		
+		fr.readAsText(file);
+		break;
+	case 'image/jpeg':
+	case 'image/png':
+	case 'image/gif':
+		viewer.append('<img style="max-width: 800px;max-height: 700px;border: 1px dashed lightgrey;"></img>');
+		var child = viewer.children().first();
+		child.attr('src', url);		
+		break;
+	default:
+		var isIE = !!(window.navigator && window.navigator.msSaveOrOpenBlob);
+	
+		if (!isIE) {
+			viewer.append('<embed title="File preview" width="800" height="700"></embed>');
+			var child = viewer.children().first();
+			child.attr('type', file.type);
+			child.attr('src', url);	
+		}
+		break;		
+}
+]]></Script>
+      <ActionLangBody IsValid="True" />
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btnBack_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.forms.master.isNavigationTreeVisible = true
+navigation.close()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btnConfirm_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var res = globals.forms.file.result
+res.FileContent = form.ui.fileReader.FileContent
+res.FileName = form.ui.fileReader.FileName
+res.FileType = form.ui.fileReader.FileType
+res.FileSize = form.ui.fileReader.FileSize
+
+globals.forms.master.isNavigationTreeVisible = true
+navigation.close()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="init" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.forms.master.isNavigationTreeVisible = false
+
+// clean up result of previous file reading
+var res = globals.forms.file.result
+res.clear()
+
+// take params and then clean global variable
+var par = globals.forms.file.params
+form.params.Caption = par.Caption
+form.params.Filter = par.Filter
+par.clear()
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+  </Actions>
+</Form>

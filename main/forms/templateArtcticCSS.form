@@ -887,15 +887,6 @@
           </DeclaredType>
         </Attribute>
         <Complex>
-          <Name value="event" />
-          <Caption value="Event" />
-          <Children>
-            <Include>
-              <Include reference="+DataEntities.event" />
-            </Include>
-          </Children>
-        </Complex>
-        <Complex>
           <Name value="onNodeActivated" />
           <Caption value="On node activated" />
           <Children>
@@ -948,34 +939,30 @@ ntc.focusNode("Header/Subheader")
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="invokeEvent" />
-      <Description value="akci vola master form pomoci js_invokeEvent" />
+      <Name value="handler_eventDispatcher_OnMessage" />
+      <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.event.fromJson(json)
-
-if form.event.type = "onNodeActivated" then
-	form.onNodeActivated.fromJson(form.event.json)
+        <Script><![CDATA[if params.source = "main_master_navTree" then
+	if params.type = "onNodeActivated" then
+		form.onNodeActivated.fromJson(params.data)
 	
-	system.console(form.onNodeActivated.toJson())
-else
-	system.consoleError("Invalid event type " + form.event.type)
+		system.console(form.onNodeActivated.toJson())
+	else
+		system.consoleError("Invalid event type " + params.type)
+	endif
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext>
-          <Children>
-            <Attribute>
-              <Name value="json" />
-              <Caption value="Json" />
-              <DataContextParameter.IsInput value="True" />
-              <DataContextParameter.IsInputRequired value="True" />
-              <DeclaredType>
-                <AttributeType />
-              </DeclaredType>
-            </Attribute>
-          </Children>
-        </ActionDataContext>
+        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>
+  <ApiObjects>
+    <EventDispatcher identity="EventDispatcher.eb764ceb30274f1e9a3d051d512d6b26">
+      <Name value="eventDispatcher" />
+      <OnMessage>
+        <ActionEvent ReferencedAction="~handler_eventDispatcher_OnMessage" />
+      </OnMessage>
+    </EventDispatcher>
+  </ApiObjects>
 </Form>

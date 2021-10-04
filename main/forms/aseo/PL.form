@@ -894,15 +894,6 @@
           <Caption value="Model" />
           <Children>
             <Complex>
-              <Name value="event" />
-              <Caption value="Event" />
-              <Children>
-                <Include>
-                  <Include reference="+DataEntities.event" />
-                </Include>
-              </Children>
-            </Complex>
-            <Complex>
               <Name value="onNodeActivated" />
               <Caption value="On node activated" />
               <Children>
@@ -1442,42 +1433,11 @@ endif]]></Script>
       <Name value="sendAseoPLDataRequest" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var request = form.model.AseoPLDataRequest
+
 request.clear()
-
-// prepare error in case we need it
-var err = packages.main.globals.forms.error.params
-err.Caption = "Error sending ASEOPLDataRequest"
-
-// clear send result
-globals.sendResult.clear()
-
 request.GUID = guid
 
-globals.IsBusy = true
-var response = apiobjects.cic.postAsync("ASEOPLDataRequest", request.toJson())
-globals.IsBusy = false
-
-var type = response.getMessageType()
-if type in ["ASEOPLDataResponse"] then
-	globals.sendResult.Valid = true
-	globals.sendResult.Type = type
-	globals.sendResult.Message = response.getJsonString()
-else if type in ["IN906A"] then
-	err.MsgType = type
-	err.Msg = response.getJsonString()
-	system.consoleError(err.MsgType)
-	system.consoleError(err.Msg)
-	navigation.main.error.goAndBack()
-else if response.isError() then
-	err.Message = response.getErrorMessage()
-	system.consoleError(err.Message)
-	navigation.main.error.goAndBack()
-else
-	err.Message = "Unexpected response message type: " + type
-	system.consoleError(err.Message)
-	navigation.main.error.goAndBack()
-endif endif endif
-]]></Script>
+form.actions.sendRequest("ASEOPLDataRequest", request.toJson(), "ASEOPLDataResponse")]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -1509,34 +1469,65 @@ params.data._ValidityCustomsOffice.fromJson(item.getJsonString())]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="invokeEvent" />
-      <Description value="akci vola master form pomoci js_invokeEvent" />
+      <Name value="sendRequest" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var model = form.model
-var ui = form.ui
-var navTree = ui.navTree
+        <Script><![CDATA[// prepare error in case we need it
+var err = globals.forms.error.params
+err.Caption = "Error sending " + request
 
-var event = model.event
+// clear send result
+globals.sendResult.clear()
 
-event.fromJson(json)
+globals.IsBusy = true
+var response = apiobjects.cic.postAsync(request, requestData)
+globals.IsBusy = false
 
-if event.type = "onNodeActivated" then
-	var ev = model.onNodeActivated 
-	ev.fromJson(event.json)
-
-	navTree.selectedNode = ev.id
-
-	system.console(model.onNodeActivated.toJson())
+var type = response.getMessageType()
+if type in [expectedResponse] then
+	globals.sendResult.Valid = true
+	globals.sendResult.Type = type
+	globals.sendResult.Message = response.getJsonString()
+else if type in ["IN906A"] then
+	err.MsgType = type
+	err.Msg = response.getJsonString()
+	system.consoleError(err.MsgType)
+	system.consoleError(err.Msg)
+	navigation.main.error.goAndBack()
+else if response.isError() then
+	err.Message = response.getErrorMessage()
+	system.consoleError(err.Message)
+	navigation.main.error.goAndBack()
 else
-	system.consoleError("Invalid event type " + event.type)
-endif]]></Script>
+	err.Message = "Unexpected response message type: " + type
+	system.consoleError(err.Message)
+	navigation.main.error.goAndBack()
+endif endif endif
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
           <Children>
             <Attribute>
-              <Name value="json" />
-              <Caption value="Json" />
+              <Name value="request" />
+              <Caption value="Request" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="requestData" />
+              <Caption value="Request data" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="expectedResponse" />
+              <Caption value="Expected response" />
               <DataContextParameter.IsInput value="True" />
               <DataContextParameter.IsInputRequired value="True" />
               <DeclaredType>
@@ -1545,6 +1536,31 @@ endif]]></Script>
             </Attribute>
           </Children>
         </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_eventDispatcher_OnMessage" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var model = form.model
+var ui = form.ui
+var navTree = ui.navTree
+
+if params.source = "main_master_navTree" then
+	if params.type = "onNodeActivated" then
+		var ev = model.onNodeActivated 
+		ev.fromJson(params.data)
+	
+		navTree.selectedNode = ev.id
+		
+		system.console(model.onNodeActivated.toJson())
+	else
+		system.consoleError("Invalid event type " + params.type)
+	endif
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>
@@ -1557,5 +1573,11 @@ endif]]></Script>
       <Name value="cbb_Country_FltCodelist" />
       <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZEME_O" />
     </FilteredCodelist>
+    <EventDispatcher identity="EventDispatcher.eb764ceb30274f1e9a3d051d512d6b26">
+      <Name value="eventDispatcher" />
+      <OnMessage>
+        <ActionEvent ReferencedAction="~handler_eventDispatcher_OnMessage" />
+      </OnMessage>
+    </EventDispatcher>
   </ApiObjects>
 </Form>

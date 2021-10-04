@@ -75,7 +75,7 @@
                   <Name value="button_close" />
                   <Caption value="Zavřít" />
                   <Panel.Height value="#" />
-                  <Panel.Width value="150px" />
+                  <Panel.Width value="*" />
                   <OnClick>
                     <ActionEvent ReferencedAction="~handler_button_close_OnClick" />
                   </OnClick>
@@ -83,6 +83,9 @@
                     <CssClassConditional>
                       <ClassName value="{theme}-button" />
                       <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="cd-header-button" />
                     </CssClassConditional>
                   </CssClass>
                 </Button>
@@ -482,7 +485,9 @@
     <ActionBlock>
       <Name value="init" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[// take params and then clean global variable
+        <Script><![CDATA[globals.forms.master.isNavigationTreeVisible = false
+
+// take params and then clean global variable
 var p = form.params 
 var gp = globals.forms.error.params
 p.fromJson(gp.toJson())
@@ -518,7 +523,9 @@ form.serverValidationErrors.fromJson(in906a.Qvfk.toJson())
       <Name value="handler_button_close_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[navigation.close()]]></Script>
+        <Script><![CDATA[globals.forms.master.isNavigationTreeVisible = true
+
+navigation.close()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

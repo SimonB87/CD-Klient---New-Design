@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<DataEntity>
+  <Name value="ZJPLHUTA" />
+  <Caption value="Lhůty v ZJP" />
+  <MtsImportOptions.MTS.ID value="ZJPLHUTA" />
+  <MtsImportOptions.MTS.Type value="codelist" />
+  <Children>
+    <Attribute>
+      <Name value="POVOLTYP" />
+      <Caption value="Typ povolení" />
+      <MtsImportOptions.MTS.ID value="ZJPLHUTA/POVOLTYP" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="3" />
+          <StrMinLength value="2" />
+        </AttributeType>
+      </DeclaredType>
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
+    </Attribute>
+    <Attribute>
+      <Name value="ZJPLHUTYP" />
+      <Caption value="Typ ZJP lhůty" />
+      <MtsImportOptions.MTS.ID value="ZJPLHUTA/ZJPLHUTYP" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="10" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="POPIS" />
+      <Caption value="Popis" />
+      <MtsImportOptions.MTS.ID value="ZJPLHUTA/POPIS" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="100" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="OD" />
+      <Caption value="Počátek platnosti" />
+      <MtsImportOptions.MTS.ID value="ZJPLHUTA/OD" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="DateTime" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="_DO" />
+      <Caption value="Konec platnosti" />
+      <MtsImportOptions.MTS.ID value="ZJPLHUTA/DO" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="DateTime" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="MJCAS" />
+      <Caption value="Časová jednotka" />
+      <MtsImportOptions.MTS.ID value="ZJPLHUTA/MJCAS" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="3" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="DOPDELKA" />
+      <Caption value="Doporučená délka" />
+      <MtsImportOptions.MTS.ID value="ZJPLHUTA/DOPDELKA" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="Decimal" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="MINDELKA" />
+      <Caption value="Minimální délka" />
+      <MtsImportOptions.MTS.ID value="ZJPLHUTA/MINDELKA" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="Decimal" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="MAXDELKA" />
+      <Caption value="Maximální délka" />
+      <MtsImportOptions.MTS.ID value="ZJPLHUTA/MAXDELKA" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="Decimal" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Computed>
+      <Name value="_description" />
+      <Caption value="_ description" />
+      <Expression IsValid="True">
+        <ExpressionText><![CDATA[functions.codeListDescription(POVOLTYP,POPIS)]]></ExpressionText>
+        <ResultType>
+          <BaseType value="String" />
+        </ResultType>
+      </Expression>
+    </Computed>
+  </Children>
+</DataEntity>

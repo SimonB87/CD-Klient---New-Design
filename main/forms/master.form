@@ -396,7 +396,7 @@
           </CssClass>
         </Panel>
         <Panel>
-          <Name value="pnlBusy" />
+          <Name value="pnlApiObjects" />
           <Orientation value="Horizontal" />
           <Panel.Height value="#" />
           <Panel.Width value="*" />
@@ -411,33 +411,6 @@
                 <Binding SourceProperty="IsVisible" Expression="globals.IsBusy" />
               </Bindings>
             </BusyIndicator>
-          </Children>
-          <CssClass>
-            <CssClassConditional>
-              <ClassName value="{theme}-panel" />
-              <Condition value="False" />
-              <IsThemedStyle value="True" />
-            </CssClassConditional>
-          </CssClass>
-        </Panel>
-        <Panel>
-          <Name value="pnlNotifications" />
-          <Orientation value="Horizontal" />
-          <Panel.Height value="#" />
-          <Panel.Width value="*" />
-          <Children>
-            <GrowlNotification identity="Notifications.7ff832fd4a2b4377bafd2e81a99bbcfc">
-              <Name value="growlNotification" />
-              <controller reference="+GlobalApiObjects.notificationsCtrl" />
-              <displayTime value="10000" />
-              <iconClassClose value="fa fa-times" />
-              <iconClassError value="fa fa-exclamation" />
-              <iconClassInfo value="fa fa-info-circle" />
-              <iconClassSuccess value="fa fa-check-circle" />
-              <iconClassWarning value="fa fa-exclamation-triangle" />
-              <Panel.Height value="#" />
-              <Panel.Width value="*" />
-            </GrowlNotification>
             <NotificationPanel identity="Notifications.7ff832fd4a2b4377bafd2e81a99bbcfc">
               <Name value="notificationPanel" />
               <controller reference="+GlobalApiObjects.notificationsCtrl" />
@@ -450,13 +423,19 @@
               <Panel.Height value="#" />
               <Panel.Width value="*" />
             </NotificationPanel>
+            <GrowlNotification identity="Notifications.7ff832fd4a2b4377bafd2e81a99bbcfc">
+              <Name value="growlNotification" />
+              <controller reference="+GlobalApiObjects.notificationsCtrl" />
+              <displayTime value="1000000" />
+              <iconClassClose value="fa fa-times" />
+              <iconClassError value="fa fa-exclamation" />
+              <iconClassInfo value="fa fa-info-circle" />
+              <iconClassSuccess value="fa fa-check-circle" />
+              <iconClassWarning value="fa fa-exclamation-triangle" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+            </GrowlNotification>
           </Children>
-          <CssClass>
-            <CssClassConditional>
-              <ClassName value="{theme}-panel" />
-              <IsThemedStyle value="True" />
-            </CssClassConditional>
-          </CssClass>
         </Panel>
       </Children>
       <CssClass>
@@ -480,15 +459,6 @@
           <Name value="model" />
           <Caption value="Model" />
           <Children>
-            <Complex>
-              <Name value="event" />
-              <Caption value="Event" />
-              <Children>
-                <Include>
-                  <Include reference="+DataEntities.event" />
-                </Include>
-              </Children>
-            </Complex>
             <Complex>
               <Name value="onNodeActivated" />
               <Caption value="On node activated" />
@@ -539,7 +509,6 @@
         <Script><![CDATA[// Perform some general settings first
 var appInfo = globals.appInfo
 var master = globals.forms.master
-var layout = globals.layout
 
 master.showMenu = true
 master.newSession = true
@@ -577,8 +546,8 @@ packages.codeLists.apiobjects.ASEOZST.loadDataAsync(defaultDateTime())
 */
 
 // Load codelists
-globals.forms.master.isDownloadingCodelists = true
-packages.codeLists.apiobjects.aCodelistGroup.startBackgroundLoading(defaultDateTime())
+master.isDownloadingCodelists = true
+codelistGroup.startBackgroundLoading(defaultDateTime())
 
 // Zatim se nikde nepouzivaji
 /* 
@@ -605,71 +574,106 @@ packages.codeLists.apiobjects.POVOLTYP.loadDataAsync(defaultDateTime())
       <Name value="handler_navigationTree_OnNodeActivated" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var event = form.model.event
-var onNodeActivated = form.model.onNodeActivated
+        <Script><![CDATA[var onNodeActivated = form.model.onNodeActivated
 
 onNodeActivated.id = params.id
 onNodeActivated.activatedByUser = params.activatedByUser
 
-event.type = "onNodeActivated"
-event.json = onNodeActivated.toJson()
-
-var js = event.toJson()
-
-system.console("Master NavigationTree - Invoking onNodeActivated: ")
-system.console(js)
-form.actions.js_invokeEvent(js)
-system.console("Master NavigationTree - Invocation completed")
-
-]]></Script>
+eventDispatcher.sendMessage("main_master_navTree", "onNodeActivated", onNodeActivated.toJson())]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="js_invokeEvent" />
-      <IsJavascript value="True" />
-      <Script><![CDATA[if ($('.form-container').length > 0) {
-	var formContainer = $('.form-container')[0];
-	ko.dataContext = ko.contextFor(formContainer).$root;
-	
-	if (ko.dataContext.$actions.invokeEvent) {
-        return Promise.resolve()
-            .then(function () {
-                var combinedParams = _.assign({}, params, {
-                    json: params.str
-                });
-                return ko.dataContext.$actions.invokeEvent(ko.dataContext, event, combinedParams);
-            })
-            .catch(function (err) {
-                console.error('js_invokeEvent:' + err.stack || err);
-                debugger;
-            })
-	} else {
-		console.warn("Action 'invokeEvent' does not exist.")
-	}	
-} else {
-	ko.dataContext = null;
-	console.warn("Element with class 'form-container' does not exist.")	
-}
-]]></Script>
-      <ActionLangBody IsValid="True" />
+      <Name value="handler_codelistGroup_OnBackgroundLoadingFinished" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var forms = packages.main.globals.forms 
+
+forms.master.isDownloadingCodelists = false
+eventDispatcher.sendMessage("main_master_codelistGroup", "onBackgroundLoadingFinished", defaultString())]]></Script>
+      </ActionLangBody>
       <DataContext>
-        <ActionDataContext>
-          <Children>
-            <Attribute>
-              <Name value="str" />
-              <Caption value="Str" />
-              <DataContextParameter.IsInput value="True" />
-              <DataContextParameter.IsInputRequired value="True" />
-              <DeclaredType>
-                <AttributeType />
-              </DeclaredType>
-            </Attribute>
-          </Children>
-        </ActionDataContext>
+        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>
+  <ApiObjects>
+    <EventDispatcher identity="EventDispatcher.eb764ceb30274f1e9a3d051d512d6b26">
+      <Name value="eventDispatcher" />
+    </EventDispatcher>
+    <CodelistGroup identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="codelistGroup" />
+      <server reference="+GlobalApiObjects.cic" />
+      <OnBackgroundLoadingFinished>
+        <ActionEvent ReferencedAction="~handler_codelistGroup_OnBackgroundLoadingFinished" />
+      </OnBackgroundLoadingFinished>
+      <codelists>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.CEL_UR" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.CELUPLAT_R" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.CELURAD" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.CELUTVAR" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.JMODPIS_ASEO" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.POVOLDUOD" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.REZIM4" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.SuspendingReason" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.SuspendingReason" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.TypeOfPaybackPeriodEnum" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZADUZAM" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZAKZEME" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZBOZIKOD" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZEME_O" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZJPLHUTA" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZJPZAJIST" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZPZAST" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZAKKOM_V" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZAKKOM_D" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZAKKOM_T" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.TypeOfTimerEnum" />
+        </CodelistGroupMember>
+      </codelists>
+    </CodelistGroup>
+  </ApiObjects>
 </Form>

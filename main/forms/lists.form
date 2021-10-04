@@ -1923,15 +1923,6 @@
               </Children>
             </Complex>
             <Complex>
-              <Name value="event" />
-              <Caption value="Event" />
-              <Children>
-                <Include>
-                  <Include reference="+DataEntities.event" />
-                </Include>
-              </Children>
-            </Complex>
-            <Complex>
               <Name value="onNodeActivated" />
               <Caption value="On node activated" />
               <Children>
@@ -3964,92 +3955,66 @@ endif
 lists.fromTab = form.tabs.SelectedTab
 lists.listState = form.apiobjects.authCtrl.saveState(defaultString())
 
-var unSupported = true
 var type = form.model.selectedCd.CustomsDecisionType
 var guid = form.model.selectedCd.CustomsDecisionGUID
 var customsDecisionOrigin = form.model.selectedCd.CustomsDecisionOrigin
-var isAseoDetail = type in ["TIR", "ACP", "SAR", "ACR"]
+var isAseoDetail = type in [
+	globals.DocType.TIR,
+	globals.DocType.ACP,
+	globals.DocType.SAR,
+	globals.DocType.ACR]
 
 // switch clause would be better, but ... everyone knows:-) 
-if type = "RSS" then
-  unSupported = false
-  navigation.main.regularShipping.withGUID(guid).go()
-endif
-
-if type in ["OPO", "IPO", "TEA", "CW1", "CW2", "CWP", "EUS", "TST"] then
-  unSupported = false
-  navigation.main.econImpactRegime.withGUID(guid).go()
-endif
-
-if type = "SSE" then
-  unSupported = false
-  navigation.main.useOfSealsOfSpecialType.withGUID(guid).go()
-endif
-
-if type in ["CCL", "EIR"] then
-  unSupported = false
-  navigation.main.centralisedClearance.withGUID(guid).go()
-endif
-
-if type = "TRD" then
-  unSupported = false
-  navigation.main.transitDeclaration.withGUID(guid).go()
-endif
-
-if type in ["CGU", "DPO"] then
-  unSupported = false
-  navigation.main.guaranteePayment.withGUID(guid).go()
-endif
-
-if (type in ["ACE", "ACT", "ACR"]) and (isFalse(isAseoDetail)) then
-  navigation.main.simplifiedProcedures.withGUID(guid).go()
-  unSupported = false
-endif
-
-if type = "SDE" then
-  unSupported = false
-  navigation.main.simplifiedDeclaration.withGUID(guid).go()
-endif
-
-if type = "CVA" then
-  navigation.main.simplificationForCustomsValuation.withGUID(guid).go()
-  unSupported = false
-endif
-
-if type = "ETD" then
-  unSupported = false
-  navigation.main.electronicTransportDocument.withGUID(guid).go()
-endif
-
-if type = "AWB" then
-  unSupported = false
-  navigation.main.weigherOfBananas.withGUID(guid).go()
-endif
-
-if type = "SAS" then
-  unSupported = false
-  navigation.main.selfAssessment.withGUID(guid).go()
-endif
-
 if (isTrue(type = "ACP") and isTrue(customsDecisionOrigin = "CD")) then
-  unSupported = false
-  navigation.main.issuerDetail.withGUID(guid).go()
-endif
-
-if (isTrue(isAseoDetail) and isTrue(customsDecisionOrigin = "SP")) then
-  unSupported = false
+	navigation.main.issuerDetail.withGUID(guid).go()
+	
+else if (isTrue(isAseoDetail) and isTrue(customsDecisionOrigin = "SP")) then
   navigation.main.AseoDetail.withGUID(guid).go(type)
-endif
+
+else if type = "RSS" then
+  navigation.main.regularShipping.withGUID(guid).go()
+
+else if type in ["OPO", "IPO", "TEA", "CW1", "CW2", "CWP", "EUS", "TST"] then
+  navigation.main.econImpactRegime.withGUID(guid).go()
+  
+else if type = "SSE" then
+  navigation.main.useOfSealsOfSpecialType.withGUID(guid).go()
+
+else if type in ["CCL", "EIR"] then
+  navigation.main.centralisedClearance.withGUID(guid).go()
+
+else if type = "TRD" then
+  navigation.main.transitDeclaration.withGUID(guid).go()
+
+else if type in ["CGU", "DPO"] then
+  navigation.main.guaranteePayment.withGUID(guid).go()
+
+else if (type in ["ACE", "ACT", "ACR"]) and (isFalse(isAseoDetail)) then
+  navigation.main.simplifiedProcedures.withGUID(guid).go()
+
+else if type = "SDE" then
+  navigation.main.simplifiedDeclaration.withGUID(guid).go()
+
+else if type = "CVA" then
+  navigation.main.simplificationForCustomsValuation.withGUID(guid).go()
+
+else if type = "ETD" then
+  navigation.main.electronicTransportDocument.withGUID(guid).go()
+
+else if type = "AWB" then
+  navigation.main.weigherOfBananas.withGUID(guid).go()
+
+else if type = "SAS" then
+  navigation.main.selfAssessment.withGUID(guid).go()
+  
+else
+	apiobjects.notificationsCtrl.addWarning(stringFormat("Typ '{0}' rozhodnutí není aplikací podporován.", type))
+endif endif endif endif endif endif endif endif endif endif endif endif endif endif
 
 globals.IsBusy = false
 
-if unSupported then 
-	apiobjects.notificationsCtrl.addWarning("Tento typ rozhodnutí není aplikací podporován.")
-endif
-
 //fill selected CD GUID 
-globals.uiGlobalState.GUID = guid
-]]></Script>
+globals.uiGlobalState.GUID = guid]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -4760,89 +4725,6 @@ navigation.main.PL.go()]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="invokeEvent" />
-      <Description value="akci vola master form pomoci js_invokeEvent" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[system.console("invokeEvent() json parameter: ")
-system.console(json)
-
-var lists = globals.forms.lists
-var model = form.model
-var tabs = form.tabs
-var uiState = form.uiState
-var navTree = uiState.navTree
-
-var event = model.event
-event.fromJson(json)
-
-if event.type = "onNodeActivated" then
-	var ev = model.onNodeActivated 
-	ev.fromJson(event.json)
-
-	var split = actions.js_split(ev.id, "_")
-	actions.setStrings(split)
-	var mod = actions.getString(1)
-	var submod = actions.getString(2)
-	var type = actions.getString(3)
-
-	navTree.selectedNode = ev.id
-	
-	var prev_mod = navTree.selectedModule
-	if isTrueOrDefault(prev_mod <> mod) then
-		// set only if value actually changed 
-		form.actions.setModule(mod) 
-	endif
-	
-	navTree.selectedSubModule = submod
-	navTree.selectedType = type
-	
-	globals.forms.lists.fromNode = navTree.selectedNode
-
-	if isTrue(prev_mod = mod) or (mod in ["News"]) then
-		form.actions.setFilter(false)
-	else
-		var tab_mod = form.actions.getTabModule(lists.fromTab) 
-		if isTrue(tab_mod = mod) then
-			tabs.SelectedTab = lists.fromTab
-			system.console("SelectedTab set from global state to '" + tabs.SelectedTabId + "'")
-		else if mod in ["Auth"] then
-			tabs.SelectedTab = tabs.tabAuth_All.idx		
-		else if mod in ["EC"] then
-			tabs.SelectedTab = tabs.tabEC_AppAccepted.idx
-		else if mod in ["PL"] then
-			tabs.SelectedTab = tabs.tabPL_All.idx
-		else if mod in ["Person"] then
-			tabs.SelectedTab = tabs.tabPerson_Valid.idx
-		else if mod in ["CTRL"] then
-			tabs.SelectedTab = tabs.tabCTRL_ToControl.idx
-		else if mod in ["Audit"] then
-			tabs.SelectedTab = tabs.tabAudit_Subjects.idx
-		else
-			system.console("Unhandled onNodeActivated id " + ev.id)
-		endif endif endif endif endif endif endif
-	endif
-
-else
-	system.consoleError("Invalid event type " + event.type)
-endif]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext>
-          <Children>
-            <Attribute>
-              <Name value="json" />
-              <Caption value="Json" />
-              <DataContextParameter.IsInput value="True" />
-              <DataContextParameter.IsInputRequired value="True" />
-              <DeclaredType>
-                <AttributeType />
-              </DeclaredType>
-            </Attribute>
-          </Children>
-        </ActionDataContext>
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="getTabModule" />
       <Description value="vrati prislusny Module z indexu zalozky" />
       <ActionLangBody IsValid="True">
@@ -5001,6 +4883,72 @@ defaultString()]]></Script>
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_eventDispatcher_OnMessage" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var lists = globals.forms.lists
+var model = form.model
+var tabs = form.tabs
+var uiState = form.uiState
+var navTree = uiState.navTree
+
+if params.source = "main_master_navTree" then
+	if params.type = "onNodeActivated" then	
+		var ev = model.onNodeActivated 
+		ev.fromJson(params.data)
+	
+		var split = actions.js_split(ev.id, "_")
+		actions.setStrings(split)
+		var mod = actions.getString(1)
+		var submod = actions.getString(2)
+		var type = actions.getString(3)
+	
+		navTree.selectedNode = ev.id
+		
+		var prev_mod = navTree.selectedModule
+		if isTrueOrDefault(prev_mod <> mod) then
+			// set only if value actually changed 
+			form.actions.setModule(mod) 
+		endif
+		
+		navTree.selectedSubModule = submod
+		navTree.selectedType = type
+		
+		globals.forms.lists.fromNode = navTree.selectedNode
+	
+		if isTrue(prev_mod = mod) or (mod in ["News"]) then
+			form.actions.setFilter(false)
+		else
+			var tab_mod = form.actions.getTabModule(lists.fromTab) 
+			if isTrue(tab_mod = mod) then
+				tabs.SelectedTab = lists.fromTab
+				system.console("SelectedTab set from global state to '" + tabs.SelectedTabId + "'")
+			else if mod in ["Auth"] then
+				tabs.SelectedTab = tabs.tabAuth_All.idx		
+			else if mod in ["EC"] then
+				tabs.SelectedTab = tabs.tabEC_AppAccepted.idx
+			else if mod in ["PL"] then
+				tabs.SelectedTab = tabs.tabPL_All.idx
+			else if mod in ["Person"] then
+				tabs.SelectedTab = tabs.tabPerson_Valid.idx
+			else if mod in ["CTRL"] then
+				tabs.SelectedTab = tabs.tabCTRL_ToControl.idx
+			else if mod in ["Audit"] then
+				tabs.SelectedTab = tabs.tabAudit_Subjects.idx
+			else
+				system.console("Unhandled onNodeActivated id " + ev.id)
+			endif endif endif endif endif endif endif
+		endif
+	else
+		system.consoleError("Invalid event type " + params.type)
+	endif
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
   </Actions>
   <ApiObjects>
     <ListCtrl identity="ListCtrl.459ff3780ab145df985191cfc1336ce1">
@@ -5019,5 +4967,11 @@ defaultString()]]></Script>
       <Name value="fcCELURAD" />
       <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.CELURAD" />
     </FilteredCodelist>
+    <EventDispatcher identity="EventDispatcher.eb764ceb30274f1e9a3d051d512d6b26">
+      <Name value="eventDispatcher" />
+      <OnMessage>
+        <ActionEvent ReferencedAction="~handler_eventDispatcher_OnMessage" />
+      </OnMessage>
+    </EventDispatcher>
   </ApiObjects>
 </Form>

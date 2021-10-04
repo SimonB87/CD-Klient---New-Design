@@ -5,32 +5,85 @@
   <Caption value="Aseo data visualisation" />
   <Content>
     <Panel>
-      <Name value="pnl_body" />
+      <Name value="pnlMain" />
       <Orientation value="Vertical" />
       <Panel.Height value="#" />
       <Panel.Width value="*" />
       <Children>
         <Panel>
-          <Name value="pnl_AllowedCountry" />
+          <Name value="pnlCodelist" />
           <Orientation value="Horizontal" />
           <Panel.Height value="#" />
           <Panel.Width value="*" />
           <Children>
-            <DataTable>
-              <Name value="AllowedCountry" />
+            <LabeledText identity="labeledText.a92a691d6915448ebf9f0b804ce6a733">
+              <Name value="lblCodelistName" />
+              <Caption value="Název číselníku" />
+              <CaptionPosition value="Top" />
+              <Panel.Height value="#" />
+              <Panel.Width value="150px" />
+              <Bindings>
+                <Binding SourceProperty="Data" Expression="inputDataType" />
+              </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-labeledtext" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </LabeledText>
+            <LabeledText identity="labeledText.a92a691d6915448ebf9f0b804ce6a733">
+              <Name value="lblValidity" />
+              <Caption value="Data číselníku platná k" />
+              <CaptionPosition value="Top" />
+              <Panel.Height value="#" />
+              <Panel.Width value="150px" />
+              <Bindings>
+                <Binding SourceProperty="Data" Expression="inputValidity" />
+              </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-labeledtext" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </LabeledText>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="pnlZakZeme" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="ui.pnlZakZeme.IsVisible" />
+          </Bindings>
+          <Children>
+            <SelectionTable identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+              <Name value="stZakZeme" />
+              <IsScrollable value="True" />
+              <MaxHeight value="400px" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
+              <ShowSelector value="False" />
               <Bindings>
-                <Binding SourceProperty="DataItems" Expression="AllowedCountry" />
+                <Binding SourceProperty="Data" Expression="model.ZakZeme.Data" />
+                <Binding SourceProperty="Index" Expression="model.ZakZeme.Index" />
               </Bindings>
               <Columns>
-                <DataColumn>
-                  <Name value="column_ZAKZEME" />
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcZakZeme" />
                   <Caption value="Kód země zakázané pro zjednodušený postup" />
-                  <Width value="100px" />
+                  <ColumnWidth value="20%" />
                   <Content>
                     <Label>
-                      <Name value="label_ZAKZEME" />
+                      <Name value="lblZakZeme" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="ZAKZEME" />
                       </Bindings>
@@ -42,20 +95,13 @@
                       </CssClass>
                     </Label>
                   </Content>
-                  <HeaderCssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-datacolumn" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                  </HeaderCssClass>
-                </DataColumn>
-                <DataColumn>
-                  <Name value="column_POPIS" />
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcZakZeme_Popis" />
                   <Caption value="Název" />
-                  <Width value="300px" />
                   <Content>
                     <Label>
-                      <Name value="label_POPIS" />
+                      <Name value="lblZakZeme_Popis" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="POPIS" />
                       </Bindings>
@@ -67,21 +113,15 @@
                       </CssClass>
                     </Label>
                   </Content>
-                  <HeaderCssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-datacolumn" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                  </HeaderCssClass>
-                </DataColumn>
+                </SelectionTableColumn>
               </Columns>
               <CssClass>
                 <CssClassConditional>
-                  <ClassName value="{theme}-datatable" />
+                  <ClassName value="{theme}-selectiontable" />
                   <IsThemedStyle value="True" />
                 </CssClassConditional>
               </CssClass>
-            </DataTable>
+            </SelectionTable>
           </Children>
           <CssClass>
             <CssClassConditional>
@@ -91,14 +131,393 @@
           </CssClass>
         </Panel>
         <Panel>
-          <Name value="pnl_controll" />
+          <Name value="pnlZakKomV" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="ui.pnlZakKomV.IsVisible" />
+          </Bindings>
+          <Children>
+            <SelectionTable identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+              <Name value="stZakKomV" />
+              <IsScrollable value="True" />
+              <MaxHeight value="400px" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <ShowSelector value="False" />
+              <Bindings>
+                <Binding SourceProperty="Data" Expression="model.ZakKomV.Data" />
+                <Binding SourceProperty="Index" Expression="model.ZakKomV.Index" />
+              </Bindings>
+              <Columns>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcZakKomV" />
+                  <Caption value="Kód" />
+                  <Content>
+                    <Label>
+                      <Name value="lblZakKomV" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="ZAKKOM_V" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcZakKomV_OD" />
+                  <Caption value="Od" />
+                  <Content>
+                    <Label>
+                      <Name value="lblZakKomV_OD" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="OD" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcZakKomV_DO" />
+                  <Caption value="Do" />
+                  <Content>
+                    <Label>
+                      <Name value="lblZakKomV_DO" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="_DO" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+              </Columns>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-selectiontable" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </SelectionTable>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="pnlZakKomD" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="ui.pnlZakKomD.IsVisible" />
+          </Bindings>
+          <Children>
+            <SelectionTable identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+              <Name value="stZakKomD" />
+              <IsScrollable value="True" />
+              <MaxHeight value="400px" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <ShowSelector value="False" />
+              <Bindings>
+                <Binding SourceProperty="Data" Expression="model.ZakKomD.Data" />
+                <Binding SourceProperty="Index" Expression="model.ZakKomD.Index" />
+              </Bindings>
+              <Columns>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcZakKomD" />
+                  <Caption value="Kód" />
+                  <Content>
+                    <Label>
+                      <Name value="lblZakKomD" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="ZAKKOM_D" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcZakKomD_OD" />
+                  <Caption value="Od" />
+                  <Content>
+                    <Label>
+                      <Name value="lblZakKomD_OD" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="OD" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcZakKomD_DO" />
+                  <Caption value="Do" />
+                  <Content>
+                    <Label>
+                      <Name value="lblZakKomD_DO" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="_DO" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+              </Columns>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-selectiontable" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </SelectionTable>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="pnlZakKomT" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="ui.pnlZakKomT.IsVisible" />
+          </Bindings>
+          <Children>
+            <SelectionTable identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+              <Name value="stZakKomT" />
+              <IsScrollable value="True" />
+              <MaxHeight value="400px" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <ShowSelector value="False" />
+              <Bindings>
+                <Binding SourceProperty="Data" Expression="model.ZakKomT.Data" />
+                <Binding SourceProperty="Index" Expression="model.ZakKomT.Index" />
+              </Bindings>
+              <Columns>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcZakKomT" />
+                  <Caption value="Kód" />
+                  <Content>
+                    <Label>
+                      <Name value="lblZakKomT" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="ZAKKOM_T" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcZakKomT_OD" />
+                  <Caption value="Od" />
+                  <Content>
+                    <Label>
+                      <Name value="lblZakKomT_OD" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="OD" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcZakKomT_DO" />
+                  <Caption value="Do" />
+                  <Content>
+                    <Label>
+                      <Name value="lblZakKomT_DO" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="_DO" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+              </Columns>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-selectiontable" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </SelectionTable>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="pnlFileAccess" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="ui.pnlFileAccess.IsVisible" />
+          </Bindings>
+          <Children>
+            <SelectionTable identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+              <Name value="stFileAccess" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="Data" Expression="model.FileAccess.ASEO.Group.FileAccess" />
+                <Binding SourceProperty="Index" Expression="model.FileAccess.Index" />
+              </Bindings>
+              <Columns>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcFileAccess_AccessDate" />
+                  <Caption value="Datum a čas zobrazení" />
+                  <Content>
+                    <Label>
+                      <Name value="lblFileAccess_AccessDate" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="AccessDate" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcFileAccess_User" />
+                  <Caption value="Osobní číslo uživatele" />
+                  <Content>
+                    <Label>
+                      <Name value="lblFileAccess_User" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="User" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcFileAccess_FileName" />
+                  <Caption value="Název souboru" />
+                  <Content>
+                    <Label>
+                      <Name value="lblFileAccess_FileName" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="FileName" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcFileAccess_FileType" />
+                  <Caption value="Typ souboru" />
+                  <Content>
+                    <Label>
+                      <Name value="lblFileAccess_FileType" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="FileType" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+              </Columns>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-selectiontable" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </SelectionTable>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="pnlControl" />
           <Orientation value="Horizontal" />
           <Panel.Height value="#" />
           <Panel.Width value="*" />
           <Children>
             <Button>
-              <Name value="btn_close" />
-              <Caption value="Zpět" />
+              <Name value="btnClose" />
+              <Caption value="Zavřít" />
               <Panel.Height value="#" />
               <Panel.Width value="100%" />
               <OnClick>
@@ -135,6 +554,7 @@
           <Name value="inputJsonData" />
           <Caption value="Input json data" />
           <DataContextParameter.IsInput value="True" />
+          <DataContextParameter.IsInputRequired value="True" />
           <DeclaredType>
             <AttributeType />
           </DeclaredType>
@@ -143,30 +563,228 @@
           <Name value="inputDataType" />
           <Caption value="Input data type" />
           <DataContextParameter.IsInput value="True" />
+          <DataContextParameter.IsInputRequired value="True" />
           <DeclaredType>
             <AttributeType />
           </DeclaredType>
         </Attribute>
-        <Collection>
-          <Name value="AllowedCountry" />
-          <Caption value="Allowed country" />
+        <Attribute>
+          <Name value="inputValidity" />
+          <Caption value="Input validity" />
+          <DataContextParameter.IsInput value="True" />
+          <DataContextParameter.IsInputRequired value="True" />
+          <DeclaredType>
+            <AttributeType>
+              <BaseType value="DateTime" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Complex>
+          <Name value="model" />
+          <Caption value="Model" />
           <Children>
-            <Attribute>
-              <Name value="ZAKZEME" />
-              <Caption value="ZAKZEME" />
-              <DeclaredType>
-                <AttributeType />
-              </DeclaredType>
-            </Attribute>
-            <Attribute>
-              <Name value="POPIS" />
-              <Caption value="POPIS" />
-              <DeclaredType>
-                <AttributeType />
-              </DeclaredType>
-            </Attribute>
+            <Complex>
+              <Name value="ZakZeme" />
+              <Caption value="Zak zeme" />
+              <Children>
+                <Attribute>
+                  <Name value="Index" />
+                  <Caption value="Index" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Integer" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Collection>
+                  <Name value="Data" />
+                  <Caption value="Data" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ZAKZEME" />
+                    </Include>
+                  </Children>
+                </Collection>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="ZakKomV" />
+              <Caption value="Zak kom V" />
+              <Children>
+                <Attribute>
+                  <Name value="Index" />
+                  <Caption value="Index" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Integer" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Collection>
+                  <Name value="Data" />
+                  <Caption value="Data" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ZAKKOM_V" />
+                    </Include>
+                  </Children>
+                </Collection>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="ZakKomD" />
+              <Caption value="Zak kom D" />
+              <Children>
+                <Attribute>
+                  <Name value="Index" />
+                  <Caption value="Index" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Integer" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Collection>
+                  <Name value="Data" />
+                  <Caption value="Data" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ZAKKOM_D" />
+                    </Include>
+                  </Children>
+                </Collection>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="ZakKomT" />
+              <Caption value="Zak kom T" />
+              <Children>
+                <Attribute>
+                  <Name value="Index" />
+                  <Caption value="Index" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Integer" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Collection>
+                  <Name value="Data" />
+                  <Caption value="Data" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ZAKKOM_T" />
+                    </Include>
+                  </Children>
+                </Collection>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="FileAccess" />
+              <Caption value="File access" />
+              <Children>
+                <Attribute>
+                  <Name value="Index" />
+                  <Caption value="Index" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Integer" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Include>
+                  <Include reference="+DataEntities.ASEOFileAccessResponse" />
+                </Include>
+              </Children>
+            </Complex>
           </Children>
-        </Collection>
+        </Complex>
+        <Complex>
+          <Name value="ui" />
+          <Caption value="Ui" />
+          <Children>
+            <Complex>
+              <Name value="pnlZakZeme" />
+              <Caption value="Pnl zak zeme" />
+              <Children>
+                <Computed>
+                  <Name value="IsVisible" />
+                  <Caption value="Is visible" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.inputDataType = "ZAKZEME"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="pnlZakKomV" />
+              <Caption value="Pnl zak kom V" />
+              <Children>
+                <Computed>
+                  <Name value="IsVisible" />
+                  <Caption value="Is visible" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.inputDataType = "ZAKKOM_V"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="pnlZakKomD" />
+              <Caption value="Pnl zak kom D" />
+              <Children>
+                <Computed>
+                  <Name value="IsVisible" />
+                  <Caption value="Is visible" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.inputDataType = "ZAKKOM_D"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="pnlZakKomT" />
+              <Caption value="Pnl zak kom T" />
+              <Children>
+                <Computed>
+                  <Name value="IsVisible" />
+                  <Caption value="Is visible" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.inputDataType = "ZAKKOM_T"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="pnlFileAccess" />
+              <Caption value="Pnl file access" />
+              <Children>
+                <Computed>
+                  <Name value="IsVisible" />
+                  <Caption value="Is visible" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.inputDataType = "ASEOFileAccessResponse"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+          </Children>
+        </Complex>
       </Children>
     </DataContext>
   </DataContext>
@@ -187,11 +805,21 @@
     <ActionBlock>
       <Name value="init" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if isTrue(form.inputDataType = "ZAKZEME") and form.inputJsonData.hasValue() then
+        <Script><![CDATA[if form.inputJsonData.hasValue() then
+	var data = replaceString(form.inputJsonData, "\"DO\"", "\"_DO\"")
 
-	form.AllowedCountry.fromJson(form.inputJsonData)
-
-endIf]]></Script>
+	if isTrue(form.inputDataType = "ZAKZEME") then
+		form.model.ZakZeme.Data.fromJson(data)
+	else if isTrue(form.inputDataType = "ZAKKOM_V") then
+		form.model.ZakKomV.Data.fromJson(data)
+	else if isTrue(form.inputDataType = "ZAKKOM_D") then
+		form.model.ZakKomD.Data.fromJson(data)
+	else if isTrue(form.inputDataType = "ZAKKOM_T") then
+		form.model.ZakKomT.Data.fromJson(data)
+	else if isTrue(form.inputDataType = "ASEOFileAccessResponse") then
+		form.model.FileAccess.fromJson(data)
+	endif endif endif endif endif
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
