@@ -4389,6 +4389,17 @@
             <ActionEvent ReferencedAction="+UiParts.AseoDetail.handler_authorizationType_OnChange" />
           </OnChange>
         </Attribute>
+        <Computed>
+          <Name value="State" />
+          <Caption value="State" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[enums.State.toValue(SubString(form.model.msg.ASEO.State, 1 , 3), enums.State.NONE)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Enum" />
+              <MetaType reference="+MetaTypes.State" />
+            </ResultType>
+          </Expression>
+        </Computed>
         <Attribute>
           <Name value="isEditOn" />
           <Caption value="Is edit on" />
@@ -5232,7 +5243,7 @@
                       <Name value="IsVisible" />
                       <Caption value="Is visible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(form.authorizationType in ["ACR"])]]></ExpressionText>
+                        <ExpressionText><![CDATA[isTrue(form.authorizationType in [globals.DocType.ACR])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5696,7 +5707,16 @@
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[form.authorizationType in ["LE", "EIR", "AR", "ACR", "AE", "ACE", "AT", "ACT", "AC"]]]></ExpressionText>
+                        <ExpressionText><![CDATA[form.authorizationType in [
+	globals.DocType.LE,
+	globals.DocType.EIR,
+	globals.DocType.AR,
+	globals.DocType.ACR,
+	globals.DocType.AE,
+	globals.DocType.ACE,
+	globals.DocType.AT,
+	globals.DocType.ACT,
+	globals.DocType.AC]]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5883,7 +5903,7 @@ isTrue(form.model.validationErrorsCount() > 0)]]></ExpressionText>
                       <Expression IsValid="True">
                         <ExpressionText><![CDATA[packages.navTrees.globals._ntAseoDetail.isItem02lifecycle_authorizationVisible and
 (form.ui.navTree.selectedNode in [form.ui.navTree.ItemAll, form.ui.navTree.Item02lifecycle_authorization]) and
-isTrue(form.authorizationType in ["TIR"])]]></ExpressionText>
+isTrue(form.authorizationType in [globals.DocType.TIR])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5901,7 +5921,7 @@ isTrue(form.authorizationType in ["TIR"])]]></ExpressionText>
                       <Expression IsValid="True">
                         <ExpressionText><![CDATA[packages.navTrees.globals._ntAseoDetail.isItem02lifecycle_authorizationVisible and
 (form.ui.navTree.selectedNode in [form.ui.navTree.ItemAll, form.ui.navTree.Item02lifecycle_authorization]) and
-isTrue(form.authorizationType in ["ACR"])]]></ExpressionText>
+isTrue(form.authorizationType in [globals.DocType.ACR])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5955,7 +5975,7 @@ isTrue(form.authorizationType in [globals.DocType.SAR])]]></ExpressionText>
                       <Expression IsValid="True">
                         <ExpressionText><![CDATA[packages.navTrees.globals._ntAseoDetail.isItem03celniUradyVisible and
 (form.ui.navTree.selectedNode in [form.ui.navTree.ItemAll, form.ui.navTree.Item03celniUrady]) and
-isTrue(form.authorizationType in ["ACR"])]]></ExpressionText>
+isTrue(form.authorizationType in [globals.DocType.ACR])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5990,7 +6010,7 @@ isTrue(form.authorizationType in ["ACR"])]]></ExpressionText>
                       <Expression IsValid="True">
                         <ExpressionText><![CDATA[packages.navTrees.globals._ntAseoDetail.isItem05rozsireneVisible and
 (form.ui.navTree.selectedNode in [form.ui.navTree.ItemAll, form.ui.navTree.Item05rozsirene]) and
-isTrue(form.authorizationType in ["ACR"])]]></ExpressionText>
+isTrue(form.authorizationType in [globals.DocType.ACR])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -6008,7 +6028,7 @@ isTrue(form.authorizationType in ["ACR"])]]></ExpressionText>
                       <Expression IsValid="True">
                         <ExpressionText><![CDATA[packages.navTrees.globals._ntAseoDetail.isItem05rozsireneVisible and
 (form.ui.navTree.selectedNode in [form.ui.navTree.ItemAll, form.ui.navTree.Item05rozsirene]) and
-isTrue(form.authorizationType in ["ACR"])]]></ExpressionText>
+isTrue(form.authorizationType in [globals.DocType.ACR])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -6576,16 +6596,6 @@ isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></
               <Name value="lifeCycle" />
               <Caption value="Life cycle" />
               <Children>
-                <Computed>
-                  <Name value="stateCode" />
-                  <Caption value="State code" />
-                  <Expression IsValid="True">
-                    <ExpressionText><![CDATA[form.model.msg.ASEO.State.hasValue() ? (SubString(form.model.msg.ASEO.State, 1 , 3)) : ""]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="String" />
-                    </ResultType>
-                  </Expression>
-                </Computed>
                 <Complex>
                   <Name value="btnVisibilities" />
                   <Caption value="Btn visibilities" />
@@ -6594,7 +6604,7 @@ isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></
                       <Name value="isCodeAPA" />
                       <Caption value="Is code APA" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "APA"))]]></ExpressionText>
+                        <ExpressionText><![CDATA[isFalse(this.futureChangeWillHappen) AND isTrue(form.State = enums.State.APA)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -6604,7 +6614,7 @@ isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></
                       <Name value="isCodeAUR" />
                       <Caption value="Is code AUR" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "AUR"))]]></ExpressionText>
+                        <ExpressionText><![CDATA[isFalse(this.futureChangeWillHappen) AND isTrue(form.State = enums.State.AUR)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -6614,7 +6624,10 @@ isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></
                       <Name value="isCodeAPA_AUS_AUC" />
                       <Caption value="Is code APA _ AUS _ AUC" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode in ["APA","AUS","AUC"]))]]></ExpressionText>
+                        <ExpressionText><![CDATA[isFalse(this.futureChangeWillHappen) AND isTrue(form.State in [
+	enums.State.APA,
+	enums.State.AUS,
+	enums.State.AUC])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -6624,7 +6637,9 @@ isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></
                       <Name value="isCodeAUA_AUS" />
                       <Caption value="Is code AUA _ AUS" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode in ["AUS","AUA"]))]]></ExpressionText>
+                        <ExpressionText><![CDATA[isFalse(this.futureChangeWillHappen) AND isTrue(form.State in [
+	enums.State.AUS,
+	enums.State.AUA])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -6634,7 +6649,7 @@ isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></
                       <Name value="isCodeAUA" />
                       <Caption value="Is code AUA" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "AUA"))]]></ExpressionText>
+                        <ExpressionText><![CDATA[isFalse(this.futureChangeWillHappen) AND isTrue(form.State = enums.State.AUA)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -6644,7 +6659,7 @@ isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></
                       <Name value="isCodeAUW" />
                       <Caption value="Is code AUW" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "AUW"))]]></ExpressionText>
+                        <ExpressionText><![CDATA[isFalse(this.futureChangeWillHappen) AND isTrue(form.State = enums.State.AUW)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -6654,7 +6669,9 @@ isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></
                       <Name value="isCodeAUS_AUE" />
                       <Caption value="Is code AUS _ AUE" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode in ["AUS","AUE"]))]]></ExpressionText>
+                        <ExpressionText><![CDATA[isFalse(this.futureChangeWillHappen) AND isTrue(form.State in [
+	enums.State.AUS,
+	enums.State.AUE])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -6664,7 +6681,7 @@ isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></
                       <Name value="isCodeAUC" />
                       <Caption value="Is code AUC" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "AUC"))]]></ExpressionText>
+                        <ExpressionText><![CDATA[isFalse(this.futureChangeWillHappen) AND isTrue(form.State = enums.State.AUC)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -6674,7 +6691,11 @@ isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></
                       <Name value="isCodeAPA_AUS_AUC_AUW" />
                       <Caption value="Is code APA _ AUS _ AUC _ AUW" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND (this.owner().stateCode in ["APA","AUS","AUC","AUW"]))]]></ExpressionText>
+                        <ExpressionText><![CDATA[isFalse(this.futureChangeWillHappen) AND (form.State in [
+	enums.State.APA,
+	enums.State.AUS,
+	enums.State.AUC,
+	enums.State.AUW])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -6684,7 +6705,9 @@ isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></
                       <Name value="isCodeAUA_AUE" />
                       <Caption value="isCodeAUA_AUE" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode in ["AUA","AUE"]))]]></ExpressionText>
+                        <ExpressionText><![CDATA[isFalse(this.futureChangeWillHappen) AND isTrue(form.State in [
+	enums.State.AUA,
+	enums.State.AUE])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -6694,7 +6717,7 @@ isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></
                       <Name value="isCodeAUS" />
                       <Caption value="Is code AUS" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(this.owner().stateCode = "AUS"))]]></ExpressionText>
+                        <ExpressionText><![CDATA[isTrue(isFalse(this.futureChangeWillHappen) AND isTrue(form.State = enums.State.AUS))]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -6805,14 +6828,14 @@ isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></
                       <Name value="DecisionDateLabelComputed" />
                       <Caption value="Decision date label computed" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[((this.owner().stateCode = "APA") and (form.ui.lifeCycle.actionConfirm.actionName = "Autorizovat") ) ? "Datum rozhodnutí" :
-	((this.owner().stateCode = "APA") and (form.ui.lifeCycle.actionConfirm.actionName = "Zamítnout žádost" )) ? "Datum odmítnutí" :
-		((this.owner().stateCode = "AUW") and (form.ui.lifeCycle.actionConfirm.actionName = "Autorizovat" )) ? "Datum rozhodnutí" :
-			(this.owner().stateCode in ["AUS","AUE"] ) ? "Datum rozhodnutí" :
-				(this.owner().stateCode = "APA" ) ? "Datum doručení žádosti" :
-					(this.owner().stateCode = "AUA" ) ? "Datum rozhodnutí" :
-						(this.owner().stateCode = "AUR" ) ? "Datum odmítnutí" :
-							(this.owner().stateCode = "AUW" ) ? "Datum zrušení" :
+                        <ExpressionText><![CDATA[((form.State = enums.State.APA) and (form.ui.lifeCycle.actionConfirm.actionName = "Autorizovat")) ? "Datum rozhodnutí" :
+	((form.State = enums.State.APA) and (form.ui.lifeCycle.actionConfirm.actionName = "Zamítnout žádost")) ? "Datum odmítnutí" :
+		((form.State = enums.State.AUW) and (form.ui.lifeCycle.actionConfirm.actionName = "Autorizovat")) ? "Datum rozhodnutí" :
+			(form.State in [enums.State.AUS, enums.State.AUE]) ? "Datum rozhodnutí" :
+				(form.State = enums.State.APA) ? "Datum doručení žádosti" :
+					(form.State = enums.State.AUA) ? "Datum rozhodnutí" :
+						(form.State = enums.State.AUR) ? "Datum odmítnutí" :
+							(form.State = enums.State.AUW) ? "Datum zrušení" :
 								"Datum vydání rozhodnutí."]]></ExpressionText>
                         <ResultType>
                           <BaseType value="String" />
@@ -7003,7 +7026,7 @@ isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></
               <Name value="isEditOnAndIsTypeACR" />
               <Caption value="Is edit on and is type ACR" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA[isTrue(form.isEditOn) and isTrue(form.authorizationType = "ACR")]]></ExpressionText>
+                <ExpressionText><![CDATA[isTrue(form.isEditOn) and isTrue(form.authorizationType = globals.DocType.ACR)]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -7757,10 +7780,8 @@ isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></
           <CollectionValidators>
             <Validator Name="requiredPeriods">
               <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA[isTrue(form.authorizationType in [globals.DocType.SAR, globals.DocType.ACP]) ? 
-	"Doplňte aspoň jednu položku \"Lhůty\" na záložce \"Lhůty a zajištění\" v sekci \"Lhůty\" a přidejte je mezi \"Přidané lhůty\"." : 
-isTrue(form.authorizationType = globals.DocType.ACR) ? 
-	"Doplňte lhůty na záložce \"Lhůty a zajištění\"." : 
+                <ExpressionText><![CDATA[isTrue(form.authorizationType in [globals.DocType.SAR, globals.DocType.ACP, globals.DocType.ACR]) ? 
+	"Doplňte aspoň jednu položku \"Lhůty\" na záložce \"Lhůty a zajištění\"." : 
 defaultString()]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
@@ -7893,6 +7914,17 @@ isTrue(form.authorizationType = globals.DocType.ACR)) ?
                 <ExpressionText><![CDATA[(length(this.Note) > 25 ) ?  (subString(this.Note, 1, 25) + " ...") : this.Note]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="_EventType" />
+              <Caption value="_ event type" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[enums.EvType.toValue(EventType.Key, enums.EvType.NONE)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Enum" />
+                  <MetaType reference="+MetaTypes.EvType" />
                 </ResultType>
               </Expression>
             </Computed>
@@ -8151,7 +8183,7 @@ true]]></ExpressionText>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[( 
 	(form.lifeCycleMode in [ enums.decisionsState.authorize, enums.decisionsState.authorizeModify ]) AND
-	(isTrue(form.authorizationType = "TIR")) AND
+	(isTrue(form.authorizationType = globals.DocType.TIR)) AND
 	(hasValue(form.model.msg.ASEO.Event.SPTIR.TIRHolder) = false ) 
 ) ? 
 	false : 
@@ -8252,7 +8284,7 @@ true]]></ExpressionText>
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(form.lifeCycleMode in [ enums.decisionsState.authorize, enums.decisionsState.authorizeModify ]) ? 
-	(isTrue( form.authorizationType in ["TIR"] ) ? 
+	(isTrue( form.authorizationType in [globals.DocType.TIR] ) ? 
 			((this.SPTIR.isEmpty() ) ? false : true ) : 
 		true) :
 	true
@@ -8517,7 +8549,7 @@ DaysOfPayback.hasValue()]]></ExpressionText>
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(form.lifeCycleMode in [ enums.decisionsState.authorize, enums.decisionsState.authorizeModify ]) ? 
-	(isTrue( (form.authorizationType in ["ACR"]) ) ? 
+	(isTrue( (form.authorizationType in [globals.DocType.ACR]) ) ? 
 		( this.Representation.exists(current.TypeOfRepresentation.hasValue()) ) : 
 		true ) : 
 	true]]></ExpressionText>
@@ -8542,7 +8574,7 @@ DaysOfPayback.hasValue()]]></ExpressionText>
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(isTrue(form.lifeCycleMode in [enums.decisionsState.authorize, enums.decisionsState.authorizeModify]) AND
-isTrue(form.authorizationType = "ACR")) ? 
+isTrue(form.authorizationType = globals.DocType.AC)) ? 
 	( isTrue(form.model.msg.ASEO.Event.SPAx.ExportDeclarationDischargeByTDAllowed) AND 
 	  (isFalse(form.model.msg.ASEO.Event.SPAx.Phase1) AND
 	  isFalse(form.model.msg.ASEO.Event.SPAx.Phase2)) ? false : true
@@ -8563,7 +8595,7 @@ isTrue(form.authorizationType = "ACR")) ?
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[(isTrue(form.lifeCycleMode in [enums.decisionsState.authorize, enums.decisionsState.authorizeModify]) AND
-isTrue(form.authorizationType = "ACR")) ? 
+isTrue(form.authorizationType = globals.DocType.ACR)) ? 
 	( isFalse(form.model.msg.ASEO.Event.SPAx.ExportDeclarationDischargeByTDAllowed) AND 
 	  (isTrue(form.model.msg.ASEO.Event.SPAx.Phase1) OR
 	  isTrue(form.model.msg.ASEO.Event.SPAx.Phase2)) ? false : true
@@ -8609,7 +8641,7 @@ isTrue(form.authorizationType = "ACR")) ?
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[isTrue(form.lifeCycleMode in [enums.decisionsState.authorize, enums.decisionsState.authorizeModify]) AND isTrue(form.authorizationType = "ACR") ?
+                <ExpressionText><![CDATA[isTrue(form.lifeCycleMode in [enums.decisionsState.authorize, enums.decisionsState.authorizeModify]) AND isTrue(form.authorizationType = globals.DocType.ACR) ?
 	isTrue(Seals.SPSealsSpecTypeAllowed) and isTrue(Seals._validSPSealsSpecTypeAllowed) :
 	true]]></ExpressionText>
                 <ResultType>
@@ -8838,6 +8870,23 @@ this.collection().orderBy(length(Current.CNCode.ZBOZIKOD), false).selectFirst(
                 <ExpressionText><![CDATA[isTrue(TypeOfPaybackPeriod.Key = "JIN") ]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+          </Children>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_74BBD49C_Event" />
+          <SourcePath value="model.msg.ASEO.Event" />
+          <Children>
+            <Computed>
+              <Name value="_EventType" />
+              <Caption value="_ event type" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[enums.EvType.toValue(EventType.Key, enums.EvType.NONE)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Enum" />
+                  <MetaType reference="+MetaTypes.EvType" />
                 </ResultType>
               </Expression>
             </Computed>
@@ -9147,7 +9196,7 @@ endIf]]></Script>
       <Name value="initTabMenu" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var tabs = form.components.tabsMenu
-var stateCode = form.ui.lifeCycle.stateCode
+var stateCode = form.State
 
 tabs.Tab01obecne.Title = "Obecné"
 tabs.Tab03celniUrady.Title = "Celní úřady"
@@ -9169,9 +9218,9 @@ tabs.Tab09rezimy.Title = "Režimy"
 tabs.Tab02lifecycle_authorisation.Title = "Povolení" //"Autorizace"
 tabs.Tab10lifecycle_applicationRejection.Title = "Zamítnutí žádosti"
 
-if stateCode in ["FUW","AUW"] then
+if stateCode in [enums.State.FUW, enums.State.AUW] then
 	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zrušení"// Zrušení platnosti
-else if stateCode in ["AUC"] then
+else if stateCode in [enums.State.AUC] then
 	tabs.Tab11lifecycle_authorizationWithdrawal.Title = "Zneplatnění"// Zrušení platnosti
 endIf endIf
 
@@ -9184,11 +9233,16 @@ tabs.Tab01obecne.isVisible = true
 tabs.Tab07prehodnoceni.isVisible = true
 tabs.Tab06prilohy.isVisible = true
 
-if stateCode in ["FUR","AUR"] then
+if stateCode in [enums.State.FUR, enums.State.AUR] then
 
 	tabs.Tab10lifecycle_applicationRejection.isVisible = true
 	
-else if stateCode in ["FUA", "AUA", "AUE", "FCA", "FWA"] then
+else if stateCode in [
+	enums.State.FUA,
+	enums.State.AUA,
+	enums.State.AUE,
+	enums.State.FCA,
+	enums.State.FWA] then
 
 	tabs.Tab02lifecycle_authorisation.isVisible = true
 	
@@ -9212,19 +9266,22 @@ endIf endif
 
 var lifeCycleMode_notAuthorize = isFalse(form.lifeCycleMode in [enums.decisionsState.authorize])
 
-if isTrue(stateCode in ["AUC", "FUW", "AUW"]) AND isTrue(lifeCycleMode_notAuthorize) then 	
+if isTrue(stateCode in [
+	enums.State.AUC,
+	enums.State.FUW,
+	enums.State.AUW]) AND isTrue(lifeCycleMode_notAuthorize) then 	
 	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true	
 else 
 	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
 endIf
 
-if isTrue(stateCode in ["AUS"]) AND isTrue(lifeCycleMode_notAuthorize) then 
+if isTrue(stateCode in [enums.State.AUS]) AND isTrue(lifeCycleMode_notAuthorize) then 
 	tabs.Tab12lifecycle_authorizationSuspending.isVisible = true	
 else 
 	tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 endIf
 
-if isTrue(stateCode in ["APA", "FUA"]) then 
+if isTrue(stateCode in [enums.State.APA, enums.State.FUA]) then 
 	tabs.Tab07prehodnoceni.isVisible = false
 else
 	tabs.Tab07prehodnoceni.isVisible = true
@@ -10579,7 +10636,7 @@ globals.IsBusy = False]]></Script>
       <Name value="setDateAuthorisation" />
       <Category value="lifeCyclePostingSetUp" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if ((form.isEditOn) and (form.ui.lifeCycle.stateCode = "APA"))   then
+        <Script><![CDATA[if ((form.isEditOn) and (form.State = enums.State.APA))   then
 	form.model.msg.ASEO.Event.DecisionDate.clear()
 	form.model.msg.ASEO.Event.DecisionDate = getDate()
 endIf]]></Script>
@@ -10745,9 +10802,9 @@ tabs.Tab01obecne.isVisible = true
 tabs.Tab07prehodnoceni.isVisible = true
 tabs.Tab06prilohy.isVisible = true
 
-var keyType = form.model.msg.ASEO.Event.EventType.Key
+var et = form.model.msg.ASEO.Event._EventType
 
-if keyType in ["NR","MR"] then
+if et in [enums.EvType.NR, enums.EvType.MR] then
 	tabs.Tab10lifecycle_applicationRejection.isVisible = true
 	
 	tabs.Tab02lifecycle_authorisation.isVisible = false
@@ -10757,7 +10814,7 @@ if keyType in ["NR","MR"] then
 	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
 	tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
 	
-else if keyType in ["NU","MU"] then
+else if et in [enums.EvType.NU, enums.EvType.MU] then
 	tabs.Tab02lifecycle_authorisation.isVisible = true
 	tabs.Tab04zbozi.isVisible = true
 		if form.authorizationType in [globals.DocType.ACP] then
@@ -10768,7 +10825,11 @@ else if keyType in ["NU","MU"] then
 	 tabs.Tab10lifecycle_applicationRejection.isVisible = false	
 	 tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
 	 tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-else if keyType in ["NW","MW", "NC", "MC"] then
+else if et in [
+	enums.EvType.NW,
+	enums.EvType.MW,
+	enums.EvType.NC,
+	enums.EvType.MC] then
 	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = true
 	
 	tabs.Tab02lifecycle_authorisation.isVisible = false
@@ -10777,7 +10838,7 @@ else if keyType in ["NW","MW", "NC", "MC"] then
 	tabs.Tab05rozsirene.isVisible = false
 	tabs.Tab10lifecycle_applicationRejection.isVisible = false
 	tabs.Tab12lifecycle_authorizationSuspending.isVisible = false
-else if keyType in ["NS","MS"] then
+else if et in [enums.EvType.NS, enums.EvType.MS] then
 	tabs.Tab12lifecycle_authorizationSuspending.isVisible = true
 	
 	tabs.Tab02lifecycle_authorisation.isVisible = false
@@ -10786,7 +10847,7 @@ else if keyType in ["NS","MS"] then
 	tabs.Tab05rozsirene.isVisible = false
 	tabs.Tab10lifecycle_applicationRejection.isVisible = false	
 	tabs.Tab11lifecycle_authorizationWithdrawal.isVisible = false
-else if keyType in ["NA","MA"] then
+else if et in [enums.EvType.NA, enums.EvType.MA] then
 
 	tabs.Tab02lifecycle_authorisation.isVisible = false
 	tabs.Tab04zbozi.isVisible = false
@@ -10808,15 +10869,18 @@ tabs.SelectedTab = 1
     <ActionBlock>
       <Name value="prepareButtonActionText" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.model.msg.ASEO.EventHistory.exists(current.EventType.Key in ["NU", "MU"]) then
-	var lastAuthorisation = form.model.msg.ASEO.EventHistory.selectFirst(current.EventType.Key in ["NU", "MU"])
+        <Script><![CDATA[var aseo = form.model.msg.ASEO 
+var pa = form.ui.lifeCycle.pastAuthorisation 
+
+if aseo.EventHistory.exists(Current._EventType in [enums.EvType.NU, enums.EvType.MU]) then
+	var lastAuthorisation = aseo.EventHistory.selectFirst(Current._EventType in [enums.EvType.NU, enums.EvType.MU])
 	var lastAuthorisationGUIDVersion = lastAuthorisation.GUID
 		
-	form.ui.lifeCycle.pastAuthorisation.authorisationButtonText = "Obnovit povolení"
-	form.ui.lifeCycle.pastAuthorisation.pastAuthorisationGuidVersion = lastAuthorisationGUIDVersion
+	pa.authorisationButtonText = "Obnovit povolení"
+	pa.pastAuthorisationGuidVersion = lastAuthorisationGUIDVersion
 else
-	form.ui.lifeCycle.pastAuthorisation.authorisationButtonText = "Vydat povolení"
-	form.ui.lifeCycle.pastAuthorisation.pastAuthorisationGuidVersion.clear()
+	pa.authorisationButtonText = "Vydat povolení"
+	pa.pastAuthorisationGuidVersion.clear()
 endIf]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -10866,14 +10930,17 @@ endIf
       <Name value="getAuthorisationMessage" />
       <Category value="lifeCyclePostingSetUp" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[if form.model.msg.ASEO.EventHistory.exists(current.EventType.Key in ["NU", "MU"]) then
-	var lastAuthorisation = form.model.msg.ASEO.EventHistory.selectFirst(current.EventType.Key in ["NU", "MU"])
+        <Script><![CDATA[var aseo = form.model.msg.ASEO 
+var pa = form.ui.lifeCycle.pastAuthorisation 
+
+if aseo.EventHistory.exists(current._EventType in [enums.EvType.NU, enums.EvType.MU]) then
+	var lastAuthorisation = aseo.EventHistory.selectFirst(current._EventType in [enums.EvType.NU, enums.EvType.MU])
 	var lastAuthorisationGUIDVersion = lastAuthorisation.GUID
 	
-	form.ui.lifeCycle.pastAuthorisation.pastAuthorisationGuidVersion = lastAuthorisationGUIDVersion
+	pa.pastAuthorisationGuidVersion = lastAuthorisationGUIDVersion
 	result = "Úspěšně předáno k obnovení povolení."
 else
-	form.ui.lifeCycle.pastAuthorisation.pastAuthorisationGuidVersion.clear()
+	pa.pastAuthorisationGuidVersion.clear()
 	result = "Úspěšně předáno k vydání povolení."
 endIf]]></Script>
       </ActionLangBody>
@@ -11365,7 +11432,7 @@ item.CheckResult = params.data.ResponsiblePersonFullName.CheckResult
 var seals = aseo.Event.Seals
 
 if 	isTrue(form.lifeCycleMode in [enums.decisionsState.authorize, enums.decisionsState.authorizeModify]) AND 
-	isTrue(form.authorizationType = "ACR")  AND
+	isTrue(form.authorizationType = globals.DocType.ACR)  AND
 	isTrue(seals.SPSealsSpecTypeAllowed) then
 
 	var dt = form.actions.getValidityStartDate()
@@ -11458,7 +11525,7 @@ form.actions.setFilter_ZjpZajist()]]></Script>
         <Script><![CDATA[var nt = packages.navTrees.globals._ntAseoDetail
 var state = params.data.State
 
-nt.StateCode = hasValue(state) ? substring(state, 1 , 3) : defaultString()]]></Script>
+nt.StateCode = packages.navTrees.enums.State.toValue(subString(state, 1, 3), packages.navTrees.enums.State.NONE)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -11494,7 +11561,8 @@ nt.IsLastVersion = isLastVer]]></Script>
       <Name value="handler_modifier_19727869_EventType_OnChange" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[packages.navTrees.globals._ntAseoDetail.EventType = params.data.EventType.Key]]></Script>
+        <Script><![CDATA[packages.navTrees.globals._ntAseoDetail.EventType = 
+	packages.navTrees.enums.EvType.toValue(params.data.EventType.Key, packages.navTrees.enums.EvType.NONE) ]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -11783,13 +11851,20 @@ var validity = aseo.Event.ValidityStartDate
 var data = defaultString()
 var cis = defaultString()
 
-if auth in ["LE"] then
+if auth in [globals.DocType.LE] then
 	data = fcZAKKOM_V.getDataAsJson()
 	cis = "ZAKKOM_V"
-else if auth in ["EIR"] then
+else if auth in [globals.DocType.EIR] then
 	data = fcZAKKOM_D.getDataAsJson()
 	cis = "ZAKKOM_D"
-else if auth in ["AR", "ACR", "AE", "ACE", "AT", "ACT", "AC"] then
+else if auth in [
+	globals.DocType.AR,
+	globals.DocType.ACR,
+	globals.DocType.AE,
+	globals.DocType.ACE,
+	globals.DocType.AT,
+	globals.DocType.ACT,
+	globals.DocType.AC] then
 	data = fcZAKKOM_T.getDataAsJson()
 	cis = "ZAKKOM_T"
 else
@@ -12075,7 +12150,7 @@ if params.source = "main_master_navTree" then
 				form.ui.groupBoxes.cgbClientErrors._IsVisible = true
 			endif
 			
-			apiobjects.notificationsCtrl.addWarning("test notifikace")
+			apiobjects.notificationsCtrl.addWarning("test notifikace")			
 		endif
 	
 		system.console(model.onNodeActivated.toJson())

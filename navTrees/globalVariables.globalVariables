@@ -944,9 +944,7 @@
         <Attribute>
           <Name value="StateCode" />
           <Caption value="State code" />
-          <DeclaredType>
-            <AttributeType />
-          </DeclaredType>
+          <MetaType reference="+MetaTypes.State" />
           <OnChange>
             <ActionEvent ReferencedAction="+GlobalActions.setAseoDetailNodeVisibility" />
           </OnChange>
@@ -974,9 +972,7 @@
         <Attribute>
           <Name value="EventType" />
           <Caption value="Event type" />
-          <DeclaredType>
-            <AttributeType />
-          </DeclaredType>
+          <MetaType reference="+MetaTypes.EvType" />
           <OnChange>
             <ActionEvent ReferencedAction="+GlobalActions.setAseoDetailNodeVisibility" />
           </OnChange>
@@ -1075,8 +1071,8 @@
           <Expression IsValid="True">
             <ExpressionText><![CDATA[ModeWithdrawal ? "Zrušení" :
 ModeCancellation ? "Zneplatnění" :
-StateCode in ["FUW","AUW"] ? "Zrušení" :
-StateCode in ["AUC"] ? "Zneplatnění" :
+StateCode in [enums.State.FUW, enums.State.AUW] ? "Zrušení" :
+StateCode in [enums.State.AUC] ? "Zneplatnění" :
 "Zrušení"]]></ExpressionText>
             <ResultType>
               <BaseType value="String" />
@@ -1240,10 +1236,15 @@ StateCode in ["AUC"] ? "Zneplatnění" :
           <Caption value="isItem02lifecycle_authorizationVisible" />
           <Expression IsValid="True">
             <ExpressionText><![CDATA[isFalse(IsLastVersion) ?
-	EventType in ["NU","MU"] :
+	EventType in [enums.EvType.NU, enums.EvType.MU] :
 	ModeAuthorize ?
 		true : 
-		StateCode in ["FUA", "AUA", "AUE", "FCA", "FWA"]]]></ExpressionText>
+		StateCode in [
+			enums.State.FUA,
+			enums.State.AUA,
+			enums.State.AUE,
+			enums.State.FCA,
+			enums.State.FWA]]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -1254,12 +1255,17 @@ StateCode in ["AUC"] ? "Zneplatnění" :
           <Caption value="isItem03celniUradyVisible" />
           <Expression IsValid="True">
             <ExpressionText><![CDATA[isFalse(IsLastVersion) ?
-	(EventType in ["NU","MU"]) and (AuthType in [globals.DocType.ACP]) :
+	(EventType in [enums.EvType.NU, enums.EvType.MU]) and (AuthType in [globals.DocType.ACP]) :
 	ModeAuthorize ?
 		AuthType in [globals.DocType.ACP, globals.DocType.SAR, globals.DocType.ACR] : 
 		isTrue(ModeWithdrawal or ModeSuspending or ModeCancellation) ?
 			false : 
-			StateCode in ["FUA", "AUA", "AUE", "FCA", "FWA"]]]></ExpressionText>
+			StateCode in [
+				enums.State.FUA,
+				enums.State.AUA,
+				enums.State.AUE,
+				enums.State.FCA,
+				enums.State.FWA]]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -1270,12 +1276,22 @@ StateCode in ["AUC"] ? "Zneplatnění" :
           <Caption value="isItem04zboziVisible" />
           <Expression IsValid="True">
             <ExpressionText><![CDATA[isFalse(IsLastVersion) ?
-	EventType in ["NU","MU"] :
+	EventType in [enums.EvType.NU, enums.EvType.MU] :
 	ModeAuthorize ?
-		AuthType in ["ACP", "TIR", "ACR"] : 
+		AuthType in [
+			globals.DocType.ACP,
+			globals.DocType.TIR,
+			globals.DocType.ACR] : 
 		isTrue(ModeWithdrawal or ModeSuspending or ModeCancellation) ?
 			false : 
-			(StateCode in ["FUA", "AUA", "AUE", "FCA", "FWA"]) and (AuthType in ["ACP", "ACR"])]]></ExpressionText>
+			(StateCode in [
+				enums.State.FUA,
+				enums.State.AUA,
+				enums.State.AUE,
+				enums.State.FCA,
+				enums.State.FWA]) and (AuthType in [
+				globals.DocType.ACP, 
+				globals.DocType.ACR])]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -1286,12 +1302,17 @@ StateCode in ["AUC"] ? "Zneplatnění" :
           <Caption value="isItem05rozsireneVisible" />
           <Expression IsValid="True">
             <ExpressionText><![CDATA[isFalse(IsLastVersion) ?
-	(EventType in ["NU","MU"]) and (AuthType in [globals.DocType.ACP]) :
+	(EventType in [enums.EvType.NU, enums.EvType.MU]) and (AuthType in [globals.DocType.ACP]) :
 	ModeAuthorize ?
 		AuthType in [globals.DocType.ACP, globals.DocType.SAR, globals.DocType.ACR] : 
 		isTrue(ModeWithdrawal or ModeSuspending or ModeCancellation) ?
 			false : 
-			StateCode in ["FUA", "AUA", "AUE", "FCA", "FWA"]]]></ExpressionText>
+			StateCode in [
+				enums.State.FUA,
+				enums.State.AUA,
+				enums.State.AUE,
+				enums.State.FCA,
+				enums.State.FWA]]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -1311,7 +1332,7 @@ StateCode in ["AUC"] ? "Zneplatnění" :
           <Name value="isItem07prehodnoceniVisible" />
           <Caption value="isItem07prehodnoceniVisible" />
           <Expression IsValid="True">
-            <ExpressionText><![CDATA[isFalseOrDefault(stateCode in ["APA", "FUA"])]]></ExpressionText>
+            <ExpressionText><![CDATA[isFalseOrDefault(stateCode in [enums.State.APA, enums.State.FUA])]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -1340,7 +1361,12 @@ StateCode in ["AUC"] ? "Zneplatnění" :
 	globals.DocType.SAR]) ? false :
 	ModeAuthorize ? true : 
 		isTrue(ModeWithdrawal or ModeSuspending or ModeCancellation) ? false : 
-			isTrue(StateCode in ["FUA", "AUA", "AUE", "FCA", "FWA"])]]></ExpressionText>
+			isTrue(StateCode in [
+				enums.State.FUA,
+				enums.State.AUA,
+				enums.State.AUE,
+				enums.State.FCA,
+				enums.State.FWA])]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -1351,10 +1377,10 @@ StateCode in ["AUC"] ? "Zneplatnění" :
           <Caption value="isItem10lifecycle_applicationRejectionVisible" />
           <Expression IsValid="True">
             <ExpressionText><![CDATA[isFalse(IsLastVersion) ?
-	EventType in ["NR","MR"] :
+	EventType in [enums.EvType.NR, enums.EvType.MR] :
 	ModeReject ?
 		true : 
-		StateCode in ["FUR","AUR"]]]></ExpressionText>
+		StateCode in [enums.State.FUR, enums.State.AUR]]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -1365,10 +1391,13 @@ StateCode in ["AUC"] ? "Zneplatnění" :
           <Caption value="isItem11lifecycle_authorizationWithdrawalVisible" />
           <Expression IsValid="True">
             <ExpressionText><![CDATA[isFalse(IsLastVersion) ?
-	EventType in ["NW","MW", "NC", "MC"] :
+	EventType in [enums.EvType.NW, enums.EvType.MW, enums.EvType.NC, enums.EvType.MC] :
 	(ModeWithdrawal or ModeCancellation) ?
 		true : 
-		NotModeAuthorize and (StateCode in ["AUC", "FUW", "AUW"])]]></ExpressionText>
+		NotModeAuthorize and (StateCode in [
+			enums.State.AUC,
+			enums.State.FUW,
+			enums.State.AUW])]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -1379,10 +1408,10 @@ StateCode in ["AUC"] ? "Zneplatnění" :
           <Caption value="isItem12lifecycle_authorizationSuspendingVisible" />
           <Expression IsValid="True">
             <ExpressionText><![CDATA[isFalse(IsLastVersion) ?
-	EventType in ["NS","MS"] :
+	EventType in [enums.EvType.NS, enums.EvType.MS] :
 	ModeSuspending ?
 		true : 
-		NotModeAuthorize and (StateCode in ["AUS"])]]></ExpressionText>
+		NotModeAuthorize and (StateCode in [enums.State.AUS])]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -1393,8 +1422,13 @@ StateCode in ["AUC"] ? "Zneplatnění" :
           <Caption value="isItem13zaveryVisible" />
           <Expression IsValid="True">
             <ExpressionText><![CDATA[ModeAuthorize ?
-	AuthType in ["ACR"] : 
-	(StateCode in ["FUA", "AUA", "AUE", "FCA", "FWA"]) and (AuthType in ["ACR"])]]></ExpressionText>
+	AuthType in [globals.DocType.ACR] : 
+	(StateCode in [
+		enums.State.FUA,
+		enums.State.AUA,
+		enums.State.AUE,
+		enums.State.FCA,
+		enums.State.FWA])]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -1405,8 +1439,13 @@ StateCode in ["AUC"] ? "Zneplatnění" :
           <Caption value="isItem14odpovedneOsosbyVisible" />
           <Expression IsValid="True">
             <ExpressionText><![CDATA[ModeAuthorize ?
-	AuthType in ["ACR"] : 
-	(StateCode in ["FUA", "AUA", "AUE", "FCA", "FWA"]) and (AuthType in ["ACR"])]]></ExpressionText>
+	AuthType in [globals.DocType.ACR] : 
+	(StateCode in [
+		enums.State.FUA,
+		enums.State.AUA,
+		enums.State.AUE,
+		enums.State.FCA,
+		enums.State.FWA])]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
