@@ -4120,33 +4120,6 @@
               </Children>
             </Complex>
             <Attribute>
-              <Name value="showACE_ACR" />
-              <Caption value="Show ACE _ ACR" />
-              <DeclaredType>
-                <AttributeType>
-                  <BaseType value="Bool" />
-                </AttributeType>
-              </DeclaredType>
-            </Attribute>
-            <Attribute>
-              <Name value="showACT" />
-              <Caption value="Show ACT" />
-              <DeclaredType>
-                <AttributeType>
-                  <BaseType value="Bool" />
-                </AttributeType>
-              </DeclaredType>
-            </Attribute>
-            <Attribute>
-              <Name value="showACE" />
-              <Caption value="Show ACE" />
-              <DeclaredType>
-                <AttributeType>
-                  <BaseType value="Bool" />
-                </AttributeType>
-              </DeclaredType>
-            </Attribute>
-            <Attribute>
               <Name value="_index_GoodsWillBeReceivedUnderUnionTransit" />
               <Caption value="_ index _ goods will be received under union transit" />
               <DeclaredType>
@@ -4173,6 +4146,36 @@
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Computed>
+              <Name value="showACE_ACR" />
+              <Caption value="Show ACE _ ACR" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[isTrue(form.CD.customsDecisionAuthorisationData.customsDecisionInformation.applicationDecisionCodeType in ["ACE", "ACR"])]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="showACT" />
+              <Caption value="Show ACT" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[isTrue(form.CD.customsDecisionAuthorisationData.customsDecisionInformation.applicationDecisionCodeType in ["ACT"])]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="showACE" />
+              <Caption value="Show ACE" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[isTrue(form.CD.customsDecisionAuthorisationData.customsDecisionInformation.applicationDecisionCodeType in ["ACE"])]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
           </Children>
         </Complex>
       </Children>
@@ -4250,16 +4253,14 @@ form.actions.prepareFormForAnnexInteraction()
 //form.actions.initTabMenu_ALANG()
 //form.tabsMenu.SelectedTab = 1
 form.actions.initNavigationTree()
-form.actions.checkType()
 
 //test
-form.formState.showACT = true
-form.formState.showACE = true
+form.CD.customsDecisionAuthorisationData.customsDecisionInformation.applicationDecisionCodeType = "ACE"
 form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.identificationMeasures.fromJson("{}")
 
 form.CD.customsDecisionAuthorisationData.levelOfReduction.levelOfGuarantee.addItem()
 form.CD.customsDecisionAuthorisationData.involvedMemberStates.addItem()
-form.CD.customsDecisionAuthorisationData.customsDecisionInformation.applicationDecisionCodeType = "ACE & ACT - V2"
+form.CD.customsDecisionAuthorisationData.customsDecisionInformation.applicationDecisionCodeType = "ACE, ACT, ACR - V2"
 //test
 globals.IsBusy = false
 ]]></Script>
@@ -4707,38 +4708,6 @@ result = "Přílohy (" + toString(euAnnex + czAnnex) + ")"]]></Script>
       <Name value="goToDecList" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[navigation.main.lists.go()]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="checkType" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var code = form.CD.customsDecisionAuthorisationData.customsDecisionInformation.applicationDecisionCodeType
-var type_ace = isTrue(code = "ACE")
-var type_acr = isTrue(code = "ACR")
-var type_act = isTrue(code = "ACT")
-
-if (type_ace OR type_acr ) then
-
-		form.formState.showACE_ACR = true
-		form.formState.showACT = false
-		
-	if (type_ace) then
-		form.formState.showACE = true
-	endIf
-	
-else 
-	if (type_act) then
-	
-		form.formState.showACT = true
-		form.formState.showACE = false
-		form.formState.showACE_ACR = false
-		
-	endIf
-endIf
-]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
