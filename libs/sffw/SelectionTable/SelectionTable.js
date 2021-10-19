@@ -23,9 +23,14 @@ var sffw;
                 function SelectionTableModel(params, componentInfo) {
                     var _this = this;
                     this.isScrollable = ko.observable(false);
+                    this.selectionEnabled = ko.observable(false);
                     this.columns = [];
                     this.onRowClick = function (_data, event) {
-                        _this.index(event.currentTarget.rowIndex);
+                        if (_this.selectionEnabled())
+                            _this.index(event.currentTarget.rowIndex);
+                        if (_this.onRowClickHandler) {
+                            _this.onRowClickHandler(_data, event, { data: _data });
+                        }
                         return true;
                     };
                     if (params.Data) {
@@ -54,7 +59,14 @@ var sffw;
                         this.isScrollable(params.IsScrollable);
                     }
                     this.maxHeight = params.MaxHeight;
+                    if (_.isFunction(params.SelectionEnabled)) {
+                        this.selectionEnabled = params.SelectionEnabled;
+                    }
+                    else {
+                        this.selectionEnabled(params.SelectionEnabled);
+                    }
                     this.columns = params.Columns;
+                    this.onRowClickHandler = params.OnRowClick;
                 }
                 return SelectionTableModel;
             }());
@@ -73,7 +85,7 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new sffw.components.selectionTable.SelectionTableModel(params, componentInfo); }
                     },
-                    template: "\n<div class=\"sffw-selectiontable-scroll\" data-bind=\"style: { 'max-height': $data.isScrollable() ? $data.maxHeight : '', 'overflow-y': $data.isScrollable() ? 'auto' : 'unset' }\">\n    <table class=\"sffw-selectiontable alternate-rows hover-highlight\" data-bind=\"visible: $data.isVisible\">\n        <thead>\n            <tr class=\"selectiontable-header-row\">\n                <!-- ko if: $data.showSelector -->\n                <th class=\"selectiontable-column selector container\" data-bind=\"style: { width: $data.selectorWidth }, css: { 'sticky-table-header': $data.isScrollable }\"></th>\n                <!-- /ko -->\n                <!-- ko foreach: columns -->\n                <th class=\"selectiontable-column container\" data-bind=\"style: { width: $data.ColumnWidth }, visible: $data.IsVisible, css: { 'sticky-table-header': $parent.isScrollable }\">\n                    <span data-bind=\"text: $data.Caption\"></span>\n                </th>\n                <!-- /ko -->\n            </tr>\n        </thead>\n        <tbody>\n            <!-- ko foreach: items -->\n            <tr class=\"selectiontable-row\" data-bind=\"click: $parent.onRowClick, css: { selected: $parent.index() == $index() + 1 }\">\n                <!-- ko if: $parent.showSelector -->\n                <td class=\"selector container\">\n                    <!-- ko if: $parent.index() == $index() + 1 -->\n                    <span data-bind=\"class: $parent.selectorClass\"></span>\n                    <!-- /ko -->\n                </td>\n                <!-- /ko -->\n                <!-- ko foreach: $parent.columns -->\n                <td class=\"container\" data-bind=\"visible: $data.IsVisible\">\n                    <!-- ko template: { nodes: [$componentTemplateNodes[$index()]], data: $parent } --><!-- /ko -->\n                </td>\n                <!-- /ko -->\n            </tr>\n            <!-- /ko -->\n        </tbody>\n    </table>\n</div>"
+                    template: "\n<div class=\"sffw-selectiontable-scroll\" data-bind=\"style: { 'max-height': $data.isScrollable() ? $data.maxHeight : '', 'overflow-y': $data.isScrollable() ? 'auto' : 'unset' }\">\n    <table class=\"sffw-selectiontable alternate-rows hover-highlight\" data-bind=\"visible: $data.isVisible, css: { 'selection-disabled': !($data.selectionEnabled()) }\">\n        <thead>\n            <tr class=\"selectiontable-header-row\">\n                <!-- ko if: $data.showSelector -->\n                <th class=\"selectiontable-column selector container\" data-bind=\"style: { width: $data.selectorWidth }, css: { 'sticky-table-header': $data.isScrollable }\"></th>\n                <!-- /ko -->\n                <!-- ko foreach: columns -->\n                <th class=\"selectiontable-column container\" data-bind=\"style: { width: $data.ColumnWidth }, visible: $data.IsVisible, css: { 'sticky-table-header': $parent.isScrollable }\">\n                    <span data-bind=\"text: $data.Caption\"></span>\n                </th>\n                <!-- /ko -->\n            </tr>\n        </thead>\n        <tbody>\n            <!-- ko foreach: items -->\n            <tr class=\"selectiontable-row\" data-bind=\"click: $parent.onRowClick, css: { selected: $parent.index() == $index() + 1 }\">\n                <!-- ko if: $parent.showSelector -->\n                <td class=\"selector container\">\n                    <!-- ko if: $parent.index() == $index() + 1 -->\n                    <span data-bind=\"class: $parent.selectorClass\"></span>\n                    <!-- /ko -->\n                </td>\n                <!-- /ko -->\n                <!-- ko foreach: $parent.columns -->\n                <td class=\"container\" data-bind=\"visible: $data.IsVisible\">\n                    <!-- ko template: { nodes: [$componentTemplateNodes[$index()]], data: $parent } --><!-- /ko -->\n                </td>\n                <!-- /ko -->\n            </tr>\n            <!-- /ko -->\n        </tbody>\n    </table>\n</div>"
                 });
             }
         })(selectionTable = components.selectionTable || (components.selectionTable = {}));

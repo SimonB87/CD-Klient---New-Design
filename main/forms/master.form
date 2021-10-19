@@ -85,7 +85,7 @@
                   <Data value="Probíhá stahování číselníků..." />
                   <Panel.Height value="#" />
                   <Panel.VerticalAlignment value="Middle" />
-                  <Panel.Width value="150px" />
+                  <Panel.Width value="110px" />
                   <Bindings>
                     <Binding SourceProperty="IsVisible" Expression="globals.forms.master.isDownloadingCodelists" />
                   </Bindings>
@@ -107,6 +107,55 @@
                 </CssClassConditional>
               </CssClass>
             </Panel>
+            <Panel>
+              <Name value="pnlClearNotifications" />
+              <Orientation value="Horizontal" />
+              <Panel.Height value="#" />
+              <Panel.VerticalAlignment value="Middle" />
+              <Panel.Width value="*" />
+              <OnClick>
+                <ActionEvent ReferencedAction="~handler_pnlClearNotifications_OnClick" />
+              </OnClick>
+              <Children>
+                <Label>
+                  <Name value="lblClearNotifications" />
+                  <Data value=" " />
+                  <Panel.Height value="#" />
+                  <Panel.VerticalAlignment value="Middle" />
+                  <Panel.Width value="*" />
+                  <Bindings>
+                    <Binding SourceProperty="IsVisible" Expression="globals.forms.master.notificationClearVisible" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-label" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="fa" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="fa-bell-slash-o" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="cd-notification-clear" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Label>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+            <NotificationPanelStatusIcon identity="Notifications.7ff832fd4a2b4377bafd2e81a99bbcfc">
+              <Name value="notificationPanelStatusIcon" />
+              <controller reference="+GlobalApiObjects.notificationsCtrl" />
+              <Panel.Height value="#" />
+              <Panel.Width value="40px" />
+            </NotificationPanelStatusIcon>
           </Children>
           <CssClass>
             <CssClassConditional>
@@ -426,7 +475,7 @@
             <GrowlNotification identity="Notifications.7ff832fd4a2b4377bafd2e81a99bbcfc">
               <Name value="growlNotification" />
               <controller reference="+GlobalApiObjects.notificationsCtrl" />
-              <displayTime value="1000000" />
+              <displayTime value="6000" />
               <iconClassClose value="fa fa-times" />
               <iconClassError value="fa fa-exclamation" />
               <iconClassInfo value="fa fa-info-circle" />
@@ -435,6 +484,25 @@
               <Panel.Height value="#" />
               <Panel.Width value="*" />
             </GrowlNotification>
+            <Label>
+              <Name value="lblNotificationCount" />
+              <Margin value="0, 0, 0, 0 px" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="Data" Expression="globals.forms.master.notificationCount" />
+                <Binding SourceProperty="IsVisible" Expression="globals.forms.master.notificationCountVisible" />
+              </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-label" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="cd-notification-count" />
+                </CssClassConditional>
+              </CssClass>
+            </Label>
           </Children>
         </Panel>
       </Children>
@@ -552,7 +620,6 @@ codelistGroup.startBackgroundLoading(defaultDateTime())
 // Zatim se nikde nepouzivaji
 /* 
 packages.codeLists.apiobjects.EventTypeEnum.loadDataAsync(defaultDateTime())
-packages.codeLists.apiobjects.POVOLTYP.loadDataAsync(defaultDateTime())
 */
 ]]></Script>
       </ActionLangBody>
@@ -564,7 +631,15 @@ packages.codeLists.apiobjects.POVOLTYP.loadDataAsync(defaultDateTime())
       <Name value="handler_btn_toggleMenu_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[globals.forms.master.showMenu = not globals.forms.master.showMenu]]></Script>
+        <Script><![CDATA[globals.forms.master.showMenu = not globals.forms.master.showMenu
+
+if globals.forms.master.showMenu then
+	if notificationsCtrl.getCount() > 0 then
+		notificationsCtrl.setPanelVisibility(true)
+	endif
+else
+	notificationsCtrl.setPanelVisibility(false)
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -593,6 +668,17 @@ eventDispatcher.sendMessage("main_master_navTree", "onNodeActivated", onNodeActi
 
 forms.master.isDownloadingCodelists = false
 eventDispatcher.sendMessage("main_master_codelistGroup", "onBackgroundLoadingFinished", defaultString())]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_pnlClearNotifications_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[notificationsCtrl.removeAll()
+notificationsCtrl.setPanelVisibility(false)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -672,6 +758,9 @@ eventDispatcher.sendMessage("main_master_codelistGroup", "onBackgroundLoadingFin
         </CodelistGroupMember>
         <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
           <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.TypeOfTimerEnum" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.POVOLTYP" />
         </CodelistGroupMember>
       </codelists>
     </CodelistGroup>

@@ -536,5 +536,198 @@ endif]]></Script>
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_notificationsCtrl_OnNotificationsChanged" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.forms.master.notificationCount = params.notificationCount
+
+if params.notificationCount > 0 then
+	actions.js_removeSuccessNotifications()
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_notificationsCtrl_OnPanelVisibilityChanged" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.forms.master.notificationPanelVisible = params.isVisible]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="sendRequest" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[// prepare error in case we need it
+var err = globals.forms.error.params
+err.Caption = "Error sending " + request
+
+// clear send result
+globals.sendResult.clear()
+
+if busy then globals.IsBusy = true endif
+var response = apiobjects.cic.postAsync(request, requestData)
+if busy then globals.IsBusy = false endif
+
+var statusCode = response.getStatusCode()
+globals.sendResult.StatusCode = statusCode
+
+var type = response.getMessageType()
+if type = expectedResponse then
+	globals.sendResult.Valid = true
+	globals.sendResult.Type = type
+	globals.sendResult.Message = response.getJsonString()
+else if type in ["IN906A"] then
+	err.MsgType = type
+	err.Msg = response.getJsonString()
+	system.consoleError(err.MsgType)
+	system.consoleError(err.Msg)
+	navigation.main.error.goAndBack()
+else if response.isError() then
+	err.Message = response.getErrorMessage()
+	system.consoleError(err.Message)
+	navigation.main.error.goAndBack()
+else if (statusCode > 200) and (statusCode < 300) then
+	system.console("HttpResponse status code: " + toString(statusCode))
+else
+	err.Message = "Unexpected response message type: " + type
+	system.consoleError(err.Message)
+	navigation.main.error.goAndBack()
+endif endif endif endif
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="request" />
+              <Caption value="Request" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="requestData" />
+              <Caption value="Request data" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="expectedResponse" />
+              <Caption value="Expected response" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="busy" />
+              <Caption value="Busy" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="sendRequestCrs" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[request.HodnotaIdentifikatoru = tin
+request.KodTypuIdentifikatoru = "EORI"
+request.JenUrcujiciIdentifikator = false
+request.ZiskatAdresy = false
+request.ZiskatIdentifikatory = true
+request.ZiskatNespravneUdaje = false
+request.ZiskatZpochybneneUdaje = false
+request.ZiskatProvozovny = false
+request.ZeZakladnichRegistru = true
+request.KodEvidence = "ASEO"
+request.KodAgendoveRole = "CR328"
+request.KodUtvaru = cu
+request.Uzivatel = globals.user.userName
+request.IP = "172.0.0.1"
+request.Duvod = "Vydávání povolení v ASEO"
+
+actions.sendRequest(
+	"SubjektPodleIdentifikatoruRequestCIC", 
+	request.toJson(), 
+	"SubjektPodleIdentifikatoruResponseCIC", 
+	busy)]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="tin" />
+              <Caption value="Tin" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="cu" />
+              <Caption value="Cu" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="busy" />
+              <Caption value="Busy" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Complex>
+              <Name value="request" />
+              <Caption value="Request" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.SubjektPodleIdentifikatoruRequestCIC" />
+                </Include>
+              </Children>
+            </Complex>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="js_removeSuccessNotifications" />
+      <IsJavascript value="True" />
+      <Script><![CDATA[var notifications = lastDataContext.$globals.$api.main_notificationsCtrl.notifications;
+
+notifications.remove(function(n) { 
+	return n.type == 'success'; 
+});]]></Script>
+      <ActionLangBody />
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
   </Actions>
 </GlobalActions>

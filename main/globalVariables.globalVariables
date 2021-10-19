@@ -532,10 +532,20 @@
           </DeclaredType>
         </Attribute>
         <Computed>
+          <Name value="isTest" />
+          <Caption value="Is test" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[isTrue(environmentType in ["TEST_SOLITEA", "TEST_CS"])]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
+        <Computed>
           <Name value="isTestSolitea" />
           <Caption value="Is test solitea" />
           <Expression IsValid="True">
-            <ExpressionText><![CDATA[environmentType = "TEST_SOLITEA"]]></ExpressionText>
+            <ExpressionText><![CDATA[isTrue(environmentType = "TEST_SOLITEA")]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -764,6 +774,44 @@
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Attribute>
+              <Name value="notificationPanelVisible" />
+              <Caption value="Notification panel visible" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="notificationCount" />
+              <Caption value="Notification count" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Computed>
+              <Name value="notificationCountVisible" />
+              <Caption value="Notification count visible" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[isFalse(showMenu) and isTrue(notificationCount > 0)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="notificationClearVisible" />
+              <Caption value="Notification clear visible" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[isTrue(showMenu) and isTrue(notificationPanelVisible) and isTrue(notificationCount > 0)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
           </Children>
         </Complex>
         <Complex>
@@ -919,6 +967,15 @@
           <Caption value="Message" />
           <DeclaredType>
             <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="StatusCode" />
+          <Caption value="Status code" />
+          <DeclaredType>
+            <AttributeType>
+              <BaseType value="Integer" />
+            </AttributeType>
           </DeclaredType>
         </Attribute>
       </Children>
@@ -1677,21 +1734,6 @@
           <Caption value="C dversion GUID" />
           <MetaType reference="+MetaTypes.Guid" />
         </Attribute>
-        <Complex>
-          <Name value="aseoNewSubmission" />
-          <Caption value="Aseo new submission" />
-          <Children>
-            <Attribute>
-              <Name value="userCreatedNewSubmission" />
-              <Caption value="User created new submission" />
-              <DeclaredType>
-                <AttributeType>
-                  <BaseType value="Bool" />
-                </AttributeType>
-              </DeclaredType>
-            </Attribute>
-          </Children>
-        </Complex>
       </Children>
     </Complex>
   </Children>

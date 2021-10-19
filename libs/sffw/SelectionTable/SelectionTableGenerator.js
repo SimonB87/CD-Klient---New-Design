@@ -86,6 +86,16 @@
 					paramsParts.push('MaxHeight: \'200px\'');
 				}
 
+				if (typeof def.SelectionEnabled != 'undefined') {
+					if (def.SelectionEnabled.Binding) {
+						paramsParts.push('SelectionEnabled: '+ componentGen.processBinding(def.SelectionEnabled.Binding));
+					} else {
+						paramsParts.push('SelectionEnabled: ' + def.SelectionEnabled);
+					}
+				} else {
+					paramsParts.push('SelectionEnabled: ' + true);
+				}
+
                 if (def.Columns) {
 					Columns = _.map(def.Columns, function (c) {
 						var resultParts = [];
@@ -143,6 +153,10 @@
 				paramsParts.push('$parentData: $data');
 
 				selectionTable.attributes.params = paramsParts.join(', ');
+
+				if (def.OnRowClick) {
+		            selectionTable.attributes.params += ', OnRowClick: ' + componentGen.processActionReference(def.OnRowClick);
+		        }
 
 				componentWrapperTree.content.push(selectionTable);
 			}
@@ -228,6 +242,16 @@
 					paramsParts.push('MaxHeight: \'200px\'');
 				}
 
+				if (typeof def.SelectionEnabled != 'undefined') {
+					if (def.SelectionEnabled.Binding) {
+						paramsParts.push('SelectionEnabled: '+ cGen.processBinding(def.SelectionEnabled.Binding));
+					} else {
+						paramsParts.push('SelectionEnabled: ' + def.SelectionEnabled);
+					}
+				} else {
+					paramsParts.push('SelectionEnabled: ' + true);
+				}
+
                 if (def.Columns) {
 					var childEnabled = cGen.BindingFactory.addParentToFormPropertyBindings(containerEnabled);
 					Columns = _.map(def.Columns, function (c) {
@@ -286,6 +310,10 @@
 				paramsParts.push('$parentData: $data');
 
 				selectionTable.attributes.params = paramsParts.join(', ');
+
+				if (def.OnRowClick) {
+		            selectionTable.attributes.params += ', OnRowClick: ' + cGen.processActionReference(def.OnRowClick);
+		        }
 
 				componentWrapperTree.content.push(selectionTable);
 			}

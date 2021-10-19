@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<DataEntity>
+  <Name value="ASEOPLModification" />
+  <Caption value="Modifikace Schváleného místa" />
+  <MtsImportOptions.MTS.Acronym value="ASEOPLModification" />
+  <MtsImportOptions.MTS.ID value="/ASEOPLModification" />
+  <MtsImportOptions.MTS.Type value="message" />
+  <Children>
+    <Attribute>
+      <Name value="Country" />
+      <Caption value="Kód země" />
+      <MetaType reference="+MetaTypes.Zeme" />
+      <MtsImportOptions.MTS.ID value="/ASEOPLModification/Country" />
+      <MtsImportOptions.MTS.Type value="element" />
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="[A-Z]{2}" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}$") : true)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
+    </Attribute>
+    <Attribute>
+      <Name value="PlaceID" />
+      <Caption value="Evidenční číslo" />
+      <MetaType reference="+MetaTypes.ReferencniCisloRozhodnuti" />
+      <MtsImportOptions.MTS.ID value="/ASEOPLModification/PlaceID" />
+      <MtsImportOptions.MTS.Type value="element" />
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="(?s)^\S(.*\S)?$" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\S(.*\\S)?$") : true)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
+    </Attribute>
+    <Attribute>
+      <Name value="ResponsibleCustomsOfiice" />
+      <Caption value="Vydávající a zodpovědný CÚ" />
+      <MetaType reference="+MetaTypes.CU" />
+      <MtsImportOptions.MTS.ID value="/ASEOPLModification/ResponsibleCustomsOfiice" />
+      <MtsImportOptions.MTS.Type value="element" />
+      <Validators>
+        <Validator Name="regex">
+          <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+          <ErrorMessage IsValid="True">
+            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </ErrorMessage>
+          <IsValid IsValid="True">
+            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </IsValid>
+        </Validator>
+      </Validators>
+    </Attribute>
+    <Attribute>
+      <Name value="TIN" />
+      <Caption value="TIN subjektu, pro nějž je místo platné" />
+      <MetaType reference="+MetaTypes.TIN" />
+      <MtsImportOptions.MTS.ID value="/ASEOPLModification/TIN" />
+      <MtsImportOptions.MTS.Type value="element" />
+    </Attribute>
+    <Attribute>
+      <Name value="TinName" />
+      <Caption value="Název Subjektu" />
+      <MtsImportOptions.MTS.ID value="/ASEOPLModification/TinName" />
+      <MtsImportOptions.MTS.Type value="element" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="255" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="GUID" />
+      <Caption value="GUID" />
+      <MtsImportOptions.MTS.ID value="/ASEOPLModification/GUID" />
+      <MtsImportOptions.MTS.Type value="element" />
+      <DeclaredType>
+        <AttributeType />
+      </DeclaredType>
+    </Attribute>
+    <Complex>
+      <Name value="PlaceDetail" />
+      <Caption value="Detail místa" />
+      <IsRequired value="True" />
+      <MtsImportOptions.MTS.ID value="/ASEOPLModification/PlaceDetail" />
+      <MtsImportOptions.MTS.Type value="group" />
+      <Children>
+        <Attribute>
+          <Name value="ValidityCustomsOffice" />
+          <Caption value="CÚ platnosti" />
+          <IsRequired value="True" />
+          <MetaType reference="+MetaTypes.CU" />
+          <MtsImportOptions.MTS.ID value="/ASEOPLModification/PlaceDetail/ValidityCustomsOffice" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <Validators>
+            <Validator Name="regex">
+              <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Attribute>
+        <Attribute>
+          <Name value="Name" />
+          <Caption value="Označení místa" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/ASEOPLModification/PlaceDetail/Name" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType>
+              <StrMaxLength value="300" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="StreetAndNr" />
+          <Caption value="Ulice a č.p." />
+          <IsRequired value="True" />
+          <MetaType reference="+MetaTypes.StreetAndNr" />
+          <MtsImportOptions.MTS.ID value="/ASEOPLModification/PlaceDetail/StreetAndNr" />
+          <MtsImportOptions.MTS.Type value="element" />
+        </Attribute>
+        <Attribute>
+          <Name value="City" />
+          <Caption value="Město" />
+          <IsRequired value="True" />
+          <MetaType reference="+MetaTypes.City" />
+          <MtsImportOptions.MTS.ID value="/ASEOPLModification/PlaceDetail/City" />
+          <MtsImportOptions.MTS.Type value="element" />
+        </Attribute>
+        <Attribute>
+          <Name value="PostCode" />
+          <Caption value="PSČ" />
+          <MetaType reference="+MetaTypes.PostCode" />
+          <MtsImportOptions.MTS.ID value="/ASEOPLModification/PlaceDetail/PostCode" />
+          <MtsImportOptions.MTS.Type value="element" />
+        </Attribute>
+        <Attribute>
+          <Name value="Country" />
+          <Caption value="Země" />
+          <IsRequired value="True" />
+          <MetaType reference="+MetaTypes.Zeme" />
+          <MtsImportOptions.MTS.ID value="/ASEOPLModification/PlaceDetail/Country" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <Validators>
+            <Validator Name="regex">
+              <MtsImportOptions.MTS.Regex value="[A-Z]{2}" />
+              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}$") : true)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Attribute>
+        <Attribute>
+          <Name value="ValidityStartDate" />
+          <Caption value="Počátek platnosti" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/ASEOPLModification/PlaceDetail/ValidityStartDate" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType>
+              <BaseType value="DateTime" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="ValidityEndDate" />
+          <Caption value="Konec platnosti" />
+          <MtsImportOptions.MTS.ID value="/ASEOPLModification/PlaceDetail/ValidityEndDate" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType>
+              <BaseType value="DateTime" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="ResponsiblePerson" />
+          <Caption value="Osoba CÚ zodpovědná za vydání/modifikaci místa" />
+          <IsRequired value="True" />
+          <MetaType reference="+MetaTypes.Pracovnik" />
+          <MtsImportOptions.MTS.ID value="/ASEOPLModification/PlaceDetail/ResponsiblePerson" />
+          <MtsImportOptions.MTS.Type value="element" />
+        </Attribute>
+        <Attribute>
+          <Name value="EvidenceDate" />
+          <Caption value="Datum evidence" />
+          <MtsImportOptions.MTS.ID value="/ASEOPLModification/PlaceDetail/EvidenceDate" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType>
+              <BaseType value="DateTime" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="PlaceSpecification" />
+          <Caption value="Specifikace místa" />
+          <MtsImportOptions.MTS.ID value="/ASEOPLModification/PlaceDetail/PlaceSpecification" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType>
+              <StrMaxLength value="300" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+      </Children>
+    </Complex>
+  </Children>
+</DataEntity>

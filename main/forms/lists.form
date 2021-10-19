@@ -284,6 +284,27 @@
                       </CssClass>
                     </Button>
                     <Button>
+                      <Name value="btnTest_Notification" />
+                      <Caption value="Notifications" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_btnTest_ArcticTemplate_OnClick1" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="uiState.buttons.btnArcticTemplate.IsVisible" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="cd-header-button" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
                       <Name value="test_btn_awb" />
                       <Caption value="Test AWB V2" />
                       <Panel.Height value="#" />
@@ -1363,7 +1384,7 @@
                 </listColumn>
                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                   <Name value="CustomsDecisionStatusDate" />
-                  <Caption value="Datum stavu rozhodnutí" />
+                  <Caption value="Datum změny" />
                   <ColumnName value="CustomsDecisionStatusDate" />
                   <DataType value="date" />
                 </listColumn>
@@ -3987,7 +4008,7 @@ if (isTrue(type = "ACP") and isTrue(customsDecisionOrigin = "CD")) then
 	navigation.main.issuerDetail.withGUID(guid).go()
 	
 else if (isTrue(isAseoDetail) and isTrue(customsDecisionOrigin = "SP")) then
-  navigation.main.AseoDetail.withGUID(guid).go(type)
+  navigation.main.SP_Edit.go(type, guid)
 
 else if type = "RSS" then
   navigation.main.regularShipping.withGUID(guid).go()
@@ -4103,7 +4124,7 @@ else if navTree.selectedModule = "Auth" then
 	  form.actions.refreshIncompleteCounts()
 	endif
 	
-	authCtrl.setSorting("CustomsDecisionIssueDate:desc")
+	authCtrl.setSorting("CustomsDecisionStatusDate:desc")
 	authCtrl.setReady(true)
 
 else if navTree.selectedModule = "PL" then
@@ -4269,30 +4290,6 @@ form.apiobjects.DatasetNoticesFullAdmin.setReady(true)]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="checkIfUserPostedNewAseoSubmission" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var newSubBool = globals.uiGlobalState.aseoNewSubmission
-
-if newSubBool.userCreatedNewSubmission then
-	form.tabs.SelectedTab = form.tabs.tabAuth_NewSub.idx
-	
-	//ASEO "Přijaté žádosti"
-	form.apiobjects.authCtrl.clearState()
-    form.apiobjects.authCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq 'APA' or CustomsDecisionStatus eq 'FUR' or CustomsDecisionStatus eq 'FUA')")
-endIf
-
-if newSubBool.userCreatedNewSubmission.isEmpty() then
-	newSubBool.userCreatedNewSubmission = false
-else
-	newSubBool.userCreatedNewSubmission = not newSubBool.userCreatedNewSubmission
-endIf
-]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="setUrlRouter" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var url = apiobjects.urlRouter.findFormUrl(navigation.main.lists.fullName)
@@ -4386,7 +4383,7 @@ form.actions.refreshIncompleteCounts()
 
 if not hasValue(globals.forms.lists.fromNode) then
 	// set defaults
-	form.apiobjects.authCtrl.setSorting("CustomsDecisionIssueDate:desc")
+	form.apiobjects.authCtrl.setSorting("CustomsDecisionStatusDate:desc")
 	
 	if isTrue(form.uiState.newsCount < 1) then
 		ntc.focusNode("Auth")
@@ -4690,15 +4687,10 @@ form.uiState.visibility_addNewNews = False]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var lists = globals.forms.lists
 
-globals.uiGlobalState.aseoNewSubmission.userCreatedNewSubmission = true
-
 lists.fromTab = form.tabs.tabAuth_NewSub.idx
-form.apiobjects.authCtrl.clearState()
-form.apiobjects.authCtrl.setSorting("CustomsDecisionIssueDate:desc")
-form.apiobjects.authCtrl.setInvisibleODataFilter("(CustomsDecisionStatus eq 'APA' or CustomsDecisionStatus eq 'FUR' or CustomsDecisionStatus eq 'FUA')")
 lists.listState = form.apiobjects.authCtrl.saveState(defaultString())
 
-navigation.main.AseoNewApplication.go()]]></Script>
+navigation.main.SP_New.go()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -4972,6 +4964,22 @@ endif]]></Script>
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[navigation.main.transitDeclaration_v2.go()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btnTest_ArcticTemplate_OnClick1" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[notificationsCtrl.addInfo("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam sapien sem, ornare ac, nonummy non, lobortis a enim.")
+
+notificationsCtrl.addWarning("Aliquam in lorem sit amet leo accumsan lacinia. Pellentesque ipsum. Sed elit dui, pellentesque a, faucibus vel, interdum nec, diam.")
+
+notificationsCtrl.addError("Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis.")
+
+notificationsCtrl.addSuccess("Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.")]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
