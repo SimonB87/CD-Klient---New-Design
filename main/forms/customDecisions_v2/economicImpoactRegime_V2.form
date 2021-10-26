@@ -2199,7 +2199,6 @@
                                     <LabeledText identity="labeledText.a92a691d6915448ebf9f0b804ce6a733">
                                       <Name value="cnCodeForSecuring_labTxt" />
                                       <CaptionPosition value="Top" />
-                                      <CurrencySymbol value="" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="150px" />
                                       <Bindings>
@@ -2216,7 +2215,6 @@
                                     <LabeledText identity="labeledText.a92a691d6915448ebf9f0b804ce6a733">
                                       <Name value="writeOffMeasureUnit_labTxt" />
                                       <CaptionPosition value="Top" />
-                                      <CurrencySymbol value="" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="150px" />
                                       <Bindings>
@@ -2233,7 +2231,6 @@
                                     <LabeledText identity="labeledText.a92a691d6915448ebf9f0b804ce6a733">
                                       <Name value="writeOffMeasureUnit_labTxt1" />
                                       <CaptionPosition value="Top" />
-                                      <CurrencySymbol value="" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="150px" />
                                       <Bindings>
@@ -2280,7 +2277,6 @@
                                     <LabeledText identity="labeledText.a92a691d6915448ebf9f0b804ce6a733">
                                       <Name value="writeOffMeasureUnit_labTxt21" />
                                       <CaptionPosition value="Top" />
-                                      <CurrencySymbol value="" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="150px" />
                                       <Bindings>
@@ -2860,7 +2856,6 @@
                       <Columns>
                         <DataColumn>
                           <Name value="dataColumn13" />
-                          <Width value="20%" />
                           <Content>
                             <Label>
                               <Name value="label7" />
@@ -2888,7 +2883,6 @@
                         <DataColumn>
                           <Name value="dataColumn15" />
                           <Caption value="Jazyk" />
-                          <Width value="15%" />
                           <Content>
                             <Label>
                               <Name value="label10" />
@@ -2913,7 +2907,6 @@
                         <DataColumn>
                           <Name value="dataColumn17" />
                           <Caption value="Popis" />
-                          <Width value="65%" />
                           <Content>
                             <Label>
                               <Name value="label15" />
@@ -4423,9 +4416,6 @@
                       <Orientation value="Vertical" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
-                      <Bindings>
-                        <Binding SourceProperty="IsVisible" Expression="tabsMenu.Tab14Ostatni.IsSelectedAndVisible_Release" />
-                      </Bindings>
                       <Children>
                         <TextBox>
                           <Name value="textBox158" />
@@ -7274,14 +7264,23 @@
             </CssClassConditional>
           </conditionalCssClass>
         </CollapsibleGroupBox>
+        <Panel>
+          <Name value="pnlNarodniUdaje" />
+          <Orientation value="Vertical" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
       </Children>
       <CssClass>
         <CssClassConditional>
           <ClassName value="{theme}-panel" />
           <IsThemedStyle value="True" />
-        </CssClassConditional>
-        <CssClassConditional>
-          <ClassName value="paddingSmall" />
         </CssClassConditional>
       </CssClass>
     </Panel>
@@ -7445,6 +7444,16 @@
                     </ResultType>
                   </Expression>
                 </Computed>
+                <Computed>
+                  <Name value="isNarodniUdajeActive" />
+                  <Caption value="Is narodni udaje active" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[packages.navTrees.globals._CD_v2.isNarodniUdajeActive]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
               </Children>
             </Complex>
             <Attribute>
@@ -7469,62 +7478,66 @@
                 <Computed>
                   <Name value="inOutCustomsOffices" />
                   <Caption value="no-caption" />
-                  <Expression>
-                    <ExpressionText><![CDATA[isFalseOrDefault(form.zobrazTST)]]></ExpressionText>
-                  </Expression>
-                </Computed>
-                <Computed>
-                  <Name value="temporaryRemoval" />
-                  <Caption value="no-caption" />
-                  <Expression>
-                    <ExpressionText><![CDATA[form.tabsMenu.Tab04StorFac.IsSelected and isFalseOrDefault(form.zobrazTST)]]></ExpressionText>
-                  </Expression>
-                </Computed>
-                <Computed>
-                  <Name value="miscStuff" />
-                  <Caption value="no-caption" />
-                  <Expression>
-                    <ExpressionText><![CDATA[isFalseOrDefault(form.zobrazTST)]]></ExpressionText>
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[isFalseOrDefault(form.formBehavior.declarationTypes.isType_TST)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
                   </Expression>
                 </Computed>
                 <Computed>
                   <Name value="enhancementRelatedStuff" />
                   <Caption value="no-caption" />
-                  <Expression>
-                    <ExpressionText><![CDATA[isFalseOrDefault(form.zobrazTST)]]></ExpressionText>
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[isFalseOrDefault(form.formBehavior.declarationTypes.isType_TST)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
                   </Expression>
                 </Computed>
                 <Computed>
                   <Name value="saveButtons" />
                   <Caption value="Save buttons" />
-                  <Expression>
+                  <Expression IsValid="True">
                     <ExpressionText><![CDATA[this.owner().editPermitted 
-and (form.mode = enums.DetailMode.edit)]]></ExpressionText>
+and (form.cdmode = enums.cdMode.upravit )]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
                   </Expression>
                 </Computed>
                 <Computed>
                   <Name value="modeButtons" />
                   <Caption value="Mode buttons" />
-                  <Expression>
+                  <Expression IsValid="True">
                     <ExpressionText><![CDATA[this.owner().editPermitted 
-and isFalseOrDefault(form.zobrazTST)
-and (form.mode = enums.DetailMode.show)]]></ExpressionText>
+and isFalseOrDefault(form.formBehavior.declarationTypes.isType_TST)
+and (form.cdMode = enums.cdMode.detail )]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
                   </Expression>
                 </Computed>
                 <Computed>
                   <Name value="editButtons" />
                   <Caption value="Edit buttons" />
-                  <Expression>
-                    <ExpressionText><![CDATA[(form.mode = enums.DetailMode.edit) and form.tabsMenu.Tab16NationalData.IsSelected]]></ExpressionText>
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[(form.cdmode = enums.cdMode.upravit ) AND isTrue(form.formState.isAnnexActive.isNarodniUdajeActive)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
                   </Expression>
                 </Computed>
                 <Computed>
                   <Name value="editNote" />
                   <Caption value="Edit note" />
-                  <Expression>
-                    <ExpressionText><![CDATA[(form.mode = enums.DetailMode.edit) 
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[isTrue(form.cdmode = enums.cdMode.upravit) 
 and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ 
 = "Complete")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
                   </Expression>
                 </Computed>
                 <Computed>
@@ -7563,15 +7576,21 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                 <Computed>
                   <Name value="articles" />
                   <Caption value="Articles" />
-                  <Expression>
-                    <ExpressionText><![CDATA[form.zobrazIPO]]></ExpressionText>
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.formBehavior.declarationTypes.isType_IPO]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
                   </Expression>
                 </Computed>
                 <Computed>
                   <Name value="periodForClearance" />
                   <Caption value="Period for clearance" />
-                  <Expression>
-                    <ExpressionText><![CDATA[form.zobrazIPO or form.zobrazEUS]]></ExpressionText>
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[isTrue(form.formBehavior.declarationTypes.isType_IPO) or isTrue(form.formBehavior.declarationTypes.isType_EUS)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
                   </Expression>
                 </Computed>
                 <Attribute>
@@ -7651,6 +7670,15 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                 </Computed>
               </Children>
             </Complex>
+            <Attribute>
+              <Name value="editPermitted" />
+              <Caption value="Edit permitted" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
           </Children>
         </Complex>
         <Complex>
@@ -8955,15 +8983,21 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                 <Computed>
                   <Name value="computed_extendedPanelHeightEnhancement" />
                   <Caption value="Computed _ extended panel height enhancement" />
-                  <Expression>
-                    <ExpressionText><![CDATA[(form.zobrazEUS and form.enhancement.isEnhancementEditOn) ? True : False]]></ExpressionText>
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[isTrue(form.formBehavior.declarationTypes.isType_EUS and form.enhancement.isEnhancementEditOn) ? True : False]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
                   </Expression>
                 </Computed>
                 <Computed>
                   <Name value="computed_showEnhancementListBasic" />
                   <Caption value="Computed _ show enhancement list basic" />
-                  <Expression>
-                    <ExpressionText><![CDATA[((form.zobrazIpo) or (form.zobrazEus)) ? False : True]]></ExpressionText>
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[((form.formBehavior.declarationTypes.isType_IPO) or (form.formBehavior.declarationTypes.isType_EUS)) ? False : True]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
                   </Expression>
                 </Computed>
               </Children>
@@ -9118,6 +9152,8 @@ endif
 actions.prepareFormAnnexPannel()
 form.actions.prepareFormForAnnexInteraction()
 form.actions.initNavigationTree()
+
+form.formBehavior.editPermitted = isTrue(globals.user.hasRoleWrite) OR isTrue(globals.user.hasRoleAdmin)
 
 //test
 form.CD.customsDecisionAuthorisationData.levelOfReduction.levelOfGuarantee.addItem()
@@ -9504,6 +9540,7 @@ var node01 = ntc.addNode("BaseInfo", "Základní infromace")
 var node02 = ntc.addNode("Other", "Ostatní")
 var node03 = ntc.addNode("GoodsType", "Typ zboží")
 var node04 = ntc.addNode("Annex", annexCaption)
+var node05 = ntc.addNode("NarodniUdaje", "Národní údaje")
 
 ntc.finishSetup()
 
