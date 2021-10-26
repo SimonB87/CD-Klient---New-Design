@@ -29,10 +29,17 @@
                   <Panel.Width value="*" />
                   <Children>
                     <Button>
-                      <Name value="btn_OK" />
-                      <Caption value="OK" />
+                      <Name value="btnModify" />
+                      <Caption value="Modifikovat" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_btnModify_OnClick" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="ui.buttons.btnModify.IsVisible" />
+                        <Binding SourceProperty="IsEnabled" Expression="ui.buttons.btnModify.IsEnabled" />
+                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-button" />
@@ -44,10 +51,14 @@
                       </CssClass>
                     </Button>
                     <Button>
-                      <Name value="btn_Modify" />
-                      <Caption value="Modifikace" />
+                      <Name value="btnDelete" />
+                      <Caption value="Zrušit" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="ui.buttons.btnDelete.IsVisible" />
+                        <Binding SourceProperty="IsEnabled" Expression="ui.buttons.btnDelete.IsEnabled" />
+                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-button" />
@@ -59,10 +70,17 @@
                       </CssClass>
                     </Button>
                     <Button>
-                      <Name value="btn_Delete" />
-                      <Caption value="Zrušení" />
+                      <Name value="btnActionConfirm" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_btnActionConfirm_OnClick" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsEnabled" Expression="ui.buttons.btnActionConfirm.IsEnabled" />
+                        <Binding SourceProperty="IsVisible" Expression="ui.buttons.btnActionConfirm.IsVisible" />
+                        <Binding SourceProperty="Caption" Expression="ui.buttons.btnActionConfirm.Caption" />
+                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-button" />
@@ -74,26 +92,39 @@
                       </CssClass>
                     </Button>
                     <Button>
-                      <Name value="btn_Validate" />
+                      <Name value="btnActionCancel" />
+                      <Caption value="Storno" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_buttonActionCancel_OnClick" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsEnabled" Expression="ui.buttons.btnActionCancel.IsEnabled" />
+                        <Binding SourceProperty="IsVisible" Expression="ui.buttons.btnActionCancel.IsVisible" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="cd-header-button" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
+                      <Name value="btnActionValidation" />
                       <Caption value="Validace" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-button" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                        <CssClassConditional>
-                          <ClassName value="cd-header-button" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </Button>
-                    <Button>
-                      <Name value="btn_ReloadCodelists" />
-                      <Caption value="Obnovit číselníky" />
-                      <IsVisible value="False" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="*" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_btnActionValidation_OnClick" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="ui.buttons.btnActionValidation.IsVisible" />
+                        <Binding SourceProperty="IsEnabled" Expression="ui.buttons.btnActionValidation.IsEnabled" />
+                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-button" />
@@ -139,10 +170,10 @@
               <Panel.Width value="*" />
               <Children>
                 <Button>
-                  <Name value="button_close" />
+                  <Name value="btnClose" />
                   <Caption value="Zavřít" />
                   <Panel.Height value="#" />
-                  <Panel.Width value="150px" />
+                  <Panel.Width value="*" />
                   <OnClick>
                     <ActionEvent ReferencedAction="~handler_button_close_OnClick" />
                   </OnClick>
@@ -150,6 +181,9 @@
                     <CssClassConditional>
                       <ClassName value="{theme}-button" />
                       <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="cd-header-button" />
                     </CssClassConditional>
                   </CssClass>
                 </Button>
@@ -186,84 +220,70 @@
             </CssClassConditional>
           </CssClass>
         </Panel>
-        <Panel>
-          <Name value="pnlBody" />
-          <Orientation value="Horizontal" />
+        <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+          <Name value="cgbHeader" />
+          <caption value="Hlavička" />
+          <collapsedIconClass value="fa fa-plus-square-o" />
+          <nonCollapsedIconClass value="fa fa-minus-square-o" />
           <Panel.Height value="#" />
           <Panel.Width value="*" />
-          <Children>
-            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
-              <Name value="cgbPlace" />
-              <caption value="Evidence" />
-              <collapsedIconClass value="fa fa-plus-square-o" />
-              <nonCollapsedIconClass value="fa fa-minus-square-o" />
-              <Panel.Height value="#" />
-              <Panel.Width value="*" />
-              <Content>
+          <Content>
+            <Panel>
+              <Name value="pnlHeader" />
+              <Orientation value="Vertical" />
+              <Children>
                 <Panel>
-                  <Name value="pnlPlace" />
-                  <Orientation value="Vertical" />
+                  <Name value="pnlHeaderR1" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
                   <Children>
-                    <Panel>
-                      <Name value="pnlPlaceId" />
-                      <Orientation value="Horizontal" />
+                    <TextBox>
+                      <Name value="edb_PlaceCountry" />
+                      <Caption value="Evid." />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Margin value="6, 0, 6, 6 px" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="*" />
-                      <Children>
-                        <TextBox>
-                          <Name value="edb_PlaceCountry" />
-                          <Caption value="Evid." />
-                          <CaptionPosition value="Top" />
-                          <IsEnabled value="False" />
-                          <Margin value="6, 0, 6, 6 px" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="10%" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.msg.Country" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </TextBox>
-                        <TextBox>
-                          <Name value="edb_PlaceID" />
-                          <Caption value="číslo schváleného místa" />
-                          <CaptionPosition value="Top" />
-                          <IsEnabled value="False" />
-                          <Margin value="6, 6, 6, 0 px" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="90%" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.msg.PlaceID" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </TextBox>
-                      </Children>
+                      <Panel.Width value="5%" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.Country" />
+                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
-                          <ClassName value="{theme}-panel" />
+                          <ClassName value="{theme}-textbox" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
                       </CssClass>
-                    </Panel>
+                    </TextBox>
+                    <TextBox>
+                      <Name value="edb_PlaceID" />
+                      <Caption value="číslo schváleného místa" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Margin value="6, 6, 6, 0 px" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="30%" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.PlaceID" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
                     <TextBox>
                       <Name value="edb_ResponsibleCustomsOffice" />
                       <Caption value="Celní úřad zapisující" />
                       <CaptionPosition value="Top" />
                       <IsEnabled value="False" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="*" />
+                      <Panel.Width value="65%" />
                       <Bindings>
-                        <Binding SourceProperty="Data" Expression="model.msg.ResponsibleCustomsOfiice" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ResponsibleCustomsOfiice.isRequired()" />
+                        <Binding SourceProperty="Data" Expression="model.msg.ResponsibleCustomsOffice" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ResponsibleCustomsOffice.isRequired()" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -280,38 +300,22 @@
                     </CssClassConditional>
                   </CssClass>
                 </Panel>
-              </Content>
-              <Bindings>
-                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbPlace.IsVisible" />
-              </Bindings>
-              <conditionalCssClass>
-                <CssClassConditional>
-                  <ClassName value="{theme}-collapsiblegroupbox" />
-                  <IsThemedStyle value="True" />
-                </CssClassConditional>
-              </conditionalCssClass>
-            </CollapsibleGroupBox>
-            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
-              <Name value="cgbTin" />
-              <caption value="Osoba" />
-              <collapsedIconClass value="fa fa-plus-square-o" />
-              <nonCollapsedIconClass value="fa fa-minus-square-o" />
-              <Panel.Height value="#" />
-              <Panel.Width value="*" />
-              <Content>
                 <Panel>
-                  <Name value="pnlTin" />
-                  <Orientation value="Vertical" />
+                  <Name value="pnlHeaderR2" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
                   <Children>
                     <TextBox>
                       <Name value="edb_TIN" />
                       <Caption value="Osoba, které bylo místo schváleno (EORI)" />
                       <CaptionPosition value="Top" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="*" />
+                      <Panel.Width value="35%" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.TIN" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.TIN.isRequired()" />
+                        <Binding SourceProperty="IsEnabled" Expression="ui.textBoxes.edb_TIN.IsEnabled" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -326,7 +330,7 @@
                       <CaptionPosition value="Top" />
                       <IsEnabled value="False" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="*" />
+                      <Panel.Width value="65%" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.TinName" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.TinName.isRequired()" />
@@ -346,17 +350,80 @@
                     </CssClassConditional>
                   </CssClass>
                 </Panel>
-              </Content>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+          </Content>
+          <Bindings>
+            <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbHeader.IsVisible" />
+          </Bindings>
+          <conditionalCssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-collapsiblegroupbox" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </conditionalCssClass>
+        </CollapsibleGroupBox>
+        <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+          <Name value="cgbClientErrors" />
+          <collapsedIconClass value="fa fa-plus-square-o" />
+          <nonCollapsedIconClass value="fa fa-minus-square-o" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Content>
+            <ClientValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+              <Name value="clientValidationSummary" />
+              <errorPointerMap reference="~epm" />
+              <OnItemClick>
+                <ActionEvent ReferencedAction="~handler_clientValidationSummary_OnItemClick" />
+              </OnItemClick>
               <Bindings>
-                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbTin.IsVisible" />
+                <Binding SourceProperty="validationErrors" Expression="form.error.clientValidationErrors" />
+                <Binding SourceProperty="validationRoot" Expression="form.model.msg" />
               </Bindings>
+              <columns>
+                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                  <Name value="vscMessage" />
+                  <columnCaption value="Zpráva" />
+                  <propertyName value="Message" />
+                </validationSummaryColumn>
+                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
+                  <Name value="vscPointer" />
+                  <columnCaption value="Místo" />
+                  <columnRole value="pointer" />
+                  <propertyName value="Pointer" />
+                </validationSummaryColumn>
+              </columns>
               <conditionalCssClass>
                 <CssClassConditional>
-                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <ClassName value="{theme}-clientvalidationsummary" />
                   <IsThemedStyle value="True" />
                 </CssClassConditional>
               </conditionalCssClass>
-            </CollapsibleGroupBox>
+            </ClientValidationSummary>
+          </Content>
+          <Bindings>
+            <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbClientErrors.IsVisible" />
+            <Binding SourceProperty="caption" Expression="ui.groupBoxes.cgbClientErrors.Caption" />
+          </Bindings>
+          <conditionalCssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-collapsiblegroupbox" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </conditionalCssClass>
+        </CollapsibleGroupBox>
+        <Panel>
+          <Name value="pnlBody" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
             <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
               <Name value="cgbAddress" />
               <caption value="Adresa" />
@@ -378,6 +445,7 @@
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.Name" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.PlaceDetail.Name.isRequired()" />
+                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -395,6 +463,7 @@
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.StreetAndNr" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.PlaceDetail.StreetAndNr.isRequired()" />
+                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -418,6 +487,7 @@
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.City" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.PlaceDetail.City.isRequired()" />
+                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -435,6 +505,7 @@
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.PostCode" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.PlaceDetail.PostCode.isRequired()" />
+                            <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -451,6 +522,45 @@
                         </CssClassConditional>
                       </CssClass>
                     </Panel>
+                    <ReferenceCombo>
+                      <Name value="cbb_Country" />
+                      <Caption value="Země" />
+                      <CaptionPosition value="Top" />
+                      <DisplayMember value="_description" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <ReferenceList reference="~cbb_Country_FltCodelist" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.Country" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.PlaceDetail.Country.isRequired()" />
+                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-referencecombo" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </ReferenceCombo>
+                    <Button>
+                      <Name value="btnCrs" />
+                      <Caption value="Načíst adresu z CRS" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_btnCrs_OnClick" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="ui.buttons.btnCrs.IsVisible" />
+                        <Binding SourceProperty="IsEnabled" Expression="ui.buttons.btnCrs.IsEnabled" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
@@ -489,9 +599,11 @@
                       <InputType value="Multiline" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
-                      <Rows value="4" />
+                      <Rows value="5" />
                       <Bindings>
-                        <Binding SourceProperty="Data" Expression="" />
+                        <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.PlaceSpecification" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.PlaceDetail.PlaceSpecification.isRequired()" />
+                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -541,7 +653,8 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Bindings>
-                        <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail._ValidityCustomsOffice" />
+                        <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.ValidityCustomsOffice" />
+                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -568,25 +681,6 @@
                         </CssClassConditional>
                       </CssClass>
                     </TextBox>
-                    <ReferenceCombo>
-                      <Name value="cbb_Country" />
-                      <Caption value="Země" />
-                      <CaptionPosition value="Top" />
-                      <DisplayMember value="POPIS" />
-                      <IsVisible value="False" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="*" />
-                      <ReferenceList reference="~cbb_Country_FltCodelist" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail._Country" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-referencecombo" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </ReferenceCombo>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
@@ -627,6 +721,7 @@
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.ValidityStartDate" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.PlaceDetail.ValidityStartDate.isRequired()" />
+                        <Binding SourceProperty="IsEnabled" Expression="ui.datePickers.dtp_ValidityStartDate.IsEnabled" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -702,136 +797,145 @@
                   <Name value="pnlFiles" />
                   <Orientation value="Vertical" />
                   <Children>
-                    <DataTable>
-                      <Name value="tbl_File" />
+                    <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
+                      <Name value="prcFile" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <OnItemAdd>
+                        <ActionEvent ReferencedAction="~handler_prcCurrentAnnex_OnItemAdd" />
+                      </OnItemAdd>
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.File" />
+                        <Binding SourceProperty="Index" Expression="ui.tables.stFile.Index" />
+                        <Binding SourceProperty="AllowAdd" Expression="isEditOn" />
+                        <Binding SourceProperty="AllowRemove" Expression="isEditOn" />
+                      </Bindings>
+                    </PagingRepeaterCtrl>
+                    <SelectionTable identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                      <Name value="stFile" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Bindings>
-                        <Binding SourceProperty="DataItems" Expression="" />
+                        <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.File" />
+                        <Binding SourceProperty="Index" Expression="ui.tables.stFile.Index" />
                       </Bindings>
                       <Columns>
-                        <DataColumn>
-                          <Name value="edb_FGUIDCol" />
-                          <Caption value="edb_FGUID" />
-                          <IsVisible value="False" />
+                        <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                          <Name value="stcFile_IsFullText" />
+                          <Caption value="Plný text?" />
+                          <ColumnWidth value="10%" />
                           <Content>
-                            <TextBox>
-                              <Name value="edb_FGUID" />
+                            <CheckBox>
+                              <Name value="cbFile_IsFullText" />
                               <CaptionPosition value="Hide" />
-                              <IsEnabled value="False" />
-                              <IsVisible value="False" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="" />
+                                <Binding SourceProperty="Data" Expression="IsFullText" />
+                                <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
+                                  <ClassName value="{theme}-checkbox" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </TextBox>
+                            </CheckBox>
                           </Content>
-                          <HeaderCssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-datacolumn" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </HeaderCssClass>
-                        </DataColumn>
-                        <DataColumn>
-                          <Name value="edb_FileNameCol" />
-                          <Caption value="Název souboru" />
+                        </SelectionTableColumn>
+                        <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                          <Name value="stcFile_FileName" />
+                          <Caption value="Soubor" />
                           <Content>
-                            <TextBox>
-                              <Name value="edb_FileName" />
-                              <CaptionPosition value="Hide" />
-                              <IsEnabled value="False" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="" />
-                              </Bindings>
+                            <Panel>
+                              <Name value="pnlFile_FileName" />
+                              <Orientation value="Horizontal" />
+                              <Children>
+                                <HyperLink>
+                                  <Name value="hlFile_FileName" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Href" Expression="_fileUrl" />
+                                    <Binding SourceProperty="Data" Expression="FileName" />
+                                    <Binding SourceProperty="IsVisible" Expression="not form.isEditOn" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-hyperlink" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </HyperLink>
+                                <Label>
+                                  <Name value="lblFile_FileName" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="FileName" />
+                                    <Binding SourceProperty="IsVisible" Expression="form.isEditOn" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-label" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Label>
+                              </Children>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
+                                  <ClassName value="{theme}-panel" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </TextBox>
+                            </Panel>
                           </Content>
-                          <HeaderCssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-datacolumn" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </HeaderCssClass>
-                        </DataColumn>
-                        <DataColumn>
-                          <Name value="edb_FileTypeCol" />
+                        </SelectionTableColumn>
+                        <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                          <Name value="stcFile_FileType" />
                           <Caption value="Typ" />
+                          <ColumnWidth value="15%" />
                           <Content>
-                            <TextBox>
-                              <Name value="edb_FileType" />
-                              <CaptionPosition value="Hide" />
-                              <IsEnabled value="False" />
+                            <Label>
+                              <Name value="lblFile_FileType" />
                               <Bindings>
-                                <Binding SourceProperty="Data" Expression="" />
+                                <Binding SourceProperty="Data" Expression="FileType" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-textbox" />
+                                  <ClassName value="{theme}-label" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </TextBox>
+                            </Label>
                           </Content>
-                          <HeaderCssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-datacolumn" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </HeaderCssClass>
-                        </DataColumn>
-                        <DataColumn>
-                          <Name value="dcFile_Show" />
-                          <Caption value="Zobrazit soubor" />
+                        </SelectionTableColumn>
+                        <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                          <Name value="stcFile_FileSize" />
+                          <Caption value="Velikost" />
+                          <ColumnWidth value="10%" />
                           <Content>
-                            <Button>
-                              <Name value="btn_ShowFile" />
-                              <Caption value="Zobrazit" />
+                            <Label>
+                              <Name value="lblFile_FileSize" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="FileSize" />
+                              </Bindings>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-button" />
+                                  <ClassName value="{theme}-label" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </Button>
+                            </Label>
                           </Content>
-                          <HeaderCssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-datacolumn" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </HeaderCssClass>
-                        </DataColumn>
+                        </SelectionTableColumn>
                       </Columns>
                       <CssClass>
                         <CssClassConditional>
-                          <ClassName value="{theme}-datatable" />
+                          <ClassName value="{theme}-selectiontable" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
                       </CssClass>
-                    </DataTable>
-                    <Button>
-                      <Name value="btn_AddFile" />
-                      <Caption value="Vložit soubor" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="*" />
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-button" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </Button>
+                    </SelectionTable>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
@@ -866,6 +970,106 @@
             </CssClassConditional>
           </CssClass>
         </Panel>
+        <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+          <Name value="cgbVersions" />
+          <caption value="Historie stavů/verzí" />
+          <collapsedIconClass value="fa fa-plus-square-o" />
+          <isExpanded value="False" />
+          <nonCollapsedIconClass value="fa fa-minus-square-o" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Content>
+            <SelectionTable identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+              <Name value="stVersions" />
+              <IsScrollable value="True" />
+              <MaxHeight value="230px" />
+              <OnRowClick>
+                <ActionEvent ReferencedAction="~handler_stVersions_OnRowClick" />
+              </OnRowClick>
+              <Bindings>
+                <Binding SourceProperty="Data" Expression="model.msg.PlaceHistory" />
+                <Binding SourceProperty="Index" Expression="ui.tables.stVersions.Index" />
+                <Binding SourceProperty="SelectionEnabled" Expression="ui.tables.stVersions.SelectionEnabled" />
+              </Bindings>
+              <Columns>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcVersions_Guid" />
+                  <Caption value=" " />
+                  <IsVisible value="False" />
+                  <Content>
+                    <Label>
+                      <Name value="lblVersions_Guid" />
+                      <IsVisible value="False" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="GUID" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcVersions_ValidityStartDate" />
+                  <Caption value="Platné od" />
+                  <Content>
+                    <Label>
+                      <Name value="lblVersions_ValidityStartDate" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="ValidityStartDate" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcVersions_ValidityEndDate" />
+                  <Caption value="Konec platnosti této události" />
+                  <Content>
+                    <Label>
+                      <Name value="lblVersions_ValidityEndDate" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="ValidityEndDate" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                </SelectionTableColumn>
+              </Columns>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-selectiontable" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="clickable-rows" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="selected-bold" />
+                </CssClassConditional>
+              </CssClass>
+            </SelectionTable>
+          </Content>
+          <conditionalCssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-collapsiblegroupbox" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </conditionalCssClass>
+        </CollapsibleGroupBox>
       </Children>
       <CssClass>
         <CssClassConditional>
@@ -881,6 +1085,22 @@
   <DataContext>
     <DataContext>
       <Children>
+        <Attribute>
+          <Name value="action" />
+          <Caption value="Action" />
+          <MetaType reference="+MetaTypes.ActionPl" />
+        </Attribute>
+        <Computed>
+          <Name value="isEditOn" />
+          <Caption value="Is edit on" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[globals.user.hasWritePermission and
+isFalse(action in [enums.ActionPl.NONE])]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
         <Complex>
           <Name value="params" />
           <Caption value="Params" />
@@ -912,24 +1132,6 @@
                 </Include>
               </Children>
             </Complex>
-            <Complex>
-              <Name value="AseoPLDataRequest" />
-              <Caption value="Aseo PL data request" />
-              <Children>
-                <Include>
-                  <Include reference="+DataEntities.ASEOPLDataRequest" />
-                </Include>
-              </Children>
-            </Complex>
-            <Complex>
-              <Name value="AseoPLDataResponse" />
-              <Caption value="Aseo PL data response" />
-              <Children>
-                <Include>
-                  <Include reference="+DataEntities.ASEOPLDataResponse" />
-                </Include>
-              </Children>
-            </Complex>
           </Children>
         </Complex>
         <Complex>
@@ -955,14 +1157,14 @@
               <Caption value="Group boxes" />
               <Children>
                 <Complex>
-                  <Name value="cgbPlace" />
-                  <Caption value="Cgb place" />
+                  <Name value="cgbHeader" />
+                  <Caption value="Cgb header" />
                   <Children>
                     <Computed>
                       <Name value="IsVisible" />
                       <Caption value="Is visible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[form.ui.navTree.selectedNode in ["All", "Header"]]]></ExpressionText>
+                        <ExpressionText><![CDATA[true]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -971,16 +1173,41 @@
                   </Children>
                 </Complex>
                 <Complex>
-                  <Name value="cgbTin" />
-                  <Caption value="Cgb tin" />
+                  <Name value="cgbClientErrors" />
+                  <Caption value="cgbClientErrors" />
                   <Children>
+                    <Attribute>
+                      <Name value="_IsVisible" />
+                      <Caption value="_ is visible" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
                     <Computed>
                       <Name value="IsVisible" />
-                      <Caption value="Is visible" />
+                      <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[form.ui.navTree.selectedNode in ["All", "Header"]]]></ExpressionText>
+                        <ExpressionText><![CDATA[isTrue(_IsVisible) and
+isTrue(form.action <> enums.ActionPl.NONE) and
+isTrue(form.model.validationErrorsCount() > 0)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Computed>
+                      <Name value="Caption" />
+                      <Caption value="Caption" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[stringFormat("Chyby - klient{0}", 
+  form.error.clientValidationErrors.count() > 0 ?
+  " (" + toString(form.error.clientValidationErrors.count()) + ")" : 
+  "" 
+)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
                         </ResultType>
                       </Expression>
                     </Computed>
@@ -1068,6 +1295,315 @@
                 </Complex>
               </Children>
             </Complex>
+            <Complex>
+              <Name value="tables" />
+              <Caption value="Tables" />
+              <Children>
+                <Complex>
+                  <Name value="stVersions" />
+                  <Caption value="St versions" />
+                  <Children>
+                    <Attribute>
+                      <Name value="Index" />
+                      <Caption value="Index" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Integer" />
+                        </AttributeType>
+                      </DeclaredType>
+                      <OnUserChange>
+                        <ActionEvent ReferencedAction="+UiParts.PL.handler_Index_OnUserChange" />
+                      </OnUserChange>
+                    </Attribute>
+                    <Computed>
+                      <Name value="SelectionEnabled" />
+                      <Caption value="Selection enabled" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[true]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="stFile" />
+                  <Caption value="St file" />
+                  <Children>
+                    <Attribute>
+                      <Name value="Index" />
+                      <Caption value="Index" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Integer" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Complex>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="buttons" />
+              <Caption value="Buttons" />
+              <Children>
+                <Computed>
+                  <Name value="showActionButtons" />
+                  <Caption value="Show action buttons" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[isTrue(form.ui.tables.stVersions.Index = 1) and 
+isTrue(form.action = enums.ActionPl.NONE)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Complex>
+                  <Name value="btnModify" />
+                  <Caption value="btnModify" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="IsVisible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[this.owner().showActionButtons]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Computed>
+                      <Name value="IsEnabled" />
+                      <Caption value="IsEnabled" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="btnDelete" />
+                  <Caption value="btnDelete" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="IsVisible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[this.owner().showActionButtons]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Computed>
+                      <Name value="IsEnabled" />
+                      <Caption value="IsEnabled" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="btnActionConfirm" />
+                  <Caption value="buttonProceedActionConfirm" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="IsVisible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[isTrue(form.action <> enums.ActionPl.NONE)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Computed>
+                      <Name value="IsEnabled" />
+                      <Caption value="IsEnabled" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.isEditOn]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Computed>
+                      <Name value="Caption" />
+                      <Caption value="Caption" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.action.enumCaption()]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="btnActionCancel" />
+                  <Caption value="buttonActionCancel" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="IsVisible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[isFalse(form.action in [enums.ActionPl.NONE, enums.ActionPl.New])]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Computed>
+                      <Name value="IsEnabled" />
+                      <Caption value="IsEnabled" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.isEditOn]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="btnActionValidation" />
+                  <Caption value="btnActionValidation" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="IsVisible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[isTrue(form.action <> enums.ActionPl.NONE)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Computed>
+                      <Name value="IsEnabled" />
+                      <Caption value="IsEnabled" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.isEditOn]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="btnCrs" />
+                  <Caption value="btnCrs" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="IsVisible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[isTrue(form.action <> enums.ActionPl.NONE)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Computed>
+                      <Name value="IsEnabled" />
+                      <Caption value="IsEnabled" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.isEditOn and form.model.msg.TIN.hasValue()]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="textBoxes" />
+              <Caption value="Text boxes" />
+              <Children>
+                <Complex>
+                  <Name value="edb_TIN" />
+                  <Caption value="Edb _ TIN" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsEnabled" />
+                      <Caption value="Is enabled" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[isTrue(form.action = enums.ActionPl.New)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="datePickers" />
+              <Caption value="Date pickers" />
+              <Children>
+                <Complex>
+                  <Name value="dtp_ValidityStartDate" />
+                  <Caption value="dtp_ValidityStartDate" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsEnabled" />
+                      <Caption value="Is enabled" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[isTrue(form.action = enums.ActionPl.New)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+              </Children>
+            </Complex>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="error" />
+          <Caption value="Error" />
+          <Children>
+            <Collection>
+              <Name value="clientValidationErrors" />
+              <Caption value="Client validation errors" />
+              <Children>
+                <Attribute>
+                  <Name value="Message" />
+                  <Caption value="Message" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Pointer" />
+                  <Caption value="Pointer" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Type" />
+                  <Caption value="Type" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Collection>
           </Children>
         </Complex>
       </Children>
@@ -1075,33 +1611,53 @@
         <Modifier>
           <Name value="modifier_FFCAB4E8_PlaceDetail" />
           <SourcePath value="model.msg.PlaceDetail" />
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_A3CC0204_File" />
+          <SourcePath value="model.msg.PlaceDetail.File" />
           <Children>
-            <Reference>
-              <Name value="_ValidityCustomsOffice" />
-              <Caption value="_ validity customs office" />
-              <Children>
-                <Include>
-                  <Include reference="+DataEntities.CELUPLAT_R" />
-                </Include>
-              </Children>
-            </Reference>
-            <Reference>
-              <Name value="_Country" />
-              <Caption value="_ country" />
-              <Children>
-                <Include>
-                  <Include reference="+DataEntities.ZEME_O" />
-                </Include>
-              </Children>
-            </Reference>
+            <Computed>
+              <Name value="_fileUrl" />
+              <Caption value="_ file url" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[globals.cicUrl + "ASEOPLFileRequestEx?GUID={" + this.owner().owner().GUID + "}&GUIDEvent={" + this.owner().GUID + "}&GUIDFile={" + this.GUID + "}&version=" + globals.version]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Attribute>
+              <Name value="FileContent" />
+              <Caption value="File content" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="FileSize" />
+              <Caption value="File size" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
           </Children>
         </Modifier>
         <Modifier>
-          <Name value="modifier_79BE7FBC_ValidityCustomsOffice" />
+          <Name value="modifier_6237F039_TIN" />
           <ShowAsChanges value="True" />
-          <SourcePath value="model.msg.PlaceDetail.ValidityCustomsOffice" />
+          <SourcePath value="model.msg.TIN" />
+          <OnUserChange>
+            <ActionEvent ReferencedAction="+UiParts.PL.handler_modifier_6237F039_TIN_OnUserChange" />
+          </OnUserChange>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_6BB71F10_ValidityStartDate" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.msg.PlaceDetail.ValidityStartDate" />
           <OnChange>
-            <ActionEvent ReferencedAction="+UiParts.PL.handler_modifier_79BE7FBC_ValidityCustomsOffice_OnChange" />
+            <ActionEvent ReferencedAction="+UiParts.PL.handler_modifier_6BB71F10_ValidityStartDate_OnChange" />
           </OnChange>
         </Modifier>
       </Modifiers>
@@ -1142,58 +1698,70 @@ master.isNavigationTreeVisible = true
 ntc.beginSetup("navTrees::_ntPL", defaultString())
 
 var all = ntc.addNode("All", "Vše")
-var header = ntc.addNode("Header", "Hlavička")
 var detail = ntc.addNode("Detail", "Informace o místu")
 var files = ntc.addNode("Files", "Text a přílohy")
-var history = ntc.addNode("History", "Historie")
 
 ntc.finishSetup()
 
 ntc.focusNode("All")
 
-// # codelists
-
-var dt = getDate()
-
-form.apiobjects.acb_ValidityCustomsOffice_FltCodelist.filterByValidityDateTime(dt)
-form.apiobjects.cbb_Country_FltCodelist.filterByValidityDateTime(dt)
-
 // #nacteni dat
 
-var response = model.AseoPLDataResponse
-
-if hasValue(p.Guid) then
-	form.actions.sendAseoPlDataRequest(p.Guid)
-	
-	if globals.sendResult.Valid then
-		var sr = globals.sendResult
-		
-		response.fromJson(sr.Message)
-
-		msg.fromJson(sr.Message)
-		
-		if response.PlaceDetail.count() > 0 then
-			var pd = response.PlaceDetail.selectFirst().toJson()
-			msg.PlaceDetail.fromJson(pd)
-		endif
+form.action = enums.ActionPl.NONE
+if p.Mode = "VIEW" then
+	if hasValue(p.Guid) then
+		form.actions.loadData(p.Guid)		
 	else
-		navigation.main.lists.go()
+		system.consoleError("Missing parameter Guid")
 	endif
-endif]]></Script>
+else if p.Mode = "NEW" then
+	var dt = getDateTime()
+	form.action = enums.ActionPl.New
+	
+	msg.ResponsibleCustomsOffice = globals.user.CuCode
+	msg.PlaceDetail.ResponsiblePerson = globals.user.userName
+	msg.PlaceDetail.ValidityStartDate = dt
+	msg.PlaceDetail.EvidenceDate = dt
+
+	if not globals.forms.master.isDownloadingCodelists then
+		var item = acb_ValidityCustomsOffice_FltCodelist.getItemByStringColumnAsync("CELUPLAT_R", globals.user.CuCode)
+		msg.PlaceDetail.ValidityCustomsOffice.fromJson(item.getJsonString())		
+	endif
+else
+	system.consoleError("Invalid value of parameter Mode: " + p.Mode)	
+endif endif
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="sendAseoPLDataRequest" />
+      <Name value="loadData" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var request = form.model.AseoPLDataRequest
+        <Script><![CDATA[request.GUID = guid
+request.PlaceDetail.GUID = placeGuid
 
-request.clear()
-request.GUID = guid
+form.actions.sendRequest("ASEOPLDataRequestEx", request.toJson(), "ASEOPLDataResponseEx")
 
-form.actions.sendRequest("ASEOPLDataRequest", request.toJson(), "ASEOPLDataResponse")]]></Script>
+if globals.sendResult.Valid then
+	var sr = globals.sendResult
+	
+	var msg = form.model.msg
+	
+    msg.clear()
+    msg.fromJson(sr.Message)
+    
+	// oznaci spravny radek v tabulce verzi
+	var selectedEvent = msg.PlaceHistory.selectFirst(Current.SelectedDetail)
+	if selectedEvent.hasValue() then
+		form.ui.tables.stVersions.Index = selectedEvent.index()
+	endif
+	
+	form.action = enums.ActionPl.NONE
+else
+    apiobjects.notificationsCtrl.addError("Data místa nebyla načtena.")
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -1207,6 +1775,23 @@ form.actions.sendRequest("ASEOPLDataRequest", request.toJson(), "ASEOPLDataRespo
                 <AttributeType />
               </DeclaredType>
             </Attribute>
+            <Attribute>
+              <Name value="placeGuid" />
+              <Caption value="Place guid" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Complex>
+              <Name value="request" />
+              <Caption value="Request" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOPLDataRequestEx" />
+                </Include>
+              </Children>
+            </Complex>
           </Children>
         </ActionDataContext>
       </DataContext>
@@ -1300,6 +1885,24 @@ if params.source = "main_master_navTree" then
 	else
 		system.consoleError("Invalid event type " + params.type)
 	endif
+else if params.source = "main_master_codelistGroup"	then
+	if params.type = "onBackgroundLoadingFinished" then
+		form.actions.onBackgroundLoadingFinished()
+	else
+		system.consoleError("Invalid event type " + params.type)
+	endif	
+endif endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_stVersions_OnRowClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if isTrue(form.action <> enums.ActionPl.NONE) then
+	notificationsCtrl.addInfo("Při editaci se nelze přepnout na historickou verzi")
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -1307,13 +1910,436 @@ endif]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="handler_modifier_79BE7FBC_ValidityCustomsOffice_OnChange" />
+      <Name value="handler_Index_OnUserChange" />
+      <Description value="stVersions" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var key = params.data.ValidityCustomsOffice
-var item = acb_ValidityCustomsOffice_FltCodelist.getItemByStringColumnAsync("CELUPLAT_R", key)
+        <Script><![CDATA[var index = params.data.Index
+var history = form.model.msg.PlaceHistory
+var selectedPlace = history.selectFirst(Current.index() = index)
 
-params.data._ValidityCustomsOffice.fromJson(item.getJsonString())]]></Script>
+if selectedPlace.hasValue() then
+	var placeGuid = selectedPlace.GUID
+	
+	globals.IsBusy = True
+	form.actions.loadData(form.params.GUID, placeGuid)
+	globals.IsBusy = False
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_prcCurrentAnnex_OnItemAdd" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var p = globals.forms.file.params
+p.Filter = "image/png, image/gif, application/pdf"
+navigation.main.file.goAndBack()
+
+var res = packages.main.globals.forms.file.result 
+if res.IsValid then
+	params.newItem.IsFulltext = false
+	params.newItem.FileName = res.FileName
+	params.newItem.FileType = res.FileType
+	params.newItem.FileContent = res.FileContent
+	params.newItem.FileSize = res.FileSize
+else
+	params.newItem.removeMe()
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_buttonActionCancel_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.action = enums.ActionPl.NONE
+form.actions.loadData(form.params.GUID)]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btnActionValidation_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var msg = form.model.msg
+
+if not msg.isValid() then
+	msg.setTouched(true)
+	form.ui.groupBoxes.cgbClientErrors._IsVisible = true
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="onBackgroundLoadingFinished" />
+      <Description value="zavola se po dokonceni nacteni ciselniku" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var msg = form.model.msg
+
+var item = acb_ValidityCustomsOffice_FltCodelist.getItemByStringColumnAsync("CELUPLAT_R", globals.user.CuCode)
+msg.PlaceDetail.ValidityCustomsOffice.fromJson(item.getJsonString())]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="loadRegisterData" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var msg = form.model.msg
+var detail = msg.PlaceDetail
+
+/* read data from CRS */
+actions.sendRequestCrs(msg.TIN, msg.ResponsibleCustomsOffice, true)
+
+if globals.sendResult.Valid then
+	var sr = globals.sendResult
+	response.fromJson(sr.Message)
+
+	if response.Subjekty.isEmpty() then
+		if response.KodChyby.isEmpty() then
+			notificationsCtrl.addWarning("Nepodařilo se najít žádné odpovídající subjekty")
+		else
+			var warningMessage = stringFormat(
+				"Kód chyby: {0} Popis Chyby: {1}", response.KodChyby, response.PopisChyby)
+		
+			notificationsCtrl.addWarning(warningMessage)
+		endif
+	else		
+		var mainCol = response.Subjekty.selectFirst()
+		if not mainCol.Subjekt.isEmpty() then
+			var innerCol = mainCol.Subjekt.selectFirst()
+			if not innerCol.SloucenaAdresa.isEmpty() then
+				var targetCol = innerCol.SloucenaAdresa.selectFirst()
+				
+				msg.TinName = targetCol.ZkracenyNazev
+				
+				if incAddress then
+					detail.StreetAndNr.clear()
+					detail.City.clear()
+					detail.PostCode.clear()
+					detail.Country.clear()
+
+					detail.StreetAndNr = targetCol.UliceACislo
+					detail.City = targetCol.Mesto
+					detail.PostCode = targetCol.PSC
+					
+					var item = cbb_Country_FltCodelist.getItemByStringColumnAsync("ZEMEEU", targetCol.Zeme)
+					detail.Country.fromJson(item.getJsonString())
+				endif
+
+				apiobjects.notificationsCtrl.addSuccess("Podařilo se získat data z CRS")
+			else
+				apiobjects.notificationsCtrl.addError("Došlo k chybě načítání dat z CRS")
+			endif
+		else
+			apiobjects.notificationsCtrl.addError("Došlo k chybě načítání dat z CRS")
+		endif
+	endif
+else if globals.sendResult.StatusCode = 202 then
+	notificationsCtrl.addWarning("Nepodařilo se najít žádné odpovídající subjekty")
+else
+	notificationsCtrl.addError("Došlo k chybě při komunikaci s Centrem")
+endif endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="incAddress" />
+              <Caption value="Inc address" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <Description value="vc. adresy" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Complex>
+              <Name value="response" />
+              <Caption value="Response" />
+              <Children>
+                <Attribute>
+                  <Name value="PopisChyby" />
+                  <Caption value="PopisChyby" />
+                  <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/PopisChyby" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="KodChyby" />
+                  <Caption value="KodChyby" />
+                  <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/KodChyby" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Collection>
+                  <Name value="Subjekty" />
+                  <Caption value="Subjekty" />
+                  <Children>
+                    <Collection>
+                      <Name value="Subjekt" />
+                      <Caption value="Subjekt" />
+                      <Children>
+                        <Attribute>
+                          <Name value="Klic" />
+                          <Caption value="Klic" />
+                          <IsRequired value="True" />
+                          <MetaType reference="+MetaTypes.CRSGuid" />
+                          <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/Klic" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Attribute>
+                          <Name value="KlicVerze" />
+                          <Caption value="KlicVerze" />
+                          <IsRequired value="True" />
+                          <MetaType reference="+MetaTypes.CRSGuid" />
+                          <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/KlicVerze" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                        </Attribute>
+                        <Collection>
+                          <Name value="SloucenaAdresa" />
+                          <Caption value="Sloucena adresa" />
+                          <Children>
+                            <Attribute>
+                              <Name value="PlnyNazev" />
+                              <Caption value="Název subjektu" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/PlnyNazev" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType />
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="ZkracenyNazev" />
+                              <Caption value="Krátký název subjektu" />
+                              <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/ZkracenyNazev" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType />
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="UliceACislo" />
+                              <Caption value="Ulice a číslo" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/UliceACislo" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType />
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="Mesto" />
+                              <Caption value="Město" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/Mesto" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType />
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="PSC" />
+                              <Caption value="PSČ" />
+                              <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/PSC" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType />
+                              </DeclaredType>
+                            </Attribute>
+                            <Attribute>
+                              <Name value="Zeme" />
+                              <Caption value="Země" />
+                              <IsRequired value="True" />
+                              <MtsImportOptions.MTS.ID value="/SubjektPodleIdentifikatoruResponseCIC/Subjekty/Subjekt/SloucenaAdresa/Zeme" />
+                              <MtsImportOptions.MTS.Type value="element" />
+                              <DeclaredType>
+                                <AttributeType />
+                              </DeclaredType>
+                            </Attribute>
+                          </Children>
+                        </Collection>
+                      </Children>
+                    </Collection>
+                  </Children>
+                </Collection>
+              </Children>
+            </Complex>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btnCrs_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var msg = form.model.msg
+
+if msg.TIN.hasValue() then
+	form.actions.loadRegisterData(true)
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_modifier_6237F039_TIN_OnUserChange" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if params.data.TIN.hasValue() and isTrue(form.action = enums.ActionPl.New) then
+	form.actions.loadRegisterData(false)
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btnModify_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var msg = form.model.msg
+var dt = getDateTime()
+
+form.action = enums.ActionPl.Modify
+
+msg.PlaceDetail.ValidityStartDate = dt
+msg.PlaceDetail.EvidenceDate = dt
+msg.PlaceDetail.ResponsiblePerson = globals.user.userName
+
+form.actions.loadRegisterData(false)]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="getValidityStartDate" />
+      <Description value="returns current event ValidityStartDate or current dateTime" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var detail = form.model.msg.PlaceDetail
+
+result = getDateTime()
+if hasValue(detail.ValidityStartDate) then
+	result = detail.ValidityStartDate
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="DateTime" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setFilters" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var dt = form.actions.getValidityStartDate()
+
+var filter = acb_ValidityCustomsOffice_FltCodelist.resetFilter(false)
+filter.filterByValidityDateTime(dt)
+filter.commit()
+
+filter = cbb_Country_FltCodelist.resetFilter(false)
+filter.filterByValidityDateTime(dt)
+filter.commit()
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_modifier_6BB71F10_ValidityStartDate_OnChange" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.actions.setFilters()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btnActionConfirm_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var msg = form.model.msg
+
+if msg.isValid() then
+
+else
+	msg.setTouched(true)
+	form.ui.groupBoxes.cgbClientErrors._IsVisible = true
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_clientValidationSummary_OnItemClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var ctr = params.errorSourceComponent
+var node = params.navigationTreeNode
+var ptr = params.pointer
+
+ntc.focusNode(node)
+
+/*
+var strings = globals.strings
+strings.clear()
+var split = actions.js_split(ptr, "/")
+strings.fromJson(split)
+
+foreach s in strings do
+	var part = s.str
+	var idx = indexOf(part, "[")
+	
+	if idx > 0 then
+		var col = substring(part, 1, idx - 1)
+		var num = toInt(substring(part, idx + 1, length(part) - length(col) - 2), 0)
+		
+		form.actions.SwitchToIndex(col, num)
+	endif
+endfor
+*/
+
+// to focus correct control
+pageAPI.focusControl(ctr, defaultString())
+
+// to focus correct control in case it is in Repeater
+pageAPI.focusControl(ctr, ptr)
+
+system.console("Clicked on: " + ptr)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -1327,7 +2353,7 @@ params.data._ValidityCustomsOffice.fromJson(item.getJsonString())]]></Script>
     </FilteredCodelist>
     <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
       <Name value="cbb_Country_FltCodelist" />
-      <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZEME_O" />
+      <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZEMEEU" />
     </FilteredCodelist>
     <EventDispatcher identity="EventDispatcher.eb764ceb30274f1e9a3d051d512d6b26">
       <Name value="eventDispatcher" />
@@ -1335,5 +2361,8 @@ params.data._ValidityCustomsOffice.fromJson(item.getJsonString())]]></Script>
         <ActionEvent ReferencedAction="~handler_eventDispatcher_OnMessage" />
       </OnMessage>
     </EventDispatcher>
+    <ErrorPointerMap identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+      <Name value="epm" />
+    </ErrorPointerMap>
   </ApiObjects>
 </Form>

@@ -637,7 +637,7 @@
               <Name value="clientValidationSummary" />
               <Bindings>
                 <Binding SourceProperty="validationErrors" Expression="form.error.clientValidationErrors" />
-                <Binding SourceProperty="validationRoot" Expression="form.model" />
+                <Binding SourceProperty="validationRoot" Expression="form.model.msg" />
               </Bindings>
               <columns>
                 <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
@@ -2138,7 +2138,7 @@
                         <Binding SourceProperty="Data" Expression="model.msg.ASEO.Event.SPTIR.TIRHolder" />
                         <Binding SourceProperty="Caption" Expression="model.msg.ASEO.Event.SPTIR.TIRHolder.caption()" />
                         <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ASEO.Event.SPTIR.TIRHolder.isRequired()" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ASEO.Event.SPTIR._IsRequired_TIRHolder" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -2380,266 +2380,8 @@
               </conditionalCssClass>
             </CollapsibleGroupBox>
             <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
-              <Name value="cgbPayback" />
-              <caption value="Druh výpočtu lhůty splatnosti dle délky zúčtovacího období" />
-              <collapsedIconClass value="fa fa-plus-square-o" />
-              <nonCollapsedIconClass value="fa fa-minus-square-o" />
-              <Panel.Height value="#" />
-              <Panel.Width value="*" />
-              <Content>
-                <Panel>
-                  <Name value="pnlPayback" />
-                  <Orientation value="Vertical" />
-                  <Children>
-                    <ReferenceCombo>
-                      <Name value="cmbTypeOfPaybackPeriod" />
-                      <CaptionPosition value="Top" />
-                      <DisplayMember value="_description" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="*" />
-                      <ReferenceList reference="~fcTypeOfPaybackPeriodEnum" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="model.msg.ASEO.Event.SPSI.TypeOfPaybackPeriod" />
-                        <Binding SourceProperty="Caption" Expression="model.msg.ASEO.Event.SPSI.TypeOfPaybackPeriod.caption()" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ASEO.Event.SPSI.TypeOfPaybackPeriod.isRequired()" />
-                        <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-referencecombo" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </ReferenceCombo>
-                    <TextBox>
-                      <Name value="tbDaysOfPayback" />
-                      <CaptionPosition value="Top" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="*" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="model.msg.ASEO.Event.SPSI.DaysOfPayback" />
-                        <Binding SourceProperty="Caption" Expression="model.msg.ASEO.Event.SPSI.DaysOfPayback.caption()" />
-                        <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ASEO.Event.SPSI._IsRequired_DaysIfOayback" />
-                        <Binding SourceProperty="IsVisible" Expression="model.msg.ASEO.Event.SPSI._IsRequired_DaysIfOayback" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-textbox" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </TextBox>
-                  </Children>
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-panel" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                  </CssClass>
-                </Panel>
-              </Content>
-              <Bindings>
-                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbPayback.IsVisible" />
-              </Bindings>
-              <conditionalCssClass>
-                <CssClassConditional>
-                  <ClassName value="{theme}-collapsiblegroupbox" />
-                  <IsThemedStyle value="True" />
-                </CssClassConditional>
-              </conditionalCssClass>
-            </CollapsibleGroupBox>
-            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
-              <Name value="cgbCurrentAnnex" />
-              <caption value="Přílohy" />
-              <collapsedIconClass value="fa fa-plus-square-o" />
-              <nonCollapsedIconClass value="fa fa-minus-square-o" />
-              <Panel.Height value="#" />
-              <Panel.Width value="*" />
-              <Content>
-                <Panel>
-                  <Name value="pnlCurrentAnnex" />
-                  <Orientation value="Vertical" />
-                  <Children>
-                    <Button>
-                      <Name value="btnCurrentAnnexHistory" />
-                      <Caption value="Historie" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="150px" />
-                      <OnClick>
-                        <ActionEvent ReferencedAction="~handler_btnCurrentAnnexHistory_OnClick" />
-                      </OnClick>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-button" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </Button>
-                    <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
-                      <Name value="prcCurrentAnnex" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="*" />
-                      <OnItemAdd>
-                        <ActionEvent ReferencedAction="~handler_prcCurrentAnnex_OnItemAdd" />
-                      </OnItemAdd>
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="model.msg.ASEO.Event.File" />
-                        <Binding SourceProperty="Index" Expression="ui.tables.stCurrentAnnex.Index" />
-                        <Binding SourceProperty="AllowRemove" Expression="form.isEditOn" />
-                        <Binding SourceProperty="AllowAdd" Expression="form.isEditOn" />
-                      </Bindings>
-                    </PagingRepeaterCtrl>
-                    <SelectionTable identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
-                      <Name value="stCurrentAnnex" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="*" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="model.msg.ASEO.Event.File" />
-                        <Binding SourceProperty="Index" Expression="ui.tables.stCurrentAnnex.Index" />
-                      </Bindings>
-                      <Columns>
-                        <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
-                          <Name value="stcCurrentAnnex_IsFullText" />
-                          <Caption value="Plný text?" />
-                          <ColumnWidth value="10%" />
-                          <Content>
-                            <CheckBox>
-                              <Name value="cbCurrentAnnex_IsFullText" />
-                              <CaptionPosition value="Hide" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="IsFullText" />
-                                <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-checkbox" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </CheckBox>
-                          </Content>
-                        </SelectionTableColumn>
-                        <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
-                          <Name value="stcCurrentAnnex_FileName" />
-                          <Caption value="Soubor" />
-                          <Content>
-                            <Panel>
-                              <Name value="pnlCurrentAnnex_FileName" />
-                              <Orientation value="Horizontal" />
-                              <Children>
-                                <HyperLink>
-                                  <Name value="hlCurrentAnnex_FileName" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Href" Expression="_fileUrl" />
-                                    <Binding SourceProperty="Data" Expression="FileName" />
-                                    <Binding SourceProperty="IsVisible" Expression="not form.isEditOn" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-hyperlink" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </HyperLink>
-                                <Label>
-                                  <Name value="lblCurrentAnnex_FileName" />
-                                  <Panel.Height value="#" />
-                                  <Panel.Width value="*" />
-                                  <Bindings>
-                                    <Binding SourceProperty="Data" Expression="FileName" />
-                                    <Binding SourceProperty="IsVisible" Expression="form.isEditOn" />
-                                  </Bindings>
-                                  <CssClass>
-                                    <CssClassConditional>
-                                      <ClassName value="{theme}-label" />
-                                      <IsThemedStyle value="True" />
-                                    </CssClassConditional>
-                                  </CssClass>
-                                </Label>
-                              </Children>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-panel" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </Panel>
-                          </Content>
-                        </SelectionTableColumn>
-                        <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
-                          <Name value="stcCurrentAnnex_FileType" />
-                          <Caption value="Typ" />
-                          <ColumnWidth value="15%" />
-                          <Content>
-                            <Label>
-                              <Name value="lblCurrentAnnex_FileType" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="FileType" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-label" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </Label>
-                          </Content>
-                        </SelectionTableColumn>
-                        <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
-                          <Name value="stcCurrentAnnex_FileSize" />
-                          <Caption value="Velikost" />
-                          <ColumnWidth value="10%" />
-                          <Content>
-                            <Label>
-                              <Name value="lblCurrentAnnex_FileSize" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="FileSize" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-label" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                              </CssClass>
-                            </Label>
-                          </Content>
-                          <Bindings>
-                            <Binding SourceProperty="IsVisible" Expression="form.isEditOn" />
-                          </Bindings>
-                        </SelectionTableColumn>
-                      </Columns>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-selectiontable" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </SelectionTable>
-                  </Children>
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-panel" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                  </CssClass>
-                </Panel>
-              </Content>
-              <Bindings>
-                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbCurrentAnnex.IsVisible" />
-              </Bindings>
-              <conditionalCssClass>
-                <CssClassConditional>
-                  <ClassName value="{theme}-collapsiblegroupbox" />
-                  <IsThemedStyle value="True" />
-                </CssClassConditional>
-              </conditionalCssClass>
-            </CollapsibleGroupBox>
-            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
               <Name value="cgbPrehControl" />
-              <caption value="Kontroly" />
+              <caption value="Přehodnocení - kontroly" />
               <collapsedIconClass value="fa fa-plus-square-o" />
               <nonCollapsedIconClass value="fa fa-minus-square-o" />
               <Panel.Height value="#" />
@@ -2797,7 +2539,7 @@
             </CollapsibleGroupBox>
             <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
               <Name value="cgbPrehAnnexes" />
-              <caption value="Přílohy" />
+              <caption value="Přehodnocení - přílohy" />
               <collapsedIconClass value="fa fa-plus-square-o" />
               <nonCollapsedIconClass value="fa fa-minus-square-o" />
               <Panel.Height value="#" />
@@ -3217,6 +2959,76 @@
               <Bindings>
                 <Binding SourceProperty="caption" Expression="form.model.msg.ASEO.Event.Guarantee.caption()" />
                 <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbGuarantee.IsVisible" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="cgbPayback" />
+              <caption value="Druh výpočtu lhůty splatnosti dle délky zúčtovacího období" />
+              <collapsedIconClass value="fa fa-plus-square-o" />
+              <nonCollapsedIconClass value="fa fa-minus-square-o" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="pnlPayback" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <ReferenceCombo>
+                      <Name value="cmbTypeOfPaybackPeriod" />
+                      <CaptionPosition value="Top" />
+                      <DisplayMember value="_description" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <ReferenceList reference="~fcTypeOfPaybackPeriodEnum" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.ASEO.Event.SPSI.TypeOfPaybackPeriod" />
+                        <Binding SourceProperty="Caption" Expression="model.msg.ASEO.Event.SPSI.TypeOfPaybackPeriod.caption()" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ASEO.Event.SPSI._IsRequired_TypeOfPaybackPeriod" />
+                        <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-referencecombo" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </ReferenceCombo>
+                    <TextBox>
+                      <Name value="tbDaysOfPayback" />
+                      <CaptionPosition value="Top" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.ASEO.Event.SPSI.DaysOfPayback" />
+                        <Binding SourceProperty="Caption" Expression="model.msg.ASEO.Event.SPSI.DaysOfPayback.caption()" />
+                        <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ASEO.Event.SPSI._IsRequired_DaysIfOayback" />
+                        <Binding SourceProperty="IsVisible" Expression="model.msg.ASEO.Event.SPSI._IsRequired_DaysIfOayback" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbPayback.IsVisible" />
               </Bindings>
               <conditionalCssClass>
                 <CssClassConditional>
@@ -3759,6 +3571,194 @@
               <Bindings>
                 <Binding SourceProperty="caption" Expression="model.msg.ASEO.Event.AuthorizationSuspending.caption()" />
                 <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbAuthorizationSuspending.IsVisible" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="cgbCurrentAnnex" />
+              <caption value="Přílohy" />
+              <collapsedIconClass value="fa fa-plus-square-o" />
+              <nonCollapsedIconClass value="fa fa-minus-square-o" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="pnlCurrentAnnex" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <Button>
+                      <Name value="btnCurrentAnnexHistory" />
+                      <Caption value="Historie" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_btnCurrentAnnexHistory_OnClick" />
+                      </OnClick>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
+                      <Name value="prcCurrentAnnex" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <OnItemAdd>
+                        <ActionEvent ReferencedAction="~handler_prcCurrentAnnex_OnItemAdd" />
+                      </OnItemAdd>
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.ASEO.Event.File" />
+                        <Binding SourceProperty="Index" Expression="ui.tables.stCurrentAnnex.Index" />
+                        <Binding SourceProperty="AllowRemove" Expression="form.isEditOn" />
+                        <Binding SourceProperty="AllowAdd" Expression="form.isEditOn" />
+                      </Bindings>
+                    </PagingRepeaterCtrl>
+                    <SelectionTable identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                      <Name value="stCurrentAnnex" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.ASEO.Event.File" />
+                        <Binding SourceProperty="Index" Expression="ui.tables.stCurrentAnnex.Index" />
+                      </Bindings>
+                      <Columns>
+                        <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                          <Name value="stcCurrentAnnex_IsFullText" />
+                          <Caption value="Plný text?" />
+                          <ColumnWidth value="10%" />
+                          <Content>
+                            <CheckBox>
+                              <Name value="cbCurrentAnnex_IsFullText" />
+                              <CaptionPosition value="Hide" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="IsFullText" />
+                                <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-checkbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </CheckBox>
+                          </Content>
+                        </SelectionTableColumn>
+                        <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                          <Name value="stcCurrentAnnex_FileName" />
+                          <Caption value="Soubor" />
+                          <Content>
+                            <Panel>
+                              <Name value="pnlCurrentAnnex_FileName" />
+                              <Orientation value="Horizontal" />
+                              <Children>
+                                <HyperLink>
+                                  <Name value="hlCurrentAnnex_FileName" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Href" Expression="_fileUrl" />
+                                    <Binding SourceProperty="Data" Expression="FileName" />
+                                    <Binding SourceProperty="IsVisible" Expression="not form.isEditOn" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-hyperlink" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </HyperLink>
+                                <Label>
+                                  <Name value="lblCurrentAnnex_FileName" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
+                                  <Bindings>
+                                    <Binding SourceProperty="Data" Expression="FileName" />
+                                    <Binding SourceProperty="IsVisible" Expression="form.isEditOn" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-label" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Label>
+                              </Children>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-panel" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Panel>
+                          </Content>
+                        </SelectionTableColumn>
+                        <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                          <Name value="stcCurrentAnnex_FileType" />
+                          <Caption value="Typ" />
+                          <ColumnWidth value="15%" />
+                          <Content>
+                            <Label>
+                              <Name value="lblCurrentAnnex_FileType" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="FileType" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-label" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Label>
+                          </Content>
+                        </SelectionTableColumn>
+                        <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                          <Name value="stcCurrentAnnex_FileSize" />
+                          <Caption value="Velikost" />
+                          <ColumnWidth value="10%" />
+                          <Content>
+                            <Label>
+                              <Name value="lblCurrentAnnex_FileSize" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="FileSize" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-label" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Label>
+                          </Content>
+                          <Bindings>
+                            <Binding SourceProperty="IsVisible" Expression="form.isEditOn" />
+                          </Bindings>
+                        </SelectionTableColumn>
+                      </Columns>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-selectiontable" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </SelectionTable>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbCurrentAnnex.IsVisible" />
               </Bindings>
               <conditionalCssClass>
                 <CssClassConditional>
@@ -4822,7 +4822,7 @@ isTrue(form.State = enums.State.AUC)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[form.isEditOn]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -4862,7 +4862,7 @@ isTrue(form.State = enums.State.AUC)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[form.isEditOn]]></ExpressionText>
+                        <ExpressionText><![CDATA[true]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5009,20 +5009,11 @@ isTrue(form.State = enums.State.AUC)]]></ExpressionText>
                   <Name value="cgbClientErrors" />
                   <Caption value="cgbClientErrors" />
                   <Children>
-                    <Attribute>
-                      <Name value="_IsVisible" />
-                      <Caption value="_ is visible" />
-                      <DeclaredType>
-                        <AttributeType>
-                          <BaseType value="Bool" />
-                        </AttributeType>
-                      </DeclaredType>
-                    </Attribute>
                     <Computed>
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(_IsVisible) and
+                        <ExpressionText><![CDATA[isTrue(form.action <> enums.Action.NONE) and
 isTrue(form.model.validationErrorsCount() > 0)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
@@ -5322,41 +5313,6 @@ isTrue(form.authorizationType in [globals.DocType.ACP])]]></ExpressionText>
                   </Children>
                 </Complex>
                 <Complex>
-                  <Name value="cgbPayback" />
-                  <Caption value="cgbPayback" />
-                  <Children>
-                    <Computed>
-                      <Name value="IsVisible" />
-                      <Caption value="IsVisible" />
-                      <Expression IsValid="True">
-                        <ExpressionText><![CDATA[packages.navTrees.globals._ntSP_Edit.isItem05rozsireneVisible and
-(form.ui.navTree.selectedNode in [form.ui.navTree.ItemAll, form.ui.navTree.Item05rozsirene]) and
-isTrue(form.authorizationType in [globals.DocType.SI, globals.DocType.SDE, globals.DocType.LI, globals.DocType.EIR, globals.DocType.SAR])]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="Bool" />
-                        </ResultType>
-                      </Expression>
-                    </Computed>
-                  </Children>
-                </Complex>
-                <Complex>
-                  <Name value="cgbCurrentAnnex" />
-                  <Caption value="cgbCurrentAnnex" />
-                  <Children>
-                    <Computed>
-                      <Name value="IsVisible" />
-                      <Caption value="IsVisible" />
-                      <Expression IsValid="True">
-                        <ExpressionText><![CDATA[packages.navTrees.globals._ntSP_Edit.isItem06prilohyVisible and
-(form.ui.navTree.selectedNode in [form.ui.navTree.ItemAll, form.ui.navTree.Item06prilohy])]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="Bool" />
-                        </ResultType>
-                      </Expression>
-                    </Computed>
-                  </Children>
-                </Complex>
-                <Complex>
                   <Name value="cgbPrehControl" />
                   <Caption value="cgbPrehControl" />
                   <Children>
@@ -5418,6 +5374,24 @@ isTrue(form.authorizationType in [globals.DocType.SI, globals.DocType.SDE, globa
                         <ExpressionText><![CDATA[packages.navTrees.globals._ntSP_Edit.isItem08lhutyAzajisteniVisible and
 (form.ui.navTree.selectedNode in [form.ui.navTree.ItemAll, form.ui.navTree.Item08lhutyAzajisteni]) and
 isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="cgbPayback" />
+                  <Caption value="cgbPayback" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="IsVisible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[packages.navTrees.globals._ntSP_Edit.isItem08lhutyAzajisteniVisible and
+(form.ui.navTree.selectedNode in [form.ui.navTree.ItemAll, form.ui.navTree.Item08lhutyAzajisteni]) and
+isTrue(form.authorizationType in [globals.DocType.SI, globals.DocType.SDE, globals.DocType.LI, globals.DocType.EIR, globals.DocType.SAR])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5520,6 +5494,23 @@ isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></
                       <Expression IsValid="True">
                         <ExpressionText><![CDATA[packages.navTrees.globals._ntSP_Edit.isItem12lifecycle_authorizationSuspendingVisible and
 (form.ui.navTree.selectedNode in [form.ui.navTree.ItemAll, form.ui.navTree.Item12lifecycle_authorizationSuspending])]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="cgbCurrentAnnex" />
+                  <Caption value="cgbCurrentAnnex" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="IsVisible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[packages.navTrees.globals._ntSP_Edit.isItem06prilohyVisible and
+(form.ui.navTree.selectedNode in [form.ui.navTree.ItemAll, form.ui.navTree.Item06prilohy])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5938,6 +5929,34 @@ isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></
             </Collection>
           </Children>
         </Complex>
+        <Complex>
+          <Name value="_" />
+          <Caption value="_" />
+          <Children>
+            <Computed>
+              <Name value="ActionAuthorize" />
+              <Caption value="Action authorize" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[isTrue(form.action in [
+	enums.Action.authorize,
+	enums.Action.authorizeModify])]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="NotActionAuthorize" />
+              <Caption value="Not action authorize" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[not ActionAuthorize]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+          </Children>
+        </Complex>
       </Children>
       <Modifiers>
         <Modifier>
@@ -6076,8 +6095,7 @@ this.collection().where(Current.TypeOfPeriod.Key = attr.Key).count() = 1]]></Exp
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[isFalseOrDefault(form.action
-	in [enums.Action.authorize, enums.Action.authorizeModify]) ?
+                <ExpressionText><![CDATA[form._.NotActionAuthorize ?
 	true :
 	isFalse(form.authorizationType = globals.DocType.ACR) ?
 		true :
@@ -6256,7 +6274,7 @@ this.collection().exists((Current.index() = _Parent) and isTrue(Current.Allowed)
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[attr.isEmpty() ? true :
-isFalse(form.action in [ enums.Action.authorize, enums.Action.authorizeModify ]) ? true :
+form._.NotActionAuthorize ? true :
 packages.utils.functions.startsWith(attr, "+")]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -6294,7 +6312,7 @@ ValidateAgainstRegularExpression(attr, "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[attr.hasValue() ? true :
-isFalse(form.action in [ enums.Action.authorize, enums.Action.authorizeModify ]) ? true :
+form._.NotActionAuthorize ? true :
 isFalseOrDefault(this.ResponsiblePersonWantsToBeNotified)]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -6348,6 +6366,23 @@ isFalseOrDefault(this.ResponsiblePersonWantsToBeNotified)]]></ExpressionText>
               </Expression>
             </Computed>
           </Children>
+          <Validators>
+            <Validator Name="req">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Hodnota musí být vyplněna"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[attr.hasValue() ? true :
+isFalse(_IsRequired_TypeOfPaybackPeriod)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
         </Modifier>
         <Modifier>
           <Name value="modifier_6876424A_GuaranteeID" />
@@ -6378,7 +6413,7 @@ isFalseOrDefault(this.ResponsiblePersonWantsToBeNotified)]]></ExpressionText>
           <ShowAsChanges value="True" />
           <SourcePath value="model.msg.ASEO.Event.SPTIR.TIRHolder" />
           <Validators>
-            <Validator Name="requiredTIRHolder">
+            <Validator Name="req">
               <ErrorMessage IsValid="True">
                 <ExpressionText><![CDATA["ID držitele karnetu TIR je pro toto povolení povinné."]]></ExpressionText>
                 <ResultType>
@@ -6386,13 +6421,8 @@ isFalseOrDefault(this.ResponsiblePersonWantsToBeNotified)]]></ExpressionText>
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[( 
-	(form.action in [ enums.Action.authorize, enums.Action.authorizeModify ]) AND
-	(isTrue(form.authorizationType = globals.DocType.TIR)) AND
-	(hasValue(form.model.msg.ASEO.Event.SPTIR.TIRHolder) = false ) 
-) ? 
-	false : 
-	true]]></ExpressionText>
+                <ExpressionText><![CDATA[attr.hasValue() ? true :
+isFalse(_IsRequired_TIRHolder)]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -6484,8 +6514,21 @@ isFalse(form.action in [
           <Name value="modifier_99A80F3D_SPTIR" />
           <ShowAsChanges value="True" />
           <SourcePath value="model.msg.ASEO.Event.SPTIR" />
+          <Children>
+            <Computed>
+              <Name value="_IsRequired_TIRHolder" />
+              <Caption value="_ is required _ TIR holder" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[form._.ActionAuthorize and
+isTrue(form.authorizationType = globals.DocType.TIR)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+          </Children>
           <Validators>
-            <Validator Name="requiredTIRcarnetID">
+            <Validator Name="req">
               <ErrorMessage IsValid="True">
                 <ExpressionText><![CDATA["ID držitele karnetu TIR je pro toto povolení povinné."]]></ExpressionText>
                 <ResultType>
@@ -6493,12 +6536,9 @@ isFalse(form.action in [
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(form.action in [ enums.Action.authorize, enums.Action.authorizeModify ]) ? 
-	(isTrue( form.authorizationType in [globals.DocType.TIR] ) ? 
-			((this.SPTIR.isEmpty() ) ? false : true ) : 
-		true) :
-	true
-	]]></ExpressionText>
+                <ExpressionText><![CDATA[attr.hasValue() ? true :
+form._.NotActionAuthorize ? true :
+isTrue(form.authorizationType <> globals.DocType.TIR)	]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -6528,9 +6568,7 @@ defaultString()]]></ExpressionText>
               <Name value="_IsRequired_GuaranteeID" />
               <Caption value="_ is required _ guarantee ID" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA[isTrue(form.action in [
-	enums.Action.authorize,
-	enums.Action.authorizeModify]) and
+                <ExpressionText><![CDATA[form._.ActionAuthorize and
 isTrue(GuaranteeType.ZJPZAJIST in ["0", "1"])]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -6539,20 +6577,19 @@ isTrue(GuaranteeType.ZJPZAJIST in ["0", "1"])]]></ExpressionText>
             </Computed>
           </Children>
           <CollectionValidators>
-            <Validator Name="requiredGuaranteeSAR">
+            <Validator Name="requiredGuarantee">
               <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Doplňte aspoň 1 záznam do sekce \"Zajištění celního dluhu\" na záložce \"Lhůty a zajištění\"." ]]></ExpressionText>
+                <ExpressionText><![CDATA["Doplňte alespoň 1 záznam do sekce \"Zajištění celního dluhu\" na záložce \"Lhůty a zajištění\"." ]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[isFalseOrDefault(form.action 
-	in [ enums.Action.authorize, enums.Action.authorizeModify ]) ?
-	true :
-	isFalse(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR]) ?
-		true :
-		this.Guarantee.count() > 0]]></ExpressionText>
+                <ExpressionText><![CDATA[form._.NotActionAuthorize ? true :
+isFalse(form.authorizationType in [
+	globals.DocType.SAR,
+	globals.DocType.ACR]) ? true :
+this.Guarantee.count() > 0]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -6566,8 +6603,7 @@ isTrue(GuaranteeType.ZJPZAJIST in ["0", "1"])]]></ExpressionText>
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[isFalseOrDefault(form.action 
-	in [ enums.Action.authorize, enums.Action.authorizeModify ]) ?
+                <ExpressionText><![CDATA[form._.NotActionAuthorize ?
 	true :
 	not this.Guarantee.exists(Current.GuaranteeID.hasValue() and (Current.GuaranteeState <> "O"))]]></ExpressionText>
                 <ResultType>
@@ -6735,19 +6771,17 @@ DaysOfPayback.hasValue()]]></ExpressionText>
           <ShowAsChanges value="True" />
           <SourcePath value="model.msg.ASEO.Event.Representation" />
           <CollectionValidators>
-            <Validator Name="SPRepresentationMandatory">
+            <Validator Name="req">
               <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Vyplňte \"Typ zastoupení\" v sekci \"Povolení\"."]]></ExpressionText>
+                <ExpressionText><![CDATA["Vyplňte \"Typ zastoupení\" v sekci \"Rozšířené\"."]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(form.action in [ enums.Action.authorize, enums.Action.authorizeModify ]) ? 
-	(isTrue( (form.authorizationType in [globals.DocType.ACR]) ) ? 
-		( this.Representation.exists(current.TypeOfRepresentation.hasValue()) ) : 
-		true ) : 
-	true]]></ExpressionText>
+                <ExpressionText><![CDATA[collection.hasValue() ? true :
+form._.NotActionAuthorize ? true :
+isTrue(form.authorizationType <> globals.DocType.ACR)]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -6768,14 +6802,10 @@ DaysOfPayback.hasValue()]]></ExpressionText>
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(isTrue(form.action in [enums.Action.authorize, enums.Action.authorizeModify]) AND
-isTrue(form.authorizationType = globals.DocType.AC)) ? 
-	( isTrue(form.model.msg.ASEO.Event.SPAx.ExportDeclarationDischargeByTDAllowed) AND 
-	  (isFalse(form.model.msg.ASEO.Event.SPAx.Phase1) AND
-	  isFalse(form.model.msg.ASEO.Event.SPAx.Phase2)) ? false : true
-	  ) 
-	: 
-	true]]></ExpressionText>
+                <ExpressionText><![CDATA[(attr.Phase1.hasValue() or attr.Phase2.hasValue()) ? true :
+isFalseOrDefault(attr.ExportDeclarationDischargeByTDAllowed) ? true :
+form._.NotActionAuthorize ? true :
+isTrue(form.authorizationType <> globals.DocType.AC)]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -6789,14 +6819,10 @@ isTrue(form.authorizationType = globals.DocType.AC)) ?
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(isTrue(form.action in [enums.Action.authorize, enums.Action.authorizeModify]) AND
-isTrue(form.authorizationType = globals.DocType.ACR)) ? 
-	( isFalse(form.model.msg.ASEO.Event.SPAx.ExportDeclarationDischargeByTDAllowed) AND 
-	  (isTrue(form.model.msg.ASEO.Event.SPAx.Phase1) OR
-	  isTrue(form.model.msg.ASEO.Event.SPAx.Phase2)) ? false : true
-	  ) 
-	: 
-	true]]></ExpressionText>
+                <ExpressionText><![CDATA[(attr.Phase1.isEmpty() and attr.Phase2.isEmpty()) ? true :
+isTrue(attr.ExportDeclarationDischargeByTDAllowed) ? true :
+form._.NotActionAuthorize ? true :
+isTrue(form.authorizationType <> globals.DocType.AC)]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -6814,7 +6840,6 @@ isTrue(form.authorizationType = globals.DocType.ACR)) ?
         </Modifier>
         <Modifier>
           <Name value="modifier_1DDF02A1_Seals" />
-          <ShowAsChanges value="True" />
           <SourcePath value="model.msg.ASEO.Event.Seals" />
           <Children>
             <Attribute>
@@ -6827,24 +6852,6 @@ isTrue(form.authorizationType = globals.DocType.ACR)) ?
               </DeclaredType>
             </Attribute>
           </Children>
-          <Validators>
-            <Validator Name="validSPSealsSpecType">
-              <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Pro toto povolení není možné využít \"Povolení použití zvláštního typu celních závěr\" v záložce \"Rozšířené\"."]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </ErrorMessage>
-              <IsValid IsValid="True">
-                <ExpressionText><![CDATA[isTrue(form.action in [enums.Action.authorize, enums.Action.authorizeModify]) AND isTrue(form.authorizationType = globals.DocType.ACR) ?
-	isTrue(Seals.SPSealsSpecTypeAllowed) and isTrue(Seals._validSPSealsSpecTypeAllowed) :
-	true]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="Bool" />
-                </ResultType>
-              </IsValid>
-            </Validator>
-          </Validators>
         </Modifier>
         <Modifier>
           <Name value="modifier_4398C8F1_SPSealsSpecTypeAllowed" />
@@ -6853,6 +6860,25 @@ isTrue(form.authorizationType = globals.DocType.ACR)) ?
           <OnChange>
             <ActionEvent ReferencedAction="+UiParts.SP_Edit.validateSPSealsSpecTypeAllowed" />
           </OnChange>
+          <Validators>
+            <Validator Name="validSPSealsSpecType">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pro toto povolení není možné využít \"Povolení použití zvláštního typu celních závěr\" na záložce \"Rozšířené\"."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[isFalse(attr) ? true :
+form._.NotActionAuthorize ? true :
+isTrue(form.authorizationType <> globals.DocType.ACR) ? true :
+isTrue(_validSPSealsSpecTypeAllowed)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
         </Modifier>
         <Modifier>
           <Name value="modifier_3290EF88_CustomsOfficeReferenceNumber" />
@@ -6917,11 +6943,9 @@ isTrue(form.authorizationType = globals.DocType.ACR)) ?
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
-                <ExpressionText><![CDATA[isFalse(form.action in [
-	enums.Action.authorize,
-	enums.Action.authorizeModify]) ? true :
-		isFalse(this._IsRequired_GuaranteeID) ? true :
-			isTrue(GuaranteeState = "O")]]></ExpressionText>
+                <ExpressionText><![CDATA[form._.NotActionAuthorize ? true :
+	isFalse(this._IsRequired_GuaranteeID) ? true :
+		isTrue(GuaranteeState = "O")]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -7059,6 +7083,23 @@ this.collection().orderBy(length(Current.CNCode.ZBOZIKOD), false).selectFirst(
                 </ResultType>
               </Expression>
             </Computed>
+            <Computed>
+              <Name value="_IsRequired_TypeOfPaybackPeriod" />
+              <Caption value="_ is required _ type of payback period" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[form._.ActionAuthorize and
+isTrue(form.authorizationType in [
+	globals.DocType.SI, 
+	globals.DocType.SDE, 
+	globals.DocType.LI, 
+	globals.DocType.EIR, 
+	globals.DocType.SAR
+])]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
           </Children>
         </Modifier>
         <Modifier>
@@ -7097,7 +7138,8 @@ this.collection().orderBy(length(Current.CNCode.ZBOZIKOD), false).selectFirst(
                         </ResultType>
                       </ErrorMessage>
                       <IsValid IsValid="True">
-                        <ExpressionText><![CDATA[this.owner().Period.exists(Current.TypeOfPeriod.Key = attr)]]></ExpressionText>
+                        <ExpressionText><![CDATA[form._.NotActionAuthorize ? true :
+this.owner().Period.exists(Current.TypeOfPeriod.Key = attr)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -7175,7 +7217,6 @@ var node02 = ntc.addNode(nt.Item02kontaktniUdaje, "Kontaktní údaje")
 var node03 = ntc.addNode(nt.Item03celniUrady, "Celní úřady")
 var node04 = ntc.addNode(nt.Item04zbozi, "Zboží")
 var node05 = ntc.addNode(nt.Item05rozsirene, "Rozšířené")
-var node06 = ntc.addNode(nt.Item06prilohy, "Item06prilohyCaption")
 var node07 = ntc.addNode(nt.Item07prehodnoceni, "Přehodnocení")
 var node08 = ntc.addNode(nt.Item08lhutyAzajisteni, "Lhůty a zajištení")
 var node09 = ntc.addNode(nt.Item09rezimy, "Režimy")
@@ -7184,6 +7225,7 @@ var node11 = ntc.addNode(nt.Item11lifecycle_authorizationWithdrawal, "Item11life
 var node12 = ntc.addNode(nt.Item12lifecycle_authorizationSuspending, "Pozastavení")
 var node13 = ntc.addNode(nt.Item13zavery, "Závěry")
 var node14 = ntc.addNode(nt.Item14odpovedneOsosby, "Odpovědné osoby")
+var node06 = ntc.addNode(nt.Item06prilohy, "Item06prilohyCaption") // na vyzadani NoJo na konci
 
 if appInfo.isTestSolitea then
 	ntc.addNode("Test", "TEST")
@@ -7213,11 +7255,16 @@ form.actions.sendRequest("ASEOSPDataRequestEx", request.toJson(), "ASEOSPDataRes
 
 if globals.sendResult.Valid then
 	var sr = globals.sendResult
+	var msg = form.model.msg
 	
-    form.model.msg.clear()
-    form.model.msg.fromJson(sr.Message)
+	form.action = enums.Action.NONE
+	form.error.serverValidationErrors.clear()
+
+    msg.clear()
+	msg.setTouched(false)
+    msg.fromJson(sr.Message)
     
-    var aseo = form.model.msg.ASEO
+    var aseo = msg.ASEO
     
 	// oznaci spravny radek v tabulce verzi
 	var selectedEvent = aseo.EventHistory.selectFirst(Current.SelectedEvent)
@@ -7229,8 +7276,6 @@ if globals.sendResult.Valid then
 	
 	//save this for GUI to display
 	form.model.original_validityStartDate = form.model.msg.ASEO.Event.ValidityStartDate
-	
-	form.action = enums.Action.NONE	
 else
     apiobjects.notificationsCtrl.addError("Data povolení nebyla načtena.")
 endif]]></Script>
@@ -7360,13 +7405,7 @@ filter.commit()
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
-var reloadAction = system.confirm("Chcete opět načíst detail povolení?")
-
-if reloadAction then
-	form.actions.loadAseoData(form.GUID, form.model.msg.ASEO.Event.GUID)
-	form.error.serverValidationErrors.clear()
-	form.ui.groupBoxes.cgbClientErrors._IsVisible = false
-endIf
+form.actions.loadAseoData(form.GUID, form.model.msg.ASEO.Event.GUID)
 
 globals.IsBusy = False
 ]]></Script>
@@ -7382,7 +7421,6 @@ globals.IsBusy = False
         <Script><![CDATA[var msg = form.model.msg
 
 form.error.serverValidationErrors.clear()
-form.ui.groupBoxes.cgbClientErrors._IsVisible = false
 
 form.actions.editDataBeforePosting()
 
@@ -7404,9 +7442,7 @@ if isTrue(msg.isValid()) then
 		result = true		
 	else
 		notificationsCtrl.addError("Nastala chyba. Vydání povolení nemohlo být provedeno.")
-	endif	
-else
-	form.actions.clientValidationErrorsShow()
+	endif
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -7457,11 +7493,6 @@ endIf
 if action = enums.Action.applicationModify then
 	model.AppModification.clear()
 	model.AppModification.fromJson(msg.toJson())
-endIf
-
-//check client errors in form
-if isTrue(form.Model.validationErrorsCount() > 0) then
-	form.ui.groupBoxes.cgbClientErrors._IsVisible = true 
 endIf]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -7476,7 +7507,6 @@ endIf]]></Script>
         <Script><![CDATA[var msg = form.model.msg
 
 form.error.serverValidationErrors.clear()
-form.ui.groupBoxes.cgbClientErrors._IsVisible = false
 
 result = false
 request.ASEO.GUID = form.GUID
@@ -7527,7 +7557,6 @@ endif]]></Script>
         <Script><![CDATA[var msg = form.model.msg
 
 form.error.serverValidationErrors.clear()
-form.ui.groupBoxes.cgbClientErrors._IsVisible = false
 
 form.actions.editDataBeforePosting()
 
@@ -7546,9 +7575,7 @@ if msg.isValid() then
 	else
 		notificationsCtrl.addError("Nastala chyba. Žádosti nemohlo být zamítnutí uděleno.")
 	endif
-else
-	form.actions.clientValidationErrorsShow()
-endIf]]></Script>
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -7574,7 +7601,6 @@ endIf]]></Script>
         <Script><![CDATA[var msg = form.model.msg
 
 form.error.serverValidationErrors.clear()
-form.ui.groupBoxes.cgbClientErrors._IsVisible = false
 
 form.actions.editDataBeforePosting()
 
@@ -7592,9 +7618,7 @@ if msg.isValid() then
 		result = true		
 	else
 		notificationsCtrl.addError("Nastala chyba. Žádosti nemohla být modifikace zamítnutí udělena.")
-	endif	
-else
-	form.actions.clientValidationErrorsShow()
+	endif
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -7622,7 +7646,6 @@ endif]]></Script>
         <Script><![CDATA[var msg = form.model.msg
 
 form.error.serverValidationErrors.clear()
-form.ui.groupBoxes.cgbClientErrors._IsVisible = false
 
 form.actions.editDataBeforePosting()
 
@@ -7640,9 +7663,7 @@ if isTrue(msg.isValid()) then
 		result = true		
 	else
 		notificationsCtrl.addError("Nastala chyba. Povolení nemohlo být zrušeno.")
-	endif	
-else
-	form.actions.clientValidationErrorsShow()
+	endif
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -7669,7 +7690,6 @@ endif]]></Script>
         <Script><![CDATA[var msg = form.model.msg
 
 form.error.serverValidationErrors.clear()
-form.ui.groupBoxes.cgbClientErrors._IsVisible = false
 
 form.actions.editDataBeforePosting()
 
@@ -7687,9 +7707,7 @@ if isTrue(msg.isValid()) then
 		result = true		
 	else
 		notificationsCtrl.addError("Nastala chyba. Povolení nemohlo být předáno k pozastavení.")
-	endif	
-else
-	form.actions.clientValidationErrorsShow()
+	endif
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -7716,7 +7734,6 @@ endif]]></Script>
         <Script><![CDATA[var msg = form.model.msg
 
 form.error.serverValidationErrors.clear()
-form.ui.groupBoxes.cgbClientErrors._IsVisible = false
 
 form.actions.editDataBeforePosting()
 
@@ -7734,9 +7751,7 @@ if isTrue(msg.isValid()) then
 		result = true		
 	else
 		notificationsCtrl.addError("Nastala chyba. Povolení nemohlo být předáno ke zneplatnění.")
-	endif	
-else
-	form.actions.clientValidationErrorsShow()
+	endif
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -7763,7 +7778,6 @@ endif]]></Script>
         <Script><![CDATA[var msg = form.model.msg
 
 form.error.serverValidationErrors.clear()
-form.ui.groupBoxes.cgbClientErrors._IsVisible = false
 
 form.actions.editDataBeforePosting()
 
@@ -7781,9 +7795,7 @@ if msg.isValid() then
 		result = true		
 	else
 		notificationsCtrl.addError("Nastala chyba. Úprava žádosti nemohla být provedena.")
-	endif	
-else
-	form.actions.clientValidationErrorsShow()
+	endif
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -7811,7 +7823,6 @@ endif]]></Script>
         <Script><![CDATA[var msg = form.model.msg
 
 form.error.serverValidationErrors.clear()
-form.ui.groupBoxes.cgbClientErrors._IsVisible = false
 
 form.actions.editDataBeforePosting()
 
@@ -7829,9 +7840,7 @@ if isTrue(msg.isValid()) then
 		result = true		
 	else
 		notificationsCtrl.addError("Nastala chyba. Povolení nemohlo být úpraveno.")
-	endif	
-else
-	form.actions.clientValidationErrorsShow()
+	endif
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -7858,7 +7867,6 @@ endif]]></Script>
         <Script><![CDATA[var msg = form.model.msg
 
 form.error.serverValidationErrors.clear()
-form.ui.groupBoxes.cgbClientErrors._IsVisible = false
 
 form.actions.editDataBeforePosting()
 
@@ -7876,9 +7884,7 @@ if isTrue(msg.isValid()) then
 		result = true		
 	else
 		notificationsCtrl.addError("Nastala chyba. Povolení nemohlo být předáno k úpravě zrušení.")
-	endif	
-else
-	form.actions.clientValidationErrorsShow()
+	endif
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -7905,7 +7911,6 @@ endif]]></Script>
         <Script><![CDATA[var msg = form.model.msg
 
 form.error.serverValidationErrors.clear()
-form.ui.groupBoxes.cgbClientErrors._IsVisible = false
 
 form.actions.editDataBeforePosting()
 
@@ -7923,9 +7928,7 @@ if isTrue(msg.isValid()) then
 		result = true		
 	else
 		notificationsCtrl.addError("Nastala chyba. Povolení nemohlo být předáno k úpravě zneplatnění.")
-	endif	
-else
-	form.actions.clientValidationErrorsShow()
+	endif
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -7952,7 +7955,6 @@ endif]]></Script>
         <Script><![CDATA[var msg = form.model.msg
 
 form.error.serverValidationErrors.clear()
-form.ui.groupBoxes.cgbClientErrors._IsVisible = false
 
 form.actions.editDataBeforePosting()
 
@@ -7970,9 +7972,7 @@ if isTrue(msg.isValid()) then
 		result = true		
 	else
 		notificationsCtrl.addError("Nastala chyba. Povolení nemohlo být předáno k úpravě pozastavení.")
-	endif	
-else
-	form.actions.clientValidationErrorsShow()
+	endif
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -8391,16 +8391,6 @@ url.updatePageUrl()]]></Script>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="clientValidationErrorsShow" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.error.serverValidationErrors.clear()
-form.ui.groupBoxes.cgbClientErrors._IsVisible = true]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
       <Name value="handler_send_ASEOSPAuthorizationWithdrawalModification_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
@@ -8472,7 +8462,7 @@ endIf
 
 if isTrue(form.authorizationType in [globals.DocType.ACR]) then
 
-	if isTrue(form.action in [enums.Action.authorize, enums.Action.authorizeModify]) then
+	if form._.ActionAuthorize then
 		auth.LimitedAuthorizationValidity = true
 		auth.AuthorizationValidUntil = toDate("2999-12-30", defaultDate())
 	endIf
@@ -8556,7 +8546,7 @@ item.CheckResult = params.data.ResponsiblePersonFullName.CheckResult
         <Script><![CDATA[var aseo = form.model.msg.ASEO
 var seals = aseo.Event.Seals
 
-if  isTrue(form.action in [enums.Action.authorize, enums.Action.authorizeModify]) AND 
+if  form._.ActionAuthorize AND 
 	isTrue(form.authorizationType = globals.DocType.ACR)  AND
 	isTrue(seals.SPSealsSpecTypeAllowed) then
 
@@ -9238,13 +9228,6 @@ if params.source = "main_master_navTree" then
 		navTree.selectedNode = ev.id
 		
 		if navTree.selectedNode = "Test" then
-			if form.model.msg.isValid() then
-				form.ui.groupBoxes.cgbClientErrors._IsVisible = false
-			else
-				form.setTouched(true)
-				form.ui.groupBoxes.cgbClientErrors._IsVisible = true
-			endif
-			
 			apiobjects.notificationsCtrl.addWarning("test notifikace")			
 		endif
 	
@@ -9364,7 +9347,6 @@ endif]]></Script>
 
 if not msg.isValid() then
 	msg.setTouched(true)
-	form.ui.groupBoxes.cgbClientErrors._IsVisible = true 
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
