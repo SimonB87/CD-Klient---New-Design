@@ -5,7 +5,7 @@
   <Caption value="Centralised clearance - V2" />
   <Content>
     <Panel>
-      <Name value="ccl_form_pnl" />
+      <Name value="plannedActUse" />
       <Orientation value="Vertical" />
       <Panel.Height value="#" />
       <Panel.Width value="*" />
@@ -1286,6 +1286,385 @@
           </CssClass>
         </Panel>
         <Panel>
+          <Name value="typeOfGoods" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="formState.isAnnexActive.isGoodsTypeActive" />
+          </Bindings>
+          <Children>
+            <GroupBox>
+              <Name value="goodsConcernedByTheSelfAssessment_groupBox" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <DataTable>
+                  <Name value="dataTable_goodsConcernedByTheSelfAssessment" />
+                  <Bindings>
+                    <Binding SourceProperty="DataItems" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsConcernedByTheCentralisedClearance" />
+                  </Bindings>
+                  <Columns>
+                    <DataColumn>
+                      <Name value="dataColumn8" />
+                      <Caption value="TARIC kód" />
+                      <Width value="9%" />
+                      <Content>
+                        <Label>
+                          <Name value="label1" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="commodityCode.tARICCode" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn13" />
+                      <Caption value="TARIC dodatečný kód" />
+                      <Width value="9%" />
+                      <Content>
+                        <Label>
+                          <Name value="label7" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="commodityCode.tARICAdditionalCode" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn15" />
+                      <Caption value="Národní dodatečný kód" />
+                      <Width value="9%" />
+                      <Content>
+                        <Label>
+                          <Name value="label10" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="commodityCode.nationalAdditionalCode" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn17" />
+                      <Caption value="Popis zboží - popis" />
+                      <Width value="35%" />
+                      <Content>
+                        <Label>
+                          <Name value="label13" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="descriptionOfGoods.text" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn19" />
+                      <Caption value="Popis zboží - jazyk" />
+                      <Width value="9%" />
+                      <Content>
+                        <Label>
+                          <Name value="label15" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="descriptionOfGoods.language" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn20" />
+                      <Caption value="Kvalita zboží" />
+                      <Width value="20%" />
+                      <Content>
+                        <Label>
+                          <Name value="label17" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="quantityOfGoods.goodsQuantity" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn21" />
+                      <Caption value="Měrná jednotka" />
+                      <Width value="9%" />
+                      <Content>
+                        <Label>
+                          <Name value="label19" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="quantityOfGoods.measureUnit._description" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                  </Columns>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-datatable" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </DataTable>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsConcernedByTheCentralisedClearance.caption()" />
+                <Binding SourceProperty="IsVisible" Expression="formState.isTypeCCL" />
+              </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-groupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </GroupBox>
+            <GroupBox>
+              <Name value="goodsConcernedByTheSelfAssessment_grpBox" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <DataTable>
+                  <Name value="goodsConcernedByTheSelfAssessment_table" />
+                  <Bindings>
+                    <Binding SourceProperty="DataItems" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsConcernedByEIDR" />
+                  </Bindings>
+                  <Columns>
+                    <DataColumn>
+                      <Name value="dataColumn81" />
+                      <Caption value="TARIC kód" />
+                      <Panel.Width value="9%" />
+                      <Content>
+                        <Label>
+                          <Name value="label110" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="commodityCode.tARICCode" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn131" />
+                      <Caption value="TARIC dodatečný kód" />
+                      <Panel.Width value="9%" />
+                      <Content>
+                        <Label>
+                          <Name value="label71" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="commodityCode.tARICAdditionalCode" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn151" />
+                      <Caption value="Národní dodatečný kód" />
+                      <Panel.Width value="9%" />
+                      <Content>
+                        <Label>
+                          <Name value="label101" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="commodityCode.nationalAdditionalCode" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn171" />
+                      <Caption value="Popis zboží - popis" />
+                      <Panel.Width value="35%" />
+                      <Content>
+                        <Label>
+                          <Name value="label131" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="descriptionOfGoods.text" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn191" />
+                      <Caption value="Popis zboží - jazyk" />
+                      <Panel.Width value="9%" />
+                      <Content>
+                        <Label>
+                          <Name value="label151" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="descriptionOfGoods.language" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                  </Columns>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-datatable" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </DataTable>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsConcernedByEIDR.caption()" />
+                <Binding SourceProperty="IsVisible" Expression="formState.isTypeEIR" />
+              </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-groupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </GroupBox>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
           <Name value="locationOfGoods" />
           <Orientation value="Vertical" />
           <Panel.Height value="#" />
@@ -1310,7 +1689,7 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Bindings>
-                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.locationOfTheGoodsAvailableForCustomsControls" />
+                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.locationOfTheGoodsPlacedUnderACustomsProcedure" />
                         <Binding SourceProperty="Index" Expression="formState._index_locationOfGoods" />
                       </Bindings>
                     </PagingRepeaterCtrl>
@@ -1580,7 +1959,7 @@
                         </Panel>
                       </Content>
                       <Bindings>
-                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.locationOfTheGoodsAvailableForCustomsControls" />
+                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.locationOfTheGoodsPlacedUnderACustomsProcedure" />
                         <Binding SourceProperty="Index" Expression="formState._index_locationOfGoods" />
                       </Bindings>
                     </PagingRepeater>
@@ -1609,34 +1988,32 @@
           </CssClass>
         </Panel>
         <Panel>
-          <Name value="typeOfGoods" />
+          <Name value="identificationOfVAT" />
           <Orientation value="Horizontal" />
           <Panel.Height value="#" />
           <Panel.Width value="*" />
-          <Bindings>
-            <Binding SourceProperty="IsVisible" Expression="formState.isAnnexActive.isGoodsTypeActive" />
-          </Bindings>
           <Children>
             <GroupBox>
-              <Name value="groupBox_goodsConcernedByTheSelfAssessment" />
+              <Name value="identificationOfTheVATExciseAndStatisticalAuthorities_grpBox" />
+              <Caption value="Orgány příslušné pro DPH, SPD a statistiku" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
               <Content>
                 <DataTable>
-                  <Name value="dataTable_goodsConcernedByTheSelfAssessment" />
+                  <Name value="identificationOfTheVATExciseAndStatisticalAuthorities_table" />
                   <Bindings>
-                    <Binding SourceProperty="DataItems" Expression="form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsConcernedByTheSelfAssessment" />
+                    <Binding SourceProperty="DataItems" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.identificationOfTheVATExciseAndStatisticalAuthorities" />
                   </Bindings>
                   <Columns>
                     <DataColumn>
-                      <Name value="dataColumn8" />
-                      <Caption value="TARIC kód" />
-                      <Width value="9%" />
+                      <Name value="dataColumn22" />
+                      <Caption value="Název" />
+                      <Width value="33.33%" />
                       <Content>
                         <Label>
-                          <Name value="label1" />
+                          <Name value="label20" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="commodityCode.tARICCode" />
+                            <Binding SourceProperty="Data" Expression="name" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -1654,14 +2031,14 @@
                       </HeaderCssClass>
                     </DataColumn>
                     <DataColumn>
-                      <Name value="dataColumn13" />
-                      <Caption value="TARIC dodatečný kód" />
-                      <Width value="9%" />
+                      <Name value="dataColumn23" />
+                      <Caption value="Ulice" />
+                      <Width value="24%" />
                       <Content>
                         <Label>
-                          <Name value="label7" />
+                          <Name value="label21" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="commodityCode.tARICAdditionalCode" />
+                            <Binding SourceProperty="Data" Expression="streetAndNumber" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -1679,14 +2056,14 @@
                       </HeaderCssClass>
                     </DataColumn>
                     <DataColumn>
-                      <Name value="dataColumn15" />
-                      <Caption value="Národní dodatečný kód" />
-                      <Width value="9%" />
+                      <Name value="dataColumn24" />
+                      <Caption value="Poštovní směrovací číslo" />
+                      <Width value="8.33%" />
                       <Content>
                         <Label>
-                          <Name value="label10" />
+                          <Name value="label22" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="commodityCode.nationalAdditionalCode" />
+                            <Binding SourceProperty="Data" Expression="postcode" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -1704,14 +2081,14 @@
                       </HeaderCssClass>
                     </DataColumn>
                     <DataColumn>
-                      <Name value="dataColumn17" />
-                      <Caption value="Popis zboží - popis" />
-                      <Width value="35%" />
+                      <Name value="dataColumn25" />
+                      <Caption value="Město" />
+                      <Width value="16.66%" />
                       <Content>
                         <Label>
-                          <Name value="label13" />
+                          <Name value="label23" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="descriptionOfGoods.text" />
+                            <Binding SourceProperty="Data" Expression="city" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -1729,64 +2106,14 @@
                       </HeaderCssClass>
                     </DataColumn>
                     <DataColumn>
-                      <Name value="dataColumn19" />
-                      <Caption value="Popis zboží - jazyk" />
-                      <Width value="9%" />
+                      <Name value="dataColumn26" />
+                      <Caption value="Země" />
+                      <Width value="16.66%" />
                       <Content>
                         <Label>
-                          <Name value="label15" />
+                          <Name value="label24" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="descriptionOfGoods.language" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-label" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </Label>
-                      </Content>
-                      <HeaderCssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-datacolumn" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </HeaderCssClass>
-                    </DataColumn>
-                    <DataColumn>
-                      <Name value="dataColumn20" />
-                      <Caption value="Kvalita zboží" />
-                      <Width value="20%" />
-                      <Content>
-                        <Label>
-                          <Name value="label17" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="quantityOfGoods.goodsQuantity" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-label" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </Label>
-                      </Content>
-                      <HeaderCssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-datacolumn" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </HeaderCssClass>
-                    </DataColumn>
-                    <DataColumn>
-                      <Name value="dataColumn21" />
-                      <Caption value="Měrná jednotka" />
-                      <Width value="9%" />
-                      <Content>
-                        <Label>
-                          <Name value="label19" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="quantityOfGoods.measureUnit._description" />
+                            <Binding SourceProperty="Data" Expression="country" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -1812,9 +2139,6 @@
                   </CssClass>
                 </DataTable>
               </Content>
-              <Bindings>
-                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsConcernedByTheSelfAssessment.caption()" />
-              </Bindings>
               <CssClass>
                 <CssClassConditional>
                   <ClassName value="{theme}-groupbox" />
@@ -1831,185 +2155,32 @@
           </CssClass>
         </Panel>
         <Panel>
-          <Name value="other" />
+          <Name value="compInvolvedInOtherMS" />
           <Orientation value="Horizontal" />
           <Panel.Height value="#" />
           <Panel.Width value="*" />
-          <Bindings>
-            <Binding SourceProperty="IsVisible" Expression="formState.isAnnexActive.isOtherActive" />
-          </Bindings>
           <Children>
-            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
-              <Name value="customsOfficeOfSupervision" />
-              <caption value="Celní úřad dohledu" />
-              <Panel.Height value="#" />
-              <Panel.Width value="*" />
-              <Content>
-                <TextBox>
-                  <Name value="textBox48" />
-                  <CaptionPosition value="Top" />
-                  <IsEnabled value="False" />
-                  <Bindings>
-                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsOfficeOfSupervision" />
-                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsOfficeOfSupervision.caption()" />
-                  </Bindings>
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-textbox" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                  </CssClass>
-                </TextBox>
-              </Content>
-              <conditionalCssClass>
-                <CssClassConditional>
-                  <ClassName value="{theme}-collapsiblegroupbox" />
-                  <IsThemedStyle value="True" />
-                </CssClassConditional>
-              </conditionalCssClass>
-            </CollapsibleGroupBox>
-            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
-              <Name value="prohibitionsAndRestrictions" />
-              <Panel.Height value="#" />
-              <Panel.Width value="*" />
-              <Content>
-                <Panel>
-                  <Name value="panel18" />
-                  <Orientation value="Horizontal" />
-                  <Children>
-                    <TextBox>
-                      <Name value="textBox33" />
-                      <Caption value="prohibitionsAndRestrictions - popis" />
-                      <CaptionPosition value="Top" />
-                      <IsEnabled value="False" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="75%" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.prohibitionsAndRestrictions.text" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-textbox" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </TextBox>
-                    <TextBox>
-                      <Name value="textBox43" />
-                      <Caption value="prohibitionsAndRestrictions - jazyk" />
-                      <CaptionPosition value="Top" />
-                      <IsEnabled value="False" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="25%" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.prohibitionsAndRestrictions.language" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-textbox" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </TextBox>
-                  </Children>
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-panel" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                  </CssClass>
-                </Panel>
-              </Content>
-              <Bindings>
-                <Binding SourceProperty="caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.prohibitionsAndRestrictions.caption()" />
-              </Bindings>
-              <conditionalCssClass>
-                <CssClassConditional>
-                  <ClassName value="{theme}-collapsiblegroupbox" />
-                  <IsThemedStyle value="True" />
-                </CssClassConditional>
-              </conditionalCssClass>
-            </CollapsibleGroupBox>
-            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
-              <Name value="identificationOfFormalitiesAndControlsToBeDelegatedToTheEconomicOperator" />
-              <Panel.Height value="#" />
-              <Panel.Width value="*" />
-              <Content>
-                <Panel>
-                  <Name value="panel5" />
-                  <Orientation value="Horizontal" />
-                  <Children>
-                    <TextBox>
-                      <Name value="textBox24" />
-                      <Caption value="identificationOfFormalities And ControlsToBeDelegatedToTheEconomicOperator - popis" />
-                      <CaptionPosition value="Top" />
-                      <IsEnabled value="False" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="75%" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.identificationOfFormalitiesAndControlsToBeDelegatedToTheEconomicOperator.text" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-textbox" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </TextBox>
-                    <TextBox>
-                      <Name value="textBox34" />
-                      <Caption value="identificationOfFormalities And ControlsToBeDelegatedToTheEconomicOperator - jazyk" />
-                      <CaptionPosition value="Top" />
-                      <IsEnabled value="False" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="25%" />
-                      <Bindings>
-                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.identificationOfFormalitiesAndControlsToBeDelegatedToTheEconomicOperator.language" />
-                      </Bindings>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-textbox" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </TextBox>
-                  </Children>
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-panel" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                  </CssClass>
-                </Panel>
-              </Content>
-              <Bindings>
-                <Binding SourceProperty="caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.identificationOfFormalitiesAndControlsToBeDelegatedToTheEconomicOperator.caption()" />
-              </Bindings>
-              <conditionalCssClass>
-                <CssClassConditional>
-                  <ClassName value="{theme}-collapsiblegroupbox" />
-                  <IsThemedStyle value="True" />
-                </CssClassConditional>
-              </conditionalCssClass>
-            </CollapsibleGroupBox>
-            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
-              <Name value="collapsibleGroupBox_customsProcedureConcerned" />
+            <GroupBox>
+              <Name value="companiesInvolvedInOtherMS" />
+              <Caption value="Společnosti zapojené v jiném členském státě" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
               <Content>
                 <DataTable>
-                  <Name value="dataTable_customsProcedureConcerned" />
+                  <Name value="companiesInvolvedInOtherMS_table" />
                   <Bindings>
-                    <Binding SourceProperty="DataItems" Expression="form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsProcedureConcerned" />
+                    <Binding SourceProperty="DataItems" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.companiesInvolvedInOtherMS" />
                   </Bindings>
                   <Columns>
                     <DataColumn>
-                      <Name value="dataColumn22" />
+                      <Name value="dataColumn27" />
+                      <Caption value="EORI" />
+                      <Width value="8%" />
                       <Content>
                         <Label>
-                          <Name value="label20" />
+                          <Name value="label25" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="procedureCode" />
+                            <Binding SourceProperty="Data" Expression="companiesInvolvedInTheAuthorisationInOtherMemberStatesIdentification.eORINumber" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -2019,9 +2190,6 @@
                           </CssClass>
                         </Label>
                       </Content>
-                      <Bindings>
-                        <Binding SourceProperty="Caption" Expression="procedureCode.caption()" />
-                      </Bindings>
                       <HeaderCssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-datacolumn" />
@@ -2030,12 +2198,14 @@
                       </HeaderCssClass>
                     </DataColumn>
                     <DataColumn>
-                      <Name value="dataColumn23" />
+                      <Name value="dataColumn28" />
+                      <Caption value="Data column 28" />
+                      <Width value="33.33%" />
                       <Content>
                         <Label>
-                          <Name value="label21" />
+                          <Name value="label26" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="customsDecisionReferenceNumber" />
+                            <Binding SourceProperty="Data" Expression="companiesInvolvedInTheAuthorisationInOtherMemberStatesNameAndAddress.name" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -2045,9 +2215,6 @@
                           </CssClass>
                         </Label>
                       </Content>
-                      <Bindings>
-                        <Binding SourceProperty="Caption" Expression="customsDecisionReferenceNumber.caption()" />
-                      </Bindings>
                       <HeaderCssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-datacolumn" />
@@ -2056,12 +2223,14 @@
                       </HeaderCssClass>
                     </DataColumn>
                     <DataColumn>
-                      <Name value="dataColumn24" />
+                      <Name value="dataColumn29" />
+                      <Caption value="Data column 29" />
+                      <Width value="24%" />
                       <Content>
                         <Label>
-                          <Name value="label22" />
+                          <Name value="label27" />
                           <Bindings>
-                            <Binding SourceProperty="Data" Expression="applicationReferenceNumber" />
+                            <Binding SourceProperty="Data" Expression="companiesInvolvedInTheAuthorisationInOtherMemberStatesNameAndAddress.streetAndNumber" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -2071,9 +2240,81 @@
                           </CssClass>
                         </Label>
                       </Content>
-                      <Bindings>
-                        <Binding SourceProperty="Caption" Expression="applicationReferenceNumber.caption()" />
-                      </Bindings>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn30" />
+                      <Caption value="Data column 30" />
+                      <Width value="8.33%" />
+                      <Content>
+                        <Label>
+                          <Name value="label28" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="companiesInvolvedInTheAuthorisationInOtherMemberStatesNameAndAddress.postcode" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn31" />
+                      <Caption value="Data column 31" />
+                      <Width value="16.66%" />
+                      <Content>
+                        <Label>
+                          <Name value="label29" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="companiesInvolvedInTheAuthorisationInOtherMemberStatesNameAndAddress.city" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn32" />
+                      <Caption value="Data column 32" />
+                      <Width value="16.66%" />
+                      <Content>
+                        <Label>
+                          <Name value="label30" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="companiesInvolvedInTheAuthorisationInOtherMemberStatesNameAndAddress.country" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
                       <HeaderCssClass>
                         <CssClassConditional>
                           <ClassName value="{theme}-datacolumn" />
@@ -2090,110 +2331,318 @@
                   </CssClass>
                 </DataTable>
               </Content>
-              <Bindings>
-                <Binding SourceProperty="caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsProcedureConcerned.caption()" />
-              </Bindings>
-              <conditionalCssClass>
+              <CssClass>
                 <CssClassConditional>
-                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <ClassName value="{theme}-groupbox" />
                   <IsThemedStyle value="True" />
                 </CssClassConditional>
-              </conditionalCssClass>
-            </CollapsibleGroupBox>
-            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
-              <Name value="collapsibleGroupBox_typeOfDeclaration" />
-              <Panel.Height value="#" />
-              <Panel.Width value="*" />
-              <Content>
-                <DataTable>
-                  <Name value="dataTable_typeOfDeclaration" />
-                  <Bindings>
-                    <Binding SourceProperty="DataItems" Expression="form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.typeOfDeclaration" />
-                  </Bindings>
-                  <Columns>
-                    <DataColumn>
-                      <Name value="dataColumn25" />
-                      <Content>
-                        <Label>
-                          <Name value="label23" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="typeOfDeclaration" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-label" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </Label>
-                      </Content>
-                      <Bindings>
-                        <Binding SourceProperty="Caption" Expression="typeOfDeclaration.caption()" />
-                      </Bindings>
-                      <HeaderCssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-datacolumn" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </HeaderCssClass>
-                    </DataColumn>
-                    <DataColumn>
-                      <Name value="dataColumn26" />
-                      <Content>
-                        <Label>
-                          <Name value="label24" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="customsDecisionReferenceNumber" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-label" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </Label>
-                      </Content>
-                      <Bindings>
-                        <Binding SourceProperty="Caption" Expression="customsDecisionReferenceNumber.caption()" />
-                      </Bindings>
-                      <HeaderCssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-datacolumn" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </HeaderCssClass>
-                    </DataColumn>
-                  </Columns>
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-datatable" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                  </CssClass>
-                </DataTable>
-              </Content>
-              <Bindings>
-                <Binding SourceProperty="caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.typeOfDeclaration.caption()" />
-              </Bindings>
-              <conditionalCssClass>
-                <CssClassConditional>
-                  <ClassName value="{theme}-collapsiblegroupbox" />
-                  <IsThemedStyle value="True" />
-                </CssClassConditional>
-              </conditionalCssClass>
-            </CollapsibleGroupBox>
+              </CssClass>
+            </GroupBox>
           </Children>
           <CssClass>
             <CssClassConditional>
               <ClassName value="{theme}-panel" />
               <IsThemedStyle value="True" />
             </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="taxRepresentative" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <GroupBox>
+              <Name value="taxRepresentative_grpBox" />
+              <Caption value="Daňový zástupce" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <DataTable>
+                  <Name value="taxRepresentative_table" />
+                  <Bindings>
+                    <Binding SourceProperty="DataItems" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.taxRepresentative" />
+                  </Bindings>
+                  <Columns>
+                    <DataColumn>
+                      <Name value="dataColumn33" />
+                      <Caption value="taxRepresentativeStatusCode" />
+                      <Content>
+                        <Label>
+                          <Name value="label31" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="taxRepresentativeStatusCode" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn34" />
+                      <Caption value="VAT/DIČ identifikátor" />
+                      <Content>
+                        <Label>
+                          <Name value="label33" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="taxRepresentativeIdentification.vATNumber" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn35" />
+                      <Caption value="Zástupce - jméno" />
+                      <Content>
+                        <Label>
+                          <Name value="label34" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="taxRepresentativeNameAndAddress.name" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn36" />
+                      <Caption value="Zástupce - ulice" />
+                      <Content>
+                        <Label>
+                          <Name value="label35" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="taxRepresentativeNameAndAddress.streetAndNumber" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn37" />
+                      <Caption value="Zástupce - PSČ" />
+                      <Content>
+                        <Label>
+                          <Name value="label36" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="taxRepresentativeNameAndAddress.postcode" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn38" />
+                      <Caption value="Zástupce - město" />
+                      <Content>
+                        <Label>
+                          <Name value="label37" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="taxRepresentativeNameAndAddress.city" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn39" />
+                      <Caption value="Zástupce - město" />
+                      <Content>
+                        <Label>
+                          <Name value="label38" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="taxRepresentativeNameAndAddress.country" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                  </Columns>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-datatable" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </DataTable>
+              </Content>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-groupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </GroupBox>
+          </Children>
+          <CssClass>
             <CssClassConditional>
-              <ClassName value="{theme}-panel-uniform" />
+              <ClassName value="{theme}-panel" />
               <IsThemedStyle value="True" />
             </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="ostatni" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <Panel>
+              <Name value="plannedActUse_pnl" />
+              <Orientation value="Vertical" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Children>
+                <GroupBox>
+                  <Name value="groupBox2" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Content>
+                    <Panel>
+                      <Name value="panel5" />
+                      <Orientation value="Horizontal" />
+                      <Children>
+                        <TextBox>
+                          <Name value="textBox24" />
+                          <CaptionPosition value="Top" />
+                          <IsEnabled value="False" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33.33%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.detailsOfPlannedActivities.language" />
+                            <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.detailsOfPlannedActivities.language.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                        <TextBox>
+                          <Name value="textBox33" />
+                          <CaptionPosition value="Top" />
+                          <IsEnabled value="False" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="66.66%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.detailsOfPlannedActivities.text" />
+                            <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.detailsOfPlannedActivities.text.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Content>
+                  <Bindings>
+                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.detailsOfPlannedActivities.caption()" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-groupbox" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </GroupBox>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+          </Children>
+          <CssClass>
             <CssClassConditional>
-              <ClassName value="display-flex" />
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
             </CssClassConditional>
           </CssClass>
         </Panel>
@@ -3526,7 +3975,7 @@
           <Caption value="CD" />
           <Children>
             <Include>
-              <Include reference="+DataEntities.SelfAssessmentDetailResponseV2" />
+              <Include reference="+DataEntities.CentralisedClearanceDetailResponseV2" />
             </Include>
           </Children>
         </Complex>
