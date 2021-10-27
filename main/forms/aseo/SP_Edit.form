@@ -4028,6 +4028,11 @@
           </OnChange>
         </Attribute>
         <Attribute>
+          <Name value="eventType" />
+          <Caption value="Event type" />
+          <MetaType reference="+MetaTypes.EvType" />
+        </Attribute>
+        <Attribute>
           <Name value="currentDateTime" />
           <Caption value="Current date time" />
           <Description value="nastavuje se v ValidityStartDate a updatuje se pomoci timerCurrentDate (v pripade potreby)" />
@@ -4037,6 +4042,30 @@
             </AttributeType>
           </DeclaredType>
         </Attribute>
+        <Computed>
+          <Name value="evType" />
+          <Caption value="Ev type" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[Action = enums.Action.NONE ? enums.EvType.toValue(EventType.enumValue(), enums.EvType.NONE) :
+Action = enums.Action.applicationModify ? enums.EvType.MA :
+Action = enums.Action.applicationReject ? enums.EvType.NR :
+Action = enums.Action.applicationRejectModify ? enums.EvType.MR :
+Action = enums.Action.authorize ? enums.EvType.NU :
+Action = enums.Action.authorizeModify ? enums.EvType.MU :
+Action = enums.Action.authorizeWithdrawal ? enums.EvType.NW :
+Action = enums.Action.authorizeWithdrawalModify ? enums.EvType.MW :
+Action = enums.Action.authorizeSuspending ? enums.EvType.NS :
+Action = enums.Action.authorizeSuspendingModify ? enums.EvType.MS :
+Action = enums.Action.authorizeCancellation ? enums.EvType.NC :
+Action = enums.Action.authorizeCancellationModify ? enums.EvType.MC :
+Action = enums.Action.FutureRemoval ? enums.EvType.FR :
+enums.EvType.NONE]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Enum" />
+              <MetaType reference="+MetaTypes.EvType" />
+            </ResultType>
+          </Expression>
+        </Computed>
         <Computed>
           <Name value="State" />
           <Caption value="State" />
@@ -5834,23 +5863,15 @@ isTrue(form.authorizationType in [globals.DocType.SI, globals.DocType.SDE, globa
                       <Name value="Caption" />
                       <Caption value="Caption" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[((form.State = enums.State.APA) and (form.action = enums.Action.authorize)) ? 
-	"Datum rozhodnutí" :
-	((form.State = enums.State.APA) and (form.action = enums.Action.applicationReject)) ? 
-		"Datum odmítnutí" :
-		((form.State = enums.State.AUW) and (form.action = enums.Action.authorize)) ? 
-			"Datum rozhodnutí" :
-			form.State in [enums.State.AUS, enums.State.AUE] ? 
-				"Datum rozhodnutí" :
-				form.State = enums.State.APA ? 
-					"Datum doručení žádosti" :
-					form.State = enums.State.AUA ? 
-						"Datum rozhodnutí" :
-						form.State = enums.State.AUR ? 
-							"Datum odmítnutí" :
-							form.State = enums.State.AUW ? 
-								"Datum zrušení" :
-								"Datum vydání rozhodnutí"]]></ExpressionText>
+                        <ExpressionText><![CDATA[form.evType in [enums.EvType.NA, enums.EvType.MA] ? 
+"Datum doručení žádosti" :
+form.evType in [enums.EvType.NU, enums.EvType.MU] ? 
+"Datum rozhodnutí" :
+form.evType  in [enums.EvType.NR, enums.EvType.MR] ? 
+"Datum odmítnutí" :
+form.evType in [enums.EvType.NW, enums.EvType.MW] ? 
+"Datum zrušení" :
+"Datum vydání rozhodnutí"]]></ExpressionText>
                         <ResultType>
                           <BaseType value="String" />
                         </ResultType>
@@ -8632,7 +8653,13 @@ nt.Action = action]]></Script>
       <Name value="handler_modifier_19727869_EventType_OnChange" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var nt = packages.navTrees.globals._ntSP_Edit
+        <Script><![CDATA[/* form */
+
+form.eventType = enums.EvType.toValue(params.data.EventType.Key, enums.EvType.NONE)
+
+/* navTree */
+
+var nt = packages.navTrees.globals._ntSP_Edit
 var evt = packages.navTrees.enums.EvType
 
 // cant use evt.None because of bug in enum

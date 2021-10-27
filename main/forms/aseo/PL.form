@@ -55,6 +55,9 @@
                       <Caption value="Zrušit" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_btnDelete_OnClick" />
+                      </OnClick>
                       <Bindings>
                         <Binding SourceProperty="IsVisible" Expression="ui.buttons.btnDelete.IsVisible" />
                         <Binding SourceProperty="IsEnabled" Expression="ui.buttons.btnDelete.IsEnabled" />
@@ -1095,7 +1098,7 @@
           <Caption value="Is edit on" />
           <Expression IsValid="True">
             <ExpressionText><![CDATA[globals.user.hasWritePermission and
-isFalse(action in [enums.ActionPl.NONE])]]></ExpressionText>
+isFalse(action in [enums.ActionPl.NONE, enums.ActionPl.Delete])]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -1429,7 +1432,7 @@ isTrue(form.action = enums.ActionPl.NONE)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[form.isEditOn]]></ExpressionText>
+                        <ExpressionText><![CDATA[isTrue(form.action <> enums.ActionPl.NONE)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -1465,7 +1468,7 @@ isTrue(form.action = enums.ActionPl.NONE)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[form.isEditOn]]></ExpressionText>
+                        <ExpressionText><![CDATA[isTrue(form.action <> enums.ActionPl.NONE)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -1481,7 +1484,7 @@ isTrue(form.action = enums.ActionPl.NONE)]]></ExpressionText>
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(form.action <> enums.ActionPl.NONE)]]></ExpressionText>
+                        <ExpressionText><![CDATA[isFalse(form.action in [enums.ActionPl.NONE, enums.ActionPl.Delete])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -1507,7 +1510,7 @@ isTrue(form.action = enums.ActionPl.NONE)]]></ExpressionText>
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(form.action <> enums.ActionPl.NONE)]]></ExpressionText>
+                        <ExpressionText><![CDATA[isFalse(form.action in [enums.ActionPl.NONE, enums.ActionPl.Delete])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -1620,7 +1623,7 @@ isTrue(form.action = enums.ActionPl.NONE)]]></ExpressionText>
               <Name value="_fileUrl" />
               <Caption value="_ file url" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA[globals.cicUrl + "ASEOPLFileRequestEx?GUID={" + this.owner().owner().GUID + "}&GUIDEvent={" + this.owner().GUID + "}&GUIDFile={" + this.GUID + "}&version=" + globals.version]]></ExpressionText>
+                <ExpressionText><![CDATA[globals.cicUrl + "ASEOPLFileRequestEx?GUID={" + this.owner().owner().GUID + "}&GUIDDetail={" + this.owner().GUID + "}&GUIDFile={" + this.GUID + "}&version=" + globals.version]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
@@ -1957,8 +1960,7 @@ endif]]></Script>
       <Name value="handler_buttonActionCancel_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.action = enums.ActionPl.NONE
-form.actions.loadData(form.params.GUID)]]></Script>
+        <Script><![CDATA[form.actions.loadData(form.params.GUID)]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -2224,6 +2226,7 @@ form.action = enums.ActionPl.Modify
 msg.PlaceDetail.ValidityStartDate = dt
 msg.PlaceDetail.EvidenceDate = dt
 msg.PlaceDetail.ResponsiblePerson = globals.user.userName
+msg.PlaceDetail.File.clear()
 
 form.actions.loadRegisterData(false)]]></Script>
       </ActionLangBody>
@@ -2292,16 +2295,47 @@ filter.commit()
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var msg = form.model.msg
+var action = form.action
+var notification = defaultString()
 
 if msg.isValid() then
-
+	if action = enums.ActionPl.New then
+		form.actions.sendRequest("ASEOPLNew", msg.toJson(), "CM002A")
+		notification = "Místo bylo uloženo"
+	else if action = enums.ActionPl.Modify then
+		form.actions.sendRequest("ASEOPLModification", msg.toJson(), "CM002A")
+		notification = "Místo bylo modifikováno"
+	else if action = enums.ActionPl.Delete then
+		msgDelete.GUID = msg.GUID
+		form.actions.sendRequest("ASEOPLDelete", msgDelete.toJson(), "CM002A")
+		notification = "Místo bylo zrušeno"
+	else
+		system.consoleError(stringFormat("Invalid action: {0}", action.enumCaption()))
+	endif endif endif
+	
+	if globals.sendResult.Valid and hasValue(notification) then
+		apiobjects.notificationsCtrl.addSuccess(notification)
+		navigation.main.lists.go()
+	endif	
 else
 	msg.setTouched(true)
 	form.ui.groupBoxes.cgbClientErrors._IsVisible = true
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Complex>
+              <Name value="msgDelete" />
+              <Caption value="Msg delete" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOPLDelete" />
+                </Include>
+              </Children>
+            </Complex>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
@@ -2312,7 +2346,11 @@ endif]]></Script>
 var node = params.navigationTreeNode
 var ptr = params.pointer
 
-ntc.focusNode(node)
+if hasValue(node) then
+	ntc.focusNode(node)
+else
+	ntc.focusNode("All")
+endif
 
 /*
 var strings = globals.strings
@@ -2345,6 +2383,16 @@ system.console("Clicked on: " + ptr)]]></Script>
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btnDelete_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.action = enums.ActionPl.Delete]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
   </Actions>
   <ApiObjects>
     <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
@@ -2363,6 +2411,148 @@ system.console("Clicked on: " + ptr)]]></Script>
     </EventDispatcher>
     <ErrorPointerMap identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
       <Name value="epm" />
+      <items>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="Country" />
+          <errorSourceComponent value="edb_PlaceCountry" />
+          <pointerPath value="Country" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceID" />
+          <errorSourceComponent value="edb_PlaceID" />
+          <pointerPath value="PlaceID" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsibleCustomsOffice" />
+          <errorSourceComponent value="edb_ResponsibleCustomsOffice" />
+          <pointerPath value="ResponsibleCustomsOffice" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="TIN" />
+          <errorSourceComponent value="edb_TIN" />
+          <pointerPath value="TIN" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="TinName" />
+          <errorSourceComponent value="edb_TinName" />
+          <pointerPath value="TinName" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/Name" />
+          <errorSourceComponent value="edb_Name" />
+          <pointerPath value="PlaceDetail/Name" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/StreetAndNr" />
+          <errorSourceComponent value="edb_StreetAndNr" />
+          <pointerPath value="PlaceDetail/StreetAndNr" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/City" />
+          <errorSourceComponent value="edb_City" />
+          <pointerPath value="PlaceDetail/City" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/PostCode" />
+          <errorSourceComponent value="edb_PostCode" />
+          <pointerPath value="PlaceDetail/PostCode" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/Country" />
+          <errorSourceComponent value="cbb_Country" />
+          <pointerPath value="PlaceDetail/Country" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/PlaceSpecification" />
+          <errorSourceComponent value="edb_PlaceSpecification" />
+          <pointerPath value="PlaceDetail/PlaceSpecification" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/ValidityCustomsOffice" />
+          <errorSourceComponent value="acb_ValidityCustomsOffice" />
+          <pointerPath value="PlaceDetail/ValidityCustomsOffice" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/ResponsiblePerson" />
+          <errorSourceComponent value="edb_ResponsiblePerson" />
+          <pointerPath value="PlaceDetail/ResponsiblePerson" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/ValidityStartDate" />
+          <errorSourceComponent value="dtp_ValidityStartDate" />
+          <pointerPath value="PlaceDetail/ValidityStartDate" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/ValidityEndDate" />
+          <errorSourceComponent value="dtp_ValidityEndDate" />
+          <pointerPath value="PlaceDetail/ValidityEndDate" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/EvidenceDate" />
+          <errorSourceComponent value="dtp_EvidenceDate" />
+          <pointerPath value="PlaceDetail/EvidenceDate" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/File" />
+          <errorSourceComponent value="stFile" />
+          <pointerPath value="PlaceDetail/File" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/File[${IX_File}]" />
+          <errorSourceComponent value="stFile" />
+          <pointerPath value="PlaceDetail/File[]" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/File[${IX_File}]/IsFullText" />
+          <errorSourceComponent value="cbFile_IsFullText" />
+          <pointerPath value="PlaceDetail/File/IsFullText" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/File[${IX_File}]/FileName" />
+          <errorSourceComponent value="hlFile_FileName" />
+          <pointerPath value="PlaceDetail/File/FileName" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/File[${IX_File}]/FileName" />
+          <errorSourceComponent value="lblFile_FileName" />
+          <pointerPath value="PlaceDetail/File/FileName" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/File[${IX_File}]/FileType" />
+          <errorSourceComponent value="lblFile_FileType" />
+          <pointerPath value="PlaceDetail/File/FileType" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceDetail/File[${IX_File}]/FileSize" />
+          <errorSourceComponent value="lblFile_FileSize" />
+          <pointerPath value="PlaceDetail/File/FileSize" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceHistory" />
+          <errorSourceComponent value="stVersions" />
+          <pointerPath value="PlaceHistory" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceHistory[${IX_PlaceHistory}]" />
+          <errorSourceComponent value="stVersions" />
+          <pointerPath value="PlaceHistory[]" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceHistory[${IX_PlaceHistory}]/GUID" />
+          <errorSourceComponent value="lblVersions_Guid" />
+          <pointerPath value="PlaceHistory/GUID" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceHistory[${IX_PlaceHistory}]/ValidityStartDate" />
+          <errorSourceComponent value="lblVersions_ValidityStartDate" />
+          <pointerPath value="PlaceHistory/ValidityStartDate" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="PlaceHistory[${IX_PlaceHistory}]/ValidityEndDate" />
+          <errorSourceComponent value="lblVersions_ValidityEndDate" />
+          <pointerPath value="PlaceHistory/ValidityEndDate" />
+        </ErrorPointerMapItem>
+      </items>
     </ErrorPointerMap>
   </ApiObjects>
 </Form>
