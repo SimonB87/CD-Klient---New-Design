@@ -1,0 +1,2533 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<DataEntity>
+  <Name value="ASEOSPAuthorizationModification" />
+  <Caption value="Modifikace ZJP povolení" />
+  <MtsImportOptions.MTS.Acronym value="ASEOSPAuthorizationModification" />
+  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification" />
+  <MtsImportOptions.MTS.Type value="message" />
+  <Children>
+    <Complex>
+      <Name value="ASEO" />
+      <Caption value="ASEO" />
+      <Description value="Povolení nebo zjednodušený postup" />
+      <IsRequired value="True" />
+      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO" />
+      <MtsImportOptions.MTS.Type value="group" />
+      <Children>
+        <Attribute>
+          <Name value="GUID" />
+          <Caption value="GUID" />
+          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/GUID" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Reference>
+          <Name value="AuthorizationType" />
+          <Caption value="Typ povolení/ZJP" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/AuthorizationType" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <Children>
+            <Include>
+              <Include reference="+DataEntities.POVOLTYP" />
+            </Include>
+          </Children>
+        </Reference>
+        <Attribute>
+          <Name value="SPHolderCode" />
+          <Caption value="Kód držitele povolení" />
+          <MetaType reference="+MetaTypes.SPHolderCodeEnum" />
+          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/SPHolderCode" />
+          <MtsImportOptions.MTS.Type value="element" />
+        </Attribute>
+        <Complex>
+          <Name value="Event" />
+          <Caption value="Událost / Rozhodnutí" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event" />
+          <MtsImportOptions.MTS.Type value="group" />
+          <Children>
+            <Attribute>
+              <Name value="OperatorName" />
+              <Caption value="Název subjektu" />
+              <IsRequired value="True" />
+              <MetaType reference="+MetaTypes.OperatorName" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/OperatorName" />
+              <MtsImportOptions.MTS.Type value="element" />
+            </Attribute>
+            <Attribute>
+              <Name value="OperatorStreetAndNr" />
+              <Caption value="Ulice a č.p. sídla" />
+              <MetaType reference="+MetaTypes.StreetAndNr" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/OperatorStreetAndNr" />
+              <MtsImportOptions.MTS.Type value="element" />
+            </Attribute>
+            <Attribute>
+              <Name value="OperatorCity" />
+              <Caption value="Město sídla subjektu" />
+              <MetaType reference="+MetaTypes.City" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/OperatorCity" />
+              <MtsImportOptions.MTS.Type value="element" />
+            </Attribute>
+            <Attribute>
+              <Name value="OperatorPostCode" />
+              <Caption value="PSČ" />
+              <MetaType reference="+MetaTypes.PostCode" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/OperatorPostCode" />
+              <MtsImportOptions.MTS.Type value="element" />
+            </Attribute>
+            <Reference>
+              <Name value="OperatorCountry" />
+              <Caption value="Země sídla subjektu" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/OperatorCountry" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ZEME_O" />
+                </Include>
+              </Children>
+            </Reference>
+            <Attribute>
+              <Name value="ReferenceNumber" />
+              <Caption value="Číslo jednací" />
+              <IsRequired value="True" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/ReferenceNumber" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="30" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="YourMark" />
+              <Caption value="Vaše značka" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/YourMark" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="30" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="HandledBy" />
+              <Caption value="Vyřizuje/linka" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/HandledBy" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="20" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="DecisionDate" />
+              <Caption value="Datum vydání rozhodnutí" />
+              <IsRequired value="True" />
+              <MetaType reference="+MetaTypes.Date_YYYYMMDD" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/DecisionDate" />
+              <MtsImportOptions.MTS.Type value="element" />
+            </Attribute>
+            <Attribute>
+              <Name value="ValidityStartDate" />
+              <Caption value="Platné od" />
+              <IsRequired value="True" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/ValidityStartDate" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="DateTime" />
+                </AttributeType>
+              </DeclaredType>
+              <Validators>
+                <Validator Name="UCC_DateOfNewAuthorization">
+                  <MtsImportOptions.MTS.ID value="UCC_DateOfNewAuthorization" />
+                  <MtsImportOptions.MTS.Type value="rule-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["UCC_DateOfNewAuthorization"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[true /* IMPORTED RULE UCC_DateOfNewAuthorization Datum počátku platnosti tohoto typu povolení musí být větší nebo rovno datu účinnosti legislativy UCC (standardně 1.5.2016). */]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
+            </Attribute>
+            <Attribute>
+              <Name value="DecidingCustomsOffice" />
+              <Caption value="Rozhodující celní úřad" />
+              <IsRequired value="True" />
+              <MetaType reference="+MetaTypes.CU" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/DecidingCustomsOffice" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <Validators>
+                <Validator Name="regex">
+                  <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+                  <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
+            </Attribute>
+            <Attribute>
+              <Name value="DecidingPerson" />
+              <Caption value="Osobní číslo vydavatele rozhodnutí" />
+              <IsRequired value="True" />
+              <MetaType reference="+MetaTypes.Pracovnik" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/DecidingPerson" />
+              <MtsImportOptions.MTS.Type value="element" />
+            </Attribute>
+            <Attribute>
+              <Name value="Note" />
+              <Caption value="Poznámka" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Note" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="10000" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="PreferCD" />
+              <Caption value="Preferovat povolení v CD" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/PreferCD" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+              <Validators>
+                <Validator Name="PreferCDMandatory">
+                  <MtsImportOptions.MTS.ID value="PreferCDMandatory" />
+                  <MtsImportOptions.MTS.Type value="condition-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["PreferCDMandatory"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[true /* IMPORTED RULE PreferCDMandatory {ClientBehavior,Description} */]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
+            </Attribute>
+            <Collection>
+              <Name value="File" />
+              <Caption value="Soubor přílohy" />
+              <MaxCount value="999" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/File" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="IsFulltext" />
+                  <Caption value="Je plný text či jen doplněk plného textu?" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/File/IsFulltext" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="FileContent" />
+                  <Caption value="Obsah souboru" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/File/FileContent" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="FileName" />
+                  <Caption value="Název souboru" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/File/FileName" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="255" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="FileType" />
+                  <Caption value="Typ souboru" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/File/FileType" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="255" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Collection>
+            <Complex>
+              <Name value="Authorization" />
+              <Caption value="Základní prvky povolení" />
+              <IsRequired value="True" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Authorization" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="LimitedAuthorizationValidity" />
+                  <Caption value="Je délka platnosti omezená?" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Authorization/LimitedAuthorizationValidity" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="AuthorizationValidUntil" />
+                  <Caption value="Rozhodnutí platné do" />
+                  <MetaType reference="+MetaTypes.Date_YYYYMMDD" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Authorization/AuthorizationValidUntil" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Validators>
+                    <Validator Name="AuthValidUntil">
+                      <MtsImportOptions.MTS.ID value="AuthValidUntil" />
+                      <MtsImportOptions.MTS.Type value="rule-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["AuthValidUntil"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[true /* IMPORTED RULE AuthValidUntil Hodnota Rozhodnutí platné do nesmí být menší než Rozhodnutí platné od */]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                    <Validator Name="ExpirationAndValidityCheck">
+                      <MtsImportOptions.MTS.ID value="ExpirationAndValidityCheck" />
+                      <MtsImportOptions.MTS.Type value="rule-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["ExpirationAndValidityCheck"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[true /* IMPORTED RULE ExpirationAndValidityCheck Kontrola datumů expirace a počátku platnosti */]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                    <Validator Name="LimitedValidityDate">
+                      <MtsImportOptions.MTS.ID value="LimitedValidityDate" />
+                      <MtsImportOptions.MTS.Type value="condition-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["LimitedValidityDate"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[true /* IMPORTED RULE LimitedValidityDate Kontrola přítomnosti data expirace */]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Attribute>
+                <Attribute>
+                  <Name value="ResponsiblePersonName" />
+                  <Caption value="Jméno zodpovědné osoby na straně deklaranta" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Authorization/ResponsiblePersonName" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="50" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="ResponsiblePersonPhone" />
+                  <Caption value="Telefon na zodpovědnou osobu na straně deklaranta" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Authorization/ResponsiblePersonPhone" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="50" />
+                    </AttributeType>
+                  </DeclaredType>
+                  <Validators>
+                    <Validator Name="regex">
+                      <MtsImportOptions.MTS.Regex value="\+\d+" />
+                      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\+\\d+$") : true)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Attribute>
+                <Attribute>
+                  <Name value="ResponsiblePersonEMail" />
+                  <Caption value="ResponsiblePersonEMail" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Authorization/ResponsiblePersonEMail" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="200" />
+                    </AttributeType>
+                  </DeclaredType>
+                  <Validators>
+                    <Validator Name="RespPerNotified">
+                      <MtsImportOptions.MTS.ID value="RespPerNotified" />
+                      <MtsImportOptions.MTS.Type value="condition-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["RespPerNotified"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[true /* IMPORTED RULE RespPerNotified Pokud má být uživatel notifikován, je nutné uvést email. */]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Attribute>
+                <Attribute>
+                  <Name value="ResponsiblePersonWantsToBeNotified" />
+                  <Caption value="Zodpovědná osoba chce být notifikována o změnách v CŘ" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Authorization/ResponsiblePersonWantsToBeNotified" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="GoodsList" />
+              <Caption value="Zbožové kódy" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/GoodsList" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="GoodsListType" />
+                  <Caption value="Typ výčtu zbožových kódů (pozitivní/negativní)" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/GoodsList/GoodsListType" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                  <Validators>
+                    <Validator Name="SPGoodsTypeMandatory">
+                      <MtsImportOptions.MTS.ID value="SPGoodsTypeMandatory" />
+                      <MtsImportOptions.MTS.Type value="condition-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["SPGoodsTypeMandatory"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[true /* IMPORTED RULE SPGoodsTypeMandatory Je nutné uvést Typ výčtu zbožových kódů (pozitivní/negativní) */]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Attribute>
+                <Collection>
+                  <Name value="GoodsItem" />
+                  <Caption value="Výčet zbožových kódů" />
+                  <MaxCount value="1000" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/GoodsList/GoodsItem" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Reference>
+                      <Name value="CNCode" />
+                      <Caption value="Zbožový kód" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/GoodsList/GoodsItem/CNCode" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.ZBOZIKOD" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                    <Attribute>
+                      <Name value="Allowed" />
+                      <Caption value="Povolená / zakázaná" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/GoodsList/GoodsItem/Allowed" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                  <ItemValidators>
+                    <Validator Name="SPGoodsItemMandatory">
+                      <MtsImportOptions.MTS.ID value="SPGoodsItemMandatory" />
+                      <MtsImportOptions.MTS.Type value="condition-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["SPGoodsItemMandatory"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[true /* IMPORTED RULE SPGoodsItemMandatory Je nutné uvést výčet zbožových kódů */]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </ItemValidators>
+                </Collection>
+                <Complex>
+                  <Name value="CompleteData" />
+                  <Caption value="Zbožové kódy - úplná data" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/GoodsList/CompleteData" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Attribute>
+                      <Name value="GoodsListType" />
+                      <Caption value="Typ výčtu zbožových kódů (pozitivní/negativní)" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/GoodsList/CompleteData/GoodsListType" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Collection>
+                      <Name value="GoodsItem" />
+                      <Caption value="Výčet zbožových kódů" />
+                      <MaxCount value="1000" />
+                      <MinCount value="1" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/GoodsList/CompleteData/GoodsItem" />
+                      <MtsImportOptions.MTS.Type value="group" />
+                      <Children>
+                        <Reference>
+                          <Name value="CNCode" />
+                          <Caption value="Zbožový kód" />
+                          <IsRequired value="True" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/GoodsList/CompleteData/GoodsItem/CNCode" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Children>
+                            <Include>
+                              <Include reference="+DataEntities.ZBOZIKOD" />
+                            </Include>
+                          </Children>
+                        </Reference>
+                        <Attribute>
+                          <Name value="Allowed" />
+                          <Caption value="Povolená / zakázaná" />
+                          <IsRequired value="True" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/GoodsList/CompleteData/GoodsItem/Allowed" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType>
+                              <BaseType value="Bool" />
+                            </AttributeType>
+                          </DeclaredType>
+                        </Attribute>
+                      </Children>
+                    </Collection>
+                  </Children>
+                  <Validators>
+                    <Validator Name="SPCompleteDataMandatory">
+                      <MtsImportOptions.MTS.ID value="SPCompleteDataMandatory" />
+                      <MtsImportOptions.MTS.Type value="condition-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["SPCompleteDataMandatory"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[true /* IMPORTED RULE SPCompleteDataMandatory Je nutné uvést Zboží a Celní režimy pro "Úplná data" */]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Complex>
+                <Complex>
+                  <Name value="InCompleteData" />
+                  <Caption value="Zbožové kódy - neúplná data" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/GoodsList/InCompleteData" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Attribute>
+                      <Name value="GoodsListType" />
+                      <Caption value="Typ výčtu zbožových kódů (pozitivní/negativní)" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/GoodsList/InCompleteData/GoodsListType" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Collection>
+                      <Name value="GoodsItem" />
+                      <Caption value="Výčet zbožových kódů" />
+                      <MaxCount value="1000" />
+                      <MinCount value="1" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/GoodsList/InCompleteData/GoodsItem" />
+                      <MtsImportOptions.MTS.Type value="group" />
+                      <Children>
+                        <Reference>
+                          <Name value="CNCode" />
+                          <Caption value="Zbožový kód" />
+                          <IsRequired value="True" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/GoodsList/InCompleteData/GoodsItem/CNCode" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Children>
+                            <Include>
+                              <Include reference="+DataEntities.ZBOZIKOD" />
+                            </Include>
+                          </Children>
+                        </Reference>
+                        <Attribute>
+                          <Name value="Allowed" />
+                          <Caption value="Povolená / zakázaná" />
+                          <IsRequired value="True" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/GoodsList/InCompleteData/GoodsItem/Allowed" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <DeclaredType>
+                            <AttributeType>
+                              <BaseType value="Bool" />
+                            </AttributeType>
+                          </DeclaredType>
+                        </Attribute>
+                      </Children>
+                    </Collection>
+                  </Children>
+                  <Validators>
+                    <Validator Name="SPInCompleteDataMandatory">
+                      <MtsImportOptions.MTS.ID value="SPInCompleteDataMandatory" />
+                      <MtsImportOptions.MTS.Type value="condition-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["SPInCompleteDataMandatory"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[true /* IMPORTED RULE SPInCompleteDataMandatory Je nutné uvést Zboží a Celní režimy pro "Neúplná data" */]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Complex>
+              </Children>
+              <Validators>
+                <Validator Name="SPGoodsMandatory">
+                  <MtsImportOptions.MTS.ID value="SPGoodsMandatory" />
+                  <MtsImportOptions.MTS.Type value="condition-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["SPGoodsMandatory"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[true /* IMPORTED RULE SPGoodsMandatory Je nutné uvést Zboží */]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
+            </Complex>
+            <Complex>
+              <Name value="CustomsOffices" />
+              <Caption value="Celní úřady" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Collection>
+                  <Name value="CustomsOfficeOfRelease" />
+                  <Caption value="Celní úřad propuštění" />
+                  <MaxCount value="100" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/CustomsOfficeOfRelease" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Reference>
+                      <Name value="CustomsOfficeReferenceNumber" />
+                      <Caption value="Číslo CÚ" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/CustomsOfficeOfRelease/CustomsOfficeReferenceNumber" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.CELUPLAT_R" />
+                        </Include>
+                      </Children>
+                      <Validators>
+                        <Validator Name="CustomsOfficeOfRelease2012">
+                          <MtsImportOptions.MTS.ID value="CustomsOfficeOfRelease2012" />
+                          <MtsImportOptions.MTS.Type value="rule-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["CustomsOfficeOfRelease2012"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[true /* IMPORTED RULE CustomsOfficeOfRelease2012 Nástupce zvoleného propouštěnícího CÚ nelze použít - není nástupcem MPR, nebo jeho podřízených CÚ. */]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
+                    </Reference>
+                    <Collection>
+                      <Name value="AuthorizedAgreedLocation" />
+                      <Caption value="Schválené místo" />
+                      <MaxCount value="99" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/CustomsOfficeOfRelease/AuthorizedAgreedLocation" />
+                      <MtsImportOptions.MTS.Type value="group" />
+                      <Children>
+                        <Attribute>
+                          <Name value="Country" />
+                          <Caption value="Země schváleného/sjednaného umístění" />
+                          <MetaType reference="+MetaTypes.Zeme" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/CustomsOfficeOfRelease/AuthorizedAgreedLocation/Country" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[A-Z]{2}" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="PlaceID" />
+                          <Caption value="ID schváleného/sjednaného umístění" />
+                          <MetaType reference="+MetaTypes.ReferencniCisloRozhodnuti" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/CustomsOfficeOfRelease/AuthorizedAgreedLocation/PlaceID" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="(?s)^\S(.*\S)?$" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\S(.*\\S)?$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
+                        </Attribute>
+                        <Reference>
+                          <Name value="CountryPlaceID" />
+                          <Caption value="CountryPlaceID" />
+                          <IsRequired value="True" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/CustomsOfficeOfRelease/AuthorizedAgreedLocation/CountryPlaceID" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Children>
+                            <Include>
+                              <Include reference="+DataEntities.ASEOPlace" />
+                            </Include>
+                          </Children>
+                        </Reference>
+                      </Children>
+                    </Collection>
+                    <Collection>
+                      <Name value="TemporaryStorage" />
+                      <Caption value="Dočasný sklad" />
+                      <MaxCount value="999" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/CustomsOfficeOfRelease/TemporaryStorage" />
+                      <MtsImportOptions.MTS.Type value="group" />
+                      <Children>
+                        <Attribute>
+                          <Name value="IssuingCountry" />
+                          <Caption value="Vydávající země" />
+                          <IsRequired value="True" />
+                          <MetaType reference="+MetaTypes.Zeme" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/CustomsOfficeOfRelease/TemporaryStorage/IssuingCountry" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[A-Z]{2}" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="ASEOID" />
+                          <Caption value="Číslo povolení" />
+                          <IsRequired value="True" />
+                          <MetaType reference="+MetaTypes.ReferencniCisloRozhodnuti" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/CustomsOfficeOfRelease/TemporaryStorage/ASEOID" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="ASEOExists">
+                              <MtsImportOptions.MTS.ID value="ASEOExists" />
+                              <MtsImportOptions.MTS.Type value="rule-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["ASEOExists"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[true /* IMPORTED RULE ASEOExists Zadané číslo povolení neexistuje v ASEO. */]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="(?s)^\S(.*\S)?$" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\S(.*\\S)?$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
+                        </Attribute>
+                      </Children>
+                      <ItemValidators>
+                        <Validator Name="SPIsTSValid_mod">
+                          <MtsImportOptions.MTS.ID value="SPIsTSValid_mod" />
+                          <MtsImportOptions.MTS.Type value="rule-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["SPIsTSValid_mod"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[true /* IMPORTED RULE SPIsTSValid_mod Uvedené povolení Dočasného skladu musí být platné, být vydané pro příslušný subjekt a oddělení. */]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </ItemValidators>
+                    </Collection>
+                  </Children>
+                  <ItemValidators>
+                    <Validator Name="SPCustomsOfficeOfReleaseMandatory">
+                      <MtsImportOptions.MTS.ID value="SPCustomsOfficeOfReleaseMandatory" />
+                      <MtsImportOptions.MTS.Type value="condition-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["SPCustomsOfficeOfReleaseMandatory"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[true /* IMPORTED RULE SPCustomsOfficeOfReleaseMandatory Je nutné uvést celní úřad propuštění */]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </ItemValidators>
+                </Collection>
+                <Collection>
+                  <Name value="ConsignmentControlCustomsOffice" />
+                  <Caption value="Celní úřad kontroly zásilky" />
+                  <MaxCount value="100" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/ConsignmentControlCustomsOffice" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Attribute>
+                      <Name value="CustomsOfficeReferenceNumber" />
+                      <Caption value="Číslo CÚ" />
+                      <IsRequired value="True" />
+                      <MetaType reference="+MetaTypes.CU" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/ConsignmentControlCustomsOffice/CustomsOfficeReferenceNumber" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
+                    </Attribute>
+                    <Collection>
+                      <Name value="AuthorizedAgreedLocation" />
+                      <Caption value="Schválené místo" />
+                      <MaxCount value="99" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/ConsignmentControlCustomsOffice/AuthorizedAgreedLocation" />
+                      <MtsImportOptions.MTS.Type value="group" />
+                      <Children>
+                        <Attribute>
+                          <Name value="Country" />
+                          <Caption value="Země schváleného/sjednaného umístění" />
+                          <MetaType reference="+MetaTypes.Zeme" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/ConsignmentControlCustomsOffice/AuthorizedAgreedLocation/Country" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="[A-Z]{2}" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="PlaceID" />
+                          <Caption value="ID schváleného/sjednaného umístění" />
+                          <MetaType reference="+MetaTypes.ReferencniCisloRozhodnuti" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/ConsignmentControlCustomsOffice/AuthorizedAgreedLocation/PlaceID" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="(?s)^\S(.*\S)?$" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\S(.*\\S)?$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
+                        </Attribute>
+                        <Attribute>
+                          <Name value="CountryPlaceID" />
+                          <Caption value="CountryPlaceID" />
+                          <IsRequired value="True" />
+                          <MetaType reference="+MetaTypes.ReferencniCisloRozhodnuti" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/ConsignmentControlCustomsOffice/AuthorizedAgreedLocation/CountryPlaceID" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Validators>
+                            <Validator Name="regex">
+                              <MtsImportOptions.MTS.Regex value="(?s)^\S(.*\S)?$" />
+                              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                              <ErrorMessage IsValid="True">
+                                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="String" />
+                                </ResultType>
+                              </ErrorMessage>
+                              <IsValid IsValid="True">
+                                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\S(.*\\S)?$") : true)]]></ExpressionText>
+                                <ResultType>
+                                  <BaseType value="Bool" />
+                                </ResultType>
+                              </IsValid>
+                            </Validator>
+                          </Validators>
+                        </Attribute>
+                      </Children>
+                      <ItemValidators>
+                        <Validator Name="CCAllowedInLI">
+                          <MtsImportOptions.MTS.ID value="CCAllowedInLI" />
+                          <MtsImportOptions.MTS.Type value="condition-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["CCAllowedInLI"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[true /* IMPORTED RULE CCAllowedInLI Při volbě "Lze v ZJP MŘ" musí být uvedené schválené místo. */]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </ItemValidators>
+                    </Collection>
+                  </Children>
+                </Collection>
+                <Collection>
+                  <Name value="CustomsOfficeOControl_FZ" />
+                  <Caption value="Celní úřad kontroly FZ" />
+                  <MaxCount value="100" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/CustomsOfficeOControl_FZ" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Reference>
+                      <Name value="CustomsOfficeReferenceNumber" />
+                      <Caption value="Evidenční číslo celního úřadu" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/CustomsOfficeOControl_FZ/CustomsOfficeReferenceNumber" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.CELUPLAT_R" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                  </Children>
+                </Collection>
+                <Collection>
+                  <Name value="SupervisingCustomsOffice" />
+                  <Caption value="Celní úřad dohledu" />
+                  <MaxCount value="100" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/SupervisingCustomsOffice" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Reference>
+                      <Name value="CustomsOfficeReferenceNumber" />
+                      <Caption value="Číslo CÚ" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/SupervisingCustomsOffice/CustomsOfficeReferenceNumber" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.CELUTVAR" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                    <Attribute>
+                      <Name value="Audit" />
+                      <Caption value="Celní úřad auditu" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsOffices/SupervisingCustomsOffice/Audit" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Collection>
+              </Children>
+            </Complex>
+            <Collection>
+              <Name value="CentralizedClearanceProcedure" />
+              <Caption value="Centralizované celní řízení" />
+              <MaxCount value="999" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CentralizedClearanceProcedure" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="IssuingCountry" />
+                  <Caption value="Vydávající země" />
+                  <IsRequired value="True" />
+                  <MetaType reference="+MetaTypes.Zeme" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CentralizedClearanceProcedure/IssuingCountry" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Validators>
+                    <Validator Name="regex">
+                      <MtsImportOptions.MTS.Regex value="[A-Z]{2}" />
+                      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}$") : true)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Attribute>
+                <Attribute>
+                  <Name value="ASEOID" />
+                  <Caption value="Číslo povolení" />
+                  <IsRequired value="True" />
+                  <MetaType reference="+MetaTypes.ReferencniCisloRozhodnuti" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CentralizedClearanceProcedure/ASEOID" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Validators>
+                    <Validator Name="ASEOExists">
+                      <MtsImportOptions.MTS.ID value="ASEOExists" />
+                      <MtsImportOptions.MTS.Type value="rule-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["ASEOExists"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[true /* IMPORTED RULE ASEOExists Zadané číslo povolení neexistuje v ASEO. */]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                    <Validator Name="regex">
+                      <MtsImportOptions.MTS.Regex value="(?s)^\S(.*\S)?$" />
+                      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\S(.*\\S)?$") : true)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Attribute>
+              </Children>
+            </Collection>
+            <Collection>
+              <Name value="ManufacturerParticipatingPerson" />
+              <Caption value="Zpracovatel / jiná zúčastněná osoba" />
+              <MaxCount value="999" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/ManufacturerParticipatingPerson" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="TIN" />
+                  <Caption value="TIN / EORI číslo" />
+                  <IsRequired value="True" />
+                  <MetaType reference="+MetaTypes.TIN" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/ManufacturerParticipatingPerson/TIN" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                </Attribute>
+                <Attribute>
+                  <Name value="Name" />
+                  <Caption value="Název firmy" />
+                  <IsRequired value="True" />
+                  <MetaType reference="+MetaTypes.OperatorName" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/ManufacturerParticipatingPerson/Name" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                </Attribute>
+                <Attribute>
+                  <Name value="StreetAndNr" />
+                  <Caption value="Ulice a č.p." />
+                  <IsRequired value="True" />
+                  <MetaType reference="+MetaTypes.StreetAndNr" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/ManufacturerParticipatingPerson/StreetAndNr" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                </Attribute>
+                <Attribute>
+                  <Name value="City" />
+                  <Caption value="Město" />
+                  <IsRequired value="True" />
+                  <MetaType reference="+MetaTypes.City" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/ManufacturerParticipatingPerson/City" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                </Attribute>
+                <Attribute>
+                  <Name value="PostCode" />
+                  <Caption value="PSČ" />
+                  <IsRequired value="True" />
+                  <MetaType reference="+MetaTypes.PostCode" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/ManufacturerParticipatingPerson/PostCode" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                </Attribute>
+                <Attribute>
+                  <Name value="Country" />
+                  <Caption value="Země" />
+                  <IsRequired value="True" />
+                  <MetaType reference="+MetaTypes.Zeme" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/ManufacturerParticipatingPerson/Country" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Validators>
+                    <Validator Name="regex">
+                      <MtsImportOptions.MTS.Regex value="[A-Z]{2}" />
+                      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}$") : true)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Attribute>
+              </Children>
+            </Collection>
+            <Complex>
+              <Name value="Manipulations" />
+              <Caption value="Manipulace" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Manipulations" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Collection>
+                  <Name value="Manipulation" />
+                  <Caption value="Manipulace v celním skladě" />
+                  <MaxCount value="999" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Manipulations/Manipulation" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Reference>
+                      <Name value="OriginalCNCode" />
+                      <Caption value="Zbožový kód" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Manipulations/Manipulation/OriginalCNCode" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.ZBOZIKOD" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                    <Reference>
+                      <Name value="ManipulationType" />
+                      <Caption value="Typ manipulace" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Manipulations/Manipulation/ManipulationType" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.TYPMANCS" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                    <Reference>
+                      <Name value="ManipulatedCNCode" />
+                      <Caption value="Manipulovaný zbožový kód" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Manipulations/Manipulation/ManipulatedCNCode" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.ZBOZIKOD" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                    <Reference>
+                      <Name value="UnitOfMeasure" />
+                      <Caption value="Měrná jednotka" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Manipulations/Manipulation/UnitOfMeasure" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.JMODPIS_ASEO" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                  </Children>
+                </Collection>
+              </Children>
+            </Complex>
+            <Collection>
+              <Name value="Representation" />
+              <Caption value="Typ zastoupení" />
+              <MaxCount value="3" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Representation" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Reference>
+                  <Name value="TypeOfRepresentation" />
+                  <Caption value="Způsob zastoupení" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Representation/TypeOfRepresentation" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ZPZAST" />
+                    </Include>
+                  </Children>
+                </Reference>
+              </Children>
+              <ItemValidators>
+                <Validator Name="SPRepresentationMandatory">
+                  <MtsImportOptions.MTS.ID value="SPRepresentationMandatory" />
+                  <MtsImportOptions.MTS.Type value="condition-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["SPRepresentationMandatory"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[true /* IMPORTED RULE SPRepresentationMandatory Je nutné uvést Typ zastoupení */]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </ItemValidators>
+            </Collection>
+            <Collection>
+              <Name value="Guarantee" />
+              <Caption value="Zajištění celního dluhu" />
+              <MaxCount value="99" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Guarantee" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Reference>
+                  <Name value="GuaranteeType" />
+                  <Caption value="Typ zajištění celního dluhu" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Guarantee/GuaranteeType" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ZJPZAJIST" />
+                    </Include>
+                  </Children>
+                </Reference>
+                <Attribute>
+                  <Name value="GuaranteeID" />
+                  <Caption value="Číslo zajištění" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Guarantee/GuaranteeID" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="128" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="GuaranteeState" />
+                  <Caption value="Stav" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Guarantee/GuaranteeState" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="10" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+              <ItemValidators>
+                <Validator Name="SPGuaranteeMandatory">
+                  <MtsImportOptions.MTS.ID value="SPGuaranteeMandatory" />
+                  <MtsImportOptions.MTS.Type value="condition-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["SPGuaranteeMandatory"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[true /* IMPORTED RULE SPGuaranteeMandatory Je nutné uvést Garanci */]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </ItemValidators>
+            </Collection>
+            <Collection>
+              <Name value="Period" />
+              <Caption value="Lhůta" />
+              <MaxCount value="9" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Period" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Reference>
+                  <Name value="TypeOfPeriod" />
+                  <Caption value="Typ lhůty" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Period/TypeOfPeriod" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.TypeOfTimerEnum" />
+                    </Include>
+                  </Children>
+                </Reference>
+                <Attribute>
+                  <Name value="Unit" />
+                  <Caption value="MJ" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Period/Unit" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="10" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="PeriodDuration" />
+                  <Caption value="Délka lhůty" />
+                  <IsRequired value="True" />
+                  <MetaType reference="+MetaTypes.PeriodDuration" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Period/PeriodDuration" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                </Attribute>
+              </Children>
+              <ItemValidators>
+                <Validator Name="SPPeriodAuthType">
+                  <MtsImportOptions.MTS.ID value="SPPeriodAuthType" />
+                  <MtsImportOptions.MTS.Type value="rule-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["SPPeriodAuthType"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[true /* IMPORTED RULE SPPeriodAuthType AR:
+  - Pokud je vybráno "Povolena možnost ukončení vývozního celního prohlášení propuštěním TCP ve ZJP", je nutné vyplnění lhůty pro VYSTUP.
+  - Pokud není vybráno "Povolena možnost ukončení vývozního celního prohlášení propuštěním TCP ve ZJP", nesmí být vyplněna lhůta pro VYSTUP.
+LI:
+  - Pokud je vybráno "Neúplná data", lze zadat pouze lhůtu POVOLENI. Ostatní lhůty není možné zadat. */]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+                <Validator Name="SPPeriodMandatory">
+                  <MtsImportOptions.MTS.ID value="SPPeriodMandatory" />
+                  <MtsImportOptions.MTS.Type value="condition-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["SPPeriodMandatory"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[true /* IMPORTED RULE SPPeriodMandatory Je nutné uvést Lhůty */]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </ItemValidators>
+            </Collection>
+            <Collection>
+              <Name value="ProcedureWithEconomicImpact" />
+              <Caption value="Povolení RHÚ" />
+              <MaxCount value="99" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/ProcedureWithEconomicImpact" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="IssuingCountry" />
+                  <Caption value="Vydávající země" />
+                  <IsRequired value="True" />
+                  <MetaType reference="+MetaTypes.Zeme" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/ProcedureWithEconomicImpact/IssuingCountry" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Validators>
+                    <Validator Name="regex">
+                      <MtsImportOptions.MTS.Regex value="[A-Z]{2}" />
+                      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}$") : true)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Attribute>
+                <Attribute>
+                  <Name value="ASEOID" />
+                  <Caption value="Číslo povolení" />
+                  <IsRequired value="True" />
+                  <MetaType reference="+MetaTypes.ReferencniCisloRozhodnuti" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/ProcedureWithEconomicImpact/ASEOID" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Validators>
+                    <Validator Name="ASEOExists">
+                      <MtsImportOptions.MTS.ID value="ASEOExists" />
+                      <MtsImportOptions.MTS.Type value="rule-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["ASEOExists"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[true /* IMPORTED RULE ASEOExists Zadané číslo povolení neexistuje v ASEO. */]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                    <Validator Name="regex">
+                      <MtsImportOptions.MTS.Regex value="(?s)^\S(.*\S)?$" />
+                      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\S(.*\\S)?$") : true)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Attribute>
+                <Attribute>
+                  <Name value="Regime" />
+                  <Caption value="Režim" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/ProcedureWithEconomicImpact/Regime" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="2" />
+                      <StrMinLength value="2" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Collection>
+            <Complex>
+              <Name value="CustomsProcedure" />
+              <Caption value="Celní režimy" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsProcedure" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Collection>
+                  <Name value="CustomsProcedureCombination" />
+                  <Caption value="Kombinace celních režimů" />
+                  <MaxCount value="999" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsProcedure/CustomsProcedureCombination" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Reference>
+                      <Name value="CustomsProcedureCombinationCode" />
+                      <Caption value="Kód kombinace celních režimů" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsProcedure/CustomsProcedureCombination/CustomsProcedureCombinationCode" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.REZIM4" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                    <Reference>
+                      <Name value="CustomsProcedureCode" />
+                      <Caption value="Kód celního režimu" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsProcedure/CustomsProcedureCombination/CustomsProcedureCode" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.CEL_UR" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                  </Children>
+                  <ItemValidators>
+                    <Validator Name="SPCustomsProcedureCombinationMandatory">
+                      <MtsImportOptions.MTS.ID value="SPCustomsProcedureCombinationMandatory" />
+                      <MtsImportOptions.MTS.Type value="condition-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["SPCustomsProcedureCombinationMandatory"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[true /* IMPORTED RULE SPCustomsProcedureCombinationMandatory Je nutné uvést Kombinaci celních režimů */]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </ItemValidators>
+                </Collection>
+                <Collection>
+                  <Name value="CompleteData" />
+                  <Caption value="Kombinace celních režimů - úplná data" />
+                  <MaxCount value="999" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsProcedure/CompleteData" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Collection>
+                      <Name value="CustomsProcedureCombination" />
+                      <Caption value="Kombinace celních režimů" />
+                      <MaxCount value="999" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsProcedure/CompleteData/CustomsProcedureCombination" />
+                      <MtsImportOptions.MTS.Type value="group" />
+                      <Children>
+                        <Reference>
+                          <Name value="CustomsProcedureCombinationCode" />
+                          <Caption value="Kód kombinace celních režimů" />
+                          <IsRequired value="True" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsProcedure/CompleteData/CustomsProcedureCombination/CustomsProcedureCombinationCode" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Children>
+                            <Include>
+                              <Include reference="+DataEntities.REZIM4" />
+                            </Include>
+                          </Children>
+                        </Reference>
+                        <Reference>
+                          <Name value="CustomsProcedureCode" />
+                          <Caption value="Kód celního režimu" />
+                          <IsRequired value="True" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsProcedure/CompleteData/CustomsProcedureCombination/CustomsProcedureCode" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Children>
+                            <Include>
+                              <Include reference="+DataEntities.CEL_UR" />
+                            </Include>
+                          </Children>
+                        </Reference>
+                      </Children>
+                    </Collection>
+                  </Children>
+                  <ItemValidators>
+                    <Validator Name="SPCompleteDataMandatory">
+                      <MtsImportOptions.MTS.ID value="SPCompleteDataMandatory" />
+                      <MtsImportOptions.MTS.Type value="condition-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["SPCompleteDataMandatory"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[true /* IMPORTED RULE SPCompleteDataMandatory Je nutné uvést Zboží a Celní režimy pro "Úplná data" */]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </ItemValidators>
+                </Collection>
+                <Collection>
+                  <Name value="InCompleteData" />
+                  <Caption value="Kombinace celních režimů - neúplná data" />
+                  <MaxCount value="999" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsProcedure/InCompleteData" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Collection>
+                      <Name value="CustomsProcedureCombination" />
+                      <Caption value="Kombinace celních režimů" />
+                      <MaxCount value="999" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsProcedure/InCompleteData/CustomsProcedureCombination" />
+                      <MtsImportOptions.MTS.Type value="group" />
+                      <Children>
+                        <Reference>
+                          <Name value="CustomsProcedureCombinationCode" />
+                          <Caption value="Kód kombinace celních režimů" />
+                          <IsRequired value="True" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsProcedure/InCompleteData/CustomsProcedureCombination/CustomsProcedureCombinationCode" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Children>
+                            <Include>
+                              <Include reference="+DataEntities.REZIM4" />
+                            </Include>
+                          </Children>
+                        </Reference>
+                        <Reference>
+                          <Name value="CustomsProcedureCode" />
+                          <Caption value="Kód celního režimu" />
+                          <IsRequired value="True" />
+                          <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/CustomsProcedure/InCompleteData/CustomsProcedureCombination/CustomsProcedureCode" />
+                          <MtsImportOptions.MTS.Type value="element" />
+                          <Children>
+                            <Include>
+                              <Include reference="+DataEntities.CEL_UR" />
+                            </Include>
+                          </Children>
+                        </Reference>
+                      </Children>
+                    </Collection>
+                  </Children>
+                  <ItemValidators>
+                    <Validator Name="SPInCompleteDataMandatory">
+                      <MtsImportOptions.MTS.ID value="SPInCompleteDataMandatory" />
+                      <MtsImportOptions.MTS.Type value="condition-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["SPInCompleteDataMandatory"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[true /* IMPORTED RULE SPInCompleteDataMandatory Je nutné uvést Zboží a Celní režimy pro "Neúplná data" */]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </ItemValidators>
+                </Collection>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="Countries" />
+              <Caption value="Země" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Countries" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Collection>
+                  <Name value="AllowedCountry" />
+                  <Caption value="Povolené země" />
+                  <MaxCount value="999" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Countries/AllowedCountry" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Reference>
+                      <Name value="CountryCode" />
+                      <Caption value="Kód země" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Countries/AllowedCountry/CountryCode" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.ZAKZEME" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                  </Children>
+                </Collection>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="Seals" />
+              <Caption value="Závěry" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Seals" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Collection>
+                  <Name value="Seal" />
+                  <Caption value="Závěra" />
+                  <MaxCount value="999" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Seals/Seal" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Attribute>
+                      <Name value="SealID" />
+                      <Caption value="Číslo závěry" />
+                      <IsRequired value="True" />
+                      <MetaType reference="+MetaTypes.SealIdType" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Seals/Seal/SealID" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                  </Children>
+                </Collection>
+                <Attribute>
+                  <Name value="SPSealsSpecTypeAllowed" />
+                  <Caption value="Povolení použití zvláštního typu celních závěr" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Seals/SPSealsSpecTypeAllowed" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="Zone" />
+              <Caption value="Zóny" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Zone" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="ZoneName" />
+                  <Caption value="Název zóny" />
+                  <IsRequired value="True" />
+                  <MetaType reference="+MetaTypes.OperatorName" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Zone/ZoneName" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                </Attribute>
+                <Attribute>
+                  <Name value="ZoneStreetAndNr" />
+                  <Caption value="Ulice a č.p. sídla" />
+                  <IsRequired value="True" />
+                  <MetaType reference="+MetaTypes.StreetAndNr" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Zone/ZoneStreetAndNr" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                </Attribute>
+                <Attribute>
+                  <Name value="ZoneCity" />
+                  <Caption value="Město sídla subjektu" />
+                  <IsRequired value="True" />
+                  <MetaType reference="+MetaTypes.City" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Zone/ZoneCity" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                </Attribute>
+                <Attribute>
+                  <Name value="ZonePostCode" />
+                  <Caption value="PSČ" />
+                  <IsRequired value="True" />
+                  <MetaType reference="+MetaTypes.PostCode" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Zone/ZonePostCode" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                </Attribute>
+                <Reference>
+                  <Name value="ZoneCountry" />
+                  <Caption value="Země zóny" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Zone/ZoneCountry" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ZEME_O" />
+                    </Include>
+                  </Children>
+                </Reference>
+                <Reference>
+                  <Name value="ZoneType" />
+                  <Caption value="Typ zóny" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Zone/ZoneType" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ZoneTypeEnum" />
+                    </Include>
+                  </Children>
+                </Reference>
+                <Attribute>
+                  <Name value="Conditions" />
+                  <Caption value="Podmínky" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Zone/Conditions" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="5000" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="IssueConditions" />
+                  <Caption value="K vydání podmínek" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Zone/IssueConditions" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="Depositors" />
+              <Caption value="Ukladatelé" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Depositors" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Collection>
+                  <Name value="Depositor" />
+                  <Caption value="Ukladatel" />
+                  <MaxCount value="999" />
+                  <MinCount value="1" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Depositors/Depositor" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Attribute>
+                      <Name value="TIN" />
+                      <Caption value="TIN / EORI číslo" />
+                      <IsRequired value="True" />
+                      <MetaType reference="+MetaTypes.TIN" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Depositors/Depositor/TIN" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                    <Attribute>
+                      <Name value="Name" />
+                      <Caption value="Název subjektu" />
+                      <IsRequired value="True" />
+                      <MetaType reference="+MetaTypes.OperatorName" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Depositors/Depositor/Name" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                    <Attribute>
+                      <Name value="StreetAndNr" />
+                      <Caption value="Ulice a č.p. sídla" />
+                      <MetaType reference="+MetaTypes.StreetAndNr" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Depositors/Depositor/StreetAndNr" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                    <Attribute>
+                      <Name value="City" />
+                      <Caption value="Město sídla subjektu" />
+                      <MetaType reference="+MetaTypes.City" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Depositors/Depositor/City" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                    <Attribute>
+                      <Name value="PostCode" />
+                      <Caption value="PSČ" />
+                      <MetaType reference="+MetaTypes.PostCode" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Depositors/Depositor/PostCode" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                    <Reference>
+                      <Name value="Country" />
+                      <Caption value="Země sídla subjektu" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/Depositors/Depositor/Country" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.ZEME_O" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                  </Children>
+                </Collection>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="SP" />
+              <Caption value="Základní vlastnosti zjednodušeného postupu" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SP" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="SASP" />
+                  <Caption value="Jednotné povolení" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SP/SASP" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="SimplifiedProcedureBasedOnAEO" />
+                  <Caption value="ZJP vydán na základě AEO" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SP/SimplifiedProcedureBasedOnAEO" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Collection>
+                  <Name value="SASPAccounts" />
+                  <Caption value="SASP účty" />
+                  <MaxCount value="999" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SP/SASPAccounts" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Attribute>
+                      <Name value="AccountCountry" />
+                      <Caption value="Kód země" />
+                      <IsRequired value="True" />
+                      <MetaType reference="+MetaTypes.CountryCode" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SP/SASPAccounts/AccountCountry" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Validators>
+                        <Validator Name="regex">
+                          <MtsImportOptions.MTS.Regex value="[A-Z][A-Z]" />
+                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                          <ErrorMessage IsValid="True">
+                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="String" />
+                            </ResultType>
+                          </ErrorMessage>
+                          <IsValid IsValid="True">
+                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z][A-Z]$") : true)]]></ExpressionText>
+                            <ResultType>
+                              <BaseType value="Bool" />
+                            </ResultType>
+                          </IsValid>
+                        </Validator>
+                      </Validators>
+                    </Attribute>
+                    <Reference>
+                      <Name value="AccountSupervisingCustomsOffice" />
+                      <Caption value="Celní úřad kontroly" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SP/SASPAccounts/AccountSupervisingCustomsOffice" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.CELUTVAR" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                    <Attribute>
+                      <Name value="AccountNumber" />
+                      <Caption value="Číslo účtu" />
+                      <IsRequired value="True" />
+                      <MetaType reference="+MetaTypes.IBAN" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SP/SASPAccounts/AccountNumber" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                    <Attribute>
+                      <Name value="BankCode" />
+                      <Caption value="Kód banky" />
+                      <IsRequired value="True" />
+                      <MetaType reference="+MetaTypes.BIC" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SP/SASPAccounts/BankCode" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                    </Attribute>
+                  </Children>
+                </Collection>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="SPSI" />
+              <Caption value="ZJP ZCP/DCP" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPSI" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Reference>
+                  <Name value="TypeOfPaybackPeriod" />
+                  <Caption value="Typ lhůty splatnosti" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPSI/TypeOfPaybackPeriod" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.TypeOfPaybackPeriodEnum" />
+                    </Include>
+                  </Children>
+                </Reference>
+                <Attribute>
+                  <Name value="DaysOfPayback" />
+                  <Caption value="Počet dní splatnosti" />
+                  <MetaType reference="+MetaTypes.PeriodDuration" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPSI/DaysOfPayback" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                </Attribute>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="SPLI" />
+              <Caption value="ZJP MŘ v dovozu" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPLI" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="CompleteData" />
+                  <Caption value="Úplná data" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPLI/CompleteData" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="InCompleteData" />
+                  <Caption value="Neúplná data" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPLI/InCompleteData" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="SubmissionBeforeGoodsArival" />
+                  <Caption value="Podání dat před příjezdem zboží" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPLI/SubmissionBeforeGoodsArival" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="NoPresentationOfGoodsAllowed" />
+                  <Caption value="Nepředkládání zboží povoleno" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPLI/NoPresentationOfGoodsAllowed" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="SPLE" />
+              <Caption value="SPLE" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPLE" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="GoodsOfCommonAgrPolicyAllowed" />
+                  <Caption value="Lze deklarovat zboží SZP" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPLE/GoodsOfCommonAgrPolicyAllowed" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="SPCI" />
+              <Caption value="ZJP CCŘ v dovozu" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPCI" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="AllowedInLI" />
+                  <Caption value="Lze v ZJP MŘ" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPCI/AllowedInLI" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="AllowedInSI" />
+                  <Caption value="Lze v ZJP ZCP/DCP" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPCI/AllowedInSI" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="SPAx" />
+              <Caption value="ZJP schválený odesílatel / příjemce" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPAx" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="SensitiveGoodsAllowed" />
+                  <Caption value="Lze deklarovat zboží se zvýšeným rizikem podvodu" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPAx/SensitiveGoodsAllowed" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="SPFreeFromBindingItineraryAllowed" />
+                  <Caption value="Povolení zproštění povinnosti závazné trasy" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPAx/SPFreeFromBindingItineraryAllowed" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="ExportDeclarationDischargeByTDAllowed" />
+                  <Caption value="Povolena možnost ukončení vývozního celního prohlášení propuštěním TCP ve ZJP" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPAx/ExportDeclarationDischargeByTDAllowed" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="TDDTBDDFormFallbackProcedureAllowed" />
+                  <Caption value="V rámci havarijního postupu povoleno použití tiskopisu TDD/TBDD namísto JSD" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPAx/TDDTBDDFormFallbackProcedureAllowed" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Phase1" />
+                  <Caption value="Fáze I" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPAx/Phase1" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Phase2" />
+                  <Caption value="Fáze II" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPAx/Phase2" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="SPTS" />
+              <Caption value="Povolení dočasného skladu" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPTS" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="GuaranteeRequired" />
+                  <Caption value="Zajištění celního dluhu požadováno" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPTS/GuaranteeRequired" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="PercentOfGuaranteeRequired" />
+                  <Caption value="Procento požadovaného zajištění" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPTS/PercentOfGuaranteeRequired" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Integer" />
+                      <IntMax value="100" />
+                      <IntMin value="1" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="SPT5" />
+              <Caption value="ZJP označování T5" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPT5" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="T5Code" />
+                  <Caption value="T5 kód" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPT5/T5Code" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="5" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="SPACP" />
+              <Caption value="Schválený vydavatel" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPACP" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="ProducesT2L" />
+                  <Caption value="Vydává doklad T2L nebo T2LF" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPACP/ProducesT2L" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="ProducesInvoiceTransportDocument" />
+                  <Caption value="Vydává faktury nebo přepravní doklad" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPACP/ProducesInvoiceTransportDocument" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="AuthorisedIssuerCode" />
+                  <Caption value="Kód schváleného vydavatele" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPACP/AuthorisedIssuerCode" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="4" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="SPTIR" />
+              <Caption value="Povolení TIR" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPTIR" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="TIRHolder" />
+                  <Caption value="ID držitele karnetu TIR" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/SPTIR/TIRHolder" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="16" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Collection>
+              <Name value="ResponsiblePerson" />
+              <Caption value="Odpovědné osoby" />
+              <MaxCount value="999" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/ResponsiblePerson" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="ResponsiblePersonGUID" />
+                  <Caption value="GUID odpovědné osoby" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/ResponsiblePerson/ResponsiblePersonGUID" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+              <ItemValidators>
+                <Validator Name="SPDuplicatePersonCheck">
+                  <MtsImportOptions.MTS.ID value="SPDuplicatePersonCheck" />
+                  <MtsImportOptions.MTS.Type value="rule-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["SPDuplicatePersonCheck"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[true /* IMPORTED RULE SPDuplicatePersonCheck Opakovaně uvedena shodná zodpovědná osoba. */]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </ItemValidators>
+            </Collection>
+            <Collection>
+              <Name value="TemporaryWarehouseGoodsMovement" />
+              <Caption value="Přemístění zboží mezi dočasnými sklady" />
+              <MaxCount value="999" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/TemporaryWarehouseGoodsMovement" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Reference>
+                  <Name value="ASEOIDTST" />
+                  <Caption value="Evidenční číslo zjednodušeného postupu" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorizationModification/ASEO/Event/TemporaryWarehouseGoodsMovement/ASEOIDTST" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ASEOSP_TST" />
+                    </Include>
+                  </Children>
+                </Reference>
+              </Children>
+              <ItemValidators>
+                <Validator Name="TemporaryWarehouseGoddsMovementOptionalTST">
+                  <MtsImportOptions.MTS.ID value="TemporaryWarehouseGoddsMovementOptionalTST" />
+                  <MtsImportOptions.MTS.Type value="condition-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["TemporaryWarehouseGoddsMovementOptionalTST"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[true /* IMPORTED RULE TemporaryWarehouseGoddsMovementOptionalTST {ClientBehavior,Description} */]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </ItemValidators>
+            </Collection>
+          </Children>
+          <Validators>
+            <Validator Name="AuthorizedAgreedLocationMandatory">
+              <MtsImportOptions.MTS.ID value="AuthorizedAgreedLocationMandatory" />
+              <MtsImportOptions.MTS.Type value="rule-constraint" />
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["AuthorizedAgreedLocationMandatory"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[true /* IMPORTED RULE AuthorizedAgreedLocationMandatory Povinnost vyplnění Schváleného místa při existenci CCŘ povolení.
+
+Pokud je uveden jeden a více záznamů CCŘ povolení, žádný Místní CÚ nesmí obsahovat Místo. */]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+            <Validator Name="SPPeriodCount">
+              <MtsImportOptions.MTS.ID value="SPPeriodCount" />
+              <MtsImportOptions.MTS.Type value="rule-constraint" />
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["SPPeriodCount"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[true /* IMPORTED RULE SPPeriodCount Je nutné vyplnit všechny nabízené lhůty. Výjimka je pouze u povolení LI a výběru "Neúplná data", kdy se zadává pouze lhůta POVOLENI a u povolení AR, kdy se neuvádí volba "Povolena možnost ukončení vývozního celního prohlášení propuštěním TCP ve ZJP". */]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Complex>
+      </Children>
+    </Complex>
+  </Children>
+</DataEntity>

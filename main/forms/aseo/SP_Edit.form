@@ -4237,15 +4237,6 @@ isFalse(action in [enums.Action.NONE, enums.Action.FutureRemoval])]]></Expressio
                 </Collection>
               </Children>
             </Complex>
-            <Complex>
-              <Name value="AppModification" />
-              <Caption value="App modification" />
-              <Children>
-                <Include>
-                  <Include reference="+DataEntities.ASEOSPApplicationModification" />
-                </Include>
-              </Children>
-            </Complex>
             <Attribute>
               <Name value="original_validityStartDate" />
               <Caption value="Original _ validity start date" />
@@ -7436,19 +7427,22 @@ globals.IsBusy = False
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="lifeCycle_authorisation" />
+      <Name value="lifeCycle_authorization" />
       <Category value="lifeCycleMessage" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var msg = form.model.msg
 
 form.error.serverValidationErrors.clear()
 
-form.actions.editDataBeforePosting()
+request.fromJson(msg.toJson())
+
+// dava mazani ASEOID smysl?
+request.ASEO.ASEOID.clear()
 
 result = false
 
 if isTrue(msg.isValid()) then
-	form.actions.sendRequest("ASEOSPAuthorization", msg.toJson(), "CM002A", true)
+	form.actions.sendRequest("ASEOSPAuthorization", request.toJson(), "CM002A", true)
 
 	if globals.sendResult.Valid then
 		var message = msg.aseo._LastAuthorisationGUID.hasValue() ? 
@@ -7479,45 +7473,17 @@ endif]]></Script>
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Complex>
+              <Name value="request" />
+              <Caption value="Request" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOSPAuthorization" />
+                </Include>
+              </Children>
+            </Complex>
           </Children>
         </ActionDataContext>
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="editDataBeforePosting" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var action = form.action
-var model = form.model
-var msg = model.msg
-var aseo = msg.ASEO
-var event = msg.ASEO.Event
-
-if aseo.IsInCD.hasValue() then
-	event.PreferCD = aseo.IsInCD
-endIf
-
-if action in [
-	enums.Action.authorize,
-	enums.Action.authorizeModify] then
-
-	if event.Authorization.ResponsiblePersonWantsToBeNotified.isEmpty() then
-		event.Authorization.ResponsiblePersonWantsToBeNotified = false
-	endIf
-	if event.Authorization.LimitedAuthorizationValidity.isEmpty() then
-		event.Authorization.LimitedAuthorizationValidity = false
-	endIf
-
-	msg.ASEO.ASEOID.clear()
-
-endIf
-
-if action = enums.Action.applicationModify then
-	model.AppModification.clear()
-	model.AppModification.fromJson(msg.toJson())
-endIf]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
       </DataContext>
     </ActionBlock>
     <ActionBlock>
@@ -7579,22 +7545,22 @@ endif]]></Script>
 
 form.error.serverValidationErrors.clear()
 
-form.actions.editDataBeforePosting()
+request.fromJson(msg.toJson())
 
 result = false
 
 if msg.isValid() then
-	form.actions.sendRequest("ASEOSPApplicationRejection", form.model.AppModification.toJson(), "CM002A", true)
+	form.actions.sendRequest("ASEOSPApplicationRejection", request.toJson(), "CM002A", true)
 
 	if globals.sendResult.Valid then
-		notificationsCtrl.addSuccess("Žádost byla úspěšně předána k zamítnutí žádosti.")
+		notificationsCtrl.addSuccess("Žádost byla úspěšně předána k zamítnutí.")
 		
 		msg.ASEO.clear()
 		form.actions.loadAseoData(form.GUID)
 		
 		result = true		
 	else
-		notificationsCtrl.addError("Nastala chyba. Žádosti nemohlo být zamítnutí uděleno.")
+		notificationsCtrl.addError("Nastala chyba. Žádost se nepodařilo zamítnout.")
 	endif
 endif]]></Script>
       </ActionLangBody>
@@ -7611,6 +7577,15 @@ endif]]></Script>
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Complex>
+              <Name value="request" />
+              <Caption value="Request" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOSPApplicationRejection" />
+                </Include>
+              </Children>
+            </Complex>
           </Children>
         </ActionDataContext>
       </DataContext>
@@ -7623,12 +7598,12 @@ endif]]></Script>
 
 form.error.serverValidationErrors.clear()
 
-form.actions.editDataBeforePosting()
+request.fromJson(msg.toJson())
 
 result = false
 
 if msg.isValid() then
-	form.actions.sendRequest("ASEOSPApplicationRejectionModification", form.model.AppModification.toJson(), "CM002A", true)
+	form.actions.sendRequest("ASEOSPApplicationRejectionModification", request.toJson(), "CM002A", true)
 
 	if globals.sendResult.Valid then
 		notificationsCtrl.addSuccess("Žádost byla úspěšně předána k modifikaci zamítnutí.")
@@ -7638,7 +7613,7 @@ if msg.isValid() then
 		
 		result = true		
 	else
-		notificationsCtrl.addError("Nastala chyba. Žádosti nemohla být modifikace zamítnutí udělena.")
+		notificationsCtrl.addError("Nastala chyba. Zamítnutí žádosti se nepodařilo modifikovat.")
 	endif
 endif]]></Script>
       </ActionLangBody>
@@ -7655,6 +7630,15 @@ endif]]></Script>
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Complex>
+              <Name value="request" />
+              <Caption value="Request" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOSPApplicationRejectionModification" />
+                </Include>
+              </Children>
+            </Complex>
           </Children>
         </ActionDataContext>
       </DataContext>
@@ -7668,12 +7652,12 @@ endif]]></Script>
 
 form.error.serverValidationErrors.clear()
 
-form.actions.editDataBeforePosting()
+request.fromJson(msg.toJson())
 
 result = false
 
 if isTrue(msg.isValid()) then
-	form.actions.sendRequest("ASEOSPAuthorizationWithdrawal", msg.toJson(), "CM002A", true)
+	form.actions.sendRequest("ASEOSPAuthorizationWithdrawal", request.toJson(), "CM002A", true)
 
 	if globals.sendResult.Valid then
 		notificationsCtrl.addSuccess("Povolení bylo úspěšně předáno ke zrušení.")
@@ -7700,6 +7684,15 @@ endif]]></Script>
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Complex>
+              <Name value="request" />
+              <Caption value="Request" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOSPAuthorizationWithdrawal" />
+                </Include>
+              </Children>
+            </Complex>
           </Children>
         </ActionDataContext>
       </DataContext>
@@ -7712,12 +7705,12 @@ endif]]></Script>
 
 form.error.serverValidationErrors.clear()
 
-form.actions.editDataBeforePosting()
+request.fromJson(msg.toJson())
 
 result = false
 
 if isTrue(msg.isValid()) then
-	form.actions.sendRequest("ASEOSPAuthorizationSuspending", msg.toJson(), "CM002A", true)
+	form.actions.sendRequest("ASEOSPAuthorizationSuspending", request.toJson(), "CM002A", true)
 
 	if globals.sendResult.Valid then
 		notificationsCtrl.addSuccess("Povolení bylo úspěšně předáno k pozastavení.")
@@ -7744,6 +7737,15 @@ endif]]></Script>
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Complex>
+              <Name value="request" />
+              <Caption value="Request" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOSPAuthorizationSuspending" />
+                </Include>
+              </Children>
+            </Complex>
           </Children>
         </ActionDataContext>
       </DataContext>
@@ -7756,12 +7758,12 @@ endif]]></Script>
 
 form.error.serverValidationErrors.clear()
 
-form.actions.editDataBeforePosting()
+request.fromJson(msg.toJson())
 
 result = false
 
 if isTrue(msg.isValid()) then
-	form.actions.sendRequest("ASEOSPAuthorizationCancellation", msg.toJson(), "CM002A", true)
+	form.actions.sendRequest("ASEOSPAuthorizationCancellation", request.toJson(), "CM002A", true)
 
 	if globals.sendResult.Valid then
 		notificationsCtrl.addSuccess("Povolení bylo úspěšně předáno ke zneplatnění.")
@@ -7788,6 +7790,15 @@ endif]]></Script>
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Complex>
+              <Name value="request" />
+              <Caption value="Request" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOSPAuthorizationCancellation" />
+                </Include>
+              </Children>
+            </Complex>
           </Children>
         </ActionDataContext>
       </DataContext>
@@ -7800,12 +7811,12 @@ endif]]></Script>
 
 form.error.serverValidationErrors.clear()
 
-form.actions.editDataBeforePosting()
+request.fromJson(msg.toJson())
 
 result = false
 
 if msg.isValid() then
-	form.actions.sendRequest("ASEOSPApplicationModification", form.model.AppModification.toJson(), "CM002A", true)
+	form.actions.sendRequest("ASEOSPApplicationModification", request.toJson(), "CM002A", true)
 
 	if globals.sendResult.Valid then
 		notificationsCtrl.addSuccess("Žádost byla úspěšně předána k úpravě.")
@@ -7833,24 +7844,33 @@ endif]]></Script>
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Complex>
+              <Name value="request" />
+              <Caption value="Request" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOSPApplicationModification" />
+                </Include>
+              </Children>
+            </Complex>
           </Children>
         </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
-      <Name value="lifeCycle_authorisationModification" />
+      <Name value="lifeCycle_authorizationModification" />
       <Category value="lifeCycleMessage" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var msg = form.model.msg
 
 form.error.serverValidationErrors.clear()
 
-form.actions.editDataBeforePosting()
+request.fromJson(msg.toJson())
 
 result = false
 
 if isTrue(msg.isValid()) then
-	form.actions.sendRequest("ASEOSPAuthorizationModification", msg.toJson(), "CM002A", true)
+	form.actions.sendRequest("ASEOSPAuthorizationModification", request.toJson(), "CM002A", true)
 
 	if globals.sendResult.Valid then
 		notificationsCtrl.addSuccess("Povolení bylo úspěšně předáno k úpravě povolení.")
@@ -7877,6 +7897,15 @@ endif]]></Script>
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Complex>
+              <Name value="request" />
+              <Caption value="Request" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOSPAuthorizationModification" />
+                </Include>
+              </Children>
+            </Complex>
           </Children>
         </ActionDataContext>
       </DataContext>
@@ -7889,12 +7918,12 @@ endif]]></Script>
 
 form.error.serverValidationErrors.clear()
 
-form.actions.editDataBeforePosting()
+request.fromJson(msg.toJson())
 
 result = false
 
 if isTrue(msg.isValid()) then
-	form.actions.sendRequest("ASEOSPAuthorizationWithdrawalModification", msg.toJson(), "CM002A", true)
+	form.actions.sendRequest("ASEOSPAuthorizationWithdrawalModification", request.toJson(), "CM002A", true)
 
 	if globals.sendResult.Valid then
 		notificationsCtrl.addSuccess("Povolení bylo úspěšně předáno k úpravě zrušení.")
@@ -7921,6 +7950,15 @@ endif]]></Script>
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Complex>
+              <Name value="request" />
+              <Caption value="Request" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOSPAuthorizationWithdrawalModification" />
+                </Include>
+              </Children>
+            </Complex>
           </Children>
         </ActionDataContext>
       </DataContext>
@@ -7933,12 +7971,12 @@ endif]]></Script>
 
 form.error.serverValidationErrors.clear()
 
-form.actions.editDataBeforePosting()
+request.fromJson(msg.toJson())
 
 result = false
 
 if isTrue(msg.isValid()) then
-	form.actions.sendRequest("ASEOSPAuthorizationCancellationModification", msg.toJson(), "CM002A", true)
+	form.actions.sendRequest("ASEOSPAuthorizationCancellationModification", request.toJson(), "CM002A", true)
 
 	if globals.sendResult.Valid then
 		notificationsCtrl.addSuccess("Povolení bylo úspěšně předáno k úpravě zneplatnění.")
@@ -7965,6 +8003,15 @@ endif]]></Script>
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Complex>
+              <Name value="request" />
+              <Caption value="Request" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOSPAuthorizationCancellationModification" />
+                </Include>
+              </Children>
+            </Complex>
           </Children>
         </ActionDataContext>
       </DataContext>
@@ -7977,12 +8024,12 @@ endif]]></Script>
 
 form.error.serverValidationErrors.clear()
 
-form.actions.editDataBeforePosting()
+request.fromJson(msg.toJson())
 
 result = false
 
 if isTrue(msg.isValid()) then
-	form.actions.sendRequest("ASEOSPAuthorizationSuspendingModification", msg.toJson(), "CM002A", true)
+	form.actions.sendRequest("ASEOSPAuthorizationSuspendingModification", request.toJson(), "CM002A", true)
 
 	if globals.sendResult.Valid then
 		notificationsCtrl.addSuccess("Povolení bylo úspěšně předáno k úpravě pozastavení.")
@@ -8009,6 +8056,15 @@ endif]]></Script>
                 </AttributeType>
               </DeclaredType>
             </Attribute>
+            <Complex>
+              <Name value="request" />
+              <Caption value="Request" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOSPAuthorizationSuspendingModification" />
+                </Include>
+              </Children>
+            </Complex>
           </Children>
         </ActionDataContext>
       </DataContext>
@@ -8031,9 +8087,9 @@ if form.currentDateTime <= form.model.msg.ASEO.Event.ValidityStartDate then
 	else if action = enums.Action.applicationRejectModify then
 		postingSuccess = form.actions.lifeCycle_applicationRejectionModification()
 	else if action = enums.Action.authorize then
-		postingSuccess = form.actions.lifeCycle_authorisation()
+		postingSuccess = form.actions.lifeCycle_authorization()
 	else if action = enums.Action.authorizeModify then
-		postingSuccess = form.actions.lifeCycle_authorisationModification()	
+		postingSuccess = form.actions.lifeCycle_authorizationModification()	
 	else if action = enums.Action.authorizeWithdrawal then
 		postingSuccess = form.actions.lifeCycle_authorizationWithdrawal()
 	else if action = enums.Action.authorizeWithdrawalModify	then
@@ -8466,12 +8522,17 @@ endif]]></Script>
       <Name value="setDefaults" />
       <Description value="sets default values (mainly for booleans) of attributes for authorization / modification" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var event = form.model.msg.ASEO.Event
+        <Script><![CDATA[var aseo = form.model.msg.ASEO
+var event = aseo.Event
 var auth = event.Authorization
 var goods = event.GoodsList
 var seals = event.Seals
 var spax = event.SPAx
 var spacp = event.SPACP
+
+if aseo.IsInCD.hasValue() then
+	event.PreferCD = aseo.IsInCD
+endIf
 
 if auth.ResponsiblePersonWantsToBeNotified.isEmpty() then
 	auth.ResponsiblePersonWantsToBeNotified = false
@@ -9075,6 +9136,11 @@ err.Caption = "Error sending " + request
 
 // clear send result
 globals.sendResult.clear()
+
+if globals.appInfo.isTestSolitea then
+	system.console(request)
+	system.console(requestData)
+endif
 
 if busy then globals.IsBusy = true endif
 var response = apiobjects.cic.postAsync(request, requestData)

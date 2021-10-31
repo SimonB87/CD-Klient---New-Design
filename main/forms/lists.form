@@ -502,6 +502,42 @@
                         </CssClassConditional>
                       </CssClass>
                     </Button>
+                    <Button>
+                      <Name value="test_btn_CCL" />
+                      <Caption value="Test CCL V2" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="100px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_test_btn_trd_OnClick1" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="uiState.buttons.btnArcticTemplate.IsVisible" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
+                      <Name value="test_btn_econImpact" />
+                      <Caption value="Test Econ V2" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="100px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_test_btn_trd_OnClick2" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="uiState.buttons.btnArcticTemplate.IsVisible" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
@@ -3991,8 +4027,7 @@ else
 	lists.selectedCdExpired = false
 endif
 
-lists.fromTab = form.tabs.SelectedTab
-lists.listState = form.apiobjects.authCtrl.saveState(defaultString())
+form.actions.saveStates()
 
 var type = form.model.selectedCd.CustomsDecisionType
 var guid = form.model.selectedCd.CustomsDecisionGUID
@@ -4377,53 +4412,45 @@ fcCELURAD.filterByValidityDateTime(getdate())
 var tabs = form.tabs
 var uiState = form.uiState
 
-form.apiobjects.authCtrl.setReady(false)
+authCtrl.setReady(false)
 
 form.actions.refreshIncompleteCounts()
 
 if not hasValue(globals.forms.lists.fromNode) then
 	// set defaults
-	form.apiobjects.authCtrl.setSorting("CustomsDecisionStatusDate:desc")
+	authCtrl.setSorting("CustomsDecisionStatusDate:desc")
+	placeCtrl.setSorting("ValidityStartDate:desc")
 	
 	if isTrue(form.uiState.newsCount < 1) then
 		ntc.focusNode("Auth")
-		system.console("Init after focusNode - 1")
 		tabs.SelectedTab = (globals.user.hasWritePermission and (form.uiState.incompleteCounts.last > 0)) ?  tabs.tabAuth_LastIncomplete.idx : tabs.tabAuth_All.idx
 		master.newSession = false
 	else
 		if isTrueOrDefault(master.newSession) then
 			ntc.focusNode("News")
-			system.console("Init after focusNode - 2")
 			form.apiobjects.DatasetNoticesFullAdmin.setSorting("Checked:desc")
 		else
 			ntc.focusNode("Auth")
-			system.console("Init after focusNode - 3")
 			tabs.SelectedTab = tabs.tabAuth_All.idx
 		endIf
 		master.newSession = false
 	endIf	
 else
 	// load serialized state saved in some global variable
-	system.console(stringFormat("From node '{0}', tab '{1}'", globals.forms.lists.fromNode, toString(globals.forms.lists.fromTab)))
+	system.console(stringFormat("From node '{0}', tab '{1}'", lists.fromNode, toString(lists.fromTab)))
 	
-	var node = globals.forms.lists.fromNode
+	var node = lists.fromNode
 	var path = form.actions.getNodePath(node)
 	system.console("Node path: '" + path + "'")
 	ntc.focusNode(path)
-	system.console("Init after focusNode - 4")
 	
-	if hasValue(lists.listState) then
-		form.apiobjects.authCtrl.loadState(lists.listState)
-	endif
-	
+	form.actions.loadStates()
 endif
 
 //set up form variables
 form.uiState.isSelectedMyCUoffice = False
 lists.selectedCdExpired = False
-//form.actions.checkIfUserPostedNewAseoSubmission() //needs List changed in later version
 
-system.console("Init completed")
 globals.IsBusy = false]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -4685,10 +4712,7 @@ form.uiState.visibility_addNewNews = False]]></Script>
       <Name value="handler_btnAuth_New_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var lists = globals.forms.lists
-
-lists.fromTab = form.tabs.tabAuth_NewSub.idx
-lists.listState = form.apiobjects.authCtrl.saveState(defaultString())
+        <Script><![CDATA[form.actions.saveStates()
 
 navigation.main.SP_New.go()]]></Script>
       </ActionLangBody>
@@ -4700,7 +4724,9 @@ navigation.main.SP_New.go()]]></Script>
       <Name value="handler_btnPL_Detail_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var gp = globals.forms.PL.params
+        <Script><![CDATA[form.actions.saveStates()
+
+var gp = globals.forms.PL.params
 gp.Mode = "VIEW"
 gp.Guid = form.model.selectedPlace.GUID
 
@@ -4714,7 +4740,9 @@ navigation.main.PL.go()]]></Script>
       <Name value="handler_btnPL_New_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var gp = globals.forms.PL.params
+        <Script><![CDATA[form.actions.saveStates()
+
+var gp = globals.forms.PL.params
 gp.Mode = "NEW"
 
 navigation.main.PL.go()]]></Script>
@@ -4925,7 +4953,7 @@ if params.source = "main_master_navTree" then
 		navTree.selectedSubModule = submod
 		navTree.selectedType = type
 		
-		globals.forms.lists.fromNode = navTree.selectedNode
+		lists.fromNode = navTree.selectedNode
 	
 		if isTrue(prev_mod = mod) or (mod in ["News"]) then
 			form.actions.setFilter(false)
@@ -4980,6 +5008,57 @@ notificationsCtrl.addWarning("Aliquam in lorem sit amet leo accumsan lacinia. Pe
 notificationsCtrl.addError("Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis.")
 
 notificationsCtrl.addSuccess("Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.")]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="saveStates" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var lists = globals.forms.lists
+
+lists.fromTab = form.tabs.SelectedTab
+
+lists.authCtrl_State = authCtrl.saveState(defaultString())
+lists.placeCtrl_State = placeCtrl.saveState(defaultString())]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="loadStates" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var lists = globals.forms.lists
+
+if hasValue(lists.authCtrl_State) then
+	authCtrl.loadState(lists.authCtrl_State)
+endif
+
+if hasValue(lists.placeCtrl_State) then
+	placeCtrl.loadState(lists.placeCtrl_State)
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_test_btn_trd_OnClick1" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[navigation.main.centralisedClearance_V2.go()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_test_btn_trd_OnClick2" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[navigation.main.economicImpoactRegime_V2.go()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

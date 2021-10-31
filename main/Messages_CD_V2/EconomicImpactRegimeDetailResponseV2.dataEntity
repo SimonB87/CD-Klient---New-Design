@@ -2597,32 +2597,6 @@
                   <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseV2/customsDecisionAuthorisationData/universalCustomsDecisionInformation/standardExchangeSystem/replacementProducts" />
                   <MtsImportOptions.MTS.Type value="group" />
                   <Children>
-                    <Attribute>
-                      <Name value="commodityCodeEquivalentGoods" />
-                      <Caption value="commodityCodeEquivalentGoods" />
-                      <IsRequired value="True" />
-                      <MetaType reference="+MetaTypes.CommodityCodeEquivalentGoodsContentTypeV2" />
-                      <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseV2/customsDecisionAuthorisationData/universalCustomsDecisionInformation/standardExchangeSystem/replacementProducts/commodityCodeEquivalentGoods" />
-                      <MtsImportOptions.MTS.Type value="element" />
-                      <Validators>
-                        <Validator Name="regex">
-                          <MtsImportOptions.MTS.Regex value="[\p{IsBasicLatin}]*\S[\p{IsBasicLatin}]*" />
-                          <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
-                          <ErrorMessage IsValid="True">
-                            <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="String" />
-                            </ResultType>
-                          </ErrorMessage>
-                          <IsValid IsValid="True">
-                            <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[\\p{IsBasicLatin}]*\\S[\\p{IsBasicLatin}]*$") : true)]]></ExpressionText>
-                            <ResultType>
-                              <BaseType value="Bool" />
-                            </ResultType>
-                          </IsValid>
-                        </Validator>
-                      </Validators>
-                    </Attribute>
                     <Complex>
                       <Name value="replacementProductsDescription" />
                       <Caption value="replacementProductsDescription" />
@@ -2689,6 +2663,18 @@
                       <Caption value="replacementProductsCode" />
                       <IsRequired value="True" />
                       <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseV2/customsDecisionAuthorisationData/universalCustomsDecisionInformation/standardExchangeSystem/replacementProducts/replacementProductsCode" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.NAHRPROD" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                    <Reference>
+                      <Name value="commodityCodeEquivalentGoods" />
+                      <Caption value="commodityCodeEquivalentGoods" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/EconomicImpactRegimeDetailResponseV2/customsDecisionAuthorisationData/universalCustomsDecisionInformation/standardExchangeSystem/replacementProducts/commodityCodeEquivalentGoods" />
                       <MtsImportOptions.MTS.Type value="element" />
                       <Children>
                         <Include>

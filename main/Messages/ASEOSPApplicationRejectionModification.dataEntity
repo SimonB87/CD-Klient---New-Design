@@ -1,0 +1,404 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<DataEntity>
+  <Name value="ASEOSPApplicationRejectionModification" />
+  <Caption value="Modifikace zamítnutí žádosti ZJP" />
+  <MtsImportOptions.MTS.Acronym value="ASEOSPApplicationRejectionModification" />
+  <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification" />
+  <MtsImportOptions.MTS.Type value="message" />
+  <Children>
+    <Complex>
+      <Name value="ASEO" />
+      <Caption value="ASEO" />
+      <Description value="Povolení nebo zjednodušený postup" />
+      <IsRequired value="True" />
+      <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO" />
+      <MtsImportOptions.MTS.Type value="group" />
+      <Children>
+        <Attribute>
+          <Name value="GUID" />
+          <Caption value="GUID" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/GUID" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Reference>
+          <Name value="AuthorizationType" />
+          <Caption value="Typ povolení/ZJP" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/AuthorizationType" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <Children>
+            <Include>
+              <Include reference="+DataEntities.POVOLTYP" />
+            </Include>
+          </Children>
+        </Reference>
+        <Complex>
+          <Name value="Event" />
+          <Caption value="Událost / Rozhodnutí" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event" />
+          <MtsImportOptions.MTS.Type value="group" />
+          <Children>
+            <Attribute>
+              <Name value="OperatorName" />
+              <Caption value="Název subjektu" />
+              <IsRequired value="True" />
+              <MetaType reference="+MetaTypes.OperatorName" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/OperatorName" />
+              <MtsImportOptions.MTS.Type value="element" />
+            </Attribute>
+            <Attribute>
+              <Name value="OperatorStreetAndNr" />
+              <Caption value="Ulice a č.p. sídla" />
+              <MetaType reference="+MetaTypes.StreetAndNr" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/OperatorStreetAndNr" />
+              <MtsImportOptions.MTS.Type value="element" />
+            </Attribute>
+            <Attribute>
+              <Name value="OperatorCity" />
+              <Caption value="Město sídla subjektu" />
+              <MetaType reference="+MetaTypes.City" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/OperatorCity" />
+              <MtsImportOptions.MTS.Type value="element" />
+            </Attribute>
+            <Attribute>
+              <Name value="OperatorPostCode" />
+              <Caption value="PSČ" />
+              <MetaType reference="+MetaTypes.PostCode" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/OperatorPostCode" />
+              <MtsImportOptions.MTS.Type value="element" />
+            </Attribute>
+            <Reference>
+              <Name value="OperatorCountry" />
+              <Caption value="Země sídla subjektu" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/OperatorCountry" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ZEME_O" />
+                </Include>
+              </Children>
+            </Reference>
+            <Attribute>
+              <Name value="ReferenceNumber" />
+              <Caption value="Číslo jednací" />
+              <IsRequired value="True" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/ReferenceNumber" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="30" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="YourMark" />
+              <Caption value="Vaše značka" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/YourMark" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="30" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="HandledBy" />
+              <Caption value="Vyřizuje/linka" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/HandledBy" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="20" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="DecisionDate" />
+              <Caption value="Datum vydání rozhodnutí" />
+              <IsRequired value="True" />
+              <MetaType reference="+MetaTypes.Date_YYYYMMDD" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/DecisionDate" />
+              <MtsImportOptions.MTS.Type value="element" />
+            </Attribute>
+            <Attribute>
+              <Name value="ValidityStartDate" />
+              <Caption value="Platné od" />
+              <IsRequired value="True" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/ValidityStartDate" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="DateTime" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="DecidingCustomsOffice" />
+              <Caption value="Rozhodující celní úřad" />
+              <IsRequired value="True" />
+              <MetaType reference="+MetaTypes.CU" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/DecidingCustomsOffice" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <Validators>
+                <Validator Name="regex">
+                  <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+                  <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
+            </Attribute>
+            <Attribute>
+              <Name value="DecidingPerson" />
+              <Caption value="Osobní číslo vydavatele rozhodnutí" />
+              <IsRequired value="True" />
+              <MetaType reference="+MetaTypes.Pracovnik" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/DecidingPerson" />
+              <MtsImportOptions.MTS.Type value="element" />
+            </Attribute>
+            <Attribute>
+              <Name value="Note" />
+              <Caption value="Poznámka" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/Note" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="10000" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Collection>
+              <Name value="File" />
+              <Caption value="Soubor přílohy" />
+              <MaxCount value="999" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/File" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="IsFulltext" />
+                  <Caption value="Je plný text či jen doplněk plného textu?" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/File/IsFulltext" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="FileContent" />
+                  <Caption value="Obsah souboru" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/File/FileContent" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="FileName" />
+                  <Caption value="Název souboru" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/File/FileName" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="255" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="FileType" />
+                  <Caption value="Typ souboru" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/File/FileType" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="255" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Collection>
+            <Complex>
+              <Name value="Authorization" />
+              <Caption value="Základní prvky povolení" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/Authorization" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="ResponsiblePersonName" />
+                  <Caption value="Jméno zodpovědné osoby na straně deklaranta" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/Authorization/ResponsiblePersonName" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="50" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="ResponsiblePersonPhone" />
+                  <Caption value="Telefon na zodpovědnou osobu na straně deklaranta" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/Authorization/ResponsiblePersonPhone" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="50" />
+                    </AttributeType>
+                  </DeclaredType>
+                  <Validators>
+                    <Validator Name="regex">
+                      <MtsImportOptions.MTS.Regex value="\+\d+" />
+                      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\+\\d+$") : true)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Attribute>
+                <Attribute>
+                  <Name value="ResponsiblePersonEMail" />
+                  <Caption value="ResponsiblePersonEMail" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/Authorization/ResponsiblePersonEMail" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="200" />
+                    </AttributeType>
+                  </DeclaredType>
+                  <Validators>
+                    <Validator Name="RespPerNotified">
+                      <MtsImportOptions.MTS.ID value="RespPerNotified" />
+                      <MtsImportOptions.MTS.Type value="condition-constraint" />
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["RespPerNotified"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[true /* IMPORTED RULE RespPerNotified Pokud má být uživatel notifikován, je nutné uvést email. */]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Attribute>
+                <Attribute>
+                  <Name value="ResponsiblePersonWantsToBeNotified" />
+                  <Caption value="Zodpovědná osoba chce být notifikována o změnách v CŘ" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/Authorization/ResponsiblePersonWantsToBeNotified" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="ApplicationRejection" />
+              <Caption value="Zamítnutí žádosti" />
+              <IsRequired value="True" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/ApplicationRejection" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Reference>
+                  <Name value="ApplicationRejectionReason" />
+                  <Caption value="Důvod zamítnutí žádosti" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/ApplicationRejection/ApplicationRejectionReason" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ZADUZAM" />
+                    </Include>
+                  </Children>
+                </Reference>
+                <Attribute>
+                  <Name value="ApplicationRejectionDescription" />
+                  <Caption value="Popis důvodu zamítnutí" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/ApplicationRejection/ApplicationRejectionDescription" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="3000" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Collection>
+              <Name value="ResponsiblePerson" />
+              <Caption value="Odpovědné osoby" />
+              <MaxCount value="999" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/ResponsiblePerson" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Attribute>
+                  <Name value="ResponsiblePersonGUID" />
+                  <Caption value="GUID odpovědné osoby" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPApplicationRejectionModification/ASEO/Event/ResponsiblePerson/ResponsiblePersonGUID" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+              <ItemValidators>
+                <Validator Name="SPDuplicatePersonCheck">
+                  <MtsImportOptions.MTS.ID value="SPDuplicatePersonCheck" />
+                  <MtsImportOptions.MTS.Type value="rule-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["SPDuplicatePersonCheck"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[true /* IMPORTED RULE SPDuplicatePersonCheck Opakovaně uvedena shodná zodpovědná osoba. */]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </ItemValidators>
+            </Collection>
+          </Children>
+        </Complex>
+      </Children>
+    </Complex>
+  </Children>
+</DataEntity>

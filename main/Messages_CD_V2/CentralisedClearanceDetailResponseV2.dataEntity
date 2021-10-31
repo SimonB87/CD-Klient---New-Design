@@ -1744,32 +1744,18 @@
               <MtsImportOptions.MTS.ID value="/CentralisedClearanceDetailResponseV2/customsDecisionAuthorisationData/universalCustomsDecisionInformation/customsOfficeResponsibleForThePlaceWhereTheGoodsAreAvailableForControl" />
               <MtsImportOptions.MTS.Type value="group" />
               <Children>
-                <Attribute>
+                <Reference>
                   <Name value="customsOfficeResponsibleForThePlaceWhereTheGoodsAreAvailableForControl_Value" />
                   <Caption value="customsOfficeResponsibleForThePlaceWhereTheGoodsAreAvailableForControl_Value" />
                   <IsRequired value="True" />
-                  <MetaType reference="+MetaTypes.CustomsAuthorityCodeContentTypeV2" />
                   <MtsImportOptions.MTS.ID value="/CentralisedClearanceDetailResponseV2/customsDecisionAuthorisationData/universalCustomsDecisionInformation/customsOfficeResponsibleForThePlaceWhereTheGoodsAreAvailableForControl/customsOfficeResponsibleForThePlaceWhereTheGoodsAreAvailableForControl_Value" />
                   <MtsImportOptions.MTS.Type value="element" />
-                  <Validators>
-                    <Validator Name="regex">
-                      <MtsImportOptions.MTS.Regex value="[\p{IsBasicLatin}]*\S[\p{IsBasicLatin}]*" />
-                      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
-                      <ErrorMessage IsValid="True">
-                        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="String" />
-                        </ResultType>
-                      </ErrorMessage>
-                      <IsValid IsValid="True">
-                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[\\p{IsBasicLatin}]*\\S[\\p{IsBasicLatin}]*$") : true)]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="Bool" />
-                        </ResultType>
-                      </IsValid>
-                    </Validator>
-                  </Validators>
-                </Attribute>
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.CELU" />
+                    </Include>
+                  </Children>
+                </Reference>
               </Children>
             </Collection>
             <Collection>
@@ -2287,32 +2273,18 @@
               <MtsImportOptions.MTS.ID value="/CentralisedClearanceDetailResponseV2/customsDecisionAuthorisationData/universalCustomsDecisionInformation/customsOfficeOfPresentation" />
               <MtsImportOptions.MTS.Type value="group" />
               <Children>
-                <Attribute>
+                <Reference>
                   <Name value="customsOfficeOfPresentation_Value" />
                   <Caption value="customsOfficeOfPresentation_Value" />
                   <IsRequired value="True" />
-                  <MetaType reference="+MetaTypes.CustomsAuthorityCodeContentTypeV2" />
                   <MtsImportOptions.MTS.ID value="/CentralisedClearanceDetailResponseV2/customsDecisionAuthorisationData/universalCustomsDecisionInformation/customsOfficeOfPresentation/customsOfficeOfPresentation_Value" />
                   <MtsImportOptions.MTS.Type value="element" />
-                  <Validators>
-                    <Validator Name="regex">
-                      <MtsImportOptions.MTS.Regex value="[\p{IsBasicLatin}]*\S[\p{IsBasicLatin}]*" />
-                      <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
-                      <ErrorMessage IsValid="True">
-                        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="String" />
-                        </ResultType>
-                      </ErrorMessage>
-                      <IsValid IsValid="True">
-                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[\\p{IsBasicLatin}]*\\S[\\p{IsBasicLatin}]*$") : true)]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="Bool" />
-                        </ResultType>
-                      </IsValid>
-                    </Validator>
-                  </Validators>
-                </Attribute>
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.CELU" />
+                    </Include>
+                  </Children>
+                </Reference>
               </Children>
             </Collection>
             <Collection>
@@ -2902,57 +2874,6 @@
                 </Complex>
               </Children>
             </Collection>
-            <Attribute>
-              <Name value="customsOfficeOfSupervision" />
-              <Caption value="customsOfficeOfSupervision" />
-              <IsRequired value="True" />
-              <MetaType reference="+MetaTypes.CustomsAuthorityCodeContentTypeV2" />
-              <MtsImportOptions.MTS.ID value="/CentralisedClearanceDetailResponseV2/customsDecisionAuthorisationData/universalCustomsDecisionInformation/customsOfficeOfSupervision" />
-              <MtsImportOptions.MTS.Type value="element" />
-              <Validators>
-                <Validator Name="regex">
-                  <MtsImportOptions.MTS.Regex value="[\p{IsBasicLatin}]*\S[\p{IsBasicLatin}]*" />
-                  <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
-                  <ErrorMessage IsValid="True">
-                    <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="String" />
-                    </ResultType>
-                  </ErrorMessage>
-                  <IsValid IsValid="True">
-                    <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[\\p{IsBasicLatin}]*\\S[\\p{IsBasicLatin}]*$") : true)]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="Bool" />
-                    </ResultType>
-                  </IsValid>
-                </Validator>
-              </Validators>
-            </Attribute>
-            <Attribute>
-              <Name value="methodOfVATPayment" />
-              <Caption value="methodOfVATPayment" />
-              <MetaType reference="+MetaTypes.MethodOfVATPaymentContentTypeV2" />
-              <MtsImportOptions.MTS.ID value="/CentralisedClearanceDetailResponseV2/customsDecisionAuthorisationData/universalCustomsDecisionInformation/methodOfVATPayment" />
-              <MtsImportOptions.MTS.Type value="element" />
-              <Validators>
-                <Validator Name="regex">
-                  <MtsImportOptions.MTS.Regex value="[A-Za-z]*" />
-                  <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
-                  <ErrorMessage IsValid="True">
-                    <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="String" />
-                    </ResultType>
-                  </ErrorMessage>
-                  <IsValid IsValid="True">
-                    <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Za-z]*$") : true)]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="Bool" />
-                    </ResultType>
-                  </IsValid>
-                </Validator>
-              </Validators>
-            </Attribute>
             <Complex>
               <Name value="waiverOfThePresentationNotification" />
               <Caption value="waiverOfThePresentationNotification" />
@@ -3165,6 +3086,29 @@
                 </Attribute>
               </Children>
             </Complex>
+            <Reference>
+              <Name value="customsOfficeOfSupervision" />
+              <Caption value="customsOfficeOfSupervision" />
+              <IsRequired value="True" />
+              <MtsImportOptions.MTS.ID value="/CentralisedClearanceDetailResponseV2/customsDecisionAuthorisationData/universalCustomsDecisionInformation/customsOfficeOfSupervision" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.CELU" />
+                </Include>
+              </Children>
+            </Reference>
+            <Reference>
+              <Name value="methodOfVATPayment" />
+              <Caption value="methodOfVATPayment" />
+              <MtsImportOptions.MTS.ID value="/CentralisedClearanceDetailResponseV2/customsDecisionAuthorisationData/universalCustomsDecisionInformation/methodOfVATPayment" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.PLATMET" />
+                </Include>
+              </Children>
+            </Reference>
           </Children>
         </Complex>
       </Children>

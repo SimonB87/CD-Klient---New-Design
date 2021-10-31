@@ -1104,6 +1104,17 @@ isFalse(action in [enums.ActionPl.NONE, enums.ActionPl.Delete])]]></ExpressionTe
             </ResultType>
           </Expression>
         </Computed>
+        <Computed>
+          <Name value="state" />
+          <Caption value="State" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[enums.StatePl.toValue(form.model.msg.State, enums.StatePl.NONE)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Enum" />
+              <MetaType reference="+MetaTypes.StatePl" />
+            </ResultType>
+          </Expression>
+        </Computed>
         <Complex>
           <Name value="params" />
           <Caption value="Params" />
@@ -1355,7 +1366,8 @@ isTrue(form.model.validationErrorsCount() > 0)]]></ExpressionText>
                   <Name value="showActionButtons" />
                   <Caption value="Show action buttons" />
                   <Expression IsValid="True">
-                    <ExpressionText><![CDATA[isTrue(form.ui.tables.stVersions.Index = 1) and 
+                    <ExpressionText><![CDATA[isTrue(form.ui.tables.stVersions.Index = 1) and
+isTrue(form.state <> enums.StatePl.P3) and
 isTrue(form.action = enums.ActionPl.NONE)]]></ExpressionText>
                     <ResultType>
                       <BaseType value="Bool" />

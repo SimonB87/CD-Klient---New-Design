@@ -5,7 +5,7 @@
   <Caption value="Centralised clearance - V2" />
   <Content>
     <Panel>
-      <Name value="plannedActUse" />
+      <Name value="centralisedClearanceForm" />
       <Orientation value="Vertical" />
       <Panel.Height value="#" />
       <Panel.Width value="*" />
@@ -1291,7 +1291,7 @@
           <Panel.Height value="#" />
           <Panel.Width value="*" />
           <Bindings>
-            <Binding SourceProperty="IsVisible" Expression="formState.isAnnexActive.isGoodsTypeActive" />
+            <Binding SourceProperty="IsVisible" Expression="formState.isAnnexActive.isTypeOfGoodsActive" />
           </Bindings>
           <Children>
             <GroupBox>
@@ -1514,7 +1514,6 @@
                     <DataColumn>
                       <Name value="dataColumn81" />
                       <Caption value="TARIC kód" />
-                      <Panel.Width value="9%" />
                       <Content>
                         <Label>
                           <Name value="label110" />
@@ -1539,7 +1538,6 @@
                     <DataColumn>
                       <Name value="dataColumn131" />
                       <Caption value="TARIC dodatečný kód" />
-                      <Panel.Width value="9%" />
                       <Content>
                         <Label>
                           <Name value="label71" />
@@ -1564,7 +1562,6 @@
                     <DataColumn>
                       <Name value="dataColumn151" />
                       <Caption value="Národní dodatečný kód" />
-                      <Panel.Width value="9%" />
                       <Content>
                         <Label>
                           <Name value="label101" />
@@ -1589,7 +1586,6 @@
                     <DataColumn>
                       <Name value="dataColumn171" />
                       <Caption value="Popis zboží - popis" />
-                      <Panel.Width value="35%" />
                       <Content>
                         <Label>
                           <Name value="label131" />
@@ -1614,7 +1610,6 @@
                     <DataColumn>
                       <Name value="dataColumn191" />
                       <Caption value="Popis zboží - jazyk" />
-                      <Panel.Width value="9%" />
                       <Content>
                         <Label>
                           <Name value="label151" />
@@ -1992,6 +1987,9 @@
           <Orientation value="Horizontal" />
           <Panel.Height value="#" />
           <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="formState.isAnnexActive.isIdentificationOfVatActive" />
+          </Bindings>
           <Children>
             <GroupBox>
               <Name value="identificationOfTheVATExciseAndStatisticalAuthorities_grpBox" />
@@ -2159,6 +2157,9 @@
           <Orientation value="Horizontal" />
           <Panel.Height value="#" />
           <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="formState.isAnnexActive.isCompInvolvedInOtherMsActive" />
+          </Bindings>
           <Children>
             <GroupBox>
               <Name value="companiesInvolvedInOtherMS" />
@@ -2351,6 +2352,9 @@
           <Orientation value="Horizontal" />
           <Panel.Height value="#" />
           <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="formState.isAnnexActive.isTaxRepresentativeActive" />
+          </Bindings>
           <Children>
             <GroupBox>
               <Name value="taxRepresentative_grpBox" />
@@ -2557,87 +2561,1231 @@
           </CssClass>
         </Panel>
         <Panel>
+          <Name value="customOfices" />
+          <Orientation value="Vertical" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="formState.isAnnexActive.isCustomOficesActive" />
+          </Bindings>
+          <Children>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="COResponsibleForThePlaceWhereTheGoodsAreAvailableForControl_colBox" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <DataTable>
+                  <Name value="COResponsibleForThePlaceWhereTheGoodsAreAvailableForControl_table" />
+                  <Bindings>
+                    <Binding SourceProperty="DataItems" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsOfficeResponsibleForThePlaceWhereTheGoodsAreAvailableForControl" />
+                  </Bindings>
+                  <Columns>
+                    <DataColumn>
+                      <Name value="dataColumn40" />
+                      <Caption value="customsOfficeResponsibleForThePlaceWhereTheGoodsAreAvailableForControl_Value" />
+                      <Content>
+                        <Label>
+                          <Name value="label39" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="this.customsOfficeResponsibleForThePlaceWhereTheGoodsAreAvailableForControl_Value._description" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                  </Columns>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-datatable" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </DataTable>
+              </Content>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="COofPresentation_colBox" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <DataTable>
+                  <Name value="customsOfficeOfPresentation_table" />
+                  <Bindings>
+                    <Binding SourceProperty="DataItems" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsOfficeOfPresentation" />
+                  </Bindings>
+                  <Columns>
+                    <DataColumn>
+                      <Name value="dataColumn41" />
+                      <Caption value="customsOfficeOfPresentation" />
+                      <Content>
+                        <Label>
+                          <Name value="label40" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="this.customsOfficeOfPresentation_Value._description" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                  </Columns>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-datatable" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </DataTable>
+              </Content>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="COSupervision" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="panel23" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <TextBox>
+                      <Name value="textBox34" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsOfficeOfSupervision._description" />
+                        <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsOfficeOfSupervision.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsOfficeOfSupervision.caption()" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
           <Name value="ostatni" />
           <Orientation value="Horizontal" />
           <Panel.Height value="#" />
           <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="formState.isAnnexActive.isOtherActive" />
+          </Bindings>
           <Children>
-            <Panel>
-              <Name value="plannedActUse_pnl" />
-              <Orientation value="Vertical" />
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="plannedActUse_collBox" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
-              <Children>
-                <GroupBox>
-                  <Name value="groupBox2" />
-                  <Panel.Height value="#" />
-                  <Panel.Width value="*" />
-                  <Content>
-                    <Panel>
-                      <Name value="panel5" />
-                      <Orientation value="Horizontal" />
-                      <Children>
-                        <TextBox>
-                          <Name value="textBox24" />
-                          <CaptionPosition value="Top" />
-                          <IsEnabled value="False" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="33.33%" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.detailsOfPlannedActivities.language" />
-                            <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.detailsOfPlannedActivities.language.caption()" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </TextBox>
-                        <TextBox>
-                          <Name value="textBox33" />
-                          <CaptionPosition value="Top" />
-                          <IsEnabled value="False" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="66.66%" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.detailsOfPlannedActivities.text" />
-                            <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.detailsOfPlannedActivities.text.caption()" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </TextBox>
-                      </Children>
+              <Content>
+                <Panel>
+                  <Name value="panel5" />
+                  <Orientation value="Horizontal" />
+                  <Children>
+                    <TextBox>
+                      <Name value="textBox24" />
+                      <Caption value="Jazyk" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="33.33%" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.detailsOfPlannedActivities.language" />
+                      </Bindings>
                       <CssClass>
                         <CssClassConditional>
-                          <ClassName value="{theme}-panel" />
+                          <ClassName value="{theme}-textbox" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
                       </CssClass>
-                    </Panel>
-                  </Content>
-                  <Bindings>
-                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.detailsOfPlannedActivities.caption()" />
-                  </Bindings>
+                    </TextBox>
+                    <TextBox>
+                      <Name value="textBox33" />
+                      <Caption value="Text" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="66.66%" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.detailsOfPlannedActivities.text" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                  </Children>
                   <CssClass>
                     <CssClassConditional>
-                      <ClassName value="{theme}-groupbox" />
+                      <ClassName value="{theme}-panel" />
                       <IsThemedStyle value="True" />
                     </CssClassConditional>
                   </CssClass>
-                </GroupBox>
-              </Children>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.detailsOfPlannedActivities.caption()" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="prohibitionsAndRestrictions_collBox" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="panel18" />
+                  <Orientation value="Horizontal" />
+                  <Children>
+                    <TextBox>
+                      <Name value="textBox43" />
+                      <Caption value="Jazyk" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="33.33%" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.prohibitionsAndRestrictions.language" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <TextBox>
+                      <Name value="textBox48" />
+                      <Caption value="Text" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="66.66%" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.prohibitionsAndRestrictions.text" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.prohibitionsAndRestrictions.caption()" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="customsProcedureConcerned_collBox" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="panel181" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <DataTable>
+                      <Name value="customsProcedureConcerned_table" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="DataItems" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsProcedureConcerned" />
+                      </Bindings>
+                      <Columns>
+                        <DataColumn>
+                          <Name value="dataColumn42" />
+                          <Content>
+                            <Label>
+                              <Name value="label41" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="procedureCode" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-label" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Label>
+                          </Content>
+                          <Bindings>
+                            <Binding SourceProperty="Caption" Expression="procedureCode.caption()" />
+                          </Bindings>
+                          <HeaderCssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-datacolumn" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </HeaderCssClass>
+                        </DataColumn>
+                        <DataColumn>
+                          <Name value="dataColumn43" />
+                          <Content>
+                            <Label>
+                              <Name value="label43" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="customsDecisionReferenceNumber" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-label" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Label>
+                          </Content>
+                          <Bindings>
+                            <Binding SourceProperty="Caption" Expression="customsDecisionReferenceNumber.caption()" />
+                          </Bindings>
+                          <HeaderCssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-datacolumn" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </HeaderCssClass>
+                        </DataColumn>
+                        <DataColumn>
+                          <Name value="dataColumn44" />
+                          <Content>
+                            <Label>
+                              <Name value="label44" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="applicationReferenceNumber" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-label" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Label>
+                          </Content>
+                          <Bindings>
+                            <Binding SourceProperty="Caption" Expression="applicationReferenceNumber.caption()" />
+                          </Bindings>
+                          <HeaderCssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-datacolumn" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </HeaderCssClass>
+                        </DataColumn>
+                      </Columns>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datatable" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </DataTable>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsProcedureConcerned.caption()" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="typeOfDeclaration_collBox" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <DataTable>
+                  <Name value="typeOfDeclaration_table" />
+                  <Bindings>
+                    <Binding SourceProperty="DataItems" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.typeOfDeclaration" />
+                  </Bindings>
+                  <Columns>
+                    <DataColumn>
+                      <Name value="dataColumn45" />
+                      <Content>
+                        <Label>
+                          <Name value="label45" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="typeOfDeclaration" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <Bindings>
+                        <Binding SourceProperty="Caption" Expression="typeOfDeclaration.caption()" />
+                      </Bindings>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn46" />
+                      <Content>
+                        <Label>
+                          <Name value="label46" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="customsDecisionReferenceNumber" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <Bindings>
+                        <Binding SourceProperty="Caption" Expression="customsDecisionReferenceNumber.caption()" />
+                      </Bindings>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                  </Columns>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-datatable" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </DataTable>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.typeOfDeclaration.caption()" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="timeLimitBeforeGoodsDeemedReleased_collBox" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <TextBox>
+                  <Name value="textBox49" />
+                  <CaptionPosition value="Top" />
+                  <IsEnabled value="False" />
+                  <Bindings>
+                    <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.timeLimitBeforeGoodsDeemedReleased.timeLimit" />
+                    <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.timeLimitBeforeGoodsDeemedReleased.caption()" />
+                  </Bindings>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-textbox" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </TextBox>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.timeLimitBeforeGoodsDeemedReleased.caption()" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="personResponsibleForExciseFormalities_collBox" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <DataTable>
+                  <Name value="personResponsibleForExciseFormalities_table" />
+                  <Bindings>
+                    <Binding SourceProperty="DataItems" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.personResponsibleForExciseFormalities" />
+                  </Bindings>
+                  <Columns>
+                    <DataColumn>
+                      <Name value="dataColumn47" />
+                      <Caption value="EORI" />
+                      <Width value="10%" />
+                      <Content>
+                        <Label>
+                          <Name value="label47" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="this.personResponsibleForExciseFormalitiesIdentification.eORINumber" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn48" />
+                      <Caption value="Jméno" />
+                      <Width value="40%" />
+                      <Content>
+                        <Label>
+                          <Name value="label48" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="this.personResponsibleForExciseFormalitiesNameAndAddress.name" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn49" />
+                      <Caption value="Ulice a číslo popisné" />
+                      <Width value="16.66%" />
+                      <Content>
+                        <Label>
+                          <Name value="label49" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="this.personResponsibleForExciseFormalitiesNameAndAddress.streetAndNumber" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn50" />
+                      <Caption value="PSČ" />
+                      <Width value="8.33%" />
+                      <Content>
+                        <Label>
+                          <Name value="label50" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="this.personResponsibleForExciseFormalitiesNameAndAddress.postcode" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn51" />
+                      <Caption value="Město" />
+                      <Width value="16.66%" />
+                      <Content>
+                        <Label>
+                          <Name value="label51" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="this.personResponsibleForExciseFormalitiesNameAndAddress.city" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                    <DataColumn>
+                      <Name value="dataColumn52" />
+                      <Caption value="Země" />
+                      <Width value="8.33%" />
+                      <Content>
+                        <Label>
+                          <Name value="label53" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="this.personResponsibleForExciseFormalitiesNameAndAddress.country" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-label" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Label>
+                      </Content>
+                      <HeaderCssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-datacolumn" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </HeaderCssClass>
+                    </DataColumn>
+                  </Columns>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-datatable" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </DataTable>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.personResponsibleForExciseFormalities.caption()" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="waiverOfThePresentationNotification_collBox" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="panel185" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <TextBox>
+                      <Name value="textBox50" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.waiverOfThePresentationNotification.waiverOfThePresentationNotificationIndication" />
+                        <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.waiverOfThePresentationNotification.waiverOfThePresentationNotificationIndication.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <GroupBox>
+                      <Name value="waiverOfThePresentationNotificationDescription_grpBox" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Content>
+                        <Panel>
+                          <Name value="panel27" />
+                          <Orientation value="Horizontal" />
+                          <Children>
+                            <TextBox>
+                              <Name value="textBox52" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="33.33%" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.waiverOfThePresentationNotification.waiverOfThePresentationNotificationDescription.text" />
+                                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.waiverOfThePresentationNotification.waiverOfThePresentationNotificationDescription.text.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="textBox54" />
+                              <CaptionPosition value="Top" />
+                              <IsEnabled value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="66.66%" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.waiverOfThePresentationNotification.waiverOfThePresentationNotificationDescription.language" />
+                                <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.waiverOfThePresentationNotification.waiverOfThePresentationNotificationDescription.language.caption()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                      </Content>
+                      <Bindings>
+                        <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.waiverOfThePresentationNotification.waiverOfThePresentationNotificationDescription.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-groupbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </GroupBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.waiverOfThePresentationNotification.caption()" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="waiverOfPreDepartureDeclaration_collBox" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="panel1851" />
+                  <Orientation value="Horizontal" />
+                  <Children>
+                    <TextBox>
+                      <Name value="textBox55" />
+                      <Caption value="Jazyk" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="33.33%" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.waiverOfPreDepartureDeclaration.language" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <TextBox>
+                      <Name value="textBox57" />
+                      <Caption value="Text" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="66.66%" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.waiverOfPreDepartureDeclaration.text" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.waiverOfPreDepartureDeclaration.caption()" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="timeLimitSubmitCompleteCustomsDeclaration_collBox" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="panel1852" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <TextBox>
+                      <Name value="textBox58" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.timeLimitForSubmittingTheParticularsOfTheCompleteCustomsDeclaration.timeLimit" />
+                        <Binding SourceProperty="Caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.timeLimitForSubmittingTheParticularsOfTheCompleteCustomsDeclaration.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.timeLimitForSubmittingTheParticularsOfTheCompleteCustomsDeclaration.caption()" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="accessToData_collBox" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="accessData_pnl" />
+                  <Orientation value="Horizontal" />
+                  <Children>
+                    <TextBox>
+                      <Name value="textBox59" />
+                      <Caption value="Jazyk" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="33.33%" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.accessToData.language" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <TextBox>
+                      <Name value="textBox61" />
+                      <Caption value="Text" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="66.66%" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.accessToData.text" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="caption" Expression="CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.accessToData.caption()" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel-uniform" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="display-flex" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="pnlNarodniUdaje" />
+          <Orientation value="Vertical" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Bindings>
+            <Binding SourceProperty="IsVisible" Expression="formState.isAnnexActive.isNationalEnhancementActive" />
+          </Bindings>
+          <Children>
+            <TextBox>
+              <Name value="editNoteText" />
+              <Caption value="Poznámka k editaci" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Bindings>
+                <Binding SourceProperty="Data" Expression="cdeReq.customsDecisionAuthorisationData.enhancementCZ.editNote" />
+                <Binding SourceProperty="IsRequiredMarkVisible" Expression="cdeReq.customsDecisionAuthorisationData.enhancementCZ.editNote.isRequired()" />
+                <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isEditNoteVisible" />
+              </Bindings>
               <CssClass>
                 <CssClassConditional>
-                  <ClassName value="{theme}-panel" />
+                  <ClassName value="{theme}-textbox" />
                   <IsThemedStyle value="True" />
                 </CssClassConditional>
               </CssClass>
-            </Panel>
+            </TextBox>
+            <GroupBox>
+              <Name value="commonNationalDataGb" />
+              <Caption value="Obecné údaje" />
+              <Panel.Height value="#" />
+              <Panel.Width value="500px" />
+              <Content>
+                <Panel>
+                  <Name value="commonNationalData" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
+                      <Name value="CELU_referenceLookup" />
+                      <Caption value="Propouštějící CÚ" />
+                      <CaptionPosition value="Top" />
+                      <DataApiObject reference="~CELU" />
+                      <DisplayMember value="_description" />
+                      <MinChars value="3" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease" />
+                        <Binding SourceProperty="IsEnabled" Expression="formState.enhAttention.editableNationalData" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-referencelookup" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="common-co-code" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="enhancement-attention-needed" />
+                          <Bindings>
+                            <Binding SourceProperty="Condition" Expression="form.formState.enhAttention.customsOfficeOfRelease" />
+                          </Bindings>
+                        </CssClassConditional>
+                      </CssClass>
+                    </ReferenceLookup>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-groupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </GroupBox>
+            <GroupBox>
+              <Name value="saspAccountsGb" />
+              <Caption value="SASP účty" />
+              <Panel.Height value="#" />
+              <Panel.Width value="#" />
+              <Content>
+                <Panel>
+                  <Name value="saspAccounts" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <Repeater>
+                      <Name value="saspAccountsItems" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="#" />
+                      <Content>
+                        <Panel>
+                          <Name value="saspAccount" />
+                          <Orientation value="Horizontal" />
+                          <Children>
+                            <LabeledText identity="labeledText.a92a691d6915448ebf9f0b804ce6a733">
+                              <Name value="natDataSaspCoCode" />
+                              <CaptionPosition value="Top" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="#" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="Account.CustomsOffice" />
+                                <Binding SourceProperty="Caption" Expression="localized.ccl_co_presentation" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                                <CssClassConditional>
+                                  <ClassName value="common-co-code" />
+                                </CssClassConditional>
+                                <CssClassConditional>
+                                  <ClassName value="national-data-sasp-co-code" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </LabeledText>
+                            <TextBox>
+                              <Name value="natDataSaspAccountNum" />
+                              <CaptionPosition value="Top" />
+                              <CaptionVAlign value="Middle" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="#" />
+                              <Bindings>
+                                <Binding SourceProperty="IsEnabled" Expression="form.formState.enhAttention.editableNationalData" />
+                                <Binding SourceProperty="Data" Expression="Account.AccountNumber" />
+                                <Binding SourceProperty="Caption" Expression="localized.ccl_sasp_iban" />
+                                <Binding SourceProperty="Tooltip" Expression="localized.ccl_sasp_iban_tt" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                                <CssClassConditional>
+                                  <ClassName value="common-iban" />
+                                </CssClassConditional>
+                                <CssClassConditional>
+                                  <ClassName value="national-data-sasp-iban" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                            <TextBox>
+                              <Name value="natDataSaspBank" />
+                              <CaptionPosition value="Top" />
+                              <CaptionVAlign value="Middle" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="#" />
+                              <Bindings>
+                                <Binding SourceProperty="IsEnabled" Expression="form.formState.enhAttention.editableNationalData" />
+                                <Binding SourceProperty="Caption" Expression="localized.ccl_sasp_bank_code" />
+                                <Binding SourceProperty="Tooltip" Expression="localized.ccl_sasp_bank_code_tt" />
+                                <Binding SourceProperty="Data" Expression="Account.BankCode" />
+                                <Binding SourceProperty="IsRequiredMarkVisible" Expression="Account.BankCode.isRequired()" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-textbox" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                                <CssClassConditional>
+                                  <ClassName value="common-bank-code" />
+                                </CssClassConditional>
+                                <CssClassConditional>
+                                  <ClassName value="national-data-sasp-bank-code" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </TextBox>
+                          </Children>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-panel" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                            <CssClassConditional>
+                              <ClassName value="enhancement-attention-needed" />
+                              <Bindings>
+                                <Binding SourceProperty="Condition" Expression="not _completed" />
+                              </Bindings>
+                            </CssClassConditional>
+                            <CssClassConditional>
+                              <ClassName value="anchorRelativePosition" />
+                              <Bindings>
+                                <Binding SourceProperty="Condition" Expression="not _completed" />
+                              </Bindings>
+                            </CssClassConditional>
+                          </CssClass>
+                        </Panel>
+                      </Content>
+                      <Bindings>
+                        <Binding SourceProperty="DataItems" Expression="form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.SASP" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-repeater" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Repeater>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="IsVisible" Expression="formState.visibilities.isSaspAccountsVisible" />
+              </Bindings>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-groupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </GroupBox>
           </Children>
           <CssClass>
             <CssClassConditional>
@@ -4126,6 +5274,66 @@
                     </ResultType>
                   </Expression>
                 </Computed>
+                <Computed>
+                  <Name value="isTaxRepresentativeActive" />
+                  <Caption value="Is tax representative active" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[packages.navTrees.globals._CD_v2.isTaxRepresentativeActive]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="isCustomOficesActive" />
+                  <Caption value="Is custom ofices active" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[packages.navTrees.globals._CD_v2.isCustomOficesActive]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="isIdentificationOfVatActive" />
+                  <Caption value="Is identification of vat active" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[packages.navTrees.globals._CD_v2.isIdentificationOfVatActive]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="isNationalEnhancementActive" />
+                  <Caption value="Is national enhancement active" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[packages.navTrees.globals._CD_v2.isNarodniUdajeActive]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="isCompInvolvedInOtherMsActive" />
+                  <Caption value="Is comp involved in other ms active" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[packages.navTrees.globals._CD_v2.isCompInvolvedInOtherMsActive]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="isTypeOfGoodsActive" />
+                  <Caption value="Is type of goods active" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[packages.navTrees.globals._CD_v2.isTypeOfGoodsActive]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
               </Children>
             </Complex>
             <Attribute>
@@ -4157,6 +5365,67 @@
                 </ResultType>
               </Expression>
             </Computed>
+            <Complex>
+              <Name value="visibilities" />
+              <Caption value="Visibilities" />
+              <Children>
+                <Computed>
+                  <Name value="isEditNoteVisible" />
+                  <Caption value="Is edit note visible" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[(form.cdMode = enums.cdMode.upravit )]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="isSaspAccountsVisible" />
+                  <Caption value="Is sasp accounts visible" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsProcedureConcerned.exists(current.procedureCode = "40")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="enhAttention" />
+              <Caption value="Enh attention" />
+              <Children>
+                <Computed>
+                  <Name value="customsOfficeOfRelease" />
+                  <Caption value="Customs office of release" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[not form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.hasValue()]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="editableNationalData" />
+                  <Caption value="Editable national data" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.cdMode = enums.cdMode.upravit]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="cdeReq" />
+          <Caption value="Cde req" />
+          <Children>
+            <Include>
+              <Include reference="+DataEntities.CustomsDecisionEnhancement" />
+            </Include>
           </Children>
         </Complex>
       </Children>
@@ -4205,6 +5474,10 @@
               </Expression>
             </Computed>
           </Children>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_9BC2CDE7_Account" />
+          <SourcePath value="cdeReq.customsDecisionAuthorisationData.enhancementCZ.SASP.Account" />
         </Modifier>
       </Modifiers>
     </DataContext>
@@ -4617,6 +5890,8 @@ apiobjects.ntc.beginSetup("navTrees::_CD_v2", defaultString())
 
 ntc.addNode("BaseInfo", "Základní infromace")
 ntc.addNode("TypeOfGoods", "Typ zboží")
+ntc.addNode("TaxRepresentative", "Daňový zástupce")
+ntc.addNode("CustomOfices", "Celní úřady")
 
 if isTrue(form.formState.isTypeEIR) then
 
@@ -4624,18 +5899,20 @@ if isTrue(form.formState.isTypeEIR) then
 	
 endIf
 
-ntc.addNode("Other", "Ostatní")
-
 if isTrue(form.formState.isTypeCCL) then
 
 	ntc.addNode("PlannedActUse", "Typ zboží")
 	ntc.addNode("IdentificationOfVat", "DPH, SPD")
 	ntc.addNode("CompInvolvedInOtherMs", "Společnosti zapojené v jiném členském státě")
-	ntc.addNode("NationalEnhancement", "Národní údaje")
+	ntc.addNode("NarodniUdaje", "Národní údaje")
 
 endIf
 
+ntc.addNode("Other", "Ostatní")
+
 ntc.addNode("Annex", annexCaption)
+
+ntc.addNode("NarodniUdaje", "Národní údaje")
 
 ntc.finishSetup()
 

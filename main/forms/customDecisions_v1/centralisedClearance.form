@@ -6861,202 +6861,216 @@
                         </CssClassConditional>
                       </CssClass>
                     </TextBox>
-                    <GroupBox>
-                      <Name value="commonNationalDataGb" />
-                      <Caption value="Obecné údaje" />
+                    <Panel>
+                      <Name value="panel47" />
+                      <Orientation value="Horizontal" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="500px" />
-                      <Content>
-                        <Panel>
-                          <Name value="commonNationalData" />
-                          <Orientation value="Vertical" />
-                          <Children>
-                            <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
-                              <Name value="CELU_referenceLookup" />
-                              <Caption value="Propouštějící CÚ" />
-                              <CaptionPosition value="Top" />
-                              <DataApiObject reference="~CELU" />
-                              <DisplayMember value="_description" />
-                              <MinChars value="3" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="*" />
-                              <Bindings>
-                                <Binding SourceProperty="Data" Expression="form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease" />
-                                <Binding SourceProperty="IsEnabled" Expression="form.uiState.editableNationalData" />
-                              </Bindings>
-                              <CssClass>
-                                <CssClassConditional>
-                                  <ClassName value="{theme}-referencelookup" />
-                                  <IsThemedStyle value="True" />
-                                </CssClassConditional>
-                                <CssClassConditional>
-                                  <ClassName value="common-co-code" />
-                                </CssClassConditional>
-                                <CssClassConditional>
-                                  <ClassName value="enhancement-attention-needed" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <GroupBox>
+                          <Name value="commonNationalDataGb" />
+                          <Caption value="Obecné údaje" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="50%" />
+                          <Content>
+                            <Panel>
+                              <Name value="commonNationalData" />
+                              <Orientation value="Vertical" />
+                              <Children>
+                                <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
+                                  <Name value="CELU_referenceLookup" />
+                                  <Caption value="Propouštějící CÚ" />
+                                  <CaptionPosition value="Top" />
+                                  <DataApiObject reference="~CELU" />
+                                  <DisplayMember value="_description" />
+                                  <MinChars value="3" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="*" />
                                   <Bindings>
-                                    <Binding SourceProperty="Condition" Expression="form.uiState.enhAttention.customsOfficeOfRelease" />
+                                    <Binding SourceProperty="Data" Expression="form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease" />
+                                    <Binding SourceProperty="IsEnabled" Expression="form.uiState.editableNationalData" />
                                   </Bindings>
-                                </CssClassConditional>
-                              </CssClass>
-                            </ReferenceLookup>
-                          </Children>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-panel" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </Panel>
-                      </Content>
-                      <CssClass>
-                        <CssClassConditional>
-                          <ClassName value="{theme}-groupbox" />
-                          <IsThemedStyle value="True" />
-                        </CssClassConditional>
-                      </CssClass>
-                    </GroupBox>
-                    <GroupBox>
-                      <Name value="saspAccountsGb" />
-                      <Caption value="SASP účty" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="#" />
-                      <Content>
-                        <Panel>
-                          <Name value="saspAccounts" />
-                          <Orientation value="Vertical" />
-                          <Children>
-                            <Repeater>
-                              <Name value="saspAccountsItems" />
-                              <Panel.Height value="#" />
-                              <Panel.Width value="#" />
-                              <Content>
-                                <Panel>
-                                  <Name value="saspAccount" />
-                                  <Orientation value="Horizontal" />
-                                  <Children>
-                                    <LabeledText identity="labeledText.a92a691d6915448ebf9f0b804ce6a733">
-                                      <Name value="natDataSaspCoCode" />
-                                      <CaptionPosition value="Top" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="#" />
-                                      <Bindings>
-                                        <Binding SourceProperty="Data" Expression="Account.CustomsOffice" />
-                                        <Binding SourceProperty="Caption" Expression="localized.ccl_co_presentation" />
-                                      </Bindings>
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-textbox" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                        <CssClassConditional>
-                                          <ClassName value="common-co-code" />
-                                        </CssClassConditional>
-                                        <CssClassConditional>
-                                          <ClassName value="national-data-sasp-co-code" />
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </LabeledText>
-                                    <TextBox>
-                                      <Name value="natDataSaspAccountNum" />
-                                      <CaptionPosition value="Top" />
-                                      <CaptionVAlign value="Middle" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="#" />
-                                      <Bindings>
-                                        <Binding SourceProperty="IsEnabled" Expression="form.uiState.editableNationalData" />
-                                        <Binding SourceProperty="Data" Expression="Account.AccountNumber" />
-                                        <Binding SourceProperty="Caption" Expression="localized.ccl_sasp_iban" />
-                                        <Binding SourceProperty="Tooltip" Expression="localized.ccl_sasp_iban_tt" />
-                                      </Bindings>
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-textbox" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                        <CssClassConditional>
-                                          <ClassName value="common-iban" />
-                                        </CssClassConditional>
-                                        <CssClassConditional>
-                                          <ClassName value="national-data-sasp-iban" />
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </TextBox>
-                                    <TextBox>
-                                      <Name value="natDataSaspBank" />
-                                      <CaptionPosition value="Top" />
-                                      <CaptionVAlign value="Middle" />
-                                      <Panel.Height value="#" />
-                                      <Panel.Width value="#" />
-                                      <Bindings>
-                                        <Binding SourceProperty="IsEnabled" Expression="form.uiState.editableNationalData" />
-                                        <Binding SourceProperty="Data" Expression="Account.BankCode" />
-                                        <Binding SourceProperty="Caption" Expression="localized.ccl_sasp_bank_code" />
-                                        <Binding SourceProperty="Tooltip" Expression="localized.ccl_sasp_bank_code_tt" />
-                                      </Bindings>
-                                      <CssClass>
-                                        <CssClassConditional>
-                                          <ClassName value="{theme}-textbox" />
-                                          <IsThemedStyle value="True" />
-                                        </CssClassConditional>
-                                        <CssClassConditional>
-                                          <ClassName value="common-bank-code" />
-                                        </CssClassConditional>
-                                        <CssClassConditional>
-                                          <ClassName value="national-data-sasp-bank-code" />
-                                        </CssClassConditional>
-                                      </CssClass>
-                                    </TextBox>
-                                  </Children>
                                   <CssClass>
                                     <CssClassConditional>
-                                      <ClassName value="{theme}-panel" />
+                                      <ClassName value="{theme}-referencelookup" />
                                       <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                    <CssClassConditional>
+                                      <ClassName value="common-co-code" />
                                     </CssClassConditional>
                                     <CssClassConditional>
                                       <ClassName value="enhancement-attention-needed" />
                                       <Bindings>
-                                        <Binding SourceProperty="Condition" Expression="not _completed" />
-                                      </Bindings>
-                                    </CssClassConditional>
-                                    <CssClassConditional>
-                                      <ClassName value="anchorRelativePosition" />
-                                      <Bindings>
-                                        <Binding SourceProperty="Condition" Expression="not _completed" />
+                                        <Binding SourceProperty="Condition" Expression="form.uiState.enhAttention.customsOfficeOfRelease" />
                                       </Bindings>
                                     </CssClassConditional>
                                   </CssClass>
-                                </Panel>
-                              </Content>
-                              <Bindings>
-                                <Binding SourceProperty="DataItems" Expression="form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ.SASP" />
-                              </Bindings>
+                                </ReferenceLookup>
+                              </Children>
                               <CssClass>
                                 <CssClassConditional>
-                                  <ClassName value="{theme}-repeater" />
+                                  <ClassName value="{theme}-panel" />
                                   <IsThemedStyle value="True" />
                                 </CssClassConditional>
                               </CssClass>
-                            </Repeater>
-                          </Children>
+                            </Panel>
+                          </Content>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-panel" />
+                              <ClassName value="{theme}-groupbox" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </Panel>
-                      </Content>
-                      <Bindings>
-                        <Binding SourceProperty="IsVisible" Expression="form.uiState.visibilities.visibilityOfSaspAccountsGb" />
-                      </Bindings>
+                        </GroupBox>
+                        <GroupBox>
+                          <Name value="saspAccountsGb" />
+                          <Caption value="SASP účty" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="50%" />
+                          <Content>
+                            <Panel>
+                              <Name value="saspAccounts" />
+                              <Orientation value="Vertical" />
+                              <Children>
+                                <Repeater>
+                                  <Name value="saspAccountsItems" />
+                                  <Panel.Height value="#" />
+                                  <Panel.Width value="#" />
+                                  <Content>
+                                    <Panel>
+                                      <Name value="saspAccount" />
+                                      <Orientation value="Horizontal" />
+                                      <Children>
+                                        <LabeledText identity="labeledText.a92a691d6915448ebf9f0b804ce6a733">
+                                          <Name value="natDataSaspCoCode" />
+                                          <CaptionPosition value="Top" />
+                                          <Panel.Height value="#" />
+                                          <Panel.Width value="#" />
+                                          <Bindings>
+                                            <Binding SourceProperty="Data" Expression="Account.CustomsOffice" />
+                                            <Binding SourceProperty="Caption" Expression="localized.ccl_co_presentation" />
+                                          </Bindings>
+                                          <CssClass>
+                                            <CssClassConditional>
+                                              <ClassName value="{theme}-textbox" />
+                                              <IsThemedStyle value="True" />
+                                            </CssClassConditional>
+                                            <CssClassConditional>
+                                              <ClassName value="common-co-code" />
+                                            </CssClassConditional>
+                                            <CssClassConditional>
+                                              <ClassName value="national-data-sasp-co-code" />
+                                            </CssClassConditional>
+                                          </CssClass>
+                                        </LabeledText>
+                                        <TextBox>
+                                          <Name value="natDataSaspAccountNum" />
+                                          <CaptionPosition value="Top" />
+                                          <CaptionVAlign value="Middle" />
+                                          <Panel.Height value="#" />
+                                          <Panel.Width value="#" />
+                                          <Bindings>
+                                            <Binding SourceProperty="IsEnabled" Expression="form.uiState.editableNationalData" />
+                                            <Binding SourceProperty="Data" Expression="Account.AccountNumber" />
+                                            <Binding SourceProperty="Caption" Expression="localized.ccl_sasp_iban" />
+                                            <Binding SourceProperty="Tooltip" Expression="localized.ccl_sasp_iban_tt" />
+                                          </Bindings>
+                                          <CssClass>
+                                            <CssClassConditional>
+                                              <ClassName value="{theme}-textbox" />
+                                              <IsThemedStyle value="True" />
+                                            </CssClassConditional>
+                                            <CssClassConditional>
+                                              <ClassName value="common-iban" />
+                                            </CssClassConditional>
+                                            <CssClassConditional>
+                                              <ClassName value="national-data-sasp-iban" />
+                                            </CssClassConditional>
+                                          </CssClass>
+                                        </TextBox>
+                                        <TextBox>
+                                          <Name value="natDataSaspBank" />
+                                          <CaptionPosition value="Top" />
+                                          <CaptionVAlign value="Middle" />
+                                          <Panel.Height value="#" />
+                                          <Panel.Width value="#" />
+                                          <Bindings>
+                                            <Binding SourceProperty="IsEnabled" Expression="form.uiState.editableNationalData" />
+                                            <Binding SourceProperty="Data" Expression="Account.BankCode" />
+                                            <Binding SourceProperty="Caption" Expression="localized.ccl_sasp_bank_code" />
+                                            <Binding SourceProperty="Tooltip" Expression="localized.ccl_sasp_bank_code_tt" />
+                                          </Bindings>
+                                          <CssClass>
+                                            <CssClassConditional>
+                                              <ClassName value="{theme}-textbox" />
+                                              <IsThemedStyle value="True" />
+                                            </CssClassConditional>
+                                            <CssClassConditional>
+                                              <ClassName value="common-bank-code" />
+                                            </CssClassConditional>
+                                            <CssClassConditional>
+                                              <ClassName value="national-data-sasp-bank-code" />
+                                            </CssClassConditional>
+                                          </CssClass>
+                                        </TextBox>
+                                      </Children>
+                                      <CssClass>
+                                        <CssClassConditional>
+                                          <ClassName value="{theme}-panel" />
+                                          <IsThemedStyle value="True" />
+                                        </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="enhancement-attention-needed" />
+                                          <Bindings>
+                                            <Binding SourceProperty="Condition" Expression="not _completed" />
+                                          </Bindings>
+                                        </CssClassConditional>
+                                        <CssClassConditional>
+                                          <ClassName value="anchorRelativePosition" />
+                                          <Bindings>
+                                            <Binding SourceProperty="Condition" Expression="not _completed" />
+                                          </Bindings>
+                                        </CssClassConditional>
+                                      </CssClass>
+                                    </Panel>
+                                  </Content>
+                                  <Bindings>
+                                    <Binding SourceProperty="DataItems" Expression="form.model.cdeReq.customsDecisionAuthorisationData.enhancementCZ.SASP" />
+                                  </Bindings>
+                                  <CssClass>
+                                    <CssClassConditional>
+                                      <ClassName value="{theme}-repeater" />
+                                      <IsThemedStyle value="True" />
+                                    </CssClassConditional>
+                                  </CssClass>
+                                </Repeater>
+                              </Children>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-panel" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Panel>
+                          </Content>
+                          <Bindings>
+                            <Binding SourceProperty="IsVisible" Expression="form.uiState.visibilities.visibilityOfSaspAccountsGb" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-groupbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </GroupBox>
+                      </Children>
                       <CssClass>
                         <CssClassConditional>
-                          <ClassName value="{theme}-groupbox" />
+                          <ClassName value="{theme}-panel" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
                       </CssClass>
-                    </GroupBox>
+                    </Panel>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
@@ -7813,18 +7827,6 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
         <Modifier>
           <Name value="modifier_E9FE93F9_SASP" />
           <SourcePath value="model.cdeReq.customsDecisionAuthorisationData.enhancementCZ.SASP" />
-          <Children>
-            <Computed>
-              <Name value="_completed" />
-              <Caption value="_ completed" />
-              <Expression IsValid="True">
-                <ExpressionText><![CDATA[Account.AccountNumber.hasValue() and Account.BankCode.hasValue()]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="Bool" />
-                </ResultType>
-              </Expression>
-            </Computed>
-          </Children>
         </Modifier>
         <Modifier>
           <Name value="modifier_E626B38D_customsDecisionVersionHistory" />
