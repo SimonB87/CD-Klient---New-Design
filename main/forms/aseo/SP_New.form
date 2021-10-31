@@ -253,55 +253,6 @@
             </CssClassConditional>
           </conditionalCssClass>
         </CollapsibleGroupBox>
-        <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
-          <Name value="cgbClientErrors" />
-          <collapsedIconClass value="fa fa-plus-square-o" />
-          <nonCollapsedIconClass value="fa fa-minus-square-o" />
-          <Panel.Height value="#" />
-          <Panel.Width value="*" />
-          <Content>
-            <ClientValidationSummary identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
-              <Name value="clientValidationSummary" />
-              <errorPointerMap reference="~epm" />
-              <OnItemClick>
-                <ActionEvent ReferencedAction="~handler_clientValidationSummary_OnItemClick" />
-              </OnItemClick>
-              <Bindings>
-                <Binding SourceProperty="validationErrors" Expression="form.error.clientValidationErrors" />
-                <Binding SourceProperty="validationRoot" Expression="form.model.msg" />
-              </Bindings>
-              <columns>
-                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
-                  <Name value="vscMessage" />
-                  <columnCaption value="Zpráva" />
-                  <propertyName value="Message" />
-                </validationSummaryColumn>
-                <validationSummaryColumn identity="ValidationSummary.0f608ab4a81a4349b35a8398ddd72445">
-                  <Name value="vscPointer" />
-                  <columnCaption value="Místo" />
-                  <columnRole value="pointer" />
-                  <propertyName value="Pointer" />
-                </validationSummaryColumn>
-              </columns>
-              <conditionalCssClass>
-                <CssClassConditional>
-                  <ClassName value="{theme}-clientvalidationsummary" />
-                  <IsThemedStyle value="True" />
-                </CssClassConditional>
-              </conditionalCssClass>
-            </ClientValidationSummary>
-          </Content>
-          <Bindings>
-            <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbClientErrors.IsVisible" />
-            <Binding SourceProperty="caption" Expression="ui.groupBoxes.cgbClientErrors.Caption" />
-          </Bindings>
-          <conditionalCssClass>
-            <CssClassConditional>
-              <ClassName value="{theme}-collapsiblegroupbox" />
-              <IsThemedStyle value="True" />
-            </CssClassConditional>
-          </conditionalCssClass>
-        </CollapsibleGroupBox>
         <Panel>
           <Name value="pnlBody" />
           <Orientation value="Horizontal" />
@@ -957,9 +908,6 @@
               <Name value="selectedCustomsOffice" />
               <Caption value="Selected customs office" />
               <IsRequired value="True" />
-              <OnChange>
-                <ActionEvent ReferencedAction="+UiParts.SP_New.handler_selectedCustomsOffice_OnChange" />
-              </OnChange>
               <Children>
                 <Attribute>
                   <Name value="Key" />
@@ -1096,46 +1044,6 @@
                   </Children>
                 </Complex>
                 <Complex>
-                  <Name value="cgbClientErrors" />
-                  <Caption value="cgbClientErrors" />
-                  <Children>
-                    <Attribute>
-                      <Name value="_IsVisible" />
-                      <Caption value="_ is visible" />
-                      <DeclaredType>
-                        <AttributeType>
-                          <BaseType value="Bool" />
-                        </AttributeType>
-                      </DeclaredType>
-                    </Attribute>
-                    <Computed>
-                      <Name value="IsVisible" />
-                      <Caption value="IsVisible" />
-                      <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(_IsVisible) and
-isTrue(form.model.validationErrorsCount() > 0)]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="Bool" />
-                        </ResultType>
-                      </Expression>
-                    </Computed>
-                    <Computed>
-                      <Name value="Caption" />
-                      <Caption value="Caption" />
-                      <Expression IsValid="True">
-                        <ExpressionText><![CDATA[stringFormat("Chyby - klient{0}", 
-  form.error.clientValidationErrors.count() > 0 ?
-  " (" + toString(form.error.clientValidationErrors.count()) + ")" : 
-  "" 
-)]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="String" />
-                        </ResultType>
-                      </Expression>
-                    </Computed>
-                  </Children>
-                </Complex>
-                <Complex>
                   <Name value="cgbSubject" />
                   <Caption value="cgbSubject" />
                   <Children>
@@ -1222,39 +1130,6 @@ isTrue(form.model.validationErrorsCount() > 0)]]></ExpressionText>
                 </Complex>
               </Children>
             </Complex>
-          </Children>
-        </Complex>
-        <Complex>
-          <Name value="error" />
-          <Caption value="Error" />
-          <Children>
-            <Collection>
-              <Name value="clientValidationErrors" />
-              <Caption value="Client validation errors" />
-              <Children>
-                <Attribute>
-                  <Name value="Message" />
-                  <Caption value="Message" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="Pointer" />
-                  <Caption value="Pointer" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Attribute>
-                  <Name value="Type" />
-                  <Caption value="Type" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-              </Children>
-            </Collection>
           </Children>
         </Complex>
       </Children>
@@ -1440,6 +1315,7 @@ form.model.selectedCustomsOffice.fromJson(cu.toJson())
         <Script><![CDATA[globals.IsBusy = true
 
 var msg = form.model.msg
+msg.ASEO.ResponsibleCustomsOffice = form.model.selectedCustomsOffice.Key
 
 if msg.isValid() then
 	actions.sendRequest("ASEOSPApplication", msg.toJson(), "CM002A", true)
@@ -1452,7 +1328,6 @@ if msg.isValid() then
 	endif
 else
 	msg.setTouched(true)
-	form.ui.groupBoxes.cgbClientErrors._IsVisible = true
 	apiobjects.notificationsCtrl.addWarning("Formulář vykazuje chybu. Nejsou vyplněny všechny povinné položky, nebo některé jsou vyplněny chybně.")
 endIf
 
@@ -1807,64 +1682,7 @@ endif]]></Script>
 
 if not msg.isValid() then
 	msg.setTouched(true)
-	form.ui.groupBoxes.cgbClientErrors._IsVisible = true
 endif]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="handler_clientValidationSummary_OnItemClick" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var ctr = params.errorSourceComponent
-var node = params.navigationTreeNode
-var ptr = params.pointer
-
-if hasValue(node) then
-	ntc.focusNode(node)
-else
-	ntc.focusNode("All")
-endif
-
-/*
-var strings = globals.strings
-strings.clear()
-var split = actions.js_split(ptr, "/")
-strings.fromJson(split)
-
-foreach s in strings do
-	var part = s.str
-	var idx = indexOf(part, "[")
-	
-	if idx > 0 then
-		var col = substring(part, 1, idx - 1)
-		var num = toInt(substring(part, idx + 1, length(part) - length(col) - 2), 0)
-		
-		form.actions.SwitchToIndex(col, num)
-	endif
-endfor
-*/
-
-// to focus correct control
-pageAPI.focusControl(ctr, defaultString())
-
-// to focus correct control in case it is in Repeater
-pageAPI.focusControl(ctr, ptr)
-
-system.console("Clicked on: " + ptr)]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="handler_selectedCustomsOffice_OnChange" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var msg = form.model.msg
-msg.ASEO.ResponsibleCustomsOffice = form.model.selectedCustomsOffice.Key]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -1901,120 +1719,5 @@ msg.ASEO.ResponsibleCustomsOffice = form.model.selectedCustomsOffice.Key]]></Scr
       <Name value="fcZEME_O" />
       <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZEME_O" />
     </FilteredCodelist>
-    <ErrorPointerMap identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-      <Name value="epm" />
-      <items>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/AuthorizationType" />
-          <errorSourceComponent value="cmbAuthorizationType" />
-          <pointerPath value="ASEO/AuthorizationType" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/TIN" />
-          <errorSourceComponent value="tbTIN" />
-          <pointerPath value="ASEO/TIN" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="model/selectedCustomsOffice" />
-          <errorSourceComponent value="cmbSelectedCustomsOffice" />
-          <pointerPath value="model/selectedCustomsOffice" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/OperatorName" />
-          <errorSourceComponent value="tbOperatorName" />
-          <pointerPath value="ASEO/Event/OperatorName" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/OperatorStreetAndNr" />
-          <errorSourceComponent value="tbOperatorStreetAndNr" />
-          <pointerPath value="ASEO/Event/OperatorStreetAndNr" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/OperatorPostCode" />
-          <errorSourceComponent value="tbOperatorPostCode" />
-          <pointerPath value="ASEO/Event/OperatorPostCode" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/OperatorCity" />
-          <errorSourceComponent value="tbOperatorCity" />
-          <pointerPath value="ASEO/Event/OperatorCity" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/OperatorCountry" />
-          <errorSourceComponent value="cmbOperatorCountry" />
-          <pointerPath value="ASEO/Event/OperatorCountry" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/ReferenceNumber" />
-          <errorSourceComponent value="tbReferenceNumber" />
-          <pointerPath value="ASEO/Event/ReferenceNumber" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/YourMark" />
-          <errorSourceComponent value="tbYourMark" />
-          <pointerPath value="ASEO/Event/YourMark" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/DecisionDate" />
-          <errorSourceComponent value="dtDecisionDate" />
-          <pointerPath value="ASEO/Event/DecisionDate" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/ValidityStartDate" />
-          <errorSourceComponent value="dtValidityStartDate" />
-          <pointerPath value="ASEO/Event/ValidityStartDate" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/HandledBy" />
-          <errorSourceComponent value="tbHandledBy" />
-          <pointerPath value="ASEO/Event/HandledBy" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/DecidingCustomsOffice" />
-          <errorSourceComponent value="tbDecidingCustomsOffice" />
-          <pointerPath value="ASEO/Event/DecidingCustomsOffice" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/DecidingPerson" />
-          <errorSourceComponent value="tbDecidingPerson" />
-          <pointerPath value="ASEO/Event/DecidingPerson" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/Note" />
-          <errorSourceComponent value="tbNote" />
-          <pointerPath value="ASEO/Event/Note" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/File" />
-          <errorSourceComponent value="stFiles" />
-          <pointerPath value="ASEO/Event/File" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/File[${IX_File}]" />
-          <errorSourceComponent value="stFiles" />
-          <pointerPath value="ASEO/Event/File[]" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/File[${IX_File}]/IsFullText" />
-          <errorSourceComponent value="cbCurrentAnnex_IsFullText" />
-          <pointerPath value="ASEO/Event/File/IsFullText" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/File[${IX_File}]/FileName" />
-          <errorSourceComponent value="lblCurrentAnnex_FileName" />
-          <pointerPath value="ASEO/Event/File/FileName" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/File[${IX_File}]/FileType" />
-          <errorSourceComponent value="lblCurrentAnnex_FileType" />
-          <pointerPath value="ASEO/Event/File/FileType" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Event/File[${IX_File}]/FileSize" />
-          <errorSourceComponent value="lblCurrentAnnex_FileSize" />
-          <pointerPath value="ASEO/Event/File/FileSize" />
-        </ErrorPointerMapItem>
-      </items>
-    </ErrorPointerMap>
   </ApiObjects>
 </Form>
