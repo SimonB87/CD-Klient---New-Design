@@ -4040,46 +4040,111 @@ var isAseoDetail = type in [
 
 // switch clause would be better, but ... everyone knows:-) 
 if (isTrue(type = "ACP") and isTrue(customsDecisionOrigin = "CD")) then
-	navigation.main.issuerDetail.withGUID(guid).go()
+		
+  if isTrue(form.model.selectedCd.DataStructureVersion = 1) then
+  	  navigation.main.issuerDetail.withGUID(guid).go()
+  else if isTrue(form.model.selectedCd.DataStructureVersion = 2) then
+  	  navigation.main.issuerDetail_v2.withGUID(guid).go()
+  endIf endIf
 	
 else if (isTrue(isAseoDetail) and isTrue(customsDecisionOrigin = "SP")) then
   navigation.main.SP_Edit.go(type, guid)
 
-else if type = "RSS" then
-  navigation.main.regularShipping.withGUID(guid).go()
+else if isTrue(type = "RSS") then
+
+  if isTrue(form.model.selectedCd.DataStructureVersion = 1) then
+  	  navigation.main.regularShipping.withGUID(guid).go()
+  else if isTrue(form.model.selectedCd.DataStructureVersion = 2) then
+  	  navigation.main.regularShipping_v2.withGUID(guid).go()
+  endIf endIf
 
 else if type in ["OPO", "IPO", "TEA", "CW1", "CW2", "CWP", "EUS", "TST"] then
-  navigation.main.econImpactRegime.withGUID(guid).go()
+
+  if isTrue(form.model.selectedCd.DataStructureVersion = 1) then
+  	  navigation.main.econImpactRegime.withGUID(guid).go()
+  else if isTrue(form.model.selectedCd.DataStructureVersion = 2) then
+  	  navigation.main.economicImpoactRegime_V2.withGUID(guid).go()
+  endIf endIf
   
 else if type = "SSE" then
-  navigation.main.useOfSealsOfSpecialType.withGUID(guid).go()
+  
+  if isTrue(form.model.selectedCd.DataStructureVersion = 1) then
+  	  navigation.main.useOfSealsOfSpecialType.withGUID(guid).go()
+  else if isTrue(form.model.selectedCd.DataStructureVersion = 2) then
+  	  navigation.main.useOfSealsOfSpecialType_v2.withGUID(guid).go()
+  endIf endIf
 
 else if type in ["CCL", "EIR"] then
-  navigation.main.centralisedClearance.withGUID(guid).go()
+  
+  if isTrue(form.model.selectedCd.DataStructureVersion = 1) then
+  	  navigation.main.centralisedClearance.withGUID(guid).go()
+  else if isTrue(form.model.selectedCd.DataStructureVersion = 2) then
+  	  navigation.main.centralisedClearance_v2.withGUID(guid).go()
+  endIf endIf
 
 else if type = "TRD" then
-  navigation.main.transitDeclaration.withGUID(guid).go()
+  
+  if isTrue(form.model.selectedCd.DataStructureVersion = 1) then
+  	  navigation.main.transitDeclaration.withGUID(guid).go()
+  else if isTrue(form.model.selectedCd.DataStructureVersion = 2) then
+  	  navigation.main.transitDeclaration_v2.withGUID(guid).go()
+  endIf endIf
 
 else if type in ["CGU", "DPO"] then
-  navigation.main.guaranteePayment.withGUID(guid).go()
+  
+  if isTrue(form.model.selectedCd.DataStructureVersion = 1) then
+  	  navigation.main.guaranteePayment.withGUID(guid).go()
+  else if isTrue(form.model.selectedCd.DataStructureVersion = 2) then
+  	  navigation.main.guaranteePayment_v2.withGUID(guid).go()
+  endIf endIf
 
 else if (type in ["ACE", "ACT", "ACR"]) and (isFalse(isAseoDetail)) then
-  navigation.main.simplifiedProcedures.withGUID(guid).go()
+  
+  if isTrue(form.model.selectedCd.DataStructureVersion = 1) then
+  	  navigation.main.simplifiedProcedures.withGUID(guid).go()
+  else if isTrue(form.model.selectedCd.DataStructureVersion = 2) then
+  	  navigation.main.simplifiedProcedures_v2.withGUID(guid).go()
+  endIf endIf
 
 else if type = "SDE" then
-  navigation.main.simplifiedDeclaration.withGUID(guid).go()
+
+  if isTrue(form.model.selectedCd.DataStructureVersion = 1) then
+  	  navigation.main.simplifiedDeclaration.withGUID(guid).go()
+  else if isTrue(form.model.selectedCd.DataStructureVersion = 2) then
+  	  navigation.main.simplifiedDeclaration_v2.withGUID(guid).go()
+  endIf endIf
 
 else if type = "CVA" then
-  navigation.main.simplificationForCustomsValuation.withGUID(guid).go()
+  
+  if isTrue(form.model.selectedCd.DataStructureVersion = 1) then
+  	  navigation.main.simplificationForCustomsValuation.withGUID(guid).go()
+  else if isTrue(form.model.selectedCd.DataStructureVersion = 2) then
+  	  navigation.main.simplificationForCustomsValuation_v2.withGUID(guid).go()
+  endIf endIf
 
 else if type = "ETD" then
-  navigation.main.electronicTransportDocument.withGUID(guid).go()
+  
+  if isTrue(form.model.selectedCd.DataStructureVersion = 1) then
+  	  navigation.main.electronicTransportDocument.withGUID(guid).go()
+  else if isTrue(form.model.selectedCd.DataStructureVersion = 2) then
+  	  navigation.main.electronicTransportDocument_v2.withGUID(guid).go()
+  endIf endIf
 
 else if type = "AWB" then
-  navigation.main.weigherOfBananas.withGUID(guid).go()
+  
+  if isTrue(form.model.selectedCd.DataStructureVersion = 1) then
+  	  navigation.main.weigherOfBananas.withGUID(guid).go()
+  else if isTrue(form.model.selectedCd.DataStructureVersion = 2) then
+  	  navigation.main.weigherOfBananas_v2.withGUID(guid).go()
+  endIf endIf
 
 else if type = "SAS" then
-  navigation.main.selfAssessment.withGUID(guid).go()
+  
+  if isTrue(form.model.selectedCd.DataStructureVersion = 1) then
+  	  navigation.main.selfAssessment.withGUID(guid).go()
+  else if isTrue(form.model.selectedCd.DataStructureVersion = 2) then
+  	  navigation.main.selfAssessment_v2.withGUID(guid).go()
+  endIf endIf
   
 else
 	apiobjects.notificationsCtrl.addWarning(stringFormat("Typ '{0}' rozhodnutí není aplikací podporován.", type))
