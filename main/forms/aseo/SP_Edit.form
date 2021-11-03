@@ -1025,26 +1025,6 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Children>
-                        <TextBox>
-                          <Name value="tbOriginalValidity" />
-                          <Caption value="Platnosti povolení od (Uložená hodnota)" />
-                          <CaptionPosition value="Top" />
-                          <IsEnabled value="False" />
-                          <IsVisible value="False" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="33.33%" />
-                          <Tooltip value="Tato hodnota je datum, od kterého je povolení platné. Tento údaj nelze měnit." />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.original_validityStartDate" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.original_validityStartDate.isRequired()" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </TextBox>
                         <DatePicker>
                           <Name value="dtEvidenceDate" />
                           <Caption value="Datum Evidence" />
@@ -1143,6 +1123,39 @@
                       </CssClass>
                     </Panel>
                     <Panel>
+                      <Name value="pnlDetail_PreferCD" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="ui.panels.pnlDetail_PreferCD.IsVisible" />
+                      </Bindings>
+                      <Children>
+                        <CheckBox>
+                          <Name value="cbPreferCD" />
+                          <Caption value="Upřednostnit validaci v CD" />
+                          <CaptionPosition value="Top" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33.33%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="form.model.msg.ASEO.Event.PreferCD" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                    <Panel>
                       <Name value="pnlDetail_Note" />
                       <Orientation value="Horizontal" />
                       <Panel.Height value="#" />
@@ -1153,31 +1166,12 @@
                           <CaptionPosition value="Top" />
                           <InputType value="Multiline" />
                           <Panel.Height value="#" />
-                          <Panel.Width value="99.9%" />
+                          <Panel.Width value="*" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="model.msg.ASEO.Event.Note" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ASEO.Event.Note.isRequired()" />
                             <Binding SourceProperty="Caption" Expression="model.msg.ASEO.Event.Note.caption()" />
                             <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </TextBox>
-                        <TextBox>
-                          <Name value="tbEventTypeDescription" />
-                          <CaptionPosition value="Top" />
-                          <IsEnabled value="False" />
-                          <IsVisible value="False" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="0.1%" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="model.msg.ASEO.Event.EventType.Description" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ASEO.Event.EventType.Description.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="model.msg.ASEO.Event.EventType.Description.caption()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -1738,6 +1732,9 @@
                           <Name value="prcZbozi" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
+                          <OnItemAdd>
+                            <ActionEvent ReferencedAction="~handler_prcZbozi_OnItemAdd" />
+                          </OnItemAdd>
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="model.msg.ASEO.Event.GoodsList.GoodsItem" />
                             <Binding SourceProperty="Index" Expression="ui.tables.stZbozi.Index" />
@@ -1770,6 +1767,7 @@
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="CNCode" />
                                     <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
+                                    <Binding SourceProperty="IsRequiredMarkVisible" Expression="CNCode.isRequired()" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -3417,7 +3415,7 @@
                       <ReferenceList reference="~fcZADUZAM" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.ASEO.Event.ApplicationRejection.ApplicationRejectionReason" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ASEO.Event.ApplicationRejection.ApplicationRejectionReason.isRequired()" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ASEO.Event.ApplicationRejection._IsRequired_ApplicationRejectionReason" />
                         <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
@@ -3487,7 +3485,7 @@
                       <ReferenceList reference="~fcPOVOLDUOD" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason.isRequired()" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ASEO.Event.AuthorizationWithdrawal._IsRequired_AuthorizationWithdrawalReason" />
                         <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
@@ -3558,7 +3556,7 @@
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason" />
                         <Binding SourceProperty="Caption" Expression="model.msg.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason.caption()" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason.isRequired()" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ASEO.Event.AuthorizationSuspending._IsRequired_AuthorizationSuspendingReason" />
                         <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
@@ -4266,15 +4264,6 @@ isFalse(action in [enums.Action.NONE, enums.Action.FutureRemoval])]]></Expressio
                 </Collection>
               </Children>
             </Complex>
-            <Attribute>
-              <Name value="original_validityStartDate" />
-              <Caption value="Original _ validity start date" />
-              <DeclaredType>
-                <AttributeType>
-                  <BaseType value="DateTime" />
-                </AttributeType>
-              </DeclaredType>
-            </Attribute>
           </Children>
         </Complex>
         <Complex>
@@ -4458,6 +4447,22 @@ isFalse(action in [enums.Action.NONE, enums.Action.FutureRemoval])]]></Expressio
                       <Caption value="Is visible" />
                       <Expression IsValid="True">
                         <ExpressionText><![CDATA[isTrue(form.authorizationType in [globals.DocType.ACR])]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="pnlDetail_PreferCD" />
+                  <Caption value="pnlDetail_PreferCD" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="Is visible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[isTrue(form.model.msg.ASEO.IsInCD)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5058,11 +5063,21 @@ isTrue(form.State = enums.State.AUC)]]></ExpressionText>
                   <Name value="cgbClientErrors" />
                   <Caption value="cgbClientErrors" />
                   <Children>
+                    <Attribute>
+                      <Name value="_IsVisible" />
+                      <Caption value="_ is visible" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
                     <Computed>
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(form.action <> enums.Action.NONE) and
+                        <ExpressionText><![CDATA[isTrue(_IsVisible) and
+isTrue(form.action <> enums.Action.NONE) and
 isTrue(form.model.validationErrorsCount() > 0)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
@@ -5834,9 +5849,21 @@ isTrue(form.authorizationType in [globals.DocType.SI, globals.DocType.SDE, globa
                       <Caption value="Is enabled" />
                       <Expression IsValid="True">
                         <ExpressionText><![CDATA[form.isEditOn and isTrue(form.authorizationType in [
-	globals.DocType.TIR, 
-	globals.DocType.ACP, 
-	globals.DocType.ACR])]]></ExpressionText>
+	globals.DocType.SI,
+	globals.DocType.SDE,
+	globals.DocType.LE,
+	globals.DocType.CI,
+	globals.DocType.CE,
+	globals.DocType.CCL,
+	globals.DocType.AR,
+	globals.DocType.ACR,
+	globals.DocType.AE,
+	globals.DocType.ACE,
+	globals.DocType.AT,
+	globals.DocType.ACT,
+	globals.DocType.AC,
+	globals.DocType.FZ,
+	globals.DocType.ACP])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5859,9 +5886,21 @@ isTrue(form.authorizationType in [globals.DocType.SI, globals.DocType.SDE, globa
                       <Caption value="Is visible" />
                       <Expression IsValid="True">
                         <ExpressionText><![CDATA[isFalse(form.authorizationType in [
-	globals.DocType.TIR, 
-	globals.DocType.ACP, 
-	globals.DocType.ACR])]]></ExpressionText>
+	globals.DocType.SI,
+	globals.DocType.SDE,
+	globals.DocType.LE,
+	globals.DocType.CI,
+	globals.DocType.CE,
+	globals.DocType.CCL,
+	globals.DocType.AR,
+	globals.DocType.ACR,
+	globals.DocType.AE,
+	globals.DocType.ACE,
+	globals.DocType.AT,
+	globals.DocType.ACT,
+	globals.DocType.AC,
+	globals.DocType.FZ,
+	globals.DocType.ACP])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -6200,20 +6239,6 @@ this.collection().where(Current.TypeOfPeriod.Key = attr.Key).count() = 1]]></Exp
           <ShowAsChanges value="True" />
           <SourcePath value="model.msg.ASEO.Event.GoodsList.GoodsItem.CNCode" />
           <Validators>
-            <Validator Name="req">
-              <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Hodnota musí být vyplněna"]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </ErrorMessage>
-              <IsValid IsValid="True">
-                <ExpressionText><![CDATA[attr.hasValue()]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="Bool" />
-                </ResultType>
-              </IsValid>
-            </Validator>
             <Validator Name="unique">
               <ErrorMessage IsValid="True">
                 <ExpressionText><![CDATA["Hodnota musí být unikátní"]]></ExpressionText>
@@ -6656,7 +6681,6 @@ this.Guarantee.count() > 0]]></ExpressionText>
         </Modifier>
         <Modifier>
           <Name value="modifier_B0A891F2_ApplicationRejection" />
-          <ShowAsChanges value="True" />
           <SourcePath value="model.msg.ASEO.Event.ApplicationRejection" />
           <Children>
             <Computed>
@@ -6669,30 +6693,22 @@ this.Guarantee.count() > 0]]></ExpressionText>
                 </ResultType>
               </Expression>
             </Computed>
-          </Children>
-          <Validators>
-            <Validator Name="requiredRejectObject">
-              <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Pro zamítnutí žádosti vyplňte \"Důvod zamítnutí žádosti\"]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </ErrorMessage>
-              <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(form.action in 
-	[enums.Action.applicationReject, enums.Action.applicationRejectModify] ) ? 
-	(hasValue(form.model.msg.ASEO.Event.ApplicationRejection.ApplicationRejectionReason.ZADUZAM ) ? true : false) : 
-	true]]></ExpressionText>
+            <Computed>
+              <Name value="_IsRequired_ApplicationRejectionReason" />
+              <Caption value="_ is required _ application rejection reason" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[form.action in [
+	enums.Action.applicationReject, 
+	enums.Action.applicationRejectModify]]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
-              </IsValid>
-            </Validator>
-          </Validators>
+              </Expression>
+            </Computed>
+          </Children>
         </Modifier>
         <Modifier>
           <Name value="modifier_A81801F5_AuthorizationWithdrawal" />
-          <ShowAsChanges value="True" />
           <SourcePath value="model.msg.ASEO.Event.AuthorizationWithdrawal" />
           <Children>
             <Computed>
@@ -6705,31 +6721,22 @@ this.Guarantee.count() > 0]]></ExpressionText>
                 </ResultType>
               </Expression>
             </Computed>
-          </Children>
-          <Validators>
-            <Validator Name="requiredObjectCancelWithdraw">
-              <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Pro zrušení/zneplatnění povolení vyplňte \"Důvod zamítnutí žádosti\"]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </ErrorMessage>
-              <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(form.action in 
-	[enums.Action.authorizeWithdrawal, enums.Action.authorizeWithdrawalModify, 
-	enums.Action.authorizeCancellation, enums.Action.authorizeCancellationModify] ) ? 
-	((form.model.msg.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason.isEmpty() = false ) ? true : false ) : 
-	true]]></ExpressionText>
+            <Computed>
+              <Name value="_IsRequired_AuthorizationWithdrawalReason" />
+              <Caption value="_ is required _ authorization withdrawal reason" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[form.action in [
+	enums.Action.authorizeWithdrawal, 
+	enums.Action.authorizeWithdrawalModify]]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
-              </IsValid>
-            </Validator>
-          </Validators>
+              </Expression>
+            </Computed>
+          </Children>
         </Modifier>
         <Modifier>
           <Name value="modifier_C01560C8_AuthorizationSuspending" />
-          <ShowAsChanges value="True" />
           <SourcePath value="model.msg.ASEO.Event.AuthorizationSuspending" />
           <Children>
             <Computed>
@@ -6742,26 +6749,19 @@ this.Guarantee.count() > 0]]></ExpressionText>
                 </ResultType>
               </Expression>
             </Computed>
-          </Children>
-          <Validators>
-            <Validator Name="requiredObjectSuspening">
-              <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Pro pozastavení povolení vyplňte \"Upravit Důvod pozastavení povolení\"."]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </ErrorMessage>
-              <IsValid IsValid="True">
-                <ExpressionText><![CDATA[(form.action in 
-	[enums.Action.authorizeSuspending, enums.Action.authorizeSuspendingModify ] ) ? 
-	(hasValue(form.model.msg.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason.Key) ?  true : false) : 
-	true]]></ExpressionText>
+            <Computed>
+              <Name value="_IsRequired_AuthorizationSuspendingReason" />
+              <Caption value="_ is required _ authorization suspending reason" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[form.action in [
+	enums.Action.authorizeSuspending, 
+	enums.Action.authorizeSuspendingModify]]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
-              </IsValid>
-            </Validator>
-          </Validators>
+              </Expression>
+            </Computed>
+          </Children>
         </Modifier>
         <Modifier>
           <Name value="modifier_DE6C5E25_ReferenceNumber" />
@@ -7012,6 +7012,7 @@ isTrue(_validSPSealsSpecTypeAllowed)]]></ExpressionText>
         </Modifier>
         <Modifier>
           <Name value="modifier_CF45BB6E_CustomsOfficeOfRelease" />
+          <ShowAsChanges value="True" />
           <SourcePath value="model.msg.ASEO.Event.CustomsOffices.CustomsOfficeOfRelease" />
           <Children>
             <Attribute>
@@ -7034,6 +7035,26 @@ isTrue(_validSPSealsSpecTypeAllowed)]]></ExpressionText>
               </Expression>
             </Computed>
           </Children>
+          <CollectionValidators>
+            <Validator Name="SPCustomsOfficeOfReleaseMandatory">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Je nutné uvést celní úřad propuštění"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[collection.hasValue() ? true :
+isTrue(form.authorizationType in [
+	globals.DocType.FZ,
+	globals.DocType.SAR,
+	globals.DocType.TIR])]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </CollectionValidators>
         </Modifier>
         <Modifier>
           <Name value="modifier_85995103_ValidityStartDate" />
@@ -7053,6 +7074,7 @@ isTrue(_validSPSealsSpecTypeAllowed)]]></ExpressionText>
         </Modifier>
         <Modifier>
           <Name value="modifier_51A26D18_GoodsItem" />
+          <ShowAsChanges value="True" />
           <SourcePath value="model.msg.ASEO.Event.GoodsList.GoodsItem" />
           <Children>
             <Computed>
@@ -7073,6 +7095,42 @@ this.collection().orderBy(length(Current.CNCode.ZBOZIKOD), false).selectFirst(
               </Expression>
             </Computed>
           </Children>
+          <CollectionValidators>
+            <Validator Name="SPGoodsItemMandatory">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Je nutné uvést výčet zbožových kódů"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[collection.hasValue() ? true :
+isFalse(form.authorizationType in [
+	globals.DocType.SI,
+	globals.DocType.SDE,
+	globals.DocType.LE,
+	globals.DocType.CE,
+	globals.DocType.CI,
+	globals.DocType.CCL,
+	globals.DocType.EIR,
+	globals.DocType.AR,
+	globals.DocType.ACR,
+	globals.DocType.AE,
+	globals.DocType.ACE,
+	globals.DocType.AT,
+	globals.DocType.ACT,
+	globals.DocType.AC,
+	globals.DocType.FZ,
+	globals.DocType.ACP,
+	globals.DocType.TIR]) ? true :
+isFalse(this.owner().SPLI.NoPresentationOfGoodsAllowed) ? true :
+isFalse(GoodsListType)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </CollectionValidators>
         </Modifier>
         <Modifier>
           <Name value="modifier_7F93011D_PeriodDuration" />
@@ -7229,6 +7287,89 @@ length(attr) >= 6]]></ExpressionText>
             </Validator>
           </Validators>
         </Modifier>
+        <Modifier>
+          <Name value="modifier_15D72E72_ApplicationRejectionReason" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.msg.ASEO.Event.ApplicationRejection.ApplicationRejectionReason" />
+          <Validators>
+            <Validator Name="req">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pro zamítnutí žádosti vyplňte \"Důvod zamítnutí žádosti\"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[attr.hasValue() ? true :
+isFalse(_IsRequired_ApplicationRejectionReason)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_49A50780_AuthorizationWithdrawalReason" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.msg.ASEO.Event.AuthorizationWithdrawal.AuthorizationWithdrawalReason" />
+          <Validators>
+            <Validator Name="req">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pro zrušení/zneplatnění povolení vyplňte \"Důvod zamítnutí žádosti\"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[attr.hasValue() ? true :
+isFalse(_IsRequired_AuthorizationWithdrawalReason)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_CB35E4C0_AuthorizationSuspendingReason" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.msg.ASEO.Event.AuthorizationSuspending.AuthorizationSuspendingReason" />
+          <Validators>
+            <Validator Name="req">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pro pozastavení povolení vyplňte \"Upravit Důvod pozastavení povolení\"."]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[attr.hasValue() ? true :
+isFalse(_IsRequired_AuthorizationSuspendingReason)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_6127927D_CustomsOffices" />
+          <SourcePath value="model.msg.ASEO.Event.CustomsOffices" />
+          <Children>
+            <Computed>
+              <Name value="_RequiredFix" />
+              <Caption value="_ required fix" />
+              <Comment value="to enforce validations on attributes inside of empty optional complex" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+          </Children>
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
@@ -7314,9 +7455,6 @@ if globals.sendResult.Valid then
 	endif
 	
 	form.actions.setAnnexCount()
-	
-	//save this for GUI to display
-	form.model.original_validityStartDate = form.model.msg.ASEO.Event.ValidityStartDate
 else
     apiobjects.notificationsCtrl.addError("Data povolení nebyla načtena.")
 endif]]></Script>
@@ -7464,9 +7602,6 @@ globals.IsBusy = False
 form.error.serverValidationErrors.clear()
 
 request.fromJson(msg.toJson())
-
-// dava mazani ASEOID smysl?
-request.ASEO.ASEOID.clear()
 
 result = false
 
@@ -8101,41 +8236,47 @@ endif]]></Script>
     <ActionBlock>
       <Name value="sendLifeCycleMessage" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var ui = form.ui
+        <Script><![CDATA[var msg = form.model.msg
+var ui = form.ui
 var buttons = ui.buttons
 var action = form.action
 
 var postingSuccess = false
 
-if form.currentDateTime <= form.model.msg.ASEO.Event.ValidityStartDate then
+if form.currentDateTime <= msg.ASEO.Event.ValidityStartDate then
 
-	if action = enums.Action.applicationModify then
-		postingSuccess = form.actions.lifeCycle_applicationModification()
-	else if action = enums.Action.applicationReject then
-		postingSuccess = form.actions.lifeCycle_applicationRejection()
-	else if action = enums.Action.applicationRejectModify then
-		postingSuccess = form.actions.lifeCycle_applicationRejectionModification()
-	else if action = enums.Action.authorize then
-		postingSuccess = form.actions.lifeCycle_authorization()
-	else if action = enums.Action.authorizeModify then
-		postingSuccess = form.actions.lifeCycle_authorizationModification()	
-	else if action = enums.Action.authorizeWithdrawal then
-		postingSuccess = form.actions.lifeCycle_authorizationWithdrawal()
-	else if action = enums.Action.authorizeWithdrawalModify	then
-		postingSuccess = form.actions.lifeCycle_authorizationWithdrawalModification()	
-	else if action = enums.Action.authorizeSuspending	then
-		postingSuccess = form.actions.lifeCycle_authorizationSuspending()	
-	else if action = enums.Action.authorizeSuspendingModify then
-		postingSuccess = form.actions.lifeCycle_authorizationSuspendingModification()	
-	else if action = enums.Action.authorizeCancellation	then
-		postingSuccess = form.actions.lifeCycle_authorizationCancellation()	
-	else if action = enums.Action.authorizeCancellationModify	then
-		postingSuccess = form.actions.lifeCycle_authorizationCancellationModification()	
-	else if action = enums.Action.FutureRemoval	then
-		postingSuccess = form.actions.lifeCycle_futureRemoval()
+	if msg.isValid() then
+		if action = enums.Action.applicationModify then
+			postingSuccess = form.actions.lifeCycle_applicationModification()
+		else if action = enums.Action.applicationReject then
+			postingSuccess = form.actions.lifeCycle_applicationRejection()
+		else if action = enums.Action.applicationRejectModify then
+			postingSuccess = form.actions.lifeCycle_applicationRejectionModification()
+		else if action = enums.Action.authorize then
+			postingSuccess = form.actions.lifeCycle_authorization()
+		else if action = enums.Action.authorizeModify then
+			postingSuccess = form.actions.lifeCycle_authorizationModification()	
+		else if action = enums.Action.authorizeWithdrawal then
+			postingSuccess = form.actions.lifeCycle_authorizationWithdrawal()
+		else if action = enums.Action.authorizeWithdrawalModify	then
+			postingSuccess = form.actions.lifeCycle_authorizationWithdrawalModification()	
+		else if action = enums.Action.authorizeSuspending	then
+			postingSuccess = form.actions.lifeCycle_authorizationSuspending()	
+		else if action = enums.Action.authorizeSuspendingModify then
+			postingSuccess = form.actions.lifeCycle_authorizationSuspendingModification()	
+		else if action = enums.Action.authorizeCancellation	then
+			postingSuccess = form.actions.lifeCycle_authorizationCancellation()	
+		else if action = enums.Action.authorizeCancellationModify	then
+			postingSuccess = form.actions.lifeCycle_authorizationCancellationModification()	
+		else if action = enums.Action.FutureRemoval	then
+			postingSuccess = form.actions.lifeCycle_futureRemoval()
+		else
+			system.consoleError("Invalid Action: " + action.enumCaption())
+		endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf
 	else
-		system.consoleError("Invalid Action: " + action.enumCaption())
-	endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf
+		msg.setTouched(true)
+		form.ui.groupBoxes.cgbClientErrors._IsVisible = true
+	endif
 
 else
 	var message = "V záložce \"Obecné\" nesmí být údaj \"Počátek platnosti rozhodnutí od\" nastaven na čas v minulosti. Současný čas je: \"" + toString(form.currentDateTime) + "\""
@@ -8361,9 +8502,6 @@ if (form.State = enums.State.APA) then
 	event.DecisionDate = getDate()
 endIf
 
-//get previous original validity start date for Remove Future Event Button Visibility
-form.model.original_validityStartDate = aseo.LastEventValidityStartDate
-
 //update ValidityStartDate and add 1 Hour
 event.ValidityStartDate = addHours(getDateTime(), 1)]]></Script>
       </ActionLangBody>
@@ -8560,7 +8698,7 @@ var spax = event.SPAx
 var spacp = event.SPACP
 
 if aseo.IsInCD.hasValue() then
-	event.PreferCD = aseo.IsInCD
+	event.PreferCD = false
 endIf
 
 if auth.ResponsiblePersonWantsToBeNotified.isEmpty() then
@@ -8571,15 +8709,38 @@ if auth.LimitedAuthorizationValidity.isEmpty() then
 	auth.LimitedAuthorizationValidity = false
 endIf
 
+// SPGoodsMandatory
+if isTrue(form.authorizationType in [
+	globals.DocType.SI,
+	globals.DocType.SDE,
+	globals.DocType.LE,
+	globals.DocType.LI,
+	globals.DocType.EIR,
+	globals.DocType.CE,
+	globals.DocType.CI,
+	globals.DocType.CCL,
+	globals.DocType.AR,
+	globals.DocType.ACR,
+	globals.DocType.AE,
+	globals.DocType.ACE,
+	globals.DocType.AT,
+	globals.DocType.ACT,
+	globals.DocType.AC,
+	globals.DocType.FZ,
+	globals.DocType.ACP,
+	globals.DocType.TIR]) then
+
+	if goods.GoodsListType.isEmpty() then
+		goods.GoodsListType = false
+	endIf
+	
+endif
+
 if isTrue(form.authorizationType in [globals.DocType.ACR]) then
 
 	if form._.ActionAuthorize then
 		auth.LimitedAuthorizationValidity = true
 		auth.AuthorizationValidUntil = toDate("2999-12-30", defaultDate())
-	endIf
-
-	if goods.GoodsListType.isEmpty() then
-		goods.GoodsListType = false
 	endIf
 
 	if seals.SPSealsSpecTypeAllowed.isEmpty() then
@@ -9469,6 +9630,7 @@ endif]]></Script>
 
 if not msg.isValid() then
 	msg.setTouched(true)
+	form.ui.groupBoxes.cgbClientErrors._IsVisible = true
 endif]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -9543,6 +9705,16 @@ pageAPI.focusControl(ctr, defaultString())
 pageAPI.focusControl(ctr, ptr)
 
 system.console("Clicked on: " + ptr)]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_prcZbozi_OnItemAdd" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[params.newItem.Allowed = false]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
