@@ -12348,20 +12348,26 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
         <Script><![CDATA[globals.IsBusy = true
 form.CustomsDecisionDetailRequest.customsDecisionAuthorisationData.customsDecisionGUID = form.GUID
 
+
 var response = apiobjects.cic.postAsync("CustomsDecisionDetailRequest",form.CustomsDecisionDetailRequest.toJson())
-if response.isError()
-then
-    system.consoleError("Error in Post: " + response.getErrorMessage() + " (" + response.getMessageType() + ")")
+
+if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
+
+    system.consoleError("Error in Post: " + response.getErrorMessage() + " (" + response.getMessageType() + ", message code " + toString(response.getStatusCode()) + ")")
+    apiobjects.notificationsCtrl.addWarning("Chyba při načítání dat při : " + response.getErrorMessage() + " (kód odpovědi: " + response.getMessageType() + ", kód zprávy " + toString(response.getStatusCode()) +")")
+    
 else
+
     form.CD.fromJson(response.getJsonString())
 	form.actions.afterVersionLoad()
+	actions.prepareFormAnnexPannel()
+	form.actions.prepareFormForAnnexInteraction()
+	form.formBehavior.editPermitted = isTrue(globals.user.hasRoleWrite) OR isTrue(globals.user.hasRoleAdmin)
+	
 endif
 
-actions.prepareFormAnnexPannel()
-form.actions.prepareFormForAnnexInteraction()
-form.actions.initNavigationTree()
 
-form.formBehavior.editPermitted = isTrue(globals.user.hasRoleWrite) OR isTrue(globals.user.hasRoleAdmin)
+form.actions.initNavigationTree()
 
 globals.IsBusy = false
 ]]></Script>

@@ -3062,15 +3062,21 @@
 form.CustomsDecisionDetailRequest.customsDecisionAuthorisationData.customsDecisionGUID = form.GUID
 
 var response = apiobjects.cic.postAsync("CustomsDecisionDetailRequest",form.CustomsDecisionDetailRequest.toJson())
-if response.isError()
-then
-    system.consoleError("Error in Post: " + response.getErrorMessage() + " (" + response.getMessageType() + ")")
+
+if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
+
+    system.consoleError("Error in Post: " + response.getErrorMessage() + " (" + response.getMessageType() + ", message code " + toString(response.getStatusCode()) + ")")
+    apiobjects.notificationsCtrl.addWarning("Chyba při načítání dat při : " + response.getErrorMessage() + " (kód odpovědi: " + response.getMessageType() + ", kód zprávy " + toString(response.getStatusCode()) +")")
+    
 else
+
     form.CD.fromJson(response.getJsonString())
+	actions.prepareFormAnnexPannel()
+	form.actions.prepareFormForAnnexInteraction()
+
 endif
 
-actions.prepareFormAnnexPannel()
-form.actions.prepareFormForAnnexInteraction()
+
 form.actions.initNavigationTree()
 
 globals.IsBusy = false
