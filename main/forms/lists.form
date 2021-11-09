@@ -1732,6 +1732,64 @@
           <Bindings>
             <Binding SourceProperty="IsVisible" Expression="uiState.visibility_dlPerson" />
           </Bindings>
+          <Children>
+            <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
+              <Name value="listPerson" />
+              <controller reference="~personCtrl" />
+              <lastClickedRowSelectWhenCheckboxesOff value="True" />
+              <listName value="DatasetResponsiblePerson" />
+              <pagingTemplate value="$first|$previous|$next|$last|$refresh|$editableCurrentPage|$records|$pageSize" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <useArrowKeys value="True" />
+              <Bindings>
+                <Binding SourceProperty="savedColumns" Expression="" />
+                <Binding SourceProperty="savedState" Expression="" />
+                <Binding SourceProperty="dataCollection" Expression="model.datasetPerson" />
+                <Binding SourceProperty="lastClickedRow" Expression="model.selectedPerson" />
+              </Bindings>
+              <columns>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="person_GUID" />
+                  <Caption value="GUID" />
+                  <ColumnName value="GUID" />
+                  <DataType value="string" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="person_State" />
+                  <Caption value="Stav" />
+                  <ColumnName value="State" />
+                  <DataType value="string" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="person_FirstName" />
+                  <Caption value="Jméno" />
+                  <ColumnName value="FirstName" />
+                  <DataType value="string" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="person_LastName" />
+                  <Caption value="Příjmení" />
+                  <ColumnName value="LastName" />
+                  <DataType value="string" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="person_BirthDate" />
+                  <Caption value="Datum narození" />
+                  <ColumnName value="BirthDate" />
+                  <DataType value="date" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="person_LastCheckDate" />
+                  <Caption value="Datum posledního prověření" />
+                  <ColumnName value="LastCheckDate" />
+                  <DataType value="date" />
+                </listColumn>
+              </columns>
+            </List>
+          </Children>
           <CssClass>
             <CssClassConditional>
               <ClassName value="{theme}-panel" />
@@ -1803,6 +1861,24 @@
           <Name value="model" />
           <Caption value="Model" />
           <Children>
+            <Reference>
+              <Name value="selectedPerson" />
+              <Caption value="Selected person" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.DatasetResponsiblePerson" />
+                </Include>
+              </Children>
+            </Reference>
+            <Collection>
+              <Name value="datasetPerson" />
+              <Caption value="Dataset person" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.DatasetResponsiblePerson" />
+                </Include>
+              </Children>
+            </Collection>
             <Reference>
               <Name value="selectedPlace" />
               <Caption value="Selected place" />
@@ -4120,7 +4196,7 @@ else if type in ["CGU", "DPO"] then
   	  navigation.main.guaranteePayment_v2.withGUID(guid).go()
   endIf endIf
 
-else if (type in ["ACE", "ACT", "ACR"]) and (isFalse(isAseoDetail)) then
+else if (type in ["ACE", "ACT", "ACR"]) and isTrue(form.model.selectedCd.CustomsDecisionOrigin = "CD" ) then
   
   if isTrue(form.model.selectedCd.DataStructureVersion = 1) then
   	  navigation.main.simplifiedProcedures.withGUID(guid).go()
@@ -4263,10 +4339,28 @@ else if navTree.selectedModule = "PL" then
 	endif endif
 	
 	placeCtrl.setReady(true)
+
+else if navTree.selectedModule = "Person" then
+	personCtrl.setReady(false)
+	uiState.visibility_dlPerson = true
+
+	if tabs.tabPerson_Valid.IsSelected then
+		personCtrl.setInvisibleODataFilter("State eq 'VP'")
+		personCtrl.setColumnVisibility("BirthDate", true, 5)
+		personCtrl.setColumnVisibility("LastCheckDate", true, 6)
+	else if tabs.tabPerson_Deleted.IsSelected then
+		personCtrl.setInvisibleODataFilter("State eq 'DP'")
+		personCtrl.setColumnVisibility("BirthDate", false, 5)
+		personCtrl.setColumnVisibility("LastCheckDate", false, 6)
+	else
+		system.consoleError(stringFormat("Module {0} filter - Unsupported tab '{1}'", navTree.selectedModule, tabs.SelectedTabId))
+	endif endif
 	
+	personCtrl.setReady(true)
+
 else
 	system.consoleError("Unsupported module '" + navTree.selectedModule + "'")
-endif endif endif
+endif endif endif endif
 
 globals.IsBusy = false]]></Script>
       </ActionLangBody>
@@ -5088,13 +5182,15 @@ endif]]></Script>
       <Name value="handler_btnTest_ArcticTemplate_OnClick1" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[notificationsCtrl.addInfo("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam sapien sem, ornare ac, nonummy non, lobortis a enim.")
+        <Script><![CDATA[notificationsCtrl.addError("Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis.")
+
+/*
+notificationsCtrl.addInfo("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam sapien sem, ornare ac, nonummy non, lobortis a enim.")
 
 notificationsCtrl.addWarning("Aliquam in lorem sit amet leo accumsan lacinia. Pellentesque ipsum. Sed elit dui, pellentesque a, faucibus vel, interdum nec, diam.")
 
-notificationsCtrl.addError("Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis.")
-
-notificationsCtrl.addSuccess("Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.")]]></Script>
+notificationsCtrl.addSuccess("Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.")
+*/]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -5193,5 +5289,9 @@ endif]]></Script>
         <ActionEvent ReferencedAction="~handler_eventDispatcher_OnMessage" />
       </OnMessage>
     </EventDispatcher>
+    <ListCtrl identity="ListCtrl.459ff3780ab145df985191cfc1336ce1">
+      <Name value="personCtrl" />
+      <server reference="+GlobalApiObjects.cic" />
+    </ListCtrl>
   </ApiObjects>
 </Form>
