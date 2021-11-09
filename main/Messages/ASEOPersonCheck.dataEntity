@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<DataEntity>
+  <Name value="ASEOPersonCheck" />
+  <Caption value="Prověření oprávněné osoby" />
+  <MtsImportOptions.MTS.ID value="/ASEOPersonCheck" />
+  <MtsImportOptions.MTS.Type value="message" />
+  <Children>
+    <Complex>
+      <Name value="ResponsiblePerson" />
+      <Caption value="Oprávněná osoba" />
+      <IsRequired value="True" />
+      <MtsImportOptions.MTS.ID value="/ASEOPersonCheck/ResponsiblePerson" />
+      <MtsImportOptions.MTS.Type value="group" />
+      <Children>
+        <Attribute>
+          <Name value="GUID" />
+          <Caption value="Reposnsible person GUID" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/ASEOPersonCheck/ResponsiblePerson/GUID" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Complex>
+          <Name value="ResponsiblePersonCheck" />
+          <Caption value="Prověření osoby" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/ASEOPersonCheck/ResponsiblePerson/ResponsiblePersonCheck" />
+          <MtsImportOptions.MTS.Type value="group" />
+          <Children>
+            <Attribute>
+              <Name value="CheckDate" />
+              <Caption value="Datum prověření" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonCheck/ResponsiblePerson/ResponsiblePersonCheck/CheckDate" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Date" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="CheckResult" />
+              <Caption value="Výsledek prověření" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonCheck/ResponsiblePerson/ResponsiblePersonCheck/CheckResult" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="AttachmentFile" />
+              <Caption value="Soubor přílohy" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonCheck/ResponsiblePerson/ResponsiblePersonCheck/AttachmentFile" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="FileName" />
+              <Caption value="Jméno souboru přílohy" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonCheck/ResponsiblePerson/ResponsiblePersonCheck/FileName" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="256" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="FileContentType" />
+              <Caption value="MIME type souboru" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonCheck/ResponsiblePerson/ResponsiblePersonCheck/FileContentType" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="100" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="RecordingCustomsOffice" />
+              <Caption value="Rozhodující celní úřad" />
+              <IsRequired value="True" />
+              <MetaType reference="+MetaTypes.CU" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonCheck/ResponsiblePerson/ResponsiblePersonCheck/RecordingCustomsOffice" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <Validators>
+                <Validator Name="regex">
+                  <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+                  <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
+            </Attribute>
+            <Attribute>
+              <Name value="RecordingPerson" />
+              <Caption value="Osobní číslo vydavatele rozhodnutí" />
+              <IsRequired value="True" />
+              <MetaType reference="+MetaTypes.Pracovnik" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonCheck/ResponsiblePerson/ResponsiblePersonCheck/RecordingPerson" />
+              <MtsImportOptions.MTS.Type value="element" />
+            </Attribute>
+            <Attribute>
+              <Name value="RecordingPersonName" />
+              <Caption value="Jméno, funkce a titul vydávající osoby" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonCheck/ResponsiblePerson/ResponsiblePersonCheck/RecordingPersonName" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="50" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </Complex>
+      </Children>
+    </Complex>
+  </Children>
+</DataEntity>

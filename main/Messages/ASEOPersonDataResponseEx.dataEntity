@@ -1,0 +1,476 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<DataEntity>
+  <Name value="ASEOPersonDataResponseEx" />
+  <Caption value="Data opraávněné osoby pro SF klienta" />
+  <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx" />
+  <MtsImportOptions.MTS.Type value="message" />
+  <Children>
+    <Complex>
+      <Name value="ResponsiblePerson" />
+      <Caption value="Oprávněná osoba" />
+      <IsRequired value="True" />
+      <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson" />
+      <MtsImportOptions.MTS.Type value="group" />
+      <Children>
+        <Attribute>
+          <Name value="State" />
+          <Caption value="ResponsiblePersonState" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/State" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType>
+              <StrMaxLength value="20" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="GUID" />
+          <Caption value="Reposnsible person GUID" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/GUID" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Complex>
+          <Name value="ResponsiblePersonEvent" />
+          <Caption value="Detail oprávněné osoby" />
+          <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonEvent" />
+          <MtsImportOptions.MTS.Type value="group" />
+          <Children>
+            <Attribute>
+              <Name value="GUID" />
+              <Caption value="Responsible person event GUID" />
+              <IsRequired value="True" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonEvent/GUID" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="ValidityStartDate" />
+              <Caption value="Datum počátku platnosti záznamu" />
+              <IsRequired value="True" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonEvent/ValidityStartDate" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="DateTime" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="FirstName" />
+              <Caption value="Jméno" />
+              <IsRequired value="True" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonEvent/FirstName" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="35" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="LastName" />
+              <Caption value="Příjmení" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonEvent/LastName" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="50" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="BirthDate" />
+              <Caption value="Datum narození" />
+              <IsRequired value="True" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonEvent/BirthDate" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Date" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Reference>
+              <Name value="Country" />
+              <Caption value="Země" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonEvent/Country" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ZEME" />
+                </Include>
+              </Children>
+            </Reference>
+            <Attribute>
+              <Name value="StreetAndNr" />
+              <Caption value="Ulice a číslo" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonEvent/StreetAndNr" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="70" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="City" />
+              <Caption value="Město/Obec" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonEvent/City" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="70" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="PostCode" />
+              <Caption value="PSČ" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonEvent/PostCode" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="10" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="Phone" />
+              <Caption value="Telefon" />
+              <MetaType reference="+MetaTypes.PhoneNumber" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonEvent/Phone" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <Validators>
+                <Validator Name="regex">
+                  <MtsImportOptions.MTS.Regex value="\+\p{IsBasicLatin}+" />
+                  <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\+\\p{IsBasicLatin}+$") : true)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
+            </Attribute>
+            <Attribute>
+              <Name value="CellPhone" />
+              <Caption value="Mobil" />
+              <MetaType reference="+MetaTypes.PhoneNumber" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonEvent/CellPhone" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <Validators>
+                <Validator Name="regex">
+                  <MtsImportOptions.MTS.Regex value="\+\p{IsBasicLatin}+" />
+                  <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\+\\p{IsBasicLatin}+$") : true)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
+            </Attribute>
+            <Attribute>
+              <Name value="EMail" />
+              <Caption value="eMail" />
+              <MetaType reference="+MetaTypes.Email" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonEvent/EMail" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <Validators>
+                <Validator Name="regex">
+                  <MtsImportOptions.MTS.Regex value="\p{IsBasicLatin}+" />
+                  <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\p{IsBasicLatin}+$") : true)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
+            </Attribute>
+            <Attribute>
+              <Name value="Information" />
+              <Caption value="Informace" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonEvent/Information" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="10000" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="RecordingCustomsOffice" />
+              <Caption value="Rozhodující celní úřad" />
+              <IsRequired value="True" />
+              <MetaType reference="+MetaTypes.CU" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonEvent/RecordingCustomsOffice" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <Validators>
+                <Validator Name="regex">
+                  <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+                  <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
+            </Attribute>
+            <Attribute>
+              <Name value="RecordingPerson" />
+              <Caption value="Osobní číslo vydavatele rozhodnutí" />
+              <IsRequired value="True" />
+              <MetaType reference="+MetaTypes.Pracovnik" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonEvent/RecordingPerson" />
+              <MtsImportOptions.MTS.Type value="element" />
+            </Attribute>
+            <Attribute>
+              <Name value="RecordingPersonName" />
+              <Caption value="Jméno, funkce a titul vydávající osoby" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonEvent/RecordingPersonName" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="50" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </Complex>
+        <Collection>
+          <Name value="ResponsiblePersonCheck" />
+          <Caption value="Prověření osoby" />
+          <MaxCount value="999999" />
+          <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonCheck" />
+          <MtsImportOptions.MTS.Type value="group" />
+          <Children>
+            <Attribute>
+              <Name value="GUID" />
+              <Caption value="Responsible person check GUID" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonCheck/GUID" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="CheckDate" />
+              <Caption value="Datum prověření" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonCheck/CheckDate" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Date" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="CheckResult" />
+              <Caption value="Výsledek prověření" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonCheck/CheckResult" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="FileName" />
+              <Caption value="Jméno souboru přílohy" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonCheck/FileName" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="256" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="FileContentType" />
+              <Caption value="MIME type souboru" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonCheck/FileContentType" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="100" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="RecordingCustomsOffice" />
+              <Caption value="Rozhodující celní úřad" />
+              <IsRequired value="True" />
+              <MetaType reference="+MetaTypes.CU" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonCheck/RecordingCustomsOffice" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <Validators>
+                <Validator Name="regex">
+                  <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+                  <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
+            </Attribute>
+            <Attribute>
+              <Name value="RecordingPerson" />
+              <Caption value="Osobní číslo vydavatele rozhodnutí" />
+              <IsRequired value="True" />
+              <MetaType reference="+MetaTypes.Pracovnik" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonCheck/RecordingPerson" />
+              <MtsImportOptions.MTS.Type value="element" />
+            </Attribute>
+            <Attribute>
+              <Name value="RecordingPersonName" />
+              <Caption value="Jméno, funkce a titul vydávající osoby" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonCheck/RecordingPersonName" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="50" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </Collection>
+        <Collection>
+          <Name value="ResponsiblePersonHistory" />
+          <Caption value="Detail oprávněné osoby" />
+          <MaxCount value="999999" />
+          <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonHistory" />
+          <MtsImportOptions.MTS.Type value="group" />
+          <Children>
+            <Attribute>
+              <Name value="GUID" />
+              <Caption value="Responsible person event GUID" />
+              <IsRequired value="True" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonHistory/GUID" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="ValidityStartDate" />
+              <Caption value="Datum počátku platnosti záznamu" />
+              <IsRequired value="True" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonHistory/ValidityStartDate" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="DateTime" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="RecordingCustomsOffice" />
+              <Caption value="Rozhodující celní úřad" />
+              <IsRequired value="True" />
+              <MetaType reference="+MetaTypes.CU" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonHistory/RecordingCustomsOffice" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <Validators>
+                <Validator Name="regex">
+                  <MtsImportOptions.MTS.Regex value="[A-Z]{2}[A-Z0-9]{6}" />
+                  <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+                  <ErrorMessage IsValid="True">
+                    <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </ErrorMessage>
+                  <IsValid IsValid="True">
+                    <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </IsValid>
+                </Validator>
+              </Validators>
+            </Attribute>
+            <Attribute>
+              <Name value="RecordingPerson" />
+              <Caption value="Osobní číslo vydavatele rozhodnutí" />
+              <IsRequired value="True" />
+              <MetaType reference="+MetaTypes.Pracovnik" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonHistory/RecordingPerson" />
+              <MtsImportOptions.MTS.Type value="element" />
+            </Attribute>
+            <Attribute>
+              <Name value="RecordingPersonName" />
+              <Caption value="Jméno, funkce a titul vydávající osoby" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonHistory/RecordingPersonName" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <StrMaxLength value="50" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="SelectedEvent" />
+              <Caption value="Selected event" />
+              <IsRequired value="True" />
+              <MtsImportOptions.MTS.ID value="/ASEOPersonDataResponseEx/ResponsiblePerson/ResponsiblePersonHistory/SelectedEvent" />
+              <MtsImportOptions.MTS.Type value="element" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </Collection>
+      </Children>
+    </Complex>
+  </Children>
+</DataEntity>

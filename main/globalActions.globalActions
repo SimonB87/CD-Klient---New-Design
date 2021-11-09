@@ -540,11 +540,18 @@ endif]]></Script>
       <Name value="handler_notificationsCtrl_OnNotificationsChanged" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[globals.forms.master.notificationCount = params.notificationCount
+        <Script><![CDATA[var master = globals.forms.master
+
+master.notificationCount = params.notificationCount
 
 if params.notificationCount > 0 then
 	actions.js_removeSuccessNotifications()
-endif]]></Script>
+endif
+
+if params.notificationCount = 0 then
+	notificationsCtrl.setPanelVisibility(false)
+endif
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

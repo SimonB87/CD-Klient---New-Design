@@ -8246,6 +8246,9 @@ var postingSuccess = false
 if form.currentDateTime <= msg.ASEO.Event.ValidityStartDate then
 
 	if msg.isValid() then
+		msg.setTouched(false)
+		form.ui.groupBoxes.cgbClientErrors._IsVisible = false	
+	
 		if action = enums.Action.applicationModify then
 			postingSuccess = form.actions.lifeCycle_applicationModification()
 		else if action = enums.Action.applicationReject then
