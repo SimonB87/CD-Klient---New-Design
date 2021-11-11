@@ -263,6 +263,49 @@
                       </CssClass>
                     </Button>
                     <Button>
+                      <Name value="btnPerson_Detail" />
+                      <Caption value="Zobrazit detail" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_btnPerson_Detail_OnClick" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="uiState.buttons.btnPerson_New.IsVisible" />
+                        <Binding SourceProperty="IsEnabled" Expression="uiState.buttons.btnPerson_Detail.IsEnabled" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="cd-header-button" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
+                      <Name value="btnPerson_New" />
+                      <Caption value="Nová osoba" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_btnPerson_New_OnClick" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="uiState.buttons.btnPerson_New.IsVisible" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="cd-header-button" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
                       <Name value="btnTest_ArcticTemplate" />
                       <Caption value="ArcticTemplate" />
                       <Panel.Height value="#" />
@@ -4057,6 +4100,48 @@ defaultString()]]></ExpressionText>
                     </Computed>
                   </Children>
                 </Complex>
+                <Complex>
+                  <Name value="btnPerson_Detail" />
+                  <Caption value="Btn person _ detail" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="Is visible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.uiState.visibility_dlPerson]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Computed>
+                      <Name value="IsEnabled" />
+                      <Caption value="Is enabled" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.model.selectedPerson.hasValue()]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="btnPerson_New" />
+                  <Caption value="Btn person _ new" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="Is visible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[globals.user.hasWritePermission and form.uiState.visibility_dlPerson]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
           </Children>
@@ -5260,6 +5345,37 @@ endif]]></Script>
 	
 	navigation.main.PL.go()	
 endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btnPerson_Detail_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.actions.saveStates()
+
+var gp = globals.forms.Person.params
+gp.Mode = "VIEW"
+gp.Guid = form.model.selectedPerson.GUID
+
+navigation.main.Person.go()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btnPerson_New_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody>
+        <Script><![CDATA[form.actions.saveStates()
+
+var gp = globals.forms.Person.params
+gp.Mode = "NEW"
+
+navigation.main.Person.go()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
