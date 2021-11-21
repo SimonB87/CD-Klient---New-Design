@@ -1483,6 +1483,9 @@
                   </CssClass>
                 </Panel>
               </Content>
+              <Bindings>
+                <Binding SourceProperty="IsVisible" Expression="not form.formBehavior.declarationTypes.isType_TST" />
+              </Bindings>
               <CssClass>
                 <CssClassConditional>
                   <ClassName value="{theme}-groupbox" />
@@ -7389,7 +7392,7 @@
                                     <TextBox>
                                       <Name value="textBox152" />
                                       <Caption value="Země" />
-                                      <CaptionVAlign value="Middle" />
+                                      <CaptionPosition value="Top" />
                                       <IsEnabled value="False" />
                                       <Panel.Height value="#" />
                                       <Panel.Width value="50%" />
@@ -12581,7 +12584,7 @@ endIf]]></Script>
     <ActionBlock>
       <Name value="initNavigationTree" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[
+        <Script><![CDATA[var types = form.formBehavior.declarationTypes
 var master = globals.forms.master
 var appInfo = globals.appInfo
 
@@ -12596,22 +12599,43 @@ var annexCaption = form.actions.setAnnexCaption()
 apiobjects.ntc.beginSetup("navTrees::_CD_v2", defaultString())
 
 var node01 = ntc.addNode("BaseInfo", "Základní infromace")
-var node03 = ntc.addNode("StorageFacilityDetails", "Indentifikační čísla skladů")
 var node04 = ntc.addNode("StorageOfUnionGoods", "Skladování unijního zboží")
 var node05 = ntc.addNode("TemporaryRemoval", "Dočasné vyjmutí")
-var node06 = ntc.addNode("GoodsToBePlacedSpecProcEndUse", "Zboži pro konečné užití")
-var node07 = ntc.addNode("ProcessedProducts", "Zušlechtěné výrobky")
 var node08 = ntc.addNode("BillOfDischPlusRelease", "Vyúčtování a vyřízení")
-var node09 = ntc.addNode("PlacesOfProcessingOrUse", "Místa zušlechtění či užití")
-var node10 = ntc.addNode("GoodsToBePlacedSpecProcProcessing", "Seznam zbožových položek")
-var node21 = ntc.addNode("SuggestedCustomsOffice", "Doporučené celní úřady")
-var node11 = ntc.addNode("PriorExportIPEXIM", "Předčasný vývoz AZS EX/IM")
-var node12 = ntc.addNode("PriorImport", "Předcházející import")
 var node13 = ntc.addNode("StandExchSystem", "Systém prosté výměny")
-var node14 = ntc.addNode("GoodsToBePlacedSpecProcTempAdmiss", "Zboží k propuštění do zvláštního režimu dočasného použití")
-var node15 = ntc.addNode("MovementOfGoods", "Pohyb zboží")
-var node16 = ntc.addNode("LossRate", "Míra ztrát a výpočet dovozního cla")
-var node17 = ntc.addNode("PeriodAndTransfer", "Lhůty a transfery")
+var node21 = ntc.addNode("SuggestedCustomsOffice", "Doporučené celní úřady")
+
+if isTrue(types.isType_EUS ) then
+	ntc.addNode("GoodsToBePlacedSpecProcEndUse", "Zboži pro konečné užití") //node06
+endIf
+
+if isTrue(types.isType_IPO ) then
+	ntc.addNode("PriorImport", "Předcházející import") //node12
+endIf
+
+var node11 = ntc.addNode("PriorExportIPEXIM", "Předčasný vývoz AZS EX/IM")
+
+if isTrue(types.isType_TEA ) then
+	ntc.addNode("GoodsToBePlacedSpecProcTempAdmiss", "Zboží k propuštění do zvláštního režimu dočasného použití") //node14
+endIf
+
+if isTrue(types.isType_TST) then
+	ntc.addNode("StorageFacilityDetails", "Indentifikační čísla skladů") //node03
+	ntc.addNode("MovementOfGoods", "Pohyb zboží") //node15
+endIf
+
+if isTrue(types.isType_CW) then
+	ntc.addNode("LossRate", "Míra ztrát a výpočet dovozního cla") // node16
+endIf
+
+if isTrue(types.isType_IPO or types.isType_OPO or types.isType_EUS or types.isType_TEA ) then
+	ntc.addNode("ProcessedProducts", "Zušlechtěné výrobky") //node07
+	ntc.addNode("PlacesOfProcessingOrUse", "Místa zušlechtění či užití") //node09
+	ntc.addNode("GoodsToBePlacedSpecProcProcessing", "Seznam zbožových položek") //node10
+	ntc.addNode("PeriodAndTransfer", "Lhůty a transfery") //node17
+endIf
+
+
 var node18 = ntc.addNode("Other", "Ostatní")
 var node19 = ntc.addNode("Annex", annexCaption)
 var node20 = ntc.addNode("NarodniUdaje", "Národní údaje")
