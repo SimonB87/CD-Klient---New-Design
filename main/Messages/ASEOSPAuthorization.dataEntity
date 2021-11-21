@@ -1220,6 +1220,26 @@
                     </Attribute>
                   </Children>
                 </Collection>
+                <Complex>
+                  <Name value="CustomsOfficeOfGuarantee" />
+                  <Caption value="Celní úřad záruky" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorization/ASEO/Event/CustomsOffices/CustomsOfficeOfGuarantee" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Reference>
+                      <Name value="CustomsOfficeReferenceNumber" />
+                      <Caption value="Evidenční číslo celního úřadu" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorization/ASEO/Event/CustomsOffices/CustomsOfficeOfGuarantee/CustomsOfficeReferenceNumber" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.CELU_GUA" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
             <Collection>
@@ -1880,6 +1900,27 @@ LI:
                       </IsValid>
                     </Validator>
                   </ItemValidators>
+                </Collection>
+                <Collection>
+                  <Name value="CustomsProcedure" />
+                  <Caption value="Druh celního režimu" />
+                  <MaxCount value="99" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorization/ASEO/Event/CustomsProcedure/CustomsProcedure" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Reference>
+                      <Name value="CustomsProcedureCode" />
+                      <Caption value="Kód celního režimu" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOSPAuthorization/ASEO/Event/CustomsProcedure/CustomsProcedure/CustomsProcedureCode" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <Children>
+                        <Include>
+                          <Include reference="+DataEntities.CEL_UR" />
+                        </Include>
+                      </Children>
+                    </Reference>
+                  </Children>
                 </Collection>
               </Children>
             </Complex>
@@ -2589,6 +2630,44 @@ LI:
                 </Validator>
               </ItemValidators>
             </Collection>
+            <Complex>
+              <Name value="DefermentOfPayment" />
+              <Caption value="Odklad platby" />
+              <MtsImportOptions.MTS.ID value="/ASEOSPAuthorization/ASEO/Event/DefermentOfPayment" />
+              <MtsImportOptions.MTS.Type value="group" />
+              <Children>
+                <Reference>
+                  <Name value="TypeOfDefermentOfPayment" />
+                  <Caption value="Typ odkladu platby" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorization/ASEO/Event/DefermentOfPayment/TypeOfDefermentOfPayment" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.TYPODKLPLA" />
+                    </Include>
+                  </Children>
+                </Reference>
+                <Reference>
+                  <Name value="TypeOfPeriodOfDeferment" />
+                  <Caption value="Hromadná lhůta" />
+                  <IsRequired value="True" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorization/ASEO/Event/DefermentOfPayment/TypeOfPeriodOfDeferment" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.TypeOfPaybackPeriodEnum" />
+                    </Include>
+                  </Children>
+                </Reference>
+                <Attribute>
+                  <Name value="DaysOfDeferment" />
+                  <Caption value="Délka lhůty" />
+                  <MetaType reference="+MetaTypes.PeriodDuration" />
+                  <MtsImportOptions.MTS.ID value="/ASEOSPAuthorization/ASEO/Event/DefermentOfPayment/DaysOfDeferment" />
+                  <MtsImportOptions.MTS.Type value="element" />
+                </Attribute>
+              </Children>
+            </Complex>
           </Children>
           <Validators>
             <Validator Name="AuthorizedAgreedLocationMandatory">

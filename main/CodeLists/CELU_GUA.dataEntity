@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<DataEntity>
+  <Name value="CELU_GUA" />
+  <Caption value="Celní úřady záruky" />
+  <MtsImportOptions.MTS.ID value="CELU_GUA" />
+  <MtsImportOptions.MTS.Type value="codelist" />
+  <Children>
+    <Attribute>
+      <Name value="CELU_GUA" />
+      <Caption value="Kód CÚ" />
+      <MtsImportOptions.MTS.ID value="CELU_GUA/CELU_GUA" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="8" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="OD" />
+      <Caption value="Počátek platnosti" />
+      <MtsImportOptions.MTS.ID value="CELU_GUA/OD" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="DateTime" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="_DO" />
+      <Caption value="Konec platnosti" />
+      <MtsImportOptions.MTS.ID value="CELU_GUA/DO" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <BaseType value="DateTime" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Attribute>
+      <Name value="POPIS" />
+      <Caption value="Název útvaru" />
+      <MtsImportOptions.MTS.ID value="CELU_GUA/POPIS" />
+      <MtsImportOptions.MTS.Type value="codelist-item" />
+      <DeclaredType>
+        <AttributeType>
+          <StrMaxLength value="55" />
+        </AttributeType>
+      </DeclaredType>
+    </Attribute>
+    <Computed>
+      <Name value="_description" />
+      <Caption value="_ description" />
+      <Expression IsValid="True">
+        <ExpressionText><![CDATA[functions.codeListDescription(CELU_GUA,POPIS)]]></ExpressionText>
+        <ResultType>
+          <BaseType value="String" />
+        </ResultType>
+      </Expression>
+    </Computed>
+  </Children>
+</DataEntity>
