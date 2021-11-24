@@ -574,7 +574,14 @@
     <ActionBlock>
       <Name value="masterOnCreate" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[// Perform some general settings first
+        <Script><![CDATA[var isIE = actions.js_isInternetExplorer()
+if isIE then
+	var err = "Internet Exporer není podporovaný prohlížeč a aplikace nemusí správně fungovat. Podporované prohlížeče jsou aktuální verze Microsoft Edge a Google Chrome"
+	system.consoleError(err)
+	notificationsCtrl.addWarning(err)
+endif
+
+// Perform some general settings first
 var appInfo = globals.appInfo
 var master = globals.forms.master
 
@@ -620,8 +627,7 @@ codelistGroup.startBackgroundLoading(defaultDateTime())
 // Zatim se nikde nepouzivaji
 /* 
 packages.codeLists.apiobjects.EventTypeEnum.loadDataAsync(defaultDateTime())
-*/
-]]></Script>
+*/]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -764,6 +770,12 @@ notificationsCtrl.setPanelVisibility(false)]]></Script>
         </CodelistGroupMember>
         <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
           <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZEMEEU" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.CELU_GUA" />
+        </CodelistGroupMember>
+        <CodelistGroupMember identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <codelist reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.TYPODKLPLA" />
         </CodelistGroupMember>
       </codelists>
     </CodelistGroup>

@@ -4219,19 +4219,22 @@ var isAseoDetail = type in [
 	globals.DocType.TIR,
 	globals.DocType.ACP,
 	globals.DocType.SAR,
-	globals.DocType.ACR]
+	globals.DocType.ACR,
+	globals.DocType.DPO]
 
 // switch clause would be better, but ... everyone knows:-) 
-if (isTrue(type = "ACP") and isTrue(customsDecisionOrigin = "CD")) then
+if (isTrue(isAseoDetail) and isTrue(customsDecisionOrigin = "SP")) then
+
+  navigation.main.SP_Edit.go(type, guid)
+
+else if (isTrue(type = "ACP") and isTrue(customsDecisionOrigin = "CD")) then
 		
   if isTrue(form.model.selectedCd.DataStructureVersion = 1) then
   	  navigation.main.issuerDetail.withGUID(guid).go()
   else if isTrue(form.model.selectedCd.DataStructureVersion = 2) then
   	  navigation.main.issuerDetail_v2.withGUID(guid).go()
   endIf endIf
-	
-else if (isTrue(isAseoDetail) and isTrue(customsDecisionOrigin = "SP")) then
-  navigation.main.SP_Edit.go(type, guid)
+
 
 else if isTrue(type = "RSS") then
 
@@ -5369,7 +5372,7 @@ navigation.main.Person.go()]]></Script>
     <ActionBlock>
       <Name value="handler_btnPerson_New_OnClick" />
       <IsPrivate value="True" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[form.actions.saveStates()
 
 var gp = globals.forms.Person.params

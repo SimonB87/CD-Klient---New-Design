@@ -481,6 +481,17 @@
             </ResultType>
           </Expression>
         </Computed>
+        <Computed>
+          <Name value="DPO" />
+          <Caption value="DPO" />
+          <Description value="Povolení zvláštního režimu pro e-commerce" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA["DPO"]]></ExpressionText>
+            <ResultType>
+              <BaseType value="String" />
+            </ResultType>
+          </Expression>
+        </Computed>
       </Children>
     </Complex>
     <Complex>
@@ -1332,7 +1343,10 @@ isFalse(AuthType in [
           <Name value="isItem04zboziVisible" />
           <Caption value="isItem04zboziVisible" />
           <Expression IsValid="True">
-            <ExpressionText><![CDATA[Authorization]]></ExpressionText>
+            <ExpressionText><![CDATA[Authorization and
+isFalse(AuthType in [
+	globals.DocType.SAR,
+	globals.DocType.DPO])]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -1342,7 +1356,9 @@ isFalse(AuthType in [
           <Name value="isItem05rozsireneVisible" />
           <Caption value="isItem05rozsireneVisible" />
           <Expression IsValid="True">
-            <ExpressionText><![CDATA[Authorization]]></ExpressionText>
+            <ExpressionText><![CDATA[Authorization and
+isFalse(AuthType in [
+	globals.DocType.DPO])]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -1398,7 +1414,8 @@ isTrue(AuthType in [
 	globals.DocType.LI,
 	globals.DocType.LE,
 	globals.DocType.EIR,
-	globals.DocType.SAR])	]]></ExpressionText>
+	globals.DocType.SAR,
+	globals.DocType.DPO])	]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>

@@ -726,14 +726,38 @@ actions.sendRequest(
     <ActionBlock>
       <Name value="js_removeSuccessNotifications" />
       <IsJavascript value="True" />
-      <Script><![CDATA[var notifications = lastDataContext.$globals.$api.main_notificationsCtrl.notifications;
-
-notifications.remove(function(n) { 
-	return n.type == 'success'; 
-});]]></Script>
+      <Script><![CDATA[if (typeof(lastDataContext) !== 'undefined') {
+	var notifications = lastDataContext.$globals.$api.main_notificationsCtrl.notifications;
+	
+	notifications.remove(function(n) { 
+		return n.type == 'success'; 
+	});
+}]]></Script>
       <ActionLangBody IsValid="True" />
       <DataContext>
         <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="js_isInternetExplorer" />
+      <IsJavascript value="True" />
+      <Script><![CDATA[return !!(window.navigator && window.navigator.msSaveOrOpenBlob);]]></Script>
+      <ActionLangBody />
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
   </Actions>
