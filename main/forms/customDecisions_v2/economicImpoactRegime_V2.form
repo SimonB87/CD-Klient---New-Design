@@ -44,6 +44,27 @@
                         <CssClassConditional>
                           <ClassName value="btn-secondary" />
                         </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="flright" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
+                      <Name value="buttonEdit" />
+                      <Caption value="Editovat" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~editovat" />
+                      </OnClick>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="flright" />
+                        </CssClassConditional>
                       </CssClass>
                     </Button>
                   </Children>
@@ -9218,7 +9239,7 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Bindings>
-                        <Binding SourceProperty="IsVisible" Expression="enhancement.uiComponentSetting.computed_showEnhancementListBasic" />
+                        <Binding SourceProperty="IsVisible" Expression="enhancement.uiComponentSetting.showGoodsListBasic" />
                       </Bindings>
                       <Children>
                         <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
@@ -9303,7 +9324,7 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Bindings>
-                        <Binding SourceProperty="IsVisible" Expression="form.formBehavior.declarationTypes.isType_IPO" />
+                        <Binding SourceProperty="IsVisible" Expression="formBehavior.declarationTypes.isType_IPO" />
                       </Bindings>
                       <Children>
                         <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
@@ -9402,7 +9423,7 @@
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Bindings>
-                        <Binding SourceProperty="IsVisible" Expression="form.formBehavior.declarationTypes.isType_EUS" />
+                        <Binding SourceProperty="IsVisible" Expression="formBehavior.declarationTypes.isType_EUS" />
                       </Bindings>
                       <Children>
                         <List identity="List.a6f439c3b8e944f383863f66ff1261c8">
@@ -9582,7 +9603,7 @@
                               <DataApiObject reference="~fcZBOZIKOD" />
                               <DisplayMember value="_description" />
                               <immediateUpdate value="True" />
-                              <MinChars value="6" />
+                              <MinChars value="4" />
                               <Panel.Height value="#" />
                               <Panel.Width value="200px" />
                               <Tooltip value="Minimální počet znaků pro vyhledávání je 5" />
@@ -9606,7 +9627,7 @@
                               <DataApiObject reference="~fcZBOZIKOD" />
                               <DisplayMember value="_description" />
                               <immediateUpdate value="True" />
-                              <MinChars value="6" />
+                              <MinChars value="4" />
                               <Panel.Height value="#" />
                               <Panel.Width value="200px" />
                               <Bindings>
@@ -12010,6 +12031,16 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                     </ResultType>
                   </Expression>
                 </Computed>
+                <Computed>
+                  <Name value="showGoodsListBasic" />
+                  <Caption value="Show goods list basic" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[isTrue(form.formBehavior.declarationTypes.isType_OPO or form.formBehavior.declarationTypes.isType_TEA or form.formBehavior.declarationTypes.isType_CW )]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
               </Children>
             </Complex>
             <Complex>
@@ -12635,10 +12666,12 @@ if isTrue(types.isType_IPO or types.isType_OPO or types.isType_EUS or types.isTy
 	ntc.addNode("PeriodAndTransfer", "Lhůty a transfery") //node17
 endIf
 
-
 var node18 = ntc.addNode("Other", "Ostatní")
 var node19 = ntc.addNode("Annex", annexCaption)
-var node20 = ntc.addNode("NarodniUdaje", "Národní údaje")
+
+if isTrue(types.isType_IPO or types.isType_OPO or types.isType_EUS or types.isType_TEA or types.isType_CW ) then
+	ntc.addNode("NarodniUdaje", "Národní údaje")//node20
+endIf
 
 ntc.finishSetup()
 
@@ -12865,9 +12898,33 @@ else
 		
 	form.enhancement.dataSetGoodsItems.response.fromJson(dataReceived)
 	
+	var goodsData = form.enhancement.dataSetGoodsItems.response.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsItemCZ.toJson()
+	form.enhancement.modelServerEnhacement.fromJson(goodsData)
+	
 endIf
 
 globals.IsBusy = false]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="editovat" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.cdMode = enums.cdMode.upravit
+form.enhancement.isEnhancementEditOn = True
+
+var type = form.formBehavior.declarationTypes
+
+if isTrue(type.isType_IPO or type.isType_OPO or type.isType_TEA or type.isType_CW or type.isType_EUS ) then
+
+	var date = form.CD.customsDecisionAuthorisationData.customsDecisionStatusDate.hasValue() ? form.CD.customsDecisionAuthorisationData.customsDecisionStatusDate : getDate()
+	var dateTime = toDateTime(date)
+
+	fcZBOZIKOD.filterByValidityDateTime(dateTime)
+	
+endIf]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

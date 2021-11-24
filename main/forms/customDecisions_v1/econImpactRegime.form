@@ -326,13 +326,10 @@
                   <Panel.Width value="*" />
                   <Children>
                     <Panel>
-                      <Name value="saveButtons" />
+                      <Name value="modeButtons" />
                       <Orientation value="Horizontal" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
-                      <Bindings>
-                        <Binding SourceProperty="IsVisible" Expression="form.formBehavior.visibilities.saveButtons" />
-                      </Bindings>
                       <Children>
                         <Button>
                           <Name value="btnSave" />
@@ -342,10 +339,16 @@
                           <OnClick>
                             <ActionEvent ReferencedAction="~storeEnhacement" />
                           </OnClick>
+                          <Bindings>
+                            <Binding SourceProperty="IsVisible" Expression="form.formBehavior.visibilities.saveButtons" />
+                          </Bindings>
                           <CssClass>
                             <CssClassConditional>
                               <ClassName value="{theme}-button" />
                               <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                            <CssClassConditional>
+                              <ClassName value="flright" />
                             </CssClassConditional>
                           </CssClass>
                         </Button>
@@ -357,10 +360,56 @@
                           <OnClick>
                             <ActionEvent ReferencedAction="~storeAndClose" />
                           </OnClick>
+                          <Bindings>
+                            <Binding SourceProperty="IsVisible" Expression="form.formBehavior.visibilities.saveButtons" />
+                          </Bindings>
                           <CssClass>
                             <CssClassConditional>
                               <ClassName value="{theme}-button" />
                               <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                            <CssClassConditional>
+                              <ClassName value="flright" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Button>
+                        <Button>
+                          <Name value="closeButton" />
+                          <Caption value="Zavřít detail" />
+                          <Panel.Height value="#" />
+                          <Panel.HorizontalAlignment value="Right" />
+                          <Panel.Width value="150px" />
+                          <OnClick>
+                            <ActionEvent ReferencedAction="~closeDetail_local" />
+                          </OnClick>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-button" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                            <CssClassConditional>
+                              <ClassName value="flright" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </Button>
+                        <Button>
+                          <Name value="editButton" />
+                          <Caption value="Editovat" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="150px" />
+                          <OnClick>
+                            <ActionEvent ReferencedAction="~handler_editButton_OnClick" />
+                          </OnClick>
+                          <Bindings>
+                            <Binding SourceProperty="IsVisible" Expression="form.formBehavior.visibilities.modeButtons" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-button" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                            <CssClassConditional>
+                              <ClassName value="flright" />
                             </CssClassConditional>
                           </CssClass>
                         </Button>
@@ -370,37 +419,8 @@
                           <ClassName value="{theme}-panel" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
-                      </CssClass>
-                    </Panel>
-                    <Panel>
-                      <Name value="modeButtons" />
-                      <Orientation value="Horizontal" />
-                      <Panel.Height value="#" />
-                      <Panel.Width value="*" />
-                      <Bindings>
-                        <Binding SourceProperty="IsVisible" Expression="form.formBehavior.visibilities.modeButtons" />
-                      </Bindings>
-                      <Children>
-                        <Button>
-                          <Name value="editButton" />
-                          <Caption value="Editovat" />
-                          <Panel.Height value="#" />
-                          <Panel.Width value="150px" />
-                          <OnClick>
-                            <ActionEvent ReferencedAction="~handler_editButton_OnClick" />
-                          </OnClick>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-button" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </Button>
-                      </Children>
-                      <CssClass>
                         <CssClassConditional>
-                          <ClassName value="{theme}-panel" />
-                          <IsThemedStyle value="True" />
+                          <ClassName value="flright" />
                         </CssClassConditional>
                       </CssClass>
                     </Panel>
@@ -412,22 +432,6 @@
                     </CssClassConditional>
                   </CssClass>
                 </Panel>
-                <Button>
-                  <Name value="closeButton" />
-                  <Caption value="Zavřít detail" />
-                  <Panel.Height value="#" />
-                  <Panel.HorizontalAlignment value="Right" />
-                  <Panel.Width value="150px" />
-                  <OnClick>
-                    <ActionEvent ReferencedAction="~closeDetail_local" />
-                  </OnClick>
-                  <CssClass>
-                    <CssClassConditional>
-                      <ClassName value="{theme}-button" />
-                      <IsThemedStyle value="True" />
-                    </CssClassConditional>
-                  </CssClass>
-                </Button>
               </Children>
               <CssClass>
                 <CssClassConditional>
