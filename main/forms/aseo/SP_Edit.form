@@ -334,6 +334,9 @@
                         <CssClassConditional>
                           <ClassName value="cd-header-button" />
                         </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="btn-alternate" />
+                        </CssClassConditional>
                       </CssClass>
                     </Button>
                     <Button>
@@ -3049,6 +3052,7 @@
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="CustomsProcedureCode" />
                                 <Binding SourceProperty="IsRequiredMarkVisible" Expression="CustomsProcedureCode.isRequired()" />
+                                <Binding SourceProperty="IsEnabled" Expression="form.isEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -5667,7 +5671,8 @@ isTrue(form.authorizationType in [globals.DocType.ACP])]]></ExpressionText>
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
                         <ExpressionText><![CDATA[packages.navTrees.globals._ntSP_Edit.isItem08lhutyAzajisteniVisible and
-(form.ui.navTree.selectedNode in [form.ui.navTree.ItemAll, form.ui.navTree.Item08lhutyAzajisteni])]]></ExpressionText>
+(form.ui.navTree.selectedNode in [form.ui.navTree.ItemAll, form.ui.navTree.Item08lhutyAzajisteni]) and
+isFalse(form.authorizationType in [globals.DocType.DPO])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5685,7 +5690,10 @@ isTrue(form.authorizationType in [globals.DocType.ACP])]]></ExpressionText>
                       <Expression IsValid="True">
                         <ExpressionText><![CDATA[packages.navTrees.globals._ntSP_Edit.isItem08lhutyAzajisteniVisible and
 (form.ui.navTree.selectedNode in [form.ui.navTree.ItemAll, form.ui.navTree.Item08lhutyAzajisteni]) and
-isTrue(form.authorizationType in [globals.DocType.SAR,globals.DocType.ACR])]]></ExpressionText>
+isTrue(form.authorizationType in [
+	globals.DocType.SAR,
+	globals.DocType.ACR,
+	globals.DocType.DPO])]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -6760,7 +6768,7 @@ isFalse(_IsRequired_TypeOfPaybackPeriod)]]></ExpressionText>
           <Validators>
             <Validator Name="req">
               <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Zkontrolujte záložku \"Rozšířené\". Prvek \"Číslo zajištění\" je povinný pro vydání povolení."]]></ExpressionText>
+                <ExpressionText><![CDATA["Zkontrolujte záložku \"Lhůty a zajištení\". Prvek \"Číslo zajištění\" je povinný pro vydání povolení."]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
@@ -7278,7 +7286,7 @@ isTrue(_validSPSealsSpecTypeAllowed)]]></ExpressionText>
           <Validators>
             <Validator Name="ACRrequiredGuaranteeState">
               <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Zkontrolujte záložku \"Rozšířené\". Prvek \"Stav záruky\" povinný pro vydání povolení."]]></ExpressionText>
+                <ExpressionText><![CDATA["Zkontrolujte záložku \"Lhůty a zajištení\". Prvek \"Stav záruky\" povinný pro vydání povolení."]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
@@ -7345,6 +7353,7 @@ isTrue(_validSPSealsSpecTypeAllowed)]]></ExpressionText>
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[collection.hasValue() ? true :
+form._.NotActionAuthorize ? true :
 isTrue(form.authorizationType in [
 	globals.DocType.FZ,
 	globals.DocType.SAR,
@@ -7684,6 +7693,7 @@ isFalse(_IsRequired_AuthorizationSuspendingReason)]]></ExpressionText>
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[attr.hasValue() ? true :
+form._.NotActionAuthorize ? true :
 isFalse(form.authorizationType in [
 	globals.DocType.DPO])]]></ExpressionText>
                 <ResultType>
@@ -10291,6 +10301,12 @@ endIf]]></Script>
           <pointerPath value="ASEO/Event/RequiredPeriod/Key" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Event/CustomsOffices/CustomsOfficeOfGuarantee" />
+          <errorSourceComponent value="cmbCustomsOfficeOfGuarantee" />
+          <navigationTreeNode value="Item03celniUrady" />
+          <pointerPath value="ASEO/Event/CustomsOffices/CustomsOfficeOfGuarantee" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/ASEOID" />
           <errorSourceComponent value="lblAseoId" />
           <pointerPath value="ASEO/ASEOID" />
@@ -10458,6 +10474,12 @@ endIf]]></Script>
           <errorSourceComponent value="cmbCustomsOfficeOfRelease" />
           <navigationTreeNode value="Item03celniUrady" />
           <pointerPath value="ASEO/Event/CustomsOffices/CustomsOfficeOfRelease/CustomsOfficeReferenceNumber" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Event/CustomsOffices/CustomsOfficeOfGuarantee/CustomsOfficeReferenceNumber" />
+          <errorSourceComponent value="cmbCustomsOfficeOfGuarantee" />
+          <navigationTreeNode value="Item03celniUrady" />
+          <pointerPath value="ASEO/Event/CustomsOffices/CustomsOfficeOfGuarantee/CustomsOfficeReferenceNumber" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/CustomsOffices/SupervisingCustomsOffice" />
@@ -10652,96 +10674,6 @@ endIf]]></Script>
           <pointerPath value="ASEO/Event/SPACP/AuthorisedIssuerCode" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Control" />
-          <errorSourceComponent value="stPrehControl" />
-          <navigationTreeNode value="Item07prehodnoceni" />
-          <pointerPath value="ASEO/Control" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Control[${IX_Control}]" />
-          <errorSourceComponent value="stPrehControl" />
-          <navigationTreeNode value="Item07prehodnoceni" />
-          <pointerPath value="ASEO/Control[]" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Control[${IX_Control}]/GUID" />
-          <errorSourceComponent value="lblPrehControl_GUID" />
-          <navigationTreeNode value="Item07prehodnoceni" />
-          <pointerPath value="ASEO/Control/GUID" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Control[${IX_Control}]/Result/Description" />
-          <errorSourceComponent value="lblPrehControl_Result" />
-          <navigationTreeNode value="Item07prehodnoceni" />
-          <pointerPath value="ASEO/Control/Result/Description" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Control[${IX_Control}]/ControlDateTime" />
-          <errorSourceComponent value="lblPrehControl_ControlDateTime" />
-          <navigationTreeNode value="Item07prehodnoceni" />
-          <pointerPath value="ASEO/Control/ControlDateTime" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Control[${IX_Control}]/ControledByUser" />
-          <errorSourceComponent value="lblPrehControl_ControledByUser" />
-          <navigationTreeNode value="Item07prehodnoceni" />
-          <pointerPath value="ASEO/Control/ControledByUser" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Control[${IX_Control}]/SuggestDate" />
-          <errorSourceComponent value="lblPrehControl_SuggestDate" />
-          <navigationTreeNode value="Item07prehodnoceni" />
-          <pointerPath value="ASEO/Control/SuggestDate" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Control[${IX_Control}]/EvidenceDateTime" />
-          <errorSourceComponent value="lblPrehControl_EvidenceDateTime" />
-          <navigationTreeNode value="Item07prehodnoceni" />
-          <pointerPath value="ASEO/Control/EvidenceDateTime" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Control" />
-          <errorSourceComponent value="prPrehControl" />
-          <navigationTreeNode value="Item07prehodnoceni" />
-          <pointerPath value="ASEO/Control" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Control[${IX_Control}]" />
-          <errorSourceComponent value="prPrehControl" />
-          <navigationTreeNode value="Item07prehodnoceni" />
-          <pointerPath value="ASEO/Control[]" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Control[${IX_Control}]/File" />
-          <errorSourceComponent value="stPrehAnnexes" />
-          <navigationTreeNode value="Item07prehodnoceni" />
-          <pointerPath value="ASEO/Control/File" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Control[${IX_Control}]/File[${IX_File}]" />
-          <errorSourceComponent value="stPrehAnnexes" />
-          <navigationTreeNode value="Item07prehodnoceni" />
-          <pointerPath value="ASEO/Control/File[]" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Control[${IX_Control}]/File[${IX_File}]/GUID" />
-          <errorSourceComponent value="lblPrehAnnexes_GUID" />
-          <navigationTreeNode value="Item07prehodnoceni" />
-          <pointerPath value="ASEO/Control/File/GUID" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Control[${IX_Control}]/File[${IX_File}]/FileName" />
-          <errorSourceComponent value="hlPrehAnnexes_FileName" />
-          <navigationTreeNode value="Item07prehodnoceni" />
-          <pointerPath value="ASEO/Control/File/FileName" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/Control[${IX_Control}]/File[${IX_File}]/FileType" />
-          <errorSourceComponent value="lblPrehAnnexes_FileType" />
-          <navigationTreeNode value="Item07prehodnoceni" />
-          <pointerPath value="ASEO/Control/File/FileType" />
-        </ErrorPointerMapItem>
-        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/Period" />
           <errorSourceComponent value="stPeriod" />
           <navigationTreeNode value="Item08lhutyAzajisteni" />
@@ -10814,6 +10746,24 @@ endIf]]></Script>
           <pointerPath value="ASEO/Event/SPSI/DaysOfPayback" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Event/DefermentOfPayment/TypeOfDefermentOfPayment" />
+          <errorSourceComponent value="cmbTypeOfDefermentOfPayment" />
+          <navigationTreeNode value="Item08lhutyAzajisteni" />
+          <pointerPath value="ASEO/Event/DefermentOfPayment/TypeOfDefermentOfPayment" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Event/DefermentOfPayment/TypeOfPeriodOfDeferment" />
+          <errorSourceComponent value="cmbTypeOfPeriodOfDeferment" />
+          <navigationTreeNode value="Item08lhutyAzajisteni" />
+          <pointerPath value="ASEO/Event/DefermentOfPayment/TypeOfPeriodOfDeferment" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Event/DefermentOfPayment/DaysOfDeferment" />
+          <errorSourceComponent value="tbDaysOfDeferment" />
+          <navigationTreeNode value="Item08lhutyAzajisteni" />
+          <pointerPath value="ASEO/Event/DefermentOfPayment/DaysOfDeferment" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/CustomsProcedure/CustomsProcedureCombination" />
           <errorSourceComponent value="stCustomsProcedureCombination" />
           <navigationTreeNode value="Item09rezimy" />
@@ -10836,6 +10786,24 @@ endIf]]></Script>
           <errorSourceComponent value="cmbCustomsProcedureCombination_Code" />
           <navigationTreeNode value="Item09rezimy" />
           <pointerPath value="ASEO/Event/CustomsProcedure/CustomsProcedureCombination/CustomsProcedureCode" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Event/CustomsProcedure/CustomsProcedure" />
+          <errorSourceComponent value="stCustomsProcedure" />
+          <navigationTreeNode value="Item09rezimy" />
+          <pointerPath value="ASEO/Event/CustomsProcedure/CustomsProcedure" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Event/CustomsProcedure/CustomsProcedure[${IX_CustomsProcedure}]" />
+          <errorSourceComponent value="stCustomsProcedure" />
+          <navigationTreeNode value="Item09rezimy" />
+          <pointerPath value="ASEO/Event/CustomsProcedure/CustomsProcedure[]" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Event/CustomsProcedure/CustomsProcedure[${IX_CustomsProcedure}]/CustomsProcedureCode" />
+          <errorSourceComponent value="cmbCustomsProcedure_Code" />
+          <navigationTreeNode value="Item09rezimy" />
+          <pointerPath value="ASEO/Event/CustomsProcedure/CustomsProcedure/CustomsProcedureCode" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/Seals/Seal" />
@@ -10970,6 +10938,96 @@ endIf]]></Script>
           <pointerPath value="ASEO/Event/File/FileSize" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Control" />
+          <errorSourceComponent value="stPrehControl" />
+          <navigationTreeNode value="Item07prehodnoceni" />
+          <pointerPath value="ASEO/Control" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Control[${IX_Control}]" />
+          <errorSourceComponent value="stPrehControl" />
+          <navigationTreeNode value="Item07prehodnoceni" />
+          <pointerPath value="ASEO/Control[]" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Control[${IX_Control}]/GUID" />
+          <errorSourceComponent value="lblPrehControl_GUID" />
+          <navigationTreeNode value="Item07prehodnoceni" />
+          <pointerPath value="ASEO/Control/GUID" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Control[${IX_Control}]/Result/Description" />
+          <errorSourceComponent value="lblPrehControl_Result" />
+          <navigationTreeNode value="Item07prehodnoceni" />
+          <pointerPath value="ASEO/Control/Result/Description" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Control[${IX_Control}]/ControlDateTime" />
+          <errorSourceComponent value="lblPrehControl_ControlDateTime" />
+          <navigationTreeNode value="Item07prehodnoceni" />
+          <pointerPath value="ASEO/Control/ControlDateTime" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Control[${IX_Control}]/ControledByUser" />
+          <errorSourceComponent value="lblPrehControl_ControledByUser" />
+          <navigationTreeNode value="Item07prehodnoceni" />
+          <pointerPath value="ASEO/Control/ControledByUser" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Control[${IX_Control}]/SuggestDate" />
+          <errorSourceComponent value="lblPrehControl_SuggestDate" />
+          <navigationTreeNode value="Item07prehodnoceni" />
+          <pointerPath value="ASEO/Control/SuggestDate" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Control[${IX_Control}]/EvidenceDateTime" />
+          <errorSourceComponent value="lblPrehControl_EvidenceDateTime" />
+          <navigationTreeNode value="Item07prehodnoceni" />
+          <pointerPath value="ASEO/Control/EvidenceDateTime" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Control" />
+          <errorSourceComponent value="prPrehControl" />
+          <navigationTreeNode value="Item07prehodnoceni" />
+          <pointerPath value="ASEO/Control" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Control[${IX_Control}]" />
+          <errorSourceComponent value="prPrehControl" />
+          <navigationTreeNode value="Item07prehodnoceni" />
+          <pointerPath value="ASEO/Control[]" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Control[${IX_Control}]/File" />
+          <errorSourceComponent value="stPrehAnnexes" />
+          <navigationTreeNode value="Item07prehodnoceni" />
+          <pointerPath value="ASEO/Control/File" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Control[${IX_Control}]/File[${IX_File}]" />
+          <errorSourceComponent value="stPrehAnnexes" />
+          <navigationTreeNode value="Item07prehodnoceni" />
+          <pointerPath value="ASEO/Control/File[]" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Control[${IX_Control}]/File[${IX_File}]/GUID" />
+          <errorSourceComponent value="lblPrehAnnexes_GUID" />
+          <navigationTreeNode value="Item07prehodnoceni" />
+          <pointerPath value="ASEO/Control/File/GUID" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Control[${IX_Control}]/File[${IX_File}]/FileName" />
+          <errorSourceComponent value="hlPrehAnnexes_FileName" />
+          <navigationTreeNode value="Item07prehodnoceni" />
+          <pointerPath value="ASEO/Control/File/FileName" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Control[${IX_Control}]/File[${IX_File}]/FileType" />
+          <errorSourceComponent value="lblPrehAnnexes_FileType" />
+          <navigationTreeNode value="Item07prehodnoceni" />
+          <pointerPath value="ASEO/Control/File/FileType" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/EventHistory" />
           <errorSourceComponent value="stVersions" />
           <pointerPath value="ASEO/EventHistory" />
@@ -11029,6 +11087,12 @@ endIf]]></Script>
           <errorSourceComponent value="stPeriod" />
           <navigationTreeNode value="Item08lhutyAzajisteni" />
           <pointerPath value="ASEO/Event/RequiredPeriod/Key" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/Event/CustomsOffices/CustomsOfficeOfGuarantee" />
+          <errorSourceComponent value="cmbCustomsOfficeOfGuarantee" />
+          <navigationTreeNode value="Item03celniUrady" />
+          <pointerPath value="ASEO/Event/CustomsOffices/CustomsOfficeOfGuarantee" />
         </ErrorPointerMapItem>
       </items>
     </ErrorPointerMap>

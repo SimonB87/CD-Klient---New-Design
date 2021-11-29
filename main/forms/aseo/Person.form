@@ -92,6 +92,9 @@
                         <CssClassConditional>
                           <ClassName value="cd-header-button" />
                         </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="btn-alternate" />
+                        </CssClassConditional>
                       </CssClass>
                     </Button>
                     <Button>
@@ -250,6 +253,7 @@
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.FirstName" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.FirstName.isRequired()" />
+                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -267,6 +271,7 @@
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.LastName" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.LastName.isRequired()" />
+                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -298,6 +303,7 @@
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.BirthDate" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.BirthDate.isRequired()" />
+                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -317,6 +323,7 @@
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.Country" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.Country.isRequired()" />
+                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -408,7 +415,7 @@
           <Panel.Width value="*" />
           <Children>
             <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
-              <Name value="grp_Permanent_Residence" />
+              <Name value="grpPermanentResidence" />
               <caption value="Trvalé bydliště" />
               <collapsedIconClass value="fa fa-plus-square-o" />
               <nonCollapsedIconClass value="fa fa-minus-square-o" />
@@ -428,6 +435,7 @@
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.StreetAndNr" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.StreetAndNr.isRequired()" />
+                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -445,6 +453,7 @@
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.PostCode" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.PostCode.isRequired()" />
+                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -462,6 +471,7 @@
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.City" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.City.isRequired()" />
+                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -479,6 +489,9 @@
                   </CssClass>
                 </Panel>
               </Content>
+              <Bindings>
+                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.grpPermanentResidence.IsVisible" />
+              </Bindings>
               <conditionalCssClass>
                 <CssClassConditional>
                   <ClassName value="{theme}-collapsiblegroupbox" />
@@ -487,7 +500,7 @@
               </conditionalCssClass>
             </CollapsibleGroupBox>
             <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
-              <Name value="grp_Contacts" />
+              <Name value="grpContact" />
               <caption value="Kontaktní údaje" />
               <collapsedIconClass value="fa fa-plus-square-o" />
               <nonCollapsedIconClass value="fa fa-minus-square-o" />
@@ -495,7 +508,7 @@
               <Panel.Width value="*" />
               <Content>
                 <Panel>
-                  <Name value="grp_ContactsPnl" />
+                  <Name value="grp_ContactPnl" />
                   <Orientation value="Vertical" />
                   <Children>
                     <TextBox>
@@ -507,6 +520,7 @@
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.Phone" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.Phone.isRequired()" />
+                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -524,6 +538,7 @@
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.CellPhone" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.CellPhone.isRequired()" />
+                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -541,6 +556,7 @@
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.EMail" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.EMail.isRequired()" />
+                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -558,6 +574,9 @@
                   </CssClass>
                 </Panel>
               </Content>
+              <Bindings>
+                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.grpContact.IsVisible" />
+              </Bindings>
               <conditionalCssClass>
                 <CssClassConditional>
                   <ClassName value="{theme}-collapsiblegroupbox" />
@@ -566,7 +585,7 @@
               </conditionalCssClass>
             </CollapsibleGroupBox>
             <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
-              <Name value="grp_Others" />
+              <Name value="grpOther" />
               <caption value="Ostatní" />
               <collapsedIconClass value="fa fa-plus-square-o" />
               <nonCollapsedIconClass value="fa fa-minus-square-o" />
@@ -574,12 +593,12 @@
               <Panel.Width value="*" />
               <Content>
                 <Panel>
-                  <Name value="grp_OthersPnl" />
+                  <Name value="grpOtherPnl" />
                   <Orientation value="Vertical" />
                   <Children>
                     <TextBox>
-                      <Name value="edb_Others" />
-                      <Caption value="edb_Others" />
+                      <Name value="edb_Other" />
+                      <Caption value="edb_Other" />
                       <CaptionPosition value="Hide" />
                       <InputType value="Multiline" />
                       <Panel.Height value="#" />
@@ -588,6 +607,7 @@
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.Information" />
                         <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ResponsiblePerson.ResponsiblePersonEvent.Information.isRequired()" />
+                        <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -605,6 +625,9 @@
                   </CssClass>
                 </Panel>
               </Content>
+              <Bindings>
+                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.grpOther.IsVisible" />
+              </Bindings>
               <conditionalCssClass>
                 <CssClassConditional>
                   <ClassName value="{theme}-collapsiblegroupbox" />
@@ -635,6 +658,7 @@
                         <TextBox>
                           <Name value="edb_GUID" />
                           <CaptionPosition value="Hide" />
+                          <IsEnabled value="False" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="GUID" />
                             <Binding SourceProperty="IsRequiredMarkVisible" Expression="GUID.isRequired()" />
@@ -1076,6 +1100,54 @@ isTrue(form.model.validationErrorsCount() > 0)]]></ExpressionText>
                   </Children>
                 </Complex>
                 <Complex>
+                  <Name value="grpPermanentResidence" />
+                  <Caption value="grpPermanentResidence" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="Is visible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.ui.navTree.selectedNode in ["All", "Detail"]]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="grpContact" />
+                  <Caption value="grpContact" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="Is visible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.ui.navTree.selectedNode in ["All", "Detail"]]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="grpOther" />
+                  <Caption value="grpOther" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="Is visible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[form.ui.navTree.selectedNode in ["All", "Detail"]]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
                   <Name value="cgbPersonControl" />
                   <Caption value="cgbPersonControl" />
                   <Children>
@@ -1083,7 +1155,7 @@ isTrue(form.model.validationErrorsCount() > 0)]]></ExpressionText>
                       <Name value="IsVisible" />
                       <Caption value="Is visible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[form.ui.navTree.selectedNode in ["All", "Detail"]]]></ExpressionText>
+                        <ExpressionText><![CDATA[form.ui.navTree.selectedNode in ["All", "Check"]]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -1452,7 +1524,7 @@ ntc.beginSetup("navTrees::_ntPerson", defaultString())
 
 var all = ntc.addNode("All", "Vše")
 var detail = ntc.addNode("Detail", "Informace o osobě")
-var files = ntc.addNode("Files", "Text a přílohy")
+var files = ntc.addNode("Check", "Prověření osoby")
 
 ntc.finishSetup()
 
@@ -1887,7 +1959,7 @@ system.console("Clicked on: " + ptr)]]></Script>
   <ApiObjects>
     <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
       <Name value="cbb_Nationality_FltCodelist" />
-      <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZEMEEU" />
+      <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZEME" />
     </FilteredCodelist>
     <EventDispatcher identity="EventDispatcher.eb764ceb30274f1e9a3d051d512d6b26">
       <Name value="eventDispatcher" />
