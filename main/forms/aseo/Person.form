@@ -73,6 +73,28 @@
                       </CssClass>
                     </Button>
                     <Button>
+                      <Name value="btnControl" />
+                      <Caption value="Prověření" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_btnControl_OnClick" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="ui.buttons.btnControl.IsVisible" />
+                        <Binding SourceProperty="IsEnabled" Expression="ui.buttons.btnControl.IsEnabled" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="cd-header-button" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
                       <Name value="btnActionConfirm" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
@@ -645,67 +667,50 @@
               <Content>
                 <SelectionTable identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
                   <Name value="stPersonControl" />
+                  <ShowSelector value="False" />
                   <Bindings>
                     <Binding SourceProperty="Data" Expression="model.msg.ResponsiblePerson.ResponsiblePersonCheck" />
                     <Binding SourceProperty="Index" Expression="ui.tables.stPersonControl.Index" />
                   </Bindings>
                   <Columns>
                     <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
-                      <Name value="edb_GUIDCol" />
-                      <Caption value="edb_GUID" />
-                      <IsVisible value="False" />
-                      <Content>
-                        <TextBox>
-                          <Name value="edb_GUID" />
-                          <CaptionPosition value="Hide" />
-                          <IsEnabled value="False" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="GUID" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="GUID.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="GUID.caption()" />
-                          </Bindings>
-                          <CssClass>
-                            <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
-                              <IsThemedStyle value="True" />
-                            </CssClassConditional>
-                          </CssClass>
-                        </TextBox>
-                      </Content>
-                    </SelectionTableColumn>
-                    <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
                       <Name value="dt_DateOfControlCol" />
                       <Caption value="Datum prověření" />
+                      <ColumnWidth value="15%" />
                       <Content>
-                        <DatePicker>
-                          <Name value="dt_DateOfControl" />
-                          <CaptionPosition value="Hide" />
+                        <Label>
+                          <Name value="lblDateOfControl" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="CheckDate" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="CheckDate.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="CheckDate.caption()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-datepicker" />
+                              <ClassName value="{theme}-label" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </DatePicker>
+                        </Label>
                       </Content>
                     </SelectionTableColumn>
                     <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
                       <Name value="chb_ViolationDiscoveredCol" />
                       <Caption value="Zjištěno porušení" />
+                      <ColumnWidth value="15%" />
                       <Content>
                         <CheckBox>
                           <Name value="chb_ViolationDiscovered" />
                           <CaptionPosition value="Hide" />
+                          <IsEnabled value="False" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="CheckResult" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="CheckResult.isRequired()" />
                             <Binding SourceProperty="Caption" Expression="CheckResult.caption()" />
                           </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
                         </CheckBox>
                       </Content>
                     </SelectionTableColumn>
@@ -713,66 +718,86 @@
                       <Name value="edb_FileNameCol" />
                       <Caption value="Název souboru" />
                       <Content>
-                        <TextBox>
-                          <Name value="edb_FileName" />
-                          <CaptionPosition value="Hide" />
-                          <IsEnabled value="False" />
-                          <Bindings>
-                            <Binding SourceProperty="Data" Expression="FileName" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="FileName.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="FileName.caption()" />
-                          </Bindings>
+                        <Panel>
+                          <Name value="pnlFileName" />
+                          <Orientation value="Horizontal" />
+                          <Children>
+                            <HyperLink>
+                              <Name value="hlFileName" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="*" />
+                              <Bindings>
+                                <Binding SourceProperty="Href" Expression="_fileUrl" />
+                                <Binding SourceProperty="Data" Expression="FileName" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-hyperlink" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </HyperLink>
+                            <Label>
+                              <Name value="lblFileName" />
+                              <IsVisible value="False" />
+                              <Panel.Height value="#" />
+                              <Panel.Width value="150px" />
+                              <Bindings>
+                                <Binding SourceProperty="Data" Expression="FileName" />
+                              </Bindings>
+                              <CssClass>
+                                <CssClassConditional>
+                                  <ClassName value="{theme}-label" />
+                                  <IsThemedStyle value="True" />
+                                </CssClassConditional>
+                              </CssClass>
+                            </Label>
+                          </Children>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
+                              <ClassName value="{theme}-panel" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </TextBox>
+                        </Panel>
                       </Content>
                     </SelectionTableColumn>
                     <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
                       <Name value="edb_DecidingCustomsOffice_tbl_PCCol" />
                       <Caption value="Celní úřad zapisující" />
+                      <ColumnWidth value="17%" />
                       <Content>
-                        <TextBox>
-                          <Name value="edb_DecidingCustomsOffice_tbl_PC" />
-                          <CaptionPosition value="Hide" />
-                          <IsEnabled value="False" />
+                        <Label>
+                          <Name value="lblDecidingCustomsOffice" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="RecordingCustomsOffice" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="RecordingCustomsOffice.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="RecordingCustomsOffice.caption()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
+                              <ClassName value="{theme}-label" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </TextBox>
+                        </Label>
                       </Content>
                     </SelectionTableColumn>
                     <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
                       <Name value="edb_DecidingPerson_tbl_PCCol" />
                       <Caption value="Osobní číslo uživatele" />
+                      <ColumnWidth value="20%" />
                       <Content>
-                        <TextBox>
-                          <Name value="edb_DecidingPerson_tbl_PC" />
-                          <CaptionPosition value="Hide" />
-                          <IsEnabled value="False" />
+                        <Label>
+                          <Name value="lblDecidingPerson" />
                           <Bindings>
                             <Binding SourceProperty="Data" Expression="RecordingPerson" />
-                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="RecordingPerson.isRequired()" />
-                            <Binding SourceProperty="Caption" Expression="RecordingPerson.caption()" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
-                              <ClassName value="{theme}-textbox" />
+                              <ClassName value="{theme}-label" />
                               <IsThemedStyle value="True" />
                             </CssClassConditional>
                           </CssClass>
-                        </TextBox>
+                        </Label>
                       </Content>
                     </SelectionTableColumn>
                   </Columns>
@@ -786,6 +811,120 @@
               </Content>
               <Bindings>
                 <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbPersonControl.IsVisible" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="grpNewCheck" />
+              <caption value="Nové prověření" />
+              <collapsedIconClass value="fa fa-plus-square-o" />
+              <Comment value="Node=&quot;NewCheck&quot;" />
+              <nonCollapsedIconClass value="fa fa-minus-square-o" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="pnlNewCheck" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <Panel>
+                      <Name value="pnlNewCheckR1" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <DatePicker>
+                          <Name value="dt_ControlDate" />
+                          <CaptionPosition value="Top" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="50%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="form.model.msg.Check.CheckDate" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.model.msg.Check.CheckDate.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="form.model.msg.Check.CheckDate.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-datepicker" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </DatePicker>
+                        <CheckBox>
+                          <Name value="chb_DetectedBreach" />
+                          <Caption value="Zjištěno porušení" />
+                          <CaptionPosition value="Top" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="50%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="form.model.msg.Check.CheckResult" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.model.msg.Check.CheckResult.isRequired()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                    <TextBox>
+                      <Name value="edb_NameOfFile" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="form.model.msg.Check.FileName" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.model.msg.Check.FileName.isRequired()" />
+                        <Binding SourceProperty="Caption" Expression="form.model.msg.Check.FileName.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <Button>
+                      <Name value="btnFile" />
+                      <Caption value="Soubor" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_btnFile_OnClick" />
+                      </OnClick>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbNewCheck.IsVisible" />
+                <Binding SourceProperty="IsEnabled" Expression="isNewCheckOn" />
               </Bindings>
               <conditionalCssClass>
                 <CssClassConditional>
@@ -964,13 +1103,27 @@
           <Name value="action" />
           <Caption value="Action" />
           <MetaType reference="+MetaTypes.ActionPerson" />
+          <OnChange>
+            <ActionEvent ReferencedAction="+UiParts.Person.handler_action_OnChange" />
+          </OnChange>
         </Attribute>
         <Computed>
           <Name value="isEditOn" />
           <Caption value="Is edit on" />
           <Expression IsValid="True">
             <ExpressionText><![CDATA[globals.user.hasWritePermission and
-isFalse(action in [enums.ActionPerson.NONE, enums.ActionPerson.Delete])]]></ExpressionText>
+isFalse(action in [enums.ActionPerson.NONE, enums.ActionPerson.Delete, enums.ActionPerson.Control])]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
+        <Computed>
+          <Name value="isNewCheckOn" />
+          <Caption value="Is new check on" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[globals.user.hasWritePermission and
+isTrue(action in [enums.ActionPerson.Control])]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -1007,6 +1160,70 @@ isFalse(action in [enums.ActionPerson.NONE, enums.ActionPerson.Delete])]]></Expr
                 <Include>
                   <Include reference="+DataEntities.ASEOPersonDataResponseEx" />
                 </Include>
+                <Complex>
+                  <Name value="Check" />
+                  <Caption value="Check" />
+                  <Children>
+                    <Attribute>
+                      <Name value="CheckDate" />
+                      <Caption value="Datum prověření" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOPersonCheck/ResponsiblePerson/ResponsiblePersonCheck/CheckDate" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Date" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="CheckResult" />
+                      <Caption value="Výsledek prověření" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOPersonCheck/ResponsiblePerson/ResponsiblePersonCheck/CheckResult" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="AttachmentFile" />
+                      <Caption value="Soubor přílohy" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOPersonCheck/ResponsiblePerson/ResponsiblePersonCheck/AttachmentFile" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="FileName" />
+                      <Caption value="Jméno souboru přílohy" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOPersonCheck/ResponsiblePerson/ResponsiblePersonCheck/FileName" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <StrMaxLength value="256" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="FileContentType" />
+                      <Caption value="MIME type souboru" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOPersonCheck/ResponsiblePerson/ResponsiblePersonCheck/FileContentType" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <StrMaxLength value="100" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
             <Complex>
@@ -1163,6 +1380,23 @@ isTrue(form.model.validationErrorsCount() > 0)]]></ExpressionText>
                     </Computed>
                   </Children>
                 </Complex>
+                <Complex>
+                  <Name value="cgbNewCheck" />
+                  <Caption value="cgbNewCheck" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="Is visible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[isTrue(form.ui.navTree.selectedNode in ["All", "NewCheck"]) and
+isTrue(form.action in [enums.ActionPerson.Control])]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
             <Complex>
@@ -1283,6 +1517,32 @@ isTrue(form.action = enums.ActionPerson.NONE)]]></ExpressionText>
                   </Children>
                 </Complex>
                 <Complex>
+                  <Name value="btnControl" />
+                  <Caption value="btnControl" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="IsVisible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[this.owner().showActionButtons]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Computed>
+                      <Name value="IsEnabled" />
+                      <Caption value="IsEnabled" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
                   <Name value="btnActionConfirm" />
                   <Caption value="buttonProceedActionConfirm" />
                   <Children>
@@ -1362,7 +1622,7 @@ isTrue(form.action = enums.ActionPerson.NONE)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[form.isEditOn]]></ExpressionText>
+                        <ExpressionText><![CDATA[form.isEditOn or form.isNewCheckOn]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -1424,14 +1684,30 @@ isTrue(form.action = enums.ActionPerson.NONE)]]></ExpressionText>
           <Validators>
             <Validator Name="prefix">
               <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Telefonní čísla musí mít validní znak telefonního prefixu. (Jedná se o znak: \"+\" ) "]]></ExpressionText>
+                <ExpressionText><![CDATA["Zadané číslo není v mezinárodním tvaru telefonního čísla +420..."]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[attr.isEmpty() ? true :
-packages.utils.functions.startsWith(attr, "+")]]></ExpressionText>
+validateAgainstRegularExpression(attr, "\\+[ \\d]+")]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+            <Validator Name="cz">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Národní číslo není ve správném tvaru - např. +420 xxxxxxxxx"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[attr.isEmpty() ? true :
+isFalse(packages.utils.functions.startsWith(attr, "+420")) ? true :
+validateAgainstRegularExpression(attr, "\\+420[0-9 ]{9,12}")]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -1446,14 +1722,30 @@ packages.utils.functions.startsWith(attr, "+")]]></ExpressionText>
           <Validators>
             <Validator Name="prefix">
               <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Telefonní čísla musí mít validní znak telefonního prefixu. (Jedná se o znak: \"+\" ) "]]></ExpressionText>
+                <ExpressionText><![CDATA["Zadané číslo není v mezinárodním tvaru telefonního čísla +420..."]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[attr.isEmpty() ? true :
-packages.utils.functions.startsWith(attr, "+")]]></ExpressionText>
+validateAgainstRegularExpression(attr, "\\+[ \\d]+")]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+            <Validator Name="cz">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Národní číslo není ve správném tvaru - např. +420 xxxxxxxxx"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[attr.isEmpty() ? true :
+isFalse(packages.utils.functions.startsWith(attr, "+420")) ? true :
+validateAgainstRegularExpression(attr, "\\+420[0-9 ]{9,12}")]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -1482,6 +1774,89 @@ ValidateAgainstRegularExpression(attr, "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-
               </IsValid>
             </Validator>
           </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_D297D3CF_FirstName" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.msg.ResponsiblePerson.ResponsiblePersonEvent.FirstName" />
+          <Validators>
+            <Validator Name="upperCase">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["První pismeno jména musí být velké"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[attr.isEmpty() ? true :
+validateAgainstRegularExpression(attr, "[A-ZÉĚŤÝÚŮÍÓÁŠĎŽČŇŘÖÜËĹ].*")]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_B06F86AF_LastName" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.msg.ResponsiblePerson.ResponsiblePersonEvent.LastName" />
+          <Validators>
+            <Validator Name="upperCase">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["První pismeno jména musí být velké"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[attr.isEmpty() ? true :
+validateAgainstRegularExpression(attr, "[A-ZÉĚŤÝÚŮÍÓÁŠĎŽČŇŘÖÜËĹ].*")]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_B690A630_ResponsiblePersonEvent" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.msg.ResponsiblePerson.ResponsiblePersonEvent" />
+          <Validators>
+            <Validator Name="contactInfo">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Vložte alespoň jeden kontaktní údaj"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[attr.Phone.hasValue() or
+attr.CellPhone.hasValue() or
+attr.EMail.hasValue()]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_0FDB183C_ResponsiblePersonCheck" />
+          <SourcePath value="model.msg.ResponsiblePerson.ResponsiblePersonCheck" />
+          <Children>
+            <Computed>
+              <Name value="_fileUrl" />
+              <Caption value="_ file url" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[globals.cicUrl + "ASEOPersonFileRequestEx?GUID={" + this.owner().GUID + "}&GUIDCheck={" + this.GUID + "}&version=" + globals.version]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </Expression>
+            </Computed>
+          </Children>
         </Modifier>
       </Modifiers>
     </DataContext>
@@ -1525,6 +1900,7 @@ ntc.beginSetup("navTrees::_ntPerson", defaultString())
 var all = ntc.addNode("All", "Vše")
 var detail = ntc.addNode("Detail", "Informace o osobě")
 var files = ntc.addNode("Check", "Prověření osoby")
+var newCheck = ntc.addNode("NewCheck", "Nové prověření")
 
 ntc.finishSetup()
 
@@ -1544,6 +1920,7 @@ else if p.Mode = "NEW" then
 	form.action = enums.ActionPerson.New
 	
 	person.GUID = newGuid()
+	person.State = enums.StatePerson.UP.enumValue()
 	event.RecordingCustomsOffice = globals.user.CuCode
 	event.RecordingPerson = globals.user.userName
 	event.RecordingPersonName = globals.user.fullName
@@ -1571,6 +1948,7 @@ if globals.sendResult.Valid then
 	var msg = form.model.msg
 	
     msg.clear()
+    msg.setTouched(false)
     msg.fromJson(sr.Message)
     
 	// oznaci spravny radek v tabulce verzi
@@ -1861,9 +2239,18 @@ if msg.isValid() then
 		msgDelete.GUID = msg.ResponsiblePerson.GUID
 		form.actions.sendRequest("ASEOPersonDelete", msgDelete.toJson(), "CM002A")
 		notification = "Osoba byla zrušena"
+	else if action = enums.ActionPerson.Control then
+		msgCheck.ResponsiblePerson.GUID = msg.ResponsiblePerson.GUID
+		var rpc = msgCheck.ResponsiblePerson.ResponsiblePersonCheck
+		rpc.fromJson(msg.Check.toJson())
+		rpc.RecordingCustomsOffice = globals.user.CuCode
+		rpc.RecordingPerson = globals.user.userName
+		rpc.RecordingPersonName = globals.user.fullName		
+		form.actions.sendRequest("ASEOPersonCheck", msgCheck.toJson(), "CM002A")
+		notification = "Výsledek prověření byl uložen"
 	else
 		system.consoleError(stringFormat("Invalid action: {0}", action.enumCaption()))
-	endif endif endif
+	endif endif endif endif
 	
 	if globals.sendResult.Valid and hasValue(notification) then
 		apiobjects.notificationsCtrl.addSuccess(notification)
@@ -1883,6 +2270,15 @@ endif]]></Script>
               <Children>
                 <Include>
                   <Include reference="+DataEntities.ASEOPLDelete" />
+                </Include>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="msgCheck" />
+              <Caption value="Msg check" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOPersonCheck" />
                 </Include>
               </Children>
             </Complex>
@@ -1955,6 +2351,54 @@ system.console("Clicked on: " + ptr)]]></Script>
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btnControl_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.action = enums.ActionPerson.Control
+
+var check = form.model.msg.Check
+check.CheckResult = false
+
+ntc.focusNode("NewCheck")]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_action_OnChange" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var nt = packages.navTrees.globals._ntPerson
+var action = params.data.action
+
+nt.Action = action]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btnFile_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var p = globals.forms.file.params
+p.Filter = ".docx, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"
+navigation.main.file.goAndBack()
+
+var res = packages.main.globals.forms.file.result 
+if res.IsValid then	
+	var check = form.model.msg.Check	
+	check.FileName = res.FileName
+	check.FileContentType = res.FileType
+	check.AttachmentFile = res.FileContent
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
   </Actions>
   <ApiObjects>
     <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
@@ -1969,6 +2413,171 @@ system.console("Clicked on: " + ptr)]]></Script>
     </EventDispatcher>
     <ErrorPointerMap identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
       <Name value="epm" />
+      <items>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonEvent/Phone" />
+          <errorSourceComponent value="edb_Phone" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonEvent" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonEvent/FirstName" />
+          <errorSourceComponent value="edb_Name" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonEvent/FirstName" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonEvent/LastName" />
+          <errorSourceComponent value="edb_Surname" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonEvent/LastName" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonEvent/BirthDate" />
+          <errorSourceComponent value="dt_Birthday" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonEvent/BirthDate" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonEvent/Country" />
+          <errorSourceComponent value="cbb_Nationality" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonEvent/Country" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonEvent/StreetAndNr" />
+          <errorSourceComponent value="edb_StreetAndNr" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonEvent/StreetAndNr" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonEvent/PostCode" />
+          <errorSourceComponent value="edb_PostCode" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonEvent/PostCode" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonEvent/City" />
+          <errorSourceComponent value="edb_Municipality" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonEvent/City" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonEvent/Phone" />
+          <errorSourceComponent value="edb_Phone" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonEvent/Phone" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonEvent/CellPhone" />
+          <errorSourceComponent value="edb_MobilePhone" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonEvent/CellPhone" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonEvent/EMail" />
+          <errorSourceComponent value="edb_Email" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonEvent/EMail" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonEvent/Information" />
+          <errorSourceComponent value="edb_Other" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonEvent/Information" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonCheck" />
+          <errorSourceComponent value="stPersonControl" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonCheck" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonCheck[${IX_ResponsiblePersonCheck}]" />
+          <errorSourceComponent value="stPersonControl" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonCheck[]" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonCheck[${IX_ResponsiblePersonCheck}]/CheckDate" />
+          <errorSourceComponent value="lblDateOfControl" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonCheck/CheckDate" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonCheck[${IX_ResponsiblePersonCheck}]/CheckResult" />
+          <errorSourceComponent value="chb_ViolationDiscovered" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonCheck/CheckResult" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonCheck[${IX_ResponsiblePersonCheck}]/FileName" />
+          <errorSourceComponent value="hlFileName" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonCheck/FileName" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonCheck[${IX_ResponsiblePersonCheck}]/FileName" />
+          <errorSourceComponent value="lblFileName" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonCheck/FileName" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonCheck[${IX_ResponsiblePersonCheck}]/RecordingCustomsOffice" />
+          <errorSourceComponent value="lblDecidingCustomsOffice" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonCheck/RecordingCustomsOffice" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonCheck[${IX_ResponsiblePersonCheck}]/RecordingPerson" />
+          <errorSourceComponent value="lblDecidingPerson" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonCheck/RecordingPerson" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="Check/CheckDate" />
+          <errorSourceComponent value="dt_ControlDate" />
+          <navigationTreeNode value="NewCheck" />
+          <pointerPath value="Check/CheckDate" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="Check/CheckResult" />
+          <errorSourceComponent value="chb_DetectedBreach" />
+          <navigationTreeNode value="NewCheck" />
+          <pointerPath value="Check/CheckResult" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="Check/FileName" />
+          <errorSourceComponent value="edb_NameOfFile" />
+          <navigationTreeNode value="NewCheck" />
+          <pointerPath value="Check/FileName" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonHistory" />
+          <errorSourceComponent value="stVersions" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonHistory" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonHistory[${IX_ResponsiblePersonHistory}]" />
+          <errorSourceComponent value="stVersions" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonHistory[]" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonHistory[${IX_ResponsiblePersonHistory}]/GUID" />
+          <errorSourceComponent value="lblVersions_Guid" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonHistory/GUID" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonHistory[${IX_ResponsiblePersonHistory}]/ValidityStartDate" />
+          <errorSourceComponent value="lblVersions_ValidityStartDate" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonHistory/ValidityStartDate" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonHistory[${IX_ResponsiblePersonHistory}]/RecordingCustomsOffice" />
+          <errorSourceComponent value="lblVersions_RecordingCustomsOffice" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonHistory/RecordingCustomsOffice" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonHistory[${IX_ResponsiblePersonHistory}]/RecordingPerson" />
+          <errorSourceComponent value="lblVersions_RecordingPerson" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonHistory/RecordingPerson" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonHistory[${IX_ResponsiblePersonHistory}]/RecordingPersonName" />
+          <errorSourceComponent value="lblVersions_RecordingPersonName" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonHistory/RecordingPersonName" />
+        </ErrorPointerMapItem>
+      </items>
+    </ErrorPointerMap>
+    <ErrorPointerMap identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+      <Name value="epmCustom" />
+      <items>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ResponsiblePerson/ResponsiblePersonEvent/Phone" />
+          <errorSourceComponent value="edb_Phone" />
+          <pointerPath value="ResponsiblePerson/ResponsiblePersonEvent" />
+        </ErrorPointerMapItem>
+      </items>
     </ErrorPointerMap>
   </ApiObjects>
 </Form>

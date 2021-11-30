@@ -918,6 +918,14 @@
       <Caption value="_ nt person" />
       <Children>
         <Attribute>
+          <Name value="Action" />
+          <Caption value="Action" />
+          <MetaType reference="/(cz.solitea.aseocd.cd.client.main)+MetaTypes.ActionPerson" />
+          <OnChange>
+            <ActionEvent ReferencedAction="+GlobalActions.setPerson_NodeVisibility" />
+          </OnChange>
+        </Attribute>
+        <Attribute>
           <Name value="isAllActive" />
           <Caption value="Is all active" />
           <DeclaredType>
@@ -944,6 +952,25 @@
             </AttributeType>
           </DeclaredType>
         </Attribute>
+        <Attribute>
+          <Name value="isNewCheckActive" />
+          <Caption value="Is new check active" />
+          <DeclaredType>
+            <AttributeType>
+              <BaseType value="Bool" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Computed>
+          <Name value="isNewCheckVisible" />
+          <Caption value="Is new check visible" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[isTrue(Action in [packages.main.enums.ActionPerson.Control])]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
       </Children>
     </Complex>
     <Complex>
