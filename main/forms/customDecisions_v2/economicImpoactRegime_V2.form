@@ -12938,7 +12938,7 @@ endIf]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="saveOneGoodsItemInDeclist" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = True
 
 form.cdeReq.clear()
@@ -13013,7 +13013,7 @@ var itemDataToUpdate = form.cdeReq.customsDecisionAuthorisationData.enhancementC
 				
 			endif
 			
-			form.actions.updateOneGoodsItem()
+			form.actions.saveOneGoodsItemInDeclistPostData()
 	
 		endIf
 
@@ -13057,6 +13057,28 @@ else
 endIf
 
 globals.IsBusy = false]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="saveOneGoodsItemInDeclistPostData" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced = false
+form.cdeReq.customsDecisionAuthorisationData.customsDecisionGUID = form.enhancement.selectedRowDataSetGoodsItem.customsDecisionGUID
+form.cdeReq.customsDecisionAuthorisationData.customsDecisionVersionGUID = form.enhancement.selectedRowDataSetGoodsItem.customsDecisionVersionGUID
+
+var response = apiobjects.cic.postAsync("CustomsDecisionEnhancement", form.cdeReq.toJson())
+
+if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
+	system.console(response.getErrorMessage())
+else
+	form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
+	form.apiobjects.enhancementDeclistGoodsItems.focusFirstRecord()
+	form.apiobjects.enhancementDeclistGoodsItems.setReady(True)
+endIf
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
