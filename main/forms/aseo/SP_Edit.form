@@ -513,7 +513,7 @@
                   <Panel.Height value="#" />
                   <Panel.Width value="*" />
                   <Bindings>
-                    <Binding SourceProperty="Data" Expression="model.msg.ASEO.ASEOID" />
+                    <Binding SourceProperty="Data" Expression="model.msg.ASEO._fullId" />
                   </Bindings>
                   <CssClass>
                     <CssClassConditional>
@@ -6513,6 +6513,16 @@ this.collection().where(Current.TypeOfPeriod.Key = attr.Key).count() = 1]]></Exp
                 </ResultType>
               </Expression>
             </Computed>
+            <Computed>
+              <Name value="_fullId" />
+              <Caption value="_ full id" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[IssuingCountry + ASEOID]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </Expression>
+            </Computed>
           </Children>
         </Modifier>
         <Modifier>
@@ -6720,6 +6730,19 @@ isFalseOrDefault(this.ResponsiblePersonWantsToBeNotified)]]></ExpressionText>
           <Name value="modifier_F5185D9E_CustomsProcedure" />
           <ShowAsChanges value="True" />
           <SourcePath value="model.msg.ASEO.Event.CustomsProcedure" />
+          <Children>
+            <Computed>
+              <Name value="_RequiredFix" />
+              <Caption value="_ required fix" />
+              <Comment value="to enforce validations on attributes inside of empty optional complex" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[true]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+          </Children>
         </Modifier>
         <Modifier>
           <Name value="modifier_CA98C8C9_TypeOfPaybackPeriod" />
@@ -6962,7 +6985,8 @@ isTrue(GuaranteeType.ZJPZAJIST in ["0", "1"])]]></ExpressionText>
                 <ExpressionText><![CDATA[form._.NotActionAuthorize ? true :
 isFalse(form.authorizationType in [
 	globals.DocType.SAR,
-	globals.DocType.ACR]) ? true :
+	globals.DocType.ACR,
+	globals.DocType.DPO]) ? true :
 this.Guarantee.count() > 0]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -7813,6 +7837,28 @@ DaysOfDeferment.hasValue()]]></ExpressionText>
             </Validator>
           </Validators>
         </Modifier>
+        <Modifier>
+          <Name value="modifier_ADC31BAE_CustomsProcedure" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.msg.ASEO.Event.CustomsProcedure.CustomsProcedure" />
+          <CollectionValidators>
+            <Validator Name="req">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Zadejte alespoň jeden režim"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[collection.hasValue() ? true :
+isFalse(form.authorizationType = globals.DocType.DPO)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </CollectionValidators>
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
@@ -8053,6 +8099,9 @@ globals.IsBusy = False
 form.error.serverValidationErrors.clear()
 
 request.fromJson(msg.toJson())
+
+// aby pri obnoveni nepadalo v centru na pravidlo UniqueASEOID
+request.ASEO.ASEOID = defaultString()
 
 result = false
 
@@ -8778,7 +8827,16 @@ form.actions.prepFormForEdit()]]></Script>
       <Name value="handler_send_ASEOSPAuthorization_OnClick" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.action = enums.Action.authorize
+        <Script><![CDATA[var msg = form.model.msg
+
+// pri obnoveni vychazime z dat posledniho NU/MU eventu, protoze event zruseni neobsahuje vsechny data
+if msg.aseo._LastAuthorisationGUID.hasValue() then
+	globals.IsBusy = True
+	form.actions.loadAseoData(form.GUID, msg.aseo._LastAuthorisationGUID)
+	globals.IsBusy = False
+endif
+
+form.action = enums.Action.authorize
 
 form.actions.prepFormForEdit()
 form.actions.setDefaults()

@@ -1794,6 +1794,9 @@
               <Panel.Height value="#" />
               <Panel.Width value="*" />
               <useArrowKeys value="True" />
+              <OnRowClicked>
+                <ActionEvent ReferencedAction="~handler_listPerson_OnRowClicked" />
+              </OnRowClicked>
               <Bindings>
                 <Binding SourceProperty="savedColumns" Expression="" />
                 <Binding SourceProperty="savedState" Expression="" />
@@ -1816,15 +1819,24 @@
                   <IsVisible value="False" />
                 </listColumn>
                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
-                  <Name value="person_FirstName" />
-                  <Caption value="Jméno" />
-                  <ColumnName value="FirstName" />
+                  <Name value="person_LastNameLink" />
+                  <Caption value="Příjmení" />
+                  <ColumnName value="LastNameLink" />
                   <DataType value="string" />
+                  <IsHtml value="True" />
+                  <UnderlyingColumnName value="LastName" />
                 </listColumn>
                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
                   <Name value="person_LastName" />
                   <Caption value="Příjmení" />
                   <ColumnName value="LastName" />
+                  <DataType value="string" />
+                  <IsVisible value="False" />
+                </listColumn>
+                <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
+                  <Name value="person_FirstName" />
+                  <Caption value="Jméno" />
+                  <ColumnName value="FirstName" />
                   <DataType value="string" />
                 </listColumn>
                 <listColumn identity="List.a6f439c3b8e944f383863f66ff1261c8">
@@ -1929,6 +1941,16 @@
                 <Include>
                   <Include reference="+DataEntities.DatasetResponsiblePerson" />
                 </Include>
+                <Computed>
+                  <Name value="LastNameLink" />
+                  <Caption value="Last name link" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[stringFormat("<span class=\"declistNavLink\">{0}</span>", LastName)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
               </Children>
             </Collection>
             <Reference>
@@ -4445,12 +4467,16 @@ else if navTree.selectedModule = "Person" then
 
 	if tabs.tabPerson_Valid.IsSelected then
 		personCtrl.setInvisibleODataFilter("State eq 'VP'")
-		personCtrl.setColumnVisibility("BirthDate", true, 5)
-		personCtrl.setColumnVisibility("LastCheckDate", true, 6)
+		personCtrl.setColumnVisibility("LastNameLink", true, 1)
+		personCtrl.setColumnVisibility("LastName", false, 1)
+		personCtrl.setColumnVisibility("BirthDate", true, 3)
+		personCtrl.setColumnVisibility("LastCheckDate", true, 4)
 	else if tabs.tabPerson_Deleted.IsSelected then
 		personCtrl.setInvisibleODataFilter("State eq 'DP'")
-		personCtrl.setColumnVisibility("BirthDate", false, 5)
-		personCtrl.setColumnVisibility("LastCheckDate", false, 6)
+		personCtrl.setColumnVisibility("LastNameLink", false, 1)
+		personCtrl.setColumnVisibility("LastName", true, 1)
+		personCtrl.setColumnVisibility("BirthDate", false, 3)
+		personCtrl.setColumnVisibility("LastCheckDate", false, 4)
 	else
 		system.consoleError(stringFormat("Module {0} filter - Unsupported tab '{1}'", navTree.selectedModule, tabs.SelectedTabId))
 	endif endif
@@ -4675,11 +4701,11 @@ var nodeAuth_TR_ACR = nodeAuth_TR.addNode("Auth_TR_ACR", "Schválený odesilatel
 var nodeAuth_TR_AC = nodeAuth_TR.addNode("Auth_TR_AC", "Schválený příjemce na podkladě CIM (AC)") 
 var nodeAuth_TR_ACT = nodeAuth_TR.addNode("Auth_TR_ACT", "Schválený příjemce pro účely TIR (ACT)") 
 var nodeAuth_TR_ACE = nodeAuth_TR.addNode("Auth_TR_ACE", "Schválený příjemce v tranzitním režimu Unie (ACE)") 
-var nodeEC = ntc.addNode("EC", "Elektronická komunikace")
+//var nodeEC = ntc.addNode("EC", "Elektronická komunikace")
 var nodePL = ntc.addNode("PL", "Schválená místa")
 var nodePerson = ntc.addNode("Person", "Odpovědné osoby")
-var nodeCTRL = ntc.addNode("CTRL", "Přehodnocení povolení")
-var nodeAudit = ntc.addNode("Audit", "Audit subjektu")
+//var nodeCTRL = ntc.addNode("CTRL", "Přehodnocení povolení")
+//var nodeAudit = ntc.addNode("Audit", "Audit subjektu")
 
 if appInfo.isTestSolitea then
 	ntc.addNode("Test", "TEST")
@@ -5390,6 +5416,24 @@ var gp = globals.forms.Person.params
 gp.Mode = "NEW"
 
 navigation.main.Person.go()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_listPerson_OnRowClicked" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if isTrue(params.columnName = "LastNameLink") then
+	form.actions.saveStates()
+	
+	var gp = globals.forms.Person.params
+	gp.Mode = "VIEW"
+	gp.Guid = form.model.selectedPerson.GUID
+	
+	navigation.main.Person.go()
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

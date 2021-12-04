@@ -569,73 +569,76 @@
       <Caption value="User" />
       <Children>
         <Complex>
-          <Name value="LoginResult" />
-          <Caption value="Login result" />
+          <Name value="UserIdentity" />
+          <Caption value="User identity" />
           <Children>
-            <Collection>
-              <Name value="user" />
+            <Attribute>
+              <Name value="User" />
               <Caption value="User" />
+              <Description value="full name" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="UserName" />
+              <Caption value="User name" />
+              <Description value="login" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Collection>
+              <Name value="Organization" />
+              <Caption value="Organization" />
               <Children>
                 <Attribute>
-                  <Name value="fullName" />
-                  <Caption value="Full name" />
+                  <Name value="Value" />
+                  <Caption value="Value" />
                   <DeclaredType>
                     <AttributeType />
                   </DeclaredType>
                 </Attribute>
+              </Children>
+            </Collection>
+            <Collection>
+              <Name value="UserRole" />
+              <Caption value="User role" />
+              <Children>
                 <Attribute>
-                  <Name value="userName" />
-                  <Caption value="User name" />
+                  <Name value="Name" />
+                  <Caption value="Name" />
                   <DeclaredType>
                     <AttributeType />
                   </DeclaredType>
                 </Attribute>
+              </Children>
+            </Collection>
+            <Attribute>
+              <Name value="Department" />
+              <Caption value="Department" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="Company" />
+              <Caption value="Company" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Collection>
+              <Name value="Email" />
+              <Caption value="Email" />
+              <Children>
                 <Attribute>
-                  <Name value="Mail" />
-                  <Caption value="Mail" />
+                  <Name value="Value" />
+                  <Caption value="Value" />
                   <DeclaredType>
                     <AttributeType />
                   </DeclaredType>
                 </Attribute>
-                <Collection>
-                  <Name value="organisation" />
-                  <Caption value="organisation" />
-                  <Children>
-                    <Collection>
-                      <Name value="applRole" />
-                      <Caption value="applRole" />
-                      <Children>
-                        <Attribute>
-                          <Name value="applRoleCode" />
-                          <Caption value="applRoleCode" />
-                          <DeclaredType>
-                            <AttributeType />
-                          </DeclaredType>
-                        </Attribute>
-                      </Children>
-                    </Collection>
-                    <Collection>
-                      <Name value="code" />
-                      <Caption value="code" />
-                      <Children>
-                        <Attribute>
-                          <Name value="code" />
-                          <Caption value="code" />
-                          <DeclaredType>
-                            <AttributeType />
-                          </DeclaredType>
-                        </Attribute>
-                        <Attribute>
-                          <Name value="description" />
-                          <Caption value="description" />
-                          <DeclaredType>
-                            <AttributeType />
-                          </DeclaredType>
-                        </Attribute>
-                      </Children>
-                    </Collection>
-                  </Children>
-                </Collection>
               </Children>
             </Collection>
           </Children>
@@ -701,6 +704,42 @@
           </DeclaredType>
         </Attribute>
         <Attribute>
+          <Name value="hasRoleAuthrorizationReactivation" />
+          <Caption value="Has role authrorization reactivation" />
+          <DeclaredType>
+            <AttributeType>
+              <BaseType value="Bool" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="hasRoleReadFile" />
+          <Caption value="Has role read file" />
+          <DeclaredType>
+            <AttributeType>
+              <BaseType value="Bool" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="hasRoleAudit" />
+          <Caption value="Has role audit" />
+          <DeclaredType>
+            <AttributeType>
+              <BaseType value="Bool" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="hasRoleHelpdesk" />
+          <Caption value="Has role helpdesk" />
+          <DeclaredType>
+            <AttributeType>
+              <BaseType value="Bool" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
           <Name value="hasRoleAdmin" />
           <Caption value="Has role admin" />
           <DeclaredType>
@@ -709,18 +748,34 @@
             </AttributeType>
           </DeclaredType>
         </Attribute>
-        <Attribute>
-          <Name value="CuDescription" />
-          <Caption value="Cu description" />
-          <DeclaredType>
-            <AttributeType />
-          </DeclaredType>
-        </Attribute>
+        <Computed>
+          <Name value="isAppAdmin" />
+          <Caption value="Is app admin" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[UserIdentity.UserRole.exists(current.Name = "EOS_ASEOAPPADMIN")]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
         <Computed>
           <Name value="hasWritePermission" />
           <Caption value="Write Permission" />
           <Expression IsValid="True">
-            <ExpressionText><![CDATA[hasRoleWrite or hasRoleAdmin]]></ExpressionText>
+            <ExpressionText><![CDATA[isTrue(hasRoleWrite) or 
+isTrue(hasRoleHelpdesk) or 
+isTrue(hasRoleAdmin)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
+        <Computed>
+          <Name value="hasReadFilePermission" />
+          <Caption value="Read File Permission" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[isTrue(hasRoleReadFile) or 
+isTrue(hasRoleAudit)]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -730,10 +785,15 @@
           <Name value="rolesDesc" />
           <Caption value="Roles desc" />
           <Expression IsValid="True">
-            <ExpressionText><![CDATA["Role:" +
-(hasRoleRead ? " Read" : "") +
-(hasRoleWrite ? " Write" : "") +
-(hasRoleAdmin ? " Admin" : "")]]></ExpressionText>
+            <ExpressionText><![CDATA[replaceString(trim((isAppAdmin ? "AppAdmin	" : "") +
+(hasRoleAdmin ? "Admin	" : "") +
+(hasRoleHelpdesk ? "Helpdesk	" : "") +
+(hasRoleWrite ? "Zápis	" : "") +
+(hasRoleRead ? "Čtení	" : "") +
+(hasRoleAuthrorizationReactivation ? "Reaktivace	" : "") +
+(hasRoleAudit ? "Audity	" : "") +
+(hasRoleReadFile ? "Soubory	" : "")),
+"	", ", ")]]></ExpressionText>
             <ResultType>
               <BaseType value="String" />
             </ResultType>

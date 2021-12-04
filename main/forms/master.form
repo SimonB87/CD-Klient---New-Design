@@ -292,6 +292,7 @@
                       <Children>
                         <Label>
                           <Name value="lblUser" />
+                          <Margin value="6, 6, 0, 6 px" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
@@ -309,6 +310,7 @@
                         </Label>
                         <Label>
                           <Name value="lblCu" />
+                          <Margin value="0, 6, 6, 6 px" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
@@ -341,6 +343,21 @@
                             </CssClassConditional>
                           </CssClass>
                         </Label>
+                        <HyperLink>
+                          <Name value="hlSettings" />
+                          <Data value="Nastavení" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <OnClick>
+                            <ActionEvent ReferencedAction="~handler_hlSettings_OnClick" />
+                          </OnClick>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-hyperlink" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </HyperLink>
                         <HyperLink>
                           <Name value="hyperLink_dokumentace" />
                           <Data value="Dokumentace" />
@@ -685,6 +702,16 @@ eventDispatcher.sendMessage("main_master_codelistGroup", "onBackgroundLoadingFin
       <ActionLangBody IsValid="True">
         <Script><![CDATA[notificationsCtrl.removeAll()
 notificationsCtrl.setPanelVisibility(false)]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_hlSettings_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[navigation.main.settings.goAndBack()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

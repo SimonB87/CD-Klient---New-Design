@@ -729,6 +729,7 @@
                               <Bindings>
                                 <Binding SourceProperty="Href" Expression="_fileUrl" />
                                 <Binding SourceProperty="Data" Expression="FileName" />
+                                <Binding SourceProperty="IsVisible" Expression="globals.user.hasReadFilePermission" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -739,11 +740,11 @@
                             </HyperLink>
                             <Label>
                               <Name value="lblFileName" />
-                              <IsVisible value="False" />
                               <Panel.Height value="#" />
                               <Panel.Width value="150px" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="FileName" />
+                                <Binding SourceProperty="IsVisible" Expression="not globals.user.hasReadFilePermission" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -2236,7 +2237,7 @@ if msg.isValid() then
 		form.actions.sendRequest("ASEOPersonModification", msg.toJson(), "CM002A")
 		notification = "Osoba byla modifikována"
 	else if action = enums.ActionPerson.Delete then
-		msgDelete.GUID = msg.ResponsiblePerson.GUID
+		msgDelete.ResponsiblePerson.GUID = msg.ResponsiblePerson.GUID
 		form.actions.sendRequest("ASEOPersonDelete", msgDelete.toJson(), "CM002A")
 		notification = "Osoba byla zrušena"
 	else if action = enums.ActionPerson.Control then
@@ -2269,7 +2270,7 @@ endif]]></Script>
               <Caption value="Msg delete" />
               <Children>
                 <Include>
-                  <Include reference="+DataEntities.ASEOPLDelete" />
+                  <Include reference="+DataEntities.ASEOPersonDelete" />
                 </Include>
               </Children>
             </Complex>

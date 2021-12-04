@@ -25,7 +25,7 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new sffw.components.referenceLookup.ReferenceLookupViewModel(params, componentInfo); }
                     },
-                    template: "   <!-- ko if: isEnabled -->\n            <input data-bind=\"referenceLookup: data, invalidated: data.$isReportingErrors(), att:data,\n                attr: { 'aria-controls': listboxContainerId, 'aria-owns': listboxContainerId, 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" aria-autocomplete=\"list\" role=\"combobox\">\n        <!-- /ko -->\n        <!-- ko ifnot: isEnabled -->\n            <input data-bind=\"value: data[displayMember].$asString,\n                attr: { 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" disabled/>\n        <!-- /ko -->"
+                    template: "   <!-- ko if: isEnabled -->\n            <input data-bind=\"referenceLookup: data, invalidated: data.$isReportingErrors(), att:data,\n                attr: { 'aria-controls': listboxContainerId, 'aria-owns': listboxContainerId, 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" aria-autocomplete=\"list\" role=\"combobox\">\n        <!-- /ko -->\n        <!-- ko ifnot: isEnabled -->\n            <input data-bind=\"value: data[displayMember].$asString,\n                readOnly: isEnabled,\n                attr: { 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" />\n        <!-- /ko -->"
                 });
             }
             if (!ko.components.isRegistered('sffw-tariclookup')) {
@@ -33,7 +33,7 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new sffw.components.referenceLookup.TaricLookupViewModel(params, componentInfo); }
                     },
-                    template: "   <!-- ko if: isEnabled -->\n            <input data-bind=\"taricLookup: data, invalidated: data.$isReportingErrors(), att:data,\n                attr: { 'aria-controls': listboxContainerId, 'aria-owns': listboxContainerId, 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" aria-autocomplete=\"list\" role=\"combobox\">\n        <!-- /ko -->\n        <!-- ko ifnot: isEnabled -->\n            <input data-bind=\"value: data[displayMember].$asString,\n                attr: { 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" disabled/>\n        <!-- /ko -->"
+                    template: "   <!-- ko if: isEnabled -->\n            <input data-bind=\"taricLookup: data, invalidated: data.$isReportingErrors(), att:data,\n                attr: { 'aria-controls': listboxContainerId, 'aria-owns': listboxContainerId, 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" aria-autocomplete=\"list\" role=\"combobox\">\n        <!-- /ko -->\n        <!-- ko ifnot: isEnabled -->\n            <input data-bind=\"value: data[displayMember].$asString,\n                readOnly: isEnabled,\n                attr: { 'aria-invalid': data.$isReportingErrors(), 'aria-required': data.$meta.isRequired }\"\n                autocomplete=\"off\" />\n        <!-- /ko -->"
                 });
             }
         })(referenceLookup = components.referenceLookup || (components.referenceLookup = {}));
@@ -78,17 +78,6 @@ var sffw;
                     };
                     var scrollPosition = -1;
                     var lastScrollTop = 0;
-                    // must be called before creating widget
-                    $.widget('ui.autocomplete', $.ui.autocomplete, {
-                        _trigger: function (type, event, data) {
-                            if (type === 'focus' || type === 'select') {
-                                if (data.item.disabled) {
-                                    return false;
-                                }
-                            }
-                            return this._superApply(arguments);
-                        }
-                    });
                     var widget = $(element).autocomplete({
                         source: findOptions,
                         messages: {
@@ -107,6 +96,9 @@ var sffw;
                         // autoFocus: true,
                         minLength: vm.minChars,
                         select: function (event, ui) {
+                            if (ui.item.disabled) {
+                                return false;
+                            }
                             if (vm.immediateUpdate && (typeof event.key === 'undefined' || event.key !== 'Tab')) {
                                 vm.getLookupData(ui.item.value, vm.displayMember).then(function (data) {
                                     return vm.data.$fromJson(data[0], null, true);
@@ -116,9 +108,9 @@ var sffw;
                         // jqueryui change event is triggered when the field is blurred
                         // we have own $(element).blur handler, so we will not use change event
                         open: function (event, ui) {
+                            var $input = $(event.target);
+                            var $results = $input.autocomplete('widget');
                             if (vm.panelClass !== null && vm.panelClass !== '' && typeof vm.panelClass !== 'undefined') {
-                                var $input = $(event.target);
-                                var $results = $input.autocomplete('widget');
                                 var top_1 = $results.position().top;
                                 var height = $results.height();
                                 var inputHeight = $input[0].offsetHeight;
@@ -130,6 +122,11 @@ var sffw;
                                     $results.css('top', newTop + 'px');
                                 }
                                 scrollPosition = $('.' + vm.panelClass).scrollTop();
+                            }
+                            var isModalOpen = $('body.modal-open').length > 0;
+                            if (isModalOpen) {
+                                var modalZIndex = $(':root').css('--modal-z-index');
+                                $results.css('z-index', modalZIndex !== null && modalZIndex !== void 0 ? modalZIndex : '9040');
                             }
                             $(element).attr('aria-expanded', 'true');
                         },
@@ -150,6 +147,9 @@ var sffw;
                             menu.activeMenu.find('.ui-menu-item').attr('aria-selected', 'false');
                         },
                         focus: function (event, ui) {
+                            if (ui.item.disabled) {
+                                return false;
+                            }
                             var menu = $(element).data('ui-autocomplete').menu;
                             var focused = menu.active;
                             if (focused.length > 0) {
@@ -242,6 +242,14 @@ var sffw;
                                 }
                             });
                         }
+                    });
+                    ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                        $('.' + vm.panelClass).off('scroll');
+                        if (vm.minChars === 0) {
+                            $(element).off('focus');
+                        }
+                        $(element).off('blur');
+                        $(element).autocomplete('destroy');
                     });
                 };
                 ReferenceLookupBindingHandler.prototype.update = function (element, valueAccessor, allBindings, viewModelDeprecated, bindingContext) {

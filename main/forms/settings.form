@@ -1,0 +1,939 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<Form>
+  <Name value="settings" />
+  <Caption value="Settings" />
+  <Content>
+    <Panel>
+      <Name value="pnlFile" />
+      <Orientation value="Vertical" />
+      <Panel.Height value="#" />
+      <Panel.Width value="*" />
+      <Children>
+        <Panel>
+          <Name value="pnlActionBtns" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <Panel>
+              <Name value="pnlActionBtnsLC" />
+              <Orientation value="Vertical" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Children>
+                <Panel>
+                  <Name value="pnlActionBtnsL" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Children>
+                    <Button>
+                      <Name value="btnConfirm" />
+                      <Caption value="Uložit" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_btnConfirm_OnClick" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="isAppAdmin" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="cd-header-button" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="width-auto" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="display-flex" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="padding-menuspacer-long" />
+                      <Bindings>
+                        <Binding SourceProperty="Condition" Expression="not globals.forms.master.showMenu" />
+                      </Bindings>
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+            <Panel>
+              <Name value="pnlActionBtnsR" />
+              <Orientation value="Horizontal" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Children>
+                <Button>
+                  <Name value="btnClose" />
+                  <Caption value="Zavřít" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~handler_btnBack_OnClick" />
+                  </OnClick>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-button" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="cd-header-button" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Button>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="flright" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="width-auto" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="{theme}-header" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="no-border-left" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="{theme}-nav-bar-controls" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="pnlBody" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="cgbAppAdmin" />
+              <caption value="Výběr přidělených práv k aplikaci" />
+              <collapsedIconClass value="fa fa-plus-square-o" />
+              <nonCollapsedIconClass value="fa fa-minus-square-o" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="pnlAppAdmin" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <ReferenceLookup identity="referenceLookup.10b2d4db46e641b5bba23b33e3568c2e">
+                      <Name value="cmbAdmin_CU" />
+                      <Caption value="Celní útvar (Company)" />
+                      <CaptionPosition value="Top" />
+                      <DataApiObject reference="~fcCELUPLAT_R" />
+                      <DisplayMember value="_description" />
+                      <MinChars value="2" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.Admin.CU" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-referencelookup" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </ReferenceLookup>
+                    <Panel>
+                      <Name value="pnlAppAdminR1" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <CheckBox>
+                          <Name value="chbRead" />
+                          <Caption value="Čtení" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.Admin.Read" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                        <CheckBox>
+                          <Name value="chbWrite" />
+                          <Caption value="Zápis" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.Admin.Write" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                        <CheckBox>
+                          <Name value="chbAdmin" />
+                          <Caption value="Admin" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.Admin.Admin" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                    <Panel>
+                      <Name value="pnlAppAdminR2" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <CheckBox>
+                          <Name value="chbReactivation" />
+                          <Caption value="Reaktivace" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.Admin.Reactivation" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                        <CheckBox>
+                          <Name value="chbReadFile" />
+                          <Caption value="Soubory" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.Admin.ReadFile" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                        <CheckBox>
+                          <Name value="chbAudit" />
+                          <Caption value="Audity" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.Admin.Audit" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                    <Panel>
+                      <Name value="pnlAppAdminR3" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <CheckBox>
+                          <Name value="chbHelpdesk" />
+                          <Caption value="Helpdesk" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.Admin.Helpdesk" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="isVisible" Expression="isAppAdmin" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="cgbRights" />
+              <caption value="Uživatelská práva" />
+              <collapsedIconClass value="fa fa-plus-square-o" />
+              <nonCollapsedIconClass value="fa fa-minus-square-o" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="pnlRights" />
+                  <IsEnabled value="False" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <LabeledText identity="labeledText.a92a691d6915448ebf9f0b804ce6a733">
+                      <Name value="lblRights_CU" />
+                      <Caption value="Celní útvar (Company)" />
+                      <CaptionPosition value="Top" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="globals.user.UserIdentity.Company" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-labeledtext" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </LabeledText>
+                    <Panel>
+                      <Name value="pnlRights_R1" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <CheckBox>
+                          <Name value="chbRights_EOS_ASEOAPPADMIN" />
+                          <Caption value="AppAdmin" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33%" />
+                          <Tooltip value="A_PCS_EOS_ASEOAPPADMIN" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.Rights.EOS_ASEOAPPADMIN" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                        <CheckBox>
+                          <Name value="chbRights_EOS_ASEOREAD" />
+                          <Caption value="Čtení (ASEO)" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33%" />
+                          <Tooltip value="A_PCS_EOS_ASEOREAD" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.Rights.EOS_ASEOREAD" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                        <CheckBox>
+                          <Name value="chbRights_EOS_ASEOWRITE" />
+                          <Caption value="Zápis (ASEO)" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Tooltip value="A_PCS_EOS_ASEOWRITE" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.Rights.EOS_ASEOWRITE" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                    <Panel>
+                      <Name value="pnlRights_R2" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <CheckBox>
+                          <Name value="chbRights_EOS_ASEOAUTHORIZATIONREACTIVATION" />
+                          <Caption value="Reaktivace" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33%" />
+                          <Tooltip value="A_PCS_EOS_ASEOAUTHORIZATIONREACTIVATION" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.Rights.EOS_ASEOAUTHORIZATIONREACTIVATION" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                        <CheckBox>
+                          <Name value="chbRights_EOS_ASEOREADFILE" />
+                          <Caption value="Soubory" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33%" />
+                          <Tooltip value="A_PCS_EOS_ASEOREADFILE" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.Rights.EOS_ASEOREADFILE" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                        <CheckBox>
+                          <Name value="chbRights_EOS_ASEOAUDIT" />
+                          <Caption value="Audity" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Tooltip value="A_PCS_EOS_ASEOAUDIT" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.Rights.EOS_ASEOAUDIT" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                    <Panel>
+                      <Name value="pnlRights_R3" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <CheckBox>
+                          <Name value="chbRights_EOS_ASEOHELPDESK" />
+                          <Caption value="Helpdesk" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Tooltip value="A_PCS_EOS_ASEOHELPDESK" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.Rights.EOS_ASEOHELPDESK" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                    <Panel>
+                      <Name value="pnlRights_R4" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <CheckBox>
+                          <Name value="chbRights_CDKLIENT_READ" />
+                          <Caption value="Čtení (CD)" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33%" />
+                          <Tooltip value="A_PCS_CDKLIENT_READ" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.Rights.CDKLIENT_READ" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                        <CheckBox>
+                          <Name value="chbRights_CDKLIENT_WRITE" />
+                          <Caption value="Zápis (CD)" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="33%" />
+                          <Tooltip value="A_PCS_CDKLIENT_WRITE" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.Rights.CDKLIENT_WRITE" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                        <CheckBox>
+                          <Name value="chbRights_CDKLIENT_ADMIN" />
+                          <Caption value="Admin (CD)" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Tooltip value="A_PCS_CDKLIENT_ADMIN" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.Rights.CDKLIENT_ADMIN" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel-uniform" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="display-flex" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+      </Children>
+      <CssClass>
+        <CssClassConditional>
+          <ClassName value="{theme}-panel" />
+          <IsThemedStyle value="True" />
+        </CssClassConditional>
+        <CssClassConditional>
+          <ClassName value="form-container" />
+        </CssClassConditional>
+      </CssClass>
+    </Panel>
+  </Content>
+  <DataContext>
+    <DataContext>
+      <Children>
+        <Computed>
+          <Name value="isAppAdmin" />
+          <Caption value="Is app admin" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[globals.user.isAppAdmin]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
+        <Complex>
+          <Name value="model" />
+          <Caption value="Model" />
+          <Children>
+            <Complex>
+              <Name value="Rights" />
+              <Caption value="Rights" />
+              <Children>
+                <Computed>
+                  <Name value="EOS_ASEOAPPADMIN" />
+                  <Caption value="EOS _ ASEOAPPADMIN" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[globals.user.UserIdentity.UserRole.exists(current.Name = "EOS_ASEOAPPADMIN")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="EOS_ASEOREAD" />
+                  <Caption value="EOS _ ASEOREAD" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[globals.user.UserIdentity.UserRole.exists(current.Name = "EOS_ASEOREAD")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="EOS_ASEOWRITE" />
+                  <Caption value="EOS _ ASEOWRITE" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[globals.user.UserIdentity.UserRole.exists(current.Name = "EOS_ASEOWRITE")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="EOS_ASEOAUTHORIZATIONREACTIVATION" />
+                  <Caption value="EOS _ ASEOAUTHORIZATIONREACTIVATION" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[globals.user.UserIdentity.UserRole.exists(current.Name = "EOS_ASEOAUTHORIZATIONREACTIVATION")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="EOS_ASEOREADFILE" />
+                  <Caption value="EOS _ ASEOREADFILE" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[globals.user.UserIdentity.UserRole.exists(current.Name = "EOS_ASEOREADFILE")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="EOS_ASEOAUDIT" />
+                  <Caption value="EOS _ ASEOAUDIT" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[globals.user.UserIdentity.UserRole.exists(current.Name = "EOS_ASEOAUDIT")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="EOS_ASEOHELPDESK" />
+                  <Caption value="EOS _ ASEOHELPDESK" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[globals.user.UserIdentity.UserRole.exists(current.Name = "EOS_ASEOHELPDESK")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="CDKLIENT_READ" />
+                  <Caption value="CDKLIENT _ READ" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[globals.user.UserIdentity.UserRole.exists(current.Name = "CDKLIENT_READ")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="CDKLIENT_WRITE" />
+                  <Caption value="CDKLIENT _ WRITE" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[globals.user.UserIdentity.UserRole.exists(current.Name = "CDKLIENT_WRITE")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="CDKLIENT_ADMIN" />
+                  <Caption value="CDKLIENT _ ADMIN" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[globals.user.UserIdentity.UserRole.exists(current.Name = "CDKLIENT_ADMIN")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="Admin" />
+              <Caption value="Admin" />
+              <Children>
+                <Reference>
+                  <Name value="CU" />
+                  <Caption value="CU" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.CELUPLAT_R" />
+                    </Include>
+                  </Children>
+                </Reference>
+                <Attribute>
+                  <Name value="Read" />
+                  <Caption value="Read" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Write" />
+                  <Caption value="Write" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Admin" />
+                  <Caption value="Admin" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Reactivation" />
+                  <Caption value="Reactivation" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="ReadFile" />
+                  <Caption value="Read file" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Audit" />
+                  <Caption value="Audit" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="Helpdesk" />
+                  <Caption value="Helpdesk" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="ui" />
+          <Caption value="Ui" />
+        </Complex>
+      </Children>
+    </DataContext>
+  </DataContext>
+  <OnCreate>
+    <ActionEvent ReferencedAction="~init" />
+  </OnCreate>
+  <Actions>
+    <ActionBlock>
+      <Name value="handler_btnBack_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.forms.master.isNavigationTreeVisible = true
+navigation.close()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btnConfirm_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var user = globals.user
+var model = form.model
+
+user.CuCode = model.Admin.CU.CELUPLAT_R
+user.hasRoleRead = model.Admin.Read
+user.hasRoleWrite = model.Admin.Write
+user.hasRoleAdmin = model.Admin.Admin
+user.hasRoleAuthrorizationReactivation = model.Admin.Reactivation
+user.hasRoleReadFile = model.Admin.ReadFile
+user.hasRoleAudit = model.Admin.Audit
+user.hasRoleHelpdesk = model.Admin.Helpdesk
+
+globals.forms.master.isNavigationTreeVisible = true
+navigation.close()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="init" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.forms.master.isNavigationTreeVisible = false
+
+form.actions.setFilters()
+
+var user = globals.user
+var model = form.model
+
+var item = fcCELUPLAT_R.getItemByStringColumnAsync("CELUPLAT_R", user.CuCode)
+model.Admin.CU.fromJson(item.getJsonString())
+
+model.Admin.Read = user.hasRoleRead
+model.Admin.Write = user.hasRoleWrite
+model.Admin.Admin = user.hasRoleAdmin
+model.Admin.Reactivation = user.hasRoleAuthrorizationReactivation
+model.Admin.ReadFile = user.hasRoleReadFile
+model.Admin.Audit = user.hasRoleAudit
+model.Admin.Helpdesk = user.hasRoleHelpdesk]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setFilters" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var dt = getDateTime()
+
+var filter = fcCELUPLAT_R.resetFilter(false)
+filter.filterByValidityDateTime(dt)
+filter.includeItemsByStringColumn("NADU", "CZ900000")
+filter.commit()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+  </Actions>
+  <ApiObjects>
+    <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="fcCELUPLAT_R" />
+      <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.CELUPLAT_R" />
+    </FilteredCodelist>
+  </ApiObjects>
+</Form>

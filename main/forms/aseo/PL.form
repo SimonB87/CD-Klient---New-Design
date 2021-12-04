@@ -661,6 +661,7 @@
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.PlaceDetail.ValidityCustomsOffice" />
                         <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.PlaceDetail.ValidityCustomsOffice.isRequired()" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -2000,10 +2001,12 @@ endif]]></Script>
       <Name value="onBackgroundLoadingFinished" />
       <Description value="zavola se po dokonceni nacteni ciselniku" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var msg = form.model.msg
-
-var item = acb_ValidityCustomsOffice_FltCodelist.getItemByStringColumnAsync("CELUPLAT_R", globals.user.CuCode)
-msg.PlaceDetail.ValidityCustomsOffice.fromJson(item.getJsonString())]]></Script>
+        <Script><![CDATA[if form.params.Mode = "NEW" then
+	var msg = form.model.msg
+	var item = acb_ValidityCustomsOffice_FltCodelist.getItemByStringColumnAsync("CELUPLAT_R", globals.user.CuCode)
+	
+	msg.PlaceDetail.ValidityCustomsOffice.fromJson(item.getJsonString())
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />

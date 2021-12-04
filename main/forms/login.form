@@ -31,6 +31,29 @@
         <Script><![CDATA[var appInfo = globals.appInfo
 var user = globals.user 
 
+
+actions.sendRequestGet("login", "loginResponse", true)
+var sr = globals.sendResult
+
+if sr.Valid then
+	user.fromJson(sr.Message)
+	
+	var isAuthorized = form.actions.setUser()	
+	appInfo.pageTitle = appInfo.appTitle + " - " + user.DisplayName
+	
+	if isAuthorized then
+		navigation.main.lists.go()
+	else
+		var err = packages.main.globals.forms.error.params
+		err.Caption = "Unauthorized access"
+		err.Message = "Uživatel "+ user.fullName + " s loginem '" + user.userName + "' nemá příslušná oprávnění pro spuštení aplikace."
+		system.consoleError(err.Message)
+		navigation.main.error.goAndBack()
+	endif
+endif
+
+/* OLD CODE
+
 // Login + uživatelské role
 globals.IsBusy = true
 var response = apiobjects.cic.getAsync("loginRequestASEO")
@@ -75,7 +98,8 @@ else
 	system.consoleError(err.Message)
 	navigation.main.error.goAndBack()
 endif endif endif
-]]></Script>
+
+*/]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -86,6 +110,72 @@ endif endif endif
       <Description value="vraci true pokud ma uzivatel alespon jednu pristupovou roli CD" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var user = globals.user
+var ui = user.UserIdentity
+
+user.userName = ui.UserName
+user.fullName = ui.User
+
+if ui.Email.count() > 0 then
+	user.Mail = ui.Email.selectFirst().Value
+endif
+
+user.CuCode = ui.Company
+
+// capitalize all roles to fix issue with different capitalization on solitea test and cs test
+foreach r in ui.UserRole do
+	r.Name = toUpper(r.Name)
+endfor
+
+if ui.UserRole.exists(current.Name = "EOS_ASEOAPPADMIN") then
+	// only in isAppAdmin computed attribute, so it can't be changed
+endif
+
+if ui.UserRole.exists(current.Name = "EOS_ASEOREAD") then
+	user.hasRoleRead = true
+endif
+
+if ui.UserRole.exists(current.Name = "EOS_ASEOWRITE") then
+	user.hasRoleWrite = true
+endif
+
+if ui.UserRole.exists(current.Name = "EOS_ASEOAUTHORIZATIONREACTIVATION") then
+	user.hasRoleAuthrorizationReactivation = true
+endif
+
+if ui.UserRole.exists(current.Name = "EOS_ASEOREADFILE") then
+	user.hasRoleReadFile = true
+endif
+
+if ui.UserRole.exists(current.Name = "EOS_ASEOAUDIT") then
+	user.hasRoleAudit = true
+endif
+
+if ui.UserRole.exists(current.Name = "EOS_ASEOHELPDESK") then
+	user.hasRoleHelpdesk = true
+endif
+
+if ui.UserRole.exists(current.Name = "CDKLIENT_READ") then
+	user.hasRoleRead = true
+endif
+
+if ui.UserRole.exists(current.Name = "CDKLIENT_WRITE") then
+	user.hasRoleWrite = true
+endif
+
+if ui.UserRole.exists(current.Name = "CDKLIENT_ADMIN") then
+	user.hasRoleAdmin = true
+endif
+
+// Vyhodnocení autorizace
+if isTrue(user.hasRoleRead) or 
+   isTrue(user.hasRoleWrite) or 
+   isTrue(user.hasRoleHelpdesk) or 
+   isTrue(user.hasRoleAdmin) then 
+	result = true
+endif
+
+/* OLD CODE
+
 var lru = user.LoginResult.user.selectFirst()
 
 // Načteme Ověřeného Uživatele
@@ -112,10 +202,6 @@ if user.hasRoleRead or user.hasRoleWrite or user.hasRoleAdmin then
 	result = true
 endif
 
-/*
-system.console("Role read : " + tostring(globals.user.hasRoleRead))
-system.console("Role write : " + tostring(globals.user.hasRoleWrite))
-system.console("Role admin : " + tostring(globals.user.hasRoleAdmin))	
 */]]></Script>
       </ActionLangBody>
       <DataContext>
