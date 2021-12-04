@@ -9337,6 +9337,9 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <useArrowKeys value="True" />
+                          <OnRowClicked>
+                            <ActionEvent ReferencedAction="~updateOneGoodsItem" />
+                          </OnRowClicked>
                           <Bindings>
                             <Binding SourceProperty="lastClickedRow" Expression="form.enhancement.selectedRowDataSetGoodsItem" />
                             <Binding SourceProperty="savedColumns" Expression="" />
@@ -9716,6 +9719,9 @@
                               <Caption value="Uložit změny do seznamu" />
                               <Panel.Height value="#" />
                               <Panel.Width value="250px" />
+                              <OnClick>
+                                <ActionEvent ReferencedAction="~saveOneGoodsItemInDeclist" />
+                              </OnClick>
                               <CssClass>
                                 <CssClassConditional>
                                   <ClassName value="{theme}-button" />
@@ -12925,6 +12931,132 @@ if isTrue(type.isType_IPO or type.isType_OPO or type.isType_TEA or type.isType_C
 	fcZBOZIKOD.filterByValidityDateTime(dateTime)
 	
 endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="saveOneGoodsItemInDeclist" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+form.cdeReq.clear()
+form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.goodsItemCZ.addItem()
+var itemDataToUpdate = form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.goodsItemCZ.selectFirst()
+
+
+	itemDataToUpdate.guid = form.enhancement.selectedRowDataSetGoodsItem.goodsCZGUID
+	
+		//init of helping variable
+		var proceed = True
+		
+		if isTrue(form.formBehavior.declarationTypes.isType_IPO) and form.enhancement.modelServerEnhacement.cnCodeArticle73DA.ZBOZIKOD.hasValue() then
+	
+			fcZBOZIKOD.filterByValidityDateTime(getDateTime())
+		
+		    var itemCn73da = fcZBOZIKOD.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.modelServerEnhacement.cnCodeArticle73DA.ZBOZIKOD)
+		    
+		    if itemCn73da.isFound() then
+		       itemDataToUpdate.cnCodeArticle73DA.fromJson(itemCn73da.getJsonString())
+		       
+		       proceed = True
+		    else
+		    	apiobjects.notificationsCtrl.addWarning("Vybraný Kód KN při použití čl. 73 DA se nepodařil vložit do seznamu, protože nemá aktuální platnou hodnotu číselníku. ")
+
+		    	proceed = False
+		    	
+		    endIf
+		    
+		endIf
+		
+		if isTrue(form.formBehavior.declarationTypes.isType_EUS) and form.enhancement.modelServerEnhacement.cnCodeForSecuring.ZBOZIKOD.hasValue() then
+			
+			globals.IsBusy = True
+				fcZBOZIKOD.filterByValidityDateTime(getDateTime())
+			globals.IsBusy = False
+				
+			var itemCn = fcZBOZIKOD.getItemByStringColumnAsync("ZBOZIKOD", form.enhancement.modelServerEnhacement.cnCodeForSecuring.ZBOZIKOD)
+	
+			if itemCn.isFound() then
+				itemDataToUpdate.cnCodeForSecuring.fromJson(itemCn.getJsonString())
+				
+			else	    	
+				apiobjects.notificationsCtrl.addWarning("Vybraný Kód pro dozajištění se nepodařil vložit do seznamu, protože nemá aktuální platnou hodnotu číselníku. ")
+				proceed = False
+				
+			endif
+				
+		endif
+
+		
+		if proceed = True then
+		
+			itemDataToUpdate.completed = form.enhancement.modelServerEnhacement.completed
+			
+			itemDataToUpdate.writeOffMeasureUnit.JMODPIS = form.enhancement.modelServerEnhacement.writeOffMeasureUnit.JMODPIS
+			itemDataToUpdate.writeOffMeasureUnit.POPIS = form.enhancement.modelServerEnhacement.writeOffMeasureUnit.POPIS	
+			
+			if isTrue(form.formBehavior.declarationTypes.isType_IPO) then
+			
+				if not form.enhancement.modelServerEnhacement.article863UCC.hasValue() then
+					form.enhancement.modelServerEnhacement.article863UCC = false
+				endif
+				
+				itemDataToUpdate.article863UCC = form.enhancement.modelServerEnhacement.article863UCC
+				
+				if not form.enhancement.modelServerEnhacement.article864UCC.hasValue() then
+					form.enhancement.modelServerEnhacement.article864UCC = false
+				endif
+				
+				itemDataToUpdate.article864UCC = form.enhancement.modelServerEnhacement.article864UCC
+				
+			endif
+			
+			form.actions.updateOneGoodsItem()
+	
+		endIf
+
+globals.IsBusy = False]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="updateOneGoodsItem" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = true
+
+var pathRequest = form.enhancement.dataSetGoodsItems.request.customsDecisionAuthorisationData
+var pathSource = form.enhancement.selectedRowDataSetGoodsItem 
+
+pathRequest.customsDecisionGUID = pathSource.customsDecisionGUID
+pathRequest.customsDecisionVersionGUID = pathSource.customsDecisionVersionGUID
+pathRequest.goodsItemCZGUID = pathSource.goodsCZGUID
+
+
+form.enhancement.dataSetGoodsItems.response.clear()
+
+var response = apiobjects.cic.postAsync("EconomicImpactRegimeSingleGoodsItemDetailRequest", form.enhancement.dataSetGoodsItems.request.toJson())
+	
+if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
+	system.console(response.getErrorMessage())
+	
+else
+	var dataReceived = response.getJsonString()
+		
+	form.enhancement.dataSetGoodsItems.response.fromJson(dataReceived)
+	
+	var goodsItemData = form.enhancement.dataSetGoodsItems.response.customsDecisionAuthorisationData.universalCustomsDecisionInformation.goodsItemCZ
+	var targetData = form.enhancement.modelServerEnhacement
+	
+	targetData.clear()
+	targetData.fromJson(goodsItemData.toJson())
+	
+endIf
+
+globals.IsBusy = false]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
