@@ -53,7 +53,7 @@
                       <Name value="buttonEdit" />
                       <Caption value="Editovat" />
                       <Panel.Height value="#" />
-                      <Panel.Width value="150px" />
+                      <Panel.Width value="100px" />
                       <OnClick>
                         <ActionEvent ReferencedAction="~editovat" />
                       </OnClick>
@@ -64,6 +64,44 @@
                         </CssClassConditional>
                         <CssClassConditional>
                           <ClassName value="flright" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
+                      <Name value="buttonSave" />
+                      <Caption value="Uložit" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="100px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~storeEnhacement" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="form.enhancement.isEnhancementEditOn" />
+                        <Binding SourceProperty="IsEnabled" Expression="form.enhancement.isEnhancementEditOn" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
+                      <Name value="buttonSaveClose" />
+                      <Caption value="Uložit a zavřít" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~storeAndClose" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="form.enhancement.isEnhancementEditOn" />
+                        <Binding SourceProperty="IsEnabled" Expression="form.enhancement.isEnhancementEditOn" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
                         </CssClassConditional>
                       </CssClass>
                     </Button>
@@ -9129,6 +9167,7 @@
                               <Bindings>
                                 <Binding SourceProperty="Caption" Expression="enhancement.completedAllSelected.ipoAllArticled86Fill.allArticles86TrueCaption" />
                                 <Binding SourceProperty="IsVisible" Expression="form.formBehavior.declarationTypes.isType_IPO" />
+                                <Binding SourceProperty="IsEnabled" Expression="form.enhancement.isEnhancementEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -9153,8 +9192,12 @@
                               <Name value="btnEnhancementCompletedAll" />
                               <Panel.Height value="#" />
                               <Panel.Width value="190px" />
+                              <OnClick>
+                                <ActionEvent ReferencedAction="~switch_isCompletedAllSelected" />
+                              </OnClick>
                               <Bindings>
                                 <Binding SourceProperty="Caption" Expression="form.enhancement.completedAllSelected.isCompletedAllSelectedButtonCaption" />
+                                <Binding SourceProperty="IsEnabled" Expression="form.enhancement.isEnhancementEditOn" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -9210,6 +9253,12 @@
                               <Caption value="Validovat položky" />
                               <Panel.Height value="#" />
                               <Panel.Width value="100px" />
+                              <OnClick>
+                                <ActionEvent ReferencedAction="~validateGoods" />
+                              </OnClick>
+                              <Bindings>
+                                <Binding SourceProperty="IsEnabled" Expression="form.enhancement.isEnhancementEditOn" />
+                              </Bindings>
                               <CssClass>
                                 <CssClassConditional>
                                   <ClassName value="{theme}-button" />
@@ -9722,6 +9771,9 @@
                               <OnClick>
                                 <ActionEvent ReferencedAction="~saveOneGoodsItemInDeclist" />
                               </OnClick>
+                              <Bindings>
+                                <Binding SourceProperty="IsEnabled" Expression="form.enhancement.isEnhancementEditOn" />
+                              </Bindings>
                               <CssClass>
                                 <CssClassConditional>
                                   <ClassName value="{theme}-button" />
@@ -10736,6 +10788,22 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
                 </Computed>
               </Children>
             </Complex>
+            <Attribute>
+              <Name value="operationResultMessage" />
+              <Caption value="Operation result message" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="operationResultSuccess" />
+              <Caption value="Operation result success" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
           </Children>
         </Complex>
         <Complex>
@@ -12938,7 +13006,7 @@ endIf]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="saveOneGoodsItemInDeclist" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
 form.cdeReq.clear()
@@ -13079,6 +13147,434 @@ else
 	form.apiobjects.enhancementDeclistGoodsItems.setReady(True)
 endIf
 ]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="validateGoods" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = True
+
+form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
+
+var cdGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+var cdVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
+var basicFilterString = "(customsDecisionGUID eq '" + cdGUID + "' and customsDecisionVersionGUID eq '" + cdVersionGUID + "'"
+var filterValue = defaultString()
+var acceptHeaderValue = "application/json;odata=verbose,text/plain"
+result = defaultBool()
+
+var noticeToUser = defaultString()
+
+if form.formBehavior.declarationTypes.isType_EUS then
+	
+	filterValue = basicFilterString + " and cnCodeForSecuringExists eq 'false')"
+	var miggingCnCodeGoodsItems = form.apiobjects.declListQuery.getCountAsync(filterValue, acceptHeaderValue)
+	
+	if miggingCnCodeGoodsItems > 0 then
+		var missingCnCode = form.actions.askForMissingCnCodeGoodsItemsID()
+		noticeToUser = "U některých položek zboží (celkový počet: '"+ toString(miggingCnCodeGoodsItems)  
+						+ "') doplňte údaj 'Kód KN pro dozajištění' (např.: položka s kód KN :'" 
+						+ missingCnCode + "').  *  "	 
+	endIf
+	
+	filterValue = basicFilterString + " and completed eq 'false')"
+	var miggingCompletedGoodsItems = form.apiobjects.declListQuery.getCountAsync(filterValue, acceptHeaderValue)
+	
+	if miggingCompletedGoodsItems > 0 then
+		var missingCompleted = form.actions.askForMissingCompleted()
+		noticeToUser = noticeToUser
+						+ "U některých položek zboží (celkový počet: '"+ toString(miggingCompletedGoodsItems)
+						+ "') doplňte údaj 'Doplněno' (např.: položka s kód KN :'" 
+						+ missingCompleted + "')."
+	endIf
+	
+	if (miggingCnCodeGoodsItems > 0) or (miggingCompletedGoodsItems > 0) then
+		apiobjects.notificationsCtrl.addWarning(noticeToUser)
+		result = false
+	else
+		result = true
+		apiobjects.notificationsCtrl.addSuccess("Seznam zbožových položek je správně vyplněn.")
+	endIf
+	
+else
+		
+	filterValue = basicFilterString + " and completed eq 'false')"
+	var miggingCompletedGoodsItems = form.apiobjects.declListQuery.getCountAsync(filterValue, acceptHeaderValue)
+	
+	if miggingCompletedGoodsItems > 0 then
+		var missingCompleted = form.actions.askForMissingCompleted()
+		noticeToUser = noticeToUser
+						+ "U některých položek zboží (celkový počet: '"+ toString(miggingCompletedGoodsItems)
+						+ "') doplňte údaj 'Doplněno' (např.: položka s kód KN :'" 
+						+ missingCompleted + "')."
+	endIf
+	
+	if (miggingCompletedGoodsItems > 0) then
+		apiobjects.notificationsCtrl.addWarning(noticeToUser)
+		result = false
+	else
+		result = true
+		apiobjects.notificationsCtrl.addSuccess("Seznam zbožových položek je správně vyplněn.")
+	endIf
+endIf
+
+form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
+
+globals.IsBusy = False]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="askForMissingCnCodeGoodsItemsID" />
+      <ActionLangBody>
+        <Script><![CDATA[var cdGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+var cdVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
+var basicFilterString = "(customsDecisionGUID eq '" + cdGUID + "' and customsDecisionVersionGUID eq '" + cdVersionGUID + "'"
+var filter = basicFilterString + " and completed eq 'false')"
+var columnNames = "completed, combinedNomenclatureCode"
+
+var response = form.apiobjects.declListQuery.getResultAsync(columnNames, filter)
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+else
+	var output = response.getStringValue("combinedNomenclatureCode")
+	if output = defaultString() then
+		result = "'neznámé'"
+	else
+		result = output
+	endIf	
+	//system.console(result)
+endif
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="askForMissingCompleted" />
+      <ActionLangBody>
+        <Script><![CDATA[var cdGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+var cdVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
+var basicFilterString = "(customsDecisionGUID eq '" + cdGUID + "' and customsDecisionVersionGUID eq '" + cdVersionGUID + "'"
+var filter = basicFilterString + " and completed eq 'false')"
+var columnNames = "completed, combinedNomenclatureCode"
+
+var response = form.apiobjects.declListQuery.getResultAsync(columnNames, filter)
+
+if response.isError() then
+	system.console(response.getErrorMessage())
+else
+	var output = response.getStringValue("combinedNomenclatureCode")
+	if output = defaultString() then
+		result = "'neznámé'"
+	else
+		result = output
+	endIf	
+	//system.console(result)
+endif
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="switch_isCompletedAllSelected" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = true
+
+form.enhancement.completedAllSelected.ipoAllArticled86Fill.allArticles86True = True
+
+var cdData = form.CD.customsDecisionAuthorisationData
+var messageData = "{\"customsDecisionAuthorisationData\": {\"customsDecisionGUID\": \"" + cdData.customsDecisionGUID + "\", \"customsDecisionVersionGUID\": \""+ cdData.customsDecisionVersionGUID +"\"}}"
+
+var resp = apiobjects.cic.postAsync("CustomsDecisionDefaultEnhancement", messageData)
+  
+if resp.isError() or (resp.getMessageType() = "IN906A") then  
+    var errorMsg = resp.getErrorMessage()
+    system.consoleError(errorMsg)
+    errorMsg = resp.getJsonString()
+    system.consoleError("Response content: " + errorMsg)
+    apiobjects.notificationsCtrl.addWarning("Něco se nezdařilo. Nebylo možné všem položkám nastavit \"Doplněno\" na \"ano\". ")
+else
+    apiobjects.notificationsCtrl.addSuccess("Všem položkám zboží byly nastaveny hodnoty \"Doplněno\" na \"ano\". ")
+    form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
+    form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
+endif
+
+globals.IsBusy = false]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="storeEnhacement" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.IsBusy = true
+
+//clear error message
+
+form.formBehavior.visibilities.operationResult = False
+form.enhancement.clientMsg.request.Message.clear()
+
+//variable set up
+form.enhancement.goodsItemCZvalidatation = true
+
+var fullyEnh = defaultBool()
+var enh = form.cdeReq.customsDecisionAuthorisationData.enhancementCZ
+
+//Currently periodForClearance isn't mandatory
+//if form.enhancement.goodsItemCZvalidatation then
+//  if form.zobrazIPO or form.zobrazEUS then
+//      form.enhancement.goodsItemCZvalidatation = enh.periodForClearance.isValid() 
+//	    form.actions.showEnhancementErrorMessage("Lhůta pro zúčtování vykazuje chybu. ", true)
+//	    form.enhancement.clientMsg.sendRequest = true
+
+//      Currently periodForClearance isn't mandatory
+//      fullyEnh = form.enhancement.goodsItemCZvalidatation and enh.periodForClearance.hasValue()
+//  endif
+//endif
+
+fullyEnh = form.actions.checkSimplifiedProcesures()
+
+if isTrue(form.enhancement.goodsItemCZvalidatation) then
+  // let's make check for validity and completness of goods-items data   	
+  var allCompleted = form.actions.validateGoods()
+  
+  fullyEnh = fullyEnh and allCompleted
+  
+  //fill in edit note strinf from GUI
+  enh.editNote = form.CD.customsDecisionAuthorisationData.enhancementCZ.editNote
+    
+  if form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced and not (fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid()) then
+       
+    form.enhancement.goodsItemCZvalidatation = false
+    var errorString1 = "Doplňte poznámku a zkontrolujte, jestli je rozhodnutí plně obohaceno." 
+    apiobjects.notificationsCtrl.addWarning(errorString1)
+    form.enhancement.clientMsg.request.Message = form.enhancement.clientMsg.request.Message + errorString1
+      
+    form.enhancement.clientMsg.sendRequest = true
+    
+  endif
+  
+endif
+
+if isTrue(form.enhancement.goodsItemCZvalidatation) then
+  form.actions.fillenhancementMessage()
+  enh.fullyEnhanced = fullyEnh
+  
+  var resp = apiobjects.cic.postAsync("CustomsDecisionEnhancement", form.cdeReq.toJson())
+  
+  if resp.isError() or (resp.getMessageType() = "IN906A") then
+        
+    var errorMsg = resp.getErrorMessage()
+    system.consoleError(errorMsg)
+    errorMsg = resp.getJsonString()
+    system.consoleError("Response content: " + errorMsg)
+    
+    apiobjects.notificationsCtrl.addWarning("Něco se nezdařilo. Změny se nepovedlo uložit. ")
+    
+    var errorString2 = "Response content: " + errorMsg + ". " + "Něco se nezdařilo. Změny se nepovedlo uložit."
+    form.enhancement.clientMsg.request.Message = form.enhancement.clientMsg.request.Message + errorString2
+    
+    form.formBehavior.operationResultSuccess = false
+    form.enhancement.clientMsg.sendRequest = true
+   
+  else
+        
+    var msg = "Změny byly odeslány a uloženy na server."
+    if fullyEnh then
+      msg = msg + " Verze byla uložena s příznakem \"kompletní\". \t"
+      form.cdMode = enums.cdMode.detail
+    endif
+    
+    apiobjects.notificationsCtrl.addSuccess(msg)  
+    form.enhancement.clientMsg.sendRequest = true
+    form.formBehavior.operationResultSuccess = true
+    
+    var decisionGuid = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+    var decisiosVersionGuid = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
+    
+    actions.commonLoadData(decisionGuid, decisiosVersionGuid)
+    if globals.dataLoadingSpace.success then
+    	form.CD.clear()
+    	form.CD.fromJson(globals.dataLoadingSpace.cdDetailJson)
+    	form.actions.afterVersionLoad()
+    endIF
+    
+  endif
+
+else
+  apiobjects.notificationsCtrl.addWarning("Tyto údaje nejde uložit. Zkontrolujte správnost dat. ")
+  form.formBehavior.operationResultSuccess = false
+  form.enhancement.clientMsg.sendRequest = true
+endif
+
+if form.enhancement.clientMsg.sendRequest = True then
+	form.actions.sendErrorAsClientMsg()
+endIf
+
+globals.IsBusy = false
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="sendErrorAsClientMsg" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.CD.customsDecisionAuthorisationData.customsDecisionGUID.hasValue() then
+	form.enhancement.clientMsg.request.Message = "'customsDecisionGUID': " + form.CD.customsDecisionAuthorisationData.customsDecisionGUID + " ; "
+else
+	form.enhancement.clientMsg.request.Message = "'customsDecisionGUID': (no data) ; "
+endIf
+
+if form.CD.customsDecisionAuthorisationData.customsDecisionReferenceNumber.hasValue() then
+	form.enhancement.clientMsg.request.Message = form.enhancement.clientMsg.request.Message +  "'customsDecisionReferenceNumber': " + form.CD.customsDecisionAuthorisationData.customsDecisionReferenceNumber + " ; "
+else
+	form.enhancement.clientMsg.request.Message = form.enhancement.clientMsg.request.Message + "'customsDecisionReferenceNumber': (no data) ; "
+endif
+
+if form.formBehavior.operationResultMessage.hasValue() then
+	form.enhancement.clientMsg.request.Message = form.enhancement.clientMsg.request.Message + "'client message': " + form.formBehavior.operationResultMessage + " ; "
+else
+	form.enhancement.clientMsg.request.Message = form.enhancement.clientMsg.request.Message + "'client message': (no data) ; "
+endif
+
+
+//Send a message to Center
+var responseReq = apiobjects.cic.postAsync("ClientMsg", form.enhancement.clientMsg.request.toJson())
+
+if responseReq.isError() OR isTrue(responseReq.getMessageType() = "IN906A") then
+  system.console(responseReq.getErrorMessage())
+  // Tell user that the error message sending failed.
+  apiobjects.notificationsCtrl.addWarning(" Dle kontroly není obohacení úplné (další kontroly obohacení mohou být provedeny ještě v Centru). ")
+else
+  // Tell user that the error message sending has succeeded.
+  //form.actions.showEnhancementErrorMessage(" Obohacení není kompletní, informace o tomto stavu bylo úspěšně odesláno. ", true)
+  
+endif
+
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="checkSimplifiedProcesures" />
+      <ActionLangBody>
+        <Script><![CDATA[if form.cdAux.simplifiedEntryProcedureEnum.hasValue() and form.cdAux.simplifiedReleaseProcedureEnum.hasValue() then
+  result = True
+else
+  result = False
+endIf  ]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="fillEnhancementMessage" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var cdaData = form.cdeReq.customsDecisionAuthorisationData
+
+cdaData.customsDecisionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+cdaData.customsDecisionVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
+
+var enh = cdaData.enhancementCZ
+
+if form.CD.customsDecisionAuthorisationData.enhancementCZ.periodForClearance.hasValue() then
+	form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.periodForClearance = form.CD.customsDecisionAuthorisationData.enhancementCZ.periodForClearance
+endif
+
+if form.cdAux.simplifiedEntryProcedureEnum.hasValue() then
+  enh.simplifiedEntryProcedure = form.cdAux.simplifiedEntryProcedureEnum = enums.CzechBooleanEnum.YES
+else
+  // just for safety
+  enh.simplifiedEntryProcedure.clear()
+endif
+
+if form.cdAux.simplifiedReleaseProcedureEnum.hasValue() then
+  enh.simplifiedReleaseProcedure = form.cdAux.simplifiedReleaseProcedureEnum = enums.CzechBooleanEnum.YES
+else
+  // just for safety
+  enh.simplifiedReleaseProcedure.clear()
+endif
+
+if form.CD.customsDecisionAuthorisationData.enhancementCZ.editNote.hasValue() then
+	enh.editNote = form.CD.customsDecisionAuthorisationData.enhancementCZ.editNote
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="storeAndClose" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.actions.storeEnhacement()
+
+if isTrue(form.formBehavior.operationResultSuccess) then
+  actions.closeDetail_G()
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -13248,5 +13744,10 @@ endIf
       <Name value="fcZBOZIKOD" />
       <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZBOZIKOD" />
     </FilteredCodelist>
+    <DeclListQuery identity="DeclListQuery.f41d2c211a8f43618588763e63b56065">
+      <Name value="declListQuery" />
+      <listName value="DatasetGoodsCZ" />
+      <server reference="+GlobalApiObjects.cic" />
+    </DeclListQuery>
   </ApiObjects>
 </Form>
