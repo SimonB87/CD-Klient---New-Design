@@ -341,6 +341,7 @@
                           </OnClick>
                           <Bindings>
                             <Binding SourceProperty="IsVisible" Expression="form.formBehavior.visibilities.saveButtons" />
+                            <Binding SourceProperty="IsEnabled" Expression="form.enhancement.isEnhancementEditOn" />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -362,6 +363,7 @@
                           </OnClick>
                           <Bindings>
                             <Binding SourceProperty="IsVisible" Expression="form.formBehavior.visibilities.saveButtons" />
+                            <Binding SourceProperty="IsEnabled" Expression="form.enhancement.isEnhancementEditOn " />
                           </Bindings>
                           <CssClass>
                             <CssClassConditional>
@@ -16151,9 +16153,10 @@ var acceptHeaderValue = "application/json;odata=verbose,text/plain"
 result = defaultBool()
 
 form.operationResultMessage.clear()
+var noticeToUser = defaultString()
 
 if form.zobrazEUS then
-	var noticeToUser = defaultString()
+	
 	filterValue = basicFilterString + " and cnCodeForSecuringExists eq 'false')"
 	var miggingCnCodeGoodsItems = form.apiobjects.declListQuery.getCountAsync(filterValue, acceptHeaderValue)
 	
@@ -16184,9 +16187,7 @@ if form.zobrazEUS then
 	endIf
 	
 else
-	
-	var noticeToUser = defaultString()
-	
+		
 	filterValue = basicFilterString + " and completed eq 'false')"
 	var miggingCompletedGoodsItems = form.apiobjects.declListQuery.getCountAsync(filterValue, acceptHeaderValue)
 	
@@ -16407,7 +16408,7 @@ else
 	else
 		result = output
 	endIf	
-	system.console(result)
+	//system.console(result)
 endif
 ]]></Script>
       </ActionLangBody>
