@@ -46,6 +46,54 @@
                         </CssClassConditional>
                       </CssClass>
                     </Button>
+                    <Button>
+                      <Name value="btn_edit" />
+                      <Caption value="Upravit" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~switchOnEdit" />
+                      </OnClick>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
+                      <Name value="btn_save" />
+                      <Caption value="Uložit" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~saveEnhancement" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="formState.isEditOn" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
+                      <Name value="btn_saveClose" />
+                      <Caption value="Uložit a zavřít" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="formState.isEditOn" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
@@ -5417,6 +5465,16 @@
                 </Computed>
               </Children>
             </Complex>
+            <Computed>
+              <Name value="isEditOn" />
+              <Caption value="Is edit on" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[isTrue(form.cdMode = enums.cdMode.upravit)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
           </Children>
         </Complex>
         <Complex>
@@ -5426,6 +5484,305 @@
             <Include>
               <Include reference="+DataEntities.CustomsDecisionEnhancement" />
             </Include>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="modelEnhancement" />
+          <Caption value="Model enhancement" />
+          <Children>
+            <Attribute>
+              <Name value="operationResultMessage" />
+              <Caption value="Operation result message" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Complex>
+              <Name value="prefillTemplate" />
+              <Caption value="Prefill template" />
+              <Children>
+                <Attribute>
+                  <Name value="versionNum" />
+                  <Caption value="Version number" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Integer" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="versionGuid" />
+                  <Caption value="Version GUID" />
+                  <MetaType reference="+MetaTypes.Guid" />
+                </Attribute>
+              </Children>
+            </Complex>
+            <Computed>
+              <Name value="prefillButtonCaption" />
+              <Caption value="Prefill button caption" />
+              <Expression>
+                <ExpressionText><![CDATA[form.uiState.prefillVersionExists ?
+    "Předvyplnit (z verze " + toString(form.modelEnhancement.prefillTemplate.versionNum) + ")"
+    : "Nelze předvyplnit"]]></ExpressionText>
+              </Expression>
+            </Computed>
+            <Complex>
+              <Name value="clientMsg" />
+              <Caption value="Client msg" />
+              <Children>
+                <Complex>
+                  <Name value="request" />
+                  <Caption value="Request" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.ClientMsg" />
+                    </Include>
+                  </Children>
+                </Complex>
+                <Attribute>
+                  <Name value="sendRequest" />
+                  <Caption value="Send request" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="uiState" />
+          <Caption value="Ui state" />
+          <Children>
+            <Complex>
+              <Name value="visibilities" />
+              <Caption value="Visibilities" />
+              <Children>
+                <Computed>
+                  <Name value="enhancementRelatedStuff" />
+                  <Caption value="no-caption" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.formState.isTypeCCL]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="saveButtons" />
+                  <Caption value="Save buttons" />
+                  <Expression>
+                    <ExpressionText><![CDATA[this.owner().editPermitted 
+and (form.uiState.mode = enums.DetailMode.edit)]]></ExpressionText>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="modeButtons" />
+                  <Caption value="Mode buttons" />
+                  <Expression>
+                    <ExpressionText><![CDATA[this.owner().editPermitted 
+and (form.uiState.mode = enums.DetailMode.show)]]></ExpressionText>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="editButtons" />
+                  <Caption value="Edit buttons" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[isTrue(form.cdMode = enums.cdMode.upravit) and isTrue(form.formState.isAnnexActive.isNationalEnhancementActive)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="editNote" />
+                  <Caption value="Edit note" />
+                  <Expression>
+                    <ExpressionText><![CDATA[(form.uiState.mode = enums.DetailMode.edit) 
+and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ 
+= "Complete")]]></ExpressionText>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="enhanceButton" />
+                  <Caption value="Enhance button" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.CD.customsDecisionAuthorisationData.enhancementStatusCZ 
+= "None"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="continueEnhancementButton" />
+                  <Caption value="Continue enhancement button" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.CD.customsDecisionAuthorisationData.enhancementStatusCZ 
+= "Partial"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="editButton" />
+                  <Caption value="Edit button" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[form.CD.customsDecisionAuthorisationData.enhancementStatusCZ 
+= "Complete"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Attribute>
+                  <Name value="operationResult" />
+                  <Caption value="Operation result" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="visibilityOfSaspAccountsGb" />
+                  <Caption value="Visibility of sasp accounts gb" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="isValidationsVisible" />
+                  <Caption value="Is validations visible" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Computed>
+              <Name value="editableNationalData" />
+              <Caption value="Editable national data" />
+              <Expression>
+                <ExpressionText><![CDATA[form.uiState.mode = enums.DetailMode.edit]]></ExpressionText>
+              </Expression>
+            </Computed>
+            <Attribute>
+              <Name value="operationResultError" />
+              <Caption value="Operation result error" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Computed>
+              <Name value="operationResultSuccess" />
+              <Caption value="Operation result success" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[not operationResultError]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="prefillVersionExists" />
+              <Caption value="Prefill Version Exists" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[form.modelEnhancement.prefillTemplate.versionNum >= 0]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Complex>
+              <Name value="enhAttention" />
+              <Caption value="Enhancement attention" />
+              <Comment value="Whether there is needed attention for the respective enhancement element." />
+              <Children>
+                <Computed>
+                  <Name value="customsOfficeOfRelease" />
+                  <Caption value="Simplified entry procedure" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[not form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.hasValue()]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+                <Computed>
+                  <Name value="nationalDataTab" />
+                  <Caption value="National data tab" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[isTrue(customsOfficeOfRelease) or form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.SASP.exists(not current._completed)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+            <Computed>
+              <Name value="editPermitted" />
+              <Caption value="Edit permitted" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[globals.user.hasRoleWrite or globals.user.hasRoleAdmin]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Attribute>
+              <Name value="mode" />
+              <Caption value="Mode" />
+              <MetaType reference="+MetaTypes.DetailMode" />
+            </Attribute>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="error" />
+          <Caption value="Error" />
+          <Children>
+            <Collection>
+              <Name value="serverValidationErrors" />
+              <Caption value="Server validation errors" />
+              <Children>
+                <Attribute>
+                  <Name value="Reason" />
+                  <Caption value="Reason" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
+              </Children>
+            </Collection>
+            <Complex>
+              <Name value="serverValidationComplex" />
+              <Caption value="Server validation complex" />
+              <Children>
+                <Collection>
+                  <Name value="QEI" />
+                  <Caption value="QEI" />
+                  <Children>
+                    <Attribute>
+                      <Name value="QEI01" />
+                      <Caption value="QEI 01" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Collection>
+              </Children>
+            </Complex>
           </Children>
         </Complex>
       </Children>
@@ -5982,6 +6339,362 @@ endif]]></Script>
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
+    <ActionBlock>
+      <Name value="switchOnEdit" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.cdMode = enums.cdMode.upravit
+form.actions.setUpCodeLists()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="saveEnhancement" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[// Prepare for long run
+globals.IsBusy = true
+
+var enh = form.cdeReq.customsDecisionAuthorisationData.enhancementCZ
+
+var errorCount = 0
+var valid = defaultBool()
+var fullyEnh = true
+
+errorCount = form.actions.saveEnhancement_checkValidityOfCO()
+valid = isTrue(errorCount = 0) ? true : false
+
+if isTrue(valid) then
+  // let's make check for validity of accounts data - in case they are filled in!
+  
+	if isTrue(form.uiState.visibilities.visibilityOfSaspAccountsGb) then
+	  	errorCount = form.actions.saveEnhancement_validateSaspAccounts()
+	endIf
+    
+	if isTrue(fullyEnh and enh.editNote.hasValue() and enh.editNote.isValid()) then
+	    valid = true
+	else
+	    valid = false
+	    form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Povolení vykazuje stav 'Neúplné obohacení' nebo údaj \"Poznámka k editaci\" nemá správnou hodnotu. "
+	    apiobjects.notificationsCtrl.addWarning(form.modelEnhancement.operationResultMessage)
+	    form.modelEnhancement.clientMsg.sendRequest = True
+	endif
+
+endif
+
+//check if there was erro at any point
+var conditionValidity_bool = (isTrue(errorCount = 0) AND isTrue(valid = true))
+valid = (isTrue(conditionValidity_bool )) ? true : false
+fullyEnh = valid
+
+if isTrue(valid) then
+	  form.actions.fillCdeReq()
+	  
+	  // value shouldn't matter - IC calculates this on it's own - but it's required to be set
+	  if isTrue(enh.fullyEnhanced in [false, defaultBool()]) then
+	  	enh.fullyEnhanced = false
+	  endIf
+	  
+	  var resp = apiobjects.cic.postAsync("CustomsDecisionEnhancement", form.cdeReq.toJson(true))
+	  
+	  if resp.isError() or (resp.getMessageType() = "IN906A") then
+	  		form.actions.validErr_prepareServerErr(resp.extractJson("QERR"))
+		    form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Odesílání zprávy selhalo. Změny se nepovedlo uložit. "
+		    apiobjects.notificationsCtrl.addWarning("Odesílání zprávy selhalo. Změny se nepovedlo uložit.")
+		    form.modelEnhancement.clientMsg.sendRequest = True
+		    
+		    var errorMsg = resp.getErrorMessage()
+		    system.consoleError(errorMsg)
+		    errorMsg = resp.getJsonString()
+		    system.consoleError("Response content: " + errorMsg)
+		    
+		    form.uiState.operationResultError = true
+		    // Show user message - fail - on message sending
+		    form.uiState.visibilities.operationResult = true
+		    form.uiState.visibilities.isValidationsVisible = true
+	  else
+
+		    form.uiState.operationResultError = false
+		    // Show user message - success
+		    form.uiState.visibilities.operationResult = true
+		    
+		    //form.actions.afterVersionLoad()
+		    form.actions.saveEnhancement_checkCurrentData()
+		    
+		    form.uiState.mode = enums.DetailMode.show
+		    
+		    form.modelEnhancement.clientMsg.sendRequest = false
+		    form.uiState.visibilities.isValidationsVisible = false
+		    
+		    //handle notice to user
+       		var msg = " Změny byly uloženy."
+		    form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + msg
+		    form.uiState.mode = enums.DetailMode.show
+		    if form.CD.customsDecisionAuthorisationData.enhancementCZ.fullyEnhanced then
+		      msg = msg + " Verze byla v centru označena jako \"kompletní\"."
+		    endif
+		    apiobjects.notificationsCtrl.addSuccess(msg)
+	    
+	  endif
+	  
+else
+	  form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Tyto údaje nejde uložit. Zkontrolujte správnost dat."
+	  apiobjects.notificationsCtrl.addWarning(form.modelEnhancement.operationResultMessage)
+	  form.uiState.operationResultError = true
+	  // Show user message - fail - on form validation
+	  form.uiState.visibilities.operationResult = true
+  
+endif
+
+if isTrue(form.modelEnhancement.clientMsg.sendRequest) then
+	form.actions.sendErrorAsClientMsgCcl()
+endif
+
+// End of heavy operation
+globals.IsBusy = false
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="saveEnhancement_checkValidityOfCO" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var enh = form.cdeReq.customsDecisionAuthorisationData.enhancementCZ
+if isTrue(enh.customsOfficeOfRelease.isValid()) then
+	result = 0
+else
+	result = 1
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="saveEnhancement_validateSaspAccounts" />
+      <ActionLangBody>
+        <Script><![CDATA[var enh = form.cdeReq.customsDecisionAuthorisationData.enhancementCZ
+var errorCount = 0
+
+foreach sasp in enh.SASP do
+	 		  
+	var acc = sasp.Account
+		    		    
+	if ( isTrue(acc.AccountNumber.hasValue() = false) or isTrue(acc.AccountNumber.isValid() = false)) then
+		        form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Pro člen kolekce " + toString(sasp.index()) + "\"Číslo účtu IBAN\" není správné. "
+				errorCount = errorCount + 1
+	endif
+		    		    
+	if (isTrue(acc.BankCode.hasValue() = false) OR isTrue(acc.BankCode.isValid() = false) ) then
+		        form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Pro člen kolekce " + toString(sasp.index()) + " \"Kód banky BIC\" není správný. "
+				errorCount = errorCount + 1
+	endif
+	    
+endfor
+
+result = errorCount]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="fillCdeReq" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var cdaData = form.cdeReq.customsDecisionAuthorisationData
+
+cdaData.customsDecisionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+cdaData.customsDecisionVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="validErr_prepareServerErr" />
+      <ActionLangBody>
+        <Script><![CDATA[form.error.serverValidationComplex.fromJson(extractJsonErrorMessage)
+
+forEach error in form.error.serverValidationComplex.QEI do
+	var newErrorItem = form.error.serverValidationErrors.addItem()
+	newErrorItem.Reason = error.QEI01
+endFor
+
+form.error.serverValidationComplex.clear()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="extractJsonErrorMessage" />
+              <Caption value="Extract json error message" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="sendErrorAsClientMsgCcl" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.CD.customsDecisionAuthorisationData.customsDecisionGUID.hasValue() then
+	form.modelEnhancement.clientMsg.request.Message = "'customsDecisionGUID': " + form.CD.customsDecisionAuthorisationData.customsDecisionGUID + " ; "
+else
+	form.modelEnhancement.clientMsg.request.Message = "'customsDecisionGUID': (no data) ; "
+endIf
+
+if form.CD.customsDecisionAuthorisationData.customsDecisionReferenceNumber.hasValue() then
+	form.modelEnhancement.clientMsg.request.Message = form.modelEnhancement.clientMsg.request.Message +  "'customsDecisionReferenceNumber': " + form.CD.customsDecisionAuthorisationData.customsDecisionReferenceNumber + " ; "
+else
+	form.modelEnhancement.clientMsg.request.Message = form.modelEnhancement.clientMsg.request.Message + "'customsDecisionReferenceNumber': (no data) ; "
+endif
+
+if form.modelEnhancement.operationResultMessage.hasValue() then
+	form.modelEnhancement.clientMsg.request.Message = form.modelEnhancement.clientMsg.request.Message + "'client message': " + form.modelEnhancement.operationResultMessage + " ; "
+else
+	form.modelEnhancement.clientMsg.request.Message = form.modelEnhancement.clientMsg.request.Message + "'client message': (no data) ; "
+endif
+
+
+//Send a message to Center
+var responseReq = apiobjects.cic.postAsync("ClientMsg", form.modelEnhancement.clientMsg.request.toJson())
+
+if responseReq.isError() OR isTrue(responseReq.getMessageType() = "IN906A") then
+  system.console(responseReq.getErrorMessage())
+  // Tell user that the error message sending failed.
+  form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Odeslání tohoto chybového hlášení se nezdařilo. "
+  apiobjects.notificationsCtrl.addWarning("Odeslání tohoto chybového hlášení se nezdařilo.")
+  
+else
+  // Tell user that the error message sending has succeeded.
+  apiobjects.notificationsCtrl.addWarning("Chybové hlášení bylo úspěšně odesláno.")
+  
+  form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Toto chybové hlášení bylo úspěšně odesláno. "
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="saveEnhancement_checkCurrentData" />
+      <ActionLangBody>
+        <Script><![CDATA[var myGuid = (form.GUID.hasValue()) ? form.GUID : form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+
+var downloadDataSucess = actions.commonLoadData(myGuid)
+
+if isTrue(downloadDataSucess) then
+	var savedDetailData = globals.dataLoadingSpace.cdDetailJson
+	form.CD.fromJson(savedDetailData)
+	globals.dataLoadingSpace.cdDetailJson.clear()
+	
+	form.actions.setUpCodeLists()
+	form.actions.handleReceivedData()
+	form.actions.adjustVisibilityOfSaspAccountsGb()
+	
+else
+	form.modelEnhancement.operationResultMessage = form.modelEnhancement.operationResultMessage + " Nastala chyba při stahování dat aktuálně platného povolení."
+	apiobjects.notificationsCtrl.addWarning(form.modelEnhancement.operationResultMessage)
+	form.uiState.visibilities.operationResult = true
+	
+endIf
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setUpCodeLists" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.apiobjects.CELU.setDateTime(form.CD.customsDecisionAuthorisationData.customsDecisionStatusDate)]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handleReceivedData" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var dataCO = form.CD.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.toJson()
+
+var code = form.CD.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.CELU	
+
+var findCustomsOffice = form.apiobjects.CELU.getItemByStringColumnAsync("CELU", code, getDateTime(), defaultBool())
+
+if isTrue(findCustomsOffice.isFound() ) then
+	
+	form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.fromJson(findCustomsOffice.getJsonString())
+		
+else
+	
+	var description = form.CD.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.POPIS
+		
+	form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.CELU = code
+	form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.POPIS = description
+				
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="adjustVisibilityOfSaspAccountsGb" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsProcedureConcerned.exists(current.procedureCode.hasValue()) = True then
+
+	var customsProcedure = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation.customsProcedureConcerned.where(current.procedureCode = "40")
+		
+	var customsProcedureCount = customsProcedure.count()
+	
+	if customsProcedureCount > 0  then
+		form.uiState.visibilities.visibilityOfSaspAccountsGb = True
+	else
+		form.uiState.visibilities.visibilityOfSaspAccountsGb = False
+	endIf
+	
+else
+
+	form.uiState.visibilities.visibilityOfSaspAccountsGb = False
+	
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
   </Actions>
   <ApiObjects>
     <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
@@ -5998,6 +6711,24 @@ endif]]></Script>
       <Name value="CELU" />
       <name value="CELU" />
       <server reference="+GlobalApiObjects.cic" />
+      <columns>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="CELU" />
+          <columnRole value="Key" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="POPIS" />
+          <columnRole value="Description" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="OD" />
+          <columnRole value="ValidityStart" />
+        </CodelistColumn>
+        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+          <columnName value="DO" />
+          <columnRole value="ValidityEnd" />
+        </CodelistColumn>
+      </columns>
     </Codelist>
     <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
       <Name value="POVOLTYP_R" />
