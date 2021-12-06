@@ -12802,9 +12802,25 @@ result = "Přílohy (" + toString(euAnnex + czAnnex) + ")"]]></Script>
     <ActionBlock>
       <Name value="action2" />
       <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.VersionGUID = params.data.customsDecisionVersionGUID
-form.actions.loadData()
+      <ActionLangBody>
+        <Script><![CDATA[globals.IsBusy = true
+
+actions.commonLoadData(form.CD.customsDecisionAuthorisationData.customsDecisionGUID, params.data.customsDecisionVersionGUID)
+
+if globals.dataLoadingSpace.success then
+  form.CD.customsDecisionAuthorisationData.clear()
+  form.CD.fromJson(globals.dataLoadingSpace.cdDetailJson)
+  form.actions.afterVersionLoad()
+  
+  var msg = "Data dané verze (poř. č.: " + toString(params.data.orderNumber) + ") se podařilo úspěšně načíst."
+  apiobjects.notificationsCtrl.addInfo(msg)
+  
+  form.actions.prepareGoodsItemCZlistCtrl()
+  
+  form.cdMode = enums.cdMode.detail
+else
+  form.actions.handleVersionDataLoadError(params.data.orderNumber, params.data.customsDecisionVersionGUID)
+endif
 
 //check if user selected last CD version
 if (params.data.orderNumber > 0) and form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.hasValue() then
@@ -12814,7 +12830,10 @@ if (params.data.orderNumber > 0) and form.CD.customsDecisionAuthorisationData.cu
 		globals.uiGlobalState.isLastCDversionSelected = False
 	endif
 
-endif]]></Script>
+endif
+
+globals.IsBusy = false
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -13244,7 +13263,7 @@ globals.IsBusy = False]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="askForMissingCnCodeGoodsItemsID" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[var cdGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
 var cdVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
 var basicFilterString = "(customsDecisionGUID eq '" + cdGUID + "' and customsDecisionVersionGUID eq '" + cdVersionGUID + "'"
@@ -13283,7 +13302,7 @@ endif
     </ActionBlock>
     <ActionBlock>
       <Name value="askForMissingCompleted" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[var cdGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
 var cdVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
 var basicFilterString = "(customsDecisionGUID eq '" + cdGUID + "' and customsDecisionVersionGUID eq '" + cdVersionGUID + "'"
@@ -13507,7 +13526,7 @@ endif
     </ActionBlock>
     <ActionBlock>
       <Name value="checkSimplifiedProcesures" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[if form.cdAux.simplifiedEntryProcedureEnum.hasValue() and form.cdAux.simplifiedReleaseProcedureEnum.hasValue() then
   result = True
 else
@@ -13578,6 +13597,60 @@ endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="prepareGoodsItemCZlistCtrl" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[//Declist - enhancement
+if form.enhancement.listStateEnhancement = defaultString() then
+
+	var cdGUID = form.CD.customsDecisionAuthorisationData.customsDecisionGUID
+	var cdVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
+	form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
+	form.apiobjects.enhancementDeclistGoodsItems.setInvisibleODataFilter("(customsDecisionGUID eq '" + cdGUID + "' and customsDecisionVersionGUID eq '" + cdVersionGUID +"')")
+	form.apiobjects.enhancementDeclistGoodsItems.setSorting("completed:asc")
+	form.apiobjects.enhancementDeclistGoodsItems.setReady(true)
+
+endIf]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handleVersionDataLoadError" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if versionNum >=0 then
+  form.formBehavior.operationResultMessage = "Něco se nezdařilo. Data dané verze (poř. č.: " + toString(versionNum) + ") se nepodařilo načíst."
+else
+  form.formBehavior.operationResultMessage = "Něco se nezdařilo. Data aktuální verze daného povolení se nepodařilo načíst."
+endif
+
+apiobjects.notificationsCtrl.addWarning(form.formBehavior.operationResultMessage)
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="versionNum" />
+              <Caption value="Version num" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="versionGuid" />
+              <Caption value="Version guid" />
+              <DataContextParameter.IsInput value="True" />
+              <MetaType reference="+MetaTypes.Guid" />
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
   </Actions>
