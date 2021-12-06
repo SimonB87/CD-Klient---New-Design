@@ -5132,6 +5132,113 @@
                     </CssClassConditional>
                   </HeaderCssClass>
                 </DataColumn>
+                <DataColumn>
+                  <Name value="dataColumn53" />
+                  <Caption value="customsDecisionVersionGUID" />
+                  <IsVisible value="False" />
+                  <Content>
+                    <Label>
+                      <Name value="customsDecisionVersionGUID" />
+                      <IsVisible value="False" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="this.customsDecisionVersionGUID" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                  <HeaderCssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-datacolumn" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </HeaderCssClass>
+                </DataColumn>
+                <DataColumn>
+                  <Name value="dataColumn54" />
+                  <Caption value="Stav doplněnosti" />
+                  <Content>
+                    <Label>
+                      <Name value="label55" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="this.enhancementStatusDescription" />
+                        <Binding SourceProperty="IsVisible" Expression="form.uiState.visibilities.enhancementRelatedStuff" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                  <Bindings>
+                    <Binding SourceProperty="IsVisible" Expression="form.uiState.visibilities.enhancementRelatedStuff" />
+                  </Bindings>
+                  <HeaderCssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-datacolumn" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </HeaderCssClass>
+                </DataColumn>
+                <DataColumn>
+                  <Name value="dataColumn55" />
+                  <Caption value="Poprvé kompletní" />
+                  <Content>
+                    <Label>
+                      <Name value="label56" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="firstCompletionDateTime" />
+                        <Binding SourceProperty="IsVisible" Expression="form.uiState.visibilities.enhancementRelatedStuff" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                  <Bindings>
+                    <Binding SourceProperty="IsVisible" Expression="form.uiState.visibilities.enhancementRelatedStuff" />
+                  </Bindings>
+                  <HeaderCssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-datacolumn" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </HeaderCssClass>
+                </DataColumn>
+                <DataColumn>
+                  <Name value="dataColumn56" />
+                  <Caption value="Okamžik poslední editace" />
+                  <Content>
+                    <Label>
+                      <Name value="label54" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="lastEditDateTime" />
+                        <Binding SourceProperty="IsVisible" Expression="form.uiState.visibilities.enhancementRelatedStuff" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-label" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Label>
+                  </Content>
+                  <HeaderCssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-datacolumn" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </HeaderCssClass>
+                </DataColumn>
               </Columns>
               <CssClass>
                 <CssClassConditional>
@@ -5520,10 +5627,13 @@
             <Computed>
               <Name value="prefillButtonCaption" />
               <Caption value="Prefill button caption" />
-              <Expression>
+              <Expression IsValid="True">
                 <ExpressionText><![CDATA[form.uiState.prefillVersionExists ?
     "Předvyplnit (z verze " + toString(form.modelEnhancement.prefillTemplate.versionNum) + ")"
     : "Nelze předvyplnit"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
               </Expression>
             </Computed>
             <Complex>
@@ -5573,17 +5683,23 @@
                 <Computed>
                   <Name value="saveButtons" />
                   <Caption value="Save buttons" />
-                  <Expression>
+                  <Expression IsValid="True">
                     <ExpressionText><![CDATA[this.owner().editPermitted 
 and (form.uiState.mode = enums.DetailMode.edit)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
                   </Expression>
                 </Computed>
                 <Computed>
                   <Name value="modeButtons" />
                   <Caption value="Mode buttons" />
-                  <Expression>
+                  <Expression IsValid="True">
                     <ExpressionText><![CDATA[this.owner().editPermitted 
 and (form.uiState.mode = enums.DetailMode.show)]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
                   </Expression>
                 </Computed>
                 <Computed>
@@ -5599,10 +5715,13 @@ and (form.uiState.mode = enums.DetailMode.show)]]></ExpressionText>
                 <Computed>
                   <Name value="editNote" />
                   <Caption value="Edit note" />
-                  <Expression>
+                  <Expression IsValid="True">
                     <ExpressionText><![CDATA[(form.uiState.mode = enums.DetailMode.edit) 
 and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ 
 = "Complete")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
                   </Expression>
                 </Computed>
                 <Computed>
@@ -5670,8 +5789,11 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
             <Computed>
               <Name value="editableNationalData" />
               <Caption value="Editable national data" />
-              <Expression>
+              <Expression IsValid="True">
                 <ExpressionText><![CDATA[form.uiState.mode = enums.DetailMode.edit]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
               </Expression>
             </Computed>
             <Attribute>
@@ -6321,9 +6443,26 @@ result = "Přílohy (" + toString(euAnnex + czAnnex) + ")"]]></Script>
     <ActionBlock>
       <Name value="action2" />
       <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[form.VersionGUID = params.data.customsDecisionVersionGUID
-form.actions.loadData()
+      <ActionLangBody>
+        <Script><![CDATA[globals.IsBusy = true
+
+actions.commonLoadData(form.CD.customsDecisionAuthorisationData.customsDecisionGUID, params.data.customsDecisionVersionGUID)
+
+//set up CD version GUID
+globals.uiGlobalState.CDversionGUID = params.data.customsDecisionVersionGUID
+
+if globals.dataLoadingSpace.success then
+  form.CD.customsDecisionAuthorisationData.clear()
+  form.CD.fromJson(globals.dataLoadingSpace.cdDetailJson)
+  form.actions.afterVersionLoad()
+  
+  var msg = "Data dané verze (poř. č.: " + toString(params.data.orderNumber) + ") se podařilo úspěšně načíst."
+  apiobjects.notificationsCtrl.addInfo(msg)
+  
+  form.uiState.mode = enums.DetailMode.show
+else
+  form.actions.handleVersionDataLoadError(params.data.orderNumber, params.data.customsDecisionVersionGUID)
+endif
 
 //check if user selected last CD version
 if (params.data.orderNumber > 0) and form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory.hasValue() then
@@ -6333,7 +6472,10 @@ if (params.data.orderNumber > 0) and form.CD.customsDecisionAuthorisationData.cu
 		globals.uiGlobalState.isLastCDversionSelected = False
 	endif
 
-endif]]></Script>
+endif
+
+globals.IsBusy = false
+]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -6487,7 +6629,7 @@ endIf]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="saveEnhancement_validateSaspAccounts" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[var enh = form.cdeReq.customsDecisionAuthorisationData.enhancementCZ
 var errorCount = 0
 
@@ -6540,7 +6682,7 @@ cdaData.customsDecisionVersionGUID = form.CD.customsDecisionAuthorisationData.cu
     </ActionBlock>
     <ActionBlock>
       <Name value="validErr_prepareServerErr" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[form.error.serverValidationComplex.fromJson(extractJsonErrorMessage)
 
 forEach error in form.error.serverValidationComplex.QEI do
@@ -6609,7 +6751,7 @@ endif]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="saveEnhancement_checkCurrentData" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[var myGuid = (form.GUID.hasValue()) ? form.GUID : form.CD.customsDecisionAuthorisationData.customsDecisionGUID
 
 var downloadDataSucess = actions.commonLoadData(myGuid)
@@ -6690,6 +6832,128 @@ else
 	form.uiState.visibilities.visibilityOfSaspAccountsGb = False
 	
 endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="afterVersionLoad" />
+      <ActionLangBody>
+        <Script><![CDATA[form.actions.initCdEnhancement()
+
+form.actions.findLastCompleteVersion()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handleVersionDataLoadError" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if versionNum >=0 then
+  form.modelEnhancement.operationResultMessage = "Něco se nezdařilo. Data dané verze (poř. č.: " + toString(versionNum) + ") se nepodařilo načíst."
+else
+  form.modelEnhancement.operationResultMessage = "Něco se nezdařilo. Data aktuální verze daného povolení se nepodařilo načíst."
+endif
+
+apiobjects.notificationsCtrl.addWarning(form.modelEnhancement.operationResultMessage)
+form.modelEnhancement.operationResultMessage.clear()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="versionNum" />
+              <Caption value="Version num" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Integer" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="versionGuid" />
+              <Caption value="Version guid" />
+              <DataContextParameter.IsInput value="True" />
+              <MetaType reference="+MetaTypes.Guid" />
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="initCdEnhancement" />
+      <ActionLangBody>
+        <Script><![CDATA[form.actions.initCdEnhancementCommon()
+form.actions.initCdEnhancementSaspAccounts()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="findLastCompleteVersion" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var versionNum = -1
+var versionGuid = ""
+var found = false
+var started = false
+
+foreach version in form.CD.customsDecisionAuthorisationData.customsDecisionVersionHistory do
+  if not found then
+    if started then
+      if version.enhancementStatus.Key = "Complete" then
+        found = true
+        versionNum = version.orderNumber
+        versionGuid = version.customsDecisionVersionGUID
+      endif
+    else
+      started = version.selectedVersion
+    endif
+    
+  endif
+endfor
+
+form.modelEnhancement.prefillTemplate.versionNum = versionNum
+form.modelEnhancement.prefillTemplate.versionGuid = versionGuid]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="initCdEnhancementCommon" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var enh = form.cdeReq.customsDecisionAuthorisationData.enhancementCZ
+
+//original code:: enh.customsOfficeOfRelease = form.CD.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.CELU
+enh.customsOfficeOfRelease.CELU = (form.CD.customsDecisionAuthorisationData.enhancementCZ.customsOfficeOfRelease.CELU) 
+enh.editNote.clear()
+]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="initCdEnhancementSaspAccounts" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var ucd = form.CD.customsDecisionAuthorisationData.universalCustomsDecisionInformation
+
+var enhSasp = form.cdeReq.customsDecisionAuthorisationData.enhancementCZ.SASP
+enhSasp.clear()
+
+//TODO : check business logic
+foreach co in ucd.customsOfficeOfPresentation do
+  var newSasp = enhSasp.addItem()
+  var acc = newSasp.Account
+  
+  acc.CustomsOffice = co.customsOfficeOfPresentation_Value.CELU
+  acc.AccountNumber = form.CD.customsDecisionAuthorisationData.enhancementCZ.SASP.Account.AccountNumber
+  acc.BankCode = form.CD.customsDecisionAuthorisationData.enhancementCZ.SASP.Account.BankCode
+endfor]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
