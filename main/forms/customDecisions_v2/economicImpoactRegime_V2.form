@@ -12302,7 +12302,7 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
   <Actions>
     <ActionBlock>
       <Name value="initMain_ALANG" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = true
 form.CustomsDecisionDetailRequest.customsDecisionAuthorisationData.customsDecisionGUID = form.GUID
 
@@ -12323,6 +12323,7 @@ else
 	form.actions.setFilteredCodelists()//TODO - správně nastavit
 	form.actions.setListForGoods()
 	form.formBehavior.editPermitted = isTrue(globals.user.hasRoleWrite) OR isTrue(globals.user.hasRoleAdmin)
+	form.actions.setFormVariables()
 	
 endif
 
@@ -12802,7 +12803,7 @@ result = "Přílohy (" + toString(euAnnex + czAnnex) + ")"]]></Script>
     <ActionBlock>
       <Name value="action2" />
       <IsPrivate value="True" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = true
 
 actions.commonLoadData(form.CD.customsDecisionAuthorisationData.customsDecisionGUID, params.data.customsDecisionVersionGUID)
@@ -12959,6 +12960,8 @@ form.apiobjects.fcZBOZIKOD.filterByValidityDateTime(getDateTime())]]></Script>
       <Name value="setListForGoods" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.apiobjects.enhancementDeclistGoodsItems.setReady(false)
+
+form.apiobjects.enhancementDeclistGoodsItems.setInvisibleODataFilter("(customsDecisionGUID eq'" + form.CustomsDecisionDetailRequest.customsDecisionAuthorisationData.customsDecisionGUID + "' and customsDecisionVersionGUID eq '" + form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID + "')")
 
 form.apiobjects.enhancementDeclistGoodsItems.setReady(true)]]></Script>
       </ActionLangBody>
@@ -13307,7 +13310,9 @@ endif
 var cdVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
 var basicFilterString = "(customsDecisionGUID eq '" + cdGUID + "' and customsDecisionVersionGUID eq '" + cdVersionGUID + "'"
 var filter = basicFilterString + " and completed eq 'false')"
-var columnNames = "completed, combinedNomenclatureCode"
+//var columnNames = "completed, combinedNomenclatureCode"
+var columnNames = "completed"
+
 
 var response = form.apiobjects.declListQuery.getResultAsync(columnNames, filter)
 
@@ -13651,6 +13656,15 @@ apiobjects.notificationsCtrl.addWarning(form.formBehavior.operationResultMessage
             </Attribute>
           </Children>
         </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setFormVariables" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.VersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>
