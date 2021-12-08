@@ -2180,6 +2180,9 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <useArrowKeys value="True" />
+                          <OnRowClicked>
+                            <ActionEvent ReferencedAction="~getDataOnSelectedGoodsItemEnhancement" />
+                          </OnRowClicked>
                           <Bindings>
                             <Binding SourceProperty="lastClickedRow" Expression="form.enhancement.selectedRowDataSetGoodsItem" />
                             <Binding SourceProperty="savedColumns" Expression="" />
@@ -3305,6 +3308,9 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <useArrowKeys value="True" />
+                          <OnRowClicked>
+                            <ActionEvent ReferencedAction="~getDataOnSelectedGoodsItemEnhancement" />
+                          </OnRowClicked>
                           <Bindings>
                             <Binding SourceProperty="lastClickedRow" Expression="form.enhancement.selectedRowDataSetGoodsItem" />
                             <Binding SourceProperty="savedColumns" Expression="" />
@@ -4911,6 +4917,9 @@
                                   <Panel.Height value="#" />
                                   <Panel.Width value="*" />
                                   <useArrowKeys value="True" />
+                                  <OnRowClicked>
+                                    <ActionEvent ReferencedAction="~getDataOnSelectedGoodsItemEnhancement" />
+                                  </OnRowClicked>
                                   <Bindings>
                                     <Binding SourceProperty="lastClickedRow" Expression="form.enhancement.selectedRowDataSetGoodsItem" />
                                     <Binding SourceProperty="savedColumns" Expression="" />
@@ -6472,6 +6481,9 @@
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <useArrowKeys value="True" />
+                          <OnRowClicked>
+                            <ActionEvent ReferencedAction="~getDataOnSelectedGoodsItemEnhancement" />
+                          </OnRowClicked>
                           <Bindings>
                             <Binding SourceProperty="lastClickedRow" Expression="form.enhancement.selectedRowDataSetGoodsItem" />
                             <Binding SourceProperty="savedColumns" Expression="" />
@@ -13198,7 +13210,7 @@ if form.formBehavior.declarationTypes.isType_EUS then
 	if miggingCnCodeGoodsItems > 0 then
 		var missingCnCode = form.actions.askForMissingCnCodeGoodsItemsID()
 		noticeToUser = "U některých položek zboží (celkový počet: '"+ toString(miggingCnCodeGoodsItems)  
-						+ "') doplňte údaj 'Kód KN pro dozajištění' (např.: položka s kód KN :'" 
+						+ "') doplňte údaj 'Kód KN pro dozajištění' (např.: položka s TARRIC kód :'" 
 						+ missingCnCode + "').  *  "	 
 	endIf
 	
@@ -13209,7 +13221,7 @@ if form.formBehavior.declarationTypes.isType_EUS then
 		var missingCompleted = form.actions.askForMissingCompleted()
 		noticeToUser = noticeToUser
 						+ "U některých položek zboží (celkový počet: '"+ toString(miggingCompletedGoodsItems)
-						+ "') doplňte údaj 'Doplněno' (např.: položka s kód KN :'" 
+						+ "') doplňte údaj 'Doplněno' (např.: položka s TARRIC kód :'" 
 						+ missingCompleted + "')."
 	endIf
 	
@@ -13230,7 +13242,7 @@ else
 		var missingCompleted = form.actions.askForMissingCompleted()
 		noticeToUser = noticeToUser
 						+ "U některých položek zboží (celkový počet: '"+ toString(miggingCompletedGoodsItems)
-						+ "') doplňte údaj 'Doplněno' (např.: položka s kód KN :'" 
+						+ "') doplňte údaj 'Doplněno' (např.: položka s TARRIC kód :'" 
 						+ missingCompleted + "')."
 	endIf
 	
@@ -13271,7 +13283,7 @@ globals.IsBusy = False]]></Script>
 var cdVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
 var basicFilterString = "(customsDecisionGUID eq '" + cdGUID + "' and customsDecisionVersionGUID eq '" + cdVersionGUID + "'"
 var filter = basicFilterString + " and completed eq 'false')"
-var columnNames = "completed, combinedNomenclatureCode"
+var columnNames = "completed, tARICCode"
 
 var response = form.apiobjects.declListQuery.getResultAsync(columnNames, filter)
 
@@ -13310,8 +13322,7 @@ endif
 var cdVersionGUID = form.CD.customsDecisionAuthorisationData.customsDecisionVersionGUID
 var basicFilterString = "(customsDecisionGUID eq '" + cdGUID + "' and customsDecisionVersionGUID eq '" + cdVersionGUID + "'"
 var filter = basicFilterString + " and completed eq 'false')"
-//var columnNames = "completed, combinedNomenclatureCode"
-var columnNames = "completed"
+var columnNames = "completed, tARICCode"
 
 
 var response = form.apiobjects.declListQuery.getResultAsync(columnNames, filter)
@@ -13319,7 +13330,7 @@ var response = form.apiobjects.declListQuery.getResultAsync(columnNames, filter)
 if response.isError() then
 	system.console(response.getErrorMessage())
 else
-	var output = response.getStringValue("combinedNomenclatureCode")
+	var output = response.getStringValue("tARICCode")
 	if output = defaultString() then
 		result = "'neznámé'"
 	else
@@ -13833,7 +13844,7 @@ apiobjects.notificationsCtrl.addWarning(form.formBehavior.operationResultMessage
     </FilteredCodelist>
     <DeclListQuery identity="DeclListQuery.f41d2c211a8f43618588763e63b56065">
       <Name value="declListQuery" />
-      <listName value="DatasetGoodsCZ" />
+      <listName value="DatasetGoodsV2CZ" />
       <server reference="+GlobalApiObjects.cic" />
     </DeclListQuery>
   </ApiObjects>
