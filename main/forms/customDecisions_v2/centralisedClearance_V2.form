@@ -5856,7 +5856,7 @@ and (form.CD.customsDecisionAuthorisationData.enhancementStatusCZ
               <Name value="editPermitted" />
               <Caption value="Edit permitted" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA[globals.user.hasRoleWrite or globals.user.hasRoleAdmin]]></ExpressionText>
+                <ExpressionText><![CDATA[globals.user.hasRoleWriteCd or globals.user.hasRoleHelpdesk]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -6443,7 +6443,7 @@ result = "Přílohy (" + toString(euAnnex + czAnnex) + ")"]]></Script>
     <ActionBlock>
       <Name value="action2" />
       <IsPrivate value="True" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = true
 
 actions.commonLoadData(form.CD.customsDecisionAuthorisationData.customsDecisionGUID, params.data.customsDecisionVersionGUID)
@@ -6839,7 +6839,7 @@ endif]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="afterVersionLoad" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[form.actions.initCdEnhancement()
 
 form.actions.findLastCompleteVersion()]]></Script>
@@ -6885,7 +6885,7 @@ form.modelEnhancement.operationResultMessage.clear()]]></Script>
     </ActionBlock>
     <ActionBlock>
       <Name value="initCdEnhancement" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[form.actions.initCdEnhancementCommon()
 form.actions.initCdEnhancementSaspAccounts()]]></Script>
       </ActionLangBody>
