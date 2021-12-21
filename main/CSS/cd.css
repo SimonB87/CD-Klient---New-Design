@@ -54,3 +54,28 @@ table {
   color: #6c757d !important;
   background-color: #eee !important;
 }
+
+.cd-checkbox.editor .editor-wrapper.caption-position-left input[type='checkbox'], 
+.cd-checkbox.editor .editor-wrapper.caption-position-right input[type="checkbox"] {
+  display: grid;
+  place-content: center;
+  appearance: none;
+  width: 1.3em;
+  height: 1.3em;
+  border-radius: 3px;
+}
+
+.cd-checkbox.editor .editor-wrapper.caption-position-left input[type='checkbox'], 
+.cd-checkbox.editor .editor-wrapper.caption-position-right input[type="checkbox"]::before {
+  content: "";
+  width: 0.8em;
+  height: 0.8em;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em rgb(236 176 164);
+}
+
+.cd-checkbox.editor .editor-wrapper.caption-position-left input[type='checkbox'], 
+.cd-checkbox.editor .editor-wrapper.caption-position-right input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}

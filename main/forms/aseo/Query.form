@@ -1,0 +1,530 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<Form>
+  <Name value="Query" />
+  <Caption value="Query" />
+  <Content>
+    <Panel>
+      <Name value="pnlMain" />
+      <Orientation value="Vertical" />
+      <Panel.Height value="#" />
+      <Panel.Width value="*" />
+      <Children>
+        <Panel>
+          <Name value="pnlActionBtns" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <Panel>
+              <Name value="pnlActionBtnsLC" />
+              <Orientation value="Vertical" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Children>
+                <Panel>
+                  <Name value="pnlActionBtnsL" />
+                  <Orientation value="Horizontal" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <Children>
+                    <Button>
+                      <Name value="btnConfirm" />
+                      <Caption value="Potvrdit" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_btnConfirm_OnClick" />
+                      </OnClick>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="cd-header-button" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="width-auto" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="display-flex" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="padding-menuspacer-long" />
+                      <Bindings>
+                        <Binding SourceProperty="Condition" Expression="not globals.forms.master.showMenu" />
+                      </Bindings>
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+            <Panel>
+              <Name value="pnlActionBtnsR" />
+              <Orientation value="Horizontal" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Children>
+                <Button>
+                  <Name value="btnClose" />
+                  <Caption value="Zavřít" />
+                  <Panel.Height value="#" />
+                  <Panel.Width value="*" />
+                  <OnClick>
+                    <ActionEvent ReferencedAction="~handler_btnBack_OnClick" />
+                  </OnClick>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-button" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                    <CssClassConditional>
+                      <ClassName value="cd-header-button" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Button>
+              </Children>
+              <CssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-panel" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="flright" />
+                </CssClassConditional>
+                <CssClassConditional>
+                  <ClassName value="width-auto" />
+                </CssClassConditional>
+              </CssClass>
+            </Panel>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="{theme}-header" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="no-border-left" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="{theme}-nav-bar-controls" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+        <Panel>
+          <Name value="pnlBody" />
+          <Orientation value="Horizontal" />
+          <Panel.Height value="#" />
+          <Panel.Width value="*" />
+          <Children>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="cgbExistingAuth" />
+              <caption value="Existující povolení" />
+              <collapsedIconClass value="fa fa-plus-square-o" />
+              <nonCollapsedIconClass value="fa fa-minus-square-o" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="pnlExistingAuth" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <ReferenceCombo>
+                      <Name value="cmbAuthorizationType" />
+                      <CaptionPosition value="Top" />
+                      <DisplayMember value="_description" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <ReferenceList reference="~fcPOVOLTYP" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.ExistingAuth.AuthorizationType" />
+                        <Binding SourceProperty="Caption" Expression="model.ExistingAuth.AuthorizationType.caption()" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ExistingAuth.AuthorizationType.isRequired()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-referencecombo" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </ReferenceCombo>
+                    <Panel>
+                      <Name value="pnlExistingAuthR1" />
+                      <Orientation value="Horizontal" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Children>
+                        <TextBox>
+                          <Name value="tbTIN" />
+                          <CaptionPosition value="Top" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="50%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.ExistingAuth.TIN" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ExistingAuth.TIN.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.ExistingAuth.TIN.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                        <TextBox>
+                          <Name value="tbID" />
+                          <CaptionPosition value="Top" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="50%" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.ExistingAuth.ID" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.ExistingAuth.ID.isRequired()" />
+                            <Binding SourceProperty="Caption" Expression="model.ExistingAuth.ID.caption()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-textbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </TextBox>
+                      </Children>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-panel" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Panel>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="isVisible" Expression="ui.cgbExistingAuth.IsVisible" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+          </Children>
+          <CssClass>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="{theme}-panel-uniform" />
+              <IsThemedStyle value="True" />
+            </CssClassConditional>
+            <CssClassConditional>
+              <ClassName value="display-flex" />
+            </CssClassConditional>
+          </CssClass>
+        </Panel>
+      </Children>
+      <CssClass>
+        <CssClassConditional>
+          <ClassName value="{theme}-panel" />
+          <IsThemedStyle value="True" />
+        </CssClassConditional>
+        <CssClassConditional>
+          <ClassName value="form-container" />
+        </CssClassConditional>
+      </CssClass>
+    </Panel>
+  </Content>
+  <DataContext>
+    <DataContext>
+      <Children>
+        <Attribute>
+          <Name value="Type" />
+          <Caption value="Type" />
+          <DataContextParameter.IsInput value="True" />
+          <DataContextParameter.IsInputRequired value="True" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="NavigateTo" />
+          <Caption value="Navigate to" />
+          <DataContextParameter.IsInput value="True" />
+          <DataContextParameter.IsInputRequired value="True" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Complex>
+          <Name value="model" />
+          <Caption value="Model" />
+          <Children>
+            <Complex>
+              <Name value="ExistingAuth" />
+              <Caption value="Existing auth" />
+              <Children>
+                <Attribute>
+                  <Name value="_ExistingAuth" />
+                  <Caption value="_ existing auth" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <BaseType value="Bool" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Reference>
+                  <Name value="AuthorizationType" />
+                  <Caption value="Typ povolení/ZJP" />
+                  <IsRequired value="True" />
+                  <Children>
+                    <Include>
+                      <Include reference="+DataEntities.POVOLTYP" />
+                    </Include>
+                  </Children>
+                </Reference>
+                <Attribute>
+                  <Name value="TIN" />
+                  <Caption value="TIN / EORI číslo" />
+                  <IsRequired value="True" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="17" />
+                    </AttributeType>
+                  </DeclaredType>
+                </Attribute>
+                <Attribute>
+                  <Name value="ID" />
+                  <Caption value="Evidenční číslo" />
+                  <IsRequired value="True" />
+                  <DeclaredType>
+                    <AttributeType>
+                      <StrMaxLength value="37" />
+                      <StrMinLength value="8" />
+                    </AttributeType>
+                  </DeclaredType>
+                  <Validators>
+                    <Validator Name="regex">
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\S(.*\\S)?$") : true)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                    <Validator Name="country">
+                      <ErrorMessage IsValid="True">
+                        <ExpressionText><![CDATA["První 2 znaky musí odpovídat kódu země EU"]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="String" />
+                        </ResultType>
+                      </ErrorMessage>
+                      <IsValid IsValid="True">
+                        <ExpressionText><![CDATA[attr.isEmpty() ? true :
+functions.includes(form.model.arrZEMEEU, substring(attr, 1, 2))]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </IsValid>
+                    </Validator>
+                  </Validators>
+                </Attribute>
+              </Children>
+            </Complex>
+            <Attribute>
+              <Name value="arrZEMEEU" />
+              <Caption value="Arr ZEMEEU" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </Complex>
+        <Complex>
+          <Name value="ui" />
+          <Caption value="Ui" />
+          <Children>
+            <Complex>
+              <Name value="cgbExistingAuth" />
+              <Caption value="cgbExistingAuth" />
+              <Children>
+                <Computed>
+                  <Name value="IsVisible" />
+                  <Caption value="Is visible" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[isTrue(form.Type = "ExistingAuth")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
+          </Children>
+        </Complex>
+      </Children>
+    </DataContext>
+  </DataContext>
+  <OnCreate>
+    <ActionEvent ReferencedAction="~init" />
+  </OnCreate>
+  <Actions>
+    <ActionBlock>
+      <Name value="handler_btnBack_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.forms.master.isNavigationTreeVisible = true
+
+navigation.main.lists.go()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btnConfirm_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var model = form.model
+
+if form.model.isValid() then
+	globals.forms.master.isNavigationTreeVisible = true
+	
+	if form.Type = "ExistingAuth" then
+		var existingAuth = model.ExistingAuth
+	
+		navigation.main.SP_Edit
+			.withTin(existingAuth.TIN)
+			.withId(existingAuth.ID)
+			.go(existingAuth.AuthorizationType.POVOLTYP)
+	else
+		navigation.main.lists.go()
+	endif
+else
+	model.setTouched(true)
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="init" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.forms.master.isNavigationTreeVisible = false
+
+var model = form.model
+
+model.clear()
+
+if form.Type = "ExistingAuth" then
+	model.ExistingAuth._ExistingAuth = true
+endif
+
+form.actions.setFilters()]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_eventDispatcher_OnMessage" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if params.source = "main_master_codelistGroup"	then
+	if params.type = "onBackgroundLoadingFinished" then
+		form.actions.onBackgroundLoadingFinished()
+	else
+		system.consoleError("Invalid event type " + params.type)
+	endif
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="onBackgroundLoadingFinished" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var model = form.model
+
+var json = fcZEMEEU.getDataAsJson()
+model.arrZEMEEU = actions.js_codelistToKeys(json, "ZEMEEU")]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setFilters" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var model = form.model
+var dt = getDateTime()
+
+var filter = fcPOVOLTYP.resetFilter(false)
+filter.filterByValidityDateTime(dt)
+filter.includeItemsByStringColumn("IDZALOZKY", "CD")
+filter.commit()
+
+filter = fcZEMEEU.resetFilter(false)
+filter.filterByValidityDateTime(dt)
+filter.commit()
+
+var json = fcZEMEEU.getDataAsJson()
+model.arrZEMEEU = actions.js_codelistToKeys(json, "ZEMEEU")]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+  </Actions>
+  <ApiObjects>
+    <EventDispatcher identity="EventDispatcher.eb764ceb30274f1e9a3d051d512d6b26">
+      <Name value="eventDispatcher" />
+      <OnMessage>
+        <ActionEvent ReferencedAction="~handler_eventDispatcher_OnMessage" />
+      </OnMessage>
+    </EventDispatcher>
+    <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="fcPOVOLTYP" />
+      <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.POVOLTYP" />
+    </FilteredCodelist>
+    <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="fcZEMEEU" />
+      <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZEMEEU" />
+    </FilteredCodelist>
+  </ApiObjects>
+</Form>

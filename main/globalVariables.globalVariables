@@ -505,11 +505,19 @@
             <AttributeType />
           </DeclaredType>
         </Attribute>
-        <Computed>
+        <Attribute>
           <Name value="appName" />
           <Caption value="App name" />
+          <Comment value="plni se v navigationObserver.OnAfterFormActivate" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Computed>
+          <Name value="appName_Initial" />
+          <Caption value="App name _ initial" />
           <Expression IsValid="True">
-            <ExpressionText><![CDATA["Customs Decisions"]]></ExpressionText>
+            <ExpressionText><![CDATA["ASEO / CD Klient"]]></ExpressionText>
             <ResultType>
               <BaseType value="String" />
             </ResultType>
@@ -519,7 +527,7 @@
           <Name value="appTitle" />
           <Caption value="App title" />
           <Expression IsValid="True">
-            <ExpressionText><![CDATA["CD Klient"]]></ExpressionText>
+            <ExpressionText><![CDATA["ASEO / CD Klient"]]></ExpressionText>
             <ResultType>
               <BaseType value="String" />
             </ResultType>
@@ -695,8 +703,17 @@
           </DeclaredType>
         </Attribute>
         <Attribute>
-          <Name value="hasRoleWrite" />
-          <Caption value="Has role write" />
+          <Name value="hasRoleWriteAseo" />
+          <Caption value="Has role write aseo" />
+          <DeclaredType>
+            <AttributeType>
+              <BaseType value="Bool" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="hasRoleWriteCd" />
+          <Caption value="Has role write cd" />
           <DeclaredType>
             <AttributeType>
               <BaseType value="Bool" />
@@ -739,15 +756,6 @@
             </AttributeType>
           </DeclaredType>
         </Attribute>
-        <Attribute>
-          <Name value="hasRoleAdmin" />
-          <Caption value="Has role admin" />
-          <DeclaredType>
-            <AttributeType>
-              <BaseType value="Bool" />
-            </AttributeType>
-          </DeclaredType>
-        </Attribute>
         <Computed>
           <Name value="isAppAdmin" />
           <Caption value="Is app admin" />
@@ -759,23 +767,102 @@
           </Expression>
         </Computed>
         <Computed>
-          <Name value="hasWritePermission" />
-          <Caption value="Write Permission" />
+          <Name value="hasPermissionRead" />
+          <Caption value="Has permission read" />
           <Expression IsValid="True">
-            <ExpressionText><![CDATA[isTrue(hasRoleWrite) or 
-isTrue(hasRoleHelpdesk) or 
-isTrue(hasRoleAdmin)]]></ExpressionText>
+            <ExpressionText><![CDATA[isTrue(hasRoleRead) or 
+isTrue(hasRoleWriteAseo) or 
+isTrue(hasRoleWriteCd) or
+isTrue(hasRoleHelpdesk)]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
           </Expression>
         </Computed>
         <Computed>
-          <Name value="hasReadFilePermission" />
+          <Name value="hasPermissionWriteAseo" />
+          <Caption value="Has permission write aseo" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[isTrue(hasRoleWriteAseo) or 
+isTrue(hasRoleHelpdesk)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
+        <Computed>
+          <Name value="hasPermissionWriteExistingAuth" />
+          <Caption value="Has permission write existing auth" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[isTrue(hasRoleHelpdesk)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
+        <Computed>
+          <Name value="hasPermissionWriteCd" />
+          <Caption value="Write Permission" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[isTrue(hasRoleWriteCd) or 
+isTrue(hasRoleHelpdesk)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
+        <Computed>
+          <Name value="hasPermissionAuthrorizationReactivation" />
+          <Caption value="Has permission authrorization reactivation" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[isTrue(hasRoleAuthrorizationReactivation) or 
+isTrue(hasRoleHelpdesk)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
+        <Computed>
+          <Name value="hasPermissionReadFileAuth" />
+          <Caption value="Read File Permission" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[isTrue(hasRoleWriteAseo) or 
+isTrue(hasRoleReadFile) or 
+isTrue(hasRoleAudit) or 
+isTrue(hasRoleHelpdesk)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
+        <Computed>
+          <Name value="hasPermissionReadFileCheck" />
           <Caption value="Read File Permission" />
           <Expression IsValid="True">
             <ExpressionText><![CDATA[isTrue(hasRoleReadFile) or 
-isTrue(hasRoleAudit)]]></ExpressionText>
+isTrue(hasRoleAudit) or 
+isTrue(hasRoleHelpdesk)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
+        <Computed>
+          <Name value="hasPermissionAudit" />
+          <Caption value="Has permission audit" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[isTrue(hasRoleAudit) or 
+isTrue(hasRoleHelpdesk)]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
+        <Computed>
+          <Name value="hasPermissionNewsAdmin" />
+          <Caption value="Has permission news admin" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[isTrue(hasRoleHelpdesk)]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -786,9 +873,9 @@ isTrue(hasRoleAudit)]]></ExpressionText>
           <Caption value="Roles desc" />
           <Expression IsValid="True">
             <ExpressionText><![CDATA[replaceString(trim((isAppAdmin ? "AppAdmin	" : "") +
-(hasRoleAdmin ? "Admin	" : "") +
 (hasRoleHelpdesk ? "Helpdesk	" : "") +
-(hasRoleWrite ? "Zápis	" : "") +
+(hasRoleWriteAseo ? "Zápis ASEO	" : "") +
+(hasRoleWriteCd ? "Zápis CD	" : "") +
 (hasRoleRead ? "Čtení	" : "") +
 (hasRoleAuthrorizationReactivation ? "Reaktivace	" : "") +
 (hasRoleAudit ? "Audity	" : "") +
@@ -809,6 +896,15 @@ isTrue(hasRoleAudit)]]></ExpressionText>
           <Name value="master" />
           <Caption value="Master" />
           <Children>
+            <Attribute>
+              <Name value="filterCu" />
+              <Caption value="Filter cu" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
             <Attribute>
               <Name value="showMenu" />
               <Caption value="Show menu" />

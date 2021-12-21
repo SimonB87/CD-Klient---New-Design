@@ -878,6 +878,16 @@
             </AttributeType>
           </DeclaredType>
         </Attribute>
+        <Computed>
+          <Name value="isNews_AdminVisible" />
+          <Caption value="Is news _ admin visible" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[packages.main.globals.user.hasPermissionNewsAdmin]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
       </Children>
     </Complex>
     <Complex>
@@ -1083,7 +1093,10 @@
           <Name value="EvType" />
           <Caption value="Ev type" />
           <Expression IsValid="True">
-            <ExpressionText><![CDATA[Action = packages.main.enums.Action.NONE ? enums.EvType.toValue(EventType.enumValue(), enums.EvType.NONE) :
+            <ExpressionText><![CDATA[Action in [
+	packages.main.enums.Action.NONE,
+	packages.main.enums.Action.InsertFile] ? 
+	enums.EvType.toValue(EventType.enumValue(), enums.EvType.NONE) :
 Action = packages.main.enums.Action.applicationModify ? enums.EvType.MA :
 Action = packages.main.enums.Action.applicationReject ? enums.EvType.NR :
 Action = packages.main.enums.Action.applicationRejectModify ? enums.EvType.MR :
@@ -1328,10 +1341,21 @@ Cancellation ? "Zneplatnění" :
           </DeclaredType>
         </Attribute>
         <Attribute>
+          <Name value="isItem15insertFileActive" />
+          <Caption value="Is item 15 insert file active" />
+          <DeclaredType>
+            <AttributeType>
+              <BaseType value="Bool" />
+            </AttributeType>
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
           <Name value="isTestActive" />
           <Caption value="Is test active" />
           <DeclaredType>
-            <AttributeType />
+            <AttributeType>
+              <BaseType value="Bool" />
+            </AttributeType>
           </DeclaredType>
         </Attribute>
         <Computed>
@@ -1507,6 +1531,16 @@ isTrue(AuthType in [
 	globals.DocType.ACE,
 	globals.DocType.ACR,
 	globals.DocType.ACT])]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
+        <Computed>
+          <Name value="isItem15insertFileVisible" />
+          <Caption value="Is item 15 insert file visible" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[isTrue(Action in [packages.main.enums.Action.InsertFile])]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>

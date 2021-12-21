@@ -326,6 +326,27 @@
                             </CssClassConditional>
                           </CssClass>
                         </Label>
+                        <CheckBox>
+                          <Name value="chbFilterCU" />
+                          <Caption value="Pouze záznamy mého CÚ" />
+                          <CaptionPosition value="Right" />
+                          <Panel.Height value="#" />
+                          <Panel.Width value="*" />
+                          <Bindings>
+                            <Binding SourceProperty="Data" Expression="model.filterCu" />
+                            <Binding SourceProperty="IsVisible" Expression="ui.chbFilterCU.IsVisible" />
+                            <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.filterCu.isRequired()" />
+                          </Bindings>
+                          <CssClass>
+                            <CssClassConditional>
+                              <ClassName value="{theme}-checkbox" />
+                              <IsThemedStyle value="True" />
+                            </CssClassConditional>
+                            <CssClassConditional>
+                              <ClassName value="cd-checkbox" />
+                            </CssClassConditional>
+                          </CssClass>
+                        </CheckBox>
                         <Label>
                           <Name value="lblRoles" />
                           <Panel.Height value="#" />
@@ -553,6 +574,18 @@
                 </Include>
               </Children>
             </Complex>
+            <Attribute>
+              <Name value="filterCu" />
+              <Caption value="Filter cu" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+              <OnChange>
+                <ActionEvent ReferencedAction="+UiParts.master.handler_filterCu_OnChange" />
+              </OnChange>
+            </Attribute>
           </Children>
         </Complex>
         <Complex>
@@ -579,6 +612,22 @@
                 </ResultType>
               </Expression>
             </Computed>
+            <Complex>
+              <Name value="chbFilterCU" />
+              <Caption value="chbFilterCU" />
+              <Children>
+                <Computed>
+                  <Name value="IsVisible" />
+                  <Caption value="Is visible" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA[isTrue(globals.forms.currentForm = "main_lists")]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="Bool" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
+              </Children>
+            </Complex>
           </Children>
         </Complex>
       </Children>
@@ -717,10 +766,46 @@ notificationsCtrl.setPanelVisibility(false)]]></Script>
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_eventDispatcher_OnMessage" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[if params.source = "main_login" then	
+	if params.type = "onAuthorizationCompled" then
+		var user = globals.user
+		
+		// non helpdesk users have filterCu set by default
+		if isFalse(user.hasRoleHelpdesk) then
+			form.model.filterCu = true
+		endif
+	else
+		system.consoleError("Invalid event type " + params.type)
+	endif
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_filterCu_OnChange" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[globals.forms.master.filterCu = form.model.filterCu
+
+eventDispatcher.sendMessage("main_master_filterCu", "onFilterCuChanged", defaultString())]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
   </Actions>
   <ApiObjects>
     <EventDispatcher identity="EventDispatcher.eb764ceb30274f1e9a3d051d512d6b26">
       <Name value="eventDispatcher" />
+      <OnMessage>
+        <ActionEvent ReferencedAction="~handler_eventDispatcher_OnMessage" />
+      </OnMessage>
     </EventDispatcher>
     <CodelistGroup identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
       <Name value="codelistGroup" />

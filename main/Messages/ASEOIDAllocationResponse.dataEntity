@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?data-format version="0.400"?>
+<DataEntity>
+  <Name value="ASEOIDAllocationResponse" />
+  <Caption value="Odpověď na požadavek na alokaci nového ASEOID" />
+  <MtsImportOptions.MTS.Acronym value="ASEOIDAllocationResponse" />
+  <MtsImportOptions.MTS.ID value="/ASEOIDAllocationResponse" />
+  <MtsImportOptions.MTS.Type value="message" />
+  <Children>
+    <Complex>
+      <Name value="ASEO" />
+      <Caption value="ASEO" />
+      <Description value="Povolení nebo zjednodušený postup" />
+      <IsRequired value="True" />
+      <MtsImportOptions.MTS.ID value="/ASEOIDAllocationResponse/ASEO" />
+      <MtsImportOptions.MTS.Type value="group" />
+      <Children>
+        <Attribute>
+          <Name value="GUID" />
+          <Caption value="GUID" />
+          <IsRequired value="True" />
+          <MtsImportOptions.MTS.ID value="/ASEOIDAllocationResponse/ASEO/GUID" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="AllocatedASEOID" />
+          <Caption value="Alokované ASEOID" />
+          <IsRequired value="True" />
+          <MetaType reference="+MetaTypes.ReferencniCisloRozhodnuti" />
+          <MtsImportOptions.MTS.ID value="/ASEOIDAllocationResponse/ASEO/AllocatedASEOID" />
+          <MtsImportOptions.MTS.Type value="element" />
+          <Validators>
+            <Validator Name="regex">
+              <MtsImportOptions.MTS.Regex value="(?s)^\S(.*\S)?$" />
+              <MtsImportOptions.MTS.Type value="regular-expression-constraint" />
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Value is not valid"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^\\S(.*\\S)?$") : true)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Attribute>
+      </Children>
+    </Complex>
+  </Children>
+</DataEntity>

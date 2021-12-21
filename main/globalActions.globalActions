@@ -525,12 +525,37 @@ endif]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var forms = globals.forms
 
-//system.console("formId: " + params.formId)
 // skipping login form bacause navigate is in login.OnActivate, thus it would overrides id of following form otherwise
 if params.formId <> "main_login" then
 	forms.currentForm = params.formId 
 	//system.console("currentForm:" + forms.currentForm)
-endif]]></Script>
+endif
+
+if params.formId <> "main_master" then
+	pageApi.scrollToTop()
+endif
+
+if params.formId in [
+	"main_lists",
+	"main_login"] then
+	
+	globals.appInfo.appName = globals.appInfo.appName_Initial
+else if params.formId in [
+	"main_AseoDataVisualisation",
+	"main_SP_New",
+	"main_SP_Edit",
+	"main_PL",
+	"main_Person"] then
+	
+	globals.appInfo.appName = "ASEO"
+else if params.formId in [
+	"main_master",
+	"main_settings",
+	"main_file",
+	"main_error"] then
+else
+	globals.appInfo.appName = "Customs Decisions"
+endif endif endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -827,6 +852,99 @@ endif endif endif endif
               <Caption value="Busy" />
               <DataContextParameter.IsInput value="True" />
               <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="js_codelistToKeys" />
+      <Description value="returns json from array of keys" />
+      <IsJavascript value="True" />
+      <Script><![CDATA[var codelist = JSON.parse(params.codelist);
+
+var arr = [];
+_.forEach(codelist, i => {
+  arr.push(i[params.key]);
+});
+
+return JSON.stringify(arr);]]></Script>
+      <ActionLangBody />
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="codelist" />
+              <Caption value="Codelist" />
+              <Comment value="from codelist.getDataAsJson()" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="key" />
+              <Caption value="Key" />
+              <Comment value="key column name" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="js_includes" />
+      <Description value="returns true if key value is included among keys" />
+      <IsJavascript value="True" />
+      <Script><![CDATA[var keys = JSON.parse(params.keys);
+
+return _.includes(keys, params.value);]]></Script>
+      <ActionLangBody />
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="keys" />
+              <Caption value="Keys" />
+              <Comment value="json array of keys" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="value" />
+              <Caption value="Value" />
+              <Comment value="key value to search for" />
+              <DataContextParameter.IsInput value="True" />
+              <DataContextParameter.IsInputRequired value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
               <DeclaredType>
                 <AttributeType>
                   <BaseType value="Bool" />

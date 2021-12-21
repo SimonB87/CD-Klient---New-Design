@@ -29,8 +29,9 @@
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var appInfo = globals.appInfo
-var user = globals.user 
+var user = globals.user
 
+globals.appInfo.appName = globals.appInfo.appName_Initial
 
 actions.sendRequestGet("login", "loginResponse", true)
 var sr = globals.sendResult
@@ -42,6 +43,7 @@ if sr.Valid then
 	appInfo.pageTitle = appInfo.appTitle + " - " + user.DisplayName
 	
 	if isAuthorized then
+		eventDispatcher.sendMessage("main_login", "onAuthorizationCompled", defaultString())
 		navigation.main.lists.go()
 	else
 		var err = packages.main.globals.forms.error.params
@@ -50,56 +52,7 @@ if sr.Valid then
 		system.consoleError(err.Message)
 		navigation.main.error.goAndBack()
 	endif
-endif
-
-/* OLD CODE
-
-// Login + uživatelské role
-globals.IsBusy = true
-var response = apiobjects.cic.getAsync("loginRequestASEO")
-globals.IsBusy = false
-
-var err = packages.main.globals.forms.error.params
-var type = response.getMessageType()
-
-err.Caption = "Error sending loginRequestASEO"
-
-if type in ["loginResponseASEO"] then
-	var responseData = response.getJsonString()
-	
-	user.LoginResult.fromJson(responseData)
-	if user.LoginResult.user.selectFirst().UserName.hasValue() then
-		//Zpráva vrátí obsah o uživateli
-		//Načte prostředí, ověřeného uživatele a role a vyhodnotí autorizaci 
-		var isAuthorized = form.actions.setUser()
-		appInfo.pageTitle = appInfo.appTitle + " - " + user.DisplayName
-		
-		if isAuthorized then
-			navigation.main.lists.go()
-		else
-			err.Caption = "Unauthorized access"
-			err.Message = "Uživatel "+ user.fullName + " s loginem '" + user.userName + "' nemá příslušná oprávnění pro spuštení aplikace."
-			system.consoleError(err.Message)
-			navigation.main.error.goAndBack()
-		endif		
-	endif
-else if response.getMessageType() in ["IN906A"] then
-	err.MsgType = type
-	err.Msg = response.getJsonString()
-	system.consoleError(err.MsgType)
-	system.consoleError(err.Msg)
-	navigation.main.error.goAndBack()
-else if response.isError() then
-	err.Message = response.getErrorMessage()
-	system.consoleError(err.Message)
-	navigation.main.error.goAndBack()
-else
-	err.Message = "Unexpected response message type: " + type
-	system.consoleError(err.Message)
-	navigation.main.error.goAndBack()
-endif endif endif
-
-*/]]></Script>
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -135,7 +88,7 @@ if ui.UserRole.exists(current.Name = "EOS_ASEOREAD") then
 endif
 
 if ui.UserRole.exists(current.Name = "EOS_ASEOWRITE") then
-	user.hasRoleWrite = true
+	user.hasRoleWriteAseo = true
 endif
 
 if ui.UserRole.exists(current.Name = "EOS_ASEOAUTHORIZATIONREACTIVATION") then
@@ -154,55 +107,17 @@ if ui.UserRole.exists(current.Name = "EOS_ASEOHELPDESK") then
 	user.hasRoleHelpdesk = true
 endif
 
-if ui.UserRole.exists(current.Name = "CDKLIENT_READ") then
-	user.hasRoleRead = true
-endif
-
 if ui.UserRole.exists(current.Name = "CDKLIENT_WRITE") then
-	user.hasRoleWrite = true
-endif
-
-if ui.UserRole.exists(current.Name = "CDKLIENT_ADMIN") then
-	user.hasRoleAdmin = true
+	user.hasRoleWriteCd = true
 endif
 
 // Vyhodnocení autorizace
 if isTrue(user.hasRoleRead) or 
-   isTrue(user.hasRoleWrite) or 
-   isTrue(user.hasRoleHelpdesk) or 
-   isTrue(user.hasRoleAdmin) then 
+   isTrue(user.hasRoleWriteAseo) or 
+   isTrue(user.hasRoleWriteCd) or 
+   isTrue(user.hasRoleHelpdesk) then 
 	result = true
-endif
-
-/* OLD CODE
-
-var lru = user.LoginResult.user.selectFirst()
-
-// Načteme Ověřeného Uživatele
-user.userName = lru.userName
-user.fullName = lru.fullName
-user.Mail = lru.Mail
-
-if lru.organisation.hasValue() then
-	var org = lru.organisation.selectFirst() 
-	var cu = org.code.selectFirst()
-	
-	user.CuCode = cu.code
-	
-	// Načteme role ověřeného uživatele	
-	if lru.organisation.selectFirst().applRole.hasValue() then
-		user.hasRoleRead = org.applRole.exists(current.applRoleCode = "CDklient_read")
-		user.hasRoleWrite = org.applRole.exists(current.applRoleCode = "CDklient_write")
-		user.hasRoleAdmin = org.applRole.exists(current.applRoleCode = "CDklient_admin")
-	endif	
-endif
-
-// Vyhodnocení autorizace - stačí libovolná role pro přístup
-if user.hasRoleRead or user.hasRoleWrite or user.hasRoleAdmin then 
-	result = true
-endif
-
-*/]]></Script>
+endif]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext>
@@ -222,4 +137,9 @@ endif
       </DataContext>
     </ActionBlock>
   </Actions>
+  <ApiObjects>
+    <EventDispatcher identity="EventDispatcher.eb764ceb30274f1e9a3d051d512d6b26">
+      <Name value="eventDispatcher" />
+    </EventDispatcher>
+  </ApiObjects>
 </Form>

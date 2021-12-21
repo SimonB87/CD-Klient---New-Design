@@ -315,6 +315,28 @@
                       </CssClass>
                     </Button>
                     <Button>
+                      <Name value="send_ASEOFileAdd" />
+                      <Caption value="Vložit soubor" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_send_ASEOFileAdd_OnClick" />
+                      </OnClick>
+                      <Bindings>
+                        <Binding SourceProperty="IsVisible" Expression="ui.buttons.send_ASEOFileAdd.IsVisible" />
+                        <Binding SourceProperty="IsEnabled" Expression="ui.buttons.send_ASEOFileAdd.IsEnabled" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                        <CssClassConditional>
+                          <ClassName value="cd-header-button" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                    <Button>
                       <Name value="btnActionConfirm" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
@@ -727,7 +749,7 @@
               <Name value="cgbHolder" />
               <caption value="Držitel Povolení" />
               <collapsedIconClass value="fa fa-plus-square-o" />
-              <Comment value="Node=&quot;Item01Obecne&quot;" />
+              <Comment value="Node=&quot;Item01obecne&quot;" />
               <nonCollapsedIconClass value="fa fa-minus-square-o" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
@@ -877,7 +899,7 @@
               <Name value="cgbDetail" />
               <caption value="Podrobnosti rozhodnutí" />
               <collapsedIconClass value="fa fa-plus-square-o" />
-              <Comment value="Node=&quot;Item01Obecne&quot;" />
+              <Comment value="Node=&quot;Item01obecne&quot;" />
               <nonCollapsedIconClass value="fa fa-minus-square-o" />
               <Panel.Height value="#" />
               <Panel.Width value="*" />
@@ -2421,7 +2443,7 @@
                       <Panel.Width value="*" />
                       <Bindings>
                         <Binding SourceProperty="Data" Expression="model.msg.ASEO.Event.SPACP.AuthorisedIssuerCode" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ASEO.Event.SPACP.AuthorisedIssuerCode.isRequired()" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.ASEO.Event.SPACP._IsRequired_AuthorisedIssuerCode" />
                         <Binding SourceProperty="Caption" Expression="model.msg.ASEO.Event.SPACP.AuthorisedIssuerCode.caption()" />
                         <Binding SourceProperty="IsEnabled" Expression="isEditOn" />
                       </Bindings>
@@ -3619,7 +3641,7 @@
                                   <Bindings>
                                     <Binding SourceProperty="Href" Expression="_fileUrl" />
                                     <Binding SourceProperty="Data" Expression="FileName" />
-                                    <Binding SourceProperty="IsVisible" Expression="not form.isEditOn" />
+                                    <Binding SourceProperty="IsVisible" Expression="form.ui.labels.hlCurrentAnnex_FileName.IsVisible" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -3634,7 +3656,7 @@
                                   <Panel.Width value="*" />
                                   <Bindings>
                                     <Binding SourceProperty="Data" Expression="FileName" />
-                                    <Binding SourceProperty="IsVisible" Expression="form.isEditOn" />
+                                    <Binding SourceProperty="IsVisible" Expression="form.ui.labels.lblCurrentAnnex_FileName.IsVisible" />
                                   </Bindings>
                                   <CssClass>
                                     <CssClassConditional>
@@ -3713,6 +3735,88 @@
               </Content>
               <Bindings>
                 <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbCurrentAnnex.IsVisible" />
+              </Bindings>
+              <conditionalCssClass>
+                <CssClassConditional>
+                  <ClassName value="{theme}-collapsiblegroupbox" />
+                  <IsThemedStyle value="True" />
+                </CssClassConditional>
+              </conditionalCssClass>
+            </CollapsibleGroupBox>
+            <CollapsibleGroupBox identity="collapsibleGroupBox.cfca4faa9e574885bad67cbe322167a7">
+              <Name value="cgbInsertFile" />
+              <caption value="Soubor" />
+              <collapsedIconClass value="fa fa-plus-square-o" />
+              <Comment value="Node=&quot;Item15insertFile&quot;" />
+              <nonCollapsedIconClass value="fa fa-minus-square-o" />
+              <Panel.Height value="#" />
+              <Panel.Width value="*" />
+              <Content>
+                <Panel>
+                  <Name value="pnlInsertFile" />
+                  <Orientation value="Vertical" />
+                  <Children>
+                    <CheckBox>
+                      <Name value="chbInsertFile_FullText" />
+                      <Caption value="Plný text" />
+                      <CaptionPosition value="Top" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.File.IsFulltext.isRequired()" />
+                        <Binding SourceProperty="Data" Expression="model.msg.File.IsFulltext" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-checkbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </CheckBox>
+                    <TextBox>
+                      <Name value="tbInsertFile_FileName" />
+                      <CaptionPosition value="Top" />
+                      <IsEnabled value="False" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="*" />
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="model.msg.File.FileName" />
+                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="model.msg.File.FileName.isRequired()" />
+                        <Binding SourceProperty="Caption" Expression="model.msg.File.FileName.caption()" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-textbox" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </TextBox>
+                    <Button>
+                      <Name value="btnInsertFile" />
+                      <Caption value="Soubor" />
+                      <Panel.Height value="#" />
+                      <Panel.Width value="150px" />
+                      <OnClick>
+                        <ActionEvent ReferencedAction="~handler_btnInsertFile_OnClick" />
+                      </OnClick>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-button" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </Button>
+                  </Children>
+                  <CssClass>
+                    <CssClassConditional>
+                      <ClassName value="{theme}-panel" />
+                      <IsThemedStyle value="True" />
+                    </CssClassConditional>
+                  </CssClass>
+                </Panel>
+              </Content>
+              <Bindings>
+                <Binding SourceProperty="isVisible" Expression="ui.groupBoxes.cgbInsertFile.IsVisible" />
               </Bindings>
               <conditionalCssClass>
                 <CssClassConditional>
@@ -4107,7 +4211,7 @@
                 <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
                   <Name value="stcVersions_ValidityStartDate" />
                   <Caption value="Platné od" />
-                  <ColumnWidth value="13%" />
+                  <ColumnWidth value="11%" />
                   <Content>
                     <Label>
                       <Name value="lblVersions_ValidityStartDate" />
@@ -4126,7 +4230,7 @@
                 <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
                   <Name value="stcVersions_EvidenceDate" />
                   <Caption value="Datum evidence" />
-                  <ColumnWidth value="13%" />
+                  <ColumnWidth value="11%" />
                   <Content>
                     <Label>
                       <Name value="lblVersions_EvidenceDate" />
@@ -4218,6 +4322,27 @@
                     </Label>
                   </Content>
                 </SelectionTableColumn>
+                <SelectionTableColumn identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
+                  <Name value="stcVersions_HasFile" />
+                  <Caption value="Příloha" />
+                  <ColumnWidth value="4%" />
+                  <Content>
+                    <CustomHtml>
+                      <Name value="customHtml_HasFile" />
+                      <HtmlMarkup><![CDATA[<i class='fa fa-file-o'></i>]]></HtmlMarkup>
+                      <Bindings>
+                        <Binding SourceProperty="Data" Expression="" />
+                        <Binding SourceProperty="IsVisible" Expression="HasFile" />
+                      </Bindings>
+                      <CssClass>
+                        <CssClassConditional>
+                          <ClassName value="{theme}-customhtml" />
+                          <IsThemedStyle value="True" />
+                        </CssClassConditional>
+                      </CssClass>
+                    </CustomHtml>
+                  </Content>
+                </SelectionTableColumn>
               </Columns>
               <CssClass>
                 <CssClassConditional>
@@ -4272,10 +4397,25 @@
           </OnChange>
         </Attribute>
         <Attribute>
-          <Name value="GUID" />
-          <Caption value="GUID" />
+          <Name value="guid" />
+          <Caption value="Guid" />
           <DataContextParameter.IsInput value="True" />
-          <DataContextParameter.IsInputRequired value="True" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="tin" />
+          <Caption value="Tin" />
+          <DataContextParameter.IsInput value="True" />
+          <DeclaredType>
+            <AttributeType />
+          </DeclaredType>
+        </Attribute>
+        <Attribute>
+          <Name value="id" />
+          <Caption value="Id" />
+          <DataContextParameter.IsInput value="True" />
           <DeclaredType>
             <AttributeType />
           </DeclaredType>
@@ -4342,8 +4482,22 @@ enums.EvType.NONE]]></ExpressionText>
           <Name value="isEditOn" />
           <Caption value="Is edit on" />
           <Expression IsValid="True">
-            <ExpressionText><![CDATA[globals.user.hasWritePermission and
-isFalse(action in [enums.Action.NONE, enums.Action.FutureRemoval])]]></ExpressionText>
+            <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
+isFalse(action in [
+	enums.Action.NONE, 
+	enums.Action.FutureRemoval, 
+	enums.Action.InsertFile])]]></ExpressionText>
+            <ResultType>
+              <BaseType value="Bool" />
+            </ResultType>
+          </Expression>
+        </Computed>
+        <Computed>
+          <Name value="isFileEditOn" />
+          <Caption value="Is file edit on" />
+          <Expression IsValid="True">
+            <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
+isTrue(action = enums.Action.InsertFile)]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
             </ResultType>
@@ -4371,6 +4525,60 @@ isFalse(action in [enums.Action.NONE, enums.Action.FutureRemoval])]]></Expressio
                 <Include>
                   <Include reference="+DataEntities.ASEOSPDataResponseEx" />
                 </Include>
+                <Complex>
+                  <Name value="File" />
+                  <Caption value="Soubor přílohy" />
+                  <MtsImportOptions.MTS.ID value="/ASEOFileAdd/ASEO/Event/File" />
+                  <MtsImportOptions.MTS.Type value="group" />
+                  <Children>
+                    <Attribute>
+                      <Name value="IsFulltext" />
+                      <Caption value="Je plný text či jen doplněk plného textu?" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOFileAdd/ASEO/Event/File/IsFulltext" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <BaseType value="Bool" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="FileContent" />
+                      <Caption value="Obsah souboru" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOFileAdd/ASEO/Event/File/FileContent" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType />
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="FileName" />
+                      <Caption value="Název souboru" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOFileAdd/ASEO/Event/File/FileName" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <StrMaxLength value="255" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                    <Attribute>
+                      <Name value="FileType" />
+                      <Caption value="Typ souboru" />
+                      <IsRequired value="True" />
+                      <MtsImportOptions.MTS.ID value="/ASEOFileAdd/ASEO/Event/File/FileType" />
+                      <MtsImportOptions.MTS.Type value="element" />
+                      <DeclaredType>
+                        <AttributeType>
+                          <StrMaxLength value="255" />
+                        </AttributeType>
+                      </DeclaredType>
+                    </Attribute>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
             <Complex>
@@ -4666,6 +4874,16 @@ isFalse(action in [enums.Action.NONE, enums.Action.FutureRemoval])]]></Expressio
                     </ResultType>
                   </Expression>
                 </Computed>
+                <Computed>
+                  <Name value="Item15insertFile" />
+                  <Caption value="Item15insertFile" />
+                  <Expression IsValid="True">
+                    <ExpressionText><![CDATA["Item15insertFile"]]></ExpressionText>
+                    <ResultType>
+                      <BaseType value="String" />
+                    </ResultType>
+                  </Expression>
+                </Computed>
               </Children>
             </Complex>
             <Complex>
@@ -4729,7 +4947,8 @@ isTrue(form.action = enums.Action.NONE)]]></ExpressionText>
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[this.owner().showActionButtons and
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
+this.owner().showActionButtons and
 isFalse(form.futureChange) and isTrue(form.State = enums.State.APA)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
@@ -4740,7 +4959,7 @@ isFalse(form.futureChange) and isTrue(form.State = enums.State.APA)]]></Expressi
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -4756,7 +4975,8 @@ isFalse(form.futureChange) and isTrue(form.State = enums.State.APA)]]></Expressi
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[this.owner().showActionButtons and
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
+this.owner().showActionButtons and
 isFalse(form.futureChange) and isTrue(form.State = enums.State.APA)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
@@ -4767,7 +4987,7 @@ isFalse(form.futureChange) and isTrue(form.State = enums.State.APA)]]></Expressi
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -4783,7 +5003,8 @@ isFalse(form.futureChange) and isTrue(form.State = enums.State.APA)]]></Expressi
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[this.owner().showActionButtons and 
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
+this.owner().showActionButtons and 
 isFalse(form.futureChange) and isTrue(form.State = enums.State.AUR)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
@@ -4794,7 +5015,7 @@ isFalse(form.futureChange) and isTrue(form.State = enums.State.AUR)]]></Expressi
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -4812,7 +5033,16 @@ isFalse(form.futureChange) and isTrue(form.State = enums.State.AUR)]]></Expressi
                       <Expression IsValid="True">
                         <ExpressionText><![CDATA[this.owner().showActionButtons and 
 isFalse(form.futureChange) and 
-isTrue(form.State in [enums.State.APA,enums.State.AUS, enums.State.AUC, enums.State.AUW])]]></ExpressionText>
+(
+	(
+		globals.user.hasPermissionWriteAseo and
+		isTrue(form.State in [enums.State.APA,enums.State.AUS])
+	) or
+	(
+		globals.user.hasPermissionAuthrorizationReactivation and
+		isTrue(form.State in [enums.State.AUC, enums.State.AUW])
+	)
+)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -4822,7 +5052,7 @@ isTrue(form.State in [enums.State.APA,enums.State.AUS, enums.State.AUC, enums.St
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -4850,7 +5080,8 @@ isTrue(form.State in [enums.State.APA,enums.State.AUS, enums.State.AUC, enums.St
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[this.owner().showActionButtons and 
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
+this.owner().showActionButtons and 
 isFalse(form.futureChange) and 
 isTrue(form.State in [enums.State.AUA,enums.State.AUE])]]></ExpressionText>
                         <ResultType>
@@ -4862,7 +5093,7 @@ isTrue(form.State in [enums.State.AUA,enums.State.AUE])]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -4878,7 +5109,8 @@ isTrue(form.State in [enums.State.AUA,enums.State.AUE])]]></ExpressionText>
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[this.owner().showActionButtons and
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
+this.owner().showActionButtons and
 isFalse(form.futureChange) and 
 isTrue(form.State = enums.State.AUA)]]></ExpressionText>
                         <ResultType>
@@ -4890,7 +5122,7 @@ isTrue(form.State = enums.State.AUA)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -4906,7 +5138,8 @@ isTrue(form.State = enums.State.AUA)]]></ExpressionText>
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[this.owner().showActionButtons and 
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
+this.owner().showActionButtons and 
 isFalse(form.futureChange) and 
 isTrue(form.State = enums.State.AUS)]]></ExpressionText>
                         <ResultType>
@@ -4918,7 +5151,7 @@ isTrue(form.State = enums.State.AUS)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[true]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -4934,7 +5167,8 @@ isTrue(form.State = enums.State.AUS)]]></ExpressionText>
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[this.owner().showActionButtons and 
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
+this.owner().showActionButtons and 
 isFalse(form.futureChange) and 
 isTrue(form.State = enums.State.AUW)]]></ExpressionText>
                         <ResultType>
@@ -4946,7 +5180,7 @@ isTrue(form.State = enums.State.AUW)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -4962,7 +5196,8 @@ isTrue(form.State = enums.State.AUW)]]></ExpressionText>
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[this.owner().showActionButtons and
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
+this.owner().showActionButtons and
 isFalse(form.futureChange) and 
 isTrue(form.State = enums.State.AUA)]]></ExpressionText>
                         <ResultType>
@@ -4974,7 +5209,7 @@ isTrue(form.State = enums.State.AUA)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -4990,7 +5225,8 @@ isTrue(form.State = enums.State.AUA)]]></ExpressionText>
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[this.owner().showActionButtons and 
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
+this.owner().showActionButtons and 
 isFalse(form.futureChange) and 
 isTrue(form.State = enums.State.AUS)]]></ExpressionText>
                         <ResultType>
@@ -5002,7 +5238,7 @@ isTrue(form.State = enums.State.AUS)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5018,7 +5254,8 @@ isTrue(form.State = enums.State.AUS)]]></ExpressionText>
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[this.owner().showActionButtons and 
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
+this.owner().showActionButtons and 
 isFalse(form.futureChange) and 
 isTrue(form.State = enums.State.AUA)]]></ExpressionText>
                         <ResultType>
@@ -5030,7 +5267,7 @@ isTrue(form.State = enums.State.AUA)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5046,7 +5283,8 @@ isTrue(form.State = enums.State.AUA)]]></ExpressionText>
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[this.owner().showActionButtons and 
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
+this.owner().showActionButtons and 
 isFalse(form.futureChange) and 
 isTrue(form.State = enums.State.AUC)]]></ExpressionText>
                         <ResultType>
@@ -5058,7 +5296,7 @@ isTrue(form.State = enums.State.AUC)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5074,7 +5312,9 @@ isTrue(form.State = enums.State.AUC)]]></ExpressionText>
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[this.owner().showActionButtons and form.futureChange]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
+this.owner().showActionButtons and
+form.futureChange]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5084,7 +5324,34 @@ isTrue(form.State = enums.State.AUC)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="send_ASEOFileAdd" />
+                  <Caption value="send_ASEOFileAdd" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="IsVisible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
+this.owner().showActionButtons]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                    <Computed>
+                      <Name value="IsEnabled" />
+                      <Caption value="IsEnabled" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5100,7 +5367,8 @@ isTrue(form.State = enums.State.AUC)]]></ExpressionText>
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(form.action <> enums.Action.NONE)]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
+isTrue(form.action <> enums.Action.NONE)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5110,7 +5378,7 @@ isTrue(form.State = enums.State.AUC)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5140,7 +5408,8 @@ isTrue(form.State = enums.State.AUC)]]></ExpressionText>
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[isTrue(form.action <> enums.Action.NONE)]]></ExpressionText>
+                        <ExpressionText><![CDATA[isTrue(form.action <> enums.Action.NONE) and
+isFalse(form._.IsExisting)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5176,7 +5445,7 @@ isTrue(form.State = enums.State.AUC)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[form.isEditOn]]></ExpressionText>
+                        <ExpressionText><![CDATA[form.isEditOn or form.isFileEditOn]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5192,7 +5461,7 @@ isTrue(form.State = enums.State.AUC)]]></ExpressionText>
                       <Name value="IsVisible" />
                       <Caption value="IsVisible" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[true]]></ExpressionText>
+                        <ExpressionText><![CDATA[isFalse(form._.IsExisting)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -5875,6 +6144,23 @@ isTrue(form.authorizationType in [globals.DocType.DPO])]]></ExpressionText>
                     </Computed>
                   </Children>
                 </Complex>
+                <Complex>
+                  <Name value="cgbInsertFile" />
+                  <Caption value="cgbInsertFile" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="IsVisible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[packages.navTrees.globals._ntSP_Edit.isItem15insertFileVisible and
+(form.ui.navTree.selectedNode in [form.ui.navTree.ItemAll, form.ui.navTree.Item15insertFile])]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
             <Complex>
@@ -6216,6 +6502,39 @@ isTrue(form.authorizationType in [globals.DocType.DPO])]]></ExpressionText>
                     </Computed>
                   </Children>
                 </Complex>
+                <Complex>
+                  <Name value="hlCurrentAnnex_FileName" />
+                  <Caption value="Hl current annex _ file name" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="Is visible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[globals.user.hasPermissionReadFileAuth and
+isFalse(form.isEditOn)]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
+                <Complex>
+                  <Name value="lblCurrentAnnex_FileName" />
+                  <Caption value="Lbl current annex _ file name" />
+                  <Children>
+                    <Computed>
+                      <Name value="IsVisible" />
+                      <Caption value="Is visible" />
+                      <Expression IsValid="True">
+                        <ExpressionText><![CDATA[not this.owner().hlCurrentAnnex_FileName.IsVisible]]></ExpressionText>
+                        <ResultType>
+                          <BaseType value="Bool" />
+                        </ResultType>
+                      </Expression>
+                    </Computed>
+                  </Children>
+                </Complex>
               </Children>
             </Complex>
             <Complex>
@@ -6338,6 +6657,17 @@ form.evType in [enums.EvType.NW, enums.EvType.MW] ?
               <Caption value="Not action authorize" />
               <Expression IsValid="True">
                 <ExpressionText><![CDATA[not ActionAuthorize]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="IsExisting" />
+              <Caption value="Is existing" />
+              <Description value="zadava se existujici povoleni" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[form.guid.isEmpty()]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -6517,7 +6847,9 @@ this.collection().where(Current.TypeOfPeriod.Key = attr.Key).count() = 1]]></Exp
               <Name value="_fullId" />
               <Caption value="_ full id" />
               <Expression IsValid="True">
-                <ExpressionText><![CDATA[IssuingCountry + ASEOID]]></ExpressionText>
+                <ExpressionText><![CDATA[ASEOID.hasValue() ? 
+IssuingCountry + ASEOID :
+""]]></ExpressionText>
                 <ResultType>
                   <BaseType value="String" />
                 </ResultType>
@@ -7100,7 +7432,7 @@ this.Guarantee.count() > 0]]></ExpressionText>
           <ShowAsChanges value="True" />
           <SourcePath value="model.msg.ASEO.Event.ReferenceNumber" />
           <Validators>
-            <Validator Name="requiredReferenceNumber">
+            <Validator Name="req">
               <ErrorMessage IsValid="True">
                 <ExpressionText><![CDATA["Pole \"Číslo jednací\" v záložce \"Obecné\" je povinné."]]></ExpressionText>
                 <ResultType>
@@ -7109,7 +7441,7 @@ this.Guarantee.count() > 0]]></ExpressionText>
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[attr.hasValue() ? true :
-_IsRequired_ReferenceNumber]]></ExpressionText>
+isFalse(_IsRequired_ReferenceNumber)]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
                 </ResultType>
@@ -7851,6 +8183,7 @@ DaysOfDeferment.hasValue()]]></ExpressionText>
               </ErrorMessage>
               <IsValid IsValid="True">
                 <ExpressionText><![CDATA[collection.hasValue() ? true :
+form._.NotActionAuthorize ? true :
 isFalse(form.authorizationType = globals.DocType.DPO)]]></ExpressionText>
                 <ResultType>
                   <BaseType value="Bool" />
@@ -7858,6 +8191,79 @@ isFalse(form.authorizationType = globals.DocType.DPO)]]></ExpressionText>
               </IsValid>
             </Validator>
           </CollectionValidators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_CC1B6F13_SPACP" />
+          <SourcePath value="model.msg.ASEO.Event.SPACP" />
+          <Children>
+            <Computed>
+              <Name value="_IsRequired_AuthorisedIssuerCode" />
+              <Caption value="_ is required _ authorised issuer code" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[form._.ActionAuthorize and
+isTrue(form.authorizationType = globals.DocType.ACP)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+            <Computed>
+              <Name value="_IsRequired_Doc" />
+              <Caption value="_ is required _ doc" />
+              <Expression IsValid="True">
+                <ExpressionText><![CDATA[form._.ActionAuthorize and
+isTrue(form.authorizationType = globals.DocType.ACP) and
+isFalseOrDefault(ProducesT2L) and
+isFalseOrDefault(ProducesInvoiceTransportDocument)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </Expression>
+            </Computed>
+          </Children>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_B9A9A685_AuthorisedIssuerCode" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.msg.ASEO.Event.SPACP.AuthorisedIssuerCode" />
+          <Validators>
+            <Validator Name="req">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Kód schváleného vydavatele je pro toto povolení povinný"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[attr.hasValue() ? true :
+isFalse(_IsRequired_AuthorisedIssuerCode)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
+        <Modifier>
+          <Name value="modifier_078A1384_ProducesT2L" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.msg.ASEO.Event.SPACP.ProducesT2L" />
+          <Validators>
+            <Validator Name="req">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Vyberte alespoň jeden druh dokladu"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[isFalse(_IsRequired_Doc)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
         </Modifier>
       </Modifiers>
     </DataContext>
@@ -7896,6 +8302,7 @@ var node12 = ntc.addNode(nt.Item12lifecycle_authorizationSuspending, "Pozastaven
 var node13 = ntc.addNode(nt.Item13zavery, "Závěry")
 var node14 = ntc.addNode(nt.Item14odpovedneOsosby, "Odpovědné osoby")
 var node06 = ntc.addNode(nt.Item06prilohy, "Item06prilohyCaption") // na vyzadani NoJo skoro na konci
+var node15 = ntc.addNode(nt.Item15insertFile, "Vložit soubor")
 var node07 = ntc.addNode(nt.Item07prehodnoceni, "Přehodnocení") // na vyzadani NoJo na konci
 
 if appInfo.isTestSolitea then
@@ -7906,9 +8313,30 @@ ntc.finishSetup()
 
 ntc.focusNode(nt.Item01obecne)
 
-form.apiobjects.pageAseoDetail.scrollToTop()
+if not form._.IsExisting then
+	form.actions.loadAseoData(form.guid)
+else // existujici povoleni
+	var aseo = form.model.msg.ASEO
+	var event = aseo.Event
 
-form.actions.loadAseoData(form.GUID)
+	aseo.IssuingCountry = substring(form.id, 1, 2)
+	aseo.ASEOID = substring(form.id, 3, length(form.id) - 2)
+	aseo.TIN = form.tin
+	aseo.ResponsibleCustomsOffice = globals.user.CuCode
+	
+	event.EvidenceDate = getDate()
+	
+	form.action = enums.Action.authorize
+	
+	form.actions.prepFormForEdit()
+	form.actions.setDefaults()	
+	
+	// here, so we have filtered codelists ready
+	if not globals.forms.master.isDownloadingCodelists then
+		var item = fcPOVOLTYP.getItemByStringColumnAsync("POVOLTYP", form.authorizationType)
+		aseo.AuthorizationType.fromJson(item.getJsonString())
+	endif	
+endif
 
 globals.IsBusy = false]]></Script>
       </ActionLangBody>
@@ -8013,6 +8441,10 @@ filter = fcPOVOLDUOD.resetFilter(false)
 filter.filterByValidityDateTime(dt)
 filter.commit()
 
+filter = fcPOVOLTYP.resetFilter(false)
+filter.filterByValidityDateTime(dt)
+filter.commit()
+
 filter = fcREZIM4.resetFilter(false)
 filter.filterByValidityDateTime(dt)
 filter.commit()
@@ -8081,7 +8513,7 @@ filter.commit()
       <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = True
 
-form.actions.loadAseoData(form.GUID, form.model.msg.ASEO.Event.GUID)
+form.actions.loadAseoData(form.guid, form.model.msg.ASEO.Event.GUID)
 
 globals.IsBusy = False
 ]]></Script>
@@ -8095,13 +8527,16 @@ globals.IsBusy = False
       <Category value="lifeCycleMessage" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var msg = form.model.msg
+var obnoveni = msg.aseo._LastAuthorisationGUID.hasValue()
 
 form.error.serverValidationErrors.clear()
 
 request.fromJson(msg.toJson())
 
 // aby pri obnoveni nepadalo v centru na pravidlo UniqueASEOID
-request.ASEO.ASEOID = defaultString()
+if obnoveni then
+	request.ASEO.ASEOID = defaultString()
+endif
 
 result = false
 
@@ -8109,14 +8544,18 @@ if isTrue(msg.isValid()) then
 	form.actions.sendRequest("ASEOSPAuthorization", request.toJson(), "CM002A", true)
 
 	if globals.sendResult.Valid then
-		var message = msg.aseo._LastAuthorisationGUID.hasValue() ? 
+		var message = obnoveni ? 
 			"Úspěšně předáno k obnovení povolení." :
 			"Úspěšně předáno k vydání povolení."
 	
 		notificationsCtrl.addSuccess(message)
 		
 		msg.ASEO.clear()
-		form.actions.loadAseoData(form.GUID)
+		
+		// pokud jde o 'nove' existujici povoleni, nemame GUID a tim padem nemuzeme prenacist data
+		if not form._.IsExisting then
+			form.actions.loadAseoData(form.guid)
+		endif
 		
 		result = true		
 	else
@@ -8160,7 +8599,7 @@ endif]]></Script>
 form.error.serverValidationErrors.clear()
 
 result = false
-request.ASEO.GUID = form.GUID
+request.ASEO.GUID = form.guid
 
 form.actions.sendRequest("ASEOFutureRemoval", request.toJson(), "CM002A", true)
 
@@ -8168,7 +8607,7 @@ if globals.sendResult.Valid then
 	notificationsCtrl.addSuccess("Odstranění budoucí změny bylo úspěšně provedeno.")
 	
 	msg.ASEO.clear()
-	form.actions.loadAseoData(form.GUID)
+	form.actions.loadAseoData(form.guid)
 	
 	result = true		
 else
@@ -8220,7 +8659,7 @@ if msg.isValid() then
 		notificationsCtrl.addSuccess("Žádost byla úspěšně předána k zamítnutí.")
 		
 		msg.ASEO.clear()
-		form.actions.loadAseoData(form.GUID)
+		form.actions.loadAseoData(form.guid)
 		
 		result = true		
 	else
@@ -8273,7 +8712,7 @@ if msg.isValid() then
 		notificationsCtrl.addSuccess("Žádost byla úspěšně předána k modifikaci zamítnutí.")
 		
 		msg.ASEO.clear()
-		form.actions.loadAseoData(form.GUID)
+		form.actions.loadAseoData(form.guid)
 		
 		result = true		
 	else
@@ -8327,7 +8766,7 @@ if isTrue(msg.isValid()) then
 		notificationsCtrl.addSuccess("Povolení bylo úspěšně předáno ke zrušení.")
 		
 		msg.ASEO.clear()
-		form.actions.loadAseoData(form.GUID)
+		form.actions.loadAseoData(form.guid)
 		
 		result = true		
 	else
@@ -8380,7 +8819,7 @@ if isTrue(msg.isValid()) then
 		notificationsCtrl.addSuccess("Povolení bylo úspěšně předáno k pozastavení.")
 		
 		msg.ASEO.clear()
-		form.actions.loadAseoData(form.GUID)
+		form.actions.loadAseoData(form.guid)
 		
 		result = true		
 	else
@@ -8433,7 +8872,7 @@ if isTrue(msg.isValid()) then
 		notificationsCtrl.addSuccess("Povolení bylo úspěšně předáno ke zneplatnění.")
 		
 		msg.ASEO.clear()
-		form.actions.loadAseoData(form.GUID)
+		form.actions.loadAseoData(form.guid)
 		
 		result = true		
 	else
@@ -8486,7 +8925,7 @@ if msg.isValid() then
 		notificationsCtrl.addSuccess("Žádost byla úspěšně předána k úpravě.")
 		
 		msg.ASEO.clear()
-		form.actions.loadAseoData(form.GUID)
+		form.actions.loadAseoData(form.guid)
 		
 		result = true		
 	else
@@ -8540,7 +8979,7 @@ if isTrue(msg.isValid()) then
 		notificationsCtrl.addSuccess("Povolení bylo úspěšně předáno k úpravě povolení.")
 		
 		msg.ASEO.clear()
-		form.actions.loadAseoData(form.GUID)
+		form.actions.loadAseoData(form.guid)
 		
 		result = true		
 	else
@@ -8593,7 +9032,7 @@ if isTrue(msg.isValid()) then
 		notificationsCtrl.addSuccess("Povolení bylo úspěšně předáno k úpravě zrušení.")
 		
 		msg.ASEO.clear()
-		form.actions.loadAseoData(form.GUID)
+		form.actions.loadAseoData(form.guid)
 		
 		result = true		
 	else
@@ -8646,7 +9085,7 @@ if isTrue(msg.isValid()) then
 		notificationsCtrl.addSuccess("Povolení bylo úspěšně předáno k úpravě zneplatnění.")
 		
 		msg.ASEO.clear()
-		form.actions.loadAseoData(form.GUID)
+		form.actions.loadAseoData(form.guid)
 		
 		result = true		
 	else
@@ -8699,7 +9138,7 @@ if isTrue(msg.isValid()) then
 		notificationsCtrl.addSuccess("Povolení bylo úspěšně předáno k úpravě pozastavení.")
 		
 		msg.ASEO.clear()
-		form.actions.loadAseoData(form.GUID)
+		form.actions.loadAseoData(form.guid)
 		
 		result = true		
 	else
@@ -8743,7 +9182,9 @@ var action = form.action
 
 var postingSuccess = false
 
-if form.currentDateTime <= msg.ASEO.Event.ValidityStartDate then
+if  (form.currentDateTime <= msg.ASEO.Event.ValidityStartDate) or 
+	(action = enums.Action.InsertFile) 
+then
 
 	if msg.isValid() then
 		msg.setTouched(false)
@@ -8773,9 +9214,21 @@ if form.currentDateTime <= msg.ASEO.Event.ValidityStartDate then
 			postingSuccess = form.actions.lifeCycle_authorizationCancellationModification()	
 		else if action = enums.Action.FutureRemoval	then
 			postingSuccess = form.actions.lifeCycle_futureRemoval()
+		else if action = enums.Action.InsertFile	then
+			postingSuccess = form.actions.lifeCycle_insertFile()
 		else
 			system.consoleError("Invalid Action: " + action.enumCaption())
-		endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf
+		endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf endIf endif
+		
+		var nt = form.ui.navTree
+		ntc.focusNode(nt.Item01obecne)
+		
+		// pokud jde o 'nove' existujici povoleni, nemame GUID 
+		// a tim padem nemuzeme prenacist data a opustime formular
+		if postingSuccess and form._.IsExisting then
+			navigation.main.lists.go()
+		endif
+
 	else
 		msg.setTouched(true)
 		form.ui.groupBoxes.cgbClientErrors._IsVisible = true
@@ -8828,11 +9281,12 @@ form.actions.prepFormForEdit()]]></Script>
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var msg = form.model.msg
+var obnoveni = msg.aseo._LastAuthorisationGUID.hasValue()
 
 // pri obnoveni vychazime z dat posledniho NU/MU eventu, protoze event zruseni neobsahuje vsechny data
-if msg.aseo._LastAuthorisationGUID.hasValue() then
+if obnoveni then
 	globals.IsBusy = True
-	form.actions.loadAseoData(form.GUID, msg.aseo._LastAuthorisationGUID)
+	form.actions.loadAseoData(form.guid, msg.aseo._LastAuthorisationGUID)
 	globals.IsBusy = False
 endif
 
@@ -8840,7 +9294,12 @@ form.action = enums.Action.authorize
 
 form.actions.prepFormForEdit()
 form.actions.setDefaults()
-	
+
+// pri obnoveni se alokace nedela, pouzije se stejne ASEOID
+if isFalse(obnoveni) then
+	form.actions.sendASEOIDAllocationRequest()
+endif
+
 form.actions.sendASEOGuaranteeRequest()]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -8935,7 +9394,11 @@ form.actions.prepFormForEdit()]]></Script>
         <Script><![CDATA[globals.IsBusy = True
 
 form.action = enums.Action.NONE
-form.actions.loadAseoData(form.GUID)
+form.actions.loadAseoData(form.guid)
+
+// aby se nevalidovalo vkladani souboru
+var msg = form.model.msg
+msg.File.clear()
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
@@ -9001,11 +9464,12 @@ endif endif]]></Script>
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.error.serverValidationErrors.clear()
 
-form.actions.loadDataFromCrs()
-form.actions.prepFormForEdit_clearOtherRejectios()
-
 var aseo = form.model.msg.ASEO
 var event = aseo.Event
+var user = globals.user
+
+event.DecidingCustomsOffice = user.CuCode
+event.DecidingPerson = user.userName
 
 event.Note.clear()
 event.File.clear()
@@ -9013,6 +9477,9 @@ event.File.clear()
 if (form.State = enums.State.APA) then
 	event.DecisionDate = getDate()
 endIf
+
+form.actions.loadDataFromCrs()
+form.actions.prepFormForEdit_clearOtherRejectios()
 
 //update ValidityStartDate and add 1 Hour
 event.ValidityStartDate = addHours(getDateTime(), 1)]]></Script>
@@ -9210,7 +9677,9 @@ var spax = event.SPAx
 var spacp = event.SPACP
 
 if aseo.IsInCD.hasValue() then
-	event.PreferCD = false
+	if event.PreferCD.isEmpty() then
+		event.PreferCD = true
+	endif
 endIf
 
 if auth.ResponsiblePersonWantsToBeNotified.isEmpty() then
@@ -9445,7 +9914,7 @@ if selectedEvent.hasValue() then
 	var selecteEventVersion = selectedEvent.GUID
 	
 	globals.IsBusy = True
-	form.actions.loadAseoData(form.GUID, selecteEventVersion)
+	form.actions.loadAseoData(form.guid, selecteEventVersion)
 	globals.IsBusy = False
 endif]]></Script>
       </ActionLangBody>
@@ -9797,12 +10266,16 @@ endif]]></Script>
       <Name value="onBackgroundLoadingFinished" />
       <Description value="zavola se po dokonceni nacteni ciselniku" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[var event = form.model.msg.ASEO.Event
+        <Script><![CDATA[var aseo = form.model.msg.ASEO
+var event = aseo.Event
 var auth = form.authorizationType
+
+var item = fcPOVOLTYP.getItemByStringColumnAsync("POVOLTYP", form.authorizationType)
+aseo.AuthorizationType.fromJson(item.getJsonString())
 
 foreach p in event.Period do
 	if p.TypeOfPeriod.hasValue() and hasValue(auth) then
-		var item = fcZJPLHUTA.getItemByStringColumnAsync("ZJPLHUTYP", p.TypeOfPeriod.Key)		
+		item = fcZJPLHUTA.getItemByStringColumnAsync("ZJPLHUTYP", p.TypeOfPeriod.Key)		
 		p._ZjpLhuta.fromJson(item.getJsonString())	
 	else
 		p._ZjpLhuta.clear()
@@ -10246,6 +10719,138 @@ endIf]]></Script>
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
+    <ActionBlock>
+      <Name value="sendASEOIDAllocationRequest" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var msg = form.model.msg
+
+request.ASEO.GUID = msg.ASEO.GUID
+
+form.actions.sendRequest("ASEOIDAllocationRequest", request.toJson(), "ASEOIDAllocationResponse", true)
+
+if globals.sendResult.Valid then
+	var sr = globals.sendResult
+	
+	response.fromJson(sr.Message)
+	
+	msg.ASEO.ASEOID = response.ASEO.AllocatedASEOID
+else
+	notificationsCtrl.addError("Nastala chyba. Žádost o alokaci ASEOID se nezdařila.")
+endif	]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Complex>
+              <Name value="request" />
+              <Caption value="Request" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOIDAllocationRequest" />
+                </Include>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="response" />
+              <Caption value="Response" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOIDAllocationResponse" />
+                </Include>
+              </Children>
+            </Complex>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_send_ASEOFileAdd_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[form.action = enums.Action.InsertFile
+
+var msg = form.model.msg
+msg.File.IsFulltext = false
+
+var nt = form.ui.navTree
+ntc.focusNode(nt.Item15insertFile)]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_btnInsertFile_OnClick" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var p = globals.forms.file.params
+p.Filter = "image/png, image/gif, application/pdf"
+navigation.main.file.goAndBack()
+
+var res = packages.main.globals.forms.file.result 
+if res.IsValid then	
+	var file = form.model.msg.File
+	file.FileContent = res.FileContent
+	file.FileName = res.FileName
+	file.FileType = res.FileType
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="lifeCycle_insertFile" />
+      <Category value="lifeCycleMessage" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var msg = form.model.msg
+
+form.error.serverValidationErrors.clear()
+
+result = false
+request.ASEO.GUID = msg.ASEO.GUID
+request.ASEO.Event.GUID = msg.ASEO.Event.GUID
+request.ASEO.Event.File.fromJson(msg.File.toJson())
+
+form.actions.sendRequest("ASEOFileAdd", request.toJson(), "CM002A", true)
+
+if globals.sendResult.Valid then
+	notificationsCtrl.addSuccess("Vložení souboru bylo úspěšně provedeno.")
+	
+	msg.clear()
+	form.actions.loadAseoData(form.guid)
+	
+	result = true		
+else
+	notificationsCtrl.addError("Nastala chyba. Vložení souboru nemohlo být provedeno.")
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="result" />
+              <Caption value="Result" />
+              <DataContextParameter.IsResult value="True" />
+              <DeclaredType>
+                <AttributeType>
+                  <BaseType value="Bool" />
+                </AttributeType>
+              </DeclaredType>
+            </Attribute>
+            <Complex>
+              <Name value="request" />
+              <Caption value="Request" />
+              <Children>
+                <Include>
+                  <Include reference="+DataEntities.ASEOFileAdd" />
+                </Include>
+              </Children>
+            </Complex>
+          </Children>
+        </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
   </Actions>
   <ApiObjects>
     <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
@@ -10256,9 +10861,6 @@ endIf]]></Script>
       <Name value="fcZJPLHUTA" />
       <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZJPLHUTA" />
     </FilteredCodelist>
-    <Page identity="Page.f7aa0c151c64407daef13910dcf7b72a">
-      <Name value="pageAseoDetail" />
-    </Page>
     <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
       <Name value="fcZJPZAJIST" />
       <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.ZJPZAJIST" />
@@ -10365,9 +10967,9 @@ endIf]]></Script>
           <pointerPath value="ASEO/Event/CustomsOffices/CustomsOfficeOfGuarantee" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
-          <captionMask value="ASEO/ASEOID" />
+          <captionMask value="ASEO/_fullId" />
           <errorSourceComponent value="lblAseoId" />
-          <pointerPath value="ASEO/ASEOID" />
+          <pointerPath value="ASEO/_fullId" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/TIN" />
@@ -10392,103 +10994,103 @@ endIf]]></Script>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/OperatorName" />
           <errorSourceComponent value="tbOperatorName" />
-          <navigationTreeNode value="Item01Obecne" />
+          <navigationTreeNode value="Item01obecne" />
           <pointerPath value="ASEO/Event/OperatorName" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/OperatorStreetAndNr" />
           <errorSourceComponent value="tbOperatorStreetAndNr" />
-          <navigationTreeNode value="Item01Obecne" />
+          <navigationTreeNode value="Item01obecne" />
           <pointerPath value="ASEO/Event/OperatorStreetAndNr" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/OperatorPostCode" />
           <errorSourceComponent value="tbOperatorPostCode" />
-          <navigationTreeNode value="Item01Obecne" />
+          <navigationTreeNode value="Item01obecne" />
           <pointerPath value="ASEO/Event/OperatorPostCode" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/OperatorCity" />
           <errorSourceComponent value="tbOperatorCity" />
-          <navigationTreeNode value="Item01Obecne" />
+          <navigationTreeNode value="Item01obecne" />
           <pointerPath value="ASEO/Event/OperatorCity" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/OperatorCountry" />
           <errorSourceComponent value="tbOperatorCountry" />
-          <navigationTreeNode value="Item01Obecne" />
+          <navigationTreeNode value="Item01obecne" />
           <pointerPath value="ASEO/Event/OperatorCountry" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/ReferenceNumber" />
           <errorSourceComponent value="tbReferenceNumber" />
-          <navigationTreeNode value="Item01Obecne" />
+          <navigationTreeNode value="Item01obecne" />
           <pointerPath value="ASEO/Event/ReferenceNumber" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/YourMark" />
           <errorSourceComponent value="tnYourMark" />
-          <navigationTreeNode value="Item01Obecne" />
+          <navigationTreeNode value="Item01obecne" />
           <pointerPath value="ASEO/Event/YourMark" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/HandledBy" />
           <errorSourceComponent value="tbHandledBy" />
-          <navigationTreeNode value="Item01Obecne" />
+          <navigationTreeNode value="Item01obecne" />
           <pointerPath value="ASEO/Event/HandledBy" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/DecisionDate" />
           <errorSourceComponent value="dtDecisionDate" />
-          <navigationTreeNode value="Item01Obecne" />
+          <navigationTreeNode value="Item01obecne" />
           <pointerPath value="ASEO/Event/DecisionDate" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/DecidingCustomsOffice" />
           <errorSourceComponent value="tbDecidingCustomsOffice" />
-          <navigationTreeNode value="Item01Obecne" />
+          <navigationTreeNode value="Item01obecne" />
           <pointerPath value="ASEO/Event/DecidingCustomsOffice" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/DecidingPerson" />
           <errorSourceComponent value="tbDecidingPerson" />
-          <navigationTreeNode value="Item01Obecne" />
+          <navigationTreeNode value="Item01obecne" />
           <pointerPath value="ASEO/Event/DecidingPerson" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/EvidenceDate" />
           <errorSourceComponent value="dtEvidenceDate" />
-          <navigationTreeNode value="Item01Obecne" />
+          <navigationTreeNode value="Item01obecne" />
           <pointerPath value="ASEO/Event/EvidenceDate" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/ValidityStartDate" />
           <errorSourceComponent value="dtValidityStartDate" />
-          <navigationTreeNode value="Item01Obecne" />
+          <navigationTreeNode value="Item01obecne" />
           <pointerPath value="ASEO/Event/ValidityStartDate" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/Authorization/LimitedAuthorizationValidity" />
           <errorSourceComponent value="cbLimitedAuthorizationValidity" />
-          <navigationTreeNode value="Item01Obecne" />
+          <navigationTreeNode value="Item01obecne" />
           <pointerPath value="ASEO/Event/Authorization/LimitedAuthorizationValidity" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/Authorization/AuthorizationValidUntil" />
           <errorSourceComponent value="dtAuthorizationValidUntil" />
-          <navigationTreeNode value="Item01Obecne" />
+          <navigationTreeNode value="Item01obecne" />
           <pointerPath value="ASEO/Event/Authorization/AuthorizationValidUntil" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/PreferCD" />
           <errorSourceComponent value="cbPreferCD" />
-          <navigationTreeNode value="Item01Obecne" />
+          <navigationTreeNode value="Item01obecne" />
           <pointerPath value="ASEO/Event/PreferCD" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Event/Note" />
           <errorSourceComponent value="tbNote" />
-          <navigationTreeNode value="Item01Obecne" />
+          <navigationTreeNode value="Item01obecne" />
           <pointerPath value="ASEO/Event/Note" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
@@ -10996,6 +11598,18 @@ endIf]]></Script>
           <pointerPath value="ASEO/Event/File/FileSize" />
         </ErrorPointerMapItem>
         <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="File/IsFulltext" />
+          <errorSourceComponent value="chbInsertFile_FullText" />
+          <navigationTreeNode value="Item15insertFile" />
+          <pointerPath value="File/IsFulltext" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="File/FileName" />
+          <errorSourceComponent value="tbInsertFile_FileName" />
+          <navigationTreeNode value="Item15insertFile" />
+          <pointerPath value="File/FileName" />
+        </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
           <captionMask value="ASEO/Control" />
           <errorSourceComponent value="stPrehControl" />
           <navigationTreeNode value="Item07prehodnoceni" />
@@ -11135,6 +11749,11 @@ endIf]]></Script>
           <errorSourceComponent value="lblVersions_Note" />
           <pointerPath value="ASEO/EventHistory/computedNote" />
         </ErrorPointerMapItem>
+        <ErrorPointerMapItem identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
+          <captionMask value="ASEO/EventHistory[${IX_EventHistory}]/" />
+          <errorSourceComponent value="customHtml_HasFile" />
+          <pointerPath value="ASEO/EventHistory/" />
+        </ErrorPointerMapItem>
       </items>
     </ErrorPointerMap>
     <ErrorPointerMap identity="ErrorPointerMap.69320151074d4125908af3869d7556e1">
@@ -11161,6 +11780,10 @@ endIf]]></Script>
     <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
       <Name value="fcTYPODKLPLA" />
       <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.TYPODKLPLA" />
+    </FilteredCodelist>
+    <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
+      <Name value="fcPOVOLTYP" />
+      <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.POVOLTYP" />
     </FilteredCodelist>
   </ApiObjects>
 </Form>

@@ -729,7 +729,7 @@
                               <Bindings>
                                 <Binding SourceProperty="Href" Expression="_fileUrl" />
                                 <Binding SourceProperty="Data" Expression="FileName" />
-                                <Binding SourceProperty="IsVisible" Expression="globals.user.hasReadFilePermission" />
+                                <Binding SourceProperty="IsVisible" Expression="globals.user.hasPermissionReadFileCheck" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -744,7 +744,7 @@
                               <Panel.Width value="150px" />
                               <Bindings>
                                 <Binding SourceProperty="Data" Expression="FileName" />
-                                <Binding SourceProperty="IsVisible" Expression="not globals.user.hasReadFilePermission" />
+                                <Binding SourceProperty="IsVisible" Expression="not globals.user.hasPermissionReadFileCheck" />
                               </Bindings>
                               <CssClass>
                                 <CssClassConditional>
@@ -1112,7 +1112,7 @@
           <Name value="isEditOn" />
           <Caption value="Is edit on" />
           <Expression IsValid="True">
-            <ExpressionText><![CDATA[globals.user.hasWritePermission and
+            <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
 isFalse(action in [enums.ActionPerson.NONE, enums.ActionPerson.Delete, enums.ActionPerson.Control])]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
@@ -1123,7 +1123,7 @@ isFalse(action in [enums.ActionPerson.NONE, enums.ActionPerson.Delete, enums.Act
           <Name value="isNewCheckOn" />
           <Caption value="Is new check on" />
           <Expression IsValid="True">
-            <ExpressionText><![CDATA[globals.user.hasWritePermission and
+            <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo and
 isTrue(action in [enums.ActionPerson.Control])]]></ExpressionText>
             <ResultType>
               <BaseType value="Bool" />
@@ -1424,7 +1424,7 @@ isTrue(form.action in [enums.ActionPerson.Control])]]></ExpressionText>
                       <Name value="SelectionEnabled" />
                       <Caption value="Selection enabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[true]]></ExpressionText>
+                        <ExpressionText><![CDATA[isTrueOrDefault(form.action = enums.ActionPerson.NONE)]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -1483,7 +1483,7 @@ isTrue(form.action = enums.ActionPerson.NONE)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -1509,7 +1509,7 @@ isTrue(form.action = enums.ActionPerson.NONE)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -1535,7 +1535,7 @@ isTrue(form.action = enums.ActionPerson.NONE)]]></ExpressionText>
                       <Name value="IsEnabled" />
                       <Caption value="IsEnabled" />
                       <Expression IsValid="True">
-                        <ExpressionText><![CDATA[globals.user.hasWritePermission]]></ExpressionText>
+                        <ExpressionText><![CDATA[globals.user.hasPermissionWriteAseo]]></ExpressionText>
                         <ResultType>
                           <BaseType value="Bool" />
                         </ResultType>
@@ -2385,7 +2385,8 @@ nt.Action = action]]></Script>
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[var p = globals.forms.file.params
-p.Filter = ".docx, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"
+//p.Filter = ".docx, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"
+p.Filter = "application/pdf"
 navigation.main.file.goAndBack()
 
 var res = packages.main.globals.forms.file.result 

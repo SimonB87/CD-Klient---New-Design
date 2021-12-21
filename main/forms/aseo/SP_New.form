@@ -37,7 +37,7 @@
                         <ActionEvent ReferencedAction="~sendApplication" />
                       </OnClick>
                       <Bindings>
-                        <Binding SourceProperty="IsEnabled" Expression="globals.user.hasRoleWrite" />
+                        <Binding SourceProperty="IsEnabled" Expression="globals.user.hasRoleWriteCd" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
@@ -210,25 +210,23 @@
                         </CssClassConditional>
                       </CssClass>
                     </TextBox>
-                    <ReferenceCombo>
-                      <Name value="cmbSelectedCustomsOffice" />
+                    <TextBox>
+                      <Name value="tbCU" />
                       <Caption value="Zodpovědný CÚ" />
                       <CaptionPosition value="Top" />
-                      <DisplayMember value="_description" />
+                      <IsEnabled value="False" />
                       <Panel.Height value="#" />
                       <Panel.Width value="50%" />
-                      <ReferenceList reference="~userCustomsOffice" />
                       <Bindings>
-                        <Binding SourceProperty="Data" Expression="form.model.selectedCustomsOffice" />
-                        <Binding SourceProperty="IsRequiredMarkVisible" Expression="form.model.selectedCustomsOffice.isRequired()" />
+                        <Binding SourceProperty="Data" Expression="model.msg.ASEO.ResponsibleCustomsOffice" />
                       </Bindings>
                       <CssClass>
                         <CssClassConditional>
-                          <ClassName value="{theme}-referencecombo" />
+                          <ClassName value="{theme}-textbox" />
                           <IsThemedStyle value="True" />
                         </CssClassConditional>
                       </CssClass>
-                    </ReferenceCombo>
+                    </TextBox>
                   </Children>
                   <CssClass>
                     <CssClassConditional>
@@ -920,92 +918,6 @@
                 </Include>
               </Children>
             </Complex>
-            <Collection>
-              <Name value="userCustomsOffice" />
-              <Caption value="User customs office" />
-              <Children>
-                <Attribute>
-                  <Name value="Key" />
-                  <Caption value="Key" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                  <Validators>
-                    <Validator Name="val1">
-                      <ErrorMessage IsValid="True">
-                        <ExpressionText><![CDATA["Hodnota není validní!"]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="String" />
-                        </ResultType>
-                      </ErrorMessage>
-                      <IsValid IsValid="True">
-                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="Bool" />
-                        </ResultType>
-                      </IsValid>
-                    </Validator>
-                  </Validators>
-                </Attribute>
-                <Attribute>
-                  <Name value="Description" />
-                  <Caption value="Description" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-              </Children>
-            </Collection>
-            <Reference>
-              <Name value="selectedCustomsOffice" />
-              <Caption value="Selected customs office" />
-              <IsRequired value="True" />
-              <OnChange>
-                <ActionEvent ReferencedAction="+UiParts.SP_New.handler_selectedCustomsOffice_OnChange" />
-              </OnChange>
-              <Children>
-                <Attribute>
-                  <Name value="Key" />
-                  <Caption value="Key" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                  <Validators>
-                    <Validator Name="val1">
-                      <ErrorMessage IsValid="True">
-                        <ExpressionText><![CDATA["Hodnota není validní"]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="String" />
-                        </ResultType>
-                      </ErrorMessage>
-                      <IsValid IsValid="True">
-                        <ExpressionText><![CDATA[(attr.hasValue() ? ValidateAgainstRegularExpression(attr, "^[A-Z]{2}[A-Z0-9]{6}$") : true)]]></ExpressionText>
-                        <ResultType>
-                          <BaseType value="Bool" />
-                        </ResultType>
-                      </IsValid>
-                    </Validator>
-                  </Validators>
-                </Attribute>
-                <Attribute>
-                  <Name value="Description" />
-                  <Caption value="Description" />
-                  <DeclaredType>
-                    <AttributeType />
-                  </DeclaredType>
-                </Attribute>
-                <Computed>
-                  <Name value="_description" />
-                  <Caption value="_ description" />
-                  <Expression IsValid="True">
-                    <ExpressionText><![CDATA[this.Key + " - " + this.Description]]></ExpressionText>
-                    <ResultType>
-                      <BaseType value="String" />
-                    </ResultType>
-                  </Expression>
-                </Computed>
-              </Children>
-            </Reference>
           </Children>
         </Complex>
         <Complex>
@@ -1263,47 +1175,6 @@ isTrue(form.model.validationErrorsCount() > 0)]]></ExpressionText>
       </Children>
       <Modifiers>
         <Modifier>
-          <Name value="modifier_6B8A4E7E_POVOLTYP" />
-          <ShowAsChanges value="True" />
-          <SourcePath value="model.msg.ASEO.AuthorizationType.POVOLTYP" />
-          <Validators>
-            <Validator Name="validateAuthTypeSAR">
-              <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Pouze Celní úřad pro Středočeský kraj může vydat povolení typu SAR."]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </ErrorMessage>
-              <IsValid IsValid="True">
-                <ExpressionText><![CDATA[( (this.POVOLTYP = globals.DocType.SAR) and 
-  (SubString(form.model.selectedCustomsOffice.Key,1,4) <> "CZ61") 
-) ? 
-false : true]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="Bool" />
-                </ResultType>
-              </IsValid>
-            </Validator>
-            <Validator Name="validateAuthTypeTIR">
-              <ErrorMessage IsValid="True">
-                <ExpressionText><![CDATA["Pouze Celní úřad pro Moravskoslezský kraj může vydat povolení typu TIR."]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="String" />
-                </ResultType>
-              </ErrorMessage>
-              <IsValid IsValid="True">
-                <ExpressionText><![CDATA[( (this.POVOLTYP = globals.DocType.TIR) and 
-  (SubString(form.model.selectedCustomsOffice.Key,1,4) <> "CZ57") 
-) ? 
-false : true]]></ExpressionText>
-                <ResultType>
-                  <BaseType value="Bool" />
-                </ResultType>
-              </IsValid>
-            </Validator>
-          </Validators>
-        </Modifier>
-        <Modifier>
           <Name value="modifier_EB6C8230_File" />
           <ShowAsChanges value="True" />
           <SourcePath value="model.msg.ASEO.Event.File" />
@@ -1343,6 +1214,44 @@ false : true]]></ExpressionText>
             <ActionEvent ReferencedAction="+UiParts.SP_New.handler_modifier_B49AB08B_TIN_OnChange" />
           </OnChange>
         </Modifier>
+        <Modifier>
+          <Name value="modifier_B58F4FF7_AuthorizationType" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.msg.ASEO.AuthorizationType" />
+          <Validators>
+            <Validator Name="SAR">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pouze Celní úřad pro Středočeský kraj může vydat povolení typu SAR"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[isFalse(this.AuthorizationType.POVOLTYP = globals.DocType.SAR) ? true :
+packages.utils.functions.startsWith(this.ResponsibleCustomsOffice, "CZ61")
+]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+            <Validator Name="TIR">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA["Pouze Celní úřad pro Moravskoslezský kraj může vydat povolení typu TIR"]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[isFalse(this.AuthorizationType.POVOLTYP = globals.DocType.TIR) ? true :
+packages.utils.functions.startsWith(this.ResponsibleCustomsOffice, "CZ57")]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
@@ -1377,57 +1286,16 @@ ntc.finishSetup()
 
 ntc.focusNode(nt.All)
 
-form.actions.setFilters()
+var user = globals.user
+var msg = form.model.msg
+var event = msg.ASEO.Event
 
-form.actions.setUserCustomsOffice()
-form.actions.setDecidingOfficeAndPerson()
+msg.ASEO.ResponsibleCustomsOffice =  user.CuCode
+event.ValidityStartDate = getDate()
+event.DecidingCustomsOffice =  user.CuCode
+event.DecidingPerson = user.userName
 
-form.model.msg.ASEO.Event.ValidityStartDate = getDate()]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="setUserCustomsOffice" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var userData = globals.user.UserIdentity
-
-var uradStredocesky = false
-var uradMoravskoslezsky = false
-
-forEach organization in userData.Organization do
-	var storeData = form.model.userCustomsOffice.addItem()
-	storeData.Key = organization.Value
-			
-	if isTrue(storeData.Key = "CZ610000") then
-		uradStredocesky = true
-	endIf
-	
-	if isTrue(storeData.Key = "CZ570000") then
-		uradMoravskoslezsky = true
-	endIf
-endFor
-
-if globals.appInfo.isTest then
-	if isFalse(uradStredocesky) then
-		var addCO61 = form.model.userCustomsOffice.addItem()
-		addCO61.Key = "CZ610000"
-		addCO61.Description = "pro Středočeský kraj, Praha 1"
-	endif
-	
-	if isFalse(uradMoravskoslezsky)then
-		var addCO57 = form.model.userCustomsOffice.addItem()
-		addCO57.Key = "CZ570000"
-		addCO57.Description = "pro Moravskoslezský kraj"
-	endIf	
-endIf
-
-var json = form.model.userCustomsOffice.toJson()
-form.apiobjects.userCustomsOffice.fillFromJson(json)
-
-var cu = form.model.userCustomsOffice.selectFirst()
-form.model.selectedCustomsOffice.fromJson(cu.toJson())]]></Script>
+form.actions.setFilters()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -1456,19 +1324,6 @@ else
 endIf
 
 globals.IsBusy = false
-]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
-    <ActionBlock>
-      <Name value="setDecidingOfficeAndPerson" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var user = globals.user
-
-form.model.msg.ASEO.Event.DecidingCustomsOffice =  user.CuCode
-form.model.msg.ASEO.Event.DecidingPerson = user.userName
 ]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -1850,34 +1705,8 @@ system.console("Clicked on: " + ptr)]]></Script>
         <ActionDataContext />
       </DataContext>
     </ActionBlock>
-    <ActionBlock>
-      <Name value="handler_selectedCustomsOffice_OnChange" />
-      <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
-        <Script><![CDATA[var msg = form.model.msg
-msg.ASEO.ResponsibleCustomsOffice = form.model.selectedCustomsOffice.Key]]></Script>
-      </ActionLangBody>
-      <DataContext>
-        <ActionDataContext />
-      </DataContext>
-    </ActionBlock>
   </Actions>
   <ApiObjects>
-    <Codelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
-      <Name value="userCustomsOffice" />
-      <filterByDate value="False" />
-      <name value="userCustomsOffice" />
-      <columns>
-        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
-          <columnName value="Key" />
-          <columnRole value="Key" />
-        </CodelistColumn>
-        <CodelistColumn identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
-          <columnName value="Description" />
-          <columnRole value="Description" />
-        </CodelistColumn>
-      </columns>
-    </Codelist>
     <FilteredCodelist identity="Codelist.2fd2d7af4a6d445bad8a58610632f8e0">
       <Name value="fcPOVOLTYP" />
       <codelistSource reference="/(codeLists.2e35af8e5b484554915da40c527c1148)+GlobalApiObjects.POVOLTYP" />
