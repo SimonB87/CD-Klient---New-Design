@@ -12339,8 +12339,7 @@ else
 	
 endif
 
-
-form.actions.initNavigationTree()
+form.actions.initNavigationTree("BaseInfo")
 
 globals.IsBusy = false
 ]]></Script>
@@ -12451,7 +12450,8 @@ else
 	system.alert("Vybraná CZ příloha nemohla být smazána!")
 endif
 
-form.actions.setAnnexCaption()]]></Script>
+form.actions.setAnnexCaption()
+form.actions.initNavigationTree("Annex")]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -12499,7 +12499,7 @@ globals.IsBusy = True
 
 if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 
-	var response = apiobjects.cic.postAsync("CustomsDecisionAnnexDetailRequest", globals.uiGlobalState.annex.annexDetail.request.toJson())
+	var response = apiobjects.cic.postAsync("CustomsDecisionDetailRequest",form.CustomsDecisionDetailRequest.toJson())
 	
 	if response.isError() then
 		system.console(response.getErrorMessage())
@@ -12526,7 +12526,7 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 
 endif
 
-form.actions.setAnnexCaption()
+form.actions.initNavigationTree("Annex")
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
@@ -12551,7 +12551,7 @@ if checkExistAnnexAll then
 		endIf
 			
 	else
-		system.alert("Zpráva neobsahuje žádná příloh data.")
+		
 endIf]]></Script>
       </ActionLangBody>
       <DataContext>
@@ -12762,11 +12762,22 @@ endIf
 
 ntc.finishSetup()
 
-ntc.focusNode("BaseInfo")
+ntc.focusNode(inputFocus)
 ]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="inputFocus" />
+              <Caption value="Input focus" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
