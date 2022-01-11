@@ -3765,7 +3765,7 @@ else
 	
 endif
 
-form.actions.initNavigationTree()
+form.actions.initNavigationTree("BaseInfo")
 
 globals.IsBusy = false
 ]]></Script>
@@ -3926,7 +3926,7 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 
 	var response = apiobjects.cic.postAsync("CustomsDecisionAnnexDetailRequest", globals.uiGlobalState.annex.annexDetail.request.toJson())
 	
-	if response.isError() then
+	if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 		system.console(response.getErrorMessage())
 	else
 		
@@ -3951,7 +3951,7 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 
 endif
 
-form.actions.setAnnexCaption()
+form.actions.initNavigationTree("Annex")
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
@@ -4053,7 +4053,7 @@ endif
 		//Do the request call to link individual selected CZ annex
 		var response = apiobjects.cic.postAsync("CustomsDecisionAnnexLink", globals.uiGlobalState.annex.addOtherAnnex.linkAnnexToCurrentCD.toJson())
 		//check server reply
-		if response.isError() then
+		if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 			system.console(response.getErrorMessage())
 			system.console("Příloha - Identifikátor dokumentu: [" + ToString(selectedAnnex.documentIdentifier) + "] nemohla být nahrána!")
 		else
@@ -4149,11 +4149,22 @@ var node05 = ntc.addNode("Annex", annexCaption)
 
 ntc.finishSetup()
 
-ntc.focusNode("BaseInfo")
+ntc.focusNode(focusNode)
 ]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="focusNode" />
+              <Caption value="Focus node" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
