@@ -12500,8 +12500,9 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 
 	var response = apiobjects.cic.postAsync("CustomsDecisionDetailRequest",form.CustomsDecisionDetailRequest.toJson())
 	
-	if response.isError() then
+	if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 		system.console(response.getErrorMessage())
+		apiobjects.notificationsCtrl.addWarning("Nebylo možné načíst data")
 	else
 		
 		//clear old annexCZ data 
