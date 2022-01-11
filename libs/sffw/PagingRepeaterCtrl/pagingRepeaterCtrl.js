@@ -18,9 +18,12 @@ var sffw;
             pagingRepeaterCtrl.PagingRepeaterCtrlItemRemoveParams = PagingRepeaterCtrlItemRemoveParams;
             var PagingRepeaterCtrlModel = /** @class */ (function () {
                 function PagingRepeaterCtrlModel(params, componentInfo) {
+                    var _this = this;
                     this.isError = ko.observable(false);
+                    this.dataErrors = ko.observable();
                     this.subscriptions = [];
                     this.isInternalIndexChange = false;
+                    this.dataContext = params.$parentData.$dataContext;
                     this.iconLeftClass = _.isString(params.IconLeftClass) ? params.IconLeftClass : 'fa fa-caret-left';
                     this.iconRightClass = _.isString(params.IconRightClass) ? params.IconRightClass : 'fa fa-caret-right';
                     this.iconAddClass = _.isString(params.IconAddClass) ? params.IconAddClass : 'fa fa-plus';
@@ -72,7 +75,11 @@ var sffw;
                     this.removeButtonEnabled = ko.pureComputed(this.getRemoveButtonEnabled, this);
                     this.removeButtonEnabledBindingValue = ko.pureComputed(this.getRemoveButtonEnabledBindingValue, this);
                     this.removeButtonAriaDisabledBindingValue = ko.pureComputed(this.getRemoveButtonAriaDisabledBindingValue, this);
+                    this.delayedValidationErrors = ko.pureComputed(function () {
+                        return _this.collection.$validationErrors();
+                    }).extend({ rateLimit: { timeout: 200, method: 'notifyWhenChangesStop' } });
                     this.dataHasErrors = ko.pureComputed(this.getDataHasErrors, this);
+                    this.dataErrors = ko.pureComputed(this.getDataErrors, this);
                     this.itemAddHandler = params.OnItemAdd;
                     this.itemRemoveHandler = params.OnItemRemove;
                     this.subscriptions.push(this.collection.$items.subscribe(this.onCollectionArrayChange, this, 'arrayChange'));
@@ -202,7 +209,7 @@ var sffw;
                     }
                 };
                 PagingRepeaterCtrlModel.prototype.writeButtonDisabledErrToAriaLiveRegion = function () {
-                    var msg = window.sf.localization.currentCulture().errorFormatter.formatButtonDisabled("");
+                    var msg = window.sf.localization.currentCulture().errorFormatter.formatButtonDisabled('');
                     sffw.safeWriteToAriaLiveRegion(msg);
                 };
                 PagingRepeaterCtrlModel.prototype.onLeftButtonClicked = function () {
@@ -288,10 +295,39 @@ var sffw;
                         return null;
                     }
                     else {
-                        // $isReportingErrors on collection will be added to SF > 1.82
-                        var isReportingErrors = (typeof this.collection.$isReportingErrors === 'function') ? this.collection.$isReportingErrors() : true;
-                        return isReportingErrors && this.collection.$validationErrors().length > 0;
+                        return this.delayedValidationErrors().length > 0;
                     }
+                };
+                PagingRepeaterCtrlModel.prototype.getDataErrors = function () {
+                    var _this = this;
+                    if (ko.unwrap(this.dataHasErrors)) {
+                        var errors = this.delayedValidationErrors();
+                        var collectionErrors = _.filter(errors, function (error) {
+                            return error.attribute === _this.collection;
+                        });
+                        var firstNoncollectionError = _.find(errors, function (error) {
+                            return error.attribute !== _this.collection;
+                        });
+                        var result = collectionErrors.length > 0 ? _.map(collectionErrors, 'message') : [];
+                        if (firstNoncollectionError) {
+                            var parentStruct = firstNoncollectionError.attribute.$parentStruct;
+                            var collectionItem = void 0;
+                            // traverse to collection item itself
+                            while (parentStruct !== this.collection) {
+                                collectionItem = parentStruct;
+                                parentStruct = parentStruct.$parentStruct;
+                            }
+                            // if what we found is collection item, we can get its index in collection
+                            if (parentStruct === this.collection) {
+                                var itemIdx = _.indexOf(this.collection.$items(), collectionItem) + 1;
+                                var msg = this.dataContext.$localize('PagingRepeaterCtrl$$validationErrorsInItems');
+                                msg = msg.replace('{index}', itemIdx.toString());
+                                result.push(msg);
+                            }
+                        }
+                        return result.length > 0 ? result.join(' ') : null;
+                    }
+                    return null;
                 };
                 PagingRepeaterCtrlModel.prototype.onCollectionArrayChange = function (collection) {
                     var cnt = collection.length;
@@ -358,7 +394,7 @@ var sffw;
                     viewModel: {
                         createViewModel: function (params, componentInfo) { return new sffw.components.pagingRepeaterCtrl.PagingRepeaterCtrlModel(params, componentInfo); }
                     },
-                    template: "\n<div data-bind=\"class: 'sffw-paging-repeater-ctrl-container', css: { 'has-errors': dataHasErrors }\">\n    <div style=\"display:table; float:right\">\n        <!-- ko ifnot: keepArrowsTogether -->\n        <button data-bind=\"css: rightButtonClass, enable: rightButtonEnabledBindingValue,\n            click: onRightButtonClicked, attr: {'aria-disabled': rightButtonAriaDisabledBindingValue }\"></button>\n        <!-- /ko -->\n        <!-- ko if: showAdd -->\n        <button data-bind=\"css: addButtonClass, enable: addButtonEnabledBindingValue,\n            click: onAddButtonClicked, attr: {'aria-disabled': addButtonAriaDisabledBindingValue }\"></button>\n        <!-- /ko -->\n        <!-- ko if: showRemove -->\n        <button data-bind=\"css: removeButtonClass, enable: removeButtonEnabledBindingValue,\n            click: onRemoveButtonClicked, attr: {'aria-disabled': removeButtonAriaDisabledBindingValue }\"></button>\n        <!-- /ko -->\n    </div>\n    <div style=\"display: flex; align-items: center; position: relative\">\n        <button data-bind=\"css: leftButtonClass, enable: leftButtonEnabledBindingValue,\n            click: onLeftButtonClicked, attr: {'aria-disabled': leftButtonAriaDisabledBindingValue }\"></button>\n        <!-- ko if: keepArrowsTogether -->\n        <button data-bind=\"css: rightButtonClass, enable: rightButtonEnabledBindingValue,\n            click: onRightButtonClicked, attr: {'aria-disabled': rightButtonAriaDisabledBindingValue }\"></button>\n        <!-- /ko -->\n        <input class=\"editor-value sffw-paging-repeater-ctrl-index-input\" data-bind=\"value: indexString\" type=\"text\">\n        <div data-bind=\"text: title\" class=\"sffw-paging-repeater-ctrl-title\"></div>\n        <span data-bind=\"visible: dataHasErrors\" class=\"sffw-paging-repeater-ctrl-error-icon\"></span>\n    </div>\n    <span class=\"sffw-paging-repeater-ctrl-error\" data-bind=\"visible: isError, text: $root.$localize('PagingRepeaterCtrl$$isNotValidMessage')\"></span>\n</div>\n"
+                    template: "\n<div data-bind=\"class: 'sffw-paging-repeater-ctrl-container', css: { 'has-errors': dataHasErrors }\">\n    <div style=\"display:table; float:right\">\n        <!-- ko ifnot: keepArrowsTogether -->\n        <button data-bind=\"css: rightButtonClass, enable: rightButtonEnabledBindingValue, click: onRightButtonClicked,\n            attr: {'aria-disabled': rightButtonAriaDisabledBindingValue, 'aria-label': $root.$localize('PagingRepeaterCtrl$$nextItemAriaLabel') }\"></button>\n        <!-- /ko -->\n        <!-- ko if: showAdd -->\n        <button data-bind=\"css: addButtonClass, enable: addButtonEnabledBindingValue, click: onAddButtonClicked,\n            attr: {'aria-disabled': addButtonAriaDisabledBindingValue, 'aria-label': $root.$localize('PagingRepeaterCtrl$$addItemAriaLabel') }\"></button>\n        <!-- /ko -->\n        <!-- ko if: showRemove -->\n        <button data-bind=\"css: removeButtonClass, enable: removeButtonEnabledBindingValue, click: onRemoveButtonClicked,\n            attr: {'aria-disabled': removeButtonAriaDisabledBindingValue, 'aria-label': $root.$localize('PagingRepeaterCtrl$$removeItemAriaLabel') }\"></button>\n        <!-- /ko -->\n    </div>\n    <div style=\"display: flex; align-items: center; position: relative\">\n        <button data-bind=\"css: leftButtonClass, enable: leftButtonEnabledBindingValue, click: onLeftButtonClicked,\n            attr: {'aria-disabled': leftButtonAriaDisabledBindingValue, 'aria-label': $root.$localize('PagingRepeaterCtrl$$previousItemAriaLabel') }\"></button>\n        <!-- ko if: keepArrowsTogether -->\n        <button data-bind=\"css: rightButtonClass, enable: rightButtonEnabledBindingValue, click: onRightButtonClicked,\n            attr: {'aria-disabled': rightButtonAriaDisabledBindingValue, 'aria-label': $root.$localize('PagingRepeaterCtrl$$nextItemAriaLabel') }\"></button>\n        <!-- /ko -->\n        <input class=\"editor-value sffw-paging-repeater-ctrl-index-input\" data-bind=\"value: indexString, attr: { 'aria-label': $root.$localize('PagingRepeaterCtrl$$itemIndexAriaLabel') }\" type=\"text\">\n        <div data-bind=\"text: title\" class=\"sffw-paging-repeater-ctrl-title\"></div>\n        <span data-bind=\"visible: dataHasErrors\" class=\"sffw-paging-repeater-ctrl-error-icon\"></span>\n    </div>\n    <span class=\"sffw-paging-repeater-ctrl-error\" data-bind=\"visible: dataHasErrors, text: dataErrors\"></span>\n    <span class=\"sffw-paging-repeater-ctrl-error\" data-bind=\"visible: isError, text: $root.$localize('PagingRepeaterCtrl$$isNotValidMessage')\"></span>\n</div>\n"
                 });
             }
         })(pagingRepeaterCtrl = components.pagingRepeaterCtrl || (components.pagingRepeaterCtrl = {}));

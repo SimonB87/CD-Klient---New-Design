@@ -1493,6 +1493,7 @@
                   <Children>
                     <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
                       <Name value="prcSupervisingCustomsOffice" />
+                      <IndicateDataErrors value="False" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Bindings>
@@ -1809,6 +1810,7 @@
                       <Children>
                         <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
                           <Name value="prcZbozi" />
+                          <IndicateDataErrors value="False" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <OnItemAdd>
@@ -1823,6 +1825,8 @@
                         </PagingRepeaterCtrl>
                         <SelectionTable identity="SelectionTable.cc32b616f4094d929bc32891cf024bb9">
                           <Name value="stZbozi" />
+                          <IsScrollable value="True" />
+                          <MaxHeight value="300px" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
@@ -2135,6 +2139,7 @@
                   <Children>
                     <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
                       <Name value="prcRepresentation" />
+                      <IndicateDataErrors value="False" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Bindings>
@@ -2287,6 +2292,7 @@
                     </Button>
                     <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
                       <Name value="prcAllowedCountry" />
+                      <IndicateDataErrors value="False" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Bindings>
@@ -2618,6 +2624,7 @@
                       <Children>
                         <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
                           <Name value="prcGuarantee" />
+                          <IndicateDataErrors value="False" />
                           <Panel.Height value="#" />
                           <Panel.Width value="*" />
                           <Bindings>
@@ -2935,6 +2942,7 @@
                   <Children>
                     <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
                       <Name value="prcCustomsProcedureCombination" />
+                      <IndicateDataErrors value="False" />
                       <KeepArrowsTogether value="True" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
@@ -3044,6 +3052,7 @@
                   <Children>
                     <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
                       <Name value="prcCustomsProcedure" />
+                      <IndicateDataErrors value="False" />
                       <KeepArrowsTogether value="True" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
@@ -3130,6 +3139,7 @@
                   <Children>
                     <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
                       <Name value="prcSeals" />
+                      <IndicateDataErrors value="False" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Bindings>
@@ -3210,6 +3220,7 @@
                   <Children>
                     <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
                       <Name value="prcResponsiblePerson" />
+                      <IndicateDataErrors value="False" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <Bindings>
@@ -3584,6 +3595,7 @@
                     </Button>
                     <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
                       <Name value="prcCurrentAnnex" />
+                      <IndicateDataErrors value="False" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <OnItemAdd>
@@ -6888,6 +6900,9 @@ IssuingCountry + ASEOID :
           <Name value="modifier_2FAE6C3E_CNCode" />
           <ShowAsChanges value="True" />
           <SourcePath value="model.msg.ASEO.Event.GoodsList.GoodsItem.CNCode" />
+          <OnUserChange>
+            <ActionEvent ReferencedAction="+UiParts.SP_Edit.handler_modifier_2FAE6C3E_CNCode_OnUserChange" />
+          </OnUserChange>
           <Validators>
             <Validator Name="unique">
               <ErrorMessage IsValid="True">
@@ -10699,7 +10714,12 @@ system.console("Clicked on: " + ptr)]]></Script>
       <Name value="handler_prcZbozi_OnItemAdd" />
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
-        <Script><![CDATA[params.newItem.Allowed = false]]></Script>
+        <Script><![CDATA[params.newItem.Allowed = false
+
+var index = params.newItem.index()
+
+form.ui.tables.stZbozi.Index = index
+pageAPI.focusControl("cmbZbozi_CNCode", stringFormat("ASEO/Event/GoodsList/GoodsItem[{0}]/CNCode", toString(index)))]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -10849,6 +10869,25 @@ endif]]></Script>
             </Complex>
           </Children>
         </ActionDataContext>
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="handler_modifier_2FAE6C3E_CNCode_OnUserChange" />
+      <IsPrivate value="True" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var code = params.data.CNCode.ZBOZIKOD
+var col = params.data.collection()
+
+var prev = col.toJson()
+var sort = col.orderBy(Current.CNCode.ZBOZIKOD, true).toJson()
+
+if prev <> sort then
+	col.fromJson(sort)
+	form.ui.tables.stZbozi.Index = col.selectFirst(Current.CNCode.ZBOZIKOD = code).index()
+endif]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
       </DataContext>
     </ActionBlock>
   </Actions>

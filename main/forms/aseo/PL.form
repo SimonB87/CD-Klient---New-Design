@@ -806,6 +806,7 @@
                   <Children>
                     <PagingRepeaterCtrl identity="PagingRepeaterCtrl.280e5bd891d54eda9e7c2bfaaf9e4af4">
                       <Name value="prcFile" />
+                      <IndicateDataErrors value="False" />
                       <Panel.Height value="#" />
                       <Panel.Width value="*" />
                       <OnItemAdd>
@@ -1148,6 +1149,19 @@ isFalse(action in [enums.ActionPl.NONE, enums.ActionPl.Delete])]]></ExpressionTe
                 <Include>
                   <Include reference="+DataEntities.onNodeActivatedEvent" />
                 </Include>
+              </Children>
+            </Complex>
+            <Complex>
+              <Name value="refKeys" />
+              <Caption value="Ref keys" />
+              <Children>
+                <Attribute>
+                  <Name value="arrValidityCustomsOffice" />
+                  <Caption value="Arr validity customs office" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
               </Children>
             </Complex>
           </Children>
@@ -1679,6 +1693,29 @@ isTrue(form.action = enums.ActionPl.NONE)]]></ExpressionText>
             <ActionEvent ReferencedAction="+UiParts.PL.handler_modifier_6BB71F10_ValidityStartDate_OnChange" />
           </OnChange>
         </Modifier>
+        <Modifier>
+          <Name value="modifier_79BE7FBC_ValidityCustomsOffice" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.msg.PlaceDetail.ValidityCustomsOffice" />
+          <Validators>
+            <Validator Name="refKeys">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA[stringFormat("Hodnota '{0}' není v číselníku", attr.CELUPLAT_R)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[attr.isEmpty() ? true :
+globals.forms.master.isDownloadingCodelists ? true :
+functions.includes(form.model.refKeys.arrValidityCustomsOffice, attr.CELUPLAT_R)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
@@ -2006,7 +2043,9 @@ endif]]></Script>
 	var item = acb_ValidityCustomsOffice_FltCodelist.getItemByStringColumnAsync("CELUPLAT_R", globals.user.CuCode)
 	
 	msg.PlaceDetail.ValidityCustomsOffice.fromJson(item.getJsonString())
-endif]]></Script>
+endif
+
+form.actions.setRefKeys()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -2292,7 +2331,8 @@ filter.commit()
 filter = cbb_Country_FltCodelist.resetFilter(false)
 filter.filterByValidityDateTime(dt)
 filter.commit()
-]]></Script>
+
+form.actions.setRefKeys()]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -2406,6 +2446,19 @@ system.console("Clicked on: " + ptr)]]></Script>
       <IsPrivate value="True" />
       <ActionLangBody IsValid="True">
         <Script><![CDATA[form.action = enums.ActionPl.Delete]]></Script>
+      </ActionLangBody>
+      <DataContext>
+        <ActionDataContext />
+      </DataContext>
+    </ActionBlock>
+    <ActionBlock>
+      <Name value="setRefKeys" />
+      <Description value="sets reference keys arrays for validation" />
+      <ActionLangBody IsValid="True">
+        <Script><![CDATA[var refKeys = form.model.refKeys
+
+var json = acb_ValidityCustomsOffice_FltCodelist.getDataAsJson()
+refKeys.arrValidityCustomsOffice = actions.js_codelistToKeys(json, "CELUPLAT_R")]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
