@@ -6274,7 +6274,7 @@ endif
 		//Do the request call to link individual selected CZ annex
 		var response = apiobjects.cic.postAsync("CustomsDecisionAnnexLink", globals.uiGlobalState.annex.addOtherAnnex.linkAnnexToCurrentCD.toJson())
 		//check server reply
-		if response.isError() then
+		if response.isError() OR isTrue(response.getMessageType() = "IN906A") then
 			system.console(response.getErrorMessage())
 			system.console("Příloha - Identifikátor dokumentu: [" + ToString(selectedAnnex.documentIdentifier) + "] nemohla být nahrána!")
 		else
