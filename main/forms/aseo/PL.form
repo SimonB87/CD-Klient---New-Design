@@ -1162,6 +1162,13 @@ isFalse(action in [enums.ActionPl.NONE, enums.ActionPl.Delete])]]></ExpressionTe
                     <AttributeType />
                   </DeclaredType>
                 </Attribute>
+                <Attribute>
+                  <Name value="arrCountry" />
+                  <Caption value="Arr country" />
+                  <DeclaredType>
+                    <AttributeType />
+                  </DeclaredType>
+                </Attribute>
               </Children>
             </Complex>
           </Children>
@@ -1716,6 +1723,29 @@ functions.includes(form.model.refKeys.arrValidityCustomsOffice, attr.CELUPLAT_R)
             </Validator>
           </Validators>
         </Modifier>
+        <Modifier>
+          <Name value="modifier_EE089600_Country" />
+          <ShowAsChanges value="True" />
+          <SourcePath value="model.msg.PlaceDetail.Country" />
+          <Validators>
+            <Validator Name="refKeys">
+              <ErrorMessage IsValid="True">
+                <ExpressionText><![CDATA[stringFormat("Hodnota '{0}' není v číselníku", attr.ZEMEEU)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="String" />
+                </ResultType>
+              </ErrorMessage>
+              <IsValid IsValid="True">
+                <ExpressionText><![CDATA[attr.isEmpty() ? true :
+globals.forms.master.isDownloadingCodelists ? true :
+functions.includes(form.model.refKeys.arrCountry, attr.ZEMEEU)]]></ExpressionText>
+                <ResultType>
+                  <BaseType value="Bool" />
+                </ResultType>
+              </IsValid>
+            </Validator>
+          </Validators>
+        </Modifier>
       </Modifiers>
     </DataContext>
   </DataContext>
@@ -2080,7 +2110,8 @@ if globals.sendResult.Valid then
 			if not innerCol.SloucenaAdresa.isEmpty() then
 				var targetCol = innerCol.SloucenaAdresa.selectFirst()
 				
-				msg.TinName = targetCol.ZkracenyNazev
+				msg.TinName = targetCol.ZkracenyNazev.hasValue() ? targetCol.ZkracenyNazev : 
+																   substring(targetCol.PlnyNazev, 1, 255)
 				
 				if incAddress then
 					detail.StreetAndNr.clear()
@@ -2458,7 +2489,10 @@ system.console("Clicked on: " + ptr)]]></Script>
         <Script><![CDATA[var refKeys = form.model.refKeys
 
 var json = acb_ValidityCustomsOffice_FltCodelist.getDataAsJson()
-refKeys.arrValidityCustomsOffice = actions.js_codelistToKeys(json, "CELUPLAT_R")]]></Script>
+refKeys.arrValidityCustomsOffice = actions.js_codelistToKeys(json, "CELUPLAT_R")
+
+json = cbb_Country_FltCodelist.getDataAsJson()
+refKeys.arrCountry = actions.js_codelistToKeys(json, "ZEMEEU")]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
