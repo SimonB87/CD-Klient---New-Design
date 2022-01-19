@@ -4198,17 +4198,19 @@ else if navTree.selectedModule = "Auth" then
 
 	if hasValue(navTree.selectedSubModule) then
 		if not hasValue(navTree.selectedType) then
-			if navTree.selectedSubModule = "RHU" then
-				filter = filter + " and (CustomsDecisionType eq 'IPO' or CustomsDecisionType eq 'CW' or CustomsDecisionType eq 'TEA' or CustomsDecisionType eq 'EUS' or CustomsDecisionType eq 'OPO')"
-			else if navTree.selectedSubModule = "SP" then
-				filter = filter + " and (CustomsDecisionType eq 'LE' or CustomsDecisionType eq 'EIR' or CustomsDecisionType eq 'SDE' or CustomsDecisionType eq 'SSE')"
-			else if navTree.selectedSubModule = "CCR" then
-				filter = filter + " and (CustomsDecisionType eq 'CCL' or CustomsDecisionType eq 'CE')"
-			else if navTree.selectedSubModule = "Other" then
+			if navTree.selectedSubModule = "OP" then
+				filter = filter + " and (CustomsDecisionType eq 'DPO')"
+			else if navTree.selectedSubModule = "VF" then
 				filter = filter + " and (CustomsDecisionType eq 'TS' or CustomsDecisionType eq 'TST' or CustomsDecisionType eq 'DS' or CustomsDecisionType eq 'FZ')"
+			else if navTree.selectedSubModule = "CF" then
+				filter = filter + " and (CustomsDecisionType eq 'SDE' or CustomsDecisionType eq 'CCL' or CustomsDecisionType eq 'CE' or CustomsDecisionType eq 'EIR' or CustomsDecisionType eq 'SAR' or CustomsDecisionType eq 'LE')"
+			else if navTree.selectedSubModule = "RHU" then
+				filter = filter + " and (CustomsDecisionType eq 'IPO' or CustomsDecisionType eq 'OPO' or CustomsDecisionType eq 'EUS' or CustomsDecisionType eq 'TEA' or CustomsDecisionType eq 'CW' or CustomsDecisionType eq 'CW1' or CustomsDecisionType eq 'CWP')"
 			else if navTree.selectedSubModule = "TR" then
-				filter = filter + " and (CustomsDecisionType eq 'TV' or CustomsDecisionType eq 'PI' or CustomsDecisionType eq 'ACR' or CustomsDecisionType eq 'AC' or CustomsDecisionType eq 'ACT' or CustomsDecisionType eq 'ACE')"
-			endif endif endif endif endif
+				filter = filter + " and (CustomsDecisionType eq 'ACT' or CustomsDecisionType eq 'TIR' or CustomsDecisionType eq 'ACR' or CustomsDecisionType eq 'ACE' or CustomsDecisionType eq 'SSE' or CustomsDecisionType eq 'AC' or CustomsDecisionType eq 'TV' or CustomsDecisionType eq 'PI')"
+			else if navTree.selectedSubModule = "Other" then
+				filter = filter + " and (CustomsDecisionType eq 'AWB' or CustomsDecisionType eq 'CGU' or CustomsDecisionType eq 'CVA' or CustomsDecisionType eq 'ACP' or CustomsDecisionType eq 'RSS')"
+			endif endif endif endif endif endif
 		else
 			filter = filter + stringFormat(" and (CustomsDecisionType eq '{0}')", navTree.selectedType)
 		endif
@@ -4490,7 +4492,7 @@ var nodeAuth_RHU_CWP = nodeAuth_RHU.addNode("Auth_RHU_CWP", "Celní sklad typu 2
 
 var nodeAuth_TR = nodeAuth.addNode("Auth_TR", "Tranzit") 
 var nodeAuth_TR_ACT = nodeAuth_TR.addNode("Auth_TR_ACT", "Schválený příjemce pro účely TIR (ACT)") 
-var nodeAuth_TR_TIR = nodeAuth_TR.addNode("Auth_TR_TIR", "TIR - Povolení přístupu k systému TIR (TIR)") 
+var nodeAuth_TR_TIR = nodeAuth_TR.addNode("Auth_TR_TIR", "Povolení přístupu k systému TIR (TIR)") 
 var nodeAuth_TR_ACR = nodeAuth_TR.addNode("Auth_TR_ACR", "Schválený odesilatel v tranzitním režimu (ACR)") 
 var nodeAuth_TR_ACE = nodeAuth_TR.addNode("Auth_TR_ACE", "Schválený příjemce v tranzitním režimu Unie (ACE)") 
 var nodeAuth_TR_SSE = nodeAuth_TR.addNode("Auth_TR_SSE", "Použití zvláštního typu závěr (SSE)")
@@ -4499,10 +4501,11 @@ var nodeAuth_TR_TV = nodeAuth_TR.addNode("Auth_TR_TV", "Povolení označování 
 var nodeAuth_TR_PI = nodeAuth_TR.addNode("Auth_TR_PI", "Povolení neuvádět registrační značku (PI)") 
 
 var nodeAuth_Other = nodeAuth.addNode("Auth_Other", "Ostatní povolení")
-var nodeAuth_Other_AWB = nodeAuth_Other.addNode("Auth_Other_AWB", "Žádost nebo povolení pro status osoby oprávněné k vážení banánů (AWB)")
-var nodeAuth_Other_CGU = nodeAuth_Other.addNode("Auth_Other_CGU", "Žádost nebo povolení k poskytnutí souborné jistoty včetně případného snížení nebo osvobození (CGU)")
-var nodeAuth_Other_CVA = nodeAuth_Other.addNode("Auth_Other_CVA", "Žádost nebo povolení k zjednodušení určení částek, které jsou součástí celní hodnoty zboží (CVA)")
-var nodeAuth_Other_ACP = nodeAuth_Other.addNode("Auth_Other_ACP", "Žádost nebo povolení k udělení statusu schváleného vydavatele k prokázání důkazu o celním statusu zboží Unie (ACP)")
+var nodeAuth_Other_AWB = nodeAuth_Other.addNode("Auth_Other_AWB", "Status osoby oprávněné k vážení banánů (AWB)")
+var nodeAuth_Other_CGU = nodeAuth_Other.addNode("Auth_Other_CGU", "Poskytnutí souborné jistoty včetně případného snížení nebo osvobození (CGU)")
+var nodeAuth_Other_CVA = nodeAuth_Other.addNode("Auth_Other_CVA", "Zjednodušení určení částek, které jsou součástí celní hodnoty zboží (CVA)")
+var nodeAuth_Other_ACP = nodeAuth_Other.addNode("Auth_Other_ACP", "Udělení statusu schváleného vydavatele k prokázání důkazu o celním statusu zboží Unie (ACP)")
+var nodeAuth_Other_RSS = nodeAuth_Other.addNode("Auth_Other_RSS", "Povolení k zavedení pravidelné námořní linky (RSS)")
 
 //var nodeEC = ntc.addNode("EC", "Elektronická komunikace")
 var nodePL = ntc.addNode("PL", "Schválená místa")
