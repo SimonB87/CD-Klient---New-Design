@@ -2765,7 +2765,7 @@
   <Actions>
     <ActionBlock>
       <Name value="initMain_ALANG" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = true
 form.CustomsDecisionDetailRequest.customsDecisionAuthorisationData.customsDecisionGUID = form.GUID
 
@@ -2785,13 +2785,24 @@ else
 endif
 
 
-form.actions.initNavigationTree()
+form.actions.initNavigationTree(inputFocus)
 
 globals.IsBusy = false
 ]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="inputFocus" />
+              <Caption value="Input focus" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
@@ -2896,7 +2907,7 @@ else
 	system.alert("Vybraná CZ příloha nemohla být smazána!")
 endif
 
-form.actions.setAnnexCaption()]]></Script>
+form.actions.initNavigationTree("Annex")]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -2971,7 +2982,7 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 
 endif
 
-form.actions.setAnnexCaption()
+form.actions.initNavigationTree("Annex")
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
@@ -3079,7 +3090,6 @@ endif
 		else
 			//system.alert("Příloha - Identifikátor dokumentu: [" + ToString(selectedCZannex.documentIdentifier) + "] byla úspěšně přidána!")
 			numberOfAddedAnnex = numberOfAddedAnnex + 1
-			form.actions.setAnnexCaption()
 		endif
 		
 	endFor
@@ -3092,7 +3102,7 @@ endif
 	form.actions.getNewDataToForm()
 	globals.uiGlobalState.annex.addOtherAnnex.annexTableToSelect.clear() //clear annex table	
 	
-	
+	form.actions.initNavigationTree("Annex")
 	globals.IsBusy = False
 	
 	system.alert("Přidali jste k poslední verzi povolení přílohy v počtu: " + toString(numberOfAddedAnnex))
@@ -3166,11 +3176,22 @@ var node02 = ntc.addNode("Annex", annexCaption)
 
 ntc.finishSetup()
 
-ntc.focusNode("BaseInfo")
+ntc.focusNode(inputFocus)
 ]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="inputFocus" />
+              <Caption value="Input focus" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>

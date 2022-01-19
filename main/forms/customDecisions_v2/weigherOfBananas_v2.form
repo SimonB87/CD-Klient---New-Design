@@ -3382,8 +3382,7 @@ else
 
 endif
 
-
-form.actions.initNavigationTree()
+form.actions.initNavigationTree("BaseInfo")
 
 globals.IsBusy = false
 ]]></Script>
@@ -3500,8 +3499,9 @@ else
 endif
 
 globals.IsBusy = True
+form.actions.initNavigationTree("Annex")
 
-if globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.confirmFileDelete and globals.uiGlobalState.isLastCDversionSelected then
+if isTrue(globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.confirmFileDelete) and isTrue(globals.uiGlobalState.isLastCDversionSelected) then
 	actions.deleteSelectedAnnexCZ()
 	// Delete selected CZ Annex from collection
 	params.data.removeMe()
@@ -3786,11 +3786,22 @@ var node04 = ntc.addNode("Annex", annexCaption)
 
 ntc.finishSetup()
 
-ntc.focusNode("BaseInfo")
+ntc.focusNode(inputFocus)
 ]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="inputFocus" />
+              <Caption value="Input focus" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
