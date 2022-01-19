@@ -3143,7 +3143,7 @@
   <Actions>
     <ActionBlock>
       <Name value="initMain_ALANG" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = true
 form.CustomsDecisionDetailRequest.customsDecisionAuthorisationData.customsDecisionGUID = form.GUID
 
@@ -3242,7 +3242,7 @@ endif]]></Script>
     <ActionBlock>
       <Name value="handler_button_deleteAnnexCZ_OnClick" />
       <IsPrivate value="True" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[//Get index of item in collection
 var getAnnexNumber = params.data.index()
 globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.selectedDocumentGUID = params.data.documentGUID
@@ -3313,7 +3313,7 @@ globals.uiGlobalState.annex.annexDetail.request.customsDecisionAuthorisationData
     </ActionBlock>
     <ActionBlock>
       <Name value="storeNewAnnexCZtoCD" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[//call global action
 actions.storeNewAnnexCZ()
 
@@ -3321,7 +3321,7 @@ globals.IsBusy = True
 
 if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 
-	var response = apiobjects.cic.postAsync("CustomsDecisionAnnexDetailRequest", globals.uiGlobalState.annex.annexDetail.request.toJson())
+	var response = apiobjects.cic.postAsync("CustomsDecisionDetailRequest", globals.uiGlobalState.annex.annexDetail.request.toJson())
 	
 	if response.isError() then
 		system.console(response.getErrorMessage())
@@ -3425,7 +3425,7 @@ endif
     </ActionBlock>
     <ActionBlock>
       <Name value="linkOtherAnnexToCurrentCD" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[if globals.uiGlobalState.isLastCDversionSelected then
 	globals.IsBusy = True
 	

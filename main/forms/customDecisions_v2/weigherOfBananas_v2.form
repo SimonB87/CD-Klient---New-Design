@@ -3562,7 +3562,7 @@ globals.IsBusy = True
 
 if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 
-	var response = apiobjects.cic.postAsync("CustomsDecisionAnnexDetailRequest", globals.uiGlobalState.annex.annexDetail.request.toJson())
+	var response = apiobjects.cic.postAsync("CustomsDecisionDetailRequest", globals.uiGlobalState.annex.annexDetail.request.toJson())
 	
 	if response.isError() then
 		system.console(response.getErrorMessage())
@@ -3589,7 +3589,7 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 
 endif
 
-form.actions.initNavigationTree()
+form.actions.initNavigationTree("Annex")
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
@@ -3710,7 +3710,7 @@ endif
 	form.actions.initNavigationTree()
 	globals.uiGlobalState.annex.addOtherAnnex.annexTableToSelect.clear() //clear annex table	
 	
-	
+	form.actions.initNavigationTree("Annex")
 	globals.IsBusy = False
 	
 	system.alert("Přidali jste k poslední verzi povolení přílohy v počtu: " + toString(numberOfAddedAnnex))

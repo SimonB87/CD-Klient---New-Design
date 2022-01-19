@@ -2765,7 +2765,7 @@
   <Actions>
     <ActionBlock>
       <Name value="initMain_ALANG" />
-      <ActionLangBody>
+      <ActionLangBody IsValid="True">
         <Script><![CDATA[globals.IsBusy = true
 form.CustomsDecisionDetailRequest.customsDecisionAuthorisationData.customsDecisionGUID = form.GUID
 
@@ -2785,7 +2785,7 @@ else
 endif
 
 
-form.actions.initNavigationTree(inputFocus)
+form.actions.initNavigationTree("BaseInfo")
 
 globals.IsBusy = false
 ]]></Script>
@@ -2955,7 +2955,7 @@ globals.IsBusy = True
 
 if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 
-	var response = apiobjects.cic.postAsync("CustomsDecisionAnnexDetailRequest", globals.uiGlobalState.annex.annexDetail.request.toJson())
+	var response = apiobjects.cic.postAsync("CustomsDecisionDetailRequest", globals.uiGlobalState.annex.annexDetail.request.toJson())
 	
 	if response.isError() then
 		system.console(response.getErrorMessage())
