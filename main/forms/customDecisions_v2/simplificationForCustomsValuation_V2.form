@@ -3143,7 +3143,7 @@
   <Actions>
     <ActionBlock>
       <Name value="initMain_ALANG" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[globals.IsBusy = true
 form.CustomsDecisionDetailRequest.customsDecisionAuthorisationData.customsDecisionGUID = form.GUID
 
@@ -3162,8 +3162,7 @@ else
 
 endif
 
-
-form.actions.initNavigationTree()
+form.actions.initNavigationTree("BaseInfo")
 
 globals.IsBusy = false
 ]]></Script>
@@ -3243,7 +3242,7 @@ endif]]></Script>
     <ActionBlock>
       <Name value="handler_button_deleteAnnexCZ_OnClick" />
       <IsPrivate value="True" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[//Get index of item in collection
 var getAnnexNumber = params.data.index()
 globals.uiGlobalState.annex.annexCZaddNewFile.formVariables.help.selectedDocumentGUID = params.data.documentGUID
@@ -3274,7 +3273,7 @@ else
 	system.alert("Vybraná CZ příloha nemohla být smazána!")
 endif
 
-form.actions.setAnnexCaption()]]></Script>
+form.actions.initNavigationTree("Annex")]]></Script>
       </ActionLangBody>
       <DataContext>
         <ActionDataContext />
@@ -3314,7 +3313,7 @@ globals.uiGlobalState.annex.annexDetail.request.customsDecisionAuthorisationData
     </ActionBlock>
     <ActionBlock>
       <Name value="storeNewAnnexCZtoCD" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[//call global action
 actions.storeNewAnnexCZ()
 
@@ -3349,7 +3348,7 @@ if globals.uiGlobalState.annex.annexCZuploadSuccess = True then
 
 endif
 
-form.actions.setAnnexCaption()
+form.actions.initNavigationTree("Annex")
 
 globals.IsBusy = False]]></Script>
       </ActionLangBody>
@@ -3426,7 +3425,7 @@ endif
     </ActionBlock>
     <ActionBlock>
       <Name value="linkOtherAnnexToCurrentCD" />
-      <ActionLangBody IsValid="True">
+      <ActionLangBody>
         <Script><![CDATA[if globals.uiGlobalState.isLastCDversionSelected then
 	globals.IsBusy = True
 	
@@ -3457,7 +3456,6 @@ endif
 		else
 			//system.alert("Příloha - Identifikátor dokumentu: [" + ToString(selectedCZannex.documentIdentifier) + "] byla úspěšně přidána!")
 			numberOfAddedAnnex = numberOfAddedAnnex + 1
-			form.actions.setAnnexCaption()
 		endif
 		
 	endFor
@@ -3469,7 +3467,7 @@ endif
 	actions.getNewAnnexData()//get updated data for the annex information
 	form.actions.getNewDataToForm()
 	globals.uiGlobalState.annex.addOtherAnnex.annexTableToSelect.clear() //clear annex table	
-	
+	form.actions.initNavigationTree("Annex")
 	
 	globals.IsBusy = False
 	
@@ -3546,11 +3544,22 @@ var node04 = ntc.addNode("Annex", annexCaption)
 
 ntc.finishSetup()
 
-ntc.focusNode("BaseInfo")
+ntc.focusNode(inputFocus)
 ]]></Script>
       </ActionLangBody>
       <DataContext>
-        <ActionDataContext />
+        <ActionDataContext>
+          <Children>
+            <Attribute>
+              <Name value="inputFocus" />
+              <Caption value="Input focus" />
+              <DataContextParameter.IsInput value="True" />
+              <DeclaredType>
+                <AttributeType />
+              </DeclaredType>
+            </Attribute>
+          </Children>
+        </ActionDataContext>
       </DataContext>
     </ActionBlock>
     <ActionBlock>
