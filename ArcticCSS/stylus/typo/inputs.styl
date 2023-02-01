@@ -1,0 +1,149 @@
+/* --------------------------------------------- ENABLED ------------------------------------------- */
+.component.container-component
+	input:not([type=checkbox]), textarea, select
+		display: block
+		width: 100%
+		font-size: 13px
+		font-weight: 400
+		line-height: 1.5
+		color: #495057
+		background-color: #fff
+		background-clip: padding-box
+		border: 1px solid #ced4da
+		border-radius: .25rem
+		transition: border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out
+		height: 1.75rem
+		padding: .375rem .45rem
+
+		@media (min-width: 768px) and (max-width: 1024px) {
+			height: calc(2.25rem + 2px)
+			padding: .375rem .75rem
+		}
+
+		&:disabled
+			border: 1px solid #d9d9d9 !important
+			color: #6c757d !important
+			background-color: #f5f9fa !important;
+			opacity 1 
+
+		&.sffw-paging-repeater-ctrl-index-input
+			height: auto
+			padding: initial
+
+		&:focus
+			border-color: #0e6de2 !important;
+			box-shadow: 0 0 0 0.2rem rgba(14,109,226,0.25) !important;
+			outline: none !important
+
+	textarea
+		height: auto !important
+			
+	.button > button
+		width: 100%
+
+
+
+	.arc
+		&-textbox input,
+		&-textbox textarea
+			font-size: 12px
+			border: 1px solid #D9D9D9
+			padding: 0.25em
+
+		&-textbox .required input,
+		&-textbox .required textarea
+			border-left: 3px solid #70E01B
+		
+		&-enumcombo select
+			border: 1px solid #D9D9D9
+			padding-top: 2px
+			padding-bottom: 2px
+
+		&-referencecombo select
+			border: 1px solid #D9D9D9
+			padding-top: 2px
+			padding-bottom: 2px
+
+		&-referencecombo .required select
+			border-left: 3px solid #70E01B
+
+			&[aria-invalid=true]
+				border-left: 3px solid #f00;
+
+		&-referencelookup *
+			font-size 12px 
+			
+	.required sffw-referencelookup input
+		border-left: 3px solid #70E01B
+
+	.enumcombo select
+		font-size: 12px
+
+	.referencecombo select
+		font-size: 12px 
+
+	.editor
+		.errorText
+			padding-top: 5px
+
+		.editor-wrapper.caption-position-top input[type='checkbox']
+			min-height: 28px;
+			margin: 0;
+		
+
+	.ui-front, .ui-helper-hidden-accessible
+		z-index: 99999 !important
+		
+
+	input[type=file]
+		border: none !important
+
+	/* --------------------------------------------- DISABLED ------------------------------------------- */
+
+	.arc
+		&-disabledAll
+			input, select, label, [type=checkbox]
+				cursor: not-allowed;
+				pointer-events: none;
+				opacity: 1;
+
+				[type=checkbox]
+					opacity: 0.5
+			input, textarea, select
+				border: 1px solid #d9d9d9 !important;
+				color: #6c757d !important;
+				background-color: #f5f9fa !important;
+
+			label textarea
+				pointer-events: all !important;
+
+			div.enabledSection
+				input, select, label, [type=checkbox]
+					cursor: initial 
+					pointer-events: all !important;
+					opacity: 1;
+
+					[type=checkbox]
+						opacity: 1
+
+				input, textarea, select
+					background: #fff !important;
+
+				.sffw-paging-repeater-ctrl
+					&-add, &-remove
+						display initial !important
+
+			.sffw-paging-repeater-ctrl
+				&-add, &-remove
+					display none !important
+
+		&-disabledAllButtons div:not(.arc-nav-bar) button:not(.sffw-paging-repeater-ctrl-right):not(.sffw-paging-repeater-ctrl-left)
+			cursor: not-allowed;
+			pointer-events: none;
+			opacity: 1
+		
+	.disabled input
+		pointer-events none
+		border: 1px solid #d9d9d9;
+		color: #6c757d;
+		background-color: #f5f9fa !important;

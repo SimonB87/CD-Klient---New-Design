@@ -1,0 +1,40 @@
+input[type=file]		
+	padding: 0 !important;
+	border: 0;
+	position relative
+	overflow hidden 
+	height auto
+	min-height: 30px
+
+	&::-webkit-file-upload-button
+		visibility: hidden;
+
+	&::before
+		content: 'Select file';
+		display: inline-block;
+		background: linear-gradient(top, var(--light2-grey), var(--light5-grey));
+		background: -webkit-linear-gradient(top, var(--light2-grey), var(--light5-grey));
+		border: 1px solid var(--dark1-grey);
+		border-radius: 3px;
+		padding: 4px 8px;
+		outline: none;
+		white-space: nowrap;
+		-webkit-user-select: none;
+		cursor: pointer;
+		text-shadow: 1px 1px var(--white);
+		font-weight: 700;
+		font-size: 10pt;
+		position absolute
+
+	&:hover::before
+		border-color: black;
+
+	&:active::before
+		background: linear-gradient(top, var(--dark1-grey), var(--light5-grey));
+		background: -webkit-linear-gradient(top, var(--dark1-grey), var(--light5-grey));
+		
+	&:focus
+		height: 115%;
+
+.arc-filereader-height .editor .editor-wrapper.caption-position-top input:not([type='checkbox']):not([type='radio'])
+	height: 38px;
